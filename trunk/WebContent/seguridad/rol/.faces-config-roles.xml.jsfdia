@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="gesRol::#seguridad#rol#gestionarRoles.xhtml"
+    NAME="output" PATH="/seguridad/rol/gestionarRoles.xhtml"
+    TARGET="rules:#seguridad#rol#gestionarRoles.xhtml" TITLE="gesRol" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="regRol::#seguridad#rol#registrarRol.xhtml"
+    NAME="output" PATH="/seguridad/rol/registrarRol.xhtml"
+    TARGET="rules:#seguridad#rol#registrarRol.xhtml" TITLE="regRol" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#seguridad#rol#registrarRol.xhtml"
+  PATH="/seguridad/rol/registrarRol.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#seguridad#rol#gestionarRoles.xhtml"
+  PATH="/seguridad/rol/gestionarRoles.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

@@ -1,0 +1,303 @@
+package co.informatix.erp.machines.action;
+
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+
+import co.informatix.erp.machines.dao.FuelTypesDao;
+import co.informatix.erp.machines.entities.FuelTypes;
+import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
+import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ValidacionesAction;
+
+/**
+ * This class is all the logic related to the creation, updating, and deleting
+ * the types of fuel that may exist.
+ * 
+ * @author Andres.Gomez
+ * 
+ */
+@SuppressWarnings("serial")
+@ManagedBean
+@RequestScoped
+public class FuelTypesAction implements Serializable {
+
+	@EJB
+	private FuelTypesDao fuelTypesDao;
+
+	private List<FuelTypes> listFuelTypes;
+	private FuelTypes fuelTypes;
+	private Paginador paginador = new Paginador();
+
+	private String nombreBuscar;
+
+	/**
+	 * @return listFuelTypes: list of the types of fuel shown in the user
+	 *         interface
+	 */
+	public List<FuelTypes> getListFuelTypes() {
+		return listFuelTypes;
+	}
+
+	/**
+	 * @param listFuelTypes
+	 *            :list of the types of fuel shown in the user interface
+	 */
+	public void setListFuelTypes(List<FuelTypes> listFuelTypes) {
+		this.listFuelTypes = listFuelTypes;
+	}
+
+	/**
+	 * @return fuelTypes: object containing data on the types of fuel
+	 */
+	public FuelTypes getFuelTypes() {
+		return fuelTypes;
+	}
+
+	/**
+	 * @param fuelTypes
+	 *            :object containing data on the types of fuel
+	 */
+	public void setFuelTypes(FuelTypes fuelTypes) {
+		this.fuelTypes = fuelTypes;
+	}
+
+	/**
+	 * @return paginador: Management paginated list of the types of fuel.
+	 */
+	public Paginador getPaginador() {
+		return paginador;
+	}
+
+	/**
+	 * @param paginador
+	 *            : Management paginated list of the types of fuel.
+	 */
+	public void setPaginador(Paginador paginador) {
+		this.paginador = paginador;
+	}
+
+	/**
+	 * @return nombreBuscar: Type of fuel to search
+	 */
+	public String getNombreBuscar() {
+		return nombreBuscar;
+	}
+
+	/**
+	 * @param nombreBuscar
+	 *            :Type of fuel to search
+	 */
+	public void setNombreBuscar(String nombreBuscar) {
+		this.nombreBuscar = nombreBuscar;
+	}
+
+	/**
+	 * Method to initialize the parameters of the search and load the initial
+	 * listing of the types of fuel
+	 * 
+	 * @return consultFuelTypes: method to query the types of fuel, returns to
+	 *         the template management.
+	 */
+	public String initializeSearch() {
+		nombreBuscar = "";
+		return consultFuelTypes();
+	}
+
+	/**
+	 * Consult the list of the types of fuel
+	 * 
+	 * @return "gesFuelTypes": redirects to the template to manage the types of
+	 *         fuels
+	 */
+	public String consultFuelTypes() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleMachineType = ControladorContexto
+				.getBundle("mensajeMachine");
+		ValidacionesAction validaciones = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		this.listFuelTypes = new ArrayList<FuelTypes>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String mensajeBusqueda = "";
+		try {
+			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
+			Long amount = fuelTypesDao.amountFuelTypes(consult, parameters);
+			if (amount != null) {
+				paginador.paginar(amount);
+			}
+			listFuelTypes = fuelTypesDao.consultFuelTypes(
+					paginador.getInicio(), paginador.getRango(), consult,
+					parameters);
+			if ((listFuelTypes == null || listFuelTypes.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				mensajeBusqueda = MessageFormat
+						.format(bundle
+								.getString("message_no_existen_registros_criterio_busqueda"),
+								unionMessagesSearch);
+			} else if (listFuelTypes == null || listFuelTypes.size() <= 0) {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_existen_registros"));
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				mensajeBusqueda = MessageFormat
+						.format(bundle
+								.getString("message_existen_registros_criterio_busqueda"),
+								bundleMachineType
+										.getString("machine_types_label_s"),
+								unionMessagesSearch);
+			}
+			validaciones.setMensajeBusqueda(mensajeBusqueda);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return "gesFuelTypes";
+	}
+
+	/**
+	 * This method build consultation for advanced search build also allows
+	 * messages to be displayed depending on the search criteria selected by the
+	 * user.
+	 * 
+	 * @param consult
+	 *            : query to concatenate
+	 * @param parameters
+	 *            : list of search parameters.
+	 * @param bundle
+	 *            :access language tags
+	 * @param unionMessagesSearch
+	 *            : message search
+	 * 
+	 */
+	private void advancedSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
+		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+			consult.append("WHERE UPPER(ft.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+					"keyword");
+			parameters.add(item);
+			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nombreBuscar + '"');
+		}
+	}
+
+	/**
+	 * Method to edit or create new types of fuel.
+	 * 
+	 * @param fuelTypes
+	 *            :types of fuel that you are adding or editing
+	 * 
+	 * @return "regFuelTypes": redirected to the template record fuel types.
+	 */
+	public String addEditFuelTypes(FuelTypes fuelTypes) {
+		if (fuelTypes != null) {
+			this.fuelTypes = fuelTypes;
+		} else {
+			this.fuelTypes = new FuelTypes();
+		}
+		return "regFuelTypes";
+	}
+
+	/**
+	 * It validates the types of the fuel, so it is not repeated in the database
+	 * and validates against XSS.
+	 * 
+	 * @param context
+	 *            : application context
+	 * 
+	 * @param toValidate
+	 *            : validate component
+	 * @param value
+	 *            : field value to be valid
+	 */
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			int id = fuelTypes.getIdFuelType();
+			FuelTypes fuelTypesAux = new FuelTypes();
+			fuelTypesAux = fuelTypesDao.nameTypeFuelExists(name, id);
+			if (fuelTypesAux != null) {
+				String messageExists = "message_ya_existe_verifique";
+				context.addMessage(
+						clientId,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
+								.getString(messageExists), null));
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Method used to save or edit the types of fuel
+	 * 
+	 * @return consultFuelTypes: Redirects to manage types of fuel with the list
+	 *         of names updated
+	 */
+	public String saveFuelTypes() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String mensajeRegistro = "message_registro_modificar";
+		try {
+
+			if (fuelTypes.getIdFuelType() != 0) {
+				fuelTypesDao.editFuelTypes(fuelTypes);
+			} else {
+				mensajeRegistro = "message_registro_guardar";
+				fuelTypesDao.saveFuelTypes(fuelTypes);
+			}
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString(mensajeRegistro), fuelTypes.getName()));
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return consultFuelTypes();
+	}
+
+	/**
+	 * Method to delete a type of fuel database
+	 * 
+	 * 
+	 * @return consultFuelTypes(): Consult the list of the types of fuel and
+	 *         returns to manages the fuels
+	 */
+	public String deleteFuelTypes() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		try {
+			fuelTypesDao.deleteFuelTypes(fuelTypes);
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString("message_registro_eliminar"),
+					fuelTypes.getName()));
+		} catch (EJBException e) {
+			String format = MessageFormat.format(
+					bundle.getString("message_existe_relacion_eliminar"),
+					fuelTypes.getName());
+			ControladorContexto.mensajeError(e, null, format);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return consultFuelTypes();
+	}
+
+}

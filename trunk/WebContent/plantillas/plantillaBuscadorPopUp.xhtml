@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<a:outputPanel
+		rendered="#{validacionesAction.mensajeBusquedaPopUp ne null and !(empty validacionesAction.mensajeBusquedaPopUp)}">
+		<div class="styleMessagePopUp #{width}">
+			<a:outputPanel id="mensajeBusquedaPopUp#{id}">
+				<a:outputPanel>
+					<ul
+						class="messagePopUp messageColorBusqueda #{validacionesAction.existeMensajeGlobal() eq 'true' ? 'messageMarginBusqueda' : ''}"
+						id="mensajesBusquedaPopUp#{id}">
+						<li class="infomsg"><h:outputText
+								value="#{validacionesAction.mensajeBusquedaPopUp}" /></li>
+					</ul>
+				</a:outputPanel>
+			</a:outputPanel>
+		</div>
+	</a:outputPanel>
+</ui:composition>

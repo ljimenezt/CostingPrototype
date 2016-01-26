@@ -1,0 +1,192 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="activitiesAndCertificationsAction.inicializarBusqueda" />
+	<ui:param name="titulo"
+		value="mensaje.label_gestionar,mensajeLifeCycle.activities_certifications_label" />
+
+	<ui:define name="body">
+		<t:saveState value="#{activitiesAndCertificationsAction}" />
+		<ui:param name="listaVacia"
+			value="#{activitiesAndCertificationsAction.listActivities eq null or (empty activitiesAndCertificationsAction.listActivities)}" />
+		<ui:param name="anchoTabla" value="anchoCuatro" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista"
+			value="#{activitiesAndCertificationsAction}" />
+		<ui:param name="renderLista" value="panelActAndCert vigenciaPopup" />
+		<ui:param name="metodoLista" value="consultarActividades" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction"
+			value="activitiesAndCertificationsAction" />
+		<ui:param name="metodoNuevo" value="agregarEditarActiAndCert" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<h:form id="formActAndCert">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listado_de} #{mensajeCosts.activities_label_s}"
+				id="panelActAndCert">
+				<h:panelGrid columns="4" columnClasses="tdAlignTop,,,">
+					<h:outputText
+						value="#{mensajeLifeCycle.activities_certifications_label_certifications}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" styleClass="required" />
+					<h:selectOneMenu id="certifications"
+						value="#{activitiesAndCertificationsAction.certificationsAndRoles.idCertificactionsAndRoles}"
+						styleClass="colTextoMediano" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
+							itemValue="0" />
+						<f:selectItems
+							value="#{activitiesAndCertificationsAction.itemsCertificationsAndRoles}" />
+						<f:ajax event="change"
+							listener="#{activitiesAndCertificationsAction.consultarActividades()}"
+							render="formActAndCert" execute="@this" />
+					</h:selectOneMenu>
+					<rich:message for="certifications" />
+				</h:panelGrid>
+				<a:outputPanel id="panelActCert"
+					rendered="#{activitiesAndCertificationsAction.certificationsAndRoles.idCertificactionsAndRoles ne 0}">
+						<rich:message for="tablaActCert" styleClass="messageInfSpanMsg" />
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
+						<rich:dataTable
+							value="#{activitiesAndCertificationsAction.listActivities}"
+							id="tablaActiCert" var="activitiesCert"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+							rowClasses="odd-row, even-row" footerClass="H130P">
+							<rich:column styleClass="colIconoUno">
+								<a:outputPanel
+									rendered="#{(identity.autorizado('activitiesAndCertificationsAction','A') or identity.autorizado('activitiesAndCertificationsAction','D'))}">
+									<a:commandLink render="popupEliminar"
+										actionListener="#{activitiesAndCertificationsAction.setActivitiesAndCertifications(activitiesAndCertifications)}"
+										oncomplete="#{rich:component('popupEliminar')}.show()">
+										<h:graphicImage value="/img/delete_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.button_eliminar}" />
+										</rich:tooltip>
+									</a:commandLink>
+								</a:outputPanel>
+							</rich:column>
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensajeLifeCycle.activity_names_label}</f:facet>
+								<h:outputText
+									value="#{activitiesCert.activityName.activityName}" />
+							</rich:column>
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensajeLifeCycle.crop_names_label}</f:facet>
+								<h:outputText value="#{activitiesCert.crop.cropNames.cropName}" />
+							</rich:column>
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensajeLifeCycle.crop_names_label}</f:facet>
+								<h:outputText
+									value="#{activitiesCert.crop.cropNames.description}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="4" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="botonesAbajo" value="si" />
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
+						<a:outputPanel rendered="#{!listaVacia}">
+							<br />
+							<div class="#{anchoTabla} center inBlock">
+								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:param name="valReder" value="panelActAndCert" />
+									<ui:param name="beanActionParam"
+										value="#{activitiesAndCertificationsAction}" />
+									<ui:param name="metodoActionParam" value="consultarActividades" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+		<h:form id="formBuscar">
+			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
+				header="#{mensaje.button_buscar} #{mensajeLifeCycle.activity_names_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensaje.label_nombre}"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" maxlength="100"
+						id="txtNombreBuscar"
+						value="#{activitiesAndCertificationsAction.nombreBuscar}"
+						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+						actionListener="#{activitiesAndCertificationsAction.consultarActividades()}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelActCert, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancelar}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+		<h:form>
+			<rich:popupPanel id="popupEliminar" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText
+							value="#{activitiesAndCertificationsAction.activities.activityName.activityName}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							actionListener="#{activitiesAndCertificationsAction.eliminarActivitiesCert()}"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							render="panelActAndCert, mensajes, mensajeBusqueda" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popupEliminar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

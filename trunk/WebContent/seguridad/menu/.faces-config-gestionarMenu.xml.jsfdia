@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="gesMenus::#seguridad#menu#gestionarMenu.xhtml" NAME="output"
+    PATH="/seguridad/menu/gestionarMenu.xhtml"
+    TARGET="rules:#seguridad#menu#gestionarMenu.xhtml" TITLE="gesMenus" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="regMenu::#seguridad#menu#registrarMenu.xhtml" NAME="output"
+    PATH="/seguridad/menu/registrarMenu.xhtml"
+    TARGET="rules:#seguridad#menu#registrarMenu.xhtml" TITLE="regMenu" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#seguridad#menu#registrarMenu.xhtml"
+  PATH="/seguridad/menu/registrarMenu.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#seguridad#menu#gestionarMenu.xhtml"
+  PATH="/seguridad/menu/gestionarMenu.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

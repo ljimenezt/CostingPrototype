@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich">
+	<br />
+	<rich:panel id="panelPiePagina" width="100%">
+		<div class="piePagina">
+			<br />
+			<p align="center">#{mensaje.label_copyright_infx}</p>
+			<p align="center">
+				#{mensaje.label_powered_by}
+				<h:outputText value="&#32;&#32;" />
+				<a href="http://www.informatixinc.com">#{mensaje.label_infx_colombia}</a>
+				<h:outputText value="&#32;&#32;&#32;" />
+				<h:graphicImage value="/img/twitter_24.png" />
+				<h:outputText value="&#32;&#32;" />
+				<h:graphicImage value="/img/facebook_24.png" />
+			</p>
+		</div>
+	</rich:panel>
+</ui:composition>

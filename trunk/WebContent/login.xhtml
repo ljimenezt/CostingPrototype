@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="plantillas/plantilla.xhtml">
+	<ui:define name="body">
+		<h:form id="loginForm"
+			rendered="#{identity eq null or !identity.autenticado}">
+			<t:saveState value="#{loginAction}" />
+			<rich:panel styleClass="anchoUno MinH230P"
+				header="#{mensaje.button_login}">
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{mensaje.label_ingreso_sistema}</legend>
+					<h:panelGrid columns="4" cellpadding="5" cellspacing="7"
+						columnClasses="tdAlignTop,,,tdAlignTop">
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.button_usuario}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="username" styleClass="colTextoCorto"
+							maxlength="50" value="#{identity.nombreUsuario}" required="true"
+							validator="#{encodeFilter.validarScripting}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateLength maximum="50" />
+						</h:inputText>
+						<rich:message for="username" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_contrasena}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputSecret id="password" styleClass="colTextoCorto"
+							maxlength="100" value="#{identity.password}" required="true"
+							validator="#{encodeFilter.validarScripting}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateLength maximum="100" />
+						</h:inputSecret>
+						<rich:message for="password" />
+					</h:panelGrid>
+					<br />
+					<div class="anchoDos center inBlock">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							onclick="#{rich:component('statPane')}.show();"
+							action="#{loginAction.validateLogin(true)}" styleClass="boton" />
+					</div>
+				</t:fieldset>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

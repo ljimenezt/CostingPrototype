@@ -1,0 +1,218 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	<h:form id="formAgregarActivitiesAndHr">
+		<rich:popupPanel id="popUpAgregarActualsActivitiesAndHr" modal="true"
+			domElementAttachment="form" autosized="true" width="1200"
+			maxWidth="1300"
+			header="#{mensajeMenu.recursos_humanos_activities_label}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popUpAgregarActualsActivitiesAndHr')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<t:fieldset styleClass="BorderW2P">
+				<legend class="etiquetaTitulo">#{hrReportingActualsAction.activitiesAndHr.activitiesAndHrPK.hr.name}
+					#{hrReportingActualsAction.activitiesAndHr.activitiesAndHrPK.hr.familyName}</legend>
+				<a:outputPanel id="outPutAgregarActivitiesAndHr">
+					<a:outputPanel>
+						<div align="left">
+							<h:panelGrid columns="2"
+								columnClasses="tdAlignTop center,tdAlignTop center">
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensajeRecursosHumanos.recurso_humano_label_costo_hora}" />
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{hrReportingActualsAction.activitiesAndHr.activitiesAndHrPK.hr.hourCost}" />
+							</h:panelGrid>
+						</div>
+					</a:outputPanel>
+					<br />
+					<h:panelGrid columns="4"
+						columnClasses="right W91P, tdAlignTop center, tdAlignTop left W150P, tdAlignTop verticalAlignMiddle ">
+						<h:outputText value="" />
+						<h:outputText value="#{mensaje.label_presupuesto}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="#{mensaje.label_actual}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:outputText value="#{mensaje.label_fecha_inicio}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText disabled="true"
+							value="#{hrReportingActualsAction.activitiesAndHr.initialDateTimeBudget}"
+							styleClass="W108P">
+							<f:convertDateTime type="date" pattern="MM/dd/yyyy HH:mm"
+								locale="en" />
+						</h:inputText>
+						<p:calendar required="true" readonlyInput="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							value="#{hrReportingActualsAction.activitiesAndHr.initialDateTimeActual}"
+							styleClass="W100P" id="fechaInicioTimeActual" showOn="button"
+							navigator="true" pattern="MM/dd/yyyy HH:mm"
+							mindate="#{hrReportingActualsAction.minDate}"
+							maxdate="#{hrReportingActualsAction.activitiesAndHr.finalDateTimeActual eq null ? hrReportingActualsAction.maxDate : hrReportingActualsAction.activitiesAndHr.finalDateTimeActual}"
+							converterMessage="#{mensaje.message_validar_formato_fecha}">
+							<p:ajax event="dateSelect"
+								update="fechaFinalTimeActual, formAgregarActivitiesAndHr:outPutAgregarActivitiesAndHr"
+								listener="#{hrReportingActualsAction.calculateDurationActuals()}" />
+						</p:calendar>
+						<rich:message for="fechaInicioTimeActual" />
+						<h:outputText value="#{mensaje.label_fecha_fin}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText disabled="true" styleClass="W108P"
+							value="#{hrReportingActualsAction.activitiesAndHr.finalDateTimeBudget}">
+							<f:convertDateTime type="date" pattern="MM/dd/yyyy HH:mm"
+								locale="en" />
+						</h:inputText>
+						<p:calendar required="true" readonlyInput="true"
+							disabled="#{hrReportingActualsAction.activitiesAndHr.initialDateTimeActual eq null}"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							value="#{hrReportingActualsAction.activitiesAndHr.finalDateTimeActual}"
+							styleClass="W100P" id="fechaFinalTimeActual" showOn="button"
+							pattern="MM/dd/yyyy HH:mm" navigator="true"
+							mindate="#{hrReportingActualsAction.activitiesAndHr.initialDateTimeActual}"
+							maxdate="#{hrReportingActualsAction.maxDate}"
+							converterMessage="#{mensaje.message_validar_formato_fecha}">
+							<p:ajax event="dateSelect"
+								update="fechaInicioTimeActual, formAgregarActivitiesAndHr:outPutAgregarActivitiesAndHr "
+								listener="#{hrReportingActualsAction.calculateDurationActuals()}" />
+						</p:calendar>
+						<rich:message for="fechaFinalTimeActual" />
+						<h:outputText
+							value="#{mensajeCosts.cycle_standard_activities_label_duracion}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText disabled="true"
+							value="#{hrReportingActualsAction.activitiesAndHr.durationBudget}"
+							styleClass="W108P" />
+						<h:inputText id="duration"
+							validator="#{hrReportingActualsAction.validarActualDuration}"
+							required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
+							value="#{hrReportingActualsAction.activitiesAndHr.durationActual}"
+							styleClass="W103P">
+							<f:attribute name="temp" value="si" />
+							<f:ajax event="blur"
+								listener="#{hrReportingActualsAction.updateTotalCostXOvertimePaymentRate()}"
+								render="formAgregarActivitiesAndHr:outPutAgregarActivitiesAndHr" />
+						</h:inputText>
+						<rich:message for="duration" />
+						<h:outputText
+							value="#{mensaje.label_costo} #{mensaje.label_total}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText disabled="true" id="costBudget"
+							value="#{hrReportingActualsAction.activitiesAndHr.totalCostBudget}"
+							styleClass="W108P" />
+						<h:inputText id="costActual" required="true" disabled="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
+							value="#{hrReportingActualsAction.activitiesAndHr.totalCostActual}"
+							styleClass="W103P" />
+						<rich:message for="costActual" />
+						<h:outputText
+							value="#{mensajeRecursosHumanos.overtime_payment_rate_label_overtime_rate}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText disabled="true"
+							value="#{hrReportingActualsAction.activitiesAndHr.overtimePaymentRate.overtimeRateType}"
+							styleClass="W108P" />
+						<h:selectOneMenu id="overtimeRate"
+							value="#{hrReportingActualsAction.idOvertimePaymentsRate}"
+							styleClass="W108P">
+							<f:selectItems
+								value="#{activitiesAndHrAction.listOvertimePaymentRate}" />
+							<f:ajax event="change"
+								listener="#{hrReportingActualsAction.updateTotalCostXOvertimePaymentRate()}"
+								render="costActual" />
+						</h:selectOneMenu>
+					</h:panelGrid>
+					<br />
+					<div align="center">
+						<h:panelGrid columns="2" columnClasses="right W106P, center">
+							<a:commandButton
+								actionListener="#{hrReportingActualsAction.budgetCopy()}"
+								execute="@this" value="#{mensaje.button_as_budgeted}">
+								<f:ajax resetValues="true"
+									render="fechaInicioTimeActual costActual fechaFinalTimeActual duration overtimeRate" />
+							</a:commandButton>
+							<a:commandButton value="#{mensaje.button_guardar}"
+								execute=":formAgregarActivitiesAndHr"
+								render="formConfirmar:popUpConfirmar,formGenerico"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popUpConfirmar')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+						</h:panelGrid>
+					</div>
+				</a:outputPanel>
+			</t:fieldset>
+		</rich:popupPanel>
+	</h:form>
+	<h:form id="formConfirmar">
+		<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+			maxWidth="800" header="#{mensaje.label_confirmacion}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popUpConfirmar')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_registro_confirmacion}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_aceptar}"
+						render="formHrReporting, mensajes, mensajeBusqueda"
+						actionListener="#{hrReportingActualsAction.actualizarActivitiesAndHr()}"
+						onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popUpAgregarActualsActivitiesAndHr')}.hide(); #{rich:component('statPane')}.show();">
+						<f:param value="si" name="param2" />
+					</a:commandButton>
+					<a:commandButton value="#{mensaje.button_cancelar}"
+						onclick="#{rich:component('popUpConfirmar')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+	<h:form id="formConfirmEndActivity">
+		<rich:popupPanel id="popUpConfirmEndActivity" modal="true"
+			autosized="true" maxWidth="800"
+			header="#{mensaje.label_confirmacion}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popUpConfirmEndActivity')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_end_activity}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_aceptar}"
+						render="formHrReporting, mensajes, mensajeBusqueda"
+						actionListener="#{hrReportingActualsAction.endActivity()}"
+						onclick="#{rich:component('popUpConfirmEndActivity')}.hide(); #{rich:component('statPane')}.show();" />
+					<a:commandButton value="#{mensaje.button_cancelar}"
+						onclick="#{rich:component('popUpConfirmEndActivity')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+</ui:composition>

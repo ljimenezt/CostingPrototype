@@ -1,0 +1,532 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="cropActivitiesAction.agregarEditarActivitiesAndMachines(null)" />
+	<ui:param name="titulo"
+		value="mensajeMenu.scheduled_activity_label_management" />
+	<ui:define name="body">
+		<t:saveState value="#{scheduledActivitiesAction}" />
+		<t:saveState value="#{activitiesAction}" />
+		<t:saveState value="#{machinesAction}" />
+		<t:saveState value="#{activitiesAndHrAction}" />
+		<t:saveState value="#{controllerSortField}" />
+		<!-- Parameters for the order list -->
+		<ui:param name="renderList" value="paginas" />
+		<ui:param name="actionList" value="#{activitiesAction}" />
+		<ui:param name="methodList" value="consultingActivities" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		
+			$g = jQuery.noConflict();
+			$g(document).ready(function() {
+				$g('#formScheduledActivities\\:description').maxlength({
+					events : [],
+					max : 250,
+					feedbackText : "#{mensaje.label_caracteres_restantes}",
+					showFeedback : 'active'
+				});
+			});
+	
+		</script>
+		<h:form id="formScheduledActivities">
+			<rich:panel
+				header="#{mensaje.label_registrar} #{mensajeLifeCycle.scheduled_activities_label_budget}"
+				styleClass="anchoUno MinH253P" id="panelScheduledActivities">
+				<t:fieldset styleClass="anchoDos BorderW2P">
+					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,tdAlignTop">
+						<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" styleClass="required" />
+						<h:selectOneMenu id="cropName"
+							value="#{scheduledActivitiesAction.idCropName}"
+							styleClass="colTextoMediano" required="true"
+							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null}">
+							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
+								itemValue="0" />
+							<f:selectItems
+								value="#{scheduledActivitiesAction.opcionesCropNames}" />
+							<f:ajax event="change"
+								listener="#{scheduledActivitiesAction.llenarCropNamesCrop}"
+								render="@form" />
+						</h:selectOneMenu>
+						<rich:message for="cropName" />
+
+						<h:outputText value="#{mensajeLifeCycle.crops_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" styleClass="required" />
+						<h:selectOneMenu id="crop"
+							value="#{scheduledActivitiesAction.idCrop}"
+							styleClass="colTextoMediano" required="true"
+							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null }">
+							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
+								itemValue="0" />
+							<f:selectItems value="#{scheduledActivitiesAction.opcionesCrops}" />
+							<f:ajax event="change"
+								listener="#{scheduledActivitiesAction.showActivities()}"
+								render="formScheduledActivities" />
+						</h:selectOneMenu>
+						<rich:message for="crop" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="anchoDos BorderW2P"
+					rendered="#{scheduledActivitiesAction.idCrop gt 0 and scheduledActivitiesAction.idCropName gt 0}">
+					<legend class="etiquetaTitulo">#{mensajeCosts.activities_label_s}</legend>
+					<h:panelGrid columns="3"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,,tdAlignTop"
+						rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}">
+						<h:outputText value="#{mensajeLifeCycle.activity_names_label}"
+							styleClass="etiquetaTitulo" />
+						<h:selectOneMenu id="activities"
+							value="#{scheduledActivitiesAction.activities.idActivity}"
+							styleClass="colTextoCorto" required="true">
+							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+							<f:selectItems
+								value="#{scheduledActivitiesAction.opcionesActivityName}" />
+						</h:selectOneMenu>
+						<rich:message for="activities" />
+						<h:outputText value="#{mensaje.label_fecha_inicio}"
+							styleClass="etiquetaTitulo" />
+						<p:calendar
+							value="#{scheduledActivitiesAction.activities.initialDtBudget}"
+							pattern="MM/dd/yyyy HH:mm"
+							disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
+							styleClass="W104P" id="fechaInicio" showOn="button"
+							maxdate="#{scheduledActivitiesAction.activities.finalDtBudget}"
+							navigator="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}">
+							<p:ajax event="dateSelect" update="fechaFinal" />
+						</p:calendar>
+						<rich:message for="fechaInicio" />
+						<h:outputText value="#{mensaje.label_fecha_fin}"
+							styleClass="etiquetaTitulo" />
+						<p:calendar
+							value="#{scheduledActivitiesAction.activities.finalDtBudget}"
+							pattern="MM/dd/yyyy HH:mm" styleClass="W104P" id="fechaFinal"
+							showOn="button"
+							mindate="#{scheduledActivitiesAction.activities.initialDtBudget}"
+							disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
+							navigator="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}">
+							<p:ajax event="dateSelect" update="fechaInicio" />
+						</p:calendar>
+						<rich:message for="fechaFinal" />
+						<h:outputText value="#{mensaje.label_descripcion}"
+							styleClass="etiquetaTitulo" />
+						<h:inputTextarea
+							disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
+							value="#{scheduledActivitiesAction.activities.description}"
+							styleClass="colTextoMedianoTextArea" id="description"
+							validator="#{encodeFilter.validarScripting}">
+							<f:validateLength maximum="250" />
+						</h:inputTextarea>
+						<rich:message for="description" />
+					</h:panelGrid>
+					<div align="center">
+						<a:commandButton id="lnkActivityStandard"
+							rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}"
+							disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
+							render="formScheduledActivities, mensajes, mensajeBusqueda"
+							actionListener="#{activitiesAction.initializeActivities(scheduledActivitiesAction.activities, scheduledActivitiesAction.idCrop)}"
+							execute="formScheduledActivities"
+							value="#{mensaje.label_show} #{mensajeCosts.activities_label_s}">
+						</a:commandButton>
+					</div>
+
+					<a:outputPanel id="paginas">
+						<rich:dataTable value="#{activitiesAction.listActivities}"
+							var="activity" id="seleccionadas" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
+							rowClasses="#{activity.seleccionado ? 'rf-ddm-itm-sel backgroundNone left':'odd-row'} , #{activity.seleccionado ? 'rf-ddm-itm-sel backgroundNone left' : 'even-row'}"
+							rendered="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null}">
+							<rich:column styleClass="colIconoUno verticalAlignMiddle">
+								<f:facet name="header" />
+								<a:commandLink
+									actionListener="#{scheduledActivitiesAction.assignSelectedActivity()}"
+									action="#{scheduledActivitiesAction.showActivitiesAndMachineForActivity()}"
+									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{activity.seleccionado eq true}" />
+										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{activity.seleccionado eq false}" />
+									</h:panelGrid>
+									<f:ajax event="click"
+										listener="#{activitiesAction.assignActivities(activity)}"
+										render="formScheduledActivities seleccionadas" />
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoCorto verticalAlignMiddle">
+								<f:facet name="header">
+									<h:panelGrid columns="2">
+										<h:outputText value="#{mensaje.label_nombre}" />
+										<ui:include src="/plantillas/templateHeaderSort.xhtml">
+											<ui:param name="sortField" value="an.activityName" />
+										</ui:include>
+									</h:panelGrid>
+								</f:facet>
+								<h:outputText value="#{activity.activityName.activityName}" />
+							</rich:column>
+							<rich:column styleClass="colTextoMediano verticalAlignMiddle">
+								<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+								<h:outputText
+									value="#{activity.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? activity.description.substring(0, propPrototipoCostos['locate.activitiesandhr.long.descripcion']) : activity.description} #{activity.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? '...' : ''}" />
+								<rich:tooltip layout="block" styleClass="campoTooltip"
+									rendered="#{activity.description ne null}">
+									<h:outputText value="#{activity.description}" />
+								</rich:tooltip>
+							</rich:column>
+							<rich:column styleClass="colNumeroMini verticalAlignMiddle">
+								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_secuencia_abr}</f:facet>
+								<h:outputText value="#{activity.sequenceNumber}" />
+							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
+								<f:facet name="header">
+									<h:panelGrid columns="2">
+										<h:outputText value="#{mensajeCosts.budget_label_hora_inicio}" />
+										<ui:include src="/plantillas/templateHeaderSort.xhtml">
+											<ui:param name="sortField" value="a.initialDtBudget" />
+										</ui:include>
+									</h:panelGrid>
+								</f:facet>
+								<h:outputText value="#{activity.initialDtBudget}">
+									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+										locale="en" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
+								<f:facet name="header">
+									<h:panelGrid columns="2">
+										<h:outputText value="#{mensajeCosts.budget_label_hora_fin}" />
+										<ui:include src="/plantillas/templateHeaderSort.xhtml">
+											<ui:param name="sortField" value="a.finalDtBudget" />
+										</ui:include>
+									</h:panelGrid>
+								</f:facet>
+								<h:outputText value="#{activity.finalDtBudget}">
+									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+										locale="en" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colNumero verticalAlignMiddle">
+								<f:facet name="header">#{mensajeCosts.budget_label_duracion}</f:facet>
+								<h:outputText value="#{activity.durationBudget}" />
+							</rich:column>
+							<rich:column styleClass="center colIconoDos verticalAlignMiddle">
+								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_peligroso}</f:facet>
+								<h:graphicImage value="/img/peligroso_19.png"
+									rendered="#{activity.dangerous eq true}" />
+								<rich:tooltip layout="block"
+									rendered="#{activity.dangerous eq true}">
+									<h:outputText value="#{mensaje.label_dangerous}" />
+								</rich:tooltip>
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="5" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<a:outputPanel
+							rendered="#{activitiesAction.listActivities.size() gt 0}">
+							<div class="anchoDos center inBlock">
+								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="pager" value="pager" />
+									<ui:param name="valReder" value="paginas" />
+									<ui:param name="beanActionParam" value="#{activitiesAction}" />
+									<ui:param name="metodoActionParam" value="consultingActivities" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+				</t:fieldset>
+				<br />
+				<a:outputPanel
+					rendered="#{scheduledActivitiesAction.selectedActivity.idActivity gt 0 and scheduledActivitiesAction.selectedActivity.hrRequired eq true}">
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<legend class="etiquetaTitulo" id="tooltip">
+							#{mensajeMenu.recursos_humanos_label} -
+							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}
+						</legend>
+						<div class="anchoDos">
+							<a:commandLink styleClass="iconsDataTable"
+								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false}"
+								render="seleccionarTrabajador:popupTrabajador seleccionarTrabajador:trabajadores mensajes mensajeBusqueda"
+								actionListener="#{activitiesAndHrAction.mostrarTipoTrabajador()}"
+								execute="formActivitiesAndHr"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popupTrabajador')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/add_16.png"
+										styleClass="verticalAlignMiddle" />
+									<h:outputText
+										value="#{mensaje.label_asignar} #{mensajeCosts.activities_and_hr_label_trabajadores}" />
+								</h:panelGrid>
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_seleccionar}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</div>
+						<ui:param name="listaVaciaA"
+							value="#{activitiesAndHrAction.listaActivitiesAndHrTemp.size() eq 0 or (activitiesAndHrAction.listaActivitiesAndHrTemp eq null)}" />
+						<rich:dataTable
+							value="#{activitiesAndHrAction.listaActivitiesAndHrTemp}"
+							var="actividadesTrabajadores" id="listaEmpleados"
+							footerClass="H130P"
+							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoDos"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass=""
+								rendered="#{(identity.autorizado('activitiesAndHrAction','A') or identity.autorizado('activitiesAndHrAction','D'))}">
+								<a:outputPanel>
+									<a:commandLink render="popupEliminar"
+										rendered="#{actividadesTrabajadores.initialDateTimeActual eq null}"
+										actionListener="#{activitiesAndHrAction.setActivitiesAndHr(actividadesTrabajadores)}"
+										oncomplete="#{rich:component('popupEliminar')}.show()">
+										<h:graphicImage value="/img/delete_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.button_eliminar}" />
+										</rich:tooltip>
+									</a:commandLink>
+									<a:outputPanel
+										rendered="#{actividadesTrabajadores.initialDateTimeActual ne null}">
+										<h:graphicImage value="/img/delete_no_available_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText
+												value="#{mensajeLifeCycle.scheduled_activities_label_already_actual_hr}" />
+										</rich:tooltip>
+									</a:outputPanel>
+								</a:outputPanel>
+							</rich:column>
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<a:commandLink
+									rendered="#{actividadesTrabajadores.initialDateTimeActual eq null}"
+									action="#{activitiesAndHrAction.setActivitiesAndHr(actividadesTrabajadores.clone())}"
+									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpEditarActivitiesAndHr')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+									value="#{actividadesTrabajadores.activitiesAndHrPK.hr.name} #{actividadesTrabajadores.activitiesAndHrPK.hr.familyName}"
+									render="popUpEditarActivitiesAndHr">
+									<f:setPropertyActionListener
+										target="#{activitiesAndHrAction.idOvertimeRate}"
+										value="#{actividadesTrabajadores.overtimePaymentRate.overtimepaymentid}" />
+								</a:commandLink>
+								<h:outputText
+									rendered="#{actividadesTrabajadores.initialDateTimeActual ne null}"
+									value="#{actividadesTrabajadores.activitiesAndHrPK.hr.name} #{actividadesTrabajadores.activitiesAndHrPK.hr.familyName}" />
+							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga">
+								<f:facet name="header">#{mensajeCosts.budget_label_hora_inicio}</f:facet>
+								<h:outputText
+									value="#{actividadesTrabajadores.initialDateTimeBudget}">
+									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+										locale="en" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga">
+								<f:facet name="header">#{mensajeCosts.budget_label_hora_fin}</f:facet>
+								<h:outputText
+									value="#{actividadesTrabajadores.finalDateTimeBudget}">
+									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+										locale="en" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{mensajeCosts.budget_label_duracion}</f:facet>
+								<h:outputText value="#{actividadesTrabajadores.durationBudget}" />
+							</rich:column>
+							<rich:column styleClass="colValor">
+								<f:facet name="header">#{mensajeCosts.budget_label_cost}</f:facet>
+								<h:outputText value="#{actividadesTrabajadores.totalCostBudget}" />
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_hora_normal}</f:facet>
+								<h:outputText value="#{actividadesTrabajadores.normalHours}" />
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_horas_extra}</f:facet>
+								<h:outputText value="#{actividadesTrabajadores.overtimeHours}" />
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_horas_totales}</f:facet>
+								<h:outputText value="#{actividadesTrabajadores.totalHours}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVaciaA}">
+									<rich:column colspan="9" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<br />
+						<a:outputPanel id="paginadoEmpleados"
+							rendered="#{activitiesAndHrAction.listaActivitiesAndHrTemp.size() gt 0}">
+							<div class="anchoDos center inBlock">
+								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="valId" value="3" />
+									<ui:param name="pager" value="paginadorActivitiesAndHr" />
+									<ui:param name="valReder"
+										value="listaEmpleados paginadoEmpleados" />
+									<ui:param name="beanActionParam"
+										value="#{activitiesAndHrAction}" />
+									<ui:param name="metodoActionParam"
+										value="consultarActivitiesAndHrXActividad" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+				<br />
+				<a:outputPanel
+					rendered="#{scheduledActivitiesAction.selectedActivity.idActivity gt 0 and scheduledActivitiesAction.selectedActivity.machineRequired eq true}">
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<legend class="etiquetaTitulo" id="tooltip">
+							#{mensajeMenu.machines_label_administracion} -
+							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}
+						</legend>
+						<div class="anchoDos">
+							<a:commandLink styleClass="iconsDataTable"
+								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false}"
+								render="selectMachines:popupMachines mensajes mensajeBusqueda"
+								actionListener="#{scheduledActivitiesAction.listMachineTypes()}"
+								action="#{machinesAction.initializeMachines()}"
+								execute="formActivitiesAndMachine"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popupMachines')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/add_16.png"
+										styleClass="verticalAlignMiddle" />
+									<h:outputText
+										value="#{mensaje.label_asignar} #{mensajeMachine.machines_label_names_s}" />
+								</h:panelGrid>
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_seleccionar}" />
+								</rich:tooltip>
+								<f:setPropertyActionListener
+									target="#{machinesAction.nombreMachines}" value="0" />
+							</a:commandLink>
+						</div>
+						<ui:param name="listaVacia"
+							value="#{scheduledActivitiesAction.listActivityMachine.size() eq 0 or (scheduledActivitiesAction.listActivityMachine eq null)}" />
+						<rich:dataTable
+							value="#{scheduledActivitiesAction.listActivityMachine}"
+							var="activitiesMachines" id="listMachines" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<a:outputPanel>
+									<a:commandLink render="popupDeleteActivityMachine"
+										rendered="#{activitiesMachines.durationActual eq null}"
+										actionListener="#{scheduledActivitiesAction.setActivityMachine(activitiesMachines)}"
+										oncomplete="#{rich:component('popupDeleteActivityMachine')}.show()">
+										<h:graphicImage value="/img/delete_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.button_eliminar}" />
+										</rich:tooltip>
+									</a:commandLink>
+									<a:outputPanel
+										rendered="#{activitiesMachines.durationActual ne null}">
+										<h:graphicImage value="/img/delete_no_available_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText
+												value="#{mensajeLifeCycle.scheduled_activities_label_already_actual_machine}" />
+										</rich:tooltip>
+									</a:outputPanel>
+								</a:outputPanel>
+							</rich:column>
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<a:commandLink
+									rendered="#{activitiesMachines.durationActual eq null}"
+									actionListener="#{scheduledActivitiesAction.setActivityMachine(activitiesMachines.clone())}"
+									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpUpdateActivitiesAndMachine')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+									value="#{activitiesMachines.activityMachinePK.machines.name}"
+									render="popUpUpdateActivitiesAndMachine" />
+								<h:outputText
+									rendered="#{activitiesMachines.durationActual ne null}"
+									value="#{activitiesMachines.activityMachinePK.machines.name}" />
+							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga">
+								<f:facet name="header">#{mensajeCosts.budget_label_hora_inicio}</f:facet>
+								<h:outputText value="#{activitiesMachines.initialDateTime}">
+									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+										locale="en" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga">
+								<f:facet name="header">#{mensajeCosts.budget_label_hora_fin}</f:facet>
+								<h:outputText value="#{activitiesMachines.finalDateTime}">
+									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+										locale="en" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{mensajeCosts.budget_label_duracion}</f:facet>
+								<h:outputText value="#{activitiesMachines.durationBudget}" />
+							</rich:column>
+							<rich:column styleClass="colValor">
+								<f:facet name="header">#{mensajeCosts.budget_label_cost}</f:facet>
+								<h:outputText
+									value="#{activitiesMachines.consumablesCostBudget}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="6" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<br />
+						<a:outputPanel id="pageMachines"
+							rendered="#{scheduledActivitiesAction.listActivityMachine.size() gt 0}">
+							<div class="anchoDos center inBlock">
+								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="valId" value="2" />
+									<ui:param name="pager" value="paginadorActivitiesMachines" />
+									<ui:param name="valReder" value="listMachines pageMachines" />
+									<ui:param name="beanActionParam"
+										value="#{scheduledActivitiesAction}" />
+									<ui:param name="metodoActionParam"
+										value="showActivitiesAndMachineForActivity" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+		<ui:include src="templatePopupActivitiesAndHr.xhtml" />
+		<ui:include src="templateActivitiesAndMachine.xhtml" />
+	</ui:define>
+</ui:composition>

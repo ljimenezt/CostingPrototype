@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="gesEmpresas::#organizaciones#empresas#gestionarEmpresa.xhtml"
+    NAME="output" PATH="/organizaciones/empresas/gestionarEmpresa.xhtml"
+    TARGET="rules:#organizaciones#empresas#gestionarEmpresa.xhtml"
+    TITLE="gesEmpresas" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="regEmpresa::#organizaciones#empresas#registrarEmpresa.xhtml"
+    NAME="output1"
+    PATH="/organizaciones/empresas/registrarEmpresa.xhtml"
+    TARGET="rules:#organizaciones#empresas#registrarEmpresa.xhtml"
+    TITLE="regEmpresa" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#organizaciones#empresas#registrarEmpresa.xhtml"
+  PATH="/organizaciones/empresas/registrarEmpresa.xhtml"
+  SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#organizaciones#empresas#gestionarEmpresa.xhtml"
+  PATH="/organizaciones/empresas/gestionarEmpresa.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

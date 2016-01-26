@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="regDepartamentoEmpresa::#organizaciones#informacionBase#departamentoEmpresa#registrarDepartamentoEmpresa.xhtml"
+    NAME="output"
+    PATH="/organizaciones/informacionBase/departamentoEmpresa/registrarDepartamentoEmpresa.xhtml"
+    TARGET="rules:#organizaciones#informacionBase#departamentoEmpresa#registrarDepartamentoEmpresa.xhtml"
+    TITLE="regDepartamentoEmpresa" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="gesDepartamentoEmpresa::#organizaciones#informacionBase#departamentoEmpresa#gestionarDepartamentoEmpresa.xhtml"
+    NAME="output"
+    PATH="/organizaciones/informacionBase/departamentoEmpresa/gestionarDepartamentoEmpresa.xhtml"
+    TARGET="rules:#organizaciones#informacionBase#departamentoEmpresa#gestionarDepartamentoEmpresa.xhtml"
+    TITLE="gesDepartamentoEmpresa" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:2" PATH="*" SHAPE="32,241,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:2" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="predDepartamentoEmpresa::#organizaciones#informacionBase#departamentoEmpresa#predeterminarDepartamento.xhtml"
+    NAME="output"
+    PATH="/organizaciones/informacionBase/departamentoEmpresa/predeterminarDepartamento.xhtml"
+    TARGET="rules:#organizaciones#informacionBase#departamentoEmpresa#predeterminarDepartamento.xhtml"
+    TITLE="predDepartamentoEmpresa" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#organizaciones#informacionBase#departamentoEmpresa#registrarDepartamentoEmpresa.xhtml"
+  PATH="/organizaciones/informacionBase/departamentoEmpresa/registrarDepartamentoEmpresa.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#organizaciones#informacionBase#departamentoEmpresa#gestionarDepartamentoEmpresa.xhtml"
+  PATH="/organizaciones/informacionBase/departamentoEmpresa/gestionarDepartamentoEmpresa.xhtml"
+  SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#organizaciones#informacionBase#departamentoEmpresa#predeterminarDepartamento.xhtml"
+  PATH="/organizaciones/informacionBase/departamentoEmpresa/predeterminarDepartamento.xhtml"
+  SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>
