@@ -1,0 +1,117 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="empresaAction.nuevaEmpresa('n')" />
+	<ui:param name="titulo" value="#{empresaAction.mensajeMiga}" />
+	<ui:define name="body">
+		<h:form id="formRegistrarEmpresa">
+			<t:saveState value="#{empresaAction}" />
+			<t:saveState value="#{controladorListasDobles}" />
+			<t:saveState value="#{validacionesAction}" />
+			<t:saveState value="#{controladorArchivos}" />
+
+			<rich:panel id="pnlRegistrarEmpresa" styleClass="anchoUno"
+				header="#{empresaAction.labelCrear}">
+
+				<ui:include src="plantillaRegistrarEmpresa.xhtml">
+					<ui:param name="tabSelect" value="n" />
+					<ui:param name="idFormulario" value="formRegistrarEmpresa" />
+				</ui:include>
+				<br />
+				<div class="inBlock W100Per center">
+					<a:commandButton value="#{mensaje.button_guardar}"
+						render="formGenerico, :formConfirmacion:popupConfirmar, mensajes"
+						execute="pnlRegistrarEmpresa"
+						actionListener="#{empresaAction.establecerEmpresaValidarRolYRequeridos(empresaAction.empresa)}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupConfirmar')}.show();}
+									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						rendered="#{(empresaAction.opcion eq 'editar' and identity.autorizado('empresaAction','U')) or identity.autorizado('empresaAction','A') or identity.autorizado('empresaAction','I')}" />
+					<a:commandButton value="#{mensajePuc.tercero_button_volver}"
+						render="popupValidarRegresarTercero"
+						oncomplete="#{rich:component('popupValidarRegresarTercero')}.show();"
+						immediate="true"
+						rendered="#{terceroAction.regEmpresaDesdeTercero}" />
+				</div>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formConfirmacion">
+			<rich:popupPanel id="popupConfirmar" keepVisualState="true"
+				autosized="true" width="500" domElementAttachment="form"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupConfirmar')}.hide()"
+							style="cursor: pointer;" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText
+							value="#{mensajeOrganizaciones.empresa_label_mensaje_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+
+						<h:outputText value="#{mensajeOrganizaciones.organizacion_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(empresaAction.itemsOrganizaciones,empresaAction.empresa.organizacion.id)}" />
+
+						<h:outputText value="#{mensaje.label_nit}:" />
+						<h:outputText value="#{empresaAction.empresa.nit}" />
+
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{empresaAction.empresa.nombre}" />
+
+						<h:outputText value="#{mensaje.label_direccion}:" />
+						<h:outputText value="#{empresaAction.empresa.direccion}" />
+
+						<h:outputText value="#{mensaje.label_telefono}:" />
+						<h:outputText value="#{empresaAction.empresa.telefono}" />
+
+						<h:outputText value="#{mensaje.label_email}:" />
+						<h:outputText value="#{empresaAction.empresa.correo}" />
+
+						<h:outputText value="#{mensaje.label_fax}:" />
+						<h:outputText value="#{empresaAction.empresa.fax}" />
+
+						<h:outputText value="#{mensaje.label_movil}:" />
+						<h:outputText value="#{empresaAction.empresa.movil}" />
+
+						<h:outputText value="#{mensajeInformacionBase.pais_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(empresaAction.itemsPaises,empresaAction.empresa.pais.id)}" />
+
+						<h:outputText
+							value="#{mensajeInformacionBase.departamento_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(empresaAction.itemDepartamentos,empresaAction.empresa.departamento.id)}" />
+
+						<h:outputText value="#{mensajeInformacionBase.municipio_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(empresaAction.itemsMunicipios,empresaAction.empresa.municipio.id)}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{empresaAction.agregarEditarEmpresa(empresaAction.tabSelect)}"
+							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popupConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

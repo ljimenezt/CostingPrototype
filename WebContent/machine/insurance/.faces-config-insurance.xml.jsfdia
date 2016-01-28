@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="gesInsurence::#machine#insurance#gestionarInsurance.xhtml"
+    NAME="output" PATH="/machine/insurance/gestionarInsurance.xhtml"
+    TARGET="rules:#machine#insurance#gestionarInsurance.xhtml"
+    TITLE="gesInsurence" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="regInsurence::#machine#insurance#registrarInsurance.xhtml"
+    NAME="output" PATH="/machine/insurance/registrarInsurance.xhtml"
+    TARGET="rules:#machine#insurance#registrarInsurance.xhtml"
+    TITLE="regInsurence" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#machine#insurance#gestionarInsurance.xhtml"
+  PATH="/machine/insurance/gestionarInsurance.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#machine#insurance#registrarInsurance.xhtml"
+  PATH="/machine/insurance/registrarInsurance.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

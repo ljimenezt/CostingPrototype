@@ -1,0 +1,211 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="#{activitiesAndServicesAction.addEditActivitiesAndServices(null)}" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeMenu.activities_services_label" />
+	<ui:define name="body">
+		<t:saveState value="#{activitiesAndServicesAction}" />
+		<t:saveState value="#{validacionesAction}" />
+		<t:saveState value="#{activitiesAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+		<ui:param name="anchoTabla" value="anchoCuatro" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{activitiesAndServicesAction}" />
+		<ui:param name="renderLista" value="formActivities" />
+		<ui:param name="metodoLista" value="consultActivities" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="activitiesAndServicesAction" />
+		<ui:param name="metodoNuevo" value="agregarEditarFarm" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="initializingSearch" />
+		<h:form id="formActivitiesAndServices">
+			<rich:panel header="#{mensajeMenu.associate_cycles_label_registrar}"
+				styleClass="anchoUno MinH253P" id="panelAssignActivities">
+				<t:fieldset id="cropInfo">
+					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
+					<h:panelGrid columns="3" columnClasses=",,top">
+
+						<h:panelGrid columns="4"
+							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+							columnClasses="tdAlignTop,,,tdAlignTop">
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeLifeCycle.crop_names_label}" />
+							<h:outputText value="*" styleClass="required" />
+							<h:selectOneMenu
+								value="#{activitiesAndServicesAction.crops.cropNames.idCropName}"
+								id="cmbCropNames"
+								validator="#{validacionesAction.validarComboRequerido}">
+								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+									itemValue="0" />
+								<f:selectItems
+									value="#{activitiesAndServicesAction.optionsCropNames}" />
+								<f:ajax event="change"
+									listener="#{activitiesAndServicesAction.fillCropNamesCrop()}"
+									render=":formActivitiesAndServices:cmbCrops" />
+								<f:attribute name="tipo" value="Int" />
+							</h:selectOneMenu>
+							<rich:message for="cmbCropNames" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="4"
+							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+							columnClasses="tdAlignTop,,,tdAlignTop">
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_descripcion}" />
+							<h:outputText value="*" styleClass="required" />
+							<h:selectOneMenu
+								value="#{activitiesAndServicesAction.crops.idCrop}"
+								id="cmbCrops" required="true"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+								<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
+								<f:selectItems
+									value="#{activitiesAndServicesAction.optionsCrops}" />
+								<f:ajax event="change"
+									render=":formActivitiesAndServices:formActivities :mensajes"
+									listener="#{activitiesAndServicesAction.initializingSearch()}"
+									execute="@form" />
+								<f:attribute name="tipo" value="Int" />
+							</h:selectOneMenu>
+							<rich:message for="cmbCrops" />
+						</h:panelGrid>
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<a:outputPanel id="formActivities">
+					<t:fieldset
+						rendered="#{activitiesAndServicesAction.listActivities ne null and (!empty activitiesAndServicesAction.listActivities)}">
+						<legend class="etiquetaTitulo">#{mensaje.label_listado_de}
+							#{mensajeCosts.activities_label_s}</legend>
+
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="tieneVigencia" value="no" />
+							<ui:param name="ocultarNuevo" value="si" />
+						</ui:include>
+						<rich:dataTable
+							value="#{activitiesAndServicesAction.listActivities}"
+							var="activities" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<h:commandLink
+									action="#{activitiesAndServicesAction.addEditServices(activities)}"
+									onclick="#{rich:component('statPane')}.show();"
+									value="#{activities.activityName.activityName}">
+								</h:commandLink>
+							</rich:column>
+							<rich:column width="300px">
+								<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+								<h:outputText
+									value="#{activities.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? activities.description.substring(0, propPrototipoCostos['locate.activitiesandhr.long.descripcion']) : activities.description} #{activities.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? '...' : ''}" />
+								<rich:tooltip layout="block" styleClass="campoTooltip"
+									rendered="#{activities.description ne null}">
+									<h:outputText value="#{activities.description}" />
+								</rich:tooltip>
+							</rich:column>
+							<rich:column styleClass="W120P">
+								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_secuencia_abr}</f:facet>
+								<h:outputText value="#{activities.sequenceNumber}" />
+							</rich:column>
+							<rich:column styleClass="W450P">
+								<f:facet name="header">#{mensajeCosts.budget_label_hora_inicio}</f:facet>
+								<h:outputText value="#{activities.initialDtBudget}">
+									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+										locale="en" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="W450P">
+								<f:facet name="header">#{mensajeCosts.budget_label_hora_fin}</f:facet>
+								<h:outputText value="#{activities.finalDtBudget}">
+									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+										locale="en" />
+								</h:outputText>
+							</rich:column>
+							<rich:column width="250px">
+								<f:facet name="header">#{mensajeCosts.budget_label_duracion}</f:facet>
+								<h:outputText value="#{activities.durationBudget}" />
+							</rich:column>
+							<rich:column width="250px" styleClass="center">
+								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_peligroso}</f:facet>
+								<h:graphicImage value="/img/peligroso_19.png"
+									rendered="#{actividad.dangerous eq true}" />
+								<rich:tooltip layout="block"
+									rendered="#{actividad.dangerous eq true}">
+									<h:outputText value="#{mensaje.label_dangerous}" />
+								</rich:tooltip>
+							</rich:column>
+						</rich:dataTable>
+						<br />
+						<a:outputPanel>
+							<div class="#{anchoTabla} center inBlock">
+								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="pager" value="paginador" />
+									<ui:param name="valReder" value="formActivities" />
+									<ui:param name="beanActionParam"
+										value="#{activitiesAndServicesAction}" />
+									<ui:param name="metodoActionParam" value="consultActivities" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+		<h:form id="formBuscar">
+			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
+				header="#{mensaje.button_buscar} #{mensajeCosts.activities_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensaje.label_nombre}:"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" maxlength="100"
+						id="txtNombreBuscar"
+						value="#{activitiesAndServicesAction.nameSearch}"
+						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+						actionListener="#{activitiesAndServicesAction.consultActivities}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="formActivities, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancelar}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

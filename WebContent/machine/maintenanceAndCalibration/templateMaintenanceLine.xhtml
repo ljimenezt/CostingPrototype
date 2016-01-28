@@ -1,0 +1,147 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	<h:form id="registerMaintenanceLine">
+		<rich:popupPanel id="popupMaintenanceLine" autosized="true"
+			maxWidth="700" domElementAttachment="form" modal="true"
+			header="#{mensaje.label_registrar} #{mensajeMachine.lineas_mantenimiento_label}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="cursor"
+						onclick="#{rich:component('popupMaintenanceLine')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<rich:panel styleClass="H383P fondoAnchoUno W500P">
+				<a:outputPanel id="outPutMaintenanceLines">
+					<t:fieldset styleClass="BorderW2P">
+						<legend class="etiquetaTitulo">#{mensajeMachine.lineas_mantenimiento_label}</legend>
+						<h:panelGrid columns="4"
+							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+							columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+
+							<h:outputText
+								value="#{mensajeMachine.lineas_mantenimiento_label_nombre_maquina}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<h:outputText
+								value="#{maintenanceAndCalibrationAction.maintenanceLines.machines.name}"
+								styleClass="etiquetaValor" />
+							<h:outputText value="" />
+
+							<h:outputText
+								value="#{mensajeMachine.mantenimiento_calibracion_label}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<h:outputText
+								value="#{maintenanceAndCalibrationAction.maintenanceLines.maintenanceAndCalibration.dateTime}"
+								styleClass="etiquetaValor" />
+							<h:outputText value="" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_descripcion}" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputTextarea label="#{mensaje.label_descripcion}"
+								value="#{maintenanceAndCalibrationAction.maintenanceLines.description}"
+								styleClass="colTextoMedianoTextArea" id="txaDescription"
+								validator="#{encodeFilter.validarScripting}" required="true">
+								<f:validateLength maximum="250" />
+							</h:inputTextarea>
+							<rich:message for="txaDescription" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}" />
+							<h:outputText value="" />
+							<h:inputText
+								value="#{maintenanceAndCalibrationAction.maintenanceLines.costBudget}"
+								styleClass="colNumero" id="txtTotalCostBudget">
+							</h:inputText>
+							<rich:message for="txtTotalCostBudget" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}" />
+							<h:outputText value="" />
+							<h:inputText
+								value="#{maintenanceAndCalibrationAction.maintenanceLines.costActual}"
+								styleClass="colNumero" id="txtCostActual">
+							</h:inputText>
+							<rich:message for="txtCostActual" />
+						</h:panelGrid>
+					</t:fieldset>
+					<br />
+					<div class="W100Per center inBlock">
+						<a:commandButton value="#{mensaje.button_guardar}" id="btnSave"
+							render="formConfirmation:confirmationPopUp, formGenerico "
+							execute="registerMaintenanceLine"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmationPopUp')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+						<a:commandButton
+							onclick="#{rich:component('popupMaintenanceLine')}.hide()"
+							value="#{mensaje.button_cancelar}" />
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</rich:popupPanel>
+	</h:form>
+	<h:form id="formConfirmation">
+		<rich:popupPanel id="confirmationPopUp" modal="true" autosized="true"
+			resizeable="false" header="#{mensaje.label_confirmacion}">
+			<f:facet name="controls">
+				<h:outputLink value="#"
+					onclick="#{rich:component('confirmationPopUp')}.hide(); return false;">
+					<img src="#{request.contextPath}/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';" />
+				</h:outputLink>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_registro_confirmacion}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="campos">
+					<h:outputText
+						value="#{mensajeMachine.lineas_mantenimiento_label_nombre_maquina}" />
+					<h:outputText
+						value="#{maintenanceAndCalibrationAction.maintenanceLines.machines.name}" />
+
+					<h:outputText
+						value="#{mensajeMachine.mantenimiento_calibracion_label}" />
+					<h:outputText
+						value="#{maintenanceAndCalibrationAction.maintenanceLines.maintenanceAndCalibration.dateTime}" />
+
+					<h:outputText value="#{mensaje.label_descripcion}" />
+					<h:outputText
+						value="#{maintenanceAndCalibrationAction.maintenanceLines.description}" />
+
+					<h:outputText
+						value="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}" />
+					<h:outputText
+						value="#{maintenanceAndCalibrationAction.maintenanceLines.costBudget}" />
+
+					<h:outputText
+						value="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}" />
+					<h:outputText
+						value="#{maintenanceAndCalibrationAction.maintenanceLines.costActual}" />
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_aceptar}"
+						actionListener="#{maintenanceAndCalibrationAction.saveMaintenanceLines()}"
+						onclick="#{rich:component('confirmationPopUp')}.hide(); #{rich:component('popupMaintenanceLine')}.hide(); #{rich:component('statPane')}.show();"
+						render="popupForm:outPutSearchMaintenanceLine " />
+					<a:commandButton value="#{mensaje.button_cancelar}"
+						onclick="#{rich:component('confirmationPopUp')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+</ui:composition>

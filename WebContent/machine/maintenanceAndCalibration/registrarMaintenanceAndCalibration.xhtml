@@ -1,0 +1,150 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="maintenanceAndCalibrationAction.agregarEditarMaintenanceAndCalibration(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeMachine.mantenimiento_calibracion_label" />
+	<ui:define name="body">
+		<t:saveState value="#{maintenanceAndCalibrationAction}" />
+		<t:saveState value="#{machinesAction}" />
+		<h:form id="formMaintenanceAndCalibration">
+			<rich:panel
+				header="#{mensaje.label_registrar} #{mensajeMachine.mantenimiento_calibracion_label}"
+				styleClass="anchoUno MinH253P" id="panelMaintenanceAndCalibration">
+				<t:fieldset>
+					<legend class="etiquetaTitulo">#{mensaje.label_informacion_maquina}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,,,tdAlignTop">
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeMachine.machine_types_label_s}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu
+							value="#{maintenanceAndCalibrationAction.machineTypes.idMachineType}"
+							id="cmbMachinesTypes" required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							validator="#{validacionesAction.validarComboRequerido}">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
+							<f:selectItems
+								value="#{maintenanceAndCalibrationAction.machinesTypeItems}" />
+							<f:ajax event="change"
+								listener="#{maintenanceAndCalibrationAction.llenarMachine()}"
+								render=":formMaintenanceAndCalibration:maquina" />
+							<f:attribute name="tipo" value="Int" />
+						</h:selectOneMenu>
+						<rich:message for="cmbMachinesTypes" />
+
+						<h:outputText
+							value="#{mensajeMachine.mantenimiento_calibracion_label_maquina}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="maquina"
+							value="#{maintenanceAndCalibrationAction.machines.idMachine}"
+							styleClass="colTextoMediano" required="true"
+							validator="#{validacionesAction.validarComboRequerido}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+							<f:selectItems
+								value="#{maintenanceAndCalibrationAction.machinesItems}" />
+						</h:selectOneMenu>
+						<rich:message for="maquina" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset>
+					<legend class="etiquetaTitulo">#{mensajeMachine.mantenimiento_calibracion_label}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,,,tdAlignTop">
+
+						<h:outputText value="#{mensaje.label_fecha }"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<p:calendar
+							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}"
+							id="fechMaint" showOn="button" navigator="true"
+							pattern="MM/dd/yyyy" required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							converterMessage="#{mensaje.message_validar_formato_fecha}"
+							validator="#{controladorFechas.validarRangoFecha}">
+							<f:attribute name="validarHora" value="si" />
+						</p:calendar>
+						<rich:message for="fechMaint" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeMachine.mantenimiento_calibracion_label_maquina_buenas_condiciones}" />
+						<h:outputText value="" />
+						<h:selectOneRadio
+							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
+							tyleClass="colNumeroLargo"
+							id="txtMachineEquipementInGoodCondition">
+							<f:selectItem itemLabel="#{mensaje.label_si}" itemValue="true" />
+							<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
+						</h:selectOneRadio>
+						<rich:message for="txtMachineEquipementInGoodCondition" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						execute="formMaintenanceAndCalibration"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_guardar}" />
+				</div>
+			</rich:panel>
+		</h:form>
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_fecha}" />
+						<h:outputText
+							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}" />
+						<h:outputText
+							value="#{mensajeMachine.mantenimiento_calibracion_label_maquina_buenas_condiciones}" />
+						<h:outputText
+							rendered="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
+							value="#{mensaje.label_si}" />
+						<h:outputText
+							rendered="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition eq 'false'}"
+							value="#{mensaje.label_no}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{maintenanceAndCalibrationAction.guardarMaintenanceAndCalibration()}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

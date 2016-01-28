@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="gesTipoUnidadMedida::#informacionBase#unidadMedida#tipoUnidadMedida#gestionarTipoUnidadMedida.xhtml"
+    NAME="output"
+    PATH="/informacionBase/unidadMedida/tipoUnidadMedida/gestionarTipoUnidadMedida.xhtml"
+    TARGET="rules:#informacionBase#unidadMedida#tipoUnidadMedida#gestionarTipoUnidadMedida.xhtml"
+    TITLE="gesTipoUnidadMedida" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="regTipoUnidadMedida::#informacionBase#unidadMedida#tipoUnidadMedida#registrarTipoUnidadMedida.xhtml"
+    NAME="output"
+    PATH="/informacionBase/unidadMedida/tipoUnidadMedida/registrarTipoUnidadMedida.xhtml"
+    TARGET="rules:#informacionBase#unidadMedida#tipoUnidadMedida#registrarTipoUnidadMedida.xhtml"
+    TITLE="regTipoUnidadMedida" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#informacionBase#unidadMedida#tipoUnidadMedida#registrarTipoUnidadMedida.xhtml"
+  PATH="/informacionBase/unidadMedida/tipoUnidadMedida/registrarTipoUnidadMedida.xhtml"
+  SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#informacionBase#unidadMedida#tipoUnidadMedida#gestionarTipoUnidadMedida.xhtml"
+  PATH="/informacionBase/unidadMedida/tipoUnidadMedida/gestionarTipoUnidadMedida.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

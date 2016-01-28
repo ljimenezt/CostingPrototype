@@ -1,0 +1,97 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>#{mensaje.label_nombre_sistema}</title>
+	<link href="#{request.contextPath}/css/anchosAltos.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/css/botones.css" rel="stylesheet"
+		type="text/css" />
+	<link href="#{request.contextPath}/css/cambiosRichFaces.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/css/cambiosPrimeFaces.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/css/clasesProyecto.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/css/etiquetasHtml.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/img/icono.ico" type="image/x-icon"
+		rel="shortcut icon" />
+	<ui:insert name="head" />
+	<script type="text/javascript">
+		function addEventMouse(){
+			$(".dataTable tr").hover(function() {
+				$(this).addClass("active\u002Drow");
+			}, function() {
+				$(this).removeClass("active\u002Drow");
+			});
+		}
+	</script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/es_localePrimefaces.js"></script>
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/validacion.js"></script>
+</h:head>
+<h:body>
+	<a:status onstart="#{rich:component('statPane')}.show()"
+		onstop="#{rich:component('statPane')}.hide();addEventMouse();" />
+	<ui:debug hotkey="h" />
+	<ui:include src="cabecera.xhtml">
+		<ui:param name="projectName" value="CacaoSoft" />
+	</ui:include>
+	<c:choose>
+		<c:when test="#{identity ne null and identity.autenticado}">
+			<ui:include src="menu.xhtml" />
+		</c:when>
+	</c:choose>
+	<ui:include src="botonesGraficos.xhtml" />
+	<h:form id="migaPan">
+		<rich:popupPanel id="statPane" autosized="true">
+			<h:graphicImage value="/img/wait_28.gif" alt="ai" />
+			<h:outputText value="#{mensaje.message_wait}" />
+		</rich:popupPanel>
+		<p:breadCrumb
+			model="#{controladorMigaPan.obtenerMigas(action,titulo)}" />
+	</h:form>
+	<div class="body" id="contenido">
+		<a:outputPanel id="mensajeBusqueda">
+			<a:outputPanel
+				rendered="#{validacionesAction.mensajeBusqueda ne null and !(empty validacionesAction.mensajeBusqueda)}">
+				<ul
+					class="message messageColorBusqueda #{validacionesAction.existeMensajeGlobal() eq 'true' ? 'messageMarginBusqueda' : ''}"
+					id="mensajesBusqueda">
+					<li class="infomsg"><h:outputText
+							value="#{validacionesAction.mensajeBusqueda}" /></li>
+				</ul>
+			</a:outputPanel>
+		</a:outputPanel>
+		<h:messages id="mensajes" globalOnly="true" styleClass="message"
+			errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"
+			rendered="#{showGlobalMessages != 'false'}" />
+		<ui:insert name="body" />
+		<h:form id="formGenerico">
+			<h:inputHidden value="#{validacionesAction.idFocus}" id="valFocus" />
+			<a:commandButton execute="@this" render="mensajes"
+				actionListener="#{controladorArchivos.messageFileSize()}"
+				id="buttonValidateSizeFile" styleClass="ocultar" />
+		</h:form>
+	</div>
+	<h:inputHidden value="#{validacionesAction.limpiarMensaje}" />
+	<ui:include src="piePagina.xhtml" />
+	<rich:jQuery selector=".dataTable tr:odd" query="addClass('odd-row')" />
+	<rich:jQuery selector=".dataTable tr:even" query="addClass('even-row')" />
+	<rich:jQuery selector=".dataTable tr" event="mouseover"
+		query="jQuery(this).addClass('active-row')" />
+	<rich:jQuery selector=".dataTable tr" event="mouseout"
+		query="jQuery(this).removeClass('active-row')" />
+</h:body>
+</html>
