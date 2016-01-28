@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14502699142220" configfile="/PrototipoCostos/WebContent/reports/indexes/generalTrend/faces-config-generalTrend.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" id="pf14502732118861" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14502732118872" path="*"/>
-  <nodes xsi:type="pageflow:PFPage" name="reports/indexes/generalTrend/generalTrendReport.xhtml" id="pf14502732118873" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf14502732118872" path="/reports/indexes/generalTrend/generalTrendReport.xhtml"/>
-  <links id="pf14502732118872" target="pf14502732118873" source="pf14502732118861" outcome="rptGeneralTrend"/>
-</pageflow:Pageflow>
