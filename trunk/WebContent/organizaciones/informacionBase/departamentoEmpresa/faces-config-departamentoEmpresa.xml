@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>regDepartamentoEmpresa</from-outcome>
+			<to-view-id>/organizaciones/informacionBase/departamentoEmpresa/registrarDepartamentoEmpresa.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>gesDepartamentoEmpresa</from-outcome>
+			<to-view-id>/organizaciones/informacionBase/departamentoEmpresa/gestionarDepartamentoEmpresa.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>predDepartamentoEmpresa</from-outcome>
+			<to-view-id>/organizaciones/informacionBase/departamentoEmpresa/predeterminarDepartamento.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+</faces-config>

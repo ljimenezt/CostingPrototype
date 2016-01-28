@@ -1,0 +1,315 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="metodoAction.registrarMetodo(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeSeguridad.metodo_label" />
+	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){    
+				  $('#metodoForm\\:txaDescripcion').maxlength({   
+				    events: [],     
+				    max: 255,    
+				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    showFeedback: 'active'    
+				  }); 
+				});		
+		</script>
+		<t:saveState value="#{metodoAction}" />
+		<t:saveState value="#{menuAction}" />
+		<t:saveState value="#{encodeFilter}" />
+		<h:form id="metodoForm">
+			<ui:param name="listaVacia"
+				value="#{metodoAction.menus eq null or empty metodoAction.menus}" />
+			<ui:param name="listaVacia2"
+				value="#{metodoAction.menusSelected eq null or empty metodoAction.menusSelected}" />
+			<rich:panel header="#{mensajeSeguridad.metodo_label}"
+				styleClass="anchoUno">
+				<t:fieldset styleClass="MinH208P BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{mensajeSeguridad.metodo_datos_label}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
+						cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop,">
+
+						<h:outputText value="#{mensaje.label_proceso}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="txtnombre" maxlength="50" required="true"
+							validator="#{metodoAction.validarMetodo}"
+							styleClass="colTextoMediano"
+							value="#{metodoAction.metodo.nombre}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateLength maximum="50" />
+						</h:inputText>
+						<rich:message for="txtnombre" />
+
+						<h:outputText value="#{mensajeSeguridad.metodo_label_nombre}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="txtnombremetodo" maxlength="50" required="true"
+							validator="#{metodoAction.validarNombreMetodo}"
+							styleClass="colTextoMediano"
+							value="#{metodoAction.metodo.nombreMetodo}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateLength maximum="50" />
+						</h:inputText>
+						<rich:message for="txtnombremetodo" />
+
+						<h:outputText value="#{mensaje.label_descripcion}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputTextarea value="#{metodoAction.metodo.descripcion}"
+							id="txaDescripcion" required="true"
+							styleClass="colTextoMedianoTextArea"
+							validator="#{encodeFilter.validarScripting}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateLength maximum="255" />
+						</h:inputTextarea>
+						<rich:message for="txaDescripcion" />
+					</h:panelGrid>
+				</t:fieldset>
+				<div class="W440P PaddingL10P PaddingT6P PaddingB6P">
+					<rich:messages for="tablaMenusDisponibles"
+						styleClass="messageInfSpan W410P" />
+				</div>
+				<t:fieldset styleClass="MinH208P BorderW2P anchoDos" id="menusPanel">
+					<legend class="etiquetaTitulo">
+						#{mensajeSeguridad.menu_label_s}
+						<h:outputText value="*" styleClass="required" />
+					</legend>
+
+					<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+						<ui:param name="width" value="W440P" />
+					</ui:include>
+
+					<h:panelGrid columns="2" cellpadding="7" columnClasses="top,top">
+						<t:fieldset styleClass="MinH208P BorderW0P Padding0P">
+							<div align="right" class="H24P">
+								<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+									id="gridConsult">
+									<a:commandLink render=":popupFormSearch:popupSearch, mensajes"
+										oncomplete="#{rich:component('popupSearch')}.show()"
+										styleClass="quitarDecoracionLink" execute="@this">
+										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+											<h:graphicImage value="/img/consultar_16.png" />
+											<h:outputText value="#{mensaje.label_buscar}" />
+										</h:panelGrid>
+									</a:commandLink>
+									<a:commandLink
+										render=":popupFormSearch:popupSearch, menusPanel, mensajes"
+										action="#{metodoAction.limpiarMenusDisponibles()}"
+										styleClass="quitarDecoracionLink" execute="@this">
+										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+											<h:graphicImage value="/img/listarTodos_16.png" />
+											<h:outputText value="#{mensaje.button_listar_todos}" />
+										</h:panelGrid>
+									</a:commandLink>
+								</h:panelGrid>
+							</div>
+							<rich:dataTable value="#{metodoAction.menus}"
+								id="tablaMenusDisponibles" var="menuDisponible"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W440P"
+								rowClasses="odd-row, even-row" footerClass="H126P">
+								<f:facet name="header">
+									<h:outputText
+										value="#{mensajeSeguridad.menu_label_disponibles}" />
+								</f:facet>
+								<rich:column styleClass="colTextoMediano">
+									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<h:outputText value="#{menuDisponible.nombre}" />
+								</rich:column>
+								<rich:column styleClass="colTextoLargo">
+									<f:facet name="header">#{mensaje.label_nombre_url}</f:facet>
+									<h:outputText
+										value="#{validacionesAction.cadenaCorta(menuDisponible.url,50)}" />
+									<rich:tooltip layout="block"
+										rendered="#{menuDisponible.url ne null or !(empty menuDisponible.url)}">
+										<h:outputText value="#{menuDisponible.url}" />
+									</rich:tooltip>
+								</rich:column>
+								<rich:column styleClass="colIconoUno">
+									<f:facet name="header">
+										<a:commandLink render="menusPanel, mensajes"
+											rendered="#{!listaVacia}" execute="@this"
+											actionListener="#{metodoAction.addRemoveAllMenus('add')}">
+											<h:graphicImage value="/img/agregar_16.png" />
+											<rich:tooltip layout="block">
+												<h:outputText value="#{mensaje.label_seleccionar_todos}" />
+											</rich:tooltip>
+										</a:commandLink>
+									</f:facet>
+									<a:commandLink execute="@this" render="menusPanel, mensajes"
+										actionListener="#{metodoAction.addRemoveMenusListSelected('add',menuDisponible)}">
+										<h:graphicImage value="/img/agregar_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.label_seleccionar}" />
+										</rich:tooltip>
+									</a:commandLink>
+								</rich:column>
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia}">
+										<rich:column colspan="4" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listaVacia}">
+								<div class="W440P center">
+									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+										<ui:param name="valId" value="1" />
+										<ui:param name="valReder" value="menusPanel" />
+										<ui:param name="beanActionParam" value="#{metodoAction}" />
+										<ui:param name="metodoActionParam"
+											value="consultarMenusDisponibles" />
+										<ui:param name="pager" value="paginadorMenus" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</t:fieldset>
+						<t:fieldset styleClass="MinH208P BorderW0P Padding0P">
+							<div align="right" class="H24P" />
+							<rich:extendedDataTable id="tableSelected"
+								value="#{metodoAction.menusSelected}" var="selectedMenu"
+								styleClass="H172P W450P">
+								<f:facet name="header">
+									<h:outputText
+										value="#{mensajeSeguridad.menu_label_seleccionados}" />
+								</f:facet>
+								<rich:column width="35px" styleClass="colIconoUno">
+									<f:facet name="header">
+										<a:commandLink render="menusPanel, mensajes" execute="@this"
+											rendered="#{!listaVacia2}"
+											actionListener="#{metodoAction.addRemoveAllMenus('remove')}">
+											<h:graphicImage value="/img/quitar_16.png" />
+											<rich:tooltip layout="block">
+												<h:outputText value="#{mensaje.label_quitar_todos}" />
+											</rich:tooltip>
+										</a:commandLink>
+									</f:facet>
+									<a:commandLink execute="@this" render="menusPanel, mensajes"
+										actionListener="#{metodoAction.addRemoveMenusListSelected('remove',selectedMenu)}">
+										<h:graphicImage value="/img/quitar_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.label_quitar}" />
+										</rich:tooltip>
+									</a:commandLink>
+								</rich:column>
+								<rich:column width="150px">
+									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<h:outputText value="#{selectedMenu.nombre}" />
+								</rich:column>
+								<rich:column width="240px">
+									<f:facet name="header">#{mensaje.label_nombre_url}</f:facet>
+									<a:outputPanel>
+										<h:outputText
+											value="#{validacionesAction.cadenaCorta(selectedMenu.url,45)}" />
+										<rich:tooltip layout="block"
+											rendered="#{selectedMenu.url ne null or !(empty selectedMenu.url)}">
+											<h:outputText value="#{selectedMenu.url}" />
+										</rich:tooltip>
+									</a:outputPanel>
+								</rich:column>
+							</rich:extendedDataTable>
+						</t:fieldset>
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<div class="anchoDos center inBlock">
+					<a:commandButton value="#{mensaje.button_guardar}"
+						render="formGenerico,confirmacionPopUp"
+						actionListener="#{metodoAction.setMetodo(metodoAction.metodo)}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
+					           	else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						rendered="#{(metodoAction.metodo.id ne 0 and identity.autorizado('metodoAction','U')) or identity.autorizado('metodoAction','A') or identity.autorizado('metodoAction','I')}" />
+				</div>
+			</rich:panel>
+		</h:form>
+		<h:form id="popupForm">
+
+			<rich:popupPanel id="confirmacionPopUp" autosized="true"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('confirmacionPopUp')}.hide(); return false;">
+						<img src="#{request.contextPath}/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';" />
+					</h:outputLink>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_proceso}:" />
+						<h:outputText value="#{metodoAction.metodo.nombre}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_guardar}"
+							onclick="#{rich:component('confirmacionPopUp')}.hide();#{rich:component('statPane')}.show();"
+							action="#{metodoAction.guardarMetodo}">
+							<f:setPropertyActionListener value="true"
+								target="#{validacionesAction.conservarMsg}" />
+						</h:commandButton>
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('confirmacionPopUp')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="popupFormSearch">
+			<rich:popupPanel id="popupSearch" autosized="true"
+				header="#{mensaje.label_criterios_busqueda_label} #{mensajeSeguridad.menu_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupSearch')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<h:panelGrid columns="3" cellpadding="3" cellspacing="3">
+					<h:outputText value="#{mensaje.label_nombre}:"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoCorto" id="txtMenuName"
+						value="#{menuAction.nombreBuscar}"
+						onkeypress="return submitByEnter(event,'popupFormSearch:btnBuscarMenus')"
+						label="#{mensaje.label_nombre}">
+					</h:inputText>
+					<rich:message for="txtMenuName" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.label_buscar}"
+						id="btnBuscarMenus"
+						action="#{metodoAction.consultarMenusDisponibles()}"
+						oncomplete="if (#{facesContext.maximumSeverity==null} || #{facesContext.maximumSeverity.ordinal == 0}) {#{rich:component('popupSearch')}.hide();}"
+						render=":metodoForm:menusPanel, mensajes">
+						<f:setPropertyActionListener value="f"
+							target="#{metodoAction.paginadorMenus.opcion}" />
+					</a:commandButton>
+					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
+						value="#{mensaje.button_cancelar}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

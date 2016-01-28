@@ -1,0 +1,525 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui" xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="haciendaAction.agregarEditarHacienda(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeOrganizaciones.hacienda_label" />
+	<ui:define name="body">
+		<t:saveState value="#{haciendaAction}" />
+		<t:saveState value="#{validacionesAction}" />
+		<t:saveState value="#{personaAction}" />
+		<t:saveState value="#{controladorArchivos}" />
+
+		<h:form id="haciendaForm" styleClass="edit">
+			<rich:panel header="#{mensajeOrganizaciones.hacienda_label}"
+				id="panelHacienda" styleClass="anchoUno">
+				<t:fieldset styleClass="BorderW2P anchoDos" id="fieldSetDatBas">
+					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+
+					<h:inputHidden id="txtContactoHidden"
+						validator="#{encodeFilter.validarScripting}"
+						value="#{haciendaAction.hacienda.contacto.nombreCompleto}" />
+					<h:inputHidden value="#{haciendaAction.cargarMapa}"
+						id="hiddenCargarMapa" />
+
+					<h:panelGrid columns="2" columnClasses="W70Per top,W30Per">
+
+						<h:panelGrid columns="4"
+							cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
+							cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
+							columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+
+							<h:outputText value="#{mensajeOrganizaciones.empresa_label}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:selectOneMenu value="#{haciendaAction.hacienda.empresa.id}"
+								id="cmbEmpresa">
+								<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
+									itemValue="0" />
+								<f:selectItems value="#{haciendaAction.itemsEmpresas}" />
+							</h:selectOneMenu>
+							<rich:message for="cmbEmpresa" />
+
+							<h:outputText
+								value="#{mensajeOrganizaciones.hacienda_label_codigo_registro}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<h:inputText styleClass="colNumero" id="numero"
+								validator="#{haciendaAction.validarNumeroHacienda}"
+								value="#{haciendaAction.hacienda.codigoRegistro}">
+							</h:inputText>
+							<rich:message for="numero" />
+
+							<h:outputText value="#{mensaje.label_nombre}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText styleClass="colTextoMediano" maxlength="70"
+								id="nombre"
+								validator="#{haciendaAction.validarNombreHaciendaXSS}"
+								value="#{haciendaAction.hacienda.nombre}">
+								<f:validateLength maximum="70" />
+							</h:inputText>
+							<rich:message for="nombre" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_contacto}" />
+							<h:outputText value="*" styleClass="required" />
+							<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+								<a:outputPanel id="txtPersona">
+									<h:inputText maxlength="100" styleClass="colTextoMediano"
+										validator="#{encodeFilter.validarScripting}"
+										id="txtContactoReadonly"
+										value="#{haciendaAction.hacienda.contacto.nombreCompleto}"
+										readonly="true" />
+									<rich:tooltip layout="block"
+										rendered="#{haciendaAction.hacienda.contacto.nombreCompleto ne null and !(empty haciendaAction.hacienda.contacto.nombreCompleto)}">
+										<h:outputText
+											value="#{haciendaAction.hacienda.contacto.nombreCompleto}" />
+									</rich:tooltip>
+								</a:outputPanel>
+								<a:commandLink execute="@this"
+									render=":formModalBusPersonas:popupPersonas"
+									actionListener="#{personaAction.inicializarConsulta()}"
+									oncomplete="#{rich:component('popupPersonas')}.show();">
+									<f:param name="param2" value="si" />
+									<h:graphicImage value="/img/add_22.png"
+										styleClass="verticalAlignMiddle" />
+									<rich:tooltip layout="block">
+										<h:outputText
+											value="#{mensaje.label_seleccionar} #{mensaje.label_contacto}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</h:panelGrid>
+							<rich:message for="txtContactoReadonly" />
+
+							<h:outputText value="#{mensaje.label_area}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+								<h:inputText styleClass="colNumero" id="txtArea"
+									value="#{haciendaAction.hacienda.area}"
+									label="#{mensaje.label_area}">
+									<f:validateLongRange minimum="0" />
+								</h:inputText>
+								<h:selectOneMenu
+									value="#{haciendaAction.hacienda.unidadMedida.id}"
+									id="cmbUnidadMedida"
+									validator="#{validacionesAction.validarDuoTxtCombo}">
+									<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+										itemValue="0" />
+									<f:selectItems value="#{haciendaAction.itemsUnidadesMedida}" />
+									<f:attribute name="idAsociado" value="txtArea" />
+								</h:selectOneMenu>
+							</h:panelGrid>
+							<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+								<rich:messages styleClass="messageBlock" for="txtArea" />
+								<rich:message for="cmbUnidadMedida" />
+							</h:panelGrid>
+						</h:panelGrid>
+						<h:panelGrid columns="1"
+							cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
+							cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}">
+							<t:fieldset>
+								<legend class="etiquetaTitulo">#{mensaje.label_foto}</legend>
+								<h:panelGrid columns="1" cellpadding="0" id="panelFotoHacienda">
+
+									<a:outputPanel
+										rendered="#{haciendaAction.fileNameFoto != null and !empty haciendaAction.fileNameFoto}">
+										<div class="uploadImg">
+											<div class="closeImg">
+												<a:commandLink
+													action="#{haciendaAction.borrarFilename(true)}"
+													render=":haciendaForm:panelFotoHacienda, fieldSetDatBas ">
+													<h:graphicImage value="/img/close_14.png"
+														onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+														onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+														styleClass="cursor" />
+													<rich:tooltip layout="block">
+														<h:outputText value="#{mensaje.label_cambiar_img}" />
+													</rich:tooltip>
+												</a:commandLink>
+											</div>
+											<h:graphicImage
+												value="#{haciendaAction.carpetaArchivosTemporal}/#{haciendaAction.fileNameFoto}"
+												title="#{haciendaAction.fileNameFoto}"
+												styleClass="H200P W290P"
+												rendered="#{haciendaAction.cargarFotoTemporal}" />
+											<h:graphicImage
+												value="#{haciendaAction.carpetaArchivosReal}/#{haciendaAction.fileNameFoto}"
+												title="#{haciendaAction.fileNameFoto}"
+												styleClass="H200P W290P"
+												rendered="#{!haciendaAction.cargarFotoTemporal}" />
+										</div>
+									</a:outputPanel>
+									<a:outputPanel>
+										<h:graphicImage value="/img/noImage_240X203.png"
+											rendered="#{haciendaAction.fileNameFoto eq null or empty haciendaAction.fileNameFoto}"
+											styleClass="H200P W290P" />
+										<p:fileUpload id="uploadFileFoto" dragDropSupport="true"
+											rendered="#{haciendaAction.fileNameFoto eq null or empty haciendaAction.fileNameFoto}"
+											label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+											auto="true" fileUploadListener="#{haciendaAction.submit}"
+											update=":haciendaForm:panelFotoHacienda"
+											onstart="#{rich:component('statPane')}.show();"
+											oncomplete="#{rich:component('statPane')}.hide();">
+											<f:attribute name="param" value="false" />
+										</p:fileUpload>
+										<rich:message for="uploadFileFoto" styleClass="errors" />
+										<h:graphicImage id="wait" value="/img/wait_28.gif"
+											styleClass="H20P ocultar" />
+										<div class="etiquetaTitulo">
+											<hr />
+											<h:outputText
+												value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
+											<hr />
+										</div>
+									</a:outputPanel>
+								</h:panelGrid>
+							</t:fieldset>
+						</h:panelGrid>
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos" id="fieldSetUbicacion">
+					<legend class="etiquetaTitulo">#{mensaje.label_ubicacion}</legend>
+					<h:panelGrid columns="2" columnClasses="W70Per top,W30Per">
+
+						<h:panelGrid columns="4"
+							cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
+							cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
+							columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+
+							<h:outputText value="#{mensaje.label_ubicacion}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText styleClass="colTextoMediano" maxlength="100"
+								id="txtUbicacion" validator="#{encodeFilter.validarScripting}"
+								value="#{haciendaAction.hacienda.ubicacion}">
+								<f:validateLength maximum="100" />
+							</h:inputText>
+							<rich:message for="txtUbicacion" />
+
+							<h:outputText value="#{mensajeInformacionBase.pais_label}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:selectOneMenu value="#{haciendaAction.hacienda.pais.id}"
+								id="comboPais">
+								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+									itemValue="0" />
+								<f:selectItems value="#{haciendaAction.itemsPaises}" />
+								<a:ajax event="valueChange" render="departamentos, municipios"
+									execute="@this"
+									listener="#{haciendaAction.cargarDepartamentos}" />
+							</h:selectOneMenu>
+							<rich:message for="comboPais" />
+
+							<h:outputText
+								value="#{mensajeInformacionBase.departamento_label}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<a:outputPanel id="departamentos">
+								<h:selectOneMenu
+									value="#{haciendaAction.hacienda.departamento.id}"
+									id="comboDepartamento">
+									<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+										itemValue="0" />
+									<f:selectItems value="#{haciendaAction.itemsDepartamentos}" />
+									<a:ajax event="change" render="municipios"
+										listener="#{haciendaAction.cargarMunicipios}" execute="@this" />
+								</h:selectOneMenu>
+							</a:outputPanel>
+							<rich:message for="comboDepartamento" />
+
+							<h:outputText value="#{mensajeInformacionBase.municipio_label}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<a:outputPanel id="municipios">
+								<h:selectOneMenu value="#{haciendaAction.hacienda.municipio.id}"
+									id="comboMunicipio">
+									<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+										itemValue="0" />
+									<f:selectItems value="#{haciendaAction.itemsMunicipios}" />
+								</h:selectOneMenu>
+							</a:outputPanel>
+							<rich:message for="comboMunicipio" />
+
+							<h:outputText value="#{mensaje.label_vereda}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<h:inputText styleClass="colTextoMediano" maxlength="100"
+								id="vereda" validator="#{encodeFilter.validarScripting}"
+								value="#{haciendaAction.hacienda.vereda}">
+								<f:validateLength maximum="100" />
+							</h:inputText>
+							<rich:message for="vereda" />
+
+						</h:panelGrid>
+						<h:panelGrid columns="1" cellpadding="0">
+							<t:fieldset>
+								<legend class="etiquetaTitulo">#{mensajeModuloGrafico.mapa_label}</legend>
+								<h:panelGrid columns="1" cellpadding="0" id="panelMapaHacienda">
+
+									<a:outputPanel
+										rendered="#{haciendaAction.fileNameMapa != null and !empty haciendaAction.fileNameMapa}">
+										<div class="uploadImg">
+											<div class="closeImg">
+												<a:commandLink
+													action="#{haciendaAction.borrarFilename(false)}"
+													render=":haciendaForm:panelMapaHacienda, fieldSetDatBas"
+													rendered="#{haciendaAction.hacienda.id eq 0}">
+													<h:graphicImage value="/img/close_14.png"
+														onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+														onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+														styleClass="cursor" />
+													<rich:tooltip layout="block">
+														<h:outputText value="#{mensaje.label_cambiar_img}" />
+													</rich:tooltip>
+												</a:commandLink>
+												<a:commandLink
+													oncomplete="#{rich:component('confirmacionQuitarMapa')}.show();"
+													render=":validQuitarMapa:confirmacionQuitarMapa"
+													rendered="#{haciendaAction.hacienda.id ne 0}">
+													<h:graphicImage value="/img/close_14.png"
+														onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+														onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+														styleClass="cursor" />
+													<rich:tooltip layout="block">
+														<h:outputText value="#{mensaje.label_cambiar_img}" />
+													</rich:tooltip>
+												</a:commandLink>
+											</div>
+											<h:graphicImage
+												value="#{haciendaAction.carpetaArchivosTemporal}/#{haciendaAction.fileNameMapa}"
+												title="#{haciendaAction.fileNameMapa}"
+												styleClass="H200P W290P"
+												rendered="#{haciendaAction.cargarFotoTemporal}" />
+											<h:graphicImage
+												value="#{haciendaAction.carpetaArchivosRealMapas}/#{haciendaAction.fileNameMapa}"
+												title="#{haciendaAction.fileNameMapa}"
+												styleClass="H200P W290P"
+												rendered="#{!haciendaAction.cargarFotoTemporal}" />
+										</div>
+									</a:outputPanel>
+									<a:outputPanel>
+										<h:graphicImage value="/img/noImage_240X203.png"
+											rendered="#{haciendaAction.fileNameMapa eq null or empty haciendaAction.fileNameMapa}"
+											styleClass="H200P W290P" />
+										<p:fileUpload id="uploadFileMapa" dragDropSupport="true"
+											rendered="#{haciendaAction.fileNameMapa eq null or empty haciendaAction.fileNameMapa}"
+											label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+											auto="true" fileUploadListener="#{haciendaAction.submit}"
+											update=":haciendaForm:panelMapaHacienda"
+											onstart="#{rich:component('statPane')}.show();"
+											oncomplete="#{rich:component('statPane')}.hide();">
+											<f:attribute name="param" value="true" />
+										</p:fileUpload>
+										<rich:message for="uploadFileMapa" styleClass="errors" />
+										<h:graphicImage value="/img/wait_28.gif"
+											styleClass="H20P ocultar" />
+										<div class="etiquetaTitulo">
+											<hr />
+											<h:outputText
+												value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
+											<hr />
+										</div>
+
+									</a:outputPanel>
+								</h:panelGrid>
+							</t:fieldset>
+						</h:panelGrid>
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{mensaje.label_coordenadas}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
+						cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+
+						<h:outputText value="#{mensaje.label_longitud}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText styleClass="colNumero" id="longitud"
+							value="#{haciendaAction.hacienda.longitud}">
+							<f:validateLongRange minimum="0" />
+						</h:inputText>
+						<rich:message for="longitud" />
+
+						<h:outputText value="#{mensaje.label_latitud}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText styleClass="colNumero" id="latitud"
+							value="#{haciendaAction.hacienda.latitud}">
+							<f:validateLongRange minimum="0" />
+						</h:inputText>
+						<rich:message for="latitud" />
+
+						<h:outputText value="#{mensaje.label_altitud}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText styleClass="colNumero" id="altitud"
+							value="#{haciendaAction.hacienda.altitud}">
+							<f:validateLongRange minimum="0" />
+						</h:inputText>
+						<rich:message for="altitud" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<div class="anchoDos center inBlock">
+					<br />
+					<a:commandButton value="#{mensaje.button_guardar}"
+						render="formGenerico, popupConfirmar, mensajes"
+						actionListener="#{haciendaAction.requeridosOk()}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}){#{rich:component('popupConfirmar')}.show();}
+									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						rendered="#{(haciendaAction.hacienda.id ne 0 and identity.autorizado('haciendaAction','U')) or identity.autorizado('haciendaAction','A') or identity.autorizado('haciendaAction','I')}">
+					</a:commandButton>
+				</div>
+			</rich:panel>
+		</h:form>
+
+		<h:form>
+			<rich:popupPanel id="popupConfirmar" keepVisualState="true"
+				autosized="true" width="500" domElementAttachment="form"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupConfirmar')}.hide()"
+							style="cursor: pointer;" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+
+						<h:outputText value="#{mensajeOrganizaciones.empresa_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(haciendaAction.itemsEmpresas,haciendaAction.hacienda.empresa.id)}" />
+
+						<h:outputText
+							value="#{mensajeOrganizaciones.hacienda_label_codigo_registro}:" />
+						<h:outputText value="#{haciendaAction.hacienda.codigoRegistro}" />
+
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{haciendaAction.hacienda.nombre}" />
+
+						<h:outputText value="#{mensaje.label_contacto}:" />
+						<h:outputText
+							value="#{haciendaAction.hacienda.contacto.nombres} #{haciendaAction.hacienda.contacto.apellidos}" />
+
+						<h:outputText value="#{mensaje.label_area}:" />
+						<h:outputText
+							value="#{haciendaAction.hacienda.area} #{validacionesAction.getLabel(haciendaAction.itemsUnidadesMedida,haciendaAction.hacienda.unidadMedida.id)}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{haciendaAction.guardarHacienda}"
+							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popupConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+			<rich:popupPanel id="popupValidar" width="400" height="200"
+				header="#{mensaje.label_confirmacion}" autosized="true"
+				resizeable="false">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popupValidar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText
+							value="#{mensajeOrganizaciones.empresa_message_seleccione}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton
+							onclick="#{rich:component('popupValidar')}.hide()"
+							value="#{mensaje.button_aceptar}" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formModalBusPersonas">
+			<rich:popupPanel id="popupPersonas" autosized="true"
+				domElementAttachment="form"
+				header="#{mensajeRecursosHumanos.persona_label_listado}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png" styleClass="cursor"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupPersonas')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:include
+					src="/recursosHumanos/persona/plantillaBuscarPersona.xhtml">
+					<ui:param name="selectedObject"
+						value="#{haciendaAction.hacienda.contacto}" />
+					<ui:param name="valRender"
+						value="haciendaForm:txtPersona, haciendaForm:txtContactoHidden" />
+					<ui:param name="conAccion" value="#{true}" />
+					<ui:param name="idForm" value="formModalBusPersonas" />
+					<ui:param name="personasSinUser" value="#{false}" />
+				</ui:include>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="validQuitarMapa">
+			<rich:popupPanel id="confirmacionQuitarMapa" modal="true"
+				autosized="true" resizeable="false" domElementAttachment="form"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('confirmacionQuitarMapa')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText
+							value="#{mensajeModuloGrafico.mapa_message_validar_quitar}"
+							styleClass="etiquetaTitulo" />
+						<br />
+						<h:outputText
+							value="#{mensajeModuloGrafico.mapa_message_validar_quitar_aclaracion}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							actionListener="#{haciendaAction.borrarFilename(false)}"
+							oncomplete="if (#{facesContext.maximumSeverity.ordinal == 0} || #{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionQuitarMapa')}.hide();}"
+							render=":haciendaForm:panelMapaHacienda, mensajes" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('confirmacionQuitarMapa')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

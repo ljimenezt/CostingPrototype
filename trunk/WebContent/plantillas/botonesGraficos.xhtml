@@ -1,0 +1,120 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+	<div class="botonesGraficos" id="headGraphicalButtons">
+		<ui:param name="isLogin"
+			value="#{identity ne null and identity.autenticado}" />
+		<rich:toolbar itemSeparator="grid" height="26">
+			<rich:toolbarGroup location="right">
+				
+				
+				
+				
+				<h:form id="formBotonesGraficosEmp">
+					<a:outputPanel rendered="#{isLogin}">
+						<h:outputText value="#{mensajeOrganizaciones.empresa_label}: " styleClass="ocultar"/>
+						<h:selectOneMenu value="#{sesionEmpresa.id}" styleClass="ocultar"
+							onchange="document.getElementById('formBotonesGraficosEmp:buttonCargar').click()">
+							<f:selectItems value="#{sesionEmpresa.itemsEmpresas}" />
+						</h:selectOneMenu>
+
+						<h:outputText value="#{mensajeOrganizaciones.hacienda_label}: " styleClass="ocultar"/>
+						<h:selectOneMenu value="#{sesionEmpresa.idHacienda}" styleClass="ocultar"
+							onchange="document.getElementById('formBotonesGraficosEmp:buttonAsignar').click()">
+							<f:selectItems value="#{sesionEmpresa.itemsHaciendas}" />
+						</h:selectOneMenu>
+
+						<h:commandButton id="buttonCargar" styleClass="ocultar"
+							onclick="#{rich:component('statPane')}.show();"
+							action="#{sesionEmpresa.cargarComboHaciendasSesion('0')}" />
+						<h:commandButton id="buttonAsignar" styleClass="ocultar"
+							onclick="#{rich:component('statPane')}.show();"
+							action="#{sesionEmpresa.asignarEmpresaHacienda()}" />
+					</a:outputPanel>
+				</h:form>
+				
+				 
+				 
+				 
+			</rich:toolbarGroup>
+			<rich:toolbarGroup location="right">
+				<f:view locale="#{idioma.locale}">
+					<rich:dropDownMenu mode="server">
+						<f:facet name="label">
+							<h:outputLink value="#"
+								styleClass="linkGrapButtons linkDropHeader">
+								<h:panelGrid columns="3" columnClasses="W24P,MinW50P,"
+									cellspacing="0" cellpadding="0">
+									<h:graphicImage value="/img/#{idioma.codigoIdioma}_16X11.png"
+										styleClass="borderImgDrop" />
+									<h:outputText value="#{idioma.getKeyCodigo()}" />
+									<h:graphicImage value="/img/arrowDown_16.png" />
+								</h:panelGrid>
+							</h:outputLink>
+						</f:facet>
+						<c:forEach items="#{idioma.idiomas.entrySet().toArray()}"
+							var="varIdioma">
+							<rich:menuItem
+								rendered="#{varIdioma.value.toString() ne idioma.codigoIdioma}">
+								<h:form>
+									<h:commandLink action="#{idioma.cambiarIdioma}"
+										onclick="#{rich:component('statPane')}.show();"
+										styleClass="linkGrapButtons">
+										<h:panelGrid styleClass="colorTextMenuSelect" columns="2"
+											cellspacing="0" cellpadding="0" columnClasses="W24P,">
+											<h:graphicImage value="/img/#{varIdioma.value}_16X11.png"
+												styleClass="borderImgDrop" />
+											<h:outputText value="#{varIdioma.key}" />
+										</h:panelGrid>
+										<f:setPropertyActionListener value="#{varIdioma.value}"
+											target="#{idioma.codigoIdioma}" />
+									</h:commandLink>
+								</h:form>
+							</rich:menuItem>
+						</c:forEach>
+					</rich:dropDownMenu>
+				</f:view>
+				<rich:dropDownMenu mode="server" rendered="#{isLogin}">
+					<f:facet name="label">
+						<h:outputLink value="#"
+							styleClass="linkGrapButtons linkDropHeader">
+							<h:panelGrid columns="3" columnClasses="W24P,MinW50P,"
+								cellspacing="0" cellpadding="0">
+								<h:graphicImage
+									value="/img/iconosSkins/#{presentacion.skin}_16X11.png"
+									styleClass="borderImgDrop" />
+								<h:outputText value="#{presentacion.skin}" />
+								<h:graphicImage value="/img/arrowDown_16.png" />
+							</h:panelGrid>
+						</h:outputLink>
+					</f:facet>
+					<c:forEach
+						items="#{presentacion.presentaciones.entrySet().toArray()}"
+						var="varPresentacion">
+						<rich:menuItem
+							rendered="#{varPresentacion.value.toString() ne presentacion.skin}">
+							<h:form>
+								<h:commandLink onclick="#{rich:component('statPane')}.show();"
+									styleClass="linkGrapButtons">
+									<h:panelGrid styleClass="colorTextMenuSelect" columns="2"
+										cellspacing="0" cellpadding="0" columnClasses="W24P,">
+										<h:graphicImage
+											value="/img/iconosSkins/#{varPresentacion.value}_16X11.png"
+											styleClass="borderImgDrop" />
+										<h:outputText value="#{varPresentacion.key}" />
+									</h:panelGrid>
+									<f:setPropertyActionListener value="#{varPresentacion.value}"
+										target="#{presentacion.skin}" />
+								</h:commandLink>
+							</h:form>
+						</rich:menuItem>
+					</c:forEach>
+				</rich:dropDownMenu>
+			</rich:toolbarGroup>
+		</rich:toolbar>
+	</div>
+</ui:composition>

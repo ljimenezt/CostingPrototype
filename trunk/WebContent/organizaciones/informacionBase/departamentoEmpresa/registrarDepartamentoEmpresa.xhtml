@@ -1,0 +1,194 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="departamentoEmpresaAction.registrarDepartamentoEmpresa(null)" />
+	<ui:param name="titulo"
+		value="#{departamentoEmpresaAction.mensajeMiga}" />
+	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){    
+				  $('#inputTxtADescripcionDepartamento').maxlength({   
+				    events: [],     
+				    max: 200,    
+				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+			    showFeedback: 'active'
+				  }); 
+				});
+		</script>
+		<t:saveState value="#{departamentoEmpresaAction}" />
+		<h:form id="frmDepartamento" prependId="false">
+			<rich:panel id="panelFrmDepartamento" styleClass="anchoUno MinH253P"
+				header="#{departamentoEmpresaAction.departamentoEmpresa.id eq null ? mensajeOrganizaciones.departamento_empresa_label_registrar : mensajeOrganizaciones.departamento_empresa_label_modificar}">
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}:</legend>
+					<h:panelGrid id="tablaFrmDepartamento" columns="4" cellpadding="5"
+						cellspacing="7" columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+						<h:outputText id="labelNombreDepartamento"
+							value="#{mensaje.label_nombre}" styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText maxlength="50" id="inputTxtNombreDepartamento"
+							value="#{departamentoEmpresaAction.departamentoEmpresa.nombre}"
+							required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							styleClass="colTextoMediano"
+							validator="#{departamentoEmpresaAction.validarNombreXSS}" />
+						<rich:message for="inputTxtNombreDepartamento" />
+
+						<h:outputText value="#{mensaje.label_descripcion}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputTextarea styleClass="colTextoLargoTextArea"
+							value="#{departamentoEmpresaAction.departamentoEmpresa.descripcion}"
+							id="inputTxtADescripcionDepartamento"
+							validator="#{encodeFilter.validarScripting}">
+							<f:validateLength maximum="300" />
+						</h:inputTextarea>
+
+						<rich:message for="inputTxtADescripcionDepartamento" />
+
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.tipo_cargo_label_s}</legend>
+					<a:outputPanel id="panelTiposCargo">
+						<h:panelGrid columns="2" columnClasses="top,top">
+							<rich:extendedDataTable
+								value="#{departamentoEmpresaAction.listaTipoCargos}"
+								var="tipoCargo" styleClass="H190P W350P" selectionMode="none">
+								<f:facet name="header">
+									<h:outputText
+										value="#{mensajeRecursosHumanos.tipo_cargo_label_disponibles}" />
+								</f:facet>
+								<rich:column width="300px" styleClass="top">
+									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<a:outputPanel>
+										<h:outputText value="#{tipoCargo.nombre}" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{tipoCargo.nombre}" />
+										</rich:tooltip>
+									</a:outputPanel>
+								</rich:column>
+								<rich:column width="30px" styleClass="center top">
+									<f:facet name="header">
+										<a:commandLink execute="panelTiposCargo"
+											rendered="#{departamentoEmpresaAction.listaTipoCargos.size() gt 0}"
+											actionListener="#{controladorListasDobles.pasarItems('agregar','nombre',departamentoEmpresaAction.listaTipoCargos, departamentoEmpresaAction.listaTipoCargosSeleccionados)}"
+											render="frmDepartamento:panelTiposCargo">
+											<h:graphicImage value="/img/agregar_16.png" />
+											<rich:tooltip layout="block">
+												<h:outputText value="#{mensaje.label_seleccionar_todos}" />
+											</rich:tooltip>
+										</a:commandLink>
+									</f:facet>
+									<a:commandLink execute="panelTiposCargo"
+										actionListener="#{controladorListasDobles.pasarItem(tipoCargo, 'agregar','nombre',departamentoEmpresaAction.listaTipoCargos, departamentoEmpresaAction.listaTipoCargosSeleccionados)}"
+										render="frmDepartamento:panelTiposCargo">
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.label_seleccionar}" />
+										</rich:tooltip>
+										<h:graphicImage value="/img/agregar_16.png" />
+									</a:commandLink>
+								</rich:column>
+							</rich:extendedDataTable>
+							<rich:extendedDataTable
+								value="#{departamentoEmpresaAction.listaTipoCargosSeleccionados}"
+								var="tipoCargoSel" id="tablaTiposCargoSel"
+								styleClass="H190P W350P" selectionMode="none">
+								<f:facet name="header">
+									<h:outputText
+										value="#{mensajeRecursosHumanos.tipo_cargo_label_seleccionados}" />
+								</f:facet>
+								<rich:column width="30px" styleClass="center top">
+									<f:facet name="header">
+										<a:commandLink execute="panelTiposCargo"
+											rendered="#{departamentoEmpresaAction.listaTipoCargosSeleccionados.size() gt 0}"
+											actionListener="#{controladorListasDobles.pasarItems('quitar','nombre',departamentoEmpresaAction.listaTipoCargos, departamentoEmpresaAction.listaTipoCargosSeleccionados)}"
+											render="frmDepartamento:panelTiposCargo">
+											<h:graphicImage value="/img/quitar_16.png" />
+											<rich:tooltip layout="block">
+												<h:outputText value="#{mensaje.label_quitar_todos}" />
+											</rich:tooltip>
+										</a:commandLink>
+									</f:facet>
+									<a:commandLink execute="panelTiposCargo"
+										actionListener="#{controladorListasDobles.pasarItem(tipoCargoSel, 'quitar','nombre',departamentoEmpresaAction.listaTipoCargos, departamentoEmpresaAction.listaTipoCargosSeleccionados)}"
+										render="frmDepartamento:panelTiposCargo">
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.label_quitar}" />
+										</rich:tooltip>
+										<h:graphicImage value="/img/quitar_16.png" />
+									</a:commandLink>
+								</rich:column>
+								<rich:column width="300px" styleClass="top">
+									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<a:outputPanel>
+										<h:outputText value="#{tipoCargoSel.nombre}" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{tipoCargoSel.nombre}" />
+										</rich:tooltip>
+									</a:outputPanel>
+								</rich:column>
+							</rich:extendedDataTable>
+						</h:panelGrid>
+					</a:outputPanel>
+				</t:fieldset>
+				<br />
+				<div class="anchoDos center inBlock">
+					<a:commandButton id="btnEnviarGuardar"
+						value="#{mensaje.button_guardar}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dialogoConfirmacion')}.show();}
+						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						render="formGenerico,dialogoConfirmacion, mensajes"
+						rendered="#{(departamentoEmpresaAction.departamentoEmpresa.id ne null and identity.autorizado('departamentoEmpresaAction','U')) or identity.autorizado('departamentoEmpresaAction','A') or identity.autorizado('departamentoEmpresaAction','I')}" />
+				</div>
+			</rich:panel>
+
+			<!-- Dialogo de confirmacion -->
+			<rich:popupPanel id="dialogoConfirmacion"
+				header="#{mensaje.label_confirmacion}" modal="true"
+				resizeable="false" moveable="false" autosized="true">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('dialogoConfirmacion')}.hide();">
+						<img src="#{request.contextPath}/img/close_14.png" />
+					</h:outputLink>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText
+							value="#{departamentoEmpresaAction.departamentoEmpresa.nombre}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton id="btnEnviarGuardarConfirmar"
+							value="#{mensaje.button_aceptar}"
+							action="#{departamentoEmpresaAction.guardarDepartamentoEmpresa()}"
+							onclick="#{rich:component('dialogoConfirmacion')}.hide(); #{rich:component('statPane')}.show();" />
+						<h:commandButton id="btnCancelarConfirmacion"
+							value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('dialogoConfirmacion')}.hide()"
+							type="button" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

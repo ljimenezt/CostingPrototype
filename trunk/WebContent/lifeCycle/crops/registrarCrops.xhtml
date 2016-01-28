@@ -1,0 +1,360 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="cropsAction.agregarEditarCrops(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeLifeCycle.crops_label" />
+	<ui:define name="body">
+		<t:saveState value="#{cropsAction}" />
+		<t:saveState value="#{plotAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+			$g(document).ready(function(){    
+				  $g('#formCrops\\:txtDescripcion').maxlength({   
+				    events: [],     
+				    max: 200,    
+				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    showFeedback: 'active'    
+				  }); 
+			});		
+		</script>
+		<h:form id="formCrops">
+			<rich:panel
+				header="#{mensaje.label_registrar} #{mensajeLifeCycle.crops_label}"
+				styleClass="anchoUno MinH253P" id="panelRegistrarCrops">
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<h:panelGrid columns="4" columnClasses=" tdAlignTop, tdAlignTop">
+						<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="#{cropsAction.crops.idCrop ne 0 ? '' : '*'}"
+							styleClass="required" />
+						<a:outputPanel styleClass="#{cropsAction.crops.idCrop ne 0 ? 'marginTexto' : '' }">
+							<h:selectOneMenu id="cropNames"
+								rendered="#{cropsAction.crops.idCrop eq 0}"
+								value="#{cropsAction.crops.cropNames.idCropName}"
+								styleClass="colTextoMediano" required="true"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+								<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+								<f:selectItems value="#{cropsAction.opciones}" />
+								<f:ajax event="change" listener="#{cropsAction.compararCrops()}"
+									render=":formCrops:listaSeleccionados" />
+								<f:attribute name="tipo" value="Int" />
+							</h:selectOneMenu>
+							<h:outputText value="#{cropsAction.crops.cropNames.cropName}"
+								rendered="#{cropsAction.crops.idCrop ne 0}" />
+						</a:outputPanel>
+						<rich:message for="cropNames" />
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeLifeCycle.plot_inicial_date}" />
+						<h:outputText value="*" styleClass="required" />
+						<p:calendar value="#{cropsAction.crops.initialDate}"
+							showOn="button" navigator="true"
+							maxdate="#{cropsAction.crops.finalDate}" onSelectUpdate="fechFin"
+							id="fechaInicio" pattern="MM/dd/yyyy" readonlyInput="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}">
+							<f:attribute name="validarHora" value="si" />
+							<p:ajax event="dateSelect" update="fechFin" />
+						</p:calendar>
+						<rich:message for="fechaInicio" />
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeLifeCycle.plot_final_date}" />
+						<h:outputText value="*" styleClass="required" />
+						<p:calendar value="#{cropsAction.crops.finalDate}" showOn="button"
+							navigator="true" mindate="#{cropsAction.crops.initialDate}"
+							id="fechFin" pattern="MM/dd/yyyy" readonlyInput="true"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:attribute name="validarHora" value="si" />
+							<p:ajax event="dateSelect" update="fechaInicio" />
+						</p:calendar>
+						<rich:message for="fechFin" />
+						<h:outputText value="#{mensaje.label_anyo_registro}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="cropAnyo" value="#{cropsAction.anyo}"
+							required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+							<f:selectItems value="#{cropsAction.seleccionarAnyo}" />
+						</h:selectOneMenu>
+						<rich:message for="cropAnyo" />
+						<h:outputText value="#{mensajeLifeCycle.crops_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputTextarea value="#{cropsAction.crops.description}"
+							styleClass="colTextoMedianoTextArea" id="txtDescripcion"
+							validator="#{encodeFilter.validarScripting}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateLength maximum="500" />
+						</h:inputTextarea>
+						<rich:message for="txtDescripcion" />
+					</h:panelGrid>
+					<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
+						<h:outputText value="&#32;&#32;&#32;" />
+						<rich:message for="txtCrops" />
+						<br />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos ">
+					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_lable_plots_asociados}</legend>
+					<!-- Boton popup -->
+					<div class="W560P">
+						<a:commandLink id="lnkCrops" render=":popupForm:popupPlot"
+							styleClass="iconsDataTable"
+							actionListener="#{cropsAction.requeridosOk()}"
+							action="#{plotAction.consultarPlotPorFecha}"
+							execute="fechaInicio, fechFin, cropNames, txtDescripcion"
+							oncomplete="if (#{facesContext.maximumSeverity==null}){
+								#{rich:component('popupPlot')}.show(); setFocus('popupForm:txtNombreBuscar');}
+								else{ setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/add_16.png"
+									styleClass="verticalAlignMiddle" />
+								<h:outputText value="#{mensajeLifeCycle.plot_label_agregar}" />
+							</h:panelGrid>
+							<f:param name="param2" value="si" />
+							<f:setPropertyActionListener value=""
+								target="#{plotAction.nombreBuscar}" />
+							<f:setPropertyActionListener value="true"
+								target="#{plotAction.estadoPaginador}" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_seleccionar}" />
+							</rich:tooltip>
+							<f:param name="param2" value="si" />
+						</a:commandLink>
+					</div>
+					<h:form id="listaSeleccionados">
+						<ui:param name="listaVaciaCrops"
+							value="#{cropsAction.listaPlotsAsociados.size() eq 0 or (cropsAction.listaPlotsAsociados eq null)}" />
+						<rich:dataTable value="#{cropsAction.listaPlotsAsociados}"
+							var="plot" id="tablaAsociada"
+							styleClass="#{listaVaciaCrops ? 'BCTransparente' : 'dataTable'} W560P"
+							rowClasses="odd-row, even-row" footerClass="H130P">
+							<rich:column styleClass="colIconoUno">
+								<a:commandLink
+									actionListener="#{cropsAction.setPlotEliminar(plot)}"
+									render="popupEliminar" immediate="true"
+									oncomplete="#{rich:component('popupEliminar')}.show()">
+									<h:graphicImage value="/img/delete_16.png"
+										styleClass="hidelink cursor" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.button_eliminar}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<h:outputText value="#{plot.name}" />
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_size}</f:facet>
+								<h:outputText value="#{plot.size}" />
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_enlace_mapa_ubicacion}</f:facet>
+								<h:outputText value="#{plot.locationLinkToMap}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVaciaCrops}">
+									<rich:column colspan="4" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+					</h:form>
+				</t:fieldset>
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						actionListener="#{cropsAction.requeridosOk()}" execute="formCrops"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_guardar}" />
+				</div>
+			</rich:panel>
+		</h:form>
+		<h:form>
+			<rich:popupPanel id="popupEliminar" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{cropsAction.plotEliminar.name}" />
+					</ui:define>
+					<ui:define name="botones">
+
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							render="formCrops"
+							actionListener="#{cropsAction.eliminarPlotLista()}"
+							execute="popupEliminar" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popupEliminar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_descripcion}" />
+						<h:outputText value="#{cropsAction.crops.description}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{cropsAction.guardarCrops}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="popupForm">
+			<rich:popupPanel id="popupPlot" autosized="true"
+				domElementAttachment="form"
+				header="#{mensajeLifeCycle.plot_label_s}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupPlot')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:panel styleClass="H383P fondoAnchoUno W400P">
+						<t:fieldset styleClass="BorderW2P W350P">
+							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+								#{mensajeLifeCycle.plot_names_label_s}</legend>
+							<h:panelGrid columns="3" cellpadding="7">
+								<h:outputText value="#{mensaje.label_nombre}"
+									styleClass="etiquetaTitulo" />
+								<h:inputText size="20" maxlength="100" id="txtNombreBuscar"
+									value="#{plotAction.nombreBuscar}"
+									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
+								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+									actionListener="#{plotAction.consultarPlotPorFecha}"
+									render="tPlot, paginadorPlot">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+							</h:panelGrid>
+						</t:fieldset>
+						<br />
+						<rich:messages for="tPlot" styleClass="messageInfSpan W350P" />
+						<br />
+						<ui:param name="listaVacia"
+							value="#{plotAction.listaPlotFecha eq null or (empty plotAction.listaPlotFecha)}" />
+						<div class="W370P">
+							<a:commandLink render="tPlot, paginadorPlot"
+								styleClass="quitarDecoracionLink iconsDataTable"
+								action="#{plotAction.consultarPlotPorFecha}"
+								actionListener="#{plotAction.setNombreBuscar(null)}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/listarTodos_16.png" />
+									<h:outputText value="#{mensaje.button_listar_todos}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+						</div>
+							<rich:dataTable value="#{plotAction.listaPlotFecha}" var="plot"
+								id="tPlot" footerClass="H130P"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W370P"
+								rowClasses="odd-row, even-row">
+								<rich:column styleClass="colIconoUno">
+									<f:facet name="header" />
+									<h:selectBooleanCheckbox value="#{plot.seleccionado}" />
+								</rich:column>
+								<rich:column styleClass="colTextoCorto">
+									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<h:outputText value="#{plot.name}" />
+								</rich:column>
+								<rich:column styleClass="colNumero">
+									<f:facet name="header">#{mensaje.label_size}</f:facet>
+									<h:outputText value="#{plot.size}" />
+								</rich:column>
+								<rich:column styleClass="colNumero">
+									<f:facet name="header">#{mensaje.label_enlace_mapa_ubicacion}</f:facet>
+									<h:outputText value="#{plot.locationLinkToMap}" />
+								</rich:column>
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia}">
+										<rich:column colspan="5" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listaVacia}" id="paginadorPlot">
+								<div class="W370P center inBlock">
+									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+										<ui:param name="valParam2" value="si" />
+										<ui:param name="conParam2" value="1" />
+										<ui:param name="pager" value="paginador" />
+										<ui:param name="valReder" value=":popupForm:paginadorPlot, :popupForm:tPlot" />
+										<ui:param name="beanActionParam" value="#{plotAction}" />
+										<ui:param name="metodoActionParam"
+											value="consultarPlotPorFecha" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+							<br />
+							<br />
+							<div align="center">
+								<a:commandButton value="#{mensaje.button_agregar}"
+									id="btnSeleccionar" render="formCrops"
+									actionListener="#{plotAction.agregarSeleccionados()}"
+									action="#{cropsAction.agruparListasPlot()}" execute="popupPlot"
+									oncomplete="#{rich:component('popupPlot')}.hide();" />
+							</div>
+				</rich:panel>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,177 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+
+	<ui:param name="action" value="iconoAction.inicializarBusqueda" />
+	<ui:param name="titulo"
+		value="mensaje.label_gestionar,mensajeSeguridad.icono_label" />
+
+	<ui:define name="body">
+		<h:form id="frmIconos">
+			<t:saveState value="#{iconoAction}" />
+
+			<ui:param name="listaVacia"
+				value="#{iconoAction.iconos eq null or (empty iconoAction.iconos)}" />
+			<ui:param name="anchoTabla" value="anchoCinco" />
+			<!-- parametros para botones y ordenamiento del listado -->
+			<ui:param name="actionLista" value="#{iconoAction}" />
+			<ui:param name="renderLista" value="panelIcono" />
+			<ui:param name="metodoLista" value="consultarIconos" />
+			<!-- parametros solo para ordenamiento del listado -->
+			<ui:param name="ocultarOrden" value="#{listaVacia}" />
+			<!-- parametros solo para botones del listado -->
+			<ui:param name="nombreAction" value="iconoAction" />
+			<ui:param name="metodoNuevo" value="registrarIcono" />
+			<ui:param name="parametroNuevo" value="#{null}" />
+			<ui:param name="renderBuscar" value="buscarForm:popupBuscar" />
+			<ui:param name="popupBuscar" value="popupBuscar" />
+			<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+			<ui:param name="tieneVigencia" value="no" />
+
+			<rich:panel
+				header="#{mensaje.label_listado_de} #{mensajeSeguridad.icono_label_s}"
+				id="panelIcono" styleClass="anchoUno MinH230P">
+
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
+
+				<rich:dataTable value="#{iconoAction.iconos}" var="icono"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoUno">
+						<a:commandLink render="popupEliminar"
+							actionListener="#{iconoAction.setIcono(icono)}"
+							rendered="#{icono.menus.isEmpty()}"
+							oncomplete="#{rich:component('popupEliminar')}.show()">
+							<h:graphicImage value="/img/delete_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_eliminar}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colIconoUno">
+						<f:facet name="header">#{mensaje.label_icono}</f:facet>
+						<h:graphicImage rendered="#{icono.nombre ne null}"
+							value="#{iconoAction.carpetaArchivosReal}/#{icono.nombre}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+						<c:choose>
+							<c:when
+								test="#{(identity.autorizado('iconoAction','A') or identity.autorizado('iconoAction','U'))}">
+								<h:commandLink value="#{icono.nombre}"
+									onclick="#{rich:component('statPane')}.show();"
+									action="#{iconoAction.registrarIcono(icono)}">
+								</h:commandLink>
+							</c:when>
+							<c:otherwise>
+								<h:outputText value="#{icono.nombre}" />
+							</c:otherwise>
+						</c:choose>
+					</rich:column>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+						<h:outputText value="#{icono.fechaCreacion}">
+							<f:convertDateTime pattern="MMM dd, yyyy" locale="es" />
+						</h:outputText>
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="8" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="botonesAbajo" value="si" />
+				</ui:include>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="#{anchoTabla} center inBlock">
+						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+							<ui:param name="valId" value="1" />
+							<ui:param name="valReder" value="panelIcono" />
+							<ui:param name="beanActionParam" value="#{iconoAction}" />
+							<ui:param name="metodoActionParam" value="consultarIconos" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+		<h:form>
+			<rich:popupPanel id="popupEliminar" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{iconoAction.icono.nombre}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							actionListener="#{iconoAction.eliminarIcono()}"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							render="panelIcono, mensajes, mensajeBusqueda" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popupEliminar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="buscarForm">
+			<rich:popupPanel id="popupBuscar" autosized="true"
+				header="#{mensaje.button_buscar} #{mensajeSeguridad.icono_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('popupBuscar')}.hide(); return false;">
+						<img src="#{request.contextPath}/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';" />
+					</h:outputLink>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensaje.label_nombre}"
+						styleClass="etiquetaTitulo" />
+					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
+						value="#{iconoAction.nombreBuscar}"
+						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+						action="#{iconoAction.consultarIconos()}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelIcono, mensajes, mensajeBusqueda">
+						<f:setPropertyActionListener value="f"
+							target="#{iconoAction.paginador.opcion}" />
+					</a:commandButton>
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancelar}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

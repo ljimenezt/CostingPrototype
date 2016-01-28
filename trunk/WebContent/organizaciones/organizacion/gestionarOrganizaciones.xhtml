@@ -1,0 +1,336 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="organizacionAction.inicializarBusqueda()" />
+	<ui:param name="titulo"
+		value="mensaje.label_gestionar,mensajeOrganizaciones.organizacion_label" />
+	<ui:define name="body">
+		<t:saveState value="#{organizacionAction}" />
+		<h:form id="organizacionForm">
+			<ui:param name="listaVacia"
+				value="#{organizacionAction.organizaciones eq null or (empty organizacionAction.organizaciones)}" />
+			<rich:panel
+				header="#{mensaje.label_listado_de} #{mensajeOrganizaciones.organizacion_label_s}"
+				id="panelOrganizacion" styleClass="anchoUno MinH253P">
+
+				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+					columnClasses="W50Per,W50Per" styleClass="anchoTres">
+					<h:selectOneRadio value="#{organizacionAction.vigencia}"
+						styleClass="rdVigencia">
+						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
+						<f:selectItem itemValue="no"
+							itemLabel="#{mensaje.label_no_vigentes}" />
+						<a:ajax event="click"
+							listener="#{organizacionAction.consultarOrganizaciones()}"
+							render="panelOrganizacion, vigenciaPopup, mensajes, mensajeBusqueda">
+						</a:ajax>
+					</h:selectOneRadio>
+					<a:outputPanel>
+						<div align="right">
+							<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="document.getElementById('organizacionForm:idButtonNuevo').click()"
+									rendered="#{organizacionAction.vigencia eq 'si' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','I'))}">
+									<h:commandButton
+										action="#{organizacionAction.registrarOrganizacion(null)}"
+										image="/img/new_16.png" id="idButtonNuevo"
+										onclick="#{rich:component('statPane')}.show();" />
+									<h:outputText value="#{mensaje.button_nuevo}" />
+								</h:panelGrid>
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('organizacionForm:idButtonBuscar').click();}">
+									<a:commandButton image="/img/consultar_16.png"
+										onmouseover="var1=true" onmouseout="var1=false"
+										id="idButtonBuscar" render=":buscarForm:popupBuscar, mensajes"
+										oncomplete="#{rich:component('popupBuscar')}.show(); setFocusPopUp();">
+										<f:setPropertyActionListener value=""
+											target="#{organizacionAction.filtroBusqueda}" />
+									</a:commandButton>
+									<h:outputText value="#{mensaje.button_buscar}" />
+								</h:panelGrid>
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="document.getElementById('organizacionForm:idButtonLisTodos').click()">
+									<a:commandButton image="/img/listarTodos_16.png"
+										id="idButtonLisTodos"
+										actionListener="#{organizacionAction.inicializarBusqueda}"
+										render="panelOrganizacion, mensajes, mensajeBusqueda">
+									</a:commandButton>
+									<h:outputText value="#{mensaje.button_listar_todos}" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</div>
+					</a:outputPanel>
+				</h:panelGrid>
+				<rich:dataTable value="#{organizacionAction.organizaciones}"
+					var="organizacionList"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoTres"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoAjustable"
+						rendered="#{organizacionAction.vigencia eq 'si' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','U'))}">
+						<a:commandLink id="details" render="popupDetalles"
+							oncomplete="#{rich:component('popupDetalles')}.show();"
+							actionListener="#{organizacionAction.verDetallesOrganizacion(organizacionList)}">
+							<h:graphicImage value="/img/details_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_detalles}" />
+							</rich:tooltip>
+						</a:commandLink>
+						<h:outputText value="&#32;&#32;&#32;" />
+						<a:commandLink
+							oncomplete="#{rich:component('popupFinalizar')}.show()"
+							render="popupFinalizar"
+							actionListener="#{organizacionAction.asignarOrganizacionModificar(organizacionList)}">
+							<h:graphicImage value="/img/dateDelete_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colIconoUno"
+						rendered="#{organizacionAction.vigencia eq 'no' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','U'))}">
+						<a:commandLink
+							oncomplete="#{rich:component('popupFinalizar')}.show()"
+							render="popupFinalizar"
+							actionListener="#{organizacionAction.asignarOrganizacionModificar(organizacionList)}">
+							<h:graphicImage value="/img/dateAdd_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensaje.label_razon_social}</f:facet>
+						<h:commandLink value="#{organizacionList.razonSocial}"
+							onclick="#{rich:component('statPane')}.show();"
+							action="#{organizacionAction.registrarOrganizacion(organizacionList)}"
+							rendered="#{organizacionAction.vigencia eq 'si' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','U'))}" />
+						<h:outputText value="#{organizacionList.razonSocial}"
+							rendered="#{organizacionAction.vigencia eq 'no'}" />
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{mensaje.label_nit}/#{mensaje.label_documento}</f:facet>
+						<h:outputText value="#{organizacionList.nit}" />
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensaje.label_direccion}</f:facet>
+						<h:outputText value="#{organizacionList.direccion}" />
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensaje.label_telefono}</f:facet>
+						<h:outputText value="#{organizacionList.telefono}" />
+					</rich:column>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+						<h:outputText value="#{organizacionList.fechaCreacion}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="colFecha"
+						rendered="#{organizacionAction.vigencia eq 'no'}">
+						<f:facet name="header">#{mensaje.label_fecha_fin_vigencia}</f:facet>
+						<h:outputText value="#{organizacionList.fechaFinVigencia}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="7" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<a:outputPanel
+					rendered="#{propErp['locate.mostrar.botones.inferiores'] eq 'si'}">
+					<div align="right" class="anchoTres">
+						<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="document.getElementById('organizacionForm:idButtonNuevoInf').click()"
+								rendered="#{organizacionAction.vigencia eq 'si' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','I'))}">
+								<h:commandButton
+									action="#{organizacionAction.registrarOrganizacion(null)}"
+									image="/img/new_16.png" id="idButtonNuevoInf"
+									onclick="#{rich:component('statPane')}.show();" />
+								<h:outputText value="#{mensaje.button_nuevo}" />
+							</h:panelGrid>
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('organizacionForm:idButtonBuscarInf').click();}">
+								<a:commandButton image="/img/consultar_16.png"
+									onmouseover="var1=true" onmouseout="var1=false"
+									id="idButtonBuscarInf"
+									render=":buscarForm:popupBuscar, mensajes"
+									oncomplete="#{rich:component('popupBuscar')}.show()">
+									<f:setPropertyActionListener value=""
+										target="#{organizacionAction.filtroBusqueda}" />
+								</a:commandButton>
+								<h:outputText value="#{mensaje.button_buscar}" />
+							</h:panelGrid>
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="document.getElementById('organizacionForm:idButtonLisTodosInf').click()">
+								<a:commandButton image="/img/listarTodos_16.png"
+									id="idButtonLisTodosInf"
+									actionListener="#{organizacionAction.inicializarBusqueda}"
+									render="panelOrganizacion, mensajes, mensajeBusqueda">
+								</a:commandButton>
+								<h:outputText value="#{mensaje.button_listar_todos}" />
+							</h:panelGrid>
+						</h:panelGrid>
+					</div>
+				</a:outputPanel>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="anchoTres center inBlock">
+						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+							<ui:param name="valId" value="1" />
+							<ui:param name="valReder" value="panelOrganizacion" />
+							<ui:param name="beanActionParam" value="#{organizacionAction}" />
+							<ui:param name="metodoActionParam"
+								value="consultarOrganizaciones" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+			<rich:popupPanel id="popupDetalles" autosized="true"
+				domElementAttachment="form" maxWidth="750"
+				header="#{mensajeOrganizaciones.organizacion_label}"
+				styleClass="W760P">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popupDetalles')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<t:fieldset styleClass="W95Per BorderW2P">
+					<legend>
+						<a:outputPanel styleClass="etiquetaTitulo">#{mensaje.label_datos_basicos}</a:outputPanel>
+					</legend>
+					<h:panelGrid columns="2" columnClasses="W70Per top,W30Per">
+						<h:panelGrid columns="2"
+							columnClasses="columnaIzquierda, columnaDerecha" cellpadding="5"
+							cellspacing="5">
+							<h:outputFormat value="#{mensaje.label_razon_social}:" />
+							<h:outputText
+								value="#{organizacionAction.organizacion.razonSocial}" />
+							<h:outputFormat
+								value="#{mensajeInformacionBase.tipo_documento_label}: " />
+							<h:outputText
+								value="#{organizacionAction.organizacion.tipoDocumento.nombre}" />
+							<h:outputFormat
+								value="#{mensaje.label_nit}/#{mensaje.label_documento}: " />
+							<h:outputText value="#{organizacionAction.organizacion.nit}" />
+							<h:outputFormat value="#{mensaje.label_direccion}: " />
+							<h:outputText
+								value="#{organizacionAction.organizacion.direccion}" />
+							<h:outputFormat value="#{mensaje.label_telefono}: " />
+							<h:outputText value="#{organizacionAction.organizacion.telefono}" />
+						</h:panelGrid>
+						<h:panelGrid columns="1">
+							<t:fieldset>
+								<legend class="etiquetaTitulo">#{mensaje.label_logo}</legend>
+								<h:graphicImage
+									rendered="#{organizacionAction.organizacion.logo != null and !empty organizacionAction.organizacion.logo}"
+									value="#{organizacionAction.carpetaArchivos}/#{organizacionAction.organizacion.logo}"
+									title="#{organizacionAction.organizacion.logo}"
+									styleClass="H200P W250P" />
+								<h:graphicImage
+									rendered="#{organizacionAction.organizacion.logo eq null or empty organizacionAction.organizacion.logo}"
+									value="/img/noImage_240X203.png" styleClass="H200P W250P" />
+							</t:fieldset>
+						</h:panelGrid>
+					</h:panelGrid>
+				</t:fieldset>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="frmVigencia">
+			<rich:popupPanel id="popupFinalizar" resizeable="false"
+				autosized="true" domElementAttachment="form" modal="true"
+				moveable="false" header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('popupFinalizar')}.hide();">
+						<img src="#{request.contextPath}/img/close_14.png" />
+					</h:outputLink>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputFormat value="#{mensaje.label_razon_social}: " />
+						<h:outputText
+							value="#{organizacionAction.organizacionAModificarVigencia.razonSocial}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:panelGroup layout="block">
+							<center>
+								<a:commandButton value="#{mensaje.button_aceptar}"
+									action="#{organizacionAction.vigenciaOrganizaciones(true)}"
+									onclick="#{rich:component('popupFinalizar')}.hide()"
+									rendered="#{organizacionAction.vigencia eq 'si'}"
+									render="panelOrganizacion, mensajes, mensajeBusqueda" />
+								<a:commandButton value="#{mensaje.button_aceptar}"
+									action="#{organizacionAction.vigenciaOrganizaciones(false)}"
+									onclick="#{rich:component('popupFinalizar')}.hide()"
+									rendered="#{organizacionAction.vigencia eq 'no'}"
+									render="panelOrganizacion, mensajes, mensajeBusqueda" />
+								<a:commandButton value="#{mensaje.button_cancelar}"
+									onclick="#{rich:component('popupFinalizar')}.hide()"
+									type="button" />
+							</center>
+						</h:panelGroup>
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="buscarForm">
+			<rich:popupPanel id="popupBuscar" autosized="true"
+				header="#{mensaje.button_buscar} #{mensajeOrganizaciones.organizacion_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('popupBuscar')}.hide(); return false;">
+						<img src="#{request.contextPath}/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';" />
+					</h:outputLink>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText
+						value="#{mensaje.label_razon_social} / #{mensaje.label_nit}:"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
+						value="#{organizacionAction.filtroBusqueda}"
+						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+						action="#{organizacionAction.consultarOrganizaciones()}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelOrganizacion, mensajes, mensajeBusqueda">
+					</a:commandButton>
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancelar}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

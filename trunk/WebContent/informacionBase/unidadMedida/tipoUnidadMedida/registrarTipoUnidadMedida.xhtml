@@ -1,0 +1,106 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="unidadMedidaAction.registrarTipoUnidad(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeInformacionBase.tipo_unidad_medida_label" />
+	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery-1.6.1.min.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){    
+			  $('#frmRegistrarTipoUnidad\\:txtDescripcion').maxlength({   
+			    events: [],     
+			    max: 200,    
+			 feedbackText: "#{mensaje.label_caracteres_restantes}",  
+			    showFeedback: 'active'
+			  }); 
+			});		
+		</script>
+		<h:form id="frmRegistrarTipoUnidad">
+			<t:saveState value="#{unidadMedidaAction}" />
+			<div align="left">
+				<rich:panel
+					header="#{mensajeInformacionBase.tipo_unidad_medida_label}"
+					styleClass="anchoUno" id="panelUnidadMedida">
+					<h:panelGrid columns="4" cellpadding="5" cellspacing="7"
+						columnClasses="tdAlignTop,,,tdAlignTop">
+						<h:outputText value="#{mensaje.label_nombre}"
+							id="nombretipoUnidad" styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText value="#{unidadMedidaAction.tipoUnidad.nombre}"
+							id="txtNombre" required="true" maxlength="50"
+							styleClass="colTextoMediano"
+							validator="#{unidadMedidaAction.validarNombreTipoUnidadXSS}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateLength maximum="50" />
+						</h:inputText>
+						<rich:message for="txtNombre" />
+
+						<h:outputText value="#{mensaje.label_descripcion}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputTextarea validator="#{encodeFilter.validarScripting}"
+							value="#{unidadMedidaAction.tipoUnidad.descripcion}"
+							styleClass="colTextoLargoTextArea" id="txtDescripcion">
+							<f:validateLength maximum="200" />
+						</h:inputTextarea>
+						<rich:message for="txtDescripcion" />
+					</h:panelGrid>
+					<br />
+					<div align="center">
+						<a:commandButton value="#{mensaje.button_guardar}"
+							rendered="#{(unidadMedidaAction.tipoUnidad.id ne null and identity.autorizado('tipoUnidadMedida','U')) or identity.autorizado('tipoUnidadMedida','A') or identity.autorizado('tipoUnidadMedida','I')}"
+							render="confirmacionCrearPopUp,formGenerico"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionCrearPopUp')}.show();}
+						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+					</div>
+
+				</rich:panel>
+			</div>
+		</h:form>
+		<!-- PopUp  confirmacion de creacion de un tipo de unidad de medida -->
+		<h:form id="formConfirmacion">
+			<rich:popupPanel id="confirmacionCrearPopUp" modal="true"
+				autosized="true" resizeable="false"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('confirmacionCrearPopUp')}.hide(); return false;">
+						<img src="#{request.contextPath}/img/close_14.png" />
+					</h:outputLink>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}: " />
+						<h:outputText value="#{unidadMedidaAction.tipoUnidad.nombre}" />
+						<h:outputText value="#{mensaje.label_descripcion}: " />
+						<h:outputText value="#{unidadMedidaAction.tipoUnidad.descripcion}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{unidadMedidaAction.guardarTipoUnidadMedida()}"
+							onclick="#{rich:component('confirmacionCrearPopUp')}.hide(); #{rich:component('statPane')}.show();"
+							render="mensajes" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('confirmacionCrearPopUp')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

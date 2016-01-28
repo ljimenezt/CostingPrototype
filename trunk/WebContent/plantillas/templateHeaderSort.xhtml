@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:rich="http://richfaces.org/rich">
+	<h:outputText value="#{title}" rendered="#{emptyList}" />
+	<a:outputPanel rendered="#{!emptyList}" styleClass="headerLink">
+		<a:commandLink execute="@this" render="#{renderList}"
+			action="#{actionList[methodList]}">
+			<f:param name="sortProperty" value="#{sortField}" />
+			<rich:tooltip layout="block">
+				<h:outputText value="#{mensaje.label_sort} #{title}" />
+			</rich:tooltip>
+			<a:outputPanel>
+				<div class="">
+					<h:graphicImage value="/img/down_16.gif"
+						rendered="#{controllerSortField.sortsOrders[sortField] eq 'descending'}" />
+					<h:graphicImage value="/img/up_16.gif"
+						rendered="#{controllerSortField.sortsOrders[sortField] eq 'ascending'}" />
+					<h:graphicImage value="/img/sortBy_16.png"
+						rendered="#{controllerSortField.sortsOrders[sortField] eq null}" />
+				</div>
+			</a:outputPanel>
+		</a:commandLink>
+	</a:outputPanel>
+</ui:composition>

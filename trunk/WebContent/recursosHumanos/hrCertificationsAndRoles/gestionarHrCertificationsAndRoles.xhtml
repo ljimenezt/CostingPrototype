@@ -1,0 +1,210 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="hrCertificationsAndRolesAction.inicializarBusqueda" />
+	<ui:param name="titulo"
+		value="mensaje.label_gestionar,mensajeRecursosHumanos.hr_certifications_roles_label" />
+
+	<ui:define name="body">
+		<t:saveState value="#{hrCertificationsAndRolesAction}" />
+		<ui:param name="listaVacia"
+			value="#{hrCertificationsAndRolesAction.listHrCertificationsAndRoles eq null or (empty hrCertificationsAndRolesAction.listHrCertificationsAndRoles)}" />
+		<ui:param name="anchoTabla" value="anchoCuatro" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{hrCertificationsAndRolesAction}" />
+		<ui:param name="renderLista" value="panelHrCertRol vigenciaPopup" />
+		<ui:param name="metodoLista" value="consultarHrCertRoles" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="hrCertificationsAndRolesAction" />
+		<ui:param name="metodoNuevo" value="agregarEditarHrCertRoles" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+
+		<h:form id="formHrCertRol">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listado_de} #{mensajeRecursosHumanos.hr_certifications_roles_label}"
+				id="panelHrCertRol">
+				<h:panelGrid columns="3"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,tdAlignTop">
+					<h:outputText
+						value="#{mensajeLifeCycle.activities_certifications_label_certifications}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" styleClass="required" />
+					<h:selectOneMenu id="certifications"
+						value="#{hrCertificationsAndRolesAction.certificationsAndRoles.idCertificactionsAndRoles}"
+						styleClass="colTextoMediano" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
+							itemValue="0" />
+						<f:selectItems
+							value="#{hrCertificationsAndRolesAction.itemsCertificationsAndRoles}" />
+						<f:ajax event="change"
+							listener="#{hrCertificationsAndRolesAction.consultarHrCertRoles()}"
+							render=":formHrCertRol:panelHrCerARol" execute="@this" />
+					</h:selectOneMenu>
+					<rich:message for="certifications" />
+				</h:panelGrid>
+				<br />
+
+				<a:outputPanel id="panelHrCerARol">
+					<a:outputPanel
+						rendered="#{hrCertificationsAndRolesAction.certificationsAndRoles.idCertificactionsAndRoles ne 0}">
+						<rich:message for="tablaHrCertRol" styleClass="messageInfSpanMsg" />
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
+						<rich:dataTable
+							value="#{hrCertificationsAndRolesAction.listHrCertificationsAndRoles}"
+							id="tablaHrCertRol" var="hrCertRol"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+							rowClasses="odd-row, even-row" footerClass="H130P">
+
+							<rich:column styleClass="colIconoUno">
+								<a:outputPanel
+									rendered="#{(identity.autorizado('hrCertificationsAndRolesAction','A') or identity.autorizado('hrCertificationsAndRolesAction','D'))}">
+									<a:commandLink render="popupEliminar"
+										actionListener="#{hrCertificationsAndRolesAction.setHrCertificationsAndRoles(hrCertRol)}"
+										oncomplete="#{rich:component('popupEliminar')}.show()">
+										<h:graphicImage value="/img/delete_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.button_eliminar}" />
+										</rich:tooltip>
+									</a:commandLink>
+								</a:outputPanel>
+							</rich:column>
+
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensajeRecursosHumanos.recurso_humano_label}</f:facet>
+								<h:commandLink
+									value="#{hrCertRol.hrCertificationsAndRolesPK.hr.name}"
+									action="#{hrCertificationsAndRolesAction.agregarEditarHrCertRoles(hrCertRol)}"
+									onclick="#{rich:component('statPane')}.show();">
+								</h:commandLink>
+							</rich:column>
+
+							<rich:column styleClass="colFechaLarga">
+								<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+								<h:outputText value="#{hrCertRol.releaseDate}" />
+							</rich:column>
+
+							<rich:column styleClass="colFechaLarga">
+								<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+								<h:outputText value="#{hrCertRol.endDate}" />
+							</rich:column>
+
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensajeRecursosHumanos.hr_certifications_roles_label_link_certificate}</f:facet>
+								<h:outputText value="#{hrCertRol.linkToCertificate}" />
+							</rich:column>
+
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="5" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="botonesAbajo" value="si" />
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
+						<a:outputPanel rendered="#{!listaVacia}">
+							<br />
+							<div class="#{anchoTabla} center inBlock">
+								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:param name="valReder" value="panelHrCertRol" />
+									<ui:param name="beanActionParam"
+										value="#{hrCertificationsAndRolesAction}" />
+									<ui:param name="metodoActionParam" value="consultarHrCertRoles" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+		<h:form id="formBuscar">
+			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
+				header="#{mensaje.button_buscar} #{mensajeRecursosHumanos.recurso_humano_label_nombre}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensaje.label_nombre}"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" maxlength="100"
+						id="txtNombreBuscar"
+						value="#{hrCertificationsAndRolesAction.nombreBuscar}"
+						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+						actionListener="#{hrCertificationsAndRolesAction.consultarHrCertRoles()}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelHrCertRol, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancelar}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+		<h:form>
+			<rich:popupPanel id="popupEliminar" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText
+							value="#{hrCertificationsAndRolesAction.hrCertificationsAndRolesPK.hr.name}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							actionListener="#{hrCertificationsAndRolesAction.eliminarHrCertRoles()}"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							render="panelHrCertRol, mensajes, mensajeBusqueda" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popupEliminar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
