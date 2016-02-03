@@ -20,7 +20,6 @@ import co.informatix.erp.informacionBase.entities.UnidadMedida;
  * @author Angelica Amaya
  * 
  */
-
 @SuppressWarnings("serial")
 @Stateless
 public class UnidadMedidaDao implements Serializable {
