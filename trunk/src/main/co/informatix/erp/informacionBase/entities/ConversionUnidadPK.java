@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
  * @author Angelica Amaya
  * @modify 13/12/2011 marisol.calderon
  */
-
 @SuppressWarnings("serial")
 @Embeddable
 public class ConversionUnidadPK implements Serializable {

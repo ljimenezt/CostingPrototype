@@ -17,7 +17,6 @@ import javax.persistence.TemporalType;
  * @author Angelica Amaya
  * @modify 13/12/2011 marisol.calderon
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "conversion_unidad", schema = "general")
