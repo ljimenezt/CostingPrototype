@@ -17,7 +17,6 @@ import co.informatix.erp.informacionBase.entities.MedioPago;
  * @author Marcela.Chaparro
  * 
  */
-
 @SuppressWarnings("serial")
 @Stateless
 public class MedioPagoDao implements Serializable {
