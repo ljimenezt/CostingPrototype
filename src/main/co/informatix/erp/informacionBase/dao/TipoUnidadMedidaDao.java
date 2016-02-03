@@ -19,7 +19,6 @@ import co.informatix.erp.informacionBase.entities.TipoUnidad;
  * @author marisol.calderon
  * 
  */
-
 @SuppressWarnings("serial")
 @Stateless
 public class TipoUnidadMedidaDao implements Serializable {
