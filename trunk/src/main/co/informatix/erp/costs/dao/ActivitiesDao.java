@@ -171,11 +171,12 @@ public class ActivitiesDao implements Serializable {
 	 * @author Andres.Gomez
 	 * 
 	 * @param consult
-	 *            : String containing the query why the leak.
+	 *            : String containing the query for the amount of activities.
 	 * @param parameters
 	 *            :query parameters
 	 * @param idCrop
-	 *            :integer of the crop associated a one activity
+	 *            :identifier of the crop associated to the activities that are
+	 *            going to be searched
 	 * @return Long: number of activity records found
 	 * @throws Exception
 	 */
@@ -387,7 +388,8 @@ public class ActivitiesDao implements Serializable {
 	 * @param parameters
 	 *            : query parameters.
 	 * @param idCrop
-	 *            : id
+	 *            :identifier of the crop associated to the activities that are
+	 *            going to be searched
 	 * @return Long: amount of activities records found
 	 * @throws Exception
 	 */
@@ -413,13 +415,17 @@ public class ActivitiesDao implements Serializable {
 	 * range and filtering the information by the values sent search.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :record in which the consult started
 	 * @param range
-	 *            : range of records
+	 *            : range of records to be included in the consult
 	 * @param consult
-	 *            : Query records depending on the user selected parameter.
+	 *            : Query to search the records depending on the user selected
+	 *            parameter.
 	 * @param parameters
 	 *            : consult parameters.
+	 * @param idCrop
+	 *            :identifier of the crop associated to the activities that are
+	 *            going to be searched
 	 * @return List<Activities>: list of activities.
 	 * @throws Exception
 	 */
