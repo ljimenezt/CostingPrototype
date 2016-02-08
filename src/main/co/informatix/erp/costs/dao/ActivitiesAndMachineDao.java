@@ -198,7 +198,7 @@ public class ActivitiesAndMachineDao implements Serializable {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Consult the sum of the total cost of each of the machines activity
 	 * 
