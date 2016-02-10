@@ -190,4 +190,19 @@ public class FarmDao implements Serializable {
 
 	}
 
+	/**
+	 * This method allow consult all Farm stored in data base
+	 * 
+	 * @author Sergio.Ortiz
+	 * 
+	 * @return List<Farm>: all Farm stored in data base
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Farm> consultarAllFarm() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT f FROM Farm f ");
+		Query q = em.createQuery(query.toString());
+		return q.getResultList();
+	}
 }
