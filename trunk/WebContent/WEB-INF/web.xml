@@ -114,6 +114,7 @@
             /warehouse/typeOfManagement/faces-config-typeOfManagement.xml,
             /warehouse/diseases/faces-config-diseases.xml,
             /warehouse/materials/faces-config-materials.xml,
+            /warehouse/deposits/faces-config-deposits.xml,
             
             /general/civilStatus/faces-config-civilStatus.xml,
 

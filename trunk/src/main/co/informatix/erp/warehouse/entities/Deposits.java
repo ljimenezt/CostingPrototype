@@ -31,11 +31,9 @@ public class Deposits implements Serializable {
 	private int idDeposit;
 	private Date dateTime;
 	private Date expireDate;
-	private Double initialQuantityActual;
-	private Double realQuantityActual;
-	private Double initialCost;
-	private Double unitCost;
-	private Boolean depleted;
+	private Double initialQuantity;
+	private Double actualQuantity;
+	private Double totalCost;
 	private String location;
 	private String qualityCertificateLocationLink;
 
@@ -65,7 +63,7 @@ public class Deposits implements Serializable {
 	/**
 	 * @return dateTime:Date Time
 	 */
-	@Column(name = "date_time")
+	@Column(name = "date_time", nullable = false)
 	@Temporal(TemporalType.DATE)
 	public Date getDateTime() {
 		return dateTime;
@@ -97,82 +95,35 @@ public class Deposits implements Serializable {
 	}
 
 	/**
-	 * @return initialQuantityActual: initial Quantity Actual
+	 * @return initialQuantity: initial Quantity
 	 */
-	@Column(name = "initial_quantity_actual")
-	public Double getInitialQuantityActual() {
-		return initialQuantityActual;
+	@Column(name = "initial_quantity", nullable = false)
+	public Double getInitialQuantity() {
+		return initialQuantity;
 	}
 
 	/**
-	 * @param initialQuantityActual
-	 *            : initial Quantity Actual
+	 * @param initialQuantity
+	 *            : initial Quantity
 	 */
-	public void setInitialQuantityActual(Double initialQuantityActual) {
-		this.initialQuantityActual = initialQuantityActual;
+	public void setInitialQuantity(Double initialQuantity) {
+		this.initialQuantity = initialQuantity;
 	}
 
 	/**
 	 * @return realQuantityActual: Real Quantity Actual
 	 */
-	@Column(name = "real_quantity_actual")
-	public Double getRealQuantityActual() {
-		return realQuantityActual;
+	@Column(name = "actual_quantity", nullable = false)
+	public Double getActualQuantity() {
+		return this.actualQuantity;
 	}
 
 	/**
-	 * @param realQuantityActual
-	 *            Real Quantity Actual
+	 * @param actualQuantity
+	 *            actual Quantity
 	 */
-	public void setRealQuantityActual(Double realQuantityActual) {
-		this.realQuantityActual = realQuantityActual;
-	}
-
-	/**
-	 * @return initialCost: gets initial cost of the deposit
-	 */
-	@Column(name = "initial_cost")
-	public Double getInitialCost() {
-		return initialCost;
-	}
-
-	/**
-	 * @param initialCost
-	 *            : sets initial cost of the deposit
-	 */
-	public void setInitialCost(Double initialCost) {
-		this.initialCost = initialCost;
-	}
-
-	/**
-	 * @return unitCost: gets unit cost of the deposit
-	 */
-	@Column(name = "unit_cost", nullable = false)
-	public Double getUnitCost() {
-		return unitCost;
-	}
-
-	/**
-	 * @param unitCost
-	 *            : sets unit cost of the deposit
-	 */
-	public void setUnitCost(Double unitCost) {
-		this.unitCost = unitCost;
-	}
-
-	/**
-	 * @return depleted: gets depleted of deposit
-	 */
-	public Boolean getDepleted() {
-		return depleted;
-	}
-
-	/**
-	 * @param depleted
-	 *            : sets depleted of deposit
-	 */
-	public void setDepleted(Boolean depleted) {
-		this.depleted = depleted;
+	public void setActualQuantity(Double actualQuantity) {
+		this.actualQuantity = actualQuantity;
 	}
 
 	/**
@@ -206,6 +157,22 @@ public class Deposits implements Serializable {
 	public void setQualityCertificateLocationLink(
 			String qualityCertificateLocationLink) {
 		this.qualityCertificateLocationLink = qualityCertificateLocationLink;
+	}
+
+	/**
+	 * @return totalCost: total cost
+	 */
+	@Column(name = "total_cost", nullable = false)
+	public Double getTotalCost() {
+		return totalCost;
+	}
+
+	/**
+	 * @param totalCost
+	 *            : total cost
+	 */
+	public void setTotalCost(Double totalCost) {
+		this.totalCost = totalCost;
 	}
 
 	/**
@@ -246,7 +213,7 @@ public class Deposits implements Serializable {
 	 * @return farm: Farm
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_farm", referencedColumnName = "idfarm")
+	@JoinColumn(name = "id_farm", referencedColumnName = "idfarm", nullable = false)
 	public Farm getFarm() {
 		return farm;
 	}
@@ -281,39 +248,22 @@ public class Deposits implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
+				+ ((actualQuantity == null) ? 0 : actualQuantity.hashCode());
+		result = prime * result
 				+ ((dateTime == null) ? 0 : dateTime.hashCode());
 		result = prime * result
-				+ ((depleted == null) ? 0 : depleted.hashCode());
-		result = prime * result
 				+ ((expireDate == null) ? 0 : expireDate.hashCode());
-		result = prime * result + ((farm == null) ? 0 : farm.hashCode());
 		result = prime * result + idDeposit;
 		result = prime * result
-				+ ((initialCost == null) ? 0 : initialCost.hashCode());
-		result = prime
-				* result
-				+ ((initialQuantityActual == null) ? 0 : initialQuantityActual
-						.hashCode());
+				+ ((initialQuantity == null) ? 0 : initialQuantity.hashCode());
 		result = prime * result
 				+ ((location == null) ? 0 : location.hashCode());
-		result = prime * result
-				+ ((materials == null) ? 0 : materials.hashCode());
-		result = prime
-				* result
-				+ ((measurementUnits == null) ? 0 : measurementUnits.hashCode());
-		result = prime
-				* result
-				+ ((purchaseInvoices == null) ? 0 : purchaseInvoices.hashCode());
 		result = prime
 				* result
 				+ ((qualityCertificateLocationLink == null) ? 0
 						: qualityCertificateLocationLink.hashCode());
-		result = prime
-				* result
-				+ ((realQuantityActual == null) ? 0 : realQuantityActual
-						.hashCode());
 		result = prime * result
-				+ ((unitCost == null) ? 0 : unitCost.hashCode());
+				+ ((totalCost == null) ? 0 : totalCost.hashCode());
 		return result;
 	}
 
@@ -326,57 +276,32 @@ public class Deposits implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Deposits other = (Deposits) obj;
+		if (actualQuantity == null) {
+			if (other.actualQuantity != null)
+				return false;
+		} else if (!actualQuantity.equals(other.actualQuantity))
+			return false;
 		if (dateTime == null) {
 			if (other.dateTime != null)
 				return false;
 		} else if (!dateTime.equals(other.dateTime))
-			return false;
-		if (depleted == null) {
-			if (other.depleted != null)
-				return false;
-		} else if (!depleted.equals(other.depleted))
 			return false;
 		if (expireDate == null) {
 			if (other.expireDate != null)
 				return false;
 		} else if (!expireDate.equals(other.expireDate))
 			return false;
-		if (farm == null) {
-			if (other.farm != null)
-				return false;
-		} else if (!farm.equals(other.farm))
-			return false;
 		if (idDeposit != other.idDeposit)
 			return false;
-		if (initialCost == null) {
-			if (other.initialCost != null)
+		if (initialQuantity == null) {
+			if (other.initialQuantity != null)
 				return false;
-		} else if (!initialCost.equals(other.initialCost))
-			return false;
-		if (initialQuantityActual == null) {
-			if (other.initialQuantityActual != null)
-				return false;
-		} else if (!initialQuantityActual.equals(other.initialQuantityActual))
+		} else if (!initialQuantity.equals(other.initialQuantity))
 			return false;
 		if (location == null) {
 			if (other.location != null)
 				return false;
 		} else if (!location.equals(other.location))
-			return false;
-		if (materials == null) {
-			if (other.materials != null)
-				return false;
-		} else if (!materials.equals(other.materials))
-			return false;
-		if (measurementUnits == null) {
-			if (other.measurementUnits != null)
-				return false;
-		} else if (!measurementUnits.equals(other.measurementUnits))
-			return false;
-		if (purchaseInvoices == null) {
-			if (other.purchaseInvoices != null)
-				return false;
-		} else if (!purchaseInvoices.equals(other.purchaseInvoices))
 			return false;
 		if (qualityCertificateLocationLink == null) {
 			if (other.qualityCertificateLocationLink != null)
@@ -384,15 +309,10 @@ public class Deposits implements Serializable {
 		} else if (!qualityCertificateLocationLink
 				.equals(other.qualityCertificateLocationLink))
 			return false;
-		if (realQuantityActual == null) {
-			if (other.realQuantityActual != null)
+		if (totalCost == null) {
+			if (other.totalCost != null)
 				return false;
-		} else if (!realQuantityActual.equals(other.realQuantityActual))
-			return false;
-		if (unitCost == null) {
-			if (other.unitCost != null)
-				return false;
-		} else if (!unitCost.equals(other.unitCost))
+		} else if (!totalCost.equals(other.totalCost))
 			return false;
 		return true;
 	}

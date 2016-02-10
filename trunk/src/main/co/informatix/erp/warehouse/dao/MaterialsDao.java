@@ -136,4 +136,19 @@ public class MaterialsDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * This method allow consult all materials stored in data base
+	 * 
+	 * @author Sergio.Ortiz
+	 * 
+	 * @return List<Materials>: all materials stored in data base
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Materials> consultarAllMateriales() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT m FROM Materials m ");
+		Query q = em.createQuery(query.toString());
+		return q.getResultList();
+	}
 }
