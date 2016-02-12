@@ -1,0 +1,153 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="plotAction.agregarEditarPlot(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeLifeCycle.plot_label" />
+	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){    
+				  $('#formPlot\\:txaDescripcion').maxlength({   
+				    events: [],     
+				    max: 250,    
+				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    showFeedback: 'active'    
+				  }); 
+			});		
+		</script>
+		<t:saveState value="#{plotAction}" />
+		<h:form id="formPlot">
+			<rich:panel
+				header="#{mensaje.label_registrar} #{mensajeLifeCycle.plot_label}"
+				styleClass="anchoUno MinH253P" id="panelRegistrarPlot">
+				<h:panelGrid columns="4"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,tdAlignTop">
+
+					<h:outputText value="#{mensajeLifeCycle.farm_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="#{plotAction.farmParameter eq false ? '*' : ''}" styleClass="required" />
+					<h:selectOneMenu id="farm1" value="#{plotAction.farm.idFarm}"
+						rendered="#{plotAction.farmParameter eq false}"
+						styleClass="colTextoMediano" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItems value="#{plotAction.opcionesFarm}" />
+						<f:ajax event="change" listener="#{plotAction.consultarPlots()}"
+							render=":formPlot" />
+					</h:selectOneMenu>
+					<h:outputText value="#{plotAction.farm.name}" styleClass="MarginL0P"
+						rendered="#{plotAction.farmParameter eq true}" />
+					<rich:message for="farm1" />
+
+					<h:outputText value="#{mensaje.label_nombre}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText value="#{plotAction.plot.name}"
+						styleClass="colTextoMediano" id="txtNombre" required="true"
+						size="41" maxlength="70"
+						validator="#{plotAction.validarNombreXSS}"
+						requiredMessage="#{mensaje.message_campo_requerido}" />
+					<rich:message for="txtNombre" />
+
+					<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:inputText value="#{plotAction.plot.locationLinkToMap}"
+						styleClass="colTextoMediano" id="txtLocation" size="41"
+						label="#{mensaje.label_enlace_mapa_ubicacion}" maxlength="100">
+						<f:validateDoubleRange minimum="0" />
+					</h:inputText>
+					<rich:message for="txtLocation" />
+
+					<h:outputText value="#{mensaje.label_size}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:inputText value="#{plotAction.plot.size}"
+						styleClass="colTextoMediano" id="txtSize" size="41"
+						label="#{mensaje.label_size}" maxlength="100">
+						<f:validateDoubleRange minimum="0" />
+					</h:inputText>
+					<rich:message for="txtSize" />
+
+					<h:outputText value="#{mensajeLifeCycle.plot_numbers_trees}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:inputText value="#{plotAction.plot.numberOfTrees}"
+						styleClass="colTextoCorto" id="txtNumberTrees" maxlength="100">
+						<f:validateLongRange></f:validateLongRange>
+					</h:inputText>
+					<rich:message for="txtNumberTrees" />
+
+					<h:outputText value="#{mensaje.label_descripcion}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:inputTextarea value="#{plotAction.plot.description}"
+						styleClass="colTextoMedianoTextArea" id="txaDescripcion"
+						validator="#{encodeFilter.validarScripting}">
+						<f:validateLength maximum="250" />
+					</h:inputTextarea>
+					<rich:message for="txaDescripcion" />
+
+				</h:panelGrid>
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						execute="formPlot"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_guardar}" />
+				</div>
+			</rich:panel>
+		</h:form>
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}" />
+						<h:outputText value="#{plotAction.plot.name}" />
+						<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}" />
+						<h:outputText value="#{plotAction.plot.locationLinkToMap}" />
+						<h:outputText value="#{mensaje.label_size}" />
+						<h:outputText value="#{plotAction.plot.size}" />
+						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{plotAction.plot.description}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{plotAction.guardarPlot}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

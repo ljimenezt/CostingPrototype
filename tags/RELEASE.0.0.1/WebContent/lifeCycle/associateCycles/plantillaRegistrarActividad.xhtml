@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<rich:panel styleClass="fondoAnchoUno">
+		<a:outputPanel id="outPutReg">
+			<h:panelGrid columns="4"
+				cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+				cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+				columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_numero_secuencia}" />
+				<h:outputText value="" styleClass="required" />
+				<h:inputText label="#{mensaje.label_numero_secuencia}"
+					value="#{cropActivitiesAction.activities.sequenceNumber}"
+					styleClass="colNumero" id="txtSecNum"
+					requiredMessage="#{mensaje.message_campo_requerido}">
+				</h:inputText>
+				<rich:message for="txtSecNum" />
+
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensajeCosts.activities_label_duracion_estimada}" />
+				<h:outputText value="" styleClass="required" />
+				<h:inputText
+					value="#{cropActivitiesAction.activities.durationBudget}"
+					label="#{mensajeCosts.activities_label_duracion_estimada}"
+					styleClass="colNumero" id="txtDuration"
+					validator="#{cropActivitiesAction.validateDate}"
+					requiredMessage="#{mensaje.message_campo_requerido}">
+				</h:inputText>
+				<rich:message for="txtDuration" />
+
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensajeCosts.activities_label_fecha_inicio_estimada}" />
+				<h:outputText value="*" styleClass="required" />
+				<p:calendar required="true"
+					requiredMessage="#{mensaje.message_campo_requerido}"
+					value="#{cropActivitiesAction.activities.initialDtBudget}"
+					showOn="button" navigator="true"
+					converterMessage="#{mensaje.message_validar_formato_fecha}"
+					onSelectUpdate="fechaFin" id="fechaInicio"
+					pattern="MM/dd/yyyy HH:mm" readonlyInput="true"
+					validator="#{controladorFechas.validarRangoFecha}">
+					<f:attribute name="validarHora" value="si" />
+					<p:ajax event="dateSelect" update="fechaFin"
+						listener="#{cropActivitiesAction.validateMaxDate()}" />
+				</p:calendar>
+				<rich:message for="fechaInicio" />
+
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensajeCosts.activities_label_fecha_final_estimada}" />
+				<h:outputText value="*" styleClass="required" />
+				<p:calendar value="#{cropActivitiesAction.activities.finalDtBudget}"
+					showOn="button" navigator="true" required="true"
+					disabled="#{cropActivitiesAction.activities.initialDtBudget eq null}"
+					mindate="#{cropActivitiesAction.activities.initialDtBudget}"
+					converterMessage="#{mensaje.message_validar_formato_fecha}"
+					id="fechaFin" pattern="MM/dd/yyyy HH:mm" readonlyInput="true"
+					validator="#{controladorFechas.validarRangoFecha}"
+					requiredMessage="#{mensaje.message_campo_requerido}"
+					maxdate="#{cropActivitiesAction.maxDate}">
+					<f:attribute name="validarHora" value="si" />
+					<p:ajax event="dateSelect" update="fechaInicio" />
+				</p:calendar>
+				<rich:message for="fechaFin" />
+
+				<h:outputText value="#{mensaje.label_descripcion}"
+					styleClass="etiquetaTitulo" />
+				<h:outputText value="*" styleClass="required" style="top" />
+				<h:inputTextarea
+					value="#{cropActivitiesAction.activities.description}"
+					required="true" styleClass="colTextoMedianoTextArea"
+					id="txtDescripcion" validator="#{encodeFilter.validarScripting}"
+					requiredMessage="#{mensaje.message_campo_requerido}">
+					<f:validateLength maximum="200" />
+				</h:inputTextarea>
+				<rich:message for="txtDescripcion" />
+			</h:panelGrid>
+			<h:panelGrid columns="3"
+				cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+				cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+				columnClasses="right,tdAlignTop,tdAlignTop">
+
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.activities.hrRequired}" id="txtHr">
+				</h:selectBooleanCheckbox>
+				<h:outputText value="#{mensaje.label_hr_requerido}"
+					styleClass="etiquetaTitulo" />
+				<rich:message for="txtHr" />
+
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.activities.machineRequired}"
+					id="txtMachine">
+				</h:selectBooleanCheckbox>
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_maquina_requerida}" />
+				<rich:message for="txtMachine" />
+
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.activities.serviceRequired}"
+					id="txtService">
+				</h:selectBooleanCheckbox>
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_servicio_requerido}" />
+				<rich:message for="txtService" />
+
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.activities.materialsRequired}"
+					id="txtMaterials">
+				</h:selectBooleanCheckbox>
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_material_requerido}" />
+				<rich:message for="txtMaterials" />
+
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.activities.dangerous}" id="txtDange">
+				</h:selectBooleanCheckbox>
+				<h:outputText styleClass="etiquetaTitulo center"
+					value="#{mensaje.label_dangerous}" />
+				<h:outputText value="" />
+				<rich:message for="txtDange" />
+			</h:panelGrid>
+			<br />
+			<br />
+			<div align="center">
+				<a:commandButton render=":formConfirmar:popUpConfirmar,formGenerico"
+					execute="popupFormReg, fechaInicio, fechaFin"
+					actionListener="#{cropActivitiesAction.validarFechas()}"
+					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+					value="#{mensaje.button_guardar}" />
+			</div>
+		</a:outputPanel>
+	</rich:panel>
+</ui:composition>

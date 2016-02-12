@@ -1,0 +1,322 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="departamentoEmpresaAction.inicializarBusqueda()" />
+	<ui:param name="titulo"
+		value="mensajeOrganizaciones.departamento_empresa_label_gestionar" />
+	<ui:define name="body">
+		<t:saveState value="#{departamentoEmpresaAction}" />
+		<h:form id="frmListaDepartamento">
+			<ui:param name="listaVacia"
+				value="#{departamentoEmpresaAction.listaDepartamentoEmpresas eq null or (empty departamentoEmpresaAction.listaDepartamentoEmpresas)}" />
+			<rich:panel id="panelFrmListaDepartamento"
+				header="#{mensajeOrganizaciones.departamento_empresa_label_listado}"
+				styleClass="anchoUno MinH253P">
+				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
+					<h:selectOneRadio
+						value="#{departamentoEmpresaAction.consultarVigentes}"
+						styleClass="rdVigencia">
+						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
+						<f:selectItem itemValue="no"
+							itemLabel="#{mensaje.label_no_vigentes}" />
+						<a:ajax event="click"
+							listener="#{departamentoEmpresaAction.gestionarDepartamentoEmpresa()}"
+							render="panelFrmListaDepartamento, mensajes, mensajeBusqueda">
+						</a:ajax>
+					</h:selectOneRadio>
+					<a:outputPanel>
+						<div align="right">
+							<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="document.getElementById('frmListaDepartamento:idButtonNuevo').click()"
+									rendered="#{departamentoEmpresaAction.consultarVigentes eq 'si' and (identity.autorizado('departamentoEmpresaAction','A') or identity.autorizado('departamentoEmpresaAction','I'))}">
+									<h:commandButton
+										action="#{departamentoEmpresaAction.registrarDepartamentoEmpresa(null)}"
+										image="/img/new_16.png" id="idButtonNuevo"
+										onclick="#{rich:component('statPane')}.show();" />
+									<h:outputText value="#{mensaje.button_nuevo}" />
+								</h:panelGrid>
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmListaDepartamento:idButtonBuscar').click();}">
+									<a:commandButton image="/img/consultar_16.png"
+										onmouseover="var1=true" onmouseout="var1=false"
+										id="idButtonBuscar" render=":buscarForm:popupBuscar, mensajes"
+										oncomplete="#{rich:component('popupBuscar')}.show()">
+										<f:setPropertyActionListener value=""
+											target="#{departamentoEmpresaAction.nombreBuscar}" />
+									</a:commandButton>
+									<h:outputText value="#{mensaje.button_buscar}" />
+								</h:panelGrid>
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="document.getElementById('frmListaDepartamento:idButtonLisTodos').click()">
+									<a:commandButton image="/img/listarTodos_16.png"
+										id="idButtonLisTodos"
+										actionListener="#{departamentoEmpresaAction.inicializarBusqueda()}"
+										render="panelFrmListaDepartamento, mensajes, mensajeBusqueda">
+									</a:commandButton>
+									<h:outputText value="#{mensaje.button_listar_todos}" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</div>
+					</a:outputPanel>
+				</h:panelGrid>
+				<rich:dataTable id="listaDepartamento"
+					value="#{departamentoEmpresaAction.listaDepartamentoEmpresas}"
+					var="departamento"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCinco"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoDos"
+						rendered="#{departamentoEmpresaAction.consultarVigentes eq 'si'}">
+						<a:commandLink
+							actionListener="#{departamentoEmpresaAction.setDepartamentoEmpresa(departamento)}"
+							oncomplete="#{rich:component('popupDetalles')}.show()"
+							render="popupDetalles">
+							<h:graphicImage value="/img/details_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_detalles}" />
+							</rich:tooltip>
+						</a:commandLink>
+						<h:outputText value="&#32;&#32;&#32;" />
+						<a:commandLink render="dialogoConfirmacionVigenciaDepartamento"
+							rendered="#{identity.autorizado('departamentoEmpresaAction','A') or identity.autorizado('departamentoEmpresaAction','U')}"
+							actionListener="#{departamentoEmpresaAction.asignarDepartamentoEmpresaModificar(departamento)}"
+							oncomplete="#{rich:component('dialogoConfirmacionVigenciaDepartamento')}.show()">
+							<h:graphicImage value="/img/dateDelete_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colIconoUno"
+						rendered="#{departamentoEmpresaAction.consultarVigentes eq 'no' and (identity.autorizado('departamentoEmpresaAction','A') or identity.autorizado('departamentoEmpresaAction','U'))}">
+						<a:commandLink render="dialogoConfirmacionVigenciaDepartamento"
+							actionListener="#{departamentoEmpresaAction.asignarDepartamentoEmpresaModificar(departamento)}"
+							oncomplete="#{rich:component('dialogoConfirmacionVigenciaDepartamento')}.show()">
+							<h:graphicImage value="/img/dateAdd_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">
+							<h:outputText value="#{mensaje.label_nombre}" />
+						</f:facet>
+						<h:commandLink value="#{departamento.nombre}"
+							action="#{departamentoEmpresaAction.registrarDepartamentoEmpresa(departamento)}"
+							rendered="#{departamentoEmpresaAction.consultarVigentes eq 'si'}" />
+						<h:outputText value="#{departamento.nombre}"
+							rendered="#{departamentoEmpresaAction.consultarVigentes eq 'no'}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+						<h:outputText value="#{departamento.descripcion}" />
+					</rich:column>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+						<h:outputText value="#{departamento.fechaCreacion}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="colFecha"
+						rendered="#{departamentoEmpresaAction.consultarVigentes eq 'no'}">
+						<f:facet name="header">
+							<h:outputText value="#{mensaje.label_fecha_fin_vigencia}" />
+						</f:facet>
+						<h:outputText value="#{departamento.fechaFinVigencia}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="5" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<a:outputPanel
+					rendered="#{propErp['locate.mostrar.botones.inferiores'] eq 'si'}">
+					<div align="right" class="anchoCinco">
+						<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="document.getElementById('frmListaDepartamento:idButtonNuevoInf').click()"
+								rendered="#{departamentoEmpresaAction.consultarVigentes eq 'si' and (identity.autorizado('departamentoEmpresaAction','A') or identity.autorizado('departamentoEmpresaAction','I'))}">
+								<h:commandButton
+									action="#{departamentoEmpresaAction.registrarDepartamentoEmpresa(null)}"
+									image="/img/new_16.png" id="idButtonNuevoInf"
+									onclick="#{rich:component('statPane')}.show();" />
+								<h:outputText value="#{mensaje.button_nuevo}" />
+							</h:panelGrid>
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmListaDepartamento:idButtonBuscarInf').click();}">
+								<a:commandButton image="/img/consultar_16.png"
+									onmouseover="var1=true" onmouseout="var1=false"
+									id="idButtonBuscarInf"
+									render=":buscarForm:popupBuscar, mensajes"
+									oncomplete="#{rich:component('popupBuscar')}.show()">
+									<f:setPropertyActionListener value=""
+										target="#{departamentoEmpresaAction.nombreBuscar}" />
+								</a:commandButton>
+								<h:outputText value="#{mensaje.button_buscar}" />
+							</h:panelGrid>
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="document.getElementById('frmListaDepartamento:idButtonLisTodosInf').click()">
+								<a:commandButton image="/img/listarTodos_16.png"
+									id="idButtonLisTodosInf"
+									actionListener="#{departamentoEmpresaAction.inicializarBusqueda()}"
+									render="panelFrmListaDepartamento, mensajes, mensajeBusqueda">
+								</a:commandButton>
+								<h:outputText value="#{mensaje.button_listar_todos}" />
+							</h:panelGrid>
+						</h:panelGrid>
+					</div>
+				</a:outputPanel>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<div class="anchoCinco center inBlock">
+						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+							<ui:param name="valId" value="1" />
+							<ui:param name="valReder" value="panelFrmListaDepartamento" />
+							<ui:param name="beanActionParam"
+								value="#{departamentoEmpresaAction}" />
+							<ui:param name="metodoActionParam"
+								value="gestionarDepartamentoEmpresa" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+
+			<!-- Pantalla emergente para detalles -->
+			<rich:popupPanel id="popupDetalles" modal="true" autosized="true"
+				resizeable="false" header="#{mensaje.label_detalles}" width="450">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onclick="#{rich:component('popupDetalles')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<t:fieldset styleClass="BorderW2P">
+					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<h:panelGrid columns="2" cellpadding="5" cellspacing="7"
+						columnClasses="columnaIzquierda, columnaDerecha">
+
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText
+							value="#{departamentoEmpresaAction.departamentoEmpresa.nombre}" />
+
+						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText
+							value="#{departamentoEmpresaAction.departamentoEmpresa.descripcion}" />
+
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P">
+					<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.tipo_cargo_label_s}</legend>
+					<rich:extendedDataTable
+						value="#{departamentoEmpresaAction.departamentoEmpresa.tipoCargos}"
+						var="tipoCargoObj" id="tipoCargoSelect" styleClass="H190P W400P">
+						<f:facet name="header">
+								#{mensaje.label_listado_de} #{mensajeRecursosHumanos.tipo_cargo_label_s}
+							</f:facet>
+						<rich:column width="180px">
+							<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+							<h:outputText value="#{tipoCargoObj.nombre}" />
+						</rich:column>
+						<rich:column width="200px">
+							<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+							<h:outputText value="#{tipoCargoObj.funciones}" />
+						</rich:column>
+					</rich:extendedDataTable>
+				</t:fieldset>
+			</rich:popupPanel>
+
+		</h:form>
+
+		<h:form id="frmVigenciaDepartamento">
+			<!-- Dialogo de confirmacion -->
+			<rich:popupPanel id="dialogoConfirmacionVigenciaDepartamento"
+				header="#{mensaje.label_confirmacion}" resizeable="false"
+				autosized="true" domElementAttachment="form" modal="true"
+				moveable="false">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('dialogoConfirmacionVigenciaDepartamento')}.hide();">
+						<img src="#{request.contextPath}/img/close_14.png" />
+					</h:outputLink>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText
+							value="#{departamentoEmpresaAction.departamentoEmpresa.nombre}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							render="panelFrmListaDepartamento, mensajes, mensajeBusqueda"
+							onclick="#{rich:component('dialogoConfirmacionVigenciaDepartamento')}.hide()"
+							actionListener="#{departamentoEmpresaAction.modificarVigenciaDepartamentoEmpresa(true)}"
+							rendered="#{departamentoEmpresaAction.consultarVigentes eq 'si'}" />
+
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							render="panelFrmListaDepartamento, mensajes, mensajeBusqueda"
+							onclick="#{rich:component('dialogoConfirmacionVigenciaDepartamento')}.hide()"
+							actionListener="#{departamentoEmpresaAction.modificarVigenciaDepartamentoEmpresa(false)}"
+							rendered="#{departamentoEmpresaAction.consultarVigentes eq 'no'}" />
+
+						<h:commandButton id="btnCancelarConfirmacion"
+							value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('dialogoConfirmacionVigenciaDepartamento')}.hide()"
+							type="button" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="buscarForm">
+			<rich:popupPanel id="popupBuscar" autosized="true"
+				header="#{mensaje.button_buscar} #{mensajeOrganizaciones.departamento_empresa_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('popupBuscar')}.hide(); return false;">
+						<img src="#{request.contextPath}/img/close_14.png" />
+					</h:outputLink>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensaje.label_nombre}:"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
+						value="#{departamentoEmpresaAction.nombreBuscar}" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_buscar}"
+						action="#{departamentoEmpresaAction.gestionarDepartamentoEmpresa()}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelFrmListaDepartamento, mensajes, mensajeBusqueda">
+					</a:commandButton>
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancelar}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

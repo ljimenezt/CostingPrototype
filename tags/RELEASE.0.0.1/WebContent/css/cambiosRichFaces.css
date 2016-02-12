@@ -1,0 +1,261 @@
+/* CAMBIOS EN RICH:FACES */
+.rich-table {
+	width: 100%;
+}
+
+.rf-msg,.rf-msgs {
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 11px;
+	height: 18ex;
+}
+
+.rf-msg-err,.rf-msgs-err {
+	color: red;
+	background-image: url("../img/error_16.png");
+	padding-bottom: 2px;
+}
+
+.rf-msg-err,.rf-msgs-err,.rf-msg-ftl,.rf-msgs-ftl,.rf-msg-inf,.rf-msgs-inf,.rf-msg-wrn,.rf-msgs-wrn,.rf-msg-ok,.rf-msgs-ok
+	{
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	padding-top: 3px;
+	margin-left: 3px;
+	font-weight: bold;
+}
+
+.rich-stglpanel-body {
+	overflow: auto;
+}
+
+.rich-panel input[type=submit],.rich-panel input[type=button],.rich-tabpanel input[type=submit],.rich-tabpanel input[type=button]
+	{
+	margin-bottom: 0;
+}
+
+.rich-toolbar-item a {
+	text-decoration: none;
+}
+
+.rich-toolbar-item a:hover,.rich-ddmenu-label-select {
+	text-decoration: underline;
+}
+
+.rich-toolbar-item .rich-menu-item a:hover {
+	text-decoration: none;
+}
+
+.rich-datalist {
+	list-style: square;
+	margin: 6px 0 1px 0;
+	padding-left: 18px;
+}
+
+.rich-list-item {
+	padding-bottom: 4px;
+}
+
+.rf-edt-b {
+	overflow-y: scroll !important;
+}
+
+.rf-ddm-nd {
+	background-image: url("../img/menuNodeImage.gif");
+	background-position: center top;
+	background-repeat: no-repeat;
+	font-size: 1px;
+	height: 7px;
+	position: absolute;
+	right: 6px;
+	top: 7px;
+	width: 7px;
+}
+
+.rf-msg-inf,.rf-msgs-inf {
+	background-image: url(../img/info_16.png);
+	padding-bottom: 2px;
+}
+
+.rf-cst-sftr-c {
+	text-align: right
+}
+
+/* Estilo en el pie de pagina */
+.rf-p {
+	background-color: #F1F1F1;
+	border-style: solid;
+	border-width: 1px;
+	color: #C0C0C0;
+	padding: 1px;
+}
+
+/* Estilo para colocar fondo en los popup */
+.rf-pp-cnt {
+	background-image: url("../img/fondoAnchoUno.jpg");
+}
+
+.rf-pp-cnt-scrlr {
+	background-image: url("../img/fondoAnchoUno.jpg");
+}
+/* Estilos para quitar fondo gris en el uso de pesta#as */
+.rf-tab-cnt {
+	background: none !important;
+	min-height: 135px;
+}
+
+/* Estilos para colocar background en el acordeon y collapsiblePanel */
+.rf-ac-itm-cnt {
+	background-image: url("../img/fondoAnchoUno.jpg");
+}
+
+.rf-cp-b {
+	background-image: url("../img/fondoAnchoUno.jpg");
+}
+/* Fin estilos para colocar background en el acordeon y collapsiblePanel */
+
+/* Arreglo del calendario*/
+.ui-datepicker-trigger {
+	padding: 0 !important;
+	position: relative;
+	top: 4px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 7px;
+}
+
+.ui-corner-all {
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
+	border-top-left-radius: 0 !important;
+	border-top-right-radius: 0 !important;
+}
+
+.ui-inputfield {
+	font-size: 12px !important;
+	font-weight: normal !important;
+	margin-bottom: 5px !important;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
+	margin-top: 5px !important;
+	padding: 0px 0px 2px 1px !important;
+	border-color: #C0C0C0 !important;
+}
+
+.ui-state-hover {
+	border-color: #C0C0C0 !important;
+}
+
+.ui-state-focus {
+	border-color: #C0C0C0 !important;
+	box-shadow: 0 2px 2px #D3D3D3 inset !important;
+}
+/*Fin arreglo calendario*/
+
+/* Cambio en el estilo de el pie de pagina (footer) usado en los rich:extendedDataTable,*/
+/* para que aparezca alineado a la derecha, si se quiere utilizar solo en un caso se quita del generico*/
+.rf-edt-tbl-ftr {
+	padding-right: 25px;
+	text-align: right;
+}
+
+/* Cambio en el estilo de rich:list en los popup de confirmacion*/
+.columnaDerecha .rf-ulst {
+	margin-top: 0px;
+	padding-left: 12px;
+}
+
+.rf-cst-c,.rf-cst-nd-c {
+	background: none;
+}
+
+/*Para Nuevo Menu*/
+/*Cambio en los bordes de las pestanyas*/
+.rf-tab-hdr {
+	border-radius: 3px 3px 0 0;
+}
+
+/*Cambio en padding de las pestanyas*/
+.rf-tab-cnt {
+	padding: 5px;
+}
+
+/*Estilo para alinear los rich:inputNumberSpinner con los demas campos*/
+.rf-insp {
+	margin: 5px;
+}
+
+/* Cambio en rich:dropDownMenu para idiomas y paginado por */
+#headGraphicalButtons .rf-ddm-lbl {
+	min-width: 93px;
+	padding-left: 2px;
+	padding-right: 0px;
+	cursor: pointer;
+}
+
+.dropPage.rf-ddm-lbl {
+	min-width: 108px;
+	padding-left: 2px;
+	padding-right: 0px;
+	cursor: pointer;
+	position: relative;
+	z-index: inherit;
+}
+
+#headGraphicalButtons .rf-ddm-itm-ic,.dropPage .rf-ddm-itm-ic {
+	display: none;
+}
+
+#headGraphicalButtons .rf-ddm-lst {
+	min-width: 95px !important;
+	left: -1px !important;
+}
+
+.dropPage .rf-ddm-lst {
+	min-width: 110px !important;
+	left: -1px !important;
+}
+
+#headGraphicalButtons .rf-ddm-itm {
+	min-width: 91px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.dropPage .rf-ddm-itm {
+	min-width: 106px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+#headGraphicalButtons .rf-ddm-lst-bg,.dropPage .rf-ddm-lst-bg {
+	display: inline-block;
+}
+
+#headGraphicalButtons .rf-ddm-itm-lbl,.dropPage .rf-ddm-itm-lbl {
+	display: block;
+}
+
+.dropPage .linkGrapButtons.linkDropHeader {
+	color: #000000; /*Negro*/
+}
+/*FIN Cambio en rich:dropDownMenu para idiomas y paginado por */
+
+/*Estilo para corregir margin en inplaceInput*/
+input.rf-ii-fld {
+	margin: -1px !important;
+}
+/*Fin Estilo inplaceInput*/
+/**Cambios estilos migracion JEE6 a JEE7*/
+.rf-tb {
+	border-collapse: inherit;
+}
+
+.rf-tab-hdr-tabline-vis.rf-tab-hdr-tabline-top {
+	height: 24px;
+}
+
+.rf-tt {
+	z-index: 100 !important;
+}

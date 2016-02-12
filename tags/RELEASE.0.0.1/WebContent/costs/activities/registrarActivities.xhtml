@@ -1,0 +1,495 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="activitiesAction.agregarEditarActivities(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeCosts.activities_label" />
+	<ui:define name="body">
+		<t:saveState value="#{activitiesAction}" />
+		<t:saveState value="#{activityNamesAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+		<h:form id="formActivities">
+			<rich:panel
+				header="#{mensaje.label_registrar} #{mensajeCosts.activities_label}"
+				styleClass="anchoUno MinH253P" id="panelActivities">
+				<h:panelGrid columns="3"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,tdAlignTop">
+					<h:outputText value="#{mensaje.label_seleccione_activity_name}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
+						<h:inputText styleClass="colTextoMediano" id="txtActivityNames"
+							value="#{activitiesAction.activities.activityName.activityName}"
+							readonly="true" validator="#{activitiesAction.validarRequerido}" />
+						<a:commandLink id="lnkActivityNames"
+							render=":popupForm:popupActivityNames"
+							actionListener="#{activityNamesAction.consultarActivityNames}"
+							execute="@this"
+							oncomplete="#{rich:component('popupActivityNames')}.show(); setFocus('popupForm:txtNombreBuscar');">
+							<h:graphicImage value="/img/add_22.png"
+								styleClass="verticalAlignMiddle" />
+							<f:param name="param2" value="si" />
+							<f:setPropertyActionListener value=""
+								target="#{activityNamesAction.nombreBuscar}" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_seleccionar}" />
+							</rich:tooltip>
+							<f:param name="param2" value="si" />
+						</a:commandLink>
+						<h:outputText value="&#32;&#32;&#32;" />
+						<a:commandLink
+							actionListener="#{activitiesAction.limpiarActivityNames()}"
+							render=":formActivities:txtActivityNames" execute="@this">
+							<h:graphicImage value="/img/editRemove_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_quitar}" />
+							</rich:tooltip>
+						</a:commandLink>
+						<rich:message for="txtActivityNames" />
+					</h:panelGrid>
+					<h:outputText value="#{mensaje.label_seleccione_certificacion}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:panelGrid cellpadding="0" cellspacing="0" columns="2">
+						<h:selectOneMenu required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							value="#{activitiesAction.activitiesAndCertifications.activitiesAndCertificationsPK.certificationsAndRoles.idCertificactionsAndRoles}"
+							id="cmbListaCertificationsAndRoles">
+							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
+								itemValue="" />
+							<f:selectItems
+								value="#{activitiesAction.itemsCertificationsAndRoles}" />
+						</h:selectOneMenu>
+						<rich:message for="cmbListaCertificationsAndRoles" />
+					</h:panelGrid>
+				</h:panelGrid>
+
+				<p:panelGrid>
+					<p:row>
+						<p:column>
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mensaje.label_presupuesto}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column>
+							<h:outputText value="#{mensaje.label_actual}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column rowspan="2">
+							<h:outputText value="#{mensaje.label_hr_requerido}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column rowspan="2">
+							<h:inputText value="#{activitiesAction.activities.hrRequired}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtHrRequired" label="#{mensaje.label_hr_requerido}">
+								<f:validateLongRange></f:validateLongRange>
+							</h:inputText>
+							<rich:message for="txtHrRequired" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText
+								value="#{mensajeCosts.activities_label_fecha_inicio_estimada}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column colspan="2">
+							<p:calendar
+								value="#{activitiesAction.activities.initialDtBudget}"
+								showOn="button" navigator="true"
+								converterMessage="#{mensaje.message_validar_formato_fecha}"
+								onSelectUpdate="fechFin" id="fechaInicio"
+								pattern="MM/dd/yyyy HH:mm:ss"
+								validator="#{controladorFechas.validarRangoFecha}">
+								<f:attribute name="validarHora" value="si" />
+							</p:calendar>
+							<rich:message for="fechaInicio" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText
+								value="#{mensajeCosts.activities_label_fecha_final_estimada}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column colspan="2">
+							<p:calendar value="#{activitiesAction.activities.finalDtBudget}"
+								showOn="button" navigator="true"
+								converterMessage="#{mensaje.message_validar_formato_fecha}"
+								id="fechaFin" pattern="MM/dd/yyyy HH:mm:ss"
+								validator="#{controladorFechas.validarRangoFecha}">
+								<f:attribute name="validarHora" value="si" />
+							</p:calendar>
+							<rich:message for="fechaFin" />
+						</p:column>
+						<p:column rowspan="2">
+							<h:outputText value="#{mensaje.label_maquina_requerida}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column rowspan="2">
+							<h:inputText
+								value="#{activitiesAction.activities.machineRequired}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtMachineRequiered"
+								label="#{mensaje.label_maquina_requerida}">
+								<f:validateLongRange></f:validateLongRange>
+							</h:inputText>
+							<rich:message for="txtMachineRequiered" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText
+								value="#{mensajeCosts.activities_label_duracion_estimada}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column colspan="2">
+							<h:inputText
+								value="#{activitiesAction.activities.durationBudget}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtDuracion" label="#{mensaje.label_duracion_activities}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtDuracion" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText value="#{mensaje.label_hr_costo}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column>
+							<h:inputText value="#{activitiesAction.activities.costHrBudget}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtHrCostoBudget" label="#{mensaje.label_hr_costo}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtHrCostoBudget" />
+						</p:column>
+						<p:column>
+							<h:inputText value="#{activitiesAction.activities.costHrActual}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtHrCostoActual" label="#{mensaje.label_hr_costo}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtHrCostoActual" />
+						</p:column>
+						<p:column rowspan="2">
+							<h:outputText value="#{mensaje.label_servicio_requerido}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column rowspan="2">
+							<h:inputText
+								value="#{activitiesAction.activities.serviceRequired}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtServiceRequired"
+								label="#{mensaje.label_servicio_requerido}">
+								<f:validateLongRange></f:validateLongRange>
+							</h:inputText>
+							<rich:message for="txtServiceRequired" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText value="#{mensaje.label_costo_maquina}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column>
+							<h:inputText
+								value="#{activitiesAction.activities.costMachinesEqBudget}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtCostMachineBudget" label="#{mensaje.label_costo_maquina}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtCostMachineBudget" />
+						</p:column>
+						<p:column>
+							<h:inputText
+								value="#{activitiesAction.activities.costMachinesEqActual}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtCostMachineActual" label="#{mensaje.label_costo_maquina}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtCostMachineActual" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText value="#{mensaje.label_costo_servicio}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column>
+							<h:inputText
+								value="#{activitiesAction.activities.costServicesBudget}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtCostServiceBudget"
+								label="#{mensaje.label_costo_servicio}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtCostServiceBudget" />
+						</p:column>
+						<p:column>
+							<h:inputText
+								value="#{activitiesAction.activities.costServicesActual}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtCostServiceActual"
+								label="#{mensaje.label_costo_servicio}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtCostServiceActual" />
+						</p:column>
+						<p:column rowspan="2">
+							<h:outputText value="#{mensaje.label_material_requerido}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column rowspan="2">
+							<h:inputText
+								value="#{activitiesAction.activities.materialsRequired}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtMaterialRequired"
+								label="#{mensaje.label_material_requerido}">
+								<f:validateLongRange></f:validateLongRange>
+							</h:inputText>
+							<rich:message for="txtMaterialRequired" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText value="#{mensaje.label_costo_material}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column>
+							<h:inputText
+								value="#{activitiesAction.activities.costMaterialsBudget}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtCostMaterialBudget"
+								label="#{mensaje.label_costo_material}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtCostMaterialBudget" />
+						</p:column>
+						<p:column>
+							<h:inputText
+								value="#{activitiesAction.activities.costMaterialsActual}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtCostMaterialActual"
+								label="#{mensaje.label_costo_material}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtCostMaterialActual" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText value="#{mensaje.label_costo_general}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column>
+							<h:inputText
+								value="#{activitiesAction.activities.generalCostBudget}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtGeneralCostBudget" label="#{mensaje.label_costo_general}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtGeneralCostBudget" />
+						</p:column>
+						<p:column>
+							<h:inputText
+								value="#{activitiesAction.activities.generalCostActual}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtGeneralCostActual" label="#{mensaje.label_costo_general}">
+								<f:validateDoubleRange></f:validateDoubleRange>
+							</h:inputText>
+							<rich:message for="txtGeneralCostActual" />
+						</p:column>
+						<p:column colspan="2" rowspan="2"></p:column>
+					</p:row>
+
+					<p:row>
+						<p:column>
+							<h:outputText value="#{mensaje.label_numero_secuencia}"
+								styleClass="etiquetaTitulo" />
+						</p:column>
+						<p:column colspan="2">
+							<h:inputText
+								value="#{activitiesAction.activities.sequenceNumber}"
+								styleClass="colTextoMini" size="41" maxlength="4"
+								id="txtSequenceNumber" label="#{mensaje.label_numero_secuencia}">
+								<f:validateLongRange></f:validateLongRange>
+							</h:inputText>
+							<rich:message for="txtSequenceNumber" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						execute="formActivities"
+						actionListener="#{activitiesAction.requeridosOk}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_guardar}" />
+				</div>
+			</rich:panel>
+		</h:form>
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{activitiesAction.guardarActivities}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="popupForm">
+			<rich:popupPanel id="popupActivityNames" autosized="true"
+				domElementAttachment="form"
+				header="#{mensajeLifeCycle.activity_names_label_s}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupActivityNames')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:panel styleClass="H373P fondoAnchoUno W580P">
+					<a:outputPanel id="outPutBuscarActivityNames">
+						<t:fieldset styleClass="BorderW2P">
+							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+								#{mensajeLifeCycle.activity_names_label_s}</legend>
+							<h:panelGrid columns="3" cellpadding="7">
+								<h:outputText value="#{mensaje.label_nombre}"
+									styleClass="etiquetaTitulo" />
+								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
+									value="#{activityNamesAction.nombreBuscar}"
+									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
+								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+									actionListener="#{activityNamesAction.consultarActivityNames}"
+									render="outputActivityNames">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+							</h:panelGrid>
+						</t:fieldset>
+						<br />
+						<rich:messages for="tActivityNames"
+							styleClass="messageInfSpan W511P" />
+						<br />
+						<ui:param name="listaVacia"
+							value="#{activityNamesAction.listaActivityNames eq null or (empty activityNamesAction.listaActivityNames)}" />
+						<div align="right" class="W560P">
+							<a:commandLink render="outPutBuscarActivityNames"
+								styleClass="quitarDecoracionLink"
+								action="#{activityNamesAction.consultarActivityNames}"
+								actionListener="#{activityNamesAction.setNombreBuscar(null)}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/listarTodos_16.png" />
+									<h:outputText value="#{mensaje.button_listar_todos}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+						</div>
+						<a:outputPanel id="outputActivityNames">
+							<rich:dataTable value="#{activityNamesAction.listaActivityNames}"
+								var="activityNames" id="tActivityNames" footerClass="H130P"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
+								rowClasses="odd-row, even-row">
+								<f:facet name="header">
+									<h:outputText
+										value="#{mensajeLifeCycle.activity_names_label_s}" />
+								</f:facet>
+								<rich:column styleClass="colIconoUno">
+									<f:facet name="header" />
+									<a:commandLink render=":formActivities:txtActivityNames"
+										actionListener="#{activitiesAction.cargarActivityNames(activityNames)}"
+										oncomplete="#{rich:component('popupActivityNames')}.hide();">
+										<h:graphicImage value="/img/add_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.label_seleccionar}" />
+										</rich:tooltip>
+									</a:commandLink>
+								</rich:column>
+								<rich:column width="300px">
+									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<h:outputText value="#{activityNames.activityName}" />
+								</rich:column>
+
+
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia}">
+										<rich:column colspan="5" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listaVacia}">
+								<div class="W560P center inBlock">
+									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+										<ui:param name="valParam2" value="si" />
+										<ui:param name="conParam2" value="1" />
+										<ui:param name="pager" value="paginador" />
+										<ui:param name="valReder"
+											value=":popupForm:outputActivityNames" />
+										<ui:param name="beanActionParam"
+											value="#{activityNamesAction}" />
+										<ui:param name="metodoActionParam"
+											value="consultarActivityNames" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</a:outputPanel>
+					</a:outputPanel>
+				</rich:panel>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

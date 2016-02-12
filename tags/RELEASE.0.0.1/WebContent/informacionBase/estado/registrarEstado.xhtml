@@ -1,0 +1,97 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://richfaces.org/a4j"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="estadoAction.nuevoEstado(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeInformacionBase.estado_label" />
+	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){    
+			  $('#frmRegistrarEstado\\:txtDescripcion').maxlength({   
+			    events: [],     
+			    max: 200,    
+			   feedbackText: "#{mensaje.label_caracteres_restantes}",  
+			    showFeedback: 'active'
+			  }); 
+			});		</script>
+		<h:form id="frmRegistrarEstado">
+			<t:saveState value="#{estadoAction}" />
+			<rich:panel id="panelRegEstadoCivil" styleClass="anchoUno"
+				header="#{mensajeInformacionBase.estado_label}">
+				<h:panelGrid columns="4" cellpadding="5" cellspacing="7"
+					columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+					<h:outputText value="#{mensaje.label_nombre}: "
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText id="txtNombre" styleClass="colTextoMediano"
+						maxlength="50" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						value="#{estadoAction.estado.nombre}"
+						validator="#{estadoAction.validarNombreXSS}">
+						<f:validateLength maximum="100" />
+					</h:inputText>
+					<rich:message for="txtNombre" />
+
+					<h:outputText value="#{mensaje.label_descripcion}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:inputTextarea validator="#{encodeFilter.validarScripting}"
+						value="#{estadoAction.estado.descripcion}"
+						styleClass="colTextoLargoTextArea" id="txtDescripcion">
+						<f:validateLength maximum="200" />
+					</h:inputTextarea>
+					<rich:message for="txtDescripcion" />
+				</h:panelGrid>
+				<div class="inBlock W100Per center">
+					<a:commandButton value="#{mensaje.button_guardar}"
+						render="formGenerico,popupConfirmar" execute="panelRegEstadoCivil"
+						actionListener="#{estadoAction.setEstado(estadoAction.estado)}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupConfirmar')}.show();}
+						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						rendered="#{(estadoAction.estado.id ne 0 and identity.autorizado('estadoAction','U')) or identity.autorizado('estadoAction','A') or identity.autorizado('estadoAction','I')}">
+					</a:commandButton>
+				</div>
+			</rich:panel>
+
+			<rich:popupPanel id="popupConfirmar" autosized="true"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onclick="#{rich:component('popupConfirmar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{estadoAction.estado.nombre}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{estadoAction.guardarEstado()}"
+							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<h:commandButton id="btnCancelarConfirmacion"
+							value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popupConfirmar')}.hide()"
+							type="button" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

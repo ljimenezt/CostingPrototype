@@ -1,0 +1,194 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="machineUsageAction.initializeSearch" />
+	<ui:param name="titulo"
+		value="mensaje.label_gestionar,mensajeMachine.machine_usage_label_s" />
+
+	<ui:define name="body">
+		<t:saveState value="#{machineUsageAction}" />
+		<ui:param name="listaVacia"
+			value="#{machineUsageAction.listMachineUsage eq null or (empty machineUsageAction.listMachineUsage)}" />
+		<ui:param name="anchoTabla" value="anchoCuatro" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{machineUsageAction}" />
+		<ui:param name="renderLista" value="pnlMachineUsage vigenciaPopup" />
+		<ui:param name="metodoLista" value="consultMachineUsage" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="machineUsageAction" />
+		<ui:param name="metodoNuevo" value="addEditMachineUsage" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
+
+		<h:form id="formFuelTypes">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listado_de} #{mensajeMachine.machine_usage_label_s}"
+				id="pnlMachineUsage">
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<rich:dataTable value="#{machineUsageAction.listMachineUsage}"
+					var="machineUsage"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoUno">
+						<a:outputPanel
+							rendered="#{(identity.autorizado('machineUsageAction','A') or identity.autorizado('machineUsageAction','D'))}">
+							<a:commandLink render="popupEliminar"
+								actionListener="#{machineUsageAction.setMachineUsage(machineUsage)}"
+								oncomplete="#{rich:component('popupEliminar')}.show()">
+								<h:graphicImage value="/img/delete_16.png" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.button_eliminar}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</a:outputPanel>
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeMachine.machines_label_names}</f:facet>
+						<h:commandLink value="#{machineUsage.machineUsagePK.machine.name}"
+							action="#{machineUsageAction.addEditMachineUsage(machineUsage)}"
+							onclick="#{rich:component('statPane')}.show();">
+						</h:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensaje.label_anio}</f:facet>
+						<h:outputText value="#{machineUsage.machineUsagePK.year}" />
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensaje.label_uso}</f:facet>
+						<h:outputText value="#{machineUsage.usage}" />
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeMachine.machine_usage_label_hourly_maintenance}</f:facet>
+						<h:outputText value="#{machineUsage.hourlyMaintenance}" />
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeMachine.machine_usage_label_hourly_insurance}</f:facet>
+						<h:outputText value="#{machineUsage.hourlyInsurance}" />
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeMachine.machine_usage_label_hourly_depreciation}</f:facet>
+						<h:outputText value="#{machineUsage.hourlyDepreciation}" />
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="7" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="botonesAbajo" value="si" />
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="#{anchoTabla} center inBlock">
+						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+							<ui:param name="valReder" value="pnlMachineUsage" />
+							<ui:param name="beanActionParam" value="#{machineUsageAction}" />
+							<ui:param name="metodoActionParam" value="consultFuelTypes" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+		<h:form id="formBuscar">
+			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="400"
+				header="#{mensaje.button_buscar} #{mensajeMachine.machine_usage_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensajeMachine.machines_label_names}:"
+						styleClass="etiquetaTitulo" />
+					<h:selectOneMenu id="cmbMachine"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						value="#{machineUsageAction.nameMachine}"
+						onkeypress="return submitByEnter(event, 'formBuscar:btnBuscar')">
+						<f:selectItem itemValue="0"
+							itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItems value="#{machineUsageAction.itemsMachines}" />
+					</h:selectOneMenu>
+
+					<h:outputText value="#{mensaje.label_uso}:"
+						styleClass="etiquetaTitulo" />
+					<h:selectOneMenu id="cmbYear"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						value="#{machineUsageAction.year}"
+						onkeypress="return submitByEnter(event, 'formBuscar:btnBuscar')">
+						<f:selectItem itemValue="0"
+							itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItems value="#{machineUsageAction.itemsYears}" />
+					</h:selectOneMenu>
+
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+						actionListener="#{machineUsageAction.consultMachineUsage}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="pnlMachineUsage, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancelar}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+		<h:form>
+			<rich:popupPanel id="popupEliminar" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{machineUsageAction.machineUsage.usage}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							actionListener="#{machineUsageAction.deleteManageUsage()}"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							render="pnlMachineUsage, mensajes, mensajeBusqueda" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popupEliminar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

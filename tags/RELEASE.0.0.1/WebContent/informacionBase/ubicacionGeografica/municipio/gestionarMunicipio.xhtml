@@ -1,0 +1,290 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="municipioAction.inicializarBusqueda()" />
+	<ui:param name="titulo"
+		value="mensaje.label_gestionar,mensajeInformacionBase.municipio_label" />
+	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/validacion.js"></script>
+		<h:form id="frmMunicipio">
+			<t:saveState value="#{municipioAction}" />
+			<ui:param name="listaVacia"
+				value="#{municipioAction.listaMunicipios eq null or (empty municipioAction.listaMunicipios)}" />
+			<rich:panel
+				header="#{mensaje.label_listado_de} #{mensajeInformacionBase.municipio_label_s}"
+				id="panelTablaMunicipio" styleClass="anchoUno MinH230P">
+				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
+					<h:selectOneRadio value="#{municipioAction.vigencia}"
+						styleClass="rdVigencia">
+						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
+						<f:selectItem itemValue="no"
+							itemLabel="#{mensaje.label_no_vigentes}" />
+						<a:ajax event="click"
+							listener="#{municipioAction.consultarMunicipios}"
+							render="panelTablaMunicipio, vigencia, mensajes, mensajeBusqueda">
+						</a:ajax>
+					</h:selectOneRadio>
+					<a:outputPanel>
+						<div align="right">
+							<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="document.getElementById('frmMunicipio:idButtonNuevo').click()"
+									rendered="#{municipioAction.vigencia eq 'si' and (identity.autorizado('municipioAction','A') or identity.autorizado('municipioAction','I'))}">
+									<h:commandButton
+										action="#{municipioAction.registrarMunicipio(null)}"
+										image="/img/new_16.png" id="idButtonNuevo"
+										onclick="#{rich:component('statPane')}.show();" />
+									<h:outputText value="#{mensaje.button_nuevo}" />
+								</h:panelGrid>
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmMunicipio:idButtonBuscar').click();}">
+									<a:commandButton image="/img/consultar_16.png"
+										onmouseover="var1=true" onmouseout="var1=false"
+										id="idButtonBuscar" render="buscarForm:popupBuscar, mensajes"
+										oncomplete="#{rich:component('popupBuscar')}.show()">
+										<f:setPropertyActionListener value=""
+											target="#{municipioAction.nombreBuscar}" />
+									</a:commandButton>
+									<h:outputText value="#{mensaje.button_buscar}" />
+								</h:panelGrid>
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="document.getElementById('frmMunicipio:idButtonLisTodos').click()">
+									<a:commandButton image="/img/listarTodos_16.png"
+										id="idButtonLisTodos"
+										actionListener="#{municipioAction.inicializarBusqueda()}"
+										render="panelTablaMunicipio, mensajes, mensajeBusqueda">
+									</a:commandButton>
+									<h:outputText value="#{mensaje.button_listar_todos}" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</div>
+					</a:outputPanel>
+				</h:panelGrid>
+				<rich:dataTable value="#{municipioAction.listaMunicipios}"
+					var="objMunicipio"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCinco"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoUno"
+						rendered="#{municipioAction.vigencia eq 'si' and (identity.autorizado('municipioAction','A') or identity.autorizado('municipioAction','U'))}">
+						<a:commandLink render="popupVigencia"
+							actionListener="#{municipioAction.setMunicipio(objMunicipio)}"
+							oncomplete="#{rich:component('popupVigencia')}.show()">
+							<h:graphicImage value="/img/dateDelete_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colIconoUno"
+						rendered="#{municipioAction.vigencia eq 'no' and (identity.autorizado('municipioAction','A') or identity.autorizado('municipioAction','U'))}">
+						<a:commandLink render="popupVigencia"
+							actionListener="#{municipioAction.setMunicipio(objMunicipio)}"
+							oncomplete="#{rich:component('popupVigencia')}.show()">
+							<h:graphicImage value="/img/dateAdd_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+						<c:choose>
+							<c:when
+								test="#{(identity.autorizado('municipioAction','A') or identity.autorizado('municipioAction','U')) and municipioAction.vigencia eq 'si'}">
+								<h:commandLink
+									action="#{municipioAction.registrarMunicipio(objMunicipio)}"
+									onclick="#{rich:component('statPane')}.show();"
+									value="#{objMunicipio.nombre}" />
+							</c:when>
+							<c:otherwise>
+								<h:outputText value="#{objMunicipio.nombre}" />
+							</c:otherwise>
+						</c:choose>
+					</rich:column>
+					<rich:column styleClass="colNumeroMini">
+						<f:facet name="header">#{mensaje.label_codigo_postal}</f:facet>
+						<h:outputText value="#{objMunicipio.codigoPostal}" />
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{mensajeInformacionBase.departamento_label}</f:facet>
+						<h:outputText value="#{objMunicipio.departamento.nombre}" />
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{mensajeInformacionBase.pais_label}</f:facet>
+						<h:outputText value="#{objMunicipio.departamento.pais.nombre}" />
+					</rich:column>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+						<h:outputText value="#{objMunicipio.fechaCreacion}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="colFecha"
+						rendered="#{municipioAction.vigencia eq 'no'}">
+						<f:facet name="header">#{mensaje.label_fecha_fin_vigencia}</f:facet>
+						<h:outputText value="#{objMunicipio.fechaFinVigencia}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="7" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<a:outputPanel
+					rendered="#{propErp['locate.mostrar.botones.inferiores'] eq 'si'}">
+					<div align="right" class="anchoCinco">
+						<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="document.getElementById('frmMunicipio:idButtonNuevoInf').click()"
+								rendered="#{municipioAction.vigencia eq 'si' and (identity.autorizado('municipioAction','A') or identity.autorizado('municipioAction','I'))}">
+								<h:commandButton
+									action="#{municipioAction.registrarMunicipio(null)}"
+									image="/img/new_16.png" id="idButtonNuevoInf"
+									onclick="#{rich:component('statPane')}.show();" />
+								<h:outputText value="#{mensaje.button_nuevo}" />
+							</h:panelGrid>
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmMunicipio:idButtonBuscarInf').click();}">
+								<a:commandButton image="/img/consultar_16.png"
+									onmouseover="var1=true" onmouseout="var1=false"
+									id="idButtonBuscarInf"
+									render="buscarForm:popupBuscar, mensajes"
+									oncomplete="#{rich:component('popupBuscar')}.show()">
+									<f:setPropertyActionListener value=""
+										target="#{municipioAction.nombreBuscar}" />
+								</a:commandButton>
+								<h:outputText value="#{mensaje.button_buscar}" />
+							</h:panelGrid>
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="document.getElementById('frmMunicipio:idButtonLisTodosInf').click()">
+								<a:commandButton image="/img/listarTodos_16.png"
+									id="idButtonLisTodosInf"
+									actionListener="#{municipioAction.inicializarBusqueda()}"
+									render="panelTablaMunicipio, mensajes, mensajeBusqueda">
+								</a:commandButton>
+								<h:outputText value="#{mensaje.button_listar_todos}" />
+							</h:panelGrid>
+						</h:panelGrid>
+					</div>
+				</a:outputPanel>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<div class="anchoCuatro center inBlock">
+						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+							<ui:param name="valId" value="1" />
+							<ui:param name="valReder" value="panelTablaMunicipio" />
+							<ui:param name="beanActionParam" value="#{municipioAction}" />
+							<ui:param name="metodoActionParam" value="consultarMunicipios" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+			<rich:popupPanel id="popupVigencia" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onclick="#{rich:component('popupVigencia')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="#{municipioAction.municipio.nombre}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							actionListener="#{municipioAction.vigenciaMunicipios('true')}"
+							onclick="#{rich:component('popupVigencia')}.hide()"
+							render="panelTablaMunicipio, mensajes, mensajeBusqueda"
+							rendered="#{municipioAction.vigencia eq 'si'}" />
+						<a:commandButton value="#{mensaje.button_aceptar}"
+							actionListener="#{municipioAction.vigenciaMunicipios('false')}"
+							onclick="#{rich:component('popupVigencia')}.hide()"
+							render="panelTablaMunicipio, mensajes, mensajeBusqueda"
+							rendered="#{municipioAction.vigencia eq 'no'}" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popupVigencia')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="buscarForm">
+			<rich:popupPanel id="popupBuscar" autosized="true"
+				header="#{mensaje.button_buscar} #{mensajeInformacionBase.municipio_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('popupBuscar')}.hide(); return false;">
+						<img src="#{request.contextPath}/img/close_14.png" />
+					</h:outputLink>
+				</f:facet>
+				<h:panelGrid columns="2"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,">
+					<h:outputText value="#{mensaje.label_nombre}:"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
+						value="#{municipioAction.nombreBuscar}" />
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensajeInformacionBase.pais_label}:" />
+					<h:selectOneMenu value="#{municipioAction.idPaisBuscar}"
+						id="cmbPais">
+						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+							itemValue="0" />
+						<f:selectItems value="#{municipioAction.itemsPais}" />
+						<f:ajax event="change"
+							listener="#{municipioAction.llenarDepartamentosPais()}"
+							render=":buscarForm:cmbdepartamento" />
+					</h:selectOneMenu>
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensajeInformacionBase.departamento_label}:" />
+					<h:selectOneMenu value="#{municipioAction.idDepBuscar}"
+						id="cmbdepartamento">
+						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+							itemValue="0" />
+						<f:selectItems value="#{municipioAction.itemsDepartamento}" />
+					</h:selectOneMenu>
+
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_buscar}"
+						action="#{municipioAction.consultarMunicipios()}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelTablaMunicipio, mensajes, mensajeBusqueda">
+					</a:commandButton>
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancelar}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

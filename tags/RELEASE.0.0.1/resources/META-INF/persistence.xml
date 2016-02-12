@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+	version="2.1">
+
+	<persistence-unit name="ERPImp">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<jta-data-source>PrototipoCostosDatasource</jta-data-source>
+		<jar-file>lib/informatix-std-v2.0.jar</jar-file>
+		<properties>
+			<!-- property hibernate.transaction.jta.platform This is required and 
+				the value will change depending on your container. for other servers see: 
+				http://docs.jboss.org/hibernate/core/4.0/javadocs/org/hibernate/service/jta/platform/internal/package-summary.html -->
+			<property name="hibernate.transaction.jta.platform"
+				value="org.hibernate.service.jta.platform.internal.SunOneJtaPlatform" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="jboss.entity.manager.factory.jndi.name"
+				value="java:/PrototipoCostosEntityManagerFactory" />
+		</properties>
+	</persistence-unit>
+
+</persistence>

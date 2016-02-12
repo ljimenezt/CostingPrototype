@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="gesEstado::#informacionBase#estado#gestionarEstado.xhtml"
+    NAME="output" PATH="/informacionBase/estado/gestionarEstado.xhtml"
+    TARGET="rules:#informacionBase#estado#gestionarEstado.xhtml"
+    TITLE="gesEstado" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="regEstado::#informacionBase#estado#registrarEstado.xhtml"
+    NAME="output1" PATH="/informacionBase/estado/registrarEstado.xhtml"
+    TARGET="rules:#informacionBase#estado#registrarEstado.xhtml"
+    TITLE="regEstado" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#informacionBase#estado#gestionarEstado.xhtml"
+  PATH="/informacionBase/estado/gestionarEstado.xhtml"
+  SHAPE="256,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#informacionBase#estado#registrarEstado.xhtml"
+  PATH="/informacionBase/estado/registrarEstado.xhtml"
+  SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>
