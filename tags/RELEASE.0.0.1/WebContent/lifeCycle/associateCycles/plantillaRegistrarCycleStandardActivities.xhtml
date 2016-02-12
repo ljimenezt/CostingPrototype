@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<rich:panel styleClass="fondoAnchoUno">
+		<a:outputPanel id="outPutRegCycle">
+			<h:panelGrid columns="3"
+				cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+				cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+				columnClasses="right,tdAlignTop">
+				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.cycleStandardActivities.hrRequired}"
+					id="txtHr">
+				</h:selectBooleanCheckbox>
+				<h:outputText
+					value="#{mensajeCosts.cycle_standard_activities_label_hr}"
+					styleClass="etiquetaTitulo" />
+				<rich:message for="txtHr" />
+
+				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.cycleStandardActivities.machineRequired}"
+					id="txtMachine">
+				</h:selectBooleanCheckbox>
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensajeCosts.cycle_standard_activities_label_maquina}" />
+				<rich:message for="txtMachine" />
+
+				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.cycleStandardActivities.serviceRequired}"
+					id="txtService">
+				</h:selectBooleanCheckbox>
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensajeCosts.cycle_standard_activities_label_servicio}" />
+				<rich:message for="txtService" />
+
+				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.cycleStandardActivities.materialsRequired}"
+					id="txtMaterials">
+				</h:selectBooleanCheckbox>
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensajeCosts.cycle_standard_activities_label_materiales}" />
+				<rich:message for="txtMaterials" />
+
+				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+					value="#{cropActivitiesAction.cycleStandardActivities.dangerous}"
+					id="txtDange">
+				</h:selectBooleanCheckbox>
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensajeCosts.cycle_standard_activities_label_peligroso}" />
+				<rich:message for="txtDange" />
+			</h:panelGrid>
+			<br />
+			<h:panelGrid columns="2"
+				cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+				cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+				columnClasses="left,">
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensajeCosts.cycle_standard_activities_label_num_secuencia}" />
+				<h:outputText value="" />
+				<h:inputText
+					value="#{cropActivitiesAction.cycleStandardActivities.sequenceNumber}"
+					styleClass="colNumeroLargo MP0" id="txtSecNum">
+				</h:inputText>
+				<rich:message for="txtSecNum" />
+				<h:outputText value="" />
+				<br />
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensajeCosts.cycle_standard_activities_label_duracion}" />
+				<h:outputText value="" />
+				<h:inputText
+					value="#{cropActivitiesAction.cycleStandardActivities.duration}"
+					styleClass="colNumeroLargo MP0" id="txtDuration">
+				</h:inputText>
+				<rich:message for="txtDuration" />
+			</h:panelGrid>
+			<br />
+			<div align="center">
+				<a:commandButton
+					render=":formConfirmarStandard:popUpConfirmarStandard,formGenerico"
+					execute="@form"
+					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmarStandard')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+					value="#{mensaje.button_guardar}" />
+			</div>
+		</a:outputPanel>
+	</rich:panel>
+
+</ui:composition>

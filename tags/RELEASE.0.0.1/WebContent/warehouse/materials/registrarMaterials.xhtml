@@ -1,0 +1,450 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="materialsAction.agregarEditarMaterials(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeWarehouse.materials_label_s" />
+	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<t:saveState value="#{materialsAction}" />
+		<t:saveState value="#{hrAction}" />
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+		<h:form id="formMaterials">
+			<rich:panel
+				header="#{mensaje.label_registrar} #{mensajeWarehouse.materials_label_s}"
+				styleClass="anchoUno MinH253P" id="panelMaterials">
+				<t:fieldset styleClass="BorderW2P anchoDos ">
+					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,,,tdAlignTop">
+						<h:outputText value="#{mensaje.label_nombre}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText value="#{materialsAction.materials.name}"
+							styleClass="colTextoMediano" id="txtNombre" required="true"
+							size="41" maxlength="100"
+							validator="#{encodeFilter.validarScripting}"
+							requiredMessage="#{mensaje.message_campo_requerido}" />
+						<rich:message for="txtNombre" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_type_label}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu
+							value="#{materialsAction.materials.materialType.idMaterialsType}"
+							id="cmbMaterialsType"
+							validator="#{validacionesAction.validarComboRequerido}">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
+							<f:selectItems value="#{materialsAction.itemsTipoMaterial}" />
+						</h:selectOneMenu>
+						<rich:message for="cmbMaterialsType" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.measurement_units_label}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu
+							value="#{materialsAction.materials.measurementUnits.idMeasurementUnits}"
+							id="cmbMeasurementUnits"
+							validator="#{validacionesAction.validarComboRequerido}">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
+							<f:selectItems value="#{materialsAction.itemsUnidadMedida}" />
+						</h:selectOneMenu>
+						<rich:message for="cmbMeasurementUnits" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.type_management_label}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu
+							value="#{materialsAction.materials.typeOfManagement.idTypeOfManagement}"
+							id="cmbTypeOfManagement"
+							validator="#{validacionesAction.validarComboRequerido}">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
+							<f:selectItems value="#{materialsAction.itemsTipoGestion}" />
+						</h:selectOneMenu>
+						<rich:message for="cmbTypeOfManagement" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_quantify_hectar_plot}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText styleClass="colTextoCorto" maxlength="25"
+							id="quantifyHectarPlot"
+							value="#{materialsAction.materials.quantityHectarPlot}">
+							<f:validateLength maximum="25" />
+						</h:inputText>
+						<rich:message for="quantifyHectarPlot" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_responsible}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:panelGrid columns="4" cellpadding="0" cellspacing="0">
+							<h:inputText styleClass="colTextoMediano"
+								value="#{materialsAction.materials.responsable.name}"
+								id="txtResponsable" readonly="true"
+								validator="#{encodeFilter.validarScripting}" />
+							<a:commandLink id="lnkResponsable"
+								render=":popupForm:popupResponsable"
+								actionListener="#{hrAction.consultarHrs}" execute="@this"
+								oncomplete="#{rich:component('popupResponsable')}.show(); setFocus('popupForm:txtNombreBuscar');">
+								<h:graphicImage value="/img/add_22.png"
+									styleClass="verticalAlignMiddle" />
+								<f:param name="param2" value="si" />
+								<f:setPropertyActionListener value=""
+									target="#{hrAction.nombreBuscar}" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_seleccionar}" />
+								</rich:tooltip>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+							<h:outputText value="&#32;&#32;&#32;" />
+							<a:commandLink
+								actionListener="#{materialsAction.limpiarResponsable()}"
+								render=":formMaterials:txtResponsable" execute="@this">
+								<h:graphicImage value="/img/editRemove_16.png" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_quitar}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</h:panelGrid>
+						<rich:message for="txtResponsable" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_time_harvest}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText
+							label="#{mensajeWarehouse.materials_label_time_harvest}"
+							value="#{materialsAction.materials.waitingTimeHarvest}"
+							maxlength="25" id="txtWaitingTimeHarvest"
+							styleClass="colTextoCorto">
+							<f:validateLength maximum="25" />
+						</h:inputText>
+						<rich:message for="txtWaitingTimeHarvest" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_time_people}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText
+							label="#{mensajeWarehouse.materials_label_time_people}"
+							value="#{materialsAction.materials.waitingTimePeople}"
+							maxlength="25" id="txtWaitingTimePeople"
+							styleClass="colTextoCorto">
+							<f:validateLength maximum="25" />
+						</h:inputText>
+						<rich:message for="txtWaitingTimePeople" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_product_trade_brand_name}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText
+							value="#{materialsAction.materials.productTradeBrandName}"
+							styleClass="colTextoMediano" id="txtBrandName" size="41"
+							maxlength="150" validator="#{encodeFilter.validarScripting}" />
+						<rich:message for="txtBrandName" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_aplication_method}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText
+							value="#{materialsAction.materials.applicationMethod}"
+							styleClass="colTextoMediano" id="txtApplicationMethod" size="41"
+							maxlength="150" validator="#{encodeFilter.validarScripting}" />
+						<rich:message for="txtApplicationMethod" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_max_residue_level}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText value="#{materialsAction.materials.maxResidueLevels}"
+							styleClass="colTextoMediano" id="txtMaxResidueLevels" size="41"
+							maxlength="150" validator="#{encodeFilter.validarScripting}" />
+						<rich:message for="txtMaxResidueLevels" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_first_aid_info}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText value="#{materialsAction.materials.firstAidInfo}"
+							styleClass="colTextoMediano" id="txtFirstAidInfo" size="41"
+							maxlength="150" validator="#{encodeFilter.validarScripting}" />
+						<rich:message for="txtFirstAidInfo" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_active_ingredients}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText
+							value="#{materialsAction.materials.activeIngredients}"
+							styleClass="colTextoMediano" id="txtActiIng" size="41"
+							maxlength="100" validator="#{encodeFilter.validarScripting}" />
+						<rich:message for="txtActiIng" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_mineral_chemical_content}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText
+							value="#{materialsAction.materials.mineralChemicalContent}"
+							styleClass="colTextoMediano" id="txtMinChem" size="41"
+							maxlength="100" validator="#{encodeFilter.validarScripting}" />
+						<rich:message for="txtMinChem" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos ">
+					<legend class="etiquetaTitulo">#{mensaje.label_clasificacion}</legend>
+					<h:panelGrid columns="12" cellpadding="3" cellspacing="3">
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_dangerous}" />
+						<h:selectBooleanCheckbox id="ckbDangerous"
+							value="#{materialsAction.materials.dangerous}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_eu_approved}" />
+						<h:selectBooleanCheckbox id="ckbEuApproved"
+							value="#{materialsAction.materials.euApproved}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_usa_approved}" />
+						<h:selectBooleanCheckbox id="ckbUsaApproved"
+							value="#{materialsAction.materials.usaApproved}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_japan_approved}" />
+						<h:selectBooleanCheckbox id="ckbJapanApproved"
+							value="#{materialsAction.materials.japanApproved}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_classified_1a}" />
+						<h:selectBooleanCheckbox id="ckbClassified1a"
+							value="#{materialsAction.materials.classified1a}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_classified_1b}" />
+						<h:selectBooleanCheckbox id="ckbClassified1b"
+							value="#{materialsAction.materials.classified1b}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_pops}" />
+						<h:selectBooleanCheckbox id="ckbPops"
+							value="#{materialsAction.materials.pops}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_included_unep}" />
+						<h:selectBooleanCheckbox id="ckbIncludedUnep"
+							value="#{materialsAction.materials.includedUnep}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_included_pan}" />
+						<h:selectBooleanCheckbox id="ckbIncludedPan"
+							value="#{materialsAction.materials.includedPan}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_obsolete}" />
+						<h:selectBooleanCheckbox id="ckbObsolete"
+							value="#{materialsAction.materials.obsolete}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_fao}" />
+						<h:selectBooleanCheckbox id="ckbFao"
+							value="#{materialsAction.materials.fao}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label_organic}" />
+						<h:selectBooleanCheckbox id="ckbOrganic"
+							value="#{materialsAction.materials.organic}" />
+
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						execute="formMaterials"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_guardar}" />
+				</div>
+			</rich:panel>
+		</h:form>
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}" />
+						<h:outputText value="#{materialsAction.materials.name}" />
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_responsible}" />
+						<h:outputText
+							value="#{materialsAction.materials.responsable.name}" />
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_time_harvest}" />
+						<h:outputText
+							value="#{materialsAction.materials.waitingTimeHarvest}" />
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_product_trade_brand_name}" />
+						<h:outputText
+							value="#{materialsAction.materials.productTradeBrandName}" />
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_aplication_method}" />
+						<h:outputText
+							value="#{materialsAction.materials.applicationMethod}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{materialsAction.guardarMaterials()}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="popupForm">
+			<rich:popupPanel id="popupResponsable" autosized="true"
+				domElementAttachment="form"
+				header="#{mensaje.label_listado_de} #{mensajeRecursosHumanos.recurso_humano_label_s}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupResponsable')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:panel styleClass="H373P fondoAnchoUno W580P">
+					<a:outputPanel id="outPutBuscarResponsable">
+						<t:fieldset styleClass="BorderW2P">
+							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+								#{mensajeNombre.tipo_concepto_label_s}</legend>
+							<h:panelGrid columns="3" cellpadding="7">
+								<h:outputText value="#{mensaje.label_nombre}"
+									styleClass="etiquetaTitulo" />
+								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
+									value="#{hrAction.nombreBuscar}"
+									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
+								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+									actionListener="#{hrAction.consultarHrs}"
+									render="outputResponsable">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+							</h:panelGrid>
+						</t:fieldset>
+						<br />
+
+						<ui:param name="listaVacia"
+							value="#{hrAction.listaHr eq null or (empty hrAction.listaHr)}" />
+						<div align="right" class="W560P">
+							<a:commandLink render="outPutBuscarResponsable"
+								styleClass="quitarDecoracionLink"
+								action="#{hrAction.consultarHrs}"
+								actionListener="#{hrAction.setNombreBuscar(null)}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/listarTodos_16.png" />
+									<h:outputText value="#{mensaje.button_listar_todos}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+						</div>
+						<a:outputPanel id="outputResponsable">
+							<rich:dataTable value="#{hrAction.listaHr}" var="responsable"
+								id="tResponsable" footerClass="H130P"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
+								rowClasses="odd-row, even-row">
+								<f:facet name="header">
+									<h:outputText
+										value="#{mensajeRecursosHumanos.recurso_humano_label_s}" />
+								</f:facet>
+								<rich:column styleClass="colIconoUno">
+									<f:facet name="header" />
+									<a:commandLink render=":formMaterials:txtResponsable"
+										actionListener="#{materialsAction.cargarResponsable(responsable)}"
+										oncomplete="#{rich:component('popupResponsable')}.hide();">
+										<h:graphicImage value="/img/add_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.label_seleccionar}" />
+										</rich:tooltip>
+									</a:commandLink>
+								</rich:column>
+								<rich:column width="300px">
+									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<h:outputText value="#{responsable.name}" />
+								</rich:column>
+								<rich:column width="100px" styleClass="center">
+									<f:facet name="header">#{mensaje.label_direccion}</f:facet>
+									<a:outputPanel>
+										<h:graphicImage value="/img/info_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{responsable.direccion}" />
+										</rich:tooltip>
+									</a:outputPanel>
+								</rich:column>
+								<rich:column width="100px" styleClass="center">
+									<f:facet name="header">#{mensaje.label_telefono}</f:facet>
+									<h:outputText value="#{responsable.telefono}" />
+								</rich:column>
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia}">
+										<rich:column colspan="5" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listaVacia}">
+								<div class="W560P center inBlock">
+									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+										<ui:param name="valParam2" value="si" />
+										<ui:param name="conParam2" value="1" />
+										<ui:param name="pager" value="paginadorForm" />
+										<ui:param name="valReder" value=":popupForm:outputResponsable" />
+										<ui:param name="beanActionParam" value="#{hrAction}" />
+										<ui:param name="metodoActionParam" value="consultarHrs" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</a:outputPanel>
+					</a:outputPanel>
+				</rich:panel>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

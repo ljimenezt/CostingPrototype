@@ -1,0 +1,59 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:rich="http://richfaces.org/rich">
+<h:head>
+	<title>#{mensaje.label_nombre_sistema}</title>
+	<link href="#{request.contextPath}/css/anchosAltos.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/css/botones.css" rel="stylesheet"
+		type="text/css" />
+	<link href="#{request.contextPath}/css/cambiosRichFaces.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/css/cambiosPrimeFaces.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/css/clasesProyecto.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/css/etiquetasHtml.css"
+		rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/img/icono.ico" type="image/x-icon"
+		rel="shortcut icon" />
+	<script type="text/javascript">
+		function addEventMouse() {
+			$(".dataTable tr").hover(function() {
+				$(this).addClass("active\u002Drow");
+			}, function() {
+				$(this).removeClass("active\u002Drow");
+			});
+		}
+		jQuery(document).ready(function() {
+			jQuery("td.rf-tab-hdr-spcr").width("auto");
+		});
+	</script>
+	<ui:insert name="head" />
+</h:head>
+<h:body>
+	<a:status onstart="#{rich:component('statPane')}.show()"
+		onstop="#{rich:component('statPane')}.hide();addEventMouse();" />
+	<h:form>
+		<rich:popupPanel id="statPane" autosized="true">
+			<h:graphicImage value="/img/wait_28.gif" alt="ai" />
+			<h:outputText value="#{mensaje.message_wait}" />
+		</rich:popupPanel>
+	</h:form>
+	<f:view locale="#{idioma.locale}">
+		<ui:debug hotkey="h" />
+		<div class="ocultar">
+			<ui:include src="botonesGraficos.xhtml" />
+		</div>
+		<div class="body">
+			<ui:insert name="body" />
+			<br></br>
+		</div>
+	</f:view>
+</h:body>
+</html>

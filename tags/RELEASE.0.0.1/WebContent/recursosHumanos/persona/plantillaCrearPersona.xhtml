@@ -1,0 +1,285 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	<h:panelGrid columns="2" columnClasses="W70Per,W30Per tdAlignTop">
+		<h:panelGrid columns="4"
+			cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
+			cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}">
+
+			<h:outputText value="#{mensaje.label_document_type}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:selectOneMenu value="#{personaAction.persona.tipoDocumento.id}"
+				id="cmbTipoDocumento">
+				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItems value="#{personaAction.itemsTiposDocumentos}" />
+			</h:selectOneMenu>
+			<rich:message for="cmbTipoDocumento" />
+
+			<h:outputText value="#{mensaje.label_numero_identificacion}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:inputText value="#{personaAction.persona.documento}" id="txtId"
+				styleClass="colTextoMediano" maxlength="15"
+				disabled="#{personaAction.esEdicion}"
+				validator="#{personaAction.validarDocumentoXSS}">
+				<f:validateLength maximum="15" />
+			</h:inputText>
+			<rich:message for="txtId" />
+
+			<h:outputText value="#{mensaje.label_nombre}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:inputText value="#{personaAction.persona.nombres}" maxlength="100"
+				id="txtNombre" validator="#{encodeFilter.validarScripting}"
+				styleClass="colTextoMediano">
+				<f:validateLength maximum="100" />
+				<f:attribute name="nameRegEx" value="locate.regex.letras" />
+			</h:inputText>
+			<rich:message for="txtNombre" />
+
+			<h:outputText value="#{mensaje.label_apellido}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="" />
+			<h:inputText value="#{personaAction.persona.apellidos}"
+				maxlength="100" id="txtApellido" styleClass="colTextoMediano"
+				validator="#{encodeFilter.validarScripting}">
+				<f:validateLength maximum="100" />
+				<f:attribute name="nameRegEx" value="locate.regex.letras" />
+			</h:inputText>
+			<rich:message for="txtApellido" />
+
+			<h:outputLabel value="#{mensaje.label_genero}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:selectOneRadio value="#{personaAction.persona.genero}"
+				id="radGenero">
+				<f:selectItem itemValue="f" itemLabel="#{mensaje.label_f}" />
+				<f:selectItem itemValue="m" itemLabel="#{mensaje.label_m}" />
+			</h:selectOneRadio>
+			<rich:message for="radGenero" />
+
+			<h:outputText
+				value="#{mensajeRecursosHumanos.persona_label_fecha_nacimiento}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="" />
+			<p:calendar value="#{personaAction.persona.fechaNacimiento}"
+				id="calFechaNacimiento" showOn="button" navigator="true"
+				maxdate="#{personaAction.fechaActual}" readOnlyInputText="true"
+				converterMessage="#{mensaje.message_validar_formato_fecha}"
+				yearRange="c-90:c+1" />
+			<rich:message for="calFechaNacimiento" />
+
+			<h:outputText value="#{mensajeInformacionBase.pais_label_nacimiento}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:selectOneMenu value="#{personaAction.persona.paisNac.id}"
+				id="comboPais">
+				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItems value="#{personaAction.itemsPaises}" />
+				<a:ajax event="valueChange"
+					render="comboDepartamento, comboMunicipio" execute="@this"
+					listener="#{personaAction.cargarComboDepartamento()}" />
+			</h:selectOneMenu>
+			<rich:message for="comboPais" />
+
+			<h:outputText
+				value="#{mensajeInformacionBase.departamento_label_nacimiento}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:selectOneMenu value="#{personaAction.persona.departamentoNac.id}"
+				id="comboDepartamento">
+				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItems value="#{personaAction.itemDepartamentos}" />
+				<a:ajax event="change" render="comboMunicipio"
+					listener="#{personaAction.cargarComboMunicipio()}" execute="@this" />
+			</h:selectOneMenu>
+			<rich:message for="comboDepartamento" />
+
+			<h:outputText
+				value="#{mensajeInformacionBase.municipio_label_nacimiento}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:selectOneMenu value="#{personaAction.persona.municipioNac.id}"
+				id="comboMunicipio">
+				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItems value="#{personaAction.itemsMunicipios}" />
+			</h:selectOneMenu>
+			<rich:message for="comboMunicipio" />
+
+			<h:outputText value="#{mensajeInformacionBase.estado_civil_label}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="" />
+			<h:selectOneMenu value="#{personaAction.persona.estadoCivil.id}"
+				id="comboEstadoCivil">
+				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItems value="#{personaAction.itemsEstadosCivil}" />
+			</h:selectOneMenu>
+			<rich:message for="comboEstadoCivil" />
+
+			<h:outputText
+				value="#{mensajeRecursosHumanos.persona_label_numero_hijos}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="" />
+			<h:inputText id="txtNumHijos"
+				validatorMessage="#{mensaje.message_campo_positivo}"
+				converterMessage="#{mensaje.message_campo_positivo}"
+				value="#{personaAction.persona.nroHijos}" styleClass="colTextoMini">
+				<f:validateDoubleRange minimum="0" />
+			</h:inputText>
+			<rich:message for="txtNumHijos" />
+
+			<h:outputText value="#{mensaje.label_telefono}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:inputText value="#{personaAction.persona.telefono}" maxlength="20"
+				id="txtTelefono" styleClass="colTextoCorto"
+				validator="#{encodeFilter.validarScripting}">
+				<f:attribute name="nameRegEx" value="locate.regex.numeros.guion" />
+			</h:inputText>
+			<rich:message for="txtTelefono" />
+
+			<h:outputText value="#{mensaje.label_direccion}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="" />
+			<h:inputText value="#{personaAction.persona.direccion}"
+				maxlength="200" id="txtDireccion" styleClass="colTextoMediano"
+				validator="#{encodeFilter.validarScripting}">
+				<f:validateLength maximum="200" />
+				<f:attribute name="nameRegEx"
+					value="locate.regex.letras.numeros.caracteres" />
+			</h:inputText>
+			<rich:message for="txtDireccion" />
+
+			<h:outputText value="#{mensaje.label_email}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="" />
+			<h:inputText value="#{personaAction.persona.correo}" id="txtEmail"
+				styleClass="colTextoMediano" maxlength="150"
+				validator="#{validacionesAction.validarEmailXSS}">
+				<f:validateLength maximum="150" />
+			</h:inputText>
+			<rich:message for="txtEmail" />
+
+			<h:outputText value="#{mensaje.label_fax}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="" />
+			<h:inputText value="#{personaAction.persona.fax}" id="txtFax"
+				validator="#{encodeFilter.validarScripting}"
+				styleClass="colTextoCorto" maxlength="30">
+				<f:validateLength maximum="30" />
+				<f:attribute name="nameRegEx" value="locate.regex.numeros.guion" />
+			</h:inputText>
+			<rich:message for="txtFax" />
+
+			<h:outputText value="#{mensaje.label_movil}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="" />
+			<h:inputText value="#{personaAction.persona.movil}" id="txtMovil"
+				maxlength="10" styleClass="colTextoCorto"
+				validator="#{encodeFilter.validarScripting}">
+				<f:attribute name="nameRegEx" value="locate.regex.numeros" />
+			</h:inputText>
+			<rich:message for="txtMovil" />
+
+			<h:outputText value="#{mensajeInformacionBase.pais_label_residencia}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:selectOneMenu value="#{personaAction.persona.paisRes.id}"
+				id="comboPaisRes">
+				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItems value="#{personaAction.itemsPaises}" />
+				<a:ajax event="valueChange"
+					render="comboDepartamentoRes, comboMunicipioRes" execute="@this"
+					listener="#{personaAction.cargarComboDepartamentoRes()}" />
+			</h:selectOneMenu>
+			<rich:message for="comboPaisRes" />
+
+			<h:outputText
+				value="#{mensajeInformacionBase.departamento_label_residencia}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:selectOneMenu value="#{personaAction.persona.departamentoRes.id}"
+				id="comboDepartamentoRes">
+				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItems value="#{personaAction.itemDepartamentosRes}" />
+				<a:ajax event="change" render="comboMunicipioRes"
+					listener="#{personaAction.cargarComboMunicipioRes()}"
+					execute="@this" />
+			</h:selectOneMenu>
+			<rich:message for="comboDepartamentoRes" />
+
+			<h:outputText
+				value="#{mensajeInformacionBase.municipio_label_residencia}"
+				styleClass="etiquetaTitulo" />
+			<h:outputText value="*" styleClass="required" />
+			<h:selectOneMenu value="#{personaAction.persona.municipioRes.id}"
+				id="comboMunicipioRes">
+				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItems value="#{personaAction.itemsMunicipiosRes}" />
+			</h:selectOneMenu>
+			<rich:message for="comboMunicipioRes" />
+
+		</h:panelGrid>
+
+		<h:panelGrid columns="1" cellpadding="0"
+			rendered="#{modal ne '1' and modal ne '2'}">
+			<t:fieldset>
+				<legend class="etiquetaTitulo">#{mensaje.label_foto}</legend>
+				<h:panelGrid columns="1" cellpadding="0" id="panelFoto">
+					<a:outputPanel
+						rendered="#{personaAction.fileUploadBean.fileName != null and !(empty personaAction.fileUploadBean.fileName)}">
+						<div class="uploadImg">
+							<div class="closeImg">
+								<a:commandLink action="#{personaAction.borrarFilename}"
+									render=":#{idFormulario}:panelFoto">
+									<h:graphicImage value="/img/close_14.png" styleClass="cursor"
+										onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+										onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+										title="#{mensaje.label_cambiar_img}" />
+								</a:commandLink>
+							</div>
+							<h:graphicImage
+								value="#{personaAction.carpetaArchivosTemporal}/#{personaAction.fileUploadBean.fileName}"
+								title="#{personaAction.fileUploadBean.fileName}"
+								styleClass="H200P W290P"
+								rendered="#{personaAction.cargarFotoTemporal}" />
+							<h:graphicImage
+								value="#{personaAction.carpetaArchivos}/#{personaAction.fileUploadBean.fileName}"
+								title="#{personaAction.fileUploadBean.fileName}"
+								styleClass="H200P W290P"
+								rendered="#{!personaAction.cargarFotoTemporal}" />
+						</div>
+					</a:outputPanel>
+					<a:outputPanel>
+						<ui:param name="idFileMessage" value="#{idFormulario}:uploadFile" />
+						<h:graphicImage value="/img/noImage_240X203.png"
+							rendered="#{personaAction.fileUploadBean.fileName eq null or empty personaAction.fileUploadBean.fileName}"
+							styleClass="H200P W290P" />
+						<p:fileUpload id="uploadFile" dragDropSupport="true"
+							rendered="#{personaAction.fileUploadBean.fileName eq null or empty personaAction.fileUploadBean.fileName}"
+							label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+							auto="true" fileUploadListener="#{personaAction.submit}"
+							update="panelFoto"
+							onstart="#{rich:component('statPane')}.show();"
+							oncomplete="#{rich:component('statPane')}.hide();">
+						</p:fileUpload>
+						<rich:message for="uploadFile" styleClass="errors" />
+						<h:graphicImage value="/img/wait_28.gif" styleClass="H20P ocultar" />
+						<div class="etiquetaTitulo">
+							<hr />
+							<h:outputText
+								value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
+							<hr />
+						</div>
+					</a:outputPanel>
+				</h:panelGrid>
+			</t:fieldset>
+		</h:panelGrid>
+	</h:panelGrid>
+</ui:composition>

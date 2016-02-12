@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich">
+	<div class="areaGeneral">
+		<ui:param name="autenticado"
+			value="#{identity ne null and identity.autenticado}" />
+		<rich:toolbar>
+			<rich:toolbarGroup>
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_nombre_sistema}" />
+				<h:outputText styleClass="etiquetaTitulo" value="-" />
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_descripcion_sistema}" />
+			</rich:toolbarGroup>
+			<rich:toolbarGroup rendered="#{autenticado}">
+				<h:outputText value="" />
+				<h:outputText
+					value="#{mensaje.label_bienvenido}, #{identity.nombreUsuario}" />
+				<h:outputText value="(#{identity.nombreRoles})"
+					rendered="#{identity.nombreRoles ne null and !(empty identity.nombreRoles)}" />
+			</rich:toolbarGroup>
+			<rich:toolbarGroup location="right">
+				<h:form rendered="#{autenticado}">
+					<h:commandLink onclick="#{rich:component('statPane')}.show();"
+						actionListener="#{sesionEmpresa.limpiarEmpresaSesion()}"
+						action="#{identity.logout(true)}"
+						styleClass="linkGrapButtons colorBlanco">
+						<h:panelGrid styleClass="tablaIconoTextoHeader" columns="2">
+							<h:graphicImage value="/img/logout_16.png" />
+							<h:outputText value="#{mensaje.button_logout}" />
+						</h:panelGrid>
+					</h:commandLink>
+				</h:form>
+				<h:form rendered="#{!autenticado}">
+					<h:commandLink onclick="#{rich:component('statPane')}.show();"
+						action="gesLogin" styleClass="linkGrapButtons colorBlanco">
+						<h:panelGrid styleClass="tablaIconoTextoHeader" columns="2">
+							<h:graphicImage value="/img/login_16.png" />
+							<h:outputText value="#{mensaje.button_login}" />
+						</h:panelGrid>
+					</h:commandLink>
+				</h:form>
+			</rich:toolbarGroup>
+		</rich:toolbar>
+	</div>
+	<rich:panel rendered="#{!autenticado}">
+		<h:panelGrid columns="3" columnClasses="left,center,center"
+			styleClass="W100Per MarginT-5P">
+			<h:graphicImage value="/img/logoInformatixInc_256X80.png" />
+		</h:panelGrid>
+	</rich:panel>
+</ui:composition>

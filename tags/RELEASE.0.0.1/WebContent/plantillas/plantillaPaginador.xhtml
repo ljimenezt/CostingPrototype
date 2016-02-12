@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+	<c:if test="#{pager eq null or empty(pager)}">
+		<ui:param name="pager" value="paginador" />
+	</c:if>
+	<ui:param name="paginador" value="#{beanActionParam[pager]}" />
+	<h:inputHidden value="#{paginador['limpiarOpcion']}" />
+	<br />
+	<a:commandLink id="first#{valId}" render="#{valReder}"
+		disabled="#{paginador['inicio'] - paginador['rango'] lt 0}"
+		action="#{beanActionParam[metodoActionParam]}" execute="@this">
+		<h:graphicImage value="/img/first_24X12.png"
+			title="#{mensaje.label_primero}" />
+		<f:setPropertyActionListener value="f" target="#{paginador['opcion']}" />
+		<f:param name="param2" value="#{valParam2}"
+			rendered="#{conParam2 eq '1'}" />
+		<f:param name="param3" value="#{valParam3}"
+			rendered="#{conParam3 eq '1'}" />
+		<f:param name="estado" value="#{valEstado}"
+			rendered="#{conEstado eq '1'}" />
+	</a:commandLink>
+	<a:commandLink id="previous#{valId}"
+		disabled="#{paginador['inicio'] - paginador['rango'] lt 0}"
+		action="#{beanActionParam[metodoActionParam]}" render="#{valReder}"
+		execute="@this">
+		<h:graphicImage value="/img/previous_24X12.png"
+			title="#{mensaje.label_anterior}" />
+		<f:setPropertyActionListener value="p" target="#{paginador['opcion']}" />
+		<f:param name="param2" value="#{valParam2}"
+			rendered="#{conParam2 eq '1'}" />
+		<f:param name="param3" value="#{valParam3}"
+			rendered="#{conParam3 eq '1'}" />
+		<f:param name="estado" value="#{valEstado}"
+			rendered="#{conEstado eq '1'}" />
+	</a:commandLink>
+	<h:outputText
+		value="#{paginador['itemInicial']} ... #{paginador['itemFinal']} #{mensaje.label_de} #{paginador['totalItems']}" />
+	<a:commandLink id="next#{valId}"
+		disabled="#{paginador['inicio'] + paginador['rango'] ge paginador['totalItems']}"
+		action="#{beanActionParam[metodoActionParam]}" render="#{valReder}"
+		execute="@this">
+		<h:graphicImage value="/img/next_24X12.png"
+			title="#{mensaje.label_siguiente}" />
+		<f:setPropertyActionListener value="n" target="#{paginador['opcion']}" />
+		<f:param name="param2" value="#{valParam2}"
+			rendered="#{conParam2 eq '1'}" />
+		<f:param name="param3" value="#{valParam3}"
+			rendered="#{conParam3 eq '1'}" />
+		<f:param name="estado" value="#{valEstado}"
+			rendered="#{conEstado eq '1'}" />
+	</a:commandLink>
+	<a:commandLink id="last#{valId}"
+		disabled="#{paginador['inicio'] + paginador['rango'] ge paginador['totalItems']}"
+		action="#{beanActionParam[metodoActionParam]}" render="#{valReder}"
+		execute="@this">
+		<h:graphicImage value="/img/last_24X12.png"
+			title="#{mensaje.label_utimo}" />
+		<f:setPropertyActionListener value="l" target="#{paginador['opcion']}" />
+		<f:param name="param2" value="#{valParam2}"
+			rendered="#{conParam2 eq '1'}" />
+		<f:param name="param3" value="#{valParam3}"
+			rendered="#{conParam3 eq '1'}" />
+		<f:param name="estado" value="#{valEstado}"
+			rendered="#{conEstado eq '1'}" />
+	</a:commandLink>
+</ui:composition>
