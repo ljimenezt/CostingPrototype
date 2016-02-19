@@ -12,16 +12,19 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:param name="action" value="beanIndexAction.addEditBeanIndex(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeBeanIndex.bean_index_label" />
+		value="mensaje.label_registrar,mensajeBeanIndex.bean_index_label_s" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<t:saveState value="#{beanIndexAction}" />
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
 		<h:form id="formBeanIndex">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeBeanIndex.bean_index_label}"
+				header="#{mensaje.label_registrar} #{mensajeBeanIndex.bean_index_label_s}"
 				styleClass="anchoUno MinH253P" id="panelRegisterBeanIndex">
 
 				<h:panelGrid columns="4" columnClasses="tdAlignTop,,,tdAlignTop">
@@ -74,6 +77,18 @@
 						<f:validateDoubleRange maximum="24" minimum="1" />
 					</h:inputText>
 					<rich:message for="numCycleNumber" />
+
+					<h:outputText value="#{mensajeBeanIndex.bean_index_label_date}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar value="#{beanIndexAction.beanIndex.dateBean}"
+						required="true" showOn="button" navigator="true"
+						converterMessage="#{mensaje.message_validar_formato_fecha}"
+						id="dateBean" pattern="MM/dd/yyyy" readonlyInput="true"
+						label="#{mensajeBeanIndex.bean_index_label_date}">
+					</p:calendar>
+					<rich:message for="dateBean" />
+
 				</h:panelGrid>
 				<br />
 				<div align="center">
@@ -115,6 +130,8 @@
 						<h:outputText
 							value="#{mensajeBeanIndex.bean_index_label_cycle_number}" />
 						<h:outputText value="#{beanIndexAction.beanIndex.cycleNumber}" />
+						<h:outputText value="#{mensajeBeanIndex.bean_index_label_date}" />
+						<h:outputText value="#{beanIndexAction.beanIndex.dateBean}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"

@@ -1,6 +1,7 @@
 package co.informatix.erp.kpi.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import co.informatix.erp.lifeCycle.entities.Crops;
 import co.informatix.erp.lifeCycle.entities.Section;
@@ -29,6 +32,7 @@ public class BeanIndex implements Serializable {
 	private double sampleWeight;
 	private Section section;
 	private Crops crops;
+	private Date dateBean;
 
 	/**
 	 * @return idBeanIndex: Identifier the beanIndex.
@@ -114,11 +118,30 @@ public class BeanIndex implements Serializable {
 		this.crops = crops;
 	}
 
+	/**
+	 * @return dateBean : date for the bean index
+	 */
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_bean_index", nullable = false)
+	public Date getDateBean() {
+		return dateBean;
+	}
+
+	/**
+	 * @param dateBean
+	 *            : date for the bean index
+	 */
+	public void setDateBean(Date dateBean) {
+		this.dateBean = dateBean;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + cycleNumber;
+		result = prime * result
+				+ ((dateBean == null) ? 0 : dateBean.hashCode());
 		result = prime * result + idBeanIndex;
 		long temp;
 		temp = Double.doubleToLongBits(sampleWeight);
@@ -137,6 +160,11 @@ public class BeanIndex implements Serializable {
 		BeanIndex other = (BeanIndex) obj;
 		if (cycleNumber != other.cycleNumber)
 			return false;
+		if (dateBean == null) {
+			if (other.dateBean != null)
+				return false;
+		} else if (!dateBean.equals(other.dateBean))
+			return false;
 		if (idBeanIndex != other.idBeanIndex)
 			return false;
 		if (Double.doubleToLongBits(sampleWeight) != Double
@@ -144,5 +172,4 @@ public class BeanIndex implements Serializable {
 			return false;
 		return true;
 	}
-
 }
