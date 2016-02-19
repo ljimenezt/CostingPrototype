@@ -75,9 +75,13 @@
 						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_cycle_number}</f:facet>
 						<h:outputText value="#{beanIndex.cycleNumber}" />
 					</rich:column>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_date}</f:facet>
+						<h:outputText value="#{beanIndex.dateBean}" />
+					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
-							<rich:column colspan="5" styleClass="footTabla">
+							<rich:column colspan="6" styleClass="footTabla">
 								<h:outputText
 									value="#{mensaje.message_no_existen_registros_tabla}" />
 							</rich:column>
@@ -174,6 +178,8 @@
 						<h:outputText
 							value="#{mensajeBeanIndex.bean_index_label_cycle_number}:" />
 						<h:outputText value="#{beanIndexAction.beanIndex.cycleNumber}" />
+						<h:outputText value="#{mensajeBeanIndex.bean_index_label_date}" />
+						<h:outputText value="#{beanIndexAction.beanIndex.dateBean}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
