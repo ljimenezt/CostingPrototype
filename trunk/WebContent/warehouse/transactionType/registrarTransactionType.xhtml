@@ -23,26 +23,23 @@
 		</script>
 		<h:form id="formTransactionType">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeWarehouse.materials_label_s}"
+				header="#{mensaje.label_registrar} #{mensajeWarehouse.transactionType_label}"
 				styleClass="anchoUno MinH253P" id="panelTransactionType">
-				<t:fieldset styleClass="BorderW2P anchoDos ">
-					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
-					<h:panelGrid columns="4"
-						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,,,tdAlignTop">
-						<h:outputText value="#{mensaje.label_nombre}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:inputText
-							value="#{transactionTypeAction.transactionType.transactionType}"
-							styleClass="colTextoMediano" id="txtNombre" required="true"
-							size="41" maxlength="100"
-							validator="#{encodeFilter.validarScripting}"
-							requiredMessage="#{mensaje.message_campo_requerido}" />
-						<rich:message for="txtNombre" />
-					</h:panelGrid>
-				</t:fieldset>
+				<h:panelGrid columns="4"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,tdAlignTop">
+					<h:outputText value="#{mensaje.label_nombre}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText
+						value="#{transactionTypeAction.transactionType.transactionType}"
+						styleClass="colTextoMediano" id="txtNombre" required="true"
+						maxlength="100"
+						validator="#{transactionTypeAction.validateNameXSS}"
+						requiredMessage="#{mensaje.message_campo_requerido}" />
+					<rich:message for="txtNombre" />
+				</h:panelGrid>
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
@@ -70,7 +67,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}" />
+						<h:outputText value="#{mensaje.label_nombre}:" />
 						<h:outputText
 							value="#{transactionTypeAction.transactionType.transactionType}" />
 					</ui:define>
