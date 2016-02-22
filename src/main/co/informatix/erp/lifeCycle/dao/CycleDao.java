@@ -51,7 +51,7 @@ public class CycleDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Cycle> consultarCycle(int start, int range,
+	public List<Cycle> consultCycle(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -82,7 +82,7 @@ public class CycleDao implements Serializable {
 	 * @return Long: amount of cycle records found.
 	 * @throws Exception
 	 */
-	public Long cantidadCycle(StringBuilder consult, List<SelectItem> parameters)
+	public Long amountCycle(StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(c) FROM Cycle c ");
@@ -112,7 +112,7 @@ public class CycleDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Cycle> consultarCycleXCrop(int start, int range,
+	public List<Cycle> consultCycleByCrop(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters, int idCrop)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -136,8 +136,8 @@ public class CycleDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of existing cycles in the BD filtering information
-	 * search by the values sent.
+	 * Returns the number of existing cycles in the database filtering
+	 * information search by the values sent.
 	 * 
 	 * @param consult
 	 *            : String containing the query why the leak.

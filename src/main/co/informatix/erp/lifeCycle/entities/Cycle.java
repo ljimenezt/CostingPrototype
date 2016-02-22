@@ -67,7 +67,7 @@ public class Cycle implements Serializable {
 	/**
 	 * @return cycleNumber: Number of the cycle.
 	 */
-	@Column(name = "cycle_number")
+	@Column(name = "cycle_number", nullable = false)
 	public Integer getCycleNumber() {
 		return cycleNumber;
 	}
@@ -310,7 +310,7 @@ public class Cycle implements Serializable {
 	 * @return crops: Crop to which the cycle belong
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_crop", referencedColumnName = "idcrop")
+	@JoinColumn(name = "id_crop", referencedColumnName = "idcrop", nullable = false)
 	public Crops getCrops() {
 		return crops;
 	}
@@ -327,7 +327,7 @@ public class Cycle implements Serializable {
 	 * @return activiyNames: Activity to the which the cycle belong.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_activity_name", referencedColumnName = "idactivityname")
+	@JoinColumn(name = "id_activity_name", referencedColumnName = "idactivityname", nullable = false)
 	public ActivityNames getActiviyNames() {
 		return activiyNames;
 	}
