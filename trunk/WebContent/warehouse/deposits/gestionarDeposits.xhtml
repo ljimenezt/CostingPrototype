@@ -25,7 +25,7 @@
 		</script>
 		<ui:param name="listaVacia"
 			value="#{depositsAction.listaDeposits eq null or (empty depositsAction.listaDeposits)}" />
-		<ui:param name="anchoTabla" value="anchoTres" />
+		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{depositsAction}" />
 		<ui:param name="renderLista" value="panelDeposits vigenciaPopup" />
@@ -71,11 +71,6 @@
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
-						<h:outputText value="#{deposit.expireDate}" />
-					</rich:column>
-
 					<rich:column styleClass="colValor">
 						<f:facet name="header">#{mensajeWarehouse.deposits_label_initial_quantity_actual}</f:facet>
 						<h:outputText value="#{deposit.initialQuantity}" />
@@ -92,27 +87,27 @@
 					</rich:column>
 
 
-					<rich:column styleClass="colTextoLargo">
+					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_ubicacion}</f:facet>
 						<h:outputText value="#{deposit.location}" />
 					</rich:column>
 
-					<rich:column styleClass="colTextoLargo">
+					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensajeWarehouse.deposits_quality_certificate_location_link}</f:facet>
 						<h:outputText value="#{deposit.qualityCertificateLocationLink}" />
 					</rich:column>
 
-					<rich:column styleClass="colTextoLargo">
+					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
 						<h:outputText value="#{deposit.materials.name}" />
 					</rich:column>
 
-					<rich:column styleClass="colTextoLargo">
+					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensajeMenu.hacienda_label}</f:facet>
 						<h:outputText value="#{deposit.farm.name}" />
 					</rich:column>
 
-					<rich:column styleClass="colTextoLargo">
+					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensajeWarehouse.measurement_units_label}</f:facet>
 						<h:outputText value="#{deposit.measurementUnits.name}" />
 					</rich:column>
