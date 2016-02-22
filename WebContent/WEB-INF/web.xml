@@ -94,6 +94,7 @@
 			/lifeCycle/activities/activitiesAndCertifications/faces-config-activitiesAndCertifications.xml,
 			/lifeCycle/scheduledActivities/faces-config-scheduledActivities.xml,
 			/lifeCycle/section/faces-config-section.xml,
+			/lifeCycle/cycle/faces-config-cycle.xml,
 			
 			/machine/machineTypes/faces-config-machineTypes.xml,
 			/machine/consumableTypes/faces-config-consumableTypes.xml,
