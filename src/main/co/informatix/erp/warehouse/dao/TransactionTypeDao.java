@@ -122,4 +122,37 @@ public class TransactionTypeDao implements Serializable {
 		return (Long) q.getSingleResult();
 	}
 
+	/**
+	 * Query whether the transaction type name exists in the database when
+	 * storing or editing.
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @param name
+	 *            : name of the transaction type to verify
+	 * @param id
+	 *            : identifier of the transaction type to verify
+	 * @return TransactionType : TransactionType object found with the search
+	 *         parameters name and identifier.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public TransactionType nameExists(String name, int id) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT tp FROM TransactionType tp ");
+		query.append("WHERE UPPER(tp.transactionType)=UPPER(:transactionType) ");
+		if (id != 0) {
+			query.append("AND tp.idTransactionType <>:idTransactionType ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("transactionType", name);
+		if (id != 0) {
+			q.setParameter("idTransactionType", id);
+		}
+		List<TransactionType> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
 }
