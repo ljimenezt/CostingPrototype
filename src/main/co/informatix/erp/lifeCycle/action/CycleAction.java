@@ -39,9 +39,9 @@ import co.informatix.erp.utils.ValidacionesAction;
 @RequestScoped
 public class CycleAction implements Serializable {
 
-	private List<Cycle> listaCycles;
-	private List<SelectItem> opcionesCropNames;
-	private List<SelectItem> opcionesCrops;
+	private List<Cycle> listCycles;
+	private List<SelectItem> optionsCropNames;
+	private List<SelectItem> optionsCrops;
 
 	private Paginador paginador = new Paginador();
 
@@ -68,48 +68,48 @@ public class CycleAction implements Serializable {
 	private CropNamesDao cropNamesDao;
 
 	/**
-	 * @return listaCycles: List of cycles.
+	 * @return listCycles: List of cycles.
 	 */
-	public List<Cycle> getListaCycles() {
-		return listaCycles;
+	public List<Cycle> getListCycles() {
+		return listCycles;
 	}
 
 	/**
 	 * @param listaCycles
 	 *            : List of cycles.
 	 */
-	public void setListaCycles(List<Cycle> listaCycles) {
-		this.listaCycles = listaCycles;
+	public void setListCycles(List<Cycle> listCycles) {
+		this.listCycles = listCycles;
 	}
 
 	/**
-	 * @return opcionesCropNames: crop name associated with an cycle.
+	 * @return optionsCropNames: crop name associated with an cycle.
 	 */
-	public List<SelectItem> getOpcionesCropNames() {
-		return opcionesCropNames;
+	public List<SelectItem> getOptionsCropNames() {
+		return optionsCropNames;
 	}
 
 	/**
-	 * @param opcionesCropNames
+	 * @param optionsCropNames
 	 *            :crop name associated with an cycle.
 	 */
-	public void setOpcionesCropNames(List<SelectItem> opcionesCropNames) {
-		this.opcionesCropNames = opcionesCropNames;
+	public void setptionsCropNames(List<SelectItem> optionsCropNames) {
+		this.optionsCropNames = optionsCropNames;
 	}
 
 	/**
-	 * @return opcionesCrops: crops associated with an cycle.
+	 * @return optionsCrops: crops associated with an cycle.
 	 */
-	public List<SelectItem> getOpcionesCrops() {
-		return opcionesCrops;
+	public List<SelectItem> getOptionsCrops() {
+		return optionsCrops;
 	}
 
 	/**
-	 * @param opcionesCrops
+	 * @param optionsCrops
 	 *            :crops associated with an cycle.
 	 */
-	public void setOpcionesCrops(List<SelectItem> opcionesCrops) {
-		this.opcionesCrops = opcionesCrops;
+	public void setOptionsCrops(List<SelectItem> optionsCrops) {
+		this.optionsCrops = optionsCrops;
 	}
 
 	/**
@@ -320,13 +320,13 @@ public class CycleAction implements Serializable {
 	 * 
 	 */
 	private void loadCropNames() {
-		opcionesCropNames = new ArrayList<SelectItem>();
+		optionsCropNames = new ArrayList<SelectItem>();
 		List<CropNames> listCropNames;
 		try {
 			listCropNames = cropNamesDao.listaCropNames();
 			if (listCropNames != null) {
 				for (CropNames cropNames : listCropNames) {
-					opcionesCropNames.add(new SelectItem(cropNames
+					optionsCropNames.add(new SelectItem(cropNames
 							.getIdCropName(), cropNames.getCropName()));
 				}
 			}
@@ -345,18 +345,18 @@ public class CycleAction implements Serializable {
 	public void loadCropNamesCrop() {
 		try {
 			int idCropsName = 0;
-			opcionesCrops = new ArrayList<SelectItem>();
+			optionsCrops = new ArrayList<SelectItem>();
 			if (this.crops != null && this.crops.getCropNames() != null) {
 				idCropsName = this.crops.getCropNames().getIdCropName();
 			} else {
 				idCropsName = idCropNamesBuscar;
 			}
-			List<Crops> listaCropsVigentes;
-			listaCropsVigentes = cropsDao
+			List<Crops> listCropsActive;
+			listCropsActive = cropsDao
 					.consultarCropNamesCropsVigentes(idCropsName);
-			if (listaCropsVigentes != null) {
-				for (Crops crops : listaCropsVigentes) {
-					opcionesCrops.add(new SelectItem(crops.getIdCrop(), crops
+			if (listCropsActive != null) {
+				for (Crops crops : listCropsActive) {
+					optionsCrops.add(new SelectItem(crops.getIdCrop(), crops
 							.getDescription()));
 				}
 			}
@@ -385,11 +385,11 @@ public class CycleAction implements Serializable {
 				.getBundle("mensajeLifeCycle");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaCycles = new ArrayList<Cycle>();
+		listCycles = new ArrayList<Cycle>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
-		String mensajeBusqueda = "";
+		String messageSearch = "";
 		try {
 			int idCrops = this.crops.getIdCrop();
 			advanceSearchCycles(consult, parameters, bundle,
@@ -400,27 +400,26 @@ public class CycleAction implements Serializable {
 				paginador.paginar(amount);
 			}
 			if (amount != null && amount > 0) {
-				listaCycles = cycleDao.consultCycleByCrop(
-						paginador.getInicio(), paginador.getRango(), consult,
-						parameters, idCrops);
+				listCycles = cycleDao.consultCycleByCrop(paginador.getInicio(),
+						paginador.getRango(), consult, parameters, idCrops);
 			}
-			if ((listaCycles == null || listaCycles.size() <= 0)
+			if ((listCycles == null || listCycles.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
-				mensajeBusqueda = MessageFormat
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionMessagesSearch);
-			} else if (listaCycles == null || listaCycles.size() <= 0) {
+			} else if (listCycles == null || listCycles.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
 			} else if (!"".equals(unionMessagesSearch.toString())) {
-				mensajeBusqueda = MessageFormat
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle.getString("cycle_label_s"),
 								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validaciones.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
