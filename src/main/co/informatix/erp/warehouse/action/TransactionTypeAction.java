@@ -8,11 +8,16 @@ import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.TransactionTypeDao;
@@ -274,5 +279,45 @@ public class TransactionTypeAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return consultTransactionType();
+	}
+
+	/**
+	 * This method allow validate the name of the transaction type, so that it
+	 * is not repeated in the database and validates against XSS.
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @param context
+	 *            : application context
+	 * 
+	 * @param toValidate
+	 *            : validate component
+	 * @param value
+	 *            : field value to be valid
+	 */
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			int id = transactionType.getIdTransactionType();
+			TransactionType transactionTypeAux = new TransactionType();
+			transactionTypeAux = transactionTypeDao.nameExists(name, id);
+			if (transactionTypeAux != null) {
+				String mensajeExistencia = "message_ya_existe_verifique";
+				context.addMessage(
+						clientId,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
+								.getString(mensajeExistencia), null));
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 }
