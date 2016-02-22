@@ -17,7 +17,7 @@
 		<t:saveState value="#{beanIndexAction}" />
 		<ui:param name="listaVacia"
 			value="#{beanIndexAction.listBeanIndex eq null or (empty beanIndexAction.listBeanIndex)}" />
-		<ui:param name="anchoTabla" value="anchoCuatro" />
+		<ui:param name="anchoTabla" value="anchoTres" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{beanIndexAction}" />
 		<ui:param name="renderLista" value="pnlBeanIndex vigenciaPopup" />
@@ -67,11 +67,11 @@
 						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_section}</f:facet>
 						<h:outputText value="#{beanIndex.section.name}" />
 					</rich:column>
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colNumeroLargo">
 						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_sample_weight}</f:facet>
 						<h:outputText value="#{beanIndex.sampleWeight}" />
 					</rich:column>
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colNumero">
 						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_cycle_number}</f:facet>
 						<h:outputText value="#{beanIndex.cycleNumber}" />
 					</rich:column>
