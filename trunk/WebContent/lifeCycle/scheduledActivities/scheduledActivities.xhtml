@@ -29,7 +29,6 @@
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<script type="text/javascript">
-		
 			$g = jQuery.noConflict();
 			$g(document).ready(function() {
 				$g('#formScheduledActivities\\:description').maxlength({
@@ -39,7 +38,6 @@
 					showFeedback : 'active'
 				});
 			});
-	
 		</script>
 		<h:form id="formScheduledActivities">
 			<rich:panel
@@ -172,9 +170,9 @@
 											styleClass="verticalAlignMiddle"
 											rendered="#{activity.seleccionado eq false}" />
 									</h:panelGrid>
-									<f:ajax event="click"
+									<a:ajax event="click"
 										listener="#{activitiesAction.assignActivities(activity)}"
-										render="formScheduledActivities seleccionadas" />
+										render="formScheduledActivities, seleccionadas" />
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colTextoCorto verticalAlignMiddle">
@@ -264,7 +262,7 @@
 							</div>
 						</a:outputPanel>
 					</a:outputPanel>
-					
+
 				</t:fieldset>
 				<br />
 				<a:outputPanel
