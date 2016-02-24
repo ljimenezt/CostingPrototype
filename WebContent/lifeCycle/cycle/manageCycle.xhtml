@@ -143,25 +143,25 @@
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano center">
-								<f:facet name="header">#{mensaje.label_servicio_requerido}</f:facet>
+								<f:facet name="header">#{mensajeServices.service_label}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{cycle.serviceRequired eq true}" />
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano center">
-								<f:facet name="header">#{mensaje.label_hr_requerido}</f:facet>
+								<f:facet name="header">#{mensajeRecursosHumanos.recurso_humano_label}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{cycle.hrRequired eq true}" />
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano center">
-								<f:facet name="header">#{mensaje.label_maquina_requerida}</f:facet>
+								<f:facet name="header">#{mensajeMachine.machines_label_names}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{cycle.machineRequired eq true}" />
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano center">
-								<f:facet name="header">#{mensaje.label_material_requerido}</f:facet>
+								<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{cycle.materialsRequired eq true}" />
 							</rich:column>
