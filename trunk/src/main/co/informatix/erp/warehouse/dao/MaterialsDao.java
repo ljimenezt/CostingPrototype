@@ -151,4 +151,27 @@ public class MaterialsDao implements Serializable {
 		Query q = em.createQuery(query.toString());
 		return q.getResultList();
 	}
+
+	/**
+	 * This method allows consult the materials associated with a material type
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @param idMaterialType
+	 *            : Materials type identifier for consult to materials
+	 *            associated
+	 * @return List<Materials>: Materials stored in data base for material type
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Materials> consultMaterialsByType(int idMaterialType)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT m FROM Materials m ");
+		query.append("WHERE m.materialType.id=:idMaterialType ");
+		query.append("ORDER BY m.name ");
+		Query q = em.createQuery(query.toString()).setParameter(
+				"idMaterialType", idMaterialType);
+		return q.getResultList();
+	}
 }
