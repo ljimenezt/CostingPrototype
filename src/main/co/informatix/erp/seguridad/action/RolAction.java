@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
@@ -26,7 +25,6 @@ import co.informatix.erp.seguridad.dao.RolMetodoDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
-import co.informatix.erp.utils.Mensaje;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.security.action.IdentityAction;
@@ -655,7 +653,6 @@ public class RolAction implements Serializable {
 	 */
 	public void validarNombre(FacesContext context, UIComponent toValidate,
 			Object value) throws Exception {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String nombre = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
@@ -670,23 +667,13 @@ public class RolAction implements Serializable {
 			resultado = validarVigencia(resultado, rolAux);
 
 			if (Constantes.VIGENTE.equals(resultado)) {
-				context.addMessage(
-						clientId,
-						new FacesMessage(
-								FacesMessage.SEVERITY_ERROR,
-								Mensaje.mensajeMostrar(bundle,
-										"label_el,label_nombre,message_ya_existe_verifique"),
-								null));
+				ControladorContexto.mensajeErrorEspecifico(clientId,
+						"message_ya_existe_verifique", "mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
 			if (Constantes.SIN_VIGENTE.equals(resultado)) {
-				context.addMessage(
-						clientId,
-						new FacesMessage(
-								FacesMessage.SEVERITY_ERROR,
-								Mensaje.mensajeMostrar(bundle,
-										"label_el,label_nombre,message_ya_existe_sin_vigencia"),
-								null));
+				ControladorContexto.mensajeErrorEspecifico(clientId,
+						"message_ya_existe_sin_vigencia", "mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
 
