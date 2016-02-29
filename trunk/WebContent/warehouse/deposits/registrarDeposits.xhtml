@@ -110,6 +110,9 @@
 						converterMessage="#{mensaje.message_campo_positivo}">
 						<f:validateDoubleRange minimum="1" />
 						<f:validateLength maximum="25" />
+						<a:ajax execute="initialQuantity, totalCost"
+							listener="#{depositsAction.calculateUnitCost()}"
+							render="unitCost" />
 					</h:inputText>
 					<rich:message for="initialQuantity" />
 
