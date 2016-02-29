@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="suppliersAction.agregarEditarSuppliers(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeWarehouse.proveedores_label" />
+		value="mensaje.label_registrar,mensajeWarehouse.suppliers_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -21,7 +21,7 @@
 		<t:saveState value="#{suppliersAction}" />
 		<h:form id="formSuppliers">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeWarehouse.proveedores_label}"
+				header="#{mensaje.label_registrar} #{mensajeWarehouse.suppliers_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarSuppliers">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -50,7 +50,7 @@
 					</h:inputText>
 					<rich:message for="txtDireccion" />
 
-					<h:outputText value="#{mensajeWarehouse.proveedores_label_ciudad}"
+					<h:outputText value="#{mensajeWarehouse.suppliers_label_ciudad}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText value="#{suppliersAction.suppliers.city}"
@@ -134,7 +134,7 @@
 						<h:outputText value="#{suppliersAction.suppliers.name}" />
 						<h:outputText value="#{mensaje.label_direccion}" />
 						<h:outputText value="#{suppliersAction.suppliers.address}" />
-						<h:outputText value="#{mensajeWarehouse.proveedores_label_ciudad}" />
+						<h:outputText value="#{mensajeWarehouse.suppliers_label_ciudad}" />
 						<h:outputText value="#{suppliersAction.suppliers.city}" />
 						<h:outputText value="#{mensaje.label_codigo_postal}" />
 						<h:outputText value="#{suppliersAction.suppliers.postalCode}" />
