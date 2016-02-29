@@ -34,7 +34,7 @@
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="depositsAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarDeposits" />
+		<ui:param name="metodoNuevo" value="addEditDeposits" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
@@ -66,7 +66,7 @@
 					<rich:column styleClass="colFecha">
 						<f:facet name="header">#{mensaje.label_fecha_registro}</f:facet>
 						<h:commandLink value="#{deposit.dateTime}"
-							action="#{depositsAction.agregarEditarDeposits(deposit)}"
+							action="#{depositsAction.addEditDeposits(deposit)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -77,24 +77,13 @@
 					</rich:column>
 
 					<rich:column styleClass="colValor">
-						<f:facet name="header">#{mensajeWarehouse.deposits_real_quantity_actual}</f:facet>
+						<f:facet name="header">#{mensajeWarehouse.deposits_label_real_quantity_actual}</f:facet>
 						<h:outputText value="#{deposit.actualQuantity}" />
 					</rich:column>
 
 					<rich:column styleClass="colValor">
-						<f:facet name="header">#{mensajeWarehouse.deposits_total_cost}</f:facet>
+						<f:facet name="header">#{mensaje.label_total_cost}</f:facet>
 						<h:outputText value="#{deposit.totalCost}" />
-					</rich:column>
-
-
-					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_ubicacion}</f:facet>
-						<h:outputText value="#{deposit.location}" />
-					</rich:column>
-
-					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeWarehouse.deposits_quality_certificate_location_link}</f:facet>
-						<h:outputText value="#{deposit.qualityCertificateLocationLink}" />
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
