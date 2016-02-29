@@ -17,6 +17,7 @@ import javax.faces.model.SelectItem;
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.utils.Constantes;
+import co.informatix.erp.utils.ControladorContable;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -67,7 +68,7 @@ public class DepositsAction implements Serializable {
 	private Date fechaInicioBuscar;
 	private Date fechaFinBuscar;
 
-	private Double costUnit;
+	private Double unitCost;
 
 	private List<Deposits> listaDeposits;
 	private List<SelectItem> itemsMaterial;
@@ -258,18 +259,18 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
-	 * @return costUnit : Cost unit of the material in the deposit
+	 * @return unitCost : Cost unit of the material in the deposit
 	 */
-	public Double getCostUnit() {
-		return costUnit;
+	public Double getUnitCost() {
+		return unitCost;
 	}
 
 	/**
-	 * @param costUnit
+	 * @param unitCost
 	 *            : Cost unit of the material in the deposit
 	 */
-	public void setCostUnit(Double costUnit) {
-		this.costUnit = costUnit;
+	public void setUnitCost(Double unitCost) {
+		this.unitCost = unitCost;
 	}
 
 	/**
@@ -451,16 +452,19 @@ public class DepositsAction implements Serializable {
 	/**
 	 * Method to edit or create a new deposits.
 	 * 
+	 * @modify 29/02/2016 Liseth.Jimenez
+	 * 
 	 * @param deposits
 	 *            :deposit are adding or editing
 	 * 
 	 * @return "regDeposits":redirected to the template record deposits.
 	 */
-	public String agregarEditarDeposits(Deposits deposits) {
+	public String addEditDeposits(Deposits deposits) {
+		this.unitCost = 0d;
 		try {
 			if (deposits != null) {
 				this.deposits = deposits;
-
+				calculateUnitCost();
 			} else {
 				this.deposits = new Deposits();
 				this.deposits.setMaterials(new Materials());
@@ -654,5 +658,17 @@ public class DepositsAction implements Serializable {
 		}
 
 		return consultarDeposits();
+	}
+
+	/**
+	 * Calculate the unit cost of the deposits
+	 * 
+	 * @author Liseth.Jimenez
+	 */
+	public void calculateUnitCost() {
+		if (deposits.getInitialQuantity() > 0) {
+			unitCost = ControladorContable.dividir(deposits.getTotalCost(),
+					deposits.getInitialQuantity());
+		}
 	}
 }
