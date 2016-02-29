@@ -612,7 +612,7 @@ public class DepositsAction implements Serializable {
 	 * @return consultarDeposits: Redirects to manage deposits with a list of
 	 *         updated deposits
 	 */
-	public String guardarDeposits() {
+	public String saveDeposits() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String mensajeRegistro = "message_registro_modificar";
 		try {
