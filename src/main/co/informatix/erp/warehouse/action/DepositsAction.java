@@ -461,24 +461,32 @@ public class DepositsAction implements Serializable {
 	 */
 	public String addEditDeposits(Deposits deposits) {
 		this.unitCost = 0d;
+		this.idMaterialType = 0;
+		this.idSupplier = 0;
 		try {
+			loadMaterialsType();
+			loadSuppliers();
+			loadFarms();
+			loadMeasurementUnits();
+
 			if (deposits != null) {
 				this.deposits = deposits;
+				Materials material = this.deposits.getMaterials();
+				this.idMaterialType = material.getMaterialType()
+						.getIdMaterialsType();
+				PurchaseInvoices invoices = this.deposits.getPurchaseInvoices();
+				this.idSupplier = invoices.getSuppliers().getIdSupplier();
 				calculateUnitCost();
+				loadMaterials();
+				loadPurchaseInvoice();
 			} else {
 				this.deposits = new Deposits();
 				this.deposits.setMaterials(new Materials());
 				this.deposits.setFarm(new Farm());
 				this.deposits.setMeasurementUnits(new MeasurementUnits());
 				this.deposits.setPurchaseInvoices(new PurchaseInvoices());
-				List<PurchaseInvoices> purchaseInvoicesList = purchaseInvoicesDao
-						.consultPurchaseInvoices();
-				this.deposits.setPurchaseInvoices(purchaseInvoicesList.get(0));
 			}
-			loadMaterialsType();
-			loadSuppliers();
-			loadFarms();
-			loadMeasurementUnits();
+
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
