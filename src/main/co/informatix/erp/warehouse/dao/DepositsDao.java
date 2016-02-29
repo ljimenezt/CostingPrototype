@@ -78,7 +78,7 @@ public class DepositsDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Deposits> consultarDeposits(int start, int range,
+	public List<Deposits> consultDeposits(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -105,7 +105,7 @@ public class DepositsDao implements Serializable {
 	 * @return Number of records found.
 	 * @throws Exception
 	 */
-	public Long cantidadDeposits(StringBuilder consulta,
+	public Long amountDeposits(StringBuilder consulta,
 			List<SelectItem> parametros) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(d) FROM Deposits d ");
@@ -127,7 +127,7 @@ public class DepositsDao implements Serializable {
 	 * @return Object related to deposits information.
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoDeposits(String nomObject, int idDeposits)
+	public Object consultObjectDeposits(String nomObject, int idDeposits)
 			throws Exception {
 		List<Object> results = em
 				.createQuery(

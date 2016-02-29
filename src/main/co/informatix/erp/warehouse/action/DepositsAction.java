@@ -335,12 +335,12 @@ public class DepositsAction implements Serializable {
 		try {
 			busquedaAvanzada(consulta, parametros, bundle,
 					unionMensajesBusqueda);
-			Long cantidad = depositsDao.cantidadDeposits(consulta, parametros);
+			Long cantidad = depositsDao.amountDeposits(consulta, parametros);
 			if (cantidad != null) {
 				paginador.paginar(cantidad);
 			}
 			if (cantidad != null && cantidad > 0) {
-				listaDeposits = depositsDao.consultarDeposits(
+				listaDeposits = depositsDao.consultDeposits(
 						paginador.getInicio(), paginador.getRango(), consulta,
 						parametros);
 			}
@@ -433,14 +433,14 @@ public class DepositsAction implements Serializable {
 	public void cargarDetallesDeposits(Deposits deposits) throws Exception {
 		int idDeposits = deposits.getIdDeposit();
 
-		Materials materials = (Materials) depositsDao.consultarObjetoDeposits(
+		Materials materials = (Materials) depositsDao.consultObjectDeposits(
 				"materials", idDeposits);
 		PurchaseInvoices purchaseInvoices = (PurchaseInvoices) depositsDao
-				.consultarObjetoDeposits("purchaseInvoices", idDeposits);
-		Farm farm = (Farm) depositsDao.consultarObjetoDeposits("farm",
-				idDeposits);
+				.consultObjectDeposits("purchaseInvoices", idDeposits);
+		Farm farm = (Farm) depositsDao
+				.consultObjectDeposits("farm", idDeposits);
 		MeasurementUnits measurementUnits = (MeasurementUnits) depositsDao
-				.consultarObjetoDeposits("measurementUnits", idDeposits);
+				.consultObjectDeposits("measurementUnits", idDeposits);
 
 		deposits.setMaterials(materials);
 		deposits.setPurchaseInvoices(purchaseInvoices);
