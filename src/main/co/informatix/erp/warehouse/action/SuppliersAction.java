@@ -157,7 +157,7 @@ public class SuppliersAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleWarehouse.getString("proveedores_label"),
+								bundleWarehouse.getString("suppliers_label"),
 								unionMensajesBusqueda);
 			}
 			validaciones.setMensajeBusqueda(mensajeBusqueda);
