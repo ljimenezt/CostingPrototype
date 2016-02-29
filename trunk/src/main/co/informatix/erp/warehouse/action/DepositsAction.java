@@ -22,12 +22,16 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.DepositsDao;
 import co.informatix.erp.warehouse.dao.MaterialsDao;
+import co.informatix.erp.warehouse.dao.MaterialsTypeDao;
 import co.informatix.erp.warehouse.dao.MeasurementUnitsDao;
 import co.informatix.erp.warehouse.dao.PurchaseInvoicesDao;
+import co.informatix.erp.warehouse.dao.SuppliersDao;
 import co.informatix.erp.warehouse.entities.Deposits;
 import co.informatix.erp.warehouse.entities.Materials;
+import co.informatix.erp.warehouse.entities.MaterialsType;
 import co.informatix.erp.warehouse.entities.MeasurementUnits;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
+import co.informatix.erp.warehouse.entities.Suppliers;
 
 /**
  * This class is all related logic with creating, updating and removal of
@@ -51,6 +55,10 @@ public class DepositsAction implements Serializable {
 	private MeasurementUnitsDao measurementUnitsDao;
 	@EJB
 	private PurchaseInvoicesDao purchaseInvoicesDao;
+	@EJB
+	private MaterialsTypeDao materialsTypeDao;
+	@EJB
+	private SuppliersDao suppliersDao;
 
 	private Paginador paginador = new Paginador();
 
@@ -59,10 +67,18 @@ public class DepositsAction implements Serializable {
 	private Date fechaInicioBuscar;
 	private Date fechaFinBuscar;
 
+	private Double costUnit;
+
 	private List<Deposits> listaDeposits;
 	private List<SelectItem> itemsMaterial;
 	private List<SelectItem> itemsFarm;
 	private List<SelectItem> itemsMeasurementUnits;
+	private List<SelectItem> itemsMaterialType;
+	private List<SelectItem> itemsSuppliers;
+	private List<SelectItem> itemsInvoices;
+
+	private int idMaterialType;
+	private int idSupplier;
 
 	/**
 	 * @return paginador: The paging controller object.
@@ -158,6 +174,56 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
+	 * @return itemsMaterialType : List of materials type that are loaded into
+	 *         the user interface.
+	 */
+	public List<SelectItem> getItemsMaterialType() {
+		return itemsMaterialType;
+	}
+
+	/**
+	 * @param itemsMaterialType
+	 *            : List of materials type that are loaded into the user
+	 *            interface.
+	 */
+	public void setItemsMaterialType(List<SelectItem> itemsMaterialType) {
+		this.itemsMaterialType = itemsMaterialType;
+	}
+
+	/**
+	 * @return itemsSuppliers: List of suppliers that are loaded into the user
+	 *         interface.
+	 */
+	public List<SelectItem> getItemsSuppliers() {
+		return itemsSuppliers;
+	}
+
+	/**
+	 * @param itemsSuppliers
+	 *            : List of suppliers that are loaded into the user interface.
+	 */
+	public void setItemsSuppliers(List<SelectItem> itemsSuppliers) {
+		this.itemsSuppliers = itemsSuppliers;
+	}
+
+	/**
+	 * @return itemsInvoices: List of purchase invoices that are loaded into the
+	 *         user interface.
+	 */
+	public List<SelectItem> getItemsInvoices() {
+		return itemsInvoices;
+	}
+
+	/**
+	 * @param itemsInvoices
+	 *            : List of purchase invoices that are loaded into the user
+	 *            interface.
+	 */
+	public void setItemsInvoices(List<SelectItem> itemsInvoices) {
+		this.itemsInvoices = itemsInvoices;
+	}
+
+	/**
 	 * @return fechaInicioBuscar: Determines the initial range to search for
 	 *         deposits in the system
 	 */
@@ -192,9 +258,53 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
+	 * @return costUnit : Cost unit of the material in the deposit
+	 */
+	public Double getCostUnit() {
+		return costUnit;
+	}
+
+	/**
+	 * @param costUnit
+	 *            : Cost unit of the material in the deposit
+	 */
+	public void setCostUnit(Double costUnit) {
+		this.costUnit = costUnit;
+	}
+
+	/**
+	 * @return idMaterialType : Material type identifier selected in the UI
+	 */
+	public int getIdMaterialType() {
+		return idMaterialType;
+	}
+
+	/**
+	 * @param idMaterialType
+	 *            : Material type identifier selected in the UI
+	 */
+	public void setIdMaterialType(int idMaterialType) {
+		this.idMaterialType = idMaterialType;
+	}
+
+	/**
+	 * @return idSupplier : Supplier identifier selected in the UI
+	 */
+	public int getIdSupplier() {
+		return idSupplier;
+	}
+
+	/**
+	 * @param idSupplier
+	 *            : Supplier identifier selected in the UI
+	 */
+	public void setIdSupplier(int idSupplier) {
+		this.idSupplier = idSupplier;
+	}
+
+	/**
 	 * Method to initialize the fields in the search.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @return consultarMateriales: Materials consulting method and redirects to
 	 *         the template to manage materials.
 	 */
@@ -207,8 +317,6 @@ public class DepositsAction implements Serializable {
 
 	/**
 	 * Consult the list of Deposits
-	 * 
-	 * @author Sergio.Ortiz
 	 * 
 	 * @return gesDeposits: Navigation rule that redirects to manage deposits
 	 */
@@ -265,7 +373,6 @@ public class DepositsAction implements Serializable {
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @param consult
 	 *            : query to concatenate
 	 * @param parameters
@@ -304,7 +411,6 @@ public class DepositsAction implements Serializable {
 	 * Method of uploading the details of the list of deposits or relationships
 	 * with other objects in the database.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @throws Exception
 	 */
 	private void cargarDetallesDeposits() throws Exception {
@@ -319,7 +425,6 @@ public class DepositsAction implements Serializable {
 	 * Method of uploading the details of a deposits or relationships with other
 	 * objects in the database.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @param deposits
 	 *            : deposits to load the details.
 	 * @throws Exception
@@ -346,7 +451,6 @@ public class DepositsAction implements Serializable {
 	/**
 	 * Method to edit or create a new deposits.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @param deposits
 	 *            :deposit are adding or editing
 	 * 
@@ -367,7 +471,10 @@ public class DepositsAction implements Serializable {
 						.consultPurchaseInvoices();
 				this.deposits.setPurchaseInvoices(purchaseInvoicesList.get(0));
 			}
-			cargarCombos();
+			loadMaterialsType();
+			loadSuppliers();
+			loadFarms();
+			loadMeasurementUnits();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -375,32 +482,34 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
-	 * This method allows you to load combo interface for registering a new
+	 * This method allows you to load farms interface for registering a new
 	 * deposits.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @throws Exception
 	 */
-	private void cargarCombos() throws Exception {
-		itemsMaterial = new ArrayList<SelectItem>();
+	private void loadFarms() throws Exception {
 		itemsFarm = new ArrayList<SelectItem>();
-		itemsMeasurementUnits = new ArrayList<SelectItem>();
-		List<Materials> materials = materialsDao.consultarAllMateriales();
 		List<Farm> farmsList = farmDao.consultarAllFarm();
-		List<MeasurementUnits> measurementUnitsList = measurementUnitsDao
-				.consultarMeasurementsUnits();
-		if (materials != null) {
-			for (Materials material : materials) {
-				this.itemsMaterial.add(new SelectItem(material.getIdMaterial(),
-						material.getName()));
-			}
-		}
 		if (farmsList != null) {
 			for (Farm farms : farmsList) {
 				itemsFarm
 						.add(new SelectItem(farms.getIdFarm(), farms.getName()));
 			}
 		}
+	}
+
+	/**
+	 * This method allows you to load the measurement units types in interface
+	 * for registering a new deposits.
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @throws Exception
+	 */
+	private void loadMeasurementUnits() throws Exception {
+		itemsMeasurementUnits = new ArrayList<SelectItem>();
+		List<MeasurementUnits> measurementUnitsList = measurementUnitsDao
+				.consultarMeasurementsUnits();
 		if (measurementUnitsList != null) {
 			for (MeasurementUnits measurement : measurementUnitsList) {
 				itemsMeasurementUnits.add(new SelectItem(measurement
@@ -410,9 +519,96 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
+	 * This method allows you to load the materials types in interface for
+	 * registering a new deposits.
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @throws Exception
+	 */
+	private void loadMaterialsType() throws Exception {
+		itemsMaterialType = new ArrayList<SelectItem>();
+		List<MaterialsType> materialsTypes = materialsTypeDao
+				.consultarMaterialsTypes();
+		if (materialsTypes != null) {
+			for (MaterialsType materialType : materialsTypes) {
+				this.itemsMaterialType.add(new SelectItem(materialType
+						.getIdMaterialsType(), materialType.getName()));
+			}
+		}
+	}
+
+	/**
+	 * This method allows you to load the suppliers in interface for registering
+	 * a new deposits.
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @throws Exception
+	 */
+	private void loadSuppliers() throws Exception {
+		itemsSuppliers = new ArrayList<SelectItem>();
+		List<Suppliers> suppliers = suppliersDao.consultarComboSuppliers();
+		if (suppliers != null) {
+			for (Suppliers supplier : suppliers) {
+				this.itemsSuppliers.add(new SelectItem(
+						supplier.getIdSupplier(), supplier.getName()));
+			}
+		}
+	}
+
+	/**
+	 * This method allows you to load the purchase invoices in interface for
+	 * registering a new deposits.
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @throws Exception
+	 */
+	public void loadPurchaseInvoice() {
+		try {
+			itemsInvoices = new ArrayList<SelectItem>();
+			List<PurchaseInvoices> invoices = purchaseInvoicesDao
+					.consultInvoicesBySupplier(idSupplier);
+			if (invoices != null) {
+				for (PurchaseInvoices invoice : invoices) {
+					this.itemsInvoices.add(new SelectItem(invoice
+							.getIdPurchaseInvoice(), invoice.getDateTime()
+							.toString()));
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows you to load the materials in interface for registering
+	 * a new deposits.
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @throws Exception
+	 */
+	public void loadMaterials() {
+		try {
+			itemsMaterial = new ArrayList<SelectItem>();
+			List<Materials> materials = materialsDao
+					.consultMaterialsByType(idMaterialType);
+			if (materials != null) {
+				for (Materials material : materials) {
+					this.itemsMaterial.add(new SelectItem(material
+							.getIdMaterial(), material.getName()));
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
 	 * Method used to save or edit the deposits
 	 * 
-	 * @author Sergio.Ortiz
 	 * @return consultarDeposits: Redirects to manage deposits with a list of
 	 *         updated deposits
 	 */
@@ -420,7 +616,7 @@ public class DepositsAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String mensajeRegistro = "message_registro_modificar";
 		try {
-
+			deposits.setActualQuantity(deposits.getInitialQuantity());
 			if (deposits.getIdDeposit() != 0) {
 				depositsDao.editDeposits(deposits);
 			} else {
@@ -438,7 +634,6 @@ public class DepositsAction implements Serializable {
 	/**
 	 * Method that allows deposits to delete one database
 	 * 
-	 * @author Sergio.Ortiz
 	 * @return consultarDeposits: Consult the list of deposits and returns to
 	 *         manage deposits
 	 */
@@ -460,5 +655,4 @@ public class DepositsAction implements Serializable {
 
 		return consultarDeposits();
 	}
-
 }
