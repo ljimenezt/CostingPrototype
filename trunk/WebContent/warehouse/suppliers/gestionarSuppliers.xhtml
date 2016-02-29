@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="suppliersAction.inicializarBusqueda" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeWarehouse.proveedores_label" />
+		value="mensaje.label_gestionar,mensajeWarehouse.suppliers_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{suppliersAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formSuppliers">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeWarehouse.proveedores_label}"
+				header="#{mensaje.label_listado_de} #{mensajeWarehouse.suppliers_label}"
 				id="panelSuppliers">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -70,7 +70,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeWarehouse.proveedores_label_ciudad}</f:facet>
+						<f:facet name="header">#{mensajeWarehouse.suppliers_label_ciudad}</f:facet>
 						<h:outputText value="#{suppliers.city}" />
 					</rich:column>
 
@@ -120,7 +120,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="500"
-				header="#{mensaje.button_buscar} #{mensajeWarehouse.proveedores_label}"
+				header="#{mensaje.button_buscar} #{mensajeWarehouse.suppliers_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -132,7 +132,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensajeWarehouse.proveedores_label_nombre}:"
+					<h:outputText value="#{mensajeWarehouse.suppliers_label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar" value="#{suppliersAction.nombreBuscar}"
