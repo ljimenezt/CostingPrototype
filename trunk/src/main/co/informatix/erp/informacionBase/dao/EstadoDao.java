@@ -18,7 +18,6 @@ import co.informatix.erp.informacionBase.entities.Estado;
  * @author Gerson.Cespedes
  * 
  */
-
 @SuppressWarnings("serial")
 @Stateless
 public class EstadoDao implements Serializable {

@@ -17,7 +17,6 @@ import co.informatix.erp.informacionBase.entities.ConversionUnidadPK;
  * @author marisol.calderon
  * 
  */
-
 @SuppressWarnings("serial")
 @Stateless
 public class ConversionUnidadMedidaDao implements Serializable {
