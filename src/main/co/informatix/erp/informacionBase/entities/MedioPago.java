@@ -19,7 +19,6 @@ import javax.persistence.TemporalType;
  * @author Marcela.Chaparro
  * 
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "medio_pago", schema = "general")

@@ -19,7 +19,6 @@ import javax.persistence.TemporalType;
  * @author Gerson.Cespedes
  * 
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "estado_civil", schema = "general")

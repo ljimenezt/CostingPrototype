@@ -17,7 +17,6 @@ import co.informatix.erp.informacionBase.entities.EstadoCivil;
  * @author Gerson.Cespedes
  * 
  */
-
 @SuppressWarnings("serial")
 @Stateless
 public class EstadoCivilDao implements Serializable {

@@ -16,7 +16,6 @@ import co.informatix.erp.informacionBase.entities.ConversionUnidad;
  * @author marisol.calderon
  * 
  */
-
 @SuppressWarnings("serial")
 @Stateless
 public class ConversionUnidadDao implements Serializable {
