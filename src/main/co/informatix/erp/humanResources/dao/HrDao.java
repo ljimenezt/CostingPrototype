@@ -192,9 +192,10 @@ public class HrDao implements Serializable {
 	 * @return List
 	 *         <Hr>
 	 *         : List of all human resources.
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Hr> consultarHr() {
+	public List<Hr> consultarHr() throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT hr FROM Hr hr ");
 		Query q = em.createQuery(query.toString());
