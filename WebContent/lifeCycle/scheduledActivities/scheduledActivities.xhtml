@@ -209,8 +209,8 @@
 									</h:panelGrid>
 								</f:facet>
 								<h:outputText value="#{activity.initialDtBudget}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
@@ -223,11 +223,11 @@
 									</h:panelGrid>
 								</f:facet>
 								<h:outputText value="#{activity.finalDtBudget}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colNumero verticalAlignMiddle">
+							<rich:column styleClass="colValor verticalAlignMiddle">
 								<f:facet name="header">#{mensajeCosts.budget_label_duracion}</f:facet>
 								<h:outputText value="#{activity.durationBudget}" />
 							</rich:column>
@@ -279,7 +279,7 @@
 							<h:outputText value="#{mensaje.message_can_not_make_changes}"></h:outputText>
 						</h:panelGrid>
 						<div class="anchoDos">
-							<a:commandLink styleClass="iconsDataTable"
+							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
 								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false and scheduledActivitiesAction.selectedActivity.costHrActual eq null}"
 								render="seleccionarTrabajador:popupTrabajador seleccionarTrabajador:trabajadores mensajes mensajeBusqueda"
 								actionListener="#{activitiesAndHrAction.mostrarTipoTrabajador()}"
@@ -288,7 +288,7 @@
 								{#{rich:component('popupTrabajador')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-									<h:graphicImage value="/img/add_16.png"
+									<h:graphicImage value="/img/workers_16.png"
 										styleClass="verticalAlignMiddle" />
 									<h:outputText
 										value="#{mensaje.label_asignar} #{mensajeCosts.activities_and_hr_label_trabajadores}" />
@@ -348,19 +348,19 @@
 								<f:facet name="header">#{mensajeCosts.budget_label_hora_inicio}</f:facet>
 								<h:outputText
 									value="#{actividadesTrabajadores.initialDateTimeBudget}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colFechaExtraLarga">
 								<f:facet name="header">#{mensajeCosts.budget_label_hora_fin}</f:facet>
 								<h:outputText
 									value="#{actividadesTrabajadores.finalDateTimeBudget}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.budget_label_duracion}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.durationBudget}" />
 							</rich:column>
@@ -368,15 +368,15 @@
 								<f:facet name="header">#{mensajeCosts.budget_label_cost}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.totalCostBudget}" />
 							</rich:column>
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_hora_normal}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.normalHours}" />
 							</rich:column>
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_horas_extra}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.overtimeHours}" />
 							</rich:column>
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_horas_totales}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.totalHours}" />
 							</rich:column>
@@ -411,7 +411,7 @@
 				<br />
 				<a:outputPanel
 					rendered="#{scheduledActivitiesAction.selectedActivity.idActivity gt 0 and scheduledActivitiesAction.selectedActivity.machineRequired eq true}">
-					<t:fieldset styleClass="anchoDos BorderW2P">
+					<t:fieldset styleClass="anchoCuatro BorderW2P">
 						<legend class="etiquetaTitulo" id="tooltip">
 							#{mensajeMenu.machines_label_administracion} -
 							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}
@@ -422,8 +422,8 @@
 								styleClass="verticalAlignMiddle" />
 							<h:outputText value="#{mensaje.message_can_not_make_changes}"></h:outputText>
 						</h:panelGrid>
-						<div class="anchoDos">
-							<a:commandLink styleClass="iconsDataTable"
+						<div class="anchoCuatro">
+							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
 								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false and scheduledActivitiesAction.selectedActivity.costMachinesEqActual eq null}"
 								render="selectMachines:popupMachines mensajes mensajeBusqueda"
 								actionListener="#{scheduledActivitiesAction.listMachineTypes()}"
@@ -433,7 +433,7 @@
 								{#{rich:component('popupMachines')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-									<h:graphicImage value="/img/add_16.png"
+									<h:graphicImage value="/img/machines_16.png"
 										styleClass="verticalAlignMiddle" />
 									<h:outputText
 										value="#{mensaje.label_asignar} #{mensajeMachine.machines_label_names_s}" />
@@ -450,7 +450,7 @@
 						<rich:dataTable
 							value="#{scheduledActivitiesAction.listActivityMachine}"
 							var="activitiesMachines" id="listMachines" footerClass="H130P"
-							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass="colIconoUno">
 								<a:outputPanel>
@@ -488,18 +488,18 @@
 							<rich:column styleClass="colFechaExtraLarga">
 								<f:facet name="header">#{mensajeCosts.budget_label_hora_inicio}</f:facet>
 								<h:outputText value="#{activitiesMachines.initialDateTime}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colFechaExtraLarga">
 								<f:facet name="header">#{mensajeCosts.budget_label_hora_fin}</f:facet>
 								<h:outputText value="#{activitiesMachines.finalDateTime}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.budget_label_duracion}</f:facet>
 								<h:outputText value="#{activitiesMachines.durationBudget}" />
 							</rich:column>

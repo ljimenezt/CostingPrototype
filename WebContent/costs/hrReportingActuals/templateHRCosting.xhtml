@@ -52,7 +52,7 @@
 							value="#{hrReportingActualsAction.activitiesAndHr.initialDateTimeBudget}"
 							styleClass="W108P">
 							<f:convertDateTime type="date" pattern="MM/dd/yyyy HH:mm"
-								locale="en" />
+								locale="#{idioma.locale}" />
 						</h:inputText>
 						<p:calendar required="true" readonlyInput="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
@@ -72,7 +72,7 @@
 						<h:inputText disabled="true" styleClass="W108P"
 							value="#{hrReportingActualsAction.activitiesAndHr.finalDateTimeBudget}">
 							<f:convertDateTime type="date" pattern="MM/dd/yyyy HH:mm"
-								locale="en" />
+								locale="#{idioma.locale}" />
 						</h:inputText>
 						<p:calendar required="true" readonlyInput="true"
 							disabled="#{hrReportingActualsAction.activitiesAndHr.initialDateTimeActual eq null}"

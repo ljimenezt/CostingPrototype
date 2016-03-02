@@ -222,7 +222,7 @@
 
 						<h:outputText value="#{mensaje.label_total_cost}:" />
 						<h:outputText value="#{depositsAction.deposits.totalCost}">
-							<f:convertNumber locale="en" maxFractionDigits="2"
+							<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
 								minFractionDigits="2" pattern="#,##0.00" />
 						</h:outputText>
 

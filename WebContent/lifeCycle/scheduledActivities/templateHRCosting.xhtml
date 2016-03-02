@@ -52,8 +52,8 @@
 						<h:inputText disabled="true"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.initialDateTimeBudget}"
 							styleClass="W108P">
-							<f:convertDateTime type="date" pattern="MM/dd/yyyy HH:mm"
-								locale="en" />
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm"
+								locale="#{idioma.locale}" />
 						</h:inputText>
 						<p:calendar required="true" readonlyInput="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
@@ -72,8 +72,8 @@
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true" styleClass="W108P"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.finalDateTimeBudget}">
-							<f:convertDateTime type="date" pattern="MM/dd/yyyy HH:mm"
-								locale="en" />
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm"
+								locale="#{idioma.locale}" />
 						</h:inputText>
 						<p:calendar required="true" readonlyInput="true"
 							disabled="#{recordActivitiesActualsAction.activitiesAndHr.initialDateTimeActual eq null}"
@@ -142,7 +142,7 @@
 							<a:commandButton
 								actionListener="#{recordActivitiesActualsAction.budgetCopy()}"
 								execute="@this" value="#{mensaje.button_as_budgeted}">
-								<f:ajax resetValues="true"
+								<a:ajax resetValues="true"
 									render="fechaInicioTimeActual costActual fechaFinalTimeActual duration overtimeRate" />
 							</a:commandButton>
 							<a:commandButton value="#{mensaje.button_guardar}"

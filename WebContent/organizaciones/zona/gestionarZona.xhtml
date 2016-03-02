@@ -9,8 +9,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="zonaAction.inicializarBusqueda()" />
+	<ui:param name="action" value="zonaAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeOrganizaciones.zona_label_s" />
 	<ui:define name="body">
@@ -36,15 +35,12 @@
 				header="#{mensaje.label_listado_de} #{mensajeOrganizaciones.zona_label_s}"
 				id="panelZona" styleClass="anchoUno MinH253P">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
-				<rich:dataTable
-					value="#{zonaAction.listaZonaes}"
-					var="tipoZona"
+				<rich:dataTable value="#{zonaAction.listaZonaes}" var="tipoZona"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoUno"
 						rendered="#{identity.autorizado('zonaAction','A') or identity.autorizado('zonaAction','U')}">
-						<a:commandLink
-							rendered="#{zonaAction.vigencia eq 'si'}"
+						<a:commandLink rendered="#{zonaAction.vigencia eq 'si'}"
 							render="popupVigencia"
 							actionListener="#{zonaAction.setZona(tipoZona)}"
 							oncomplete="#{rich:component('popupVigencia')}.show()">
@@ -53,8 +49,7 @@
 								<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
 							</rich:tooltip>
 						</a:commandLink>
-						<a:commandLink
-							rendered="#{zonaAction.vigencia eq 'no'}"
+						<a:commandLink rendered="#{zonaAction.vigencia eq 'no'}"
 							render="popupVigencia"
 							actionListener="#{zonaAction.setZona(tipoZona)}"
 							oncomplete="#{rich:component('popupVigencia')}.show()">
@@ -80,8 +75,7 @@
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensajeOrganizaciones.variedad_zona_label}</f:facet>
-						<h:outputText
-							value="#{tipoZona.variedadZona.nombre}" />
+						<h:outputText value="#{tipoZona.variedadZona.nombre}" />
 					</rich:column>
 
 					<rich:column styleClass="colTextoCorto">
@@ -91,14 +85,16 @@
 					<rich:column styleClass="colFecha">
 						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
 						<h:outputText value="#{tipoZona.fechaCreacion}">
-							<f:convertDateTime pattern="MMM dd, yyyy" locale="es" />
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colFecha"
 						rendered="#{zonaAction.vigencia eq 'no'}">
 						<f:facet name="header">#{mensaje.label_fecha_fin_vigencia}</f:facet>
 						<h:outputText value="#{tipoZona.fechaFinVigencia}">
-							<f:convertDateTime pattern="MMM dd, yyyy" locale="es" />
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
 						</h:outputText>
 					</rich:column>
 					<f:facet name="footer">
@@ -120,8 +116,7 @@
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="panelZona" />
 							<ui:param name="beanActionParam" value="#{zonaAction}" />
-							<ui:param name="metodoActionParam"
-								value="consultarZonaes" />
+							<ui:param name="metodoActionParam" value="consultarZonaes" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -148,8 +143,7 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}:" />
-						<h:outputText
-							value="#{zonaAction.zona.nombre}" />
+						<h:outputText value="#{zonaAction.zona.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">

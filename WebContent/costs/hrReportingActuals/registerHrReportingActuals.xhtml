@@ -21,18 +21,18 @@
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<script type="text/javascript">
 			$g = jQuery.noConflict();
-			$g(document).ready(function(){    
-				  $g('#formHrReporting\\:descripcion').maxlength({   
-				    events: [],     
-				    max: 250,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
-				    showFeedback: 'active'    
-				  }); 
+			$g(document).ready(function() {
+				$g('#formHrReporting\\:descripcion').maxlength({
+					events : [],
+					max : 250,
+					feedbackText : "#{mensaje.label_caracteres_restantes}",
+					showFeedback : 'active'
+				});
 			});
 		</script>
 		<t:saveState value="#{hrReportingActualsAction}" />
 		<t:saveState value="#{activitiesAndHrAction}" />
-			<t:saveState value="#{activitiesAction}" />
+		<t:saveState value="#{activitiesAction}" />
 		<h:form id="formHrReporting">
 			<rich:panel
 				header="#{mensajeMenu.humans_resources_reporting_actual_label}"
@@ -156,8 +156,7 @@
 							rendered="#{hrReportingActualsAction.listActivities.size() gt 0}">
 							<rich:column styleClass="colIconoUno verticalAlignMiddle">
 								<f:facet name="header" />
-								<a:commandLink
-								render="mensajes, mensajeBusqueda"
+								<a:commandLink render="mensajes, mensajeBusqueda"
 									actionListener="#{activitiesAndHrAction.consultarActivitiesAndHrXActividad()}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
@@ -198,7 +197,7 @@
 								<f:facet name="header">#{mensajeCosts.actual_label_hora_inicio}</f:facet>
 								<h:outputText value="#{activity.initialDtBudget}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 
@@ -206,7 +205,7 @@
 								<f:facet name="header">#{mensajeCosts.actual_label_hora_fin}</f:facet>
 								<h:outputText value="#{activity.finalDtBudget}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 
@@ -239,8 +238,7 @@
 									<ui:param name="conParam2" value="1" />
 									<ui:param name="pager" value="pager" />
 									<ui:param name="valReder" value="activitiesActuals" />
-									<ui:param name="beanActionParam"
-										value="#{activitiesAction}" />
+									<ui:param name="beanActionParam" value="#{activitiesAction}" />
 									<ui:param name="metodoActionParam" value="consultingActivities" />
 								</ui:include>
 							</div>
@@ -303,7 +301,7 @@
 								<h:outputText
 									value="#{actividadesTrabajadores.initialDateTimeActual}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 
@@ -312,7 +310,7 @@
 								<h:outputText
 									value="#{actividadesTrabajadores.finalDateTimeActual}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 

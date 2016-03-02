@@ -15,19 +15,20 @@
 	<ui:param name="titulo"
 		value="mensajeLifeCycle.record_activities_actuals_label_actual" />
 	<ui:define name="body">
-	<script type="text/javascript"
+		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<script type="text/javascript">
 			$g = jQuery.noConflict();
-			$g(document).ready(function(){    
-				  $g('#formHrReporting\\:descripcion').maxlength({   
-				    events: [],     
-				    max: 250,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
-				    showFeedback: 'active'    
-				  }); 
+			$g(document).ready(function() {
+				$g('#
+			formHrReporting\\:descripcion').maxlength({
+					events : [],
+					max : 250,
+					feedbackText : "#{mensaje.label_caracteres_restantes}",
+					showFeedback : 'active'
+				});
 			});
 		</script>
 		<t:saveState value="#{recordActivitiesActualsAction}" />
@@ -55,7 +56,7 @@
 								itemValue="0" />
 							<f:selectItems
 								value="#{recordActivitiesActualsAction.listCropNames}" />
-							<f:ajax event="change"
+							<a:ajax event="change"
 								listener="#{recordActivitiesActualsAction.cargarComboCrops()}"
 								render=":formHrReporting" />
 						</h:selectOneMenu>
@@ -70,7 +71,7 @@
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 								itemValue="0" />
 							<f:selectItems value="#{recordActivitiesActualsAction.listCrops}" />
-							<f:ajax event="change"
+							<a:ajax event="change"
 								listener="#{recordActivitiesActualsAction.mostrarActivities()}"
 								render=":formHrReporting" />
 						</h:selectOneMenu>
@@ -150,7 +151,7 @@
 							<f:param name="param2" value="si" />
 						</a:commandButton>
 					</div>
-					
+
 					<a:outputPanel id="activitiesActuals">
 						<rich:dataTable value="#{activitiesAction.listActivities}"
 							var="activity" id="seleccionadas" footerClass="H130P"
@@ -170,7 +171,7 @@
 											styleClass="verticalAlignMiddle"
 											rendered="#{activity.seleccionado eq false}" />
 									</h:panelGrid>
-									<f:ajax event="click"
+									<a:ajax event="click"
 										listener="#{recordActivitiesActualsAction.asignarActividad(activity)}"
 										render="formHrReporting seleccionadas" />
 									<f:param name="param2" value="si" />
@@ -200,23 +201,23 @@
 								<h:outputText value="#{activity.sequenceNumber}" />
 							</rich:column>
 
-							<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
+							<rich:column styleClass="colFecha verticalAlignMiddle">
 								<f:facet name="header">#{mensajeCosts.actual_label_hora_inicio}</f:facet>
 								<h:outputText value="#{activity.initialDtBudget}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 
-							<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
+							<rich:column styleClass="colFecha verticalAlignMiddle">
 								<f:facet name="header">#{mensajeCosts.actual_label_hora_fin}</f:facet>
 								<h:outputText value="#{activity.finalDtBudget}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 
-							<rich:column styleClass="colNumero verticalAlignMiddle">
+							<rich:column styleClass="colValor verticalAlignMiddle">
 								<f:facet name="header">#{mensajeCosts.actual_label_duracion}</f:facet>
 								<h:outputText value="#{activity.durationBudget}" />
 							</rich:column>
@@ -305,8 +306,8 @@
 								<f:facet name="header">#{mensajeCosts.actual_label_hora_inicio}</f:facet>
 								<h:outputText
 									value="#{actividadesTrabajadores.initialDateTimeActual}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 
@@ -314,12 +315,12 @@
 								<f:facet name="header">#{mensajeCosts.actual_label_hora_fin}</f:facet>
 								<h:outputText
 									value="#{actividadesTrabajadores.finalDateTimeActual}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.actual_label_duracion}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.durationActual}" />
 							</rich:column>
@@ -329,17 +330,17 @@
 								<h:outputText value="#{actividadesTrabajadores.totalCostActual}" />
 							</rich:column>
 
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_hora_normal}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.normalHours}" />
 							</rich:column>
 
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_horas_extra}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.overtimeHours}" />
 							</rich:column>
 
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_horas_totales}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.totalHours}" />
 							</rich:column>
@@ -376,7 +377,7 @@
 				<br />
 				<a:outputPanel
 					rendered="#{recordActivitiesActualsAction.selectedActivity.idActivity gt 0 and recordActivitiesActualsAction.selectedActivity.machineRequired eq true}">
-					<t:fieldset styleClass="anchoDos BorderW2P">
+					<t:fieldset styleClass="anchoCuatro BorderW2P">
 						<legend class="etiquetaTitulo">#{mensajeMenu.machines_label_administracion}
 							-
 							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}</legend>
@@ -386,7 +387,7 @@
 						<rich:dataTable
 							value="#{scheduledActivitiesAction.listActivityMachine}"
 							var="machinesActivities" id="activityMachine" footerClass="H130P"
-							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoDos"
+							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 							rowClasses="odd-row, even-row">
 
 							<rich:column styleClass="colTextoMediano">
@@ -406,25 +407,25 @@
 							<rich:column styleClass="colFechaExtraLarga">
 								<f:facet name="header">#{mensajeCosts.actual_label_hora_inicio}</f:facet>
 								<h:outputText value="#{machinesActivities.initialDateTime}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 
 							<rich:column styleClass="colFechaExtraLarga">
 								<f:facet name="header">#{mensajeCosts.actual_label_hora_fin}</f:facet>
 								<h:outputText value="#{machinesActivities.finalDateTime}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeCosts.actual_label_duracion}</f:facet>
 								<h:outputText value="#{machinesActivities.durationActual}" />
 							</rich:column>
 
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensaje.label_costo} #{mensaje.label_total}</f:facet>
 								<h:outputText
 									value="#{machinesActivities.consumablesCostActual}" />

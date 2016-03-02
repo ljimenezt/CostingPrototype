@@ -134,12 +134,18 @@
 
 							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
-								<h:outputText value="#{cycle.initialDateTime}" />
+								<h:outputText value="#{cycle.initialDateTime}">
+									<f:convertDateTime pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
-								<h:outputText value="#{cycle.finalDateTime}" />
+								<h:outputText value="#{cycle.finalDateTime}">
+									<f:convertDateTime pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano center">
