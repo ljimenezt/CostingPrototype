@@ -206,7 +206,7 @@
 							</f:facet>
 							<h:outputText value="#{activity.initialDtBudget}">
 								<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-									locale="en" />
+									locale="#{idioma.locale}" />
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
@@ -219,7 +219,7 @@
 							</f:facet>
 							<h:outputText value="#{activity.finalDtBudget}">
 								<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-									locale="en" />
+									locale="#{idioma.locale}" />
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colNumero verticalAlignMiddle">
@@ -323,14 +323,14 @@
 								<f:facet name="header">#{mensajeCosts.budget_label_hora_inicio}</f:facet>
 								<h:outputText value="#{activitiesMachines.initialDateTime}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colFechaExtraLarga">
 								<f:facet name="header">#{mensajeCosts.budget_label_hora_fin}</f:facet>
 								<h:outputText value="#{activitiesMachines.finalDateTime}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colNumero">

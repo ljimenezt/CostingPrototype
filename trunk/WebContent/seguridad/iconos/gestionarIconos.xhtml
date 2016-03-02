@@ -79,7 +79,8 @@
 					<rich:column styleClass="colFecha">
 						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
 						<h:outputText value="#{icono.fechaCreacion}">
-							<f:convertDateTime pattern="MMM dd, yyyy" locale="es" />
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
 						</h:outputText>
 					</rich:column>
 					<f:facet name="footer">

@@ -145,7 +145,8 @@
 						<rich:column styleClass="colFechaExtraLarga">
 							<f:facet name="header">#{mensaje.label_fecha_compra}</f:facet>
 							<h:outputText value="#{machines.purchaseDate}">
-								<f:convertDateTime pattern="MMM dd yyyy" />
+								<f:convertDateTime pattern="MMM dd, yyyy"
+									locale="#{idioma.locale}" />
 							</h:outputText>
 						</rich:column>
 

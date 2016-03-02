@@ -20,14 +20,14 @@
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<script type="text/javascript">
-			$g=jQuery.noConflict();
-			$g(document).ready(function(){    
-				  $g('#formActivitiesAndHr\\:descripcion').maxlength({   
-				    events: [],     
-				    max: 250,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
-				    showFeedback: 'active'    
-				  }); 
+			$g = jQuery.noConflict();
+			$g(document).ready(function() {
+				$g('#formActivitiesAndHr\\:descripcion').maxlength({
+					events : [],
+					max : 250,
+					feedbackText : "#{mensaje.label_caracteres_restantes}",
+					showFeedback : 'active'
+				});
 			});
 		</script>
 		<t:saveState value="#{activitiesAndHrAction}" />
@@ -199,7 +199,7 @@
 								</f:facet>
 								<h:outputText value="#{actividad.initialDtBudget}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
@@ -212,7 +212,7 @@
 								</f:facet>
 								<h:outputText value="#{actividad.finalDtBudget}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colNumero verticalAlignMiddle">
@@ -323,7 +323,9 @@
 									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpEditarActivitiesAndHr')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 									value="#{actividadesTrabajadores.activitiesAndHrPK.hr.name} #{actividadesTrabajadores.activitiesAndHrPK.hr.familyName}"
 									render="popUpEditarActivitiesAndHr">
-									<f:setPropertyActionListener target="#{activitiesAndHrAction.idOvertimeRate}" value="#{actividadesTrabajadores.overtimePaymentRate.overtimepaymentid}" />
+									<f:setPropertyActionListener
+										target="#{activitiesAndHrAction.idOvertimeRate}"
+										value="#{actividadesTrabajadores.overtimePaymentRate.overtimepaymentid}" />
 								</a:commandLink>
 								<h:outputText
 									rendered="#{actividadesTrabajadores.initialDateTimeActual ne null}"
@@ -334,7 +336,7 @@
 								<h:outputText
 									value="#{actividadesTrabajadores.initialDateTimeBudget}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colFechaExtraLarga">
@@ -342,7 +344,7 @@
 								<h:outputText
 									value="#{actividadesTrabajadores.finalDateTimeBudget}">
 									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
-										locale="en" />
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colNumero">

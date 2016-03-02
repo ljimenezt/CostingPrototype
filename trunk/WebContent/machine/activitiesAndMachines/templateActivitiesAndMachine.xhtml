@@ -129,13 +129,15 @@
 							<h:outputText value="#{mensaje.label_hora_inicio}" />
 							<h:inputText disabled="true" styleClass="W91P"
 								value="#{activitiesAction.selectedActivities.initialDtBudget}">
-								<f:convertDateTime type="date" pattern="HH:mm" locale="en" />
+								<f:convertDateTime type="date" pattern="HH:mm"
+									locale="#{idioma.locale}" />
 							</h:inputText>
 							<h:outputText value="" />
 							<h:outputText value="#{mensaje.label_hora_fin}" />
 							<h:inputText disabled="true" styleClass="W91P"
 								value="#{activitiesAction.selectedActivities.finalDtBudget}">
-								<f:convertDateTime type="date" pattern="HH:mm" locale="en" />
+								<f:convertDateTime type="date" pattern="HH:mm"
+									locale="#{idioma.locale}" />
 							</h:inputText>
 							<h:outputText value="" />
 							<h:outputText

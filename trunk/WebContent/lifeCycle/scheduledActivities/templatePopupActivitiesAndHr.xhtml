@@ -144,20 +144,25 @@
 				<a:outputPanel id="outputAgregarTrabajador">
 					<div align="center">
 						<h:panelGrid columns="3" columnClasses="right, left, left">
-							<h:outputText value="#{mensaje.label_hora_inicio}" />
+							<h:outputText value="#{mensaje.label_hora_inicio}"
+								styleClass="etiquetaTitulo" />
 							<h:inputText disabled="true" styleClass="W91P"
 								value="#{activitiesAndHrAction.actividadSeleccionada.initialDtBudget}">
-								<f:convertDateTime type="date" pattern="HH:mm" locale="en" />
+								<f:convertDateTime type="date" pattern="HH:mm"
+									locale="#{idioma.locale}" />
 							</h:inputText>
 							<h:outputText value="" />
-							<h:outputText value="#{mensaje.label_hora_fin}" />
+							<h:outputText value="#{mensaje.label_hora_fin}"
+								styleClass="etiquetaTitulo" />
 							<h:inputText disabled="true" styleClass="W91P"
 								value="#{activitiesAndHrAction.actividadSeleccionada.finalDtBudget}">
-								<f:convertDateTime type="date" pattern="HH:mm" locale="en" />
+								<f:convertDateTime type="date" pattern="HH:mm"
+									locale="#{idioma.locale}" />
 							</h:inputText>
 							<h:outputText value="" />
 							<h:outputText
-								value="#{mensajeCosts.cycle_standard_activities_label_duracion}" />
+								value="#{mensajeCosts.cycle_standard_activities_label_duracion}"
+								styleClass="etiquetaTitulo" />
 							<h:inputText id="duracionBudget" styleClass="W91P"
 								validator="#{activitiesAndHrAction.validar}" required="true"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
