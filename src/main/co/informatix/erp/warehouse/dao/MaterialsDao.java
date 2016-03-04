@@ -168,7 +168,7 @@ public class MaterialsDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Materials m ");
-		query.append("WHERE m.materialType.id=:idMaterialType ");
+		query.append("WHERE m.materialType.idMaterialsType=:idMaterialType ");
 		query.append("ORDER BY m.name ");
 		Query q = em.createQuery(query.toString()).setParameter(
 				"idMaterialType", idMaterialType);
