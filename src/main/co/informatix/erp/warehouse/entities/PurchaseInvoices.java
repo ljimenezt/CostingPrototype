@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
  * table.
  * 
  * @author Johnatan.Naranjo
+ * @modify 04/02/2016 Liseth.Jimenez
  * 
  */
 @SuppressWarnings("serial")
@@ -31,9 +32,10 @@ public class PurchaseInvoices implements Serializable {
 	private Date dateTime;
 	private Suppliers suppliers;
 	private Double totalValueActual;
+	private String invoiceNumber;
 
 	/**
-	 * @return idpurchaseinvoice:purchase_invoices identifier
+	 * @return idpurchaseinvoice: Purchase invoices identifier
 	 */
 	@Id
 	@Column(name = "idpurchaseinvoice", nullable = false)
@@ -44,14 +46,14 @@ public class PurchaseInvoices implements Serializable {
 
 	/**
 	 * @param idpurchaseinvoice
-	 *            :purchase_invoices identifier
+	 *            : Purchase invoices identifier
 	 */
 	public void setIdPurchaseInvoice(int idpurchaseinvoice) {
 		this.idPurchaseInvoice = idpurchaseinvoice;
 	}
 
 	/**
-	 * @return dateTime: Date Time
+	 * @return dateTime: Date of Purchase invoices
 	 */
 	@Column(name = "date_time")
 	@Temporal(TemporalType.DATE)
@@ -61,14 +63,14 @@ public class PurchaseInvoices implements Serializable {
 
 	/**
 	 * @param dateTime
-	 *            :Date Time
+	 *            : Date of Purchase invoices
 	 */
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
 	}
 
 	/**
-	 * @return suppliers: Suppliers
+	 * @return suppliers: Supplier associated with the purchase
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_supplier", referencedColumnName = "idsupplier", nullable = false)
@@ -78,7 +80,7 @@ public class PurchaseInvoices implements Serializable {
 
 	/**
 	 * @param suppliers
-	 *            :Suppliers
+	 *            : Supplier associated with the purchase
 	 */
 	public void setSuppliers(Suppliers suppliers) {
 		this.suppliers = suppliers;
@@ -98,6 +100,22 @@ public class PurchaseInvoices implements Serializable {
 	 */
 	public void setTotalValueActual(Double totalValueActual) {
 		this.totalValueActual = totalValueActual;
+	}
+
+	/**
+	 * @return invoiceNumber: Number of the invoice
+	 */
+	@Column(name = "invoice_number", length = 50)
+	public String getInvoiceNumber() {
+		return invoiceNumber;
+	}
+
+	/**
+	 * @param invoiceNumber
+	 *            : Number of the invoice
+	 */
+	public void setInvoiceNumber(String invoiceNumber) {
+		this.invoiceNumber = invoiceNumber;
 	}
 
 	@Override
