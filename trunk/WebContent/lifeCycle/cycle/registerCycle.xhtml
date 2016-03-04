@@ -1,0 +1,267 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="cycleAction.agregarEditarCycles(null)" />
+	<ui:param name="titulo" value="mensajeMenu.cycle_label_register" />
+	<ui:define name="body">
+		<t:saveState value="#{cycleAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+		<h:form id="formRegisterCycle">
+			<rich:panel
+				header="#{mensaje.label_registrar} #{mensajeLifeCycle.cycle_label}"
+				styleClass="anchoUno MinH253P" id="panelCycle">
+				<t:fieldset styleClass="anchoDos BorderW2P">
+					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
+
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,tdAlignTop">
+						<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" styleClass="required" />
+						<h:selectOneMenu id="cropName"
+							value="#{cycleAction.cycle.crops.cropNames.idCropName}"
+							styleClass="colTextoMediano" required="true">
+							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
+								itemValue="0" />
+							<f:selectItems value="#{cycleAction.optionsCropNames}" />
+							<f:ajax event="change"
+								listener="#{cycleAction.loadCropNamesCrop()}" render="@form" />
+						</h:selectOneMenu>
+						<rich:message for="cropName" />
+
+						<h:outputText value="#{mensajeLifeCycle.crops_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" styleClass="required" />
+						<h:selectOneMenu id="crop"
+							value="#{cycleAction.cycle.crops.idCrop}"
+							styleClass="colTextoMediano" required="true">
+							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
+								itemValue="0" />
+							<f:selectItems value="#{cycleAction.optionsCrops}" />
+							<f:ajax event="change" listener="#{cycleAction.loadActivities()}"
+								render="formRegisterCycle" />
+						</h:selectOneMenu>
+						<rich:message for="crop" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="anchoDos BorderW2P"
+					rendered="#{cycleAction.cycle.crops.idCrop gt 0 and cycleAction.crops.cropNames.idCropName gt 0}">
+					<legend class="etiquetaTitulo">#{mensajeLifeCycle.cycle_label}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,"
+						rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}">
+
+						<h:outputText value="#{mensajeLifeCycle.activity_names_label}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="activities"
+							value="#{cycleAction.cycle.activiyNames.idActivityName}"
+							styleClass="colTextoCorto" required="true">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
+							<f:selectItems value="#{cycleAction.itemsActivityName}" />
+						</h:selectOneMenu>
+						<rich:message for="activities" />
+
+						<h:outputText value="#{mensaje.label_fecha_inicio}" />
+						<h:outputText value="*" styleClass="required" />
+						<p:calendar value="#{cycleAction.cycle.initialDateTime}"
+							pattern="MM/dd/yyyy" styleClass="W104P" id="fechaInicio"
+							showOn="button" maxdate="#{cycleAction.cycle.finalDateTime}"
+							navigator="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}">
+							<p:ajax event="dateSelect" update="fechaFinal" />
+						</p:calendar>
+						<rich:message for="fechaInicio" />
+
+						<h:outputText value="#{mensaje.label_fecha_fin}" />
+						<h:outputText value="*" styleClass="required" />
+						<p:calendar value="#{cycleAction.cycle.finalDateTime}"
+							pattern="MM/dd/yyyy" styleClass="W104P" id="fechaFinal"
+							showOn="button" mindate="#{cycleAction.cycle.initialDateTime}"
+							navigator="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}">
+							<p:ajax event="dateSelect" update="fechaInicio" />
+						</p:calendar>
+						<rich:message for="fechaFinal" />
+
+						<h:outputText value="#{mensajeLifeCycle.cycle_label_number}:" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="cycleNumber"
+							value="#{cycleAction.cycle.cycleNumber}" styleClass="W75P right" />
+						<rich:message for="cycleNumber" />
+
+						<h:outputText value="#{mensaje.label_material_requerido}" />
+						<h:outputText value="" />
+						<h:selectBooleanCheckbox
+							value="#{cycleAction.cycle.materialsRequired}" id="txtMaterials"
+							styleClass="marginCheckbox">
+							<f:ajax event="click"
+								listener="#{cycleAction.loadMaterialsType()}"
+								render="formRegisterCycle" />
+						</h:selectBooleanCheckbox>
+						<h:outputText value="" />
+
+					</h:panelGrid>
+
+					<h:panelGrid rendered="#{cycleAction.cycle.materialsRequired}"
+						columns="3"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,">
+
+						<h:outputText value="#{mensajeWarehouse.materials_type_label}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="cmbMaterialsType"
+							value="#{cycleAction.idMaterialsType}" styleClass="colTextoCorto"
+							required="true">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
+							<f:selectItems value="#{cycleAction.itemsMaterialsType}" />
+							<f:ajax event="change" listener="#{cycleAction.loadMaterials()}"
+								render="@form" />
+						</h:selectOneMenu>
+
+						<h:outputText value="#{mensajeWarehouse.materials_label}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="cmbMaterials" styleClass="colTextoMediano"
+							required="true" value="#{cycleAction.idMaterials}">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
+							<f:selectItems value="#{cycleAction.itemsMaterials}" />
+						</h:selectOneMenu>
+
+						<h:outputText value="#{mensaje.label_cantidad}:" />
+						<h:outputText value="" />
+						<h:inputText styleClass="W75P right " />
+
+						<h:outputText value="#{mensaje.label_units}:" />
+						<h:outputText value="" />
+						<h:inputText styleClass="W75P right" />
+					</h:panelGrid>
+
+					<h:panelGrid columns="2"
+						columnClasses=" tdAlignTop W130P etiquetaTitulo,">
+						<h:outputText value="#{mensaje.label_hr_requerido}" />
+						<h:selectBooleanCheckbox value="#{cycleAction.cycle.hrRequired}"
+							id="txtHr" styleClass="marginCheckbox">
+							<f:ajax event="click" />
+						</h:selectBooleanCheckbox>
+
+						<h:outputText value="#{mensaje.label_maquina_requerida}" />
+						<h:selectBooleanCheckbox
+							value="#{cycleAction.cycle.machineRequired}" id="txtMachine"
+							styleClass="marginCheckbox">
+							<f:ajax event="click" listener="#{cycleAction.loadMachines()}"
+								render="formRegisterCycle" />
+						</h:selectBooleanCheckbox>
+					</h:panelGrid>
+
+					<h:panelGrid columns="3"
+						rendered="#{cycleAction.cycle.machineRequired}"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,">
+
+						<h:outputText value="#{mensaje.label_tipo_maquina}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="cmbMachinesType" styleClass="colTextoMediano"
+							required="true">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
+							<f:selectItems value="#{cycleAction.itemsMachinesType}" />
+						</h:selectOneMenu>
+					</h:panelGrid>
+
+					<h:panelGrid columns="2"
+						columnClasses=" tdAlignTop W130P etiquetaTitulo,">
+						<h:outputText value="#{mensaje.label_servicio_requerido}" />
+						<h:selectBooleanCheckbox
+							value="#{cycleAction.cycle.serviceRequired}" id="txtService"
+							styleClass="marginCheckbox">
+							<f:ajax event="click" listener="#{cycleAction.loadServices()}"
+								render="formRegisterCycle" />
+						</h:selectBooleanCheckbox>
+					</h:panelGrid>
+
+					<h:panelGrid columns="3"
+						rendered="#{cycleAction.cycle.serviceRequired}"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,">
+
+						<h:outputText value="#{mensajeServices.service_type_label}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="cmbServicesType" styleClass="colTextoMediano"
+							required="true">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
+							<f:selectItems value="#{cycleAction.itemsServicesType}" />
+						</h:selectOneMenu>
+
+						<h:outputText value="#{mensaje.label_quote}:" />
+						<h:outputText value="" />
+						<h:inputText styleClass="W75P right" />
+					</h:panelGrid>
+
+					<div align="center">
+						<a:commandButton
+							render="formConfirmar:popUpConfirmar,formGenerico"
+							actionListener="#{cycleAction.requiredOk()}"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+							value="#{mensaje.button_guardar}" />
+					</div>
+				</t:fieldset>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							action="#{cycleAction.saveUpdateCycle}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

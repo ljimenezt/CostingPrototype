@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
 public class Cycle implements Serializable {
 
 	private int idCycle;
-	private Integer cycleNumber;
+	private int cycleNumber;
 	private Date initialDateTime;
 	private Date finalDateTime;
 	private Double costHrBudget;
@@ -68,7 +68,7 @@ public class Cycle implements Serializable {
 	 * @return cycleNumber: Number of the cycle.
 	 */
 	@Column(name = "cycle_number", nullable = false)
-	public Integer getCycleNumber() {
+	public int getCycleNumber() {
 		return cycleNumber;
 	}
 
@@ -76,7 +76,7 @@ public class Cycle implements Serializable {
 	 * @param cycleNumber
 	 *            : Number of the cycle.
 	 */
-	public void setCycleNumber(Integer cycleNumber) {
+	public void setCycleNumber(int cycleNumber) {
 		this.cycleNumber = cycleNumber;
 	}
 
@@ -372,8 +372,7 @@ public class Cycle implements Serializable {
 				* result
 				+ ((costServicesBudget == null) ? 0 : costServicesBudget
 						.hashCode());
-		result = prime * result
-				+ ((cycleNumber == null) ? 0 : cycleNumber.hashCode());
+		result = prime * result + cycleNumber;
 		result = prime * result
 				+ ((finalDateTime == null) ? 0 : finalDateTime.hashCode());
 		result = prime * result
@@ -441,10 +440,7 @@ public class Cycle implements Serializable {
 				return false;
 		} else if (!costServicesBudget.equals(other.costServicesBudget))
 			return false;
-		if (cycleNumber == null) {
-			if (other.cycleNumber != null)
-				return false;
-		} else if (!cycleNumber.equals(other.cycleNumber))
+		if (cycleNumber != other.cycleNumber)
 			return false;
 		if (finalDateTime == null) {
 			if (other.finalDateTime != null)
