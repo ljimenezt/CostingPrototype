@@ -25,6 +25,28 @@ public class CycleDao implements Serializable {
 	private EntityManager em;
 
 	/**
+	 * Save an cycle in database
+	 * 
+	 * @param cycle
+	 *            : cycle to save.
+	 * @throws Exception
+	 */
+	public void saveCycle(Cycle cycle) throws Exception {
+		em.persist(cycle);
+	}
+
+	/**
+	 * Edit an cycle in database
+	 * 
+	 * @param cycle
+	 *            : cycle to edit.
+	 * @throws Exception
+	 */
+	public void editCycle(Cycle cycle) throws Exception {
+		em.merge(cycle);
+	}
+
+	/**
 	 * Delete the cycles of the database.
 	 * 
 	 * @param cycle

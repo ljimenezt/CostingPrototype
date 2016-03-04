@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="cycleAction.agregarEditarCycle(null)" />
+	<ui:param name="action" value="cycleAction.inicializateCycles(null)" />
 	<ui:param name="titulo" value="mensajeMenu.cycle_label_management" />
 	<ui:define name="body">
 		<ui:param name="listaVacia"
@@ -24,11 +24,11 @@
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="cycleAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarCycle" />
+		<ui:param name="metodoNuevo" value="agregarEditarCycles" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
 		<ui:param name="popupBuscar" value="popupSearch" />
-		<ui:param name="metodoListarTodos" value="initializeCycles" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 		<t:saveState value="#{cycleAction}" />
 		<t:saveState value="#{activityNamesAction}" />
@@ -68,15 +68,14 @@
 						<rich:message for="cmbCropNames" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_descripcion}" />
+							value="#{mensajeLifeCycle.crops_label}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu value="#{cycleAction.crops.idCrop}" id="cmbCrops"
 							required="true" styleClass="W250P"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
 							<f:selectItems value="#{cycleAction.optionsCrops}" />
-							<f:ajax event="change"
-								listener="#{cycleAction.initializeCycles()}"
+							<f:ajax event="change" listener="#{cycleAction.initializeSearch}"
 								render=":formCycle :mensajes :mensajeBusqueda" execute="@form" />
 							<f:attribute name="tipo" value="Int" />
 						</h:selectOneMenu>
@@ -126,10 +125,12 @@
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
-								<a:commandLink id="linkReg" value="" execute="@form">
-									<h:outputText value="#{cycle.activiyNames.activityName}" />
-								</a:commandLink>
+								<f:facet name="header">#{mensajeLifeCycle.cycle_type_label}</f:facet>
+								<h:commandLink id="linkReg"
+									value="#{cycle.activiyNames.activityName}"
+									action="#{cycleAction.agregarEditarCycles(cycle)}"
+									onclick="#{rich:component('statPane')}.show();">
+								</h:commandLink>
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano">
@@ -312,7 +313,7 @@
 
 		<h:form id="formDetalles">
 			<rich:popupPanel id="PopUpDetails" autosized="true"
-				domElementAttachment="form" styleClass="H340P fondoAnchoUno W250P"
+				domElementAttachment="form" styleClass="H340P fondoAnchoUno W370P"
 				header="#{mensajeLifeCycle.cycle_label_details}">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -326,48 +327,99 @@
 				<t:fieldset styleClass="BorderW2P">
 					<legend class="etiquetaTitulo">#{cycleAction.cycle.activiyNames.activityName}</legend>
 					<h:panelGrid columns="4"
-						columnClasses="right W91P, tdAlignTop center, tdAlignTop left W150P, tdAlignTop verticalAlignMiddle ">
+						columnClasses="right W91P, tdAlignTop center, tdAlignTop center W150P, tdAlignTop verticalAlignMiddle ">
 						<h:outputText value="" />
 						<h:outputText value="#{mensaje.label_presupuesto}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="#{mensaje.label_actual}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
-						<h:outputText value="#{mensajeMachine.machines_label_names_s}"
+						<h:outputText value="#{mensajeMachine.machines_label_names_s}:"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="#{cycleAction.cycle.costMachinesEqBudget}" />
-						<h:outputText value="#{cycleAction.cycle.costMachinesEqActual}" />
+						<h:inputText styleClass="W103P right"
+							value="#{cycleAction.cycle.costMachinesEqBudget}" />
+						<h:inputText styleClass="W103P right" disabled="true"
+							value="#{cycleAction.cycle.costMachinesEqActual}" />
 						<h:outputText value="" />
 
 						<h:outputText
-							value="#{mensajeRecursosHumanos.recurso_humano_label_hr_abbr}"
+							value="#{mensajeRecursosHumanos.recurso_humano_label_hr_abbr}:"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="#{cycleAction.cycle.costHrBudget}" />
-						<h:outputText value="#{cycleAction.cycle.costHrActual}" />
+						<h:inputText styleClass="W103P right"
+							value="#{cycleAction.cycle.costHrBudget}" />
+						<h:inputText styleClass="W103P right" disabled="true"
+							value="#{cycleAction.cycle.costHrActual}" />
 						<h:outputText value="" />
 
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_materiales}"
+							value="#{mensajeCosts.cycle_standard_activities_label_materiales}:"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="#{cycleAction.cycle.costMaterialsBudget}" />
-						<h:outputText value="#{cycleAction.cycle.costMaterialsActual}" />
+						<h:inputText styleClass="W103P right"
+							value="#{cycleAction.cycle.costMaterialsBudget}" />
+						<h:inputText styleClass="W103P right" disabled="true"
+							value="#{cycleAction.cycle.costMaterialsActual}" />
 						<h:outputText value="" />
 
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_servicio}"
+							value="#{mensajeCosts.cycle_standard_activities_label_servicio}:"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="#{cycleAction.cycle.costServicesBudget}" />
-						<h:outputText value="#{cycleAction.cycle.costServicesActual}" />
+						<h:inputText styleClass="W103P right"
+							value="#{cycleAction.cycle.costServicesBudget}" />
+						<h:inputText styleClass="W103P right" disabled="true"
+							value="#{cycleAction.cycle.costServicesActual}" />
 						<h:outputText value="" />
 
 					</h:panelGrid>
 					<br />
 					<div align="center">
-						<a:commandButton value="#{mensaje.button_aceptar}"
-							onclick="#{rich:component('PopUpDetails')}.hide()" />
+						<h:panelGrid columns="2" columnClasses="right W106P, center">
+							<a:commandButton value="#{mensaje.button_guardar}"
+								execute=":formDetalles"
+								render="formConfirmActual:popUpConfirmActual,formGenerico"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popUpConfirmActual')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+							<a:commandButton
+								onclick="#{rich:component('PopUpDetails')}.hide()"
+								value="#{mensaje.button_cancelar}" />
+						</h:panelGrid>
 					</div>
 				</t:fieldset>
 			</rich:popupPanel>
 		</h:form>
+
+		<h:form id="formConfirmActual">
+			<rich:popupPanel id="popUpConfirmActual" modal="true"
+				autosized="true" maxWidth="500"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmActual')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_aceptar}"
+							actionListener="#{cycleAction.updateCycleBudget()}"
+							onclick="#{rich:component('popUpConfirmActual')}.hide(); #{rich:component('statPane')}.show();">
+							<f:param name="param2" value="si" />
+						</h:commandButton>
+						<a:commandButton value="#{mensaje.button_cancelar}"
+							onclick="#{rich:component('popUpConfirmActual')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
 	</ui:define>
 </ui:composition>
