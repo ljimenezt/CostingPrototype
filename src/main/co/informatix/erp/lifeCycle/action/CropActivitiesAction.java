@@ -541,7 +541,7 @@ public class CropActivitiesAction implements Serializable {
 	 */
 	private void llenarCropNames() throws Exception {
 		opcionesCropNames = new ArrayList<SelectItem>();
-		List<CropNames> listCropNames = cropNamesDao.listaCropNames();
+		List<CropNames> listCropNames = cropNamesDao.listCropNames();
 		if (listCropNames != null) {
 			for (CropNames cropNames : listCropNames) {
 				opcionesCropNames.add(new SelectItem(cropNames.getIdCropName(),

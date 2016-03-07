@@ -39,7 +39,7 @@ public class CropNamesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<CropNames> consultarCropNames(int start, int range,
+	public List<CropNames> consultCropNames(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -47,8 +47,8 @@ public class CropNamesDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY cn.cropName ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<CropNames> resultList = q.getResultList();
@@ -65,7 +65,7 @@ public class CropNamesDao implements Serializable {
 	 *            : crop name to save.
 	 * @throws Exception
 	 */
-	public void guardarCropNames(CropNames cropNames) throws Exception {
+	public void saveCropNames(CropNames cropNames) throws Exception {
 		em.persist(cropNames);
 	}
 
@@ -76,7 +76,7 @@ public class CropNamesDao implements Serializable {
 	 *            : crop name to edit.
 	 * @throws Exception
 	 */
-	public void editarCropNames(CropNames cropNames) throws Exception {
+	public void editCropNames(CropNames cropNames) throws Exception {
 		em.merge(cropNames);
 	}
 
@@ -89,7 +89,7 @@ public class CropNamesDao implements Serializable {
 	 *            : Crop name eliminate
 	 * @throws Exception
 	 */
-	public void eliminarCropNames(CropNames cropNames) throws Exception {
+	public void removeCropNames(CropNames cropNames) throws Exception {
 		em.remove(em.merge(cropNames));
 	}
 
@@ -105,14 +105,14 @@ public class CropNamesDao implements Serializable {
 	 * @return Long: amount of crop name records found
 	 * @throws Exception
 	 */
-	public Long cantidadCropNames(StringBuilder consult,
+	public Long quantityCropNames(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(cn) FROM CropNames cn ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -130,7 +130,7 @@ public class CropNamesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public CropNames nombreExiste(String name, int id) throws Exception {
+	public CropNames nameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT cn FROM CropNames cn ");
 		query.append("WHERE UPPER(cn.cropName)=UPPER(:cropName) ");
@@ -157,7 +157,7 @@ public class CropNamesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<CropNames> listaCropNames() throws Exception {
+	public List<CropNames> listCropNames() throws Exception {
 		Query q = em.createQuery("SELECT cn FROM CropNames cn ");
 		return q.getResultList();
 

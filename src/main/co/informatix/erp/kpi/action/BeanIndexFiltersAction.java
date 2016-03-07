@@ -148,7 +148,7 @@ public class BeanIndexFiltersAction implements Serializable {
 	private void loadFilterItems() throws Exception {
 
 		this.itemsCropNames = new ArrayList<SelectItem>();
-		List<CropNames> cropNames = cropNamesDao.listaCropNames();
+		List<CropNames> cropNames = cropNamesDao.listCropNames();
 		if (cropNames != null) {
 			for (CropNames cropName : cropNames) {
 				itemsCropNames.add(new SelectItem(cropName.getIdCropName(),

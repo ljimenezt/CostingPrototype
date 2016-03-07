@@ -438,7 +438,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	private void cargarComboCropName() throws Exception {
 		this.listCropNames = new ArrayList<SelectItem>();
-		List<CropNames> tiposCropNames = cropNamesDao.listaCropNames();
+		List<CropNames> tiposCropNames = cropNamesDao.listCropNames();
 		if (tiposCropNames != null) {
 			for (CropNames cropName : tiposCropNames) {
 				listCropNames.add(new SelectItem(cropName.getIdCropName(),

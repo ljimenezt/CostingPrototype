@@ -440,7 +440,7 @@ public class CycleAction implements Serializable {
 		optionsCropNames = new ArrayList<SelectItem>();
 
 		try {
-			List<CropNames> listCropNames = cropNamesDao.listaCropNames();
+			List<CropNames> listCropNames = cropNamesDao.listCropNames();
 			if (listCropNames != null) {
 				for (CropNames cropNames : listCropNames) {
 					optionsCropNames.add(new SelectItem(cropNames
