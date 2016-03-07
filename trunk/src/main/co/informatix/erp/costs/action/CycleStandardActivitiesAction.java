@@ -292,7 +292,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 	 */
 	private void cargarCropNames() throws Exception {
 		itemsCropName = new ArrayList<SelectItem>();
-		List<CropNames> listaCropName = cropNamesDao.listaCropNames();
+		List<CropNames> listaCropName = cropNamesDao.listCropNames();
 		if (listaCropName != null) {
 			for (CropNames cropNames : listaCropName) {
 				itemsCropName.add(new SelectItem(cropNames.getIdCropName(),
