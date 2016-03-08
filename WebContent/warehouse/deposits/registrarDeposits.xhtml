@@ -17,20 +17,74 @@
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
-		<t:saveState value="#{depositsAction}" />
 		<script type="text/javascript">
 			$g=jQuery.noConflict();
 		</script>
+		<t:saveState value="#{depositsAction}" />
+		<t:saveState value="#{purchaseInvoicesAction}" />
+		<t:saveState value="#{validacionesAction}" />
 		<h:form id="formDeposits">
 			<rich:panel
 				header="#{mensaje.label_registrar} #{mensajeWarehouse.deposits_label}"
 				styleClass="anchoUno MinH253P" id="panelDeposits">
 				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{mensajeWarehouse.purchase_invoice_label}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="W98P tdAlignTop,,W290P,tdAlignTop">
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.purchase_invoice_label_number}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:panelGrid columns="4" cellpadding="0" cellspacing="0">
+							<h:inputText styleClass="colTextoMediano"
+								value="#{depositsAction.deposits.purchaseInvoices.invoiceNumber}"
+								id="txtInvoiceNumber2" readonly="true"
+								validator="#{encodeFilter.validarScripting}" />
+							<a:commandLink id="lnkInvoice" render=":popupForm:popupInvoice"
+								actionListener="#{purchaseInvoicesAction.searchInitialize}"
+								execute="@this"
+								oncomplete="#{rich:component('popupInvoice')}.show(); setFocus('popupForm:txtSearchNumber');">
+								<h:graphicImage value="/img/add_22.png"
+									styleClass="verticalAlignMiddle" />
+								<f:param name="param2" value="si" />
+								<f:setPropertyActionListener value=""
+									target="#{purchaseInvoicesAction.searchNumber}" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_seleccionar}" />
+								</rich:tooltip>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+							<h:outputText value="&#32;&#32;&#32;" />
+							<a:commandLink actionListener="#{depositsAction.cleanInvoice()}"
+								render=":formDeposits:txtInvoiceNumber, :formDeposits:txtSupplier, :formDeposits:txtInvoiceNumber2"
+								execute="@this">
+								<h:graphicImage value="/img/editRemove_16.png" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_quitar}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</h:panelGrid>
+						<rich:message for="txtInvoiceNumber" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.suppliers_label}" />
+						<h:outputText value="" styleClass="required" />
+						<h:inputText styleClass="colTextoMediano"
+							value="#{depositsAction.deposits.purchaseInvoices.suppliers.name}"
+							id="txtSupplier" readonly="true" required="true"
+							validator="#{encodeFilter.validarScripting}" />
+						<rich:message for="txtSupplier" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="W98P tdAlignTop,,,tdAlignTop">
+						columnClasses="W98P tdAlignTop,,W290P,tdAlignTop">
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensajeWarehouse.materials_type_label}" />
@@ -154,42 +208,6 @@
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
-				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensajeWarehouse.purchase_invoice_label}</legend>
-					<h:panelGrid columns="4"
-						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="W98P tdAlignTop,,W180P,tdAlignTop">
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeWarehouse.suppliers_label}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu value="#{depositsAction.idSupplier}"
-							id="suppliers" required="true"
-							validator="#{validacionesAction.validarComboRequerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-								itemValue="0" />
-							<f:selectItems value="#{depositsAction.itemsSuppliers}" />
-							<f:ajax event="change"
-								listener="#{depositsAction.loadPurchaseInvoice()}"
-								render=":formDeposits:invoices" />
-						</h:selectOneMenu>
-						<rich:message for="suppliers" />
-
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeWarehouse.purchase_invoice_label}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu
-							value="#{depositsAction.deposits.purchaseInvoices.idPurchaseInvoice}"
-							id="invoices" required="true"
-							validator="#{validacionesAction.validarComboRequerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-								itemValue="0" />
-							<f:selectItems value="#{depositsAction.itemsInvoices}" />
-						</h:selectOneMenu>
-						<rich:message for="invoices" />
-					</h:panelGrid>
-				</t:fieldset>
-				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
 						execute="formDeposits"
@@ -197,6 +215,10 @@
 						value="#{mensaje.button_guardar}" />
 				</div>
 			</rich:panel>
+			<h:inputHidden
+				value="#{depositsAction.deposits.purchaseInvoices.invoiceNumber}"
+				id="txtInvoiceNumber" required="true"
+				requiredMessage="#{mensaje.message_campo_requerido}" />
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
@@ -216,7 +238,6 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-
 						<h:outputText value="#{mensajeWarehouse.materials_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(depositsAction.itemsMaterial,depositsAction.deposits.materials.idMaterial)}" />
@@ -235,10 +256,16 @@
 						</h:outputText>
 
 						<h:outputText value="#{mensaje.label_purchase_date}:" />
-						<h:outputText value="#{depositsAction.deposits.dateTime}" />
+						<h:outputText value="#{depositsAction.deposits.dateTime}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
 
 						<h:outputText value="#{mensaje.label_expiration_date}:" />
-						<h:outputText value="#{depositsAction.deposits.expireDate}" />
+						<h:outputText value="#{depositsAction.deposits.expireDate}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
 
 						<h:outputText value="#{mensajeMenu.farms_label}:" />
 						<h:outputText
@@ -253,6 +280,124 @@
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="popupForm">
+			<rich:popupPanel id="popupInvoice" autosized="true"
+				domElementAttachment="form"
+				header="#{mensaje.label_listado_de} #{mensajeWarehouse.purchase_invoice_label_s}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupInvoice')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:panel styleClass="H373P fondoAnchoUno W580P">
+					<a:outputPanel id="outPutSearchInvoice">
+						<t:fieldset styleClass="BorderW2P">
+							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+								#{mensajeWarehouse.purchase_invoice_label}</legend>
+							<h:panelGrid columns="3" cellpadding="7">
+								<h:outputText
+									value="#{mensajeWarehouse.purchase_invoice_label_number}"
+									styleClass="etiquetaTitulo" />
+								<h:inputText size="40" maxlength="100" id="txtSearchNumber"
+									value="#{purchaseInvoicesAction.searchNumber}"
+									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
+								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+									actionListener="#{purchaseInvoicesAction.consultInvoices}"
+									render="outputInvoices, outPutSearchInvoice">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+							</h:panelGrid>
+						</t:fieldset>
+						<br />
+						<a:outputPanel id="mensajeBusquedaMenu">
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W520P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
+						<br />
+						<ui:param name="listEmpty"
+							value="#{purchaseInvoicesAction.listInovoices eq null or (empty purchaseInvoicesAction.listInovoices)}" />
+						<div align="right" class="W560P">
+							<a:commandLink render="outPutSearchInvoice"
+								styleClass="quitarDecoracionLink"
+								action="#{purchaseInvoicesAction.searchInitialize}"
+								actionListener="#{purchaseInvoicesAction.setSearchNumber(null)}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/listarTodos_16.png" />
+									<h:outputText value="#{mensaje.button_listar_todos}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+						</div>
+						<a:outputPanel id="outputInvoices">
+							<rich:dataTable value="#{purchaseInvoicesAction.listInovoices}"
+								var="invoice" id="dtInvoice" footerClass="H130P"
+								styleClass="#{listEmpty ? 'BCTransparente' : 'dataTable'} W560P"
+								rowClasses="odd-row, even-row">
+								<f:facet name="header">
+									<h:outputText
+										value="#{mensajeWarehouse.purchase_invoice_label_s}" />
+								</f:facet>
+								<rich:column styleClass="colIconoUno">
+									<f:facet name="header" />
+									<a:commandLink
+										render=":formDeposits:txtInvoiceNumber, :formDeposits:txtSupplier, :formDeposits:txtInvoiceNumber2"
+										actionListener="#{depositsAction.loadInvoice(invoice)}"
+										oncomplete="#{rich:component('popupInvoice')}.hide();">
+										<h:graphicImage value="/img/add_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.label_seleccionar}" />
+										</rich:tooltip>
+									</a:commandLink>
+								</rich:column>
+								<rich:column width="100px">
+									<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_number}</f:facet>
+									<h:outputText value="#{invoice.invoiceNumber}" />
+								</rich:column>
+								<rich:column width="100px" styleClass="center">
+									<f:facet name="header">#{mensaje.label_purchase_date}</f:facet>
+									<h:outputText value="#{invoice.dateTime}">
+										<f:convertDateTime pattern="MMM dd, yyyy"
+											locale="#{idioma.locale}" />
+									</h:outputText>
+								</rich:column>
+								<rich:column width="300px">
+									<f:facet name="header">#{mensajeWarehouse.suppliers_label}</f:facet>
+									<h:outputText value="#{invoice.suppliers.name}" />
+								</rich:column>
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listEmpty}">
+										<rich:column colspan="5" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listEmpty}">
+								<div class="W560P center inBlock">
+									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+										<ui:param name="valParam2" value="si" />
+										<ui:param name="conParam2" value="1" />
+										<ui:param name="pager" value="pagerForm" />
+										<ui:param name="valReder"
+											value=":popupForm:outPutSearchInvoice" />
+										<ui:param name="beanActionParam"
+											value="#{purchaseInvoicesAction}" />
+										<ui:param name="metodoActionParam" value="consultInvoices" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</a:outputPanel>
+					</a:outputPanel>
+				</rich:panel>
 			</rich:popupPanel>
 		</h:form>
 	</ui:define>
