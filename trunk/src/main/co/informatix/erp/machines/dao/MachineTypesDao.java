@@ -41,7 +41,7 @@ public class MachineTypesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MachineTypes> consultarMachineTypes(int start, int range,
+	public List<MachineTypes> consultMachineTypes(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -49,8 +49,8 @@ public class MachineTypesDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY mt.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<MachineTypes> resultList = q.getResultList();
@@ -67,7 +67,7 @@ public class MachineTypesDao implements Serializable {
 	 *            : one machine to save.
 	 * @throws Exception
 	 */
-	public void guardarMachineTypes(MachineTypes machineTypes) throws Exception {
+	public void saveMachineTypes(MachineTypes machineTypes) throws Exception {
 		em.persist(machineTypes);
 	}
 
@@ -78,7 +78,7 @@ public class MachineTypesDao implements Serializable {
 	 *            : type of machine to edit.
 	 * @throws Exception
 	 */
-	public void editarMachineTypes(MachineTypes machineTypes) throws Exception {
+	public void editMachineTypes(MachineTypes machineTypes) throws Exception {
 		em.merge(machineTypes);
 	}
 
@@ -91,8 +91,7 @@ public class MachineTypesDao implements Serializable {
 	 *            : type of machine to remove
 	 * @throws Exception
 	 */
-	public void eliminarMachineTypes(MachineTypes machineTypes)
-			throws Exception {
+	public void removeMachineTypes(MachineTypes machineTypes) throws Exception {
 		em.remove(em.merge(machineTypes));
 	}
 
@@ -108,14 +107,14 @@ public class MachineTypesDao implements Serializable {
 	 * @return Long: number of records found type of machine
 	 * @throws Exception
 	 */
-	public Long cantidadMachineTypes(StringBuilder consult,
+	public Long quantityMachineTypes(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(mt) FROM MachineTypes mt ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -133,7 +132,7 @@ public class MachineTypesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public MachineTypes nombreExiste(String name, int id) throws Exception {
+	public MachineTypes nameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT mt FROM MachineTypes mt ");
 		query.append("WHERE UPPER(mt.name)=UPPER(:name) ");
@@ -160,7 +159,7 @@ public class MachineTypesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MachineTypes> listaMachineType() throws Exception {
+	public List<MachineTypes> listMachineType() throws Exception {
 		Query q = em.createQuery("SELECT mt FROM MachineTypes mt ");
 		return q.getResultList();
 

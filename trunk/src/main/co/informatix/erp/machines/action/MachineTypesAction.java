@@ -39,27 +39,27 @@ public class MachineTypesAction implements Serializable {
 	@EJB
 	private MachineTypesDao machineTypesDao;
 
-	private List<MachineTypes> listaMachineTypes;
+	private List<MachineTypes> listMachineTypes;
 
 	private MachineTypes machineTypes;
 	private Paginador paginador = new Paginador();
 
-	private String nombreBuscar;
+	private String nameSearch;
 
 	/**
 	 * @return List<MachineTypes>: list of the types of machine shown in the
 	 *         user interface
 	 */
-	public List<MachineTypes> getListaMachineTypes() {
-		return listaMachineTypes;
+	public List<MachineTypes> getListMachineTypes() {
+		return listMachineTypes;
 	}
 
 	/**
-	 * @param listaMachineTypes
+	 * @param listMachineTypes
 	 *            : list of the types of machine shown in the user interface
 	 */
-	public void setListaMachineTypes(List<MachineTypes> listaMachineTypes) {
-		this.listaMachineTypes = listaMachineTypes;
+	public void setListMachineTypes(List<MachineTypes> listMachineTypes) {
+		this.listMachineTypes = listMachineTypes;
 	}
 
 	/**
@@ -98,30 +98,30 @@ public class MachineTypesAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Type of machine to search
+	 * @return nameSearch: Type of machine to search
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : Type of machine to search
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * listing of the types of machines
 	 * 
-	 * @return consultarMachineTypes: method to query the types of machines,
+	 * @return consultMachineTypes: method to query the types of machines,
 	 *         returns to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarMachineTypes();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultMachineTypes();
 	}
 
 	/**
@@ -130,47 +130,45 @@ public class MachineTypesAction implements Serializable {
 	 * @return "gesMachineTypes": redirects to the template to manage the types
 	 *         of machines
 	 */
-	public String consultarMachineTypes() {
+	public String consultMachineTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
 				.getBundle("mensajeMachine");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaMachineTypes = new ArrayList<MachineTypes>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listMachineTypes = new ArrayList<MachineTypes>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = machineTypesDao.cantidadMachineTypes(consulta,
-					parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = machineTypesDao.quantityMachineTypes(query,
+					parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaMachineTypes = machineTypesDao.consultarMachineTypes(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaMachineTypes == null || listaMachineTypes.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listMachineTypes = machineTypesDao.consultMachineTypes(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
+			if ((listMachineTypes == null || listMachineTypes.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaMachineTypes == null
-					|| listaMachineTypes.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listMachineTypes == null || listMachineTypes.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleMachineType
 										.getString("machine_types_label_s"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -192,16 +190,16 @@ public class MachineTypesAction implements Serializable {
 	 *            : message search
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(mt.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -214,7 +212,7 @@ public class MachineTypesAction implements Serializable {
 	 * @return "regMachineTypes": redirected to the template record machine
 	 *         types.
 	 */
-	public String agregarEditarMachineTypes(MachineTypes machineTypes) {
+	public String addEditMachineTypes(MachineTypes machineTypes) {
 		if (machineTypes != null) {
 			this.machineTypes = machineTypes;
 		} else {
@@ -235,24 +233,24 @@ public class MachineTypesAction implements Serializable {
 	 * @param value
 	 *            : field value to be valid
 	 */
-	public void validarNombreXSS(FacesContext context, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String nombre = (String) value;
+		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = machineTypes.getIdMachineType();
 			MachineTypes machineTypesAux = new MachineTypes();
-			machineTypesAux = machineTypesDao.nombreExiste(nombre, id);
+			machineTypesAux = machineTypesDao.nameExists(name, id);
 			if (machineTypesAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
-								.getString(mensajeExistencia), null));
+								.getString(messageExistence), null));
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -264,39 +262,39 @@ public class MachineTypesAction implements Serializable {
 	/**
 	 * Method used to save or edit the types of machines
 	 * 
-	 * @return consultarMachineTypes: Redirects to manage types of machines with
+	 * @return consultMachineTypes: Redirects to manage types of machines with
 	 *         the list of names updated
 	 */
-	public String guardarMachineTypes() {
+	public String saveMachineTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 
 			if (machineTypes.getIdMachineType() != 0) {
-				machineTypesDao.editarMachineTypes(machineTypes);
+				machineTypesDao.editMachineTypes(machineTypes);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				machineTypesDao.guardarMachineTypes(machineTypes);
+				messageLog = "message_registro_guardar";
+				machineTypesDao.saveMachineTypes(machineTypes);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), machineTypes.getName()));
+					bundle.getString(messageLog), machineTypes.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMachineTypes();
+		return consultMachineTypes();
 	}
 
 	/**
 	 * Method to delete a type of machine database
 	 * 
 	 * 
-	 * @return consultarMachineTypess(): Consult the list of the types of
-	 *         machine and returns to manage one machine
+	 * @return consultMachineTypes(): Consult the list of the types of machine
+	 *         and returns to manage one machine
 	 */
-	public String eliminarMachineTypes() {
+	public String removeMachineTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			machineTypesDao.eliminarMachineTypes(machineTypes);
+			machineTypesDao.removeMachineTypes(machineTypes);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					machineTypes.getName()));
@@ -308,6 +306,6 @@ public class MachineTypesAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMachineTypes();
+		return consultMachineTypes();
 	}
 }
