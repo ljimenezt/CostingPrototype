@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesTypeManag</from-outcome>
-			<to-view-id>/warehouse/typeOfManagement/gestionarTypeOfManagement.xhtml</to-view-id>
+			<to-view-id>/warehouse/typeOfManagement/manageTypeOfManagement.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regTypeManag</from-outcome>
-			<to-view-id>/warehouse/typeOfManagement/registrarTypeOfManagement.xhtml</to-view-id>
+			<to-view-id>/warehouse/typeOfManagement/registerTypeOfManagement.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
