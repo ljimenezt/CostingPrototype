@@ -124,7 +124,7 @@ public class TypeOfManagementDao implements Serializable {
 	 * Query whether the management type name exists in the database when
 	 * storing or editing.
 	 * 
-	 * @param nombre
+	 * @param name
 	 *            : Name the type of management to verify.
 	 * @param id
 	 *            : id the type of management to verify.
@@ -133,7 +133,7 @@ public class TypeOfManagementDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public TypeOfManagement nameExists(String nombre, int id) throws Exception {
+	public TypeOfManagement nameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT tm FROM TypeOfManagement tm ");
 		query.append("WHERE UPPER(tm.name)=UPPER(:name) ");
@@ -141,7 +141,7 @@ public class TypeOfManagementDao implements Serializable {
 			query.append("AND tm.idTypeOfManagement <>:idTypeOfManagement ");
 		}
 		Query q = em.createQuery(query.toString());
-		q.setParameter("name", nombre);
+		q.setParameter("name", name);
 		if (id != 0) {
 			q.setParameter("idTypeOfManagement", id);
 		}
