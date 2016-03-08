@@ -25,85 +25,84 @@ public class TypeOfManagementDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Edit the track information for one type of management
+	 * Edit the track information for one type of management.
 	 * 
 	 * @param typeOfManagement
-	 *            : Type of management to edit
+	 *            : Type of management to edit.
 	 * @throws Exception
 	 */
-	public void editarTypeOfManagement(TypeOfManagement typeOfManagement)
+	public void editTypeOfManagement(TypeOfManagement typeOfManagement)
 			throws Exception {
 		em.merge(typeOfManagement);
 	}
 
 	/**
-	 * Save the type of management in the database
+	 * Save the type of management in the database.
 	 * 
 	 * @param typeOfManagement
-	 *            : Type of management to save
+	 *            : Type of management to save.
 	 * @throws Exception
 	 */
-	public void guardarTypeOfManagement(TypeOfManagement typeOfManagement)
+	public void saveTypeOfManagement(TypeOfManagement typeOfManagement)
 			throws Exception {
 		em.persist(typeOfManagement);
 	}
 
 	/**
-	 * Removes a type of management of the BD
+	 * Removes a type of management of the database.
 	 * 
 	 * @param typeOfManagement
-	 *            : Type of management to eliminate
+	 *            : Type of management to eliminate.
 	 * @throws Exception
 	 */
-	public void eliminarTypeOfManagement(TypeOfManagement typeOfManagement)
+	public void deleteTypeOfManagement(TypeOfManagement typeOfManagement)
 			throws Exception {
 		em.remove(em.merge(typeOfManagement));
 	}
 
 	/**
-	 * Returns the number of type names in the database management existing
-	 * filtering the information by the values sent search
+	 * Returns the number of existing types of management in the database and
+	 * the information is filtered with some search value.
 	 * 
-	 * @param consulta
-	 *            : String containing the query why the names of the types of
-	 *            management filtered
-	 * @param parametros
-	 *            : Query parameters
-	 * @return Long: Number of records name management types found
+	 * @param query
+	 *            : String containing the filtering query with the names of the
+	 *            types of management.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Number of management type records found.
 	 * @throws Exception
 	 */
-	public Long cantidadTypeOfManagement(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(tm) FROM TypeOfManagement tm ");
-		query.append(consulta);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
+	public Long amountTypeOfManagement(StringBuilder query,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(tm) FROM TypeOfManagement tm ");
+		queryBuilder.append(query);
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * This method queries the names of the types of management with a certain
-	 * range sent as a parameter and filtering the information by the values
-	 * sent search
+	 * This method queries management types with a certain range sent as a
+	 * parameter and the information is filtered with search values.
 	 * 
 	 * @param start
-	 *            : Registry where consultation begins
+	 *            : Record where the result begins.
 	 * @param range
-	 *            : Range of records
+	 *            : Range of records.
 	 * @param consult
-	 *            : Consultation records depending on the parameters selected by
-	 *            the user
+	 *            : Query records depending on the parameters selected by the
+	 *            user
 	 * @param parameters
 	 *            : Query parameters
-	 * @return List<TypeOfManagement>: List of names of the types of management
+	 * @return List<TypeOfManagement>: List of types of management
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<TypeOfManagement> consultarTypeOfManagement(int start,
-			int range, StringBuilder consult, List<SelectItem> parameters)
+	public List<TypeOfManagement> searchTypeOfManagement(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT tm FROM TypeOfManagement tm ");
@@ -123,19 +122,18 @@ public class TypeOfManagementDao implements Serializable {
 
 	/**
 	 * Query whether the management type name exists in the database when
-	 * storing or editing
+	 * storing or editing.
 	 * 
 	 * @param nombre
-	 *            : Name the type of management to verify
+	 *            : Name the type of management to verify.
 	 * @param id
-	 *            : id the type of management to verify
+	 *            : id the type of management to verify.
 	 * @return TypeOfManagement: Object found with the search parameters name
-	 *         and id
+	 *         and id.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public TypeOfManagement nombreExiste(String nombre, int id)
-			throws Exception {
+	public TypeOfManagement nameExists(String nombre, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT tm FROM TypeOfManagement tm ");
 		query.append("WHERE UPPER(tm.name)=UPPER(:name) ");
@@ -155,18 +153,17 @@ public class TypeOfManagementDao implements Serializable {
 	}
 
 	/**
-	 * Consult the types of arrangements
+	 * Consult the types of managements.
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @return List<TypeOfManagement>: list of types of arrangements
+	 * @return List<TypeOfManagement>: list of types of managements.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<TypeOfManagement> consultarTypesOfManagements()
-			throws Exception {
+	public List<TypeOfManagement> queryTypesOfManagements() throws Exception {
 		return em.createQuery(
-				"SELECT tm FROM TypeOfManagement tm " + "ORDER BY tm.name ")
+				"SELECT tm FROM TypeOfManagement tm ORDER BY tm.name ")
 				.getResultList();
 	}
 

@@ -24,8 +24,8 @@ import co.informatix.erp.warehouse.dao.TypeOfManagementDao;
 import co.informatix.erp.warehouse.entities.TypeOfManagement;
 
 /**
- * This class is all the logic related to the creation, updating, and deleting
- * the names of the types of management in the system
+ * This class contains the logic related to create, update, and delete the names
+ * of management types in the system.
  * 
  * @author Mabell.Boada
  * 
@@ -34,33 +34,33 @@ import co.informatix.erp.warehouse.entities.TypeOfManagement;
 @ManagedBean
 @RequestScoped
 public class TypeOfManagementAction implements Serializable {
-	private List<TypeOfManagement> listaTypeOfManagement;
+	private List<TypeOfManagement> typeOfManagementList;
 	private Paginador paginador = new Paginador();
 	private TypeOfManagement typeOfManagement;
-	private String nombreBuscar;
+	private String nameSearch;
 
 	@EJB
 	private TypeOfManagementDao typeOfManagementDao;
 
 	/**
-	 * @return listaTypeOfManagement: List of types of management
+	 * @return typeOfManagementList: List of types of management.
 	 */
-	public List<TypeOfManagement> getListaTypeOfManagement() {
-		return listaTypeOfManagement;
+	public List<TypeOfManagement> getTypeOfManagementList() {
+		return typeOfManagementList;
 	}
 
 	/**
-	 * @param listaTypeOfManagement
-	 *            : List of types of management
+	 * @param typeOfManagementList
+	 *            : List of types of management.
 	 */
-	public void setListaTypeOfManagement(
-			List<TypeOfManagement> listaTypeOfManagement) {
-		this.listaTypeOfManagement = listaTypeOfManagement;
+	public void setTypeOfManagementList(
+			List<TypeOfManagement> typeOfManagementList) {
+		this.typeOfManagementList = typeOfManagementList;
 	}
 
 	/**
-	 * @return paginador: Paginated list of the types of management that may
-	 *         have in the view
+	 * @return paginador: Page list of the types of management that a view may
+	 *         have.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -68,15 +68,14 @@ public class TypeOfManagementAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : Paginated list of the types of management that may have in
-	 *            the view
+	 *            : Page list of the types of management that a view may have.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return typeOfManagement: Object management types
+	 * @return typeOfManagement: Object of management types.
 	 */
 	public TypeOfManagement getTypeOfManagement() {
 		return typeOfManagement;
@@ -84,7 +83,7 @@ public class TypeOfManagementAction implements Serializable {
 
 	/**
 	 * @param typeOfManagement
-	 *            : Object management types
+	 *            : Object of management types.
 	 * 
 	 */
 	public void setTypeOfManagement(TypeOfManagement typeOfManagement) {
@@ -93,79 +92,78 @@ public class TypeOfManagementAction implements Serializable {
 
 	/**
 	 * @return nombreBuscar: Name by which you want to consult the types of
-	 *         management
+	 *         management.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : Name by which you want to consult the types of management
+	 * @param nameSearch
+	 *            : Name by which you want to consult the types of management.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * list of types of management
+	 * list of types of management.
 	 * 
-	 * @return consultarTypeOfManagement: Method consulting management types,
-	 *         returns to the template management
+	 * @return searchTypeOfManagement: Method consulting management types,
+	 *         returns to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarTypeOfManagement();
+	public String initializeSearch() {
+		nameSearch = "";
+		return searchTypeOfManagement();
 	}
 
 	/**
-	 * Consult the list of the types of management
+	 * Search a list with the types of management.
 	 * 
-	 * @return gesTypeManag: Navigation rule that redirects manage management
-	 *         types
+	 * @return gesTypeManag: Navigation rule that redirects to manage management
+	 *         types.
 	 */
-	public String consultarTypeOfManagement() {
+	public String searchTypeOfManagement() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleWarehouse = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaTypeOfManagement = new ArrayList<TypeOfManagement>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		typeOfManagementList = new ArrayList<TypeOfManagement>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder jointSearchMessages = new StringBuilder();
+		String searchMessage = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = typeOfManagementDao.cantidadTypeOfManagement(
-					consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedQuery(queryBuilder, parameters, bundle, jointSearchMessages);
+			Long amount = typeOfManagementDao.amountTypeOfManagement(
+					queryBuilder, parameters);
+			if (amount != null) {
+				paginador.paginar(amount);
 			}
-			listaTypeOfManagement = typeOfManagementDao
-					.consultarTypeOfManagement(paginador.getInicio(),
-							paginador.getRango(), consulta, parametros);
-			if ((listaTypeOfManagement == null || listaTypeOfManagement.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			typeOfManagementList = typeOfManagementDao.searchTypeOfManagement(
+					paginador.getInicio(), paginador.getRango(), queryBuilder,
+					parameters);
+			if ((typeOfManagementList == null || typeOfManagementList.size() <= 0)
+					&& !"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaTypeOfManagement == null
-					|| listaTypeOfManagement.size() <= 0) {
+								jointSearchMessages);
+			} else if (typeOfManagementList == null
+					|| typeOfManagementList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleWarehouse
 										.getString("type_management_label"),
-								unionMensajesBusqueda);
+								jointSearchMessages);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validation.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -173,43 +171,43 @@ public class TypeOfManagementAction implements Serializable {
 	}
 
 	/**
-	 * This method allows to build the query to the advanced search and allows
+	 * This method allows to build the query with an advanced search and allows
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : Query to concatenate.
 	 * @param parameters
-	 *            : list of search parameters.
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            : Access to the language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : Message search.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedQuery(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(tm.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
 	/**
-	 * Method to edit or create a new type of management
+	 * Method to edit or create a new type of management.
 	 * 
 	 * @param typeOfManagement
-	 *            : Name the type of management that will add or edit
+	 *            : Name the type of management that will add or edit.
 	 * 
-	 * @return regTypeManag: Redirected to the template management record type
+	 * @return regTypeManag: Redirected to the register management type
+	 *         template.
 	 */
-	public String agregarEditarTypeOfManagement(
-			TypeOfManagement typeOfManagement) {
+	public String addEditTypeOfManagement(TypeOfManagement typeOfManagement) {
 		if (typeOfManagement != null) {
 			this.typeOfManagement = typeOfManagement;
 		} else {
@@ -223,14 +221,14 @@ public class TypeOfManagementAction implements Serializable {
 	 * the database and validates against XSS.
 	 * 
 	 * @param context
-	 *            : Application context
+	 *            : Application context.
 	 * 
 	 * @param toValidate
-	 *            : Validate component
+	 *            : Validate component.
 	 * @param value
-	 *            : Field value is validated
+	 *            : Field value is validated.
 	 */
-	public void validarNombreXSS(FacesContext context, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String nombre = (String) value;
@@ -238,7 +236,7 @@ public class TypeOfManagementAction implements Serializable {
 		try {
 			int id = typeOfManagement.getIdTypeOfManagement();
 			TypeOfManagement typeOfManagementAux = new TypeOfManagement();
-			typeOfManagementAux = typeOfManagementDao.nombreExiste(nombre, id);
+			typeOfManagementAux = typeOfManagementDao.nameExists(nombre, id);
 			if (typeOfManagementAux != null) {
 				String mensajeExistencia = "message_ya_existe_verifique";
 				context.addMessage(
@@ -257,23 +255,23 @@ public class TypeOfManagementAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the types of management
+	 * Method used to save or edit the types of management.
 	 * 
 	 * @modify 13/05/2015 Cristhian.Pico
 	 * 
-	 * @return consultarTypeOfManagement: Redirects to manage types of
-	 *         management with the list of names updated
+	 * @return searchTypeOfManagement: Redirects to manage types of management
+	 *         with the list of names updated.
 	 */
-	public String guardarTypeOfManagement() {
+	public String saveTypeOfManagement() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String mensajeRegistro = "message_registro_modificar";
 		try {
 
 			if (typeOfManagement.getIdTypeOfManagement() != 0) {
-				typeOfManagementDao.editarTypeOfManagement(typeOfManagement);
+				typeOfManagementDao.editTypeOfManagement(typeOfManagement);
 			} else {
 				mensajeRegistro = "message_registro_guardar";
-				typeOfManagementDao.guardarTypeOfManagement(typeOfManagement);
+				typeOfManagementDao.saveTypeOfManagement(typeOfManagement);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(mensajeRegistro),
@@ -281,20 +279,21 @@ public class TypeOfManagementAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarTypeOfManagement();
+		return searchTypeOfManagement();
 	}
 
 	/**
-	 * Method to delete a type of management of the database
+	 * Method to delete a type of management of the database.
 	 * 
 	 * 
-	 * @return consultarTypeOfManagement: Consult the list of the types of
-	 *         management and template returns to manage type of management
+	 * @return searchTypeOfManagement: Look for the list of the types of
+	 *         management and returns to the template manage types of
+	 *         management.
 	 */
-	public String eliminarTypeOfManagement() {
+	public String deleteTypeOfManagement() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			typeOfManagementDao.eliminarTypeOfManagement(typeOfManagement);
+			typeOfManagementDao.deleteTypeOfManagement(typeOfManagement);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					typeOfManagement.getName()));
@@ -307,7 +306,7 @@ public class TypeOfManagementAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarTypeOfManagement();
+		return searchTypeOfManagement();
 	}
 
 }
