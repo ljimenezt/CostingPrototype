@@ -473,7 +473,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 		try {
 			listActivityNames = new ArrayList<SelectItem>();
 			List<ActivityNames> tiposActivityNames = activityNamesDao
-					.consultarActivityNamesXCrop(idCrop);
+					.queryActivityNamesXCrop(idCrop);
 			if (tiposActivityNames != null) {
 				for (ActivityNames activities : tiposActivityNames) {
 					listActivityNames

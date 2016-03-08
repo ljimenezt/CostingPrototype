@@ -41,7 +41,7 @@
 							readonly="true" validator="#{activitiesAction.validarRequerido}" />
 						<a:commandLink id="lnkActivityNames"
 							render=":popupForm:popupActivityNames"
-							actionListener="#{activityNamesAction.consultarActivityNames}"
+							actionListener="#{activityNamesAction.queryActivityNames}"
 							execute="@this"
 							oncomplete="#{rich:component('popupActivityNames')}.show(); setFocus('popupForm:txtNombreBuscar');">
 							<h:graphicImage value="/img/add_22.png"
@@ -412,7 +412,7 @@
 									value="#{activityNamesAction.nombreBuscar}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-									actionListener="#{activityNamesAction.consultarActivityNames}"
+									actionListener="#{activityNamesAction.queryActivityNames}"
 									render="outputActivityNames">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
@@ -427,7 +427,7 @@
 						<div align="right" class="W560P">
 							<a:commandLink render="outPutBuscarActivityNames"
 								styleClass="quitarDecoracionLink"
-								action="#{activityNamesAction.consultarActivityNames}"
+								action="#{activityNamesAction.queryActivityNames}"
 								actionListener="#{activityNamesAction.setNombreBuscar(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />

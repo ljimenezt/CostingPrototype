@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="activityNamesAction.agregarEditarActivityNames(null)" />
+		value="activityNamesAction.addModifyActivityNames(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeLifeCycle.activity_names_label" />
 	<ui:define name="body">
@@ -45,7 +45,7 @@
 						value="#{activityNamesAction.activityNames.activityName}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100"
-						validator="#{activityNamesAction.validarNombreXSS}"
+						validator="#{activityNamesAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
@@ -96,7 +96,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{activityNamesAction.guardarActivityNames}"
+							action="#{activityNamesAction.saveActivityNames}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

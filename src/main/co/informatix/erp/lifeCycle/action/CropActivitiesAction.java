@@ -693,13 +693,13 @@ public class CropActivitiesAction implements Serializable {
 		try {
 			busquedaAvanzada(consulta, parametros, bundle,
 					unionMensajesBusqueda);
-			Long cantidad = activityNamesDao.cantidadActivityNamesCrops(
+			Long cantidad = activityNamesDao.amountActivityNameCrops(
 					consulta, parametros);
 			if (cantidad != null) {
 				paginador.paginarRangoDefinido(cantidad, 5);
 			}
 			listaActivityNames = activityNamesDao
-					.consultarActivityNamesXIdCrop(paginador.getInicio(),
+					.queryActivityNamesXIdCrop(paginador.getInicio(),
 							paginador.getRango(), consulta, parametros);
 			for (ActivityNames activityNames : this.listaActivityNames) {
 				if (activityNames.isSeleccionado()) {
