@@ -21,11 +21,11 @@
 			});
 		</script>
 		<script type="text/javascript">
-			google.setOnLoadCallback(callChartGeneralTrend);
+			google.setOnLoadCallback(callChartBySection);
 
-			function callChartGeneralTrend() {
+			function callChartBySection() {
 				var json = document
-						.getElementById("#{binInpuntGeneralTrend.clientId}").value;
+						.getElementById("#{binBySection.clientId}").value;
 				if (json) {
 					var obj = JSON.parse(json);
 					var cols = obj.cols;
@@ -79,8 +79,8 @@
 					tooltip : {
 						showColorCode : true
 					},
-					width : 945,
-					height : 375,
+					width : 930,
+					height : 400,
 				};
 
 				var chart = new google.visualization.LineChart(document
@@ -91,17 +91,23 @@
 		</script>
 		<t:saveState value="#{beanIndexGeneralTrend}" />
 		<t:saveState value="#{beanIndexFiltersAction}" />
+		<t:saveState value="#{generalTrendAction}" />
 		<h:form id="generalTrendForm">
 			<rich:panel header="#{mensajeReports.reports_label_by_section}"
 				styleClass="anchoUno MinH253P" id="panelReporteGeneralTrend">
-				<h:outputText
-					value="#{beanIndexFiltersAction.initBeanIndexBySection()}" />
-				<a:outputPanel>
+
+				<ui:include src="/reports/indexes/templateSelectCrop.xhtml">
+					<ui:param name="callChart" value="callChartBySection()" />
+					<ui:param name="methodConsult" value="consultBySection" />
+					<ui:param name="actionConsult" value="#{generalTrendAction}" />
+				</ui:include>
+				<a:outputPanel id="pnlReport">
 					<h:inputHidden value="#{generalTrendAction.dataBySection}"
-						binding="#{binInpuntGeneralTrend}" id="inpHiddenGeneralTrend" />
-					<fieldset class="fieldsetStyle BorderW1P" id="fieldSetGeneralTrend">
+						binding="#{binBySection}" id="inpHiddenGeneralTrend" />
+					<t:fieldset styleClass="BorderW2P" id="fieldSetGeneralTrend">
+						<legend class="etiquetaTitulo">#{mensajeReports.reports_label_by_section}</legend>
 						<div id="chart_general_trend"></div>
-					</fieldset>
+					</t:fieldset>
 				</a:outputPanel>
 			</rich:panel>
 		</h:form>

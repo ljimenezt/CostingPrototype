@@ -91,6 +91,61 @@ public class BeanIndexDao implements Serializable {
 	}
 
 	/**
+	 * This methods return the average of the bean index section according to
+	 * the filters sent as parameter.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param params
+	 *            : Parameters required by the query for execution.
+	 * @return List<Object[]>: Object List with information.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object[]> consultBySectionAverage(List<SelectItem> params)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT AVG(bi.sample_weight), bi.id_section ");
+		query.append("FROM kpi.bean_index bi ");
+		query.append("WHERE bi.id_crop = :idCrop ");
+		query.append("AND bi.cycle_number = :idCycle ");
+		query.append("GROUP BY bi.cycle_number, bi.id_section ");
+		query.append("ORDER BY bi.cycle_number ASC ");
+		Query q = em.createNativeQuery(query.toString());
+		for (SelectItem param : params) {
+			q.setParameter(param.getLabel(), param.getValue());
+		}
+		return q.getResultList();
+	}
+
+	/**
+	 * This methods return the number of cycle of the bean index according to
+	 * the crop sent as parameter.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param params
+	 *            : Parameters required by the query for execution.
+	 * @return List<Object[]>: Object List with information.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object[]> consultCycleNumber(List<SelectItem> params)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT bi.cycle_number, MAX(bi.date_bean_index) ");
+		query.append("FROM kpi.bean_index bi ");
+		query.append("WHERE bi.id_crop = :idCrop ");
+		query.append("GROUP BY bi.cycle_number  ");
+		query.append("ORDER BY bi.cycle_number ");
+		Query q = em.createNativeQuery(query.toString());
+		for (SelectItem param : params) {
+			q.setParameter(param.getLabel(), param.getValue());
+		}
+		return q.getResultList();
+	}
+
+	/**
 	 * This methods return the section of the bean index according to the crop
 	 * sent as parameter.
 	 * 

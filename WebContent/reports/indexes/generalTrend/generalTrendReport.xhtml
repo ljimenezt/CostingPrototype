@@ -92,11 +92,16 @@
 		</script>
 		<t:saveState value="#{beanIndexGeneralTrend}" />
 		<t:saveState value="#{beanIndexFiltersAction}" />
+		<t:saveState value="#{generalTrendAction}" />
 		<h:form id="generalTrendForm">
 			<rich:panel header="#{mensajeReports.reports_label_general_trend}"
 				styleClass="anchoUno MinH253P" id="panelReporteGeneralTrend">
-				<h:outputText value="#{beanIndexFiltersAction.initBeanIndex()}" />
-				<a:outputPanel>
+				<ui:include src="/reports/indexes/templateSelectCrop.xhtml">
+					<ui:param name="callChart" value="callChartGeneralTrend()" />
+					<ui:param name="methodConsult" value="consultGeneralTrend" />
+					<ui:param name="actionConsult" value="#{generalTrendAction}" />
+				</ui:include>
+				<a:outputPanel id="pnlReport">
 					<h:inputHidden value="#{generalTrendAction.dataGeneralTrend}"
 						binding="#{binInpuntGeneralTrend}" id="inpHiddenGeneralTrend" />
 					<fieldset class="fieldsetStyle BorderW1P" id="fieldSetGeneralTrend">
