@@ -36,10 +36,10 @@ public class MaterialsTypeAction implements Serializable {
 	private MaterialsType materialsType;
 
 	private Paginador paginador = new Paginador();
-	private String nombreBuscar;
+	private String nameSearch;
 
-	private List<MaterialsType> listaMaterialsType;
-	private ArrayList<SelectItem> opciones;
+	private List<MaterialsType> listMaterialsType;
+	private ArrayList<SelectItem> options;
 
 	/**
 	 * @return materialsType: object that contains the material data Type
@@ -72,60 +72,60 @@ public class MaterialsTypeAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: name of the material type to search
+	 * @return nameSearch: name of the material type to search
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : name of the material type to search
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return listaMaterialsType: list of objects of type material Type
+	 * @return listMaterialsType: list of objects of type material Type
 	 */
-	public List<MaterialsType> getListaMaterialsType() {
-		return listaMaterialsType;
+	public List<MaterialsType> getListMaterialsType() {
+		return listMaterialsType;
 	}
 
 	/**
-	 * @param listaMaterialsType
+	 * @param listMaterialsType
 	 *            : list of objects of type material Type
 	 */
-	public void setListaMaterialsType(List<MaterialsType> listaMaterialsType) {
-		this.listaMaterialsType = listaMaterialsType;
+	public void setListMaterialsType(List<MaterialsType> listMaterialsType) {
+		this.listMaterialsType = listMaterialsType;
 	}
 
 	/**
-	 * @return opciones: list of the types materialsType
+	 * @return options: list of the types materialsType
 	 */
-	public ArrayList<SelectItem> getOpciones() {
-		return opciones;
+	public ArrayList<SelectItem> getOptions() {
+		return options;
 	}
 
 	/**
-	 * @param opciones
+	 * @param options
 	 *            : list of the types materialsType
 	 */
-	public void setOpciones(ArrayList<SelectItem> opciones) {
-		this.opciones = opciones;
+	public void setOptions(ArrayList<SelectItem> options) {
+		this.options = options;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of materialsType
 	 * 
-	 * @return consultarMaterialsType: Consult also the materialsType method
-	 *         that returns to the template management.
+	 * @return consultMaterialsType: Consult also the materialsType method that
+	 *         returns to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarMaterialsType();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultMaterialsType();
 	}
 
 	/**
@@ -134,47 +134,46 @@ public class MaterialsTypeAction implements Serializable {
 	 * @return "gesMaterialsType": redirects to the template to manage Materials
 	 *         Type
 	 */
-	public String consultarMaterialsType() {
+	public String consultMaterialsType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMaterialsType = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaMaterialsType = new ArrayList<MaterialsType>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listMaterialsType = new ArrayList<MaterialsType>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = materialsTypeDao.cantidadMaterialsType(consulta,
-					parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = materialsTypeDao.quantityMaterialsType(query,
+					parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaMaterialsType = materialsTypeDao.consultarMaterialsType(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaMaterialsType == null || listaMaterialsType.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listMaterialsType = materialsTypeDao.consultMaterialsType(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
+			if ((listMaterialsType == null || listMaterialsType.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaMaterialsType == null
-					|| listaMaterialsType.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listMaterialsType == null
+					|| listMaterialsType.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleMaterialsType
 										.getString("materials_type_label"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -196,16 +195,16 @@ public class MaterialsTypeAction implements Serializable {
 	 *            : message search
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(mt.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 
 		}
 
@@ -220,7 +219,7 @@ public class MaterialsTypeAction implements Serializable {
 	 * @return "regMaterialsType":redirected to the template record Material
 	 *         Type.
 	 */
-	public String agregarEditarMaterialsType(MaterialsType materialsType) {
+	public String addEditMaterialsType(MaterialsType materialsType) {
 
 		if (materialsType != null) {
 			this.materialsType = materialsType;
@@ -237,40 +236,40 @@ public class MaterialsTypeAction implements Serializable {
 	 * 
 	 * @modify 13/05/2015 Cristhian.Pico
 	 * 
-	 * @return consultarMaterialsType: Type redirects to manage materials with a
+	 * @return consultMaterialsType: Type redirects to manage materials with a
 	 *         list of updated materials Type
 	 */
-	public String guardarMaterialsType() {
+	public String saveMaterialsType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 
 		try {
 			if (materialsType.getIdMaterialsType() != 0) {
-				materialsTypeDao.editarMaterialsType(materialsType);
+				materialsTypeDao.editMaterialsType(materialsType);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				materialsTypeDao.guardarMaterialsType(materialsType);
+				messageLog = "message_registro_guardar";
+				materialsTypeDao.saveMaterialsType(materialsType);
 			}
 			ControladorContexto
 					.mensajeInformacion(null, MessageFormat.format(
-							bundle.getString(mensajeRegistro),
+							bundle.getString(messageLog),
 							materialsType.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMaterialsType();
+		return consultMaterialsType();
 	}
 
 	/**
 	 * Method that allows one materialsType delete the database
 	 * 
-	 * @return consultarMaterialsType(): Consult the list of Type material
+	 * @return consultMaterialsType(): Consult the list of Type material
 	 *         returns to manage materials Type
 	 */
-	public String eliminarMaterialsType() {
+	public String removeMaterialsType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			materialsTypeDao.eliminarMaterialsType(materialsType);
+			materialsTypeDao.removeMaterialsType(materialsType);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					materialsType.getName()));
@@ -282,6 +281,6 @@ public class MaterialsTypeAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMaterialsType();
+		return consultMaterialsType();
 	}
 }

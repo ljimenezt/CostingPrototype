@@ -483,7 +483,7 @@ public class DepositsAction implements Serializable {
 	private void loadMaterialsType() throws Exception {
 		itemsMaterialType = new ArrayList<SelectItem>();
 		List<MaterialsType> materialsTypes = materialsTypeDao
-				.consultarMaterialsTypes();
+				.consultMaterialsTypes();
 		if (materialsTypes != null) {
 			for (MaterialsType materialType : materialsTypes) {
 				this.itemsMaterialType.add(new SelectItem(materialType

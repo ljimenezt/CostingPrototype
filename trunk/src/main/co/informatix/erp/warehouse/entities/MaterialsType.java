@@ -22,7 +22,7 @@ public class MaterialsType implements Serializable {
 	private int idMaterialsType;
 
 	private String name;
-	private String descripcion;
+	private String description;
 
 	/**
 	 * @return idMaterialType: Identifier Material Type
@@ -57,21 +57,21 @@ public class MaterialsType implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	/**
-	 * @return descripcion: description MaterialsType
+	 * @return description: description MaterialsType
 	 */
 	@Column(name = "description")
-	public String getDescripcion() {
-		return descripcion;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
-	 * @param descripcion
+	 * @param description
 	 *            : description MaterialsType
 	 */
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class MaterialsType implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((descripcion == null) ? 0 : descripcion.hashCode());
+				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + idMaterialsType;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -94,10 +94,10 @@ public class MaterialsType implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		MaterialsType other = (MaterialsType) obj;
-		if (descripcion == null) {
-			if (other.descripcion != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!descripcion.equals(other.descripcion))
+		} else if (!description.equals(other.description))
 			return false;
 		if (idMaterialsType != other.idMaterialsType)
 			return false;

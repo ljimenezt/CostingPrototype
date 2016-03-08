@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="materialsTypeAction.agregarEditarMaterialsType(null)" />
+		value="materialsTypeAction.addEditMaterialsType(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeWarehouse.materials_type_label" />
 	<ui:define name="body">
@@ -53,7 +53,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputTextarea
-						value="#{materialsTypeAction.materialsType.descripcion}"
+						value="#{materialsTypeAction.materialsType.description}"
 						styleClass="colTextoMedianoTextArea" id="txaDescripcion"
 						validator="#{encodeFilter.validarScripting}">
 						<f:validateLength maximum="250" />
@@ -92,11 +92,11 @@
 						<h:outputText value="#{materialsTypeAction.materialsType.name}" />
 						<h:outputText value="#{mensaje.label_descripcion}" />
 						<h:outputText
-							value="#{materialsTypeAction.materialsType.descripcion}" />
+							value="#{materialsTypeAction.materialsType.description}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{materialsTypeAction.guardarMaterialsType}"
+							action="#{materialsTypeAction.saveMaterialsType}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

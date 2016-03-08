@@ -9,28 +9,28 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="materialsTypeAction.inicializarBusqueda" />
+	<ui:param name="action" value="materialsTypeAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeWarehouse.materials_type_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{materialsTypeAction}" />
 		<ui:param name="listaVacia"
-			value="#{materialsTypeAction.listaMaterialsType eq null or (empty materialsTypeAction.listaMaterialsType )}" />
+			value="#{materialsTypeAction.listMaterialsType eq null or (empty materialsTypeAction.listMaterialsType )}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{materialsTypeAction}" />
 		<ui:param name="renderLista" value="panelMaterialsType vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarMaterialsType" />
+		<ui:param name="metodoLista" value="consultMaterialsType" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="materialsTypeAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarMaterialsType" />
+		<ui:param name="metodoNuevo" value="addEditMaterialsType" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formMaterialsType">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -39,7 +39,7 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{materialsTypeAction.listaMaterialsType}"
+				<rich:dataTable value="#{materialsTypeAction.listMaterialsType}"
 					var="materialsType"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -59,14 +59,14 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 						<h:commandLink value="#{materialsType.name}"
-							action="#{materialsTypeAction.agregarEditarMaterialsType(materialsType)}"
+							action="#{materialsTypeAction.addEditMaterialsType(materialsType)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
 
 					<rich:column styleClass="colTextoExxtraLargo">
 						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
-						<h:outputText value="#{materialsType.descripcion}" />
+						<h:outputText value="#{materialsType.description}" />
 					</rich:column>
 
 
@@ -90,7 +90,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelMaterialsType" />
 							<ui:param name="beanActionParam" value="#{materialsTypeAction}" />
-							<ui:param name="metodoActionParam" value="consultarMaterialsType" />
+							<ui:param name="metodoActionParam" value="consultMaterialsType" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -113,13 +113,13 @@
 					<h:outputText value="#{mensaje.label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{materialsTypeAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{materialsTypeAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{materialsTypeAction.consultarMaterialsType}"
+						actionListener="#{materialsTypeAction.consultMaterialsType}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelMaterialsType, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -152,7 +152,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{materialsTypeAction.eliminarMaterialsType()}"
+							actionListener="#{materialsTypeAction.removeMaterialsType()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelMaterialsType, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"

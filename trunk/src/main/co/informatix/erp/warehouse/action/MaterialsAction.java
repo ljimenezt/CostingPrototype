@@ -343,7 +343,7 @@ public class MaterialsAction implements Serializable {
 		itemsTipoGestion = new ArrayList<SelectItem>();
 
 		List<MaterialsType> materialsType = materialsTypeDao
-				.consultarMaterialsTypes();
+				.consultMaterialsTypes();
 		if (materialsType != null) {
 			for (MaterialsType materialsTypes : materialsType) {
 				itemsTipoMaterial.add(new SelectItem(materialsTypes
