@@ -317,6 +317,7 @@ public class Constantes implements Serializable {
 	public static final String DATE_FORMAT_CREATION = "mm dd yyyy hh:mm:ss.SSS";
 	public static final String DATE_FORMAT_MESSAGE = "dd/MM/yyyy HH:mm";
 	public static final String DATE_FORMAT_MESSAGE_SIMPLE = "MMM dd yyyy";
+	public static final String DATE_FORMAT_REPORT = "MMM yy";
 
 	/* Sort */
 	public static final String DESCENDING = "DESC";

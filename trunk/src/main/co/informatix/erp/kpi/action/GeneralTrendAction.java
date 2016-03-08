@@ -1,6 +1,7 @@
 package co.informatix.erp.kpi.action;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -10,13 +11,20 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import co.informatix.erp.kpi.dao.BeanIndexDao;
+import co.informatix.erp.lifeCycle.dao.CropNamesDao;
+import co.informatix.erp.lifeCycle.dao.CropsDao;
 import co.informatix.erp.lifeCycle.dao.SectionDao;
+import co.informatix.erp.lifeCycle.entities.CropNames;
+import co.informatix.erp.lifeCycle.entities.Crops;
 import co.informatix.erp.lifeCycle.entities.Section;
 import co.informatix.erp.reports.json.CellJson;
 import co.informatix.erp.reports.json.ColsJson;
 import co.informatix.erp.reports.json.DataJson;
 import co.informatix.erp.reports.json.RowsJson;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.Serializer;
@@ -25,6 +33,7 @@ import co.informatix.erp.utils.Serializer;
  * This class allows to generate the consults for the general trend reports.
  * 
  * @author Cristhian.Pico
+ * @modify 08/03/2016 Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -38,10 +47,19 @@ public class GeneralTrendAction implements Serializable {
 	private int firstCycle = 100;
 	private int lastCycle = 0;
 
+	private List<SelectItem> itemsCropNames;
+	private List<SelectItem> itemsCrops;
+
+	private Crops crops;
+
 	@EJB
 	private BeanIndexDao beanIndexDao;
 	@EJB
 	private SectionDao sectionDao;
+	@EJB
+	private CropNamesDao cropNamesDao;
+	@EJB
+	private CropsDao cropsDao;
 
 	/**
 	 * @return firstCycle: first cycle that will be shown on the report.
@@ -76,6 +94,51 @@ public class GeneralTrendAction implements Serializable {
 	}
 
 	/**
+	 * @return itemsCropNames: gets the list of the crop name.
+	 */
+	public List<SelectItem> getItemsCropNames() {
+		return itemsCropNames;
+	}
+
+	/**
+	 * @param itemsCropNames
+	 *            :sets the list of the crop name.
+	 */
+	public void setItemsCropNames(List<SelectItem> itemsCropNames) {
+		this.itemsCropNames = itemsCropNames;
+	}
+
+	/**
+	 * @return itemsCrops: gets the crop list
+	 */
+	public List<SelectItem> getItemsCrops() {
+		return itemsCrops;
+	}
+
+	/**
+	 * @param itemsCrops
+	 *            :sets the crop list
+	 */
+	public void setItemsCrops(List<SelectItem> itemsCrops) {
+		this.itemsCrops = itemsCrops;
+	}
+
+	/**
+	 * @return crops: Object of class crops.
+	 */
+	public Crops getCrops() {
+		return crops;
+	}
+
+	/**
+	 * @param crops
+	 *            :Object of class crops.
+	 */
+	public void setCrops(Crops crops) {
+		this.crops = crops;
+	}
+
+	/**
 	 * @return dataGeneralTrend: This field contains the json data for General
 	 *         Trend.
 	 */
@@ -104,6 +167,66 @@ public class GeneralTrendAction implements Serializable {
 	 */
 	public void setDataBySection(String dataBySection) {
 		this.dataBySection = dataBySection;
+	}
+
+	/**
+	 * This method allows load the crops list to generate report according to
+	 * crop
+	 * 
+	 */
+	public void initializeCropDefault() {
+		crops = new Crops();
+		crops.setCropNames(new CropNames());
+		crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+		fillCropNames();
+	}
+
+	/**
+	 * CropNames method that loads a list
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 */
+	private void fillCropNames() {
+		itemsCropNames = new ArrayList<SelectItem>();
+		try {
+			List<CropNames> listCropNames = cropNamesDao.listCropNames();
+			if (listCropNames != null) {
+				for (CropNames cropNames : listCropNames) {
+					itemsCropNames
+							.add(new SelectItem(cropNames.getIdCropName(),
+									cropNames.getCropName()));
+				}
+			}
+			fillCropNamesCrop();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Method allows complete the list of crops harvested after the name
+	 * selected.
+	 * 
+	 * @author Andres.Gomez
+	 * @throws Exception
+	 * 
+	 */
+	public void fillCropNamesCrop() throws Exception {
+		int idCropsName = 0;
+		itemsCrops = new ArrayList<SelectItem>();
+		if (this.crops != null && this.crops.getCropNames() != null) {
+			idCropsName = this.crops.getCropNames().getIdCropName();
+		}
+		List<Crops> listaCrops = cropsDao
+				.consultarCropNamesCropsVigentes(idCropsName);
+		if (listaCrops != null) {
+			for (Crops crops : listaCrops) {
+				itemsCrops.add(new SelectItem(crops.getIdCrop(), crops
+						.getDescription()));
+			}
+		}
+
 	}
 
 	/**
@@ -189,84 +312,77 @@ public class GeneralTrendAction implements Serializable {
 	public void consultBySection() {
 		ResourceBundle bundleReports = ControladorContexto
 				.getBundle("mensajeReports");
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 
 		StringBuilder reportQuery = new StringBuilder();
 		StringBuilder filters = new StringBuilder();
 		StringBuilder queryGroupBy = new StringBuilder();
 		List<SelectItem> params = new ArrayList<SelectItem>();
-		String jsonGeneralTrend = "";
-		DataJson dataJsonGenTrend = new DataJson();
-		List<ColsJson> colsGenTrend = new ArrayList<ColsJson>();
-		List<RowsJson> rowsGenTrend = new ArrayList<RowsJson>();
-		int count = 0;
+		String jsonBySection = "";
+		DataJson dataJsonBySection = new DataJson();
+		List<ColsJson> colsBySection = new ArrayList<ColsJson>();
+		List<RowsJson> rowsBySection = new ArrayList<RowsJson>();
+
 		try {
 			String cycleLabel = bundleReports
 					.getString("reports_label_cycle_number");
-			DataJson.addCol(colsGenTrend, cycleLabel, "string");
+			String lblCycle = bundle.getString("label_cycle");
+			DataJson.addCol(colsBySection, cycleLabel, "string");
 			buildConsult(filters, params, reportQuery, queryGroupBy, 2);
-			List<Object[]> beanIndexList = beanIndexDao
-					.consultBeanIndexAverage(filters, params, reportQuery,
-							queryGroupBy);
-			List<Object[]> resultConsultBeanIndex = getResultConsultBeanIndex(
-					beanIndexList, 2);
-			List<String> cycleNumberList = buildCyclesList(firstCycle,
-					lastCycle);
 			List<Integer> sectionList = beanIndexDao.consultBySection(params);
 
-			if (cycleNumberList != null && resultConsultBeanIndex != null
-					&& sectionList != null) {
+			if (sectionList != null && sectionList.size() > 0) {
 				for (Integer section : sectionList) {
 					Section sectionAux = sectionDao.sectionXId(section);
-					DataJson.addCol(colsGenTrend, sectionAux.getName(),
+					DataJson.addCol(colsBySection, sectionAux.getName(),
 							"number");
-					filters.append("AND bi.id_section = :section ");
-					SelectItem item = new SelectItem(section, "section");
-					params.add(item);
-					List<Object[]> resultConsultBySection = beanIndexDao
-							.consultBeanIndexAverage(filters, params,
-									reportQuery, queryGroupBy);
-					int sizeList = resultConsultBySection.size();
-					for (String cycle : cycleNumberList) {
+				}
+				List<Object[]> listCycles = beanIndexDao
+						.consultCycleNumber(params);
+				if (listCycles != null) {
+					for (Object[] cycle : listCycles) {
+						SimpleDateFormat ft = new SimpleDateFormat(
+								Constantes.DATE_FORMAT_REPORT);
+						String DateToStr = ft.format(cycle[1]);
+
 						RowsJson row = new RowsJson();
 						List<CellJson> cl = new ArrayList<CellJson>();
-						DataJson.addCel(cl, cycle);
+						DataJson.addCel(cl, lblCycle + cycle[0] + ", "
+								+ WordUtils.capitalize(DateToStr));
 
-						Object[] beanIndexAvg = resultConsultBySection
-								.get(count);
-						String cycleStr = beanIndexAvg[1].toString();
-						String cycleNumberCol = (String
-								.valueOf(cycle.charAt(0)) + String
-								.valueOf(cycle.charAt(1))).trim();
-						int idclycle = Integer.parseInt(beanIndexAvg[2]
-								.toString());
+						SelectItem item = new SelectItem(cycle[0], "idCycle");
+						params.add(item);
+						List<Object[]> listBySection = beanIndexDao
+								.consultBySectionAverage(params);
 
-						if (section == idclycle) {
-							if (!cycleNumberCol.equals(cycleStr)) {
-								DataJson.addCel(cl, 0);
-								DataJson.addCel(cl, 0);
-							} else {
-								double sampleAverage = Double
-										.parseDouble(beanIndexAvg[0].toString());
-								double sampleAvgReport = Math
-										.floor(sampleAverage * 100) / 100;
-								DataJson.addCel(cl, sampleAvgReport);
+						if (listBySection != null) {
+							for (Integer idSection : sectionList) {
+								for (Object[] bySection : listBySection) {
+									if (idSection == bySection[1]) {
+										double sampleAverage = Double
+												.parseDouble(bySection[0]
+														.toString());
+										double sampleAvgReport = Math
+												.floor(sampleAverage * 100) / 100;
+										DataJson.addCel(cl, sampleAvgReport);
+									}
+								}
 							}
 							row.setC(cl);
-							rowsGenTrend.add(row);
-						}
-						if (count < sizeList - 1) {
-							count++;
+							rowsBySection.add(row);
 						}
 					}
 				}
+			} else {
+				DataJson.addCol(colsBySection, null, "number");
 			}
-			dataJsonGenTrend.setCols(colsGenTrend);
-			dataJsonGenTrend.setRows(rowsGenTrend);
-			jsonGeneralTrend = Serializer.serialize(dataJsonGenTrend);
+			dataJsonBySection.setCols(colsBySection);
+			dataJsonBySection.setRows(rowsBySection);
+			jsonBySection = Serializer.serialize(dataJsonBySection);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e, null, null);
 		}
-		this.dataBySection = jsonGeneralTrend;
+		this.dataBySection = jsonBySection;
 	}
 
 	/**
@@ -327,10 +443,6 @@ public class GeneralTrendAction implements Serializable {
 	 */
 	private void buildConsult(StringBuilder filters, List<SelectItem> params,
 			StringBuilder reportQuery, StringBuilder queryGroupBy, int type) {
-
-		BeanIndexFiltersAction filtersAction = ControladorContexto
-				.getContextBean(BeanIndexFiltersAction.class);
-
 		reportQuery.append("SELECT AVG(bi.sample_weight), bi.cycle_number ");
 		filters.append("WHERE bi.id_crop = :idCrop ");
 		queryGroupBy.append("GROUP BY bi.cycle_number ");
@@ -339,8 +451,7 @@ public class GeneralTrendAction implements Serializable {
 			queryGroupBy.append(", bi.id_section ");
 		}
 		reportQuery.append("FROM kpi.bean_index bi ");
-		SelectItem item = new SelectItem(filtersAction.getSelectedCrop()
-				.getIdCrop(), "idCrop");
+		SelectItem item = new SelectItem(crops.getIdCrop(), "idCrop");
 		params.add(item);
 	}
 
