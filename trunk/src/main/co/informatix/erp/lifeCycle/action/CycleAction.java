@@ -563,7 +563,7 @@ public class CycleAction implements Serializable {
 		try {
 			itemsActivityName = new ArrayList<SelectItem>();
 			List<ActivityNames> tiposActivityNames = activityNamesDao
-					.consultarActivityNamesXCrop(this.crops.getIdCrop());
+					.queryActivityNamesXCrop(this.crops.getIdCrop());
 			if (tiposActivityNames != null) {
 				for (ActivityNames activitiesName : tiposActivityNames) {
 					itemsActivityName.add(new SelectItem(activitiesName
@@ -755,7 +755,7 @@ public class CycleAction implements Serializable {
 				cycleDao.saveCycle(cycle);
 			}
 			ActivityNames activityNames = activityNamesDao
-					.consultarActivityNamesById(this.cycle.getActiviyNames()
+					.queryActivityNamesById(this.cycle.getActiviyNames()
 							.getIdActivityName());
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(mensajeRegistro),

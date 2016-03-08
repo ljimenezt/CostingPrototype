@@ -12,8 +12,8 @@ import javax.persistence.Query;
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
 
 /**
- * Class DAO that establishes the connection between the business logic and the
- * database for managing the names of activities.
+ * DAO Class that establishes the connection between the business logic and the
+ * database for managing activity names.
  * 
  * @author Dario.Lopez
  * 
@@ -25,26 +25,26 @@ public class ActivityNamesDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * This method allows consulting activity names with a certain range sent as
-	 * a parameter and filtering the information sent search values.
+	 * This method allows to look for activity names with a certain range as a
+	 * parameter and to filter the information with search values.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            : Where it is started the query result.
 	 * @param range
-	 *            : range of records
+	 *            : Range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
+	 *            : Query parameters.
 	 * @return List<ActivityNames>: list of the names of activities.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivityNames> consultarActivityNames(int start, int range,
+	public List<ActivityNames> queryActivityNames(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT an FROM  ActivityNames an ");
+		query.append("SELECT an FROM ActivityNames an ");
 		query.append(consult);
 		query.append("ORDER BY an.activityName ");
 		Query q = em.createQuery(query.toString());
@@ -60,56 +60,54 @@ public class ActivityNamesDao implements Serializable {
 	}
 
 	/**
-	 * Save a name of activity in BD
+	 * Save an ActivityName in the DataBase.
 	 * 
 	 * @param activityNames
-	 *            : activity name to save.
+	 *            : ActivityName to save.
 	 * @throws Exception
 	 */
-	public void guardarActivityNames(ActivityNames activityNames)
-			throws Exception {
+	public void saveActivityNames(ActivityNames activityNames) throws Exception {
 		em.persist(activityNames);
 	}
 
 	/**
-	 * editing a name in BD activity
+	 * Editing a name in ActivityName table
 	 * 
 	 * @param activityNames
 	 *            : activity name to edit.
 	 * @throws Exception
 	 */
-	public void editarActivityNames(ActivityNames activityNames)
+	public void modifyActivityNames(ActivityNames activityNames)
 			throws Exception {
 		em.merge(activityNames);
 	}
 
 	/**
-	 * Remove a name from the database activity
+	 * Remove an ActivityName from the table.
 	 * 
 	 * @author Mabell.Boada
 	 * 
 	 * @param activityNames
-	 *            : Name of the activity to remove
+	 *            : Name of the activity to remove.
 	 * @throws Exception
 	 */
-	public void eliminarActivityNames(ActivityNames activityNames)
+	public void deleteActivityNames(ActivityNames activityNames)
 			throws Exception {
 		em.remove(em.merge(activityNames));
 	}
 
 	/**
-	 * Returns the number of names of existing activities in the database by
-	 * filtering information sent lookup values.
+	 * Returns the amount of existing activity names in the database by
+	 * filtering information with lookup values.
 	 * 
 	 * @param consult
-	 *            : String containing the query by which names are filtered
-	 *            activities.
+	 *            : String containing the query that filters ActivityNames.
 	 * @param parameters
-	 *            : query parameters.
-	 * @return Long: amount of name registrations activities found
+	 *            : Query parameters.
+	 * @return Long: Amount of ActivityName records found
 	 * @throws Exception
 	 */
-	public Long cantidadActivityNames(StringBuilder consult,
+	public Long amountActivityNames(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(an) FROM ActivityNames an ");
@@ -126,15 +124,15 @@ public class ActivityNamesDao implements Serializable {
 	 * editing.
 	 * 
 	 * @param name
-	 *            : name of the activity to verify
+	 *            : Name of the activity to verify.
 	 * @param id
-	 *            : identifier of the activity to verify
+	 *            : Identifier of the activity to verify.
 	 * @return ActivityNames: activityName object found with the search
 	 *         parameters name and identifier.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public ActivityNames nombreExiste(String name, int id) throws Exception {
+	public ActivityNames nameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT an FROM ActivityNames an ");
 		query.append("WHERE UPPER(an.activityName)=UPPER(:activityName) ");
@@ -154,26 +152,26 @@ public class ActivityNamesDao implements Serializable {
 	}
 
 	/**
-	 * This method queries the names of eliminating activities that are already
-	 * associated with a name of harvest; with a certain range sent as parameter
-	 * and filtering the information by the values sent search
+	 * This method queries the names of eliminated activities that are already
+	 * associated with a name of harvest, a specified range parameter and
+	 * filtered information with search values.
 	 * 
 	 * @author Mabell.Boada
 	 * @modify 24/07/2015 Andres.Gomez
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            : The numbered record where the query result starts.
 	 * @param range
-	 *            : range of records
+	 *            : Range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
-	 * @return List<ActivityNames>: list of the names of activities.
+	 *            : Search parameters.
+	 * @return List<ActivityNames>: List of the activity names.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivityNames> consultarActivityNamesXIdCropNames(int start,
+	public List<ActivityNames> queryActivityNamesXIdCropNames(int start,
 			int range, StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -193,26 +191,26 @@ public class ActivityNamesDao implements Serializable {
 	}
 
 	/**
-	 * This query method names eliminating activities that are already
-	 * associated with a harvest; with a certain range sent as parameter and
-	 * filtering the information by the values sent search.
+	 * This query method eliminates activity names which are already associated
+	 * with a harvest, with a certain range and with filtered information
+	 * according to search values.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            : The initial record the query retrieves.
 	 * @param range
-	 *            : range of records
+	 *            : Range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
+	 *            : Query parameters.
 	 * @return List<ActivityNames>: list of the names of activities.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivityNames> consultarActivityNamesXIdCrop(int start,
-			int range, StringBuilder consult, List<SelectItem> parameters)
+	public List<ActivityNames> queryActivityNamesXIdCrop(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT an FROM  ActivityNames an ");
@@ -231,20 +229,20 @@ public class ActivityNamesDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of names of existing activities in the database by
-	 * filtering search values sent.
+	 * Returns the amount of names of existing activities in the database
+	 * according to filtering search values.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param consult
-	 *            : String containing the query for which the properties are
-	 *            filtered.
+	 *            : String containing the query with properties that are going
+	 *            to do the filtering.
 	 * @param parameters
-	 *            : query parameters.
-	 * @return Long: amount of name registrations activities found
+	 *            : Query parameters.
+	 * @return Long: Amount of the activity name records found
 	 * @throws Exception
 	 */
-	public Long cantidadActivityNamesCrops(StringBuilder consult,
+	public Long amountActivityNameCrops(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(an) FROM  ActivityNames an ");
@@ -263,12 +261,12 @@ public class ActivityNamesDao implements Serializable {
 	 * @author Andres.Gomez
 	 * 
 	 * @param idCrop
-	 *            : culture identifier.
-	 * @return List<ActivityNames>: name list of activities.
+	 *            : Culture identifier.
+	 * @return List<ActivityNames>: List of ActivityNames.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivityNames> consultarActivityNamesCrop(int idCrop)
+	public List<ActivityNames> queryActivityNamesCrop(int idCrop)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT an FROM  ActivityNames an ");
@@ -288,17 +286,17 @@ public class ActivityNamesDao implements Serializable {
 	}
 
 	/**
-	 * This method queries the name of the activities associated with a crop.
+	 * This method queries the names of the activities associated with a crop.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
 	 * @param idCrop
-	 *            : culture identifier.
+	 *            : Culture identifier.
 	 * @return List<ActivityNames>: List of activity names.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivityNames> consultarActivityNamesXCrop(int idCrop)
+	public List<ActivityNames> queryActivityNamesXCrop(int idCrop)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT DISTINCT a.activityName FROM Activities a ");
@@ -315,16 +313,15 @@ public class ActivityNamesDao implements Serializable {
 	}
 
 	/**
-	 * Method to return the list of names of activities
+	 * Method to return the list of names of activities.
 	 * 
 	 * @author Mabell.Boada
 	 * 
-	 * @return List<ActivityNames>: List of all the activities.
+	 * @return List<ActivityNames>: List of all activity names.
 	 * @throws Exception
-	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivityNames> consultarActivityNames() throws Exception {
+	public List<ActivityNames> queryActivityNames() throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT an FROM ActivityNames an ");
 		Query q = em.createQuery(query.toString());
@@ -346,7 +343,7 @@ public class ActivityNamesDao implements Serializable {
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public ActivityNames consultarActivityNamesById(int idActivityName)
+	public ActivityNames queryActivityNamesById(int idActivityName)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT an FROM ActivityNames an ");

@@ -468,13 +468,13 @@ public class CycleStandardActivitiesAction implements Serializable {
 		try {
 			busquedaAvanzada(consulta, parametros, bundle,
 					unionMensajesBusqueda);
-			Long cantidad = activityNamesDao.cantidadActivityNames(consulta,
+			Long cantidad = activityNamesDao.amountActivityNames(consulta,
 					parametros);
 			if (cantidad != null) {
 				paginador.paginarRangoDefinido(cantidad, 5);
 			}
 			listaActivityNames = activityNamesDao
-					.consultarActivityNamesXIdCropNames(paginador.getInicio(),
+					.queryActivityNamesXIdCropNames(paginador.getInicio(),
 							paginador.getRango(), consulta, parametros);
 			if ((listaActivityNames == null || listaActivityNames.size() <= 0)
 					&& !"".equals(unionMensajesBusqueda.toString())) {

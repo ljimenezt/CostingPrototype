@@ -9,14 +9,14 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="activityNamesAction.inicializarBusqueda" />
+	<ui:param name="action" value="activityNamesAction.initializeQuery" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeLifeCycle.activity_names_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{activityNamesAction}" />
 		<ui:param name="listaVacia"
-			value="#{activityNamesAction.listaActivityNames eq null or (empty activityNamesAction.listaActivityNames)}" />
+			value="#{activityNamesAction.activityNamesList eq null or (empty activityNamesAction.activityNamesList)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{activityNamesAction}" />
@@ -39,7 +39,7 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{activityNamesAction.listaActivityNames}"
+				<rich:dataTable value="#{activityNamesAction.activityNamesList}"
 					var="activityNames"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -59,7 +59,7 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_nombre_actividad}</f:facet>
 						<h:commandLink value="#{activityNames.activityName}"
-							action="#{activityNamesAction.agregarEditarActivityNames(activityNames)}"
+							action="#{activityNamesAction.addModifyActivityNames(activityNames)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -111,13 +111,13 @@
 					<h:outputText value="#{mensaje.label_nombre_actividad}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{activityNamesAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{activityNamesAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{activityNamesAction.consultarActivityNames}"
+						actionListener="#{activityNamesAction.queryActivityNames}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelActivityNames, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -151,7 +151,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{activityNamesAction.eliminarActivityNames()}"
+							actionListener="#{activityNamesAction.deleteActivityNames()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelActivityNames, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"

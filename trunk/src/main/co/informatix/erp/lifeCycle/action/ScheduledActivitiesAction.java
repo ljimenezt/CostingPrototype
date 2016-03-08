@@ -572,7 +572,7 @@ public class ScheduledActivitiesAction implements Serializable {
 			this.activities = new Activities();
 			opcionesActivityName = new ArrayList<SelectItem>();
 			List<ActivityNames> tiposActivityNames = activityNamesDao
-					.consultarActivityNamesXCrop(idCrop);
+					.queryActivityNamesXCrop(idCrop);
 			if (tiposActivityNames != null) {
 				for (ActivityNames activities : tiposActivityNames) {
 					opcionesActivityName

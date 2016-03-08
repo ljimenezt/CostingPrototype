@@ -39,50 +39,50 @@ public class ActivityNamesAction implements Serializable {
 	@EJB
 	private ActivityNamesDao activityNamesDao;
 
-	private List<ActivityNames> listaActivityNames;
+	private List<ActivityNames> activityNamesList;
 
 	private ActivityNames activityNames;
 	private Paginador paginador = new Paginador();
 
-	private String nombreBuscar;
+	private String nameSearch;
 
 	/**
-	 * @return List<ActivityNames>: list of activities names displayed on the
-	 *         user interface
+	 * @return List<ActivityNames>: list of activity names displayed on the user
+	 *         interface.
 	 */
-	public List<ActivityNames> getListaActivityNames() {
-		return listaActivityNames;
+	public List<ActivityNames> getActivityNamesList() {
+		return activityNamesList;
 	}
 
 	/**
-	 * @param listaActivityNames
-	 *            :list of activities names displayed on the user interface
+	 * @param activityNamesList
+	 *            :list of activities names displayed on the user interface.
 	 */
-	public void setListaActivityNames(List<ActivityNames> listaActivityNames) {
-		this.listaActivityNames = listaActivityNames;
+	public void setActivityNamesList(List<ActivityNames> activityNamesList) {
+		this.activityNamesList = activityNamesList;
 	}
 
 	/**
-	 * Gets data from a name Activity
+	 * Gets data from an activity name.
 	 * 
-	 * @return ActivityNames: object containing data Activity name
+	 * @return ActivityNames: An activity name object.
 	 */
 	public ActivityNames getActivityNames() {
 		return activityNames;
 	}
 
 	/**
-	 * Data set name Activity
+	 * Sets data from an activity name.
 	 * 
 	 * @param activityNames
-	 *            : object containing data Activity name
+	 *            : object containing activity name data.
 	 */
 	public void setActivityNames(ActivityNames activityNames) {
 		this.activityNames = activityNames;
 	}
 
 	/**
-	 * @return Paginador: Management paginated list of the names of activities.
+	 * @return paginador: Page list to manage the names of activities.
 	 * 
 	 */
 	public Paginador getPaginador() {
@@ -91,37 +91,37 @@ public class ActivityNamesAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : Management paginated list of the names of activities.
+	 *            : Page list to manage the names of activities.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return nombreBuscar: Activity name to search
+	 * @return nameSearch: Activity name to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : Activity name to search
+	 * @param nameSearch
+	 *            : Activity name to search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of the names of activities
 	 * 
-	 * @return consultarActivityNames: method to query the names of activities,
+	 * @return queryActivityNames: method to query the names of activities and
 	 *         returns to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarActivityNames();
+	public String initializeSearch() {
+		nameSearch = "";
+		return queryActivityNames();
 	}
 
 	/**
@@ -133,89 +133,87 @@ public class ActivityNamesAction implements Serializable {
 	 * @return retorno: redirects to the template name to manage activities or
 	 *         POPUP
 	 */
-	public String consultarActivityNames() {
+	public String queryActivityNames() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeLifeCycle");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaActivityNames = new ArrayList<ActivityNames>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
-
+		activityNamesList = new ArrayList<ActivityNames>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder queryJointMessages = new StringBuilder();
+		String queryMessage = "";
 		String param2 = ControladorContexto.getParam("param2");
-		boolean desdeModal = (param2 != null && "si".equals(param2)) ? true
+		boolean fromWindow = (param2 != null && "si".equals(param2)) ? true
 				: false;
-		String retorno = desdeModal ? "" : "gesActivityNames";
+		String result = fromWindow ? "" : "gesActivityNames";
 
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = activityNamesDao.cantidadActivityNames(consulta,
-					parametros);
-			if (cantidad != null) {
-				if (desdeModal) {
-					paginador.paginarRangoDefinido(cantidad, 5);
+			advancedQuery(query, parameters, bundle, queryJointMessages);
+			Long amount = activityNamesDao.amountActivityNames(query,
+					parameters);
+			if (amount != null) {
+				if (fromWindow) {
+					paginador.paginarRangoDefinido(amount, 5);
 				} else {
-					paginador.paginar(cantidad);
+					paginador.paginar(amount);
 				}
 
 			}
-			listaActivityNames = activityNamesDao.consultarActivityNames(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaActivityNames == null || listaActivityNames.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			activityNamesList = activityNamesDao.queryActivityNames(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
+			if ((activityNamesList == null || activityNamesList.size() <= 0)
+					&& !"".equals(queryJointMessages.toString())) {
+				queryMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaActivityNames == null
-					|| listaActivityNames.size() <= 0) {
+								queryJointMessages);
+			} else if (activityNamesList == null
+					|| activityNamesList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(queryJointMessages.toString())) {
+				queryMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle
 										.getString("activity_names_label_s"),
-								unionMensajesBusqueda);
+								queryJointMessages);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(queryMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return retorno;
-
+		return result;
 	}
 
 	/**
-	 * This method build the query to the advanced search also allows messages
-	 * to display build depending on the search criteria selected by the user.
+	 * This method builds the query to the advanced search; it also allows
+	 * messages to display building depending on the search criteria selected by
+	 * the user.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : Query to concatenate.
 	 * @param parameters
-	 *            : list of search parameters.
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            : Access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : Message search.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedQuery(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(an.activityName) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -223,11 +221,11 @@ public class ActivityNamesAction implements Serializable {
 	 * Method to edit or create a new activity name.
 	 * 
 	 * @param activityNames
-	 *            :name of activity you are adding or editing
+	 *            : Name of activity you are adding or editing.
 	 * 
-	 * @return "regActivityNames":redirects to the record template activity
+	 * @return "regActivityNames": redirects to the record template activity.
 	 */
-	public String agregarEditarActivityNames(ActivityNames activityNames) {
+	public String addModifyActivityNames(ActivityNames activityNames) {
 		if (activityNames != null) {
 			this.activityNames = activityNames;
 		} else {
@@ -237,18 +235,18 @@ public class ActivityNamesAction implements Serializable {
 	}
 
 	/**
-	 * This method allow validate the name of the activity, so that it is not
-	 * repeated in the database and validates against XSS.
+	 * This method validate the name of the activity, so that it is not repeated
+	 * in the database and validates against XSS.
 	 * 
 	 * @param context
-	 *            : application context
+	 *            : Application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : Validate component.
 	 * @param value
-	 *            : field value to be valid
+	 *            : Field value to be validated.
 	 */
-	public void validarNombreXSS(FacesContext context, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String nombre = (String) value;
@@ -256,13 +254,13 @@ public class ActivityNamesAction implements Serializable {
 		try {
 			int id = activityNames.getIdActivityName();
 			ActivityNames activityNamesAux = new ActivityNames();
-			activityNamesAux = activityNamesDao.nombreExiste(nombre, id);
+			activityNamesAux = activityNamesDao.nameExists(nombre, id);
 			if (activityNamesAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+				String existenceMessage = "message_ya_existe_verifique";
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
-								.getString(mensajeExistencia), null));
+								.getString(existenceMessage), null));
 				((UIInput) toValidate).setValid(false);
 			}
 			if (!EncodeFilter.validarXSS(nombre, clientId,
@@ -275,43 +273,43 @@ public class ActivityNamesAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the names of the activities
+	 * Method to save or edit the names of the activities
 	 * 
-	 * @return consultarActivityNames: Names redirects manage activities with
-	 *         the list of names updated
+	 * @return queryActivityNames: Redirects manage activities with the list of
+	 *         names updated
 	 */
-	public String guardarActivityNames() {
+	public String saveActivityNames() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String recordMessage = "message_registro_modificar";
 		try {
 
 			if (activityNames.getIdActivityName() != 0) {
-				activityNamesDao.editarActivityNames(activityNames);
+				activityNamesDao.modifyActivityNames(activityNames);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				activityNamesDao.guardarActivityNames(activityNames);
+				recordMessage = "message_registro_guardar";
+				activityNamesDao.saveActivityNames(activityNames);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
+					bundle.getString(recordMessage),
 					activityNames.getActivityName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarActivityNames();
+		return queryActivityNames();
 	}
 
 	/**
-	 * Method to remove a name from activity database
+	 * Method to remove a name from activity name table.
 	 * 
 	 * @author Mabell.Boada
 	 * 
-	 * @return consultarActivityNames: Redirects to manage the names of
-	 *         activities with the updated list
+	 * @return queryActivityNames: Redirects to manage the names of activities
+	 *         with the updated list.
 	 */
-	public String eliminarActivityNames() {
+	public String deleteActivityNames() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			activityNamesDao.eliminarActivityNames(activityNames);
+			activityNamesDao.deleteActivityNames(activityNames);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					activityNames.getActivityName()));
@@ -323,7 +321,7 @@ public class ActivityNamesAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarActivityNames();
+		return queryActivityNames();
 	}
 
 }
