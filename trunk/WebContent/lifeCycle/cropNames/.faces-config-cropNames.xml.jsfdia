@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="gesCropNames::#lifeCycle#cropNames#manageCropNames.xhtml"
+    NAME="output" PATH="/lifeCycle/cropNames/manageCropNames.xhtml"
+    TARGET="rules:#lifeCycle#cropNames#manageCropNames.xhtml"
+    TITLE="gesCropNames" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="regCropNames::#lifeCycle#cropNames#registerCropNames.xhtml"
+    NAME="output" PATH="/lifeCycle/cropNames/registerCropNames.xhtml"
+    TARGET="rules:#lifeCycle#cropNames#registerCropNames.xhtml"
+    TITLE="regCropNames" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#lifeCycle#cropNames#registerCropNames.xhtml"
+  PATH="/lifeCycle/cropNames/registerCropNames.xhtml"
+  SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#lifeCycle#cropNames#manageCropNames.xhtml"
+  PATH="/lifeCycle/cropNames/manageCropNames.xhtml" SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>
