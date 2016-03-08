@@ -9,15 +9,14 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="typeOfManagementAction.inicializarBusqueda" />
+	<ui:param name="action" value="typeOfManagementAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeWarehouse.type_management_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{typeOfManagementAction}" />
 		<ui:param name="listaVacia"
-			value="#{typeOfManagementAction.listaTypeOfManagement eq null or (empty typeOfManagementAction.listaTypeOfManagement)}" />
+			value="#{typeOfManagementAction.typeOfManagementList eq null or (empty typeOfManagementAction.typeOfManagementList)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{typeOfManagementAction}" />
@@ -42,7 +41,7 @@
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
 				<rich:dataTable
-					value="#{typeOfManagementAction.listaTypeOfManagement}"
+					value="#{typeOfManagementAction.typeOfManagementList}"
 					var="typeOfManagement"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -62,7 +61,7 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 						<h:commandLink value="#{typeOfManagement.name}"
-							action="#{typeOfManagementAction.agregarEditarTypeOfManagement(typeOfManagement)}"
+							action="#{typeOfManagementAction.addEditTypeOfManagement(typeOfManagement)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -116,14 +115,13 @@
 					<h:outputText value="#{mensajeWarehouse.type_management_label}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar"
-						value="#{typeOfManagementAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{typeOfManagementAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{typeOfManagementAction.consultarTypeOfManagement()}"
+						actionListener="#{typeOfManagementAction.searchTypeOfManagement()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelTypeOfManagement, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -157,7 +155,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{typeOfManagementAction.eliminarTypeOfManagement()}"
+							actionListener="#{typeOfManagementAction.deleteTypeOfManagement()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelTypeOfManagement, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"

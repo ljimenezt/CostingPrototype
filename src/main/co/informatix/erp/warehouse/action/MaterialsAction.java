@@ -359,7 +359,7 @@ public class MaterialsAction implements Serializable {
 			}
 		}
 		List<TypeOfManagement> tiposGestion = typeOfManagementDao
-				.consultarTypesOfManagements();
+				.queryTypesOfManagements();
 		if (tiposGestion != null) {
 			for (TypeOfManagement tGestion : tiposGestion) {
 				itemsTipoGestion.add(new SelectItem(tGestion
