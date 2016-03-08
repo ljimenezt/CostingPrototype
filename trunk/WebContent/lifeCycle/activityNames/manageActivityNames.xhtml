@@ -21,16 +21,16 @@
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{activityNamesAction}" />
 		<ui:param name="renderLista" value="panelActivityNames vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarActivityNames" />
+		<ui:param name="metodoLista" value="queryActivityNames" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="activityNamesAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarActivityNames" />
+		<ui:param name="metodoNuevo" value="addModifyActivityNames" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 		<h:form id="formActivityNames">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -88,7 +88,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelActivityNames" />
 							<ui:param name="beanActionParam" value="#{activityNamesAction}" />
-							<ui:param name="metodoActionParam" value="consultarActivityNames" />
+							<ui:param name="metodoActionParam" value="queryActivityNames" />
 						</ui:include>
 					</div>
 				</a:outputPanel>

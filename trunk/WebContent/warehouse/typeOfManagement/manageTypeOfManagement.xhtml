@@ -22,16 +22,16 @@
 		<ui:param name="actionLista" value="#{typeOfManagementAction}" />
 		<ui:param name="renderLista"
 			value="panelTypeOfManagement vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarTypeOfManagement" />
+		<ui:param name="metodoLista" value="searchTypeOfManagement" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="typeOfManagementAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarTypeOfManagement" />
+		<ui:param name="metodoNuevo" value="addEditTypeOfManagement" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 		<h:form id="formTypeOfManagement">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -91,8 +91,7 @@
 							<ui:param name="valReder" value="panelTypeOfManagement" />
 							<ui:param name="beanActionParam"
 								value="#{typeOfManagementAction}" />
-							<ui:param name="metodoActionParam"
-								value="consultarTypeOfManagement" />
+							<ui:param name="metodoActionParam" value="searchTypeOfManagement" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
