@@ -32,7 +32,6 @@ import co.informatix.erp.warehouse.entities.Materials;
 import co.informatix.erp.warehouse.entities.MaterialsType;
 import co.informatix.erp.warehouse.entities.MeasurementUnits;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
-import co.informatix.erp.warehouse.entities.Suppliers;
 
 /**
  * This class is all related logic with creating, updating and removal of
@@ -75,11 +74,8 @@ public class DepositsAction implements Serializable {
 	private List<SelectItem> itemsFarm;
 	private List<SelectItem> itemsMeasurementUnits;
 	private List<SelectItem> itemsMaterialType;
-	private List<SelectItem> itemsSuppliers;
-	private List<SelectItem> itemsInvoices;
 
 	private int idMaterialType;
-	private int idSupplier;
 
 	/**
 	 * @return paginador: The paging controller object.
@@ -192,39 +188,6 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
-	 * @return itemsSuppliers: List of suppliers that are loaded into the user
-	 *         interface.
-	 */
-	public List<SelectItem> getItemsSuppliers() {
-		return itemsSuppliers;
-	}
-
-	/**
-	 * @param itemsSuppliers
-	 *            : List of suppliers that are loaded into the user interface.
-	 */
-	public void setItemsSuppliers(List<SelectItem> itemsSuppliers) {
-		this.itemsSuppliers = itemsSuppliers;
-	}
-
-	/**
-	 * @return itemsInvoices: List of purchase invoices that are loaded into the
-	 *         user interface.
-	 */
-	public List<SelectItem> getItemsInvoices() {
-		return itemsInvoices;
-	}
-
-	/**
-	 * @param itemsInvoices
-	 *            : List of purchase invoices that are loaded into the user
-	 *            interface.
-	 */
-	public void setItemsInvoices(List<SelectItem> itemsInvoices) {
-		this.itemsInvoices = itemsInvoices;
-	}
-
-	/**
 	 * @return fechaInicioBuscar: Determines the initial range to search for
 	 *         deposits in the system
 	 */
@@ -286,21 +249,6 @@ public class DepositsAction implements Serializable {
 	 */
 	public void setIdMaterialType(int idMaterialType) {
 		this.idMaterialType = idMaterialType;
-	}
-
-	/**
-	 * @return idSupplier : Supplier identifier selected in the UI
-	 */
-	public int getIdSupplier() {
-		return idSupplier;
-	}
-
-	/**
-	 * @param idSupplier
-	 *            : Supplier identifier selected in the UI
-	 */
-	public void setIdSupplier(int idSupplier) {
-		this.idSupplier = idSupplier;
 	}
 
 	/**
@@ -462,23 +410,17 @@ public class DepositsAction implements Serializable {
 	public String addEditDeposits(Deposits deposits) {
 		this.unitCost = 0d;
 		this.idMaterialType = 0;
-		this.idSupplier = 0;
 		try {
 			loadMaterialsType();
-			loadSuppliers();
 			loadFarms();
 			loadMeasurementUnits();
-
 			if (deposits != null) {
 				this.deposits = deposits;
 				Materials material = this.deposits.getMaterials();
 				this.idMaterialType = material.getMaterialType()
 						.getIdMaterialsType();
-				PurchaseInvoices invoices = this.deposits.getPurchaseInvoices();
-				this.idSupplier = invoices.getSuppliers().getIdSupplier();
 				calculateUnitCost();
 				loadMaterials();
-				loadPurchaseInvoice();
 			} else {
 				this.deposits = new Deposits();
 				this.deposits.setMaterials(new Materials());
@@ -547,50 +489,6 @@ public class DepositsAction implements Serializable {
 				this.itemsMaterialType.add(new SelectItem(materialType
 						.getIdMaterialsType(), materialType.getName()));
 			}
-		}
-	}
-
-	/**
-	 * This method allows you to load the suppliers in interface for registering
-	 * a new deposits.
-	 * 
-	 * @author Liseth.Jimenez
-	 * 
-	 * @throws Exception
-	 */
-	private void loadSuppliers() throws Exception {
-		itemsSuppliers = new ArrayList<SelectItem>();
-		List<Suppliers> suppliers = suppliersDao.consultarComboSuppliers();
-		if (suppliers != null) {
-			for (Suppliers supplier : suppliers) {
-				this.itemsSuppliers.add(new SelectItem(
-						supplier.getIdSupplier(), supplier.getName()));
-			}
-		}
-	}
-
-	/**
-	 * This method allows you to load the purchase invoices in interface for
-	 * registering a new deposits.
-	 * 
-	 * @author Liseth.Jimenez
-	 * 
-	 * @throws Exception
-	 */
-	public void loadPurchaseInvoice() {
-		try {
-			itemsInvoices = new ArrayList<SelectItem>();
-			List<PurchaseInvoices> invoices = purchaseInvoicesDao
-					.consultInvoicesBySupplier(idSupplier);
-			if (invoices != null) {
-				for (PurchaseInvoices invoice : invoices) {
-					this.itemsInvoices.add(new SelectItem(invoice
-							.getIdPurchaseInvoice(), invoice.getDateTime()
-							.toString()));
-				}
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
 		}
 	}
 
@@ -678,5 +576,26 @@ public class DepositsAction implements Serializable {
 			unitCost = ControladorContable.dividir(deposits.getTotalCost(),
 					deposits.getInitialQuantity());
 		}
+	}
+
+	/**
+	 * This method allows to set a value of purchase invoice for deposits
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @param purchaseInvoices
+	 *            : Purchase Invoice for a deposits
+	 */
+	public void loadInvoice(PurchaseInvoices purchaseInvoices) {
+		this.deposits.setPurchaseInvoices(purchaseInvoices);
+	}
+
+	/**
+	 * This method clean the value of purchase invoice for deposits
+	 * 
+	 * @author Liseth.Jimenez
+	 */
+	public void cleanInvoice() {
+		this.deposits.setPurchaseInvoices(new PurchaseInvoices());
 	}
 }
