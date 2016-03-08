@@ -41,7 +41,7 @@ public class MaterialsTypeDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MaterialsType> consultarMaterialsType(int start, int range,
+	public List<MaterialsType> consultMaterialsType(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -49,8 +49,8 @@ public class MaterialsTypeDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY mt.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<MaterialsType> resultList = q.getResultList();
@@ -67,8 +67,7 @@ public class MaterialsTypeDao implements Serializable {
 	 *            : Materials Type to save.
 	 * @throws Exception
 	 */
-	public void guardarMaterialsType(MaterialsType materialsType)
-			throws Exception {
+	public void saveMaterialsType(MaterialsType materialsType) throws Exception {
 		em.persist(materialsType);
 	}
 
@@ -79,8 +78,7 @@ public class MaterialsTypeDao implements Serializable {
 	 *            : materialsType to edit.
 	 * @throws Exception
 	 */
-	public void editarMaterialsType(MaterialsType materialsType)
-			throws Exception {
+	public void editMaterialsType(MaterialsType materialsType) throws Exception {
 		em.merge(materialsType);
 	}
 
@@ -91,7 +89,7 @@ public class MaterialsTypeDao implements Serializable {
 	 *            : materialsType to delete
 	 * @throws Exception
 	 */
-	public void eliminarMaterialsType(MaterialsType materialsType)
+	public void removeMaterialsType(MaterialsType materialsType)
 			throws Exception {
 		em.remove(em.merge(materialsType));
 	}
@@ -100,21 +98,21 @@ public class MaterialsTypeDao implements Serializable {
 	 * Returns the number of existing BD materialsType in filtering the
 	 * information by the values sent search.
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : String containing the query why the materialsType filtered.
-	 * @param parametros
+	 * @param parameters
 	 *            : query parameters.
 	 * @return Long: amount of material Type records found
 	 * @throws Exception
 	 */
-	public Long cantidadMaterialsType(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long quantityMaterialsType(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(mt) FROM MaterialsType mt ");
-		query.append(consulta);
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -128,7 +126,7 @@ public class MaterialsTypeDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MaterialsType> consultarMaterialsTypes() throws Exception {
+	public List<MaterialsType> consultMaterialsTypes() throws Exception {
 		return em.createQuery(
 				"SELECT mt FROM MaterialsType mt " + "ORDER BY mt.name ")
 				.getResultList();

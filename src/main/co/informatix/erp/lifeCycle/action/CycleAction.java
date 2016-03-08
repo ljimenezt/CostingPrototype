@@ -483,7 +483,7 @@ public class CycleAction implements Serializable {
 
 		List<MaterialsType> materialsType;
 		try {
-			materialsType = materialsTypeDao.consultarMaterialsTypes();
+			materialsType = materialsTypeDao.consultMaterialsTypes();
 			if (materialsType != null) {
 				for (MaterialsType materialsTypes : materialsType) {
 					itemsMaterialsType.add(new SelectItem(materialsTypes
