@@ -91,7 +91,7 @@ public class TypeOfManagementAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Name by which you want to consult the types of
+	 * @return nameSearch: Name by which you want to consult the types of
 	 *         management.
 	 */
 	public String getNameSearch() {
@@ -231,21 +231,21 @@ public class TypeOfManagementAction implements Serializable {
 	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String nombre = (String) value;
+		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = typeOfManagement.getIdTypeOfManagement();
-			TypeOfManagement typeOfManagementAux = new TypeOfManagement();
-			typeOfManagementAux = typeOfManagementDao.nameExists(nombre, id);
-			if (typeOfManagementAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+			TypeOfManagement auxTypeOfManagement = new TypeOfManagement();
+			auxTypeOfManagement = typeOfManagementDao.nameExists(name, id);
+			if (auxTypeOfManagement != null) {
+				String existenceMessage = "message_ya_existe_verifique";
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
-								.getString(mensajeExistencia), null));
+								.getString(existenceMessage), null));
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
