@@ -139,11 +139,11 @@ public class MaterialsTypeDao implements Serializable {
 	 * @author Jhair.Leal
 	 * 
 	 * @param name
-	 *            : materials type name to verify
+	 *            : materials type name to verify.
 	 * @param id
-	 *            : identifier to verify the section
-	 * @return Section: section object found with the search parameters name and
-	 *         identifier.
+	 *            : identifier to verify the materials type.
+	 * @return MaterialsType: materials type object found with the search
+	 *         parameters name and identifier.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
