@@ -124,7 +124,7 @@ public class PurchaseInvoicesAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleWarehouse = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		ValidacionesAction validaciones = (ValidacionesAction) ControladorContexto
+		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
@@ -172,9 +172,9 @@ public class PurchaseInvoicesAction implements Serializable {
 			}
 
 			if (fromModal) {
-				validaciones.setMensajeBusquedaPopUp(searchMessages);
+				validations.setMensajeBusquedaPopUp(searchMessages);
 			} else {
-				validaciones.setMensajeBusqueda(searchMessages);
+				validations.setMensajeBusqueda(searchMessages);
 			}
 
 		} catch (Exception e) {
