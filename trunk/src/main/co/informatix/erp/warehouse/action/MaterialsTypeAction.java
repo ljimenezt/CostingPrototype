@@ -8,11 +8,16 @@ import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.MaterialsTypeDao;
@@ -280,5 +285,45 @@ public class MaterialsTypeAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return consultMaterialsType();
+	}
+
+	/**
+	 * To validate the name of the materials type, so it is not repeated in the
+	 * database and valid against XSS.
+	 * 
+	 * @author Jhair.Leal
+	 * 
+	 * @param context
+	 *            : application context
+	 * 
+	 * @param toValidate
+	 *            : validate component
+	 * @param value
+	 *            : field value to be valid
+	 */
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			int id = materialsType.getIdMaterialsType();
+			MaterialsType materialTypeAux = new MaterialsType();
+			materialTypeAux = materialsTypeDao.nameExist(name, id);
+			if (materialTypeAux != null) {
+				String messageExistence = "message_ya_existe_verifique";
+				context.addMessage(
+						clientId,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
+								.getString(messageExistence), null));
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 }

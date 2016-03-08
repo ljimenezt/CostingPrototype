@@ -45,7 +45,7 @@
 					<h:inputText value="#{materialsTypeAction.materialsType.name}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100"
-						validator="#{encodeFilter.validarScripting}"
+						validator="#{materialsTypeAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
