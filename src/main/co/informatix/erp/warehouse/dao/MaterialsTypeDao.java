@@ -132,4 +132,38 @@ public class MaterialsTypeDao implements Serializable {
 				.getResultList();
 	}
 
+	/**
+	 * Consultation if the name of the materials type exists in the database
+	 * when storing or editing.
+	 * 
+	 * @author Jhair.Leal
+	 * 
+	 * @param name
+	 *            : materials type name to verify
+	 * @param id
+	 *            : identifier to verify the section
+	 * @return Section: section object found with the search parameters name and
+	 *         identifier.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public MaterialsType nameExist(String name, int id) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT mt FROM MaterialsType mt ");
+		query.append("WHERE UPPER(mt.name)=UPPER(:name) ");
+		if (id != 0) {
+			query.append("AND mt.idMaterialsType <>:idMaterialsType ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("name", name);
+		if (id != 0) {
+			q.setParameter("idMaterialsType", id);
+		}
+		List<MaterialsType> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
+
 }
