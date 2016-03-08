@@ -515,7 +515,7 @@ public class ScheduledActivitiesAction implements Serializable {
 			this.listActivityMachineTemp = new ArrayList<ActivityMachine>();
 			this.itemsMachineTypes = new ArrayList<SelectItem>();
 			List<MachineTypes> listMachineType = machineTypesDao
-					.listaMachineType();
+					.listMachineType();
 			if (listMachineType != null) {
 				for (MachineTypes machineType : listMachineType) {
 					itemsMachineTypes.add(new SelectItem(machineType

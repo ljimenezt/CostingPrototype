@@ -367,7 +367,7 @@ public class InsuranceAction implements Serializable {
 	 */
 	private void llenarMachinesType() throws Exception {
 		opcionesMachinesType = new ArrayList<SelectItem>();
-		List<MachineTypes> listMachineType = machineTypesDao.listaMachineType();
+		List<MachineTypes> listMachineType = machineTypesDao.listMachineType();
 		if (listMachineType != null) {
 			for (MachineTypes listamachinesTypes : listMachineType) {
 				opcionesMachinesType.add(new SelectItem(listamachinesTypes

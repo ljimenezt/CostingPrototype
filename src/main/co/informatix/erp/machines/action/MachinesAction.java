@@ -237,7 +237,7 @@ public class MachinesAction implements Serializable {
 	private void llenarMachineTypes() throws Exception {
 		itemsMachinesType = new ArrayList<SelectItem>();
 		List<MachineTypes> listMachinetypes;
-		listMachinetypes = machineTypesDao.listaMachineType();
+		listMachinetypes = machineTypesDao.listMachineType();
 		if (listMachinetypes != null) {
 			for (MachineTypes machineTypes : listMachinetypes) {
 				itemsMachinesType.add(new SelectItem(machineTypes

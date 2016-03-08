@@ -9,28 +9,28 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="machineTypesAction.inicializarBusqueda" />
+	<ui:param name="action" value="machineTypesAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeMachine.machine_types_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{machineTypesAction}" />
 		<ui:param name="listaVacia"
-			value="#{machineTypesAction.listaMachineTypes eq null or (empty machineTypesAction.listaMachineTypes)}" />
+			value="#{machineTypesAction.listMachineTypes eq null or (empty machineTypesAction.listMachineTypes)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{machineTypesAction}" />
 		<ui:param name="renderLista" value="panelMachineTypes vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarMachineTypes" />
+		<ui:param name="metodoLista" value="consultMachineTypes" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="machineTypesAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarMachineTypes" />
+		<ui:param name="metodoNuevo" value="addEditMachineTypes" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formMachineTypes">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -39,7 +39,7 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{machineTypesAction.listaMachineTypes}"
+				<rich:dataTable value="#{machineTypesAction.listMachineTypes}"
 					var="machineTypes"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -59,7 +59,7 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_tipo_maquina}</f:facet>
 						<h:commandLink value="#{machineTypes.name}"
-							action="#{machineTypesAction.agregarEditarMachineTypes(machineTypes)}"
+							action="#{machineTypesAction.addEditMachineTypes(machineTypes)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -86,7 +86,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelMachineTypes" />
 							<ui:param name="beanActionParam" value="#{machineTypesAction}" />
-							<ui:param name="metodoActionParam" value="consultarMachineTypes" />
+							<ui:param name="metodoActionParam" value="consultMachineTypes" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -109,13 +109,13 @@
 					<h:outputText value="#{mensaje.label_tipo_maquina}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{machineTypesAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{machineTypesAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{machineTypesAction.consultarMachineTypes}"
+						actionListener="#{machineTypesAction.consultMachineTypes}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelMachineTypes, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -147,7 +147,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{machineTypesAction.eliminarMachineTypes()}"
+							actionListener="#{machineTypesAction.removeMachineTypes()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelMachineTypes, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"

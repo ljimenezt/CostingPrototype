@@ -523,7 +523,7 @@ public class CycleAction implements Serializable {
 		itemsMachinesType = new ArrayList<SelectItem>();
 		List<MachineTypes> listMachinetypes;
 		try {
-			listMachinetypes = machineTypesDao.listaMachineType();
+			listMachinetypes = machineTypesDao.listMachineType();
 			if (listMachinetypes != null) {
 				for (MachineTypes machineTypes : listMachinetypes) {
 					itemsMachinesType.add(new SelectItem(machineTypes

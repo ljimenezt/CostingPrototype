@@ -641,7 +641,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 */
 	private void llenarMachinesType() throws Exception {
 		machinesTypeItems = new ArrayList<SelectItem>();
-		List<MachineTypes> listMachineType = machineTypesDao.listaMachineType();
+		List<MachineTypes> listMachineType = machineTypesDao.listMachineType();
 		if (listMachineType != null) {
 			for (MachineTypes machineTypes : listMachineType) {
 				machinesTypeItems.add(new SelectItem(machineTypes
