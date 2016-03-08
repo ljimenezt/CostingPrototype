@@ -79,7 +79,7 @@ public class CropsAction implements Serializable {
 	 *            crop names associated with the crop
 	 */
 	public void setCropNames(CropNames cropNames) {
-		this.cropNames = cropNames;
+		this.nombreCrop = cropNames.getIdCropName();
 	}
 
 	/**
@@ -304,6 +304,7 @@ public class CropsAction implements Serializable {
 	 * to display build depending on the search criteria selected by the user.
 	 * 
 	 * @modify 19/06/2015 Gerardo.Herrera
+	 * @modify 08/03/2016 Mabell.Boada
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -318,7 +319,6 @@ public class CropsAction implements Serializable {
 	private void busquedaAvanzada(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-
 		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
 			consult.append("WHERE UPPER(c.description) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
@@ -332,22 +332,7 @@ public class CropsAction implements Serializable {
 				item = new SelectItem(this.nombreCrop, "keyword3");
 				parameters.add(item);
 			}
-
-			if (this.cropNames != null) {
-				consult.append("AND c.cropNames.idCropName=:keyword2 ");
-				item = new SelectItem(cropNames.getIdCropName(), "keyword2");
-				parameters.add(item);
-			}
-
 		} else {
-
-			if (this.cropNames != null) {
-				consult.append("WHERE c.cropNames.idCropName=:keyword2 ");
-				SelectItem item = new SelectItem(cropNames.getIdCropName(),
-						"keyword2");
-				parameters.add(item);
-			}
-
 			if (this.nombreCrop != 0) {
 				consult.append("WHERE c.cropNames.idCropName = :keyword ");
 				SelectItem item = new SelectItem(this.nombreCrop, "keyword");
