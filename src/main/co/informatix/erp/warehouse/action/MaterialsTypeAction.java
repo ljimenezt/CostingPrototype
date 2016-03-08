@@ -250,10 +250,8 @@ public class MaterialsTypeAction implements Serializable {
 				messageLog = "message_registro_guardar";
 				materialsTypeDao.saveMaterialsType(materialsType);
 			}
-			ControladorContexto
-					.mensajeInformacion(null, MessageFormat.format(
-							bundle.getString(messageLog),
-							materialsType.getName()));
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString(messageLog), materialsType.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -263,8 +261,8 @@ public class MaterialsTypeAction implements Serializable {
 	/**
 	 * Method that allows one materialsType delete the database
 	 * 
-	 * @return consultMaterialsType(): Consult the list of Type material
-	 *         returns to manage materials Type
+	 * @return consultMaterialsType(): Consult the list of Type material returns
+	 *         to manage materials Type
 	 */
 	public String removeMaterialsType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
