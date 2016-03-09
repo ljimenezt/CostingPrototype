@@ -100,8 +100,8 @@ public class SectionDao implements Serializable {
 		query.append("SELECT COUNT(s) FROM Section s ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -130,8 +130,8 @@ public class SectionDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY s.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<Section> resultList = q.getResultList();
@@ -157,12 +157,12 @@ public class SectionDao implements Serializable {
 	public Section nameExist(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT s FROM Section s ");
-		query.append("WHERE UPPER(s.name)=UPPER(:nombre) ");
+		query.append("WHERE UPPER(s.name)=UPPER(:name) ");
 		if (id != 0) {
 			query.append("AND s.idSection <>:idSection ");
 		}
 		Query q = em.createQuery(query.toString());
-		q.setParameter("nombre", name);
+		q.setParameter("name", name);
 		if (id != 0) {
 			q.setParameter("idSection", id);
 		}
