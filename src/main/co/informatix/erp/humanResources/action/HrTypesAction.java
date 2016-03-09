@@ -23,7 +23,7 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class is all the logic related to the creation, update, and delete types
+ * This class implements the logic related to create, update, and delete types
  * of human resources in the system.
  * 
  * @author Mabell.Boada
@@ -34,32 +34,32 @@ import co.informatix.erp.utils.ValidacionesAction;
 @RequestScoped
 public class HrTypesAction implements Serializable {
 
-	private List<HrTypes> listaHrTypes;
+	private List<HrTypes> hrTypesList;
 	private Paginador paginador = new Paginador();
 	private HrTypes hrTypes;
-	private String nombreBuscar;
+	private String nameSearch;
 
 	@EJB
 	private HrTypesDao hrTypesDao;
 
 	/**
-	 * @return listaHrTypes: gets the list of types of human resources
+	 * @return hrTypesList: Gets the list of types of human resources.
 	 */
-	public List<HrTypes> getListaHrTypes() {
-		return listaHrTypes;
+	public List<HrTypes> getHrTypesList() {
+		return hrTypesList;
 	}
 
 	/**
-	 * @param listaHrTypes
-	 *            : gets the list of types of human resources
+	 * @param hrTypesList
+	 *            : Gets the list of types of human resources.
 	 */
-	public void setListaHrTypes(List<HrTypes> listaHrTypes) {
-		this.listaHrTypes = listaHrTypes;
+	public void setHrTypesList(List<HrTypes> hrTypesList) {
+		this.hrTypesList = hrTypesList;
 	}
 
 	/**
-	 * @return paginador: paginated list of the types of human resources which
-	 *         may have in view
+	 * @return paginador: Paged list of human resources types which may be in
+	 *         the view.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -67,15 +67,15 @@ public class HrTypesAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : paginated list of the types of human resources which may
-	 *            have in view
+	 *            : Paged list of human resources types which may be in the
+	 *            view.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return hrTypes: object the types of human resources
+	 * @return hrTypes: Object of human resources.
 	 */
 	public HrTypes getHrTypes() {
 		return hrTypes;
@@ -83,84 +83,83 @@ public class HrTypesAction implements Serializable {
 
 	/**
 	 * @param hrTypes
-	 *            : object the types of human resources
+	 *            : Object of human resources.
 	 */
 	public void setHrTypes(HrTypes hrTypes) {
 		this.hrTypes = hrTypes;
 	}
 
 	/**
-	 * @return nombreBuscar: gets the name by which you want to consult types of
-	 *         human resources
+	 * @return nameSearch: Gets the name you want to find in the types of human
+	 *         resources.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : gets the name by which you want to consult types of human
-	 *            resources
+	 * @param nameSearch
+	 *            : Sets the name you want to find in the types of human
+	 *            resources.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * Method to initialize the parameters of the search and load initial list
-	 * of types of human resources
+	 * Method to initialize the parameters of the search and load an initial
+	 * list of human resources types.
 	 * 
-	 * @return consultarHrTypes: method that queries resource types human,
-	 *         returns to the template management.
+	 * @return searchHrTypes: method that queries resource types human, returns
+	 *         to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarHrTypes();
+	public String initializeSearch() {
+		nameSearch = "";
+		return searchHrTypes();
 	}
 
 	/**
-	 * Consult the list of hrTypes
+	 * Search the list of hrTypes.
 	 * 
-	 * @return gesHrTypes: Navigation rule that redirects to manage HR types
+	 * @return gesHrTypes: Navigation rule that redirects to manageHrtypes
+	 *         template.
 	 */
-	public String consultarHrTypes() {
+	public String searchHrTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
+		ResourceBundle hrBundle = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaHrTypes = new ArrayList<HrTypes>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		hrTypesList = new ArrayList<HrTypes>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder jointSearchMessages = new StringBuilder();
+		String searchMessage = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = hrTypesDao.cantidadHrTypes(consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedQuery(queryBuilder, parameters, bundle, jointSearchMessages);
+			Long amount = hrTypesDao.amountHrTypes(queryBuilder, parameters);
+			if (amount != null) {
+				paginador.paginar(amount);
 			}
-			listaHrTypes = hrTypesDao.consultarHrTypes(paginador.getInicio(),
-					paginador.getRango(), consulta, parametros);
-			if ((listaHrTypes == null || listaHrTypes.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			hrTypesList = hrTypesDao.searchHrTypes(paginador.getInicio(),
+					paginador.getRango(), queryBuilder, parameters);
+			if ((hrTypesList == null || hrTypesList.size() <= 0)
+					&& !"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaHrTypes == null || listaHrTypes.size() <= 0) {
+								jointSearchMessages);
+			} else if (hrTypesList == null || hrTypesList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleRecursosHumanos
-										.getString("tipo_recurso_humano_label"),
-								unionMensajesBusqueda);
+								hrBundle.getString("tipo_recurso_humano_label"),
+								jointSearchMessages);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validation.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -168,31 +167,32 @@ public class HrTypesAction implements Serializable {
 	}
 
 	/**
-	 * This method constructs the query to the advanced search also allows build
+	 * This method builds the query to the advanced search, and it also creates
 	 * messages to display depending on the search criteria selected by the
 	 * user.
 	 * 
-	 * @param consulta
-	 *            : query to concatenate
-	 * @param parametros
+	 * @param query
+	 *            : Query to concatenate.
+	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            : access language tags
+	 *            : Variable to access message tags for software
+	 *            internationalization.
 	 * 
-	 * @param unionMensajesBusqueda
-	 *            : Message search
+	 * @param searchMessage
+	 *            : Message displayed.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consulta,
-			List<SelectItem> parametros, ResourceBundle bundle,
-			StringBuilder unionMensajesBusqueda) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consulta.append("WHERE UPPER(ht.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+	private void advancedQuery(StringBuilder query,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder searchMessage) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			query.append("WHERE UPPER(ht.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
-			parametros.add(item);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nombreBuscar + '"');
+			parameters.add(item);
+			searchMessage.append(bundle.getString("label_nombre") + ": " + '"'
+					+ this.nameSearch + '"');
 		}
 	}
 
@@ -200,12 +200,12 @@ public class HrTypesAction implements Serializable {
 	 * Method to edit or create a new type of human resources.
 	 * 
 	 * @param hrTypes
-	 *            : name type of human resources to be added or edit
+	 *            : Human resources type name to be added or edited.
 	 * 
-	 * @return "regHrTypes": redirected to the template record type human
-	 *         Resources.
+	 * @return "regHrTypes": Redirects to register in the human resources type
+	 *         template.
 	 */
-	public String agregarEditarHrTypes(HrTypes hrTypes) {
+	public String addEditHrTypes(HrTypes hrTypes) {
 		if (hrTypes != null) {
 			this.hrTypes = hrTypes;
 		} else {
@@ -215,32 +215,32 @@ public class HrTypesAction implements Serializable {
 	}
 
 	/**
-	 * To validate the name of the kinds of human resources, so that no is
-	 * repeated in the database and validates against XSS.
+	 * To validate the name of the kinds of human resources, so that it is not
+	 * repeated in the database and it is valid compared with XSS.
 	 * 
-	 * @param contexto
-	 *            : application context
+	 * @param context
+	 *            : Application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : Validate component.
 	 * @param value
-	 *            : field value is validated
+	 *            : Field value is valid.
 	 */
-	public void validarNombreXSS(FacesContext contexto, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
-		String nombre = (String) value;
-		String clientId = toValidate.getClientId(contexto);
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
 		try {
 			int id = hrTypes.getIdHrType();
-			HrTypes hrTypesAux = new HrTypes();
-			hrTypesAux = hrTypesDao.nombreExiste(nombre, id);
-			if (hrTypesAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+			HrTypes auxHrTypes = new HrTypes();
+			auxHrTypes = hrTypesDao.nameExists(name, id);
+			if (auxHrTypes != null) {
+				String existenceMessage = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,
-						mensajeExistencia, "mensaje");
+						existenceMessage, "mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -250,43 +250,43 @@ public class HrTypesAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the types of human resources
+	 * Method to save or edit the types of human resources.
 	 * 
 	 * @modify 30/07/2015 Gerardo.Herrera
 	 * 
-	 * @return consultarHrTypes: Redirects to manage resource types humans with
-	 *         the list of names updated
+	 * @return searchHrTypes: Redirects to manage human resources types with the
+	 *         list of names updated.
 	 */
-	public String guardaHrTypes() {
+	public String saveHrTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String registerMessage = "message_registro_modificar";
 		try {
 
 			if (hrTypes.getIdHrType() != 0) {
-				hrTypesDao.editarHrTypes(hrTypes);
+				hrTypesDao.editHrTypes(hrTypes);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				hrTypesDao.guardarHrTypes(hrTypes);
+				registerMessage = "message_registro_guardar";
+				hrTypesDao.saveHrTypes(hrTypes);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), hrTypes.getName()));
+					bundle.getString(registerMessage), hrTypes.getName()));
 
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarHrTypes();
+		return searchHrTypes();
 	}
 
 	/**
-	 * Method to delete a type of human resource database
+	 * Method to delete a type of human resources database.
 	 * 
-	 * @return consultarHrTypes: Consult the list of resource types human
-	 *         template and returns to manage type of human resources
+	 * @return searchHrTypes: Query the list of human resources types and
+	 *         returns to manage the types of human resources template.
 	 */
-	public String eliminarHrTypes() {
+	public String deleteHrTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			hrTypesDao.eliminarHrTypes(hrTypes);
+			hrTypesDao.deleteHrTypes(hrTypes);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					hrTypes.getIdHrType()));
@@ -299,6 +299,6 @@ public class HrTypesAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarHrTypes();
+		return searchHrTypes();
 	}
 }

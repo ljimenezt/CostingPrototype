@@ -9,28 +9,28 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="hrTypesAction.inicializarBusqueda" />
+	<ui:param name="action" value="hrTypesAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeRecursosHumanos.tipo_recurso_humano_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{hrTypesAction}" />
 		<ui:param name="listaVacia"
-			value="#{hrTypesAction.listaHrTypes eq null or (empty hrTypesAction.listaHrTypes)}" />
+			value="#{hrTypesAction.hrTypesList eq null or (empty hrTypesAction.hrTypesList)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{hrTypesAction}" />
 		<ui:param name="renderLista" value="panelHrTypes vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarHrTypes" />
+		<ui:param name="metodoLista" value="searchHrTypes" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="hrTypesAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarHrTypes" />
+		<ui:param name="metodoNuevo" value="addEditHrTypes" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 		<h:form id="formHrTypes">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -39,7 +39,7 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{hrTypesAction.listaHrTypes}" var="hrTypes"
+				<rich:dataTable value="#{hrTypesAction.hrTypesList}" var="hrTypes"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 
@@ -58,7 +58,7 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensajeRecursosHumanos.tipo_recurso_humano_label_nombre}</f:facet>
 						<h:commandLink value="#{hrTypes.name}"
-							action="#{hrTypesAction.agregarEditarHrTypes(hrTypes)}"
+							action="#{hrTypesAction.addEditHrTypes(hrTypes)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -87,7 +87,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelHrTypes" />
 							<ui:param name="beanActionParam" value="#{hrTypesAction}" />
-							<ui:param name="metodoActionParam" value="consultarHrTypes" />
+							<ui:param name="metodoActionParam" value="searchHrTypes" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -111,13 +111,13 @@
 						value="#{mensajeRecursosHumanos.tipo_recurso_humano_label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{hrTypesAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{hrTypesAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{hrTypesAction.consultarHrTypes}"
+						actionListener="#{hrTypesAction.searchHrTypes}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelHrTypes, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -150,7 +150,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{hrTypesAction.eliminarHrTypes()}"
+							actionListener="#{hrTypesAction.deleteHrTypes()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelHrTypes, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"

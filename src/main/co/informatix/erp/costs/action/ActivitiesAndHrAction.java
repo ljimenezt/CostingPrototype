@@ -638,7 +638,7 @@ public class ActivitiesAndHrAction implements Serializable {
 			consultarTrabajador();
 			trabajadoresSeleccionados = new ArrayList<Hr>();
 			listaTipoTrabajador = new ArrayList<SelectItem>();
-			List<HrTypes> tipoTrabajador = hrTypeDao.consultarHrTypesVigentes();
+			List<HrTypes> tipoTrabajador = hrTypeDao.queryHrTypes();
 			if (tipoTrabajador != null) {
 				for (HrTypes tipo : tipoTrabajador) {
 					listaTipoTrabajador.add(new SelectItem(tipo.getIdHrType(),

@@ -13,7 +13,7 @@ import co.informatix.erp.humanResources.entities.Hr;
 
 /**
  * DAO class that establishes the connection between business logic and base
- * data. HrAction used for the management of Human Resources
+ * data. HrAction manages Human Resources.
  * 
  * @author Cristhian.Pico
  * 
