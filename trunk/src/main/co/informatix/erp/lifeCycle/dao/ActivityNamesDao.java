@@ -337,6 +337,8 @@ public class ActivityNamesDao implements Serializable {
 	 * 
 	 * @author Wilhelm.Boada
 	 * 
+	 * @param idActivityName
+	 *            : activityName identifier.
 	 * @return ActivityNames: activityName object found with the search and
 	 *         identifier.
 	 * @throws Exception

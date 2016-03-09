@@ -39,12 +39,24 @@
 	height: 150px;
 }
 
+.H156P {
+	height: 156px;
+}
+
 .H160P {
 	height: 160px;
 }
 
 .H172P {
 	height: 172px;
+}
+
+.H175P {
+	height: 175px;
+}
+
+.H185P {
+	height: 185px;
 }
 
 .H190P {
@@ -239,6 +251,10 @@
 
 .W155P {
 	width: 155px;
+}
+
+.W166P {
+	width: 166px;
 }
 
 .W170P {
@@ -533,6 +549,10 @@ W705P {
 
 .PaddingT6P {
 	padding-top: 6px;
+}
+
+.PaddingT10P {
+	padding-top: 18px !important;
 }
 
 .PaddingB6P {

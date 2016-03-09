@@ -143,7 +143,7 @@ public class CycleDao implements Serializable {
 		query.append("JOIN c.crops cr ");
 		query.append("WHERE cr.idCrop =:idCrop ");
 		query.append(consult);
-		query.append("ORDER by an.activityName DESC ");
+		query.append("ORDER by an.activityName ASC, c.initialDateTime ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCrop", idCrop);
 		for (SelectItem parametro : parameters) {

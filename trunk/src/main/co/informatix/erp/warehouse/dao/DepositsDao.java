@@ -95,7 +95,7 @@ public class DepositsDao implements Serializable {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
-		List<Deposits> deposits=q.getResultList();
+		List<Deposits> deposits = q.getResultList();
 		return deposits;
 	}
 
@@ -144,5 +144,46 @@ public class DepositsDao implements Serializable {
 			return results.get(0);
 		}
 		return null;
+	}
+
+	/**
+	 * This method allows consult a material that are associated with a deposit.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idMaterial
+	 *            :material identifier to find in the deposit.
+	 * @return boolean: true if find deposits associated.
+	 * @throws Exception
+	 */
+	public boolean associatedMaterialsDeposits(int idMaterial) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT d FROM Deposits d ");
+		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idMaterial", idMaterial);
+		if (q.getResultList().size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Returns the sum of material quantity register in the deposit.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @return Number of records found.
+	 * @throws Exception
+	 */
+	public Double quantityMaterialsById(int idMaterial) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT SUM(d.actualQuantity) FROM Deposits d ");
+		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idMaterial", idMaterial);
+		return (Double) q.getSingleResult();
 	}
 }

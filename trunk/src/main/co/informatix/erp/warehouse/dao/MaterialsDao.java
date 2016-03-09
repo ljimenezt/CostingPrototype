@@ -114,6 +114,20 @@ public class MaterialsDao implements Serializable {
 	}
 
 	/**
+	 * Materials method that queries the object by its ID
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param id
+	 *            : material identifier to consult
+	 * @return: Material object found with the search parameter identifier
+	 * @throws Exception
+	 */
+	public Materials materialsById(int id) throws Exception {
+		return em.find(Materials.class, id);
+	}
+
+	/**
 	 * Consult a material object assigned to sending its identifier.
 	 * 
 	 * @param nomObject
