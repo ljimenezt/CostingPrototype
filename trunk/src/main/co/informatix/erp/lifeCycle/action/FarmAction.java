@@ -57,7 +57,7 @@ public class FarmAction implements Serializable {
 	@EJB
 	private MunicipioDao municipioDao;
 
-	private List<Farm> famsList;
+	private List<Farm> farmsList;
 
 	private Farm farm;
 	private Paginador paginador = new Paginador();
@@ -77,15 +77,15 @@ public class FarmAction implements Serializable {
 	 *         interface.
 	 */
 	public List<Farm> getFarmsList() {
-		return famsList;
+		return farmsList;
 	}
 
 	/**
-	 * @param famsList
+	 * @param farmsList
 	 *            : List of farms that are displayed in the user interface.
 	 */
-	public void setFarmsList(List<Farm> famsList) {
-		this.famsList = famsList;
+	public void setFarmsList(List<Farm> farmsList) {
+		this.farmsList = farmsList;
 	}
 
 	/**
@@ -249,6 +249,8 @@ public class FarmAction implements Serializable {
 	/**
 	 * Consult the list of estates.
 	 * 
+	 * @modify Sergio.Gelves
+	 * 
 	 * @return "gesFarm": Redirects to the template to manage the estates.
 	 */
 	public String searchFarms() {
@@ -257,37 +259,37 @@ public class FarmAction implements Serializable {
 				.getBundle("mensajeLifeCycle");
 		ValidacionesAction validate = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		famsList = new ArrayList<Farm>();
+		farmsList = new ArrayList<Farm>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder queryBuilder = new StringBuilder();
 		StringBuilder jointQueryMessage = new StringBuilder();
-		String mensajeBusqueda = "";
+		String searchMessage = "";
 		try {
 			advancedSearch(queryBuilder, parameters, bundle, jointQueryMessage);
-			Long cantidad = farmDao.amountFarms(queryBuilder, parameters);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			Long amount = farmDao.amountFarms(queryBuilder, parameters);
+			if (amount != null) {
+				paginador.paginar(amount);
 			}
-			famsList = farmDao.searchFarms(paginador.getInicio(),
+			farmsList = farmDao.searchFarms(paginador.getInicio(),
 					paginador.getRango(), queryBuilder, parameters);
-			if ((famsList == null || famsList.size() <= 0)
+			if ((farmsList == null || farmsList.size() <= 0)
 					&& !"".equals(jointQueryMessage.toString())) {
-				mensajeBusqueda = MessageFormat
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								jointQueryMessage);
-			} else if (famsList == null || famsList.size() <= 0) {
+			} else if (farmsList == null || farmsList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
 			} else if (!"".equals(jointQueryMessage.toString())) {
-				mensajeBusqueda = MessageFormat
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle.getString("farm_label_s"),
 								jointQueryMessage);
+				loadFarmDetails();
 			}
-			loadFarmDetails();
-			validate.setMensajeBusqueda(mensajeBusqueda);
+			validate.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -295,30 +297,30 @@ public class FarmAction implements Serializable {
 	}
 
 	/**
-	 * This method weapon consultation for advanced search arm also allows
+	 * This method builds a query with advanced search; it also render the
 	 * messages to be displayed depending on the search criteria selected by the
 	 * user.
 	 * 
-	 * @param consult
+	 * @param queryBuilder
 	 *            : Query to concatenate.
 	 * @param parameters
 	 *            : List of search parameters.
 	 * @param bundle
 	 *            : Access language tags.
-	 * @param unionMessagesSearch
+	 * @param searchMessage
 	 *            : Message search.
 	 * 
 	 */
-	private void advancedSearch(StringBuilder consult,
+	private void advancedSearch(StringBuilder queryBuilder,
 			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
+			StringBuilder searchMessage) {
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("WHERE UPPER(f.name) LIKE UPPER(:keyword) ");
+			queryBuilder.append("WHERE UPPER(f.name) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nameSearch + '"');
+			searchMessage.append(bundle.getString("label_nombre") + ": " + '"'
+					+ this.nameSearch + '"');
 		}
 	}
 
@@ -328,22 +330,50 @@ public class FarmAction implements Serializable {
 	 * @param farm
 	 *            : Property that you are adding or editing.
 	 * 
+	 * @modify Sergio.Gelves
+	 * 
 	 * @return "regFarm": Redirects to the record template farm.
 	 * @throws Exception
 	 */
 	public String addEditFarm(Farm farm) throws Exception {
 		if (farm != null) {
 			this.farm = farm;
+			// Managing fetch.LAZY for foreign keys
+			if (this.farm.getPais() != null) {
+				Pais knownCountry = paisDao.consultarPais(farm.getPais()
+						.getId());
+				this.farm.setPais(knownCountry);
+			} else {
+				this.farm.setPais(new Pais());
+			}
+			if (this.farm.getDepartamento() != null) {
+				Departamento knownDepartment = departamentoDao
+						.consultarDepartamentoXId(farm.getDepartamento()
+								.getId());
+				this.farm.setDepartamento(knownDepartment);
+			} else {
+				this.farm.setDepartamento(new Departamento());
+			}
+			if (this.farm.getMunicipio() != null) {
+				Municipio knownMunicipality = municipioDao
+						.consultarMunicipio(farm.getMunicipio().getId());
+				this.farm.setMunicipio(knownMunicipality);
+			} else {
+				this.farm.setMunicipio(new Municipio());
+			}
+
 			this.logoPicName = this.farm.getLogo();
 			this.temporalPicLoading = false;
-			loadComboBoxes();
 		} else {
 			this.farm = new Farm();
-			this.loadComboBoxes();
+			this.farm.setPais(new Pais());
+			this.farm.setDepartamento(new Departamento());
+			this.farm.setMunicipio(new Municipio());
 			this.logoPicName = null;
 			this.fileUploadBean = new FileUploadBean();
 			this.temporalPicLoading = true;
 		}
+		loadComboBoxes();
 		return "regFarm";
 	}
 
@@ -470,7 +500,6 @@ public class FarmAction implements Serializable {
 			}
 		}
 		loadDepartments();
-		loadMunicipalities();
 	}
 
 	/**
@@ -482,7 +511,6 @@ public class FarmAction implements Serializable {
 	 */
 	public void loadDepartments() {
 		departmentItems = new ArrayList<SelectItem>();
-		municipalityItems = new ArrayList<SelectItem>();
 		try {
 			Pais country = farm.getPais();
 			if (country != null && country.getId() > 0) {
@@ -547,11 +575,11 @@ public class FarmAction implements Serializable {
 	 */
 	public void loadFarmDetails() throws Exception {
 		List<Farm> farms = new ArrayList<Farm>();
-		farms.addAll(this.famsList);
-		this.famsList = new ArrayList<Farm>();
+		farms.addAll(this.farmsList);
+		this.farmsList = new ArrayList<Farm>();
 		for (Farm farm : farms) {
 			loadFarmDetails(farm);
-			this.famsList.add(farm);
+			this.farmsList.add(farm);
 		}
 	}
 
