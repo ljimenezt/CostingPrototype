@@ -123,7 +123,7 @@ public class SectionAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeLifeCycle");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listSection = new ArrayList<Section>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
@@ -154,7 +154,7 @@ public class SectionAction implements Serializable {
 								bundleLifeCycle.getString("section_label_s"),
 								unionMenssageSearch);
 			}
-			validaciones.setMensajeBusqueda(messageSearch);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -229,11 +229,11 @@ public class SectionAction implements Serializable {
 			Section sectionAux = new Section();
 			sectionAux = sectionDao.nameExist(name, id);
 			if (sectionAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
-								.getString(mensajeExistencia), null));
+								.getString(messageExistence), null));
 				((UIInput) toValidate).setValid(false);
 			}
 			if (!EncodeFilter.validarXSS(name, clientId,
@@ -271,7 +271,7 @@ public class SectionAction implements Serializable {
 	/**
 	 * Method to remove a section of the database
 	 * 
-	 * @return consultarPlots(): Consult the list of sections and returns to
+	 * @return consultSection(): Consult the list of sections and returns to
 	 *         manage view
 	 */
 	public String deleteSection() {
