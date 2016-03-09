@@ -141,6 +141,7 @@ public class ContratoAction implements Serializable {
 	 * Consult the list of contracts
 	 * 
 	 * @modify 31/08/2015 Andres.Gomez
+	 * @modify 08/03/2016 Mabell.Boada
 	 * 
 	 * @return retorno: redirects to the template to manage contracts.
 	 * 
@@ -149,49 +150,52 @@ public class ContratoAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		String enModal = ControladorContexto.getParam("param2");
+		String inModal = ControladorContexto.getParam("param2");
 		listaContrato = new ArrayList<Contrato>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
-		boolean desdeModal = (enModal != null && Constantes.SI.equals(enModal)) ? true
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessageSearch = new StringBuilder();
+		String messageSearch = "";
+		boolean fromModal = (inModal != null && Constantes.SI.equals(inModal)) ? true
 				: false;
-		String retorno = desdeModal ? "" : "gesContrato";
+		String retorno = fromModal ? "" : "gesContrato";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = contratoDao.cantidadContratos(consulta, parametros);
-			if (cantidad != null) {
-				if (desdeModal) {
-					paginador.paginarRangoDefinido(cantidad, 5);
+			busquedaAvanzada(consult, parameters, bundle, unionMessageSearch);
+			Long amount = contratoDao.cantidadContratos(consult, parameters);
+			if (amount != null) {
+				if (fromModal) {
+					paginador.paginarRangoDefinido(amount, 5);
 				} else {
-					paginador.paginar(cantidad);
+					paginador.paginar(amount);
 				}
 			}
 			listaContrato = contratoDao.consultarContratos(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
+					paginador.getInicio(), paginador.getRango(), consult,
+					parameters);
 			if ((listaContrato == null || listaContrato.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 			} else if (listaContrato == null || listaContrato.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle.getString("contract_label_s"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 			}
 			cargarDetallesContratos();
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			if (fromModal) {
+				validations.setMensajeBusquedaPopUp(messageSearch);
+			} else {
+				validations.setMensajeBusqueda(messageSearch);
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

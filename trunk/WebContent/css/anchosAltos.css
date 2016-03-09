@@ -99,6 +99,10 @@
 	height: 350px;
 }
 
+.H360P {
+	height: 360px;
+}
+
 .H373P {
 	height: 373px;
 }
@@ -112,7 +116,7 @@
 }
 
 .H485P {
-	height: 485px;
+	height: 485px !important;
 }
 
 .H544P {
@@ -323,6 +327,10 @@
 
 .W470P {
 	width: 470px;
+}
+
+.W490P {
+	width: 490px;
 }
 
 .W500P {

@@ -184,13 +184,20 @@
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
 									actionListener="#{personaAction.consultarPersonas}"
-									render="outputPersona">
+									render="outputPersona, outPutBuscarPersona">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
 							</h:panelGrid>
 						</t:fieldset>
 						<br />
-
+						<br />
+						<a:outputPanel>
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W520P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
+						<br />
 						<ui:param name="listaVacia"
 							value="#{personaAction.personas eq null or (empty personaAction.personas)}" />
 						<div align="right" class="W560P">
