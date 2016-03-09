@@ -64,6 +64,8 @@
 							value="#{mensajeLifeCycle.plot_inicial_date}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{cropsAction.crops.initialDate}"
+							required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
 							showOn="button" navigator="true"
 							maxdate="#{cropsAction.crops.finalDate}" onSelectUpdate="fechFin"
 							id="fechaInicio" pattern="MM/dd/yyyy" readonlyInput="true"
@@ -76,8 +78,9 @@
 							value="#{mensajeLifeCycle.plot_final_date}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{cropsAction.crops.finalDate}" showOn="button"
-							navigator="true" mindate="#{cropsAction.crops.initialDate}"
-							id="fechFin" pattern="MM/dd/yyyy" readonlyInput="true"
+							required="true" navigator="true"
+							mindate="#{cropsAction.crops.initialDate}" id="fechFin"
+							pattern="MM/dd/yyyy" readonlyInput="true"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:attribute name="validarHora" value="si" />
 							<p:ajax event="dateSelect" update="fechaInicio" />
@@ -97,8 +100,8 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputTextarea value="#{cropsAction.crops.description}"
-							styleClass="colTextoMedianoTextArea" id="txtDescripcion"
-							validator="#{encodeFilter.validarScripting}"
+							required="true" styleClass="colTextoMedianoTextArea"
+							id="txtDescripcion" validator="#{encodeFilter.validarScripting}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateLength maximum="500" />
 						</h:inputTextarea>
@@ -111,18 +114,15 @@
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
-				<t:fieldset styleClass="BorderW2P anchoDos ">
+				<t:fieldset styleClass="BorderW2P anchoDos " id="plots">
 					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_lable_plots_asociados}</legend>
 					<!-- Boton popup -->
 					<div class="W560P">
-						<a:commandLink id="lnkCrops" render=":popupForm:popupPlot"
+						<a:commandLink id="lnkCrops" render="popupPlot"
 							styleClass="iconsDataTable quitarDecoracionLink"
-							actionListener="#{cropsAction.requeridosOk()}"
+							execute="@this"
 							action="#{plotAction.consultarPlotPorFecha}"
-							execute="fechaInicio, fechFin, cropNames, txtDescripcion"
-							oncomplete="if (#{facesContext.maximumSeverity==null}){
-								#{rich:component('popupPlot')}.show(); setFocus('popupForm:txtNombreBuscar');}
-								else{ setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+							oncomplete="#{rich:component('popupPlot')}.show();">
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 								<h:graphicImage value="/img/add_16.png"
 									styleClass="verticalAlignMiddle" />
@@ -183,8 +183,8 @@
 				</t:fieldset>
 				<br />
 				<div align="center">
-					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
-						actionListener="#{cropsAction.requeridosOk()}" execute="formCrops"
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico,formCrops"
+						execute="formCrops"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_guardar}" />
 				</div>
@@ -349,7 +349,7 @@
 					<br />
 					<div align="center">
 						<a:commandButton value="#{mensaje.button_agregar}"
-							id="btnSeleccionar" render="formCrops"
+							id="btnSeleccionar" render="plots"
 							actionListener="#{plotAction.agregarSeleccionados()}"
 							action="#{cropsAction.agruparListasPlot()}" execute="popupPlot"
 							oncomplete="#{rich:component('popupPlot')}.hide();" />

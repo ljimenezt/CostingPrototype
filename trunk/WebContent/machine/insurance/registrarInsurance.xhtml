@@ -50,7 +50,7 @@
 							id="cmbMachinesTypes" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-								itemValue="0" />
+								itemValue="" />
 							<f:selectItems value="#{insuranceAction.opcionesMachinesType}" />
 							<f:ajax event="change"
 								listener="#{insuranceAction.llenarMachine()}"
