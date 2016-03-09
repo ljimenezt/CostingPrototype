@@ -43,7 +43,8 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="#{cropsAction.crops.idCrop ne 0 ? '' : '*'}"
 							styleClass="required" />
-						<a:outputPanel styleClass="#{cropsAction.crops.idCrop ne 0 ? 'marginTexto' : '' }">
+						<a:outputPanel
+							styleClass="#{cropsAction.crops.idCrop ne 0 ? 'marginTexto' : '' }">
 							<h:selectOneMenu id="cropNames"
 								rendered="#{cropsAction.crops.idCrop eq 0}"
 								value="#{cropsAction.crops.cropNames.idCropName}"
@@ -115,7 +116,7 @@
 					<!-- Boton popup -->
 					<div class="W560P">
 						<a:commandLink id="lnkCrops" render=":popupForm:popupPlot"
-							styleClass="iconsDataTable"
+							styleClass="iconsDataTable quitarDecoracionLink"
 							actionListener="#{cropsAction.requeridosOk()}"
 							action="#{plotAction.consultarPlotPorFecha}"
 							execute="fechaInicio, fechFin, cropNames, txtDescripcion"
@@ -269,90 +270,90 @@
 					</h:panelGroup>
 				</f:facet>
 				<rich:panel styleClass="H383P fondoAnchoUno W400P">
-						<t:fieldset styleClass="BorderW2P W350P">
-							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
-								#{mensajeLifeCycle.plot_names_label_s}</legend>
-							<h:panelGrid columns="3" cellpadding="7">
-								<h:outputText value="#{mensaje.label_nombre}"
-									styleClass="etiquetaTitulo" />
-								<h:inputText size="20" maxlength="100" id="txtNombreBuscar"
-									value="#{plotAction.nombreBuscar}"
-									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
-								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-									actionListener="#{plotAction.consultarPlotPorFecha}"
-									render="tPlot, paginadorPlot">
-									<f:param name="param2" value="si" />
-								</a:commandButton>
-							</h:panelGrid>
-						</t:fieldset>
-						<br />
-						<rich:messages for="tPlot" styleClass="messageInfSpan W350P" />
-						<br />
-						<ui:param name="listaVacia"
-							value="#{plotAction.listaPlotFecha eq null or (empty plotAction.listaPlotFecha)}" />
-						<div class="W370P">
-							<a:commandLink render="tPlot, paginadorPlot"
-								styleClass="quitarDecoracionLink iconsDataTable"
-								action="#{plotAction.consultarPlotPorFecha}"
-								actionListener="#{plotAction.setNombreBuscar(null)}">
-								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-									<h:graphicImage value="/img/listarTodos_16.png" />
-									<h:outputText value="#{mensaje.button_listar_todos}" />
-								</h:panelGrid>
+					<t:fieldset styleClass="BorderW2P W350P">
+						<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+							#{mensajeLifeCycle.plot_names_label_s}</legend>
+						<h:panelGrid columns="3" cellpadding="7">
+							<h:outputText value="#{mensaje.label_nombre}"
+								styleClass="etiquetaTitulo" />
+							<h:inputText size="20" maxlength="100" id="txtNombreBuscar"
+								value="#{plotAction.nombreBuscar}"
+								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
+							<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+								actionListener="#{plotAction.consultarPlotPorFecha}"
+								render="tPlot, paginadorPlot">
 								<f:param name="param2" value="si" />
-							</a:commandLink>
+							</a:commandButton>
+						</h:panelGrid>
+					</t:fieldset>
+					<br />
+					<rich:messages for="tPlot" styleClass="messageInfSpan W350P" />
+					<br />
+					<ui:param name="listaVacia"
+						value="#{plotAction.listaPlotFecha eq null or (empty plotAction.listaPlotFecha)}" />
+					<div class="W370P">
+						<a:commandLink render="tPlot, paginadorPlot"
+							styleClass="quitarDecoracionLink iconsDataTable"
+							action="#{plotAction.consultarPlotPorFecha}"
+							actionListener="#{plotAction.setNombreBuscar(null)}">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/listarTodos_16.png" />
+								<h:outputText value="#{mensaje.button_listar_todos}" />
+							</h:panelGrid>
+							<f:param name="param2" value="si" />
+						</a:commandLink>
+					</div>
+					<rich:dataTable value="#{plotAction.listaPlotFecha}" var="plot"
+						id="tPlot" footerClass="H130P"
+						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W370P"
+						rowClasses="odd-row, even-row">
+						<rich:column styleClass="colIconoUno">
+							<f:facet name="header" />
+							<h:selectBooleanCheckbox value="#{plot.seleccionado}" />
+						</rich:column>
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+							<h:outputText value="#{plot.name}" />
+						</rich:column>
+						<rich:column styleClass="colNumero">
+							<f:facet name="header">#{mensaje.label_size}</f:facet>
+							<h:outputText value="#{plot.size}" />
+						</rich:column>
+						<rich:column styleClass="colNumero">
+							<f:facet name="header">#{mensaje.label_enlace_mapa_ubicacion}</f:facet>
+							<h:outputText value="#{plot.locationLinkToMap}" />
+						</rich:column>
+						<f:facet name="footer">
+							<rich:columnGroup rendered="#{listaVacia}">
+								<rich:column colspan="5" styleClass="footTabla">
+									<h:outputText
+										value="#{mensaje.message_no_existen_registros_tabla}" />
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+					</rich:dataTable>
+					<a:outputPanel rendered="#{!listaVacia}" id="paginadorPlot">
+						<div class="W370P center inBlock">
+							<ui:include src="/plantillas/plantillaPaginador.xhtml">
+								<ui:param name="valParam2" value="si" />
+								<ui:param name="conParam2" value="1" />
+								<ui:param name="pager" value="paginador" />
+								<ui:param name="valReder"
+									value=":popupForm:paginadorPlot, :popupForm:tPlot" />
+								<ui:param name="beanActionParam" value="#{plotAction}" />
+								<ui:param name="metodoActionParam" value="consultarPlotPorFecha" />
+							</ui:include>
 						</div>
-							<rich:dataTable value="#{plotAction.listaPlotFecha}" var="plot"
-								id="tPlot" footerClass="H130P"
-								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W370P"
-								rowClasses="odd-row, even-row">
-								<rich:column styleClass="colIconoUno">
-									<f:facet name="header" />
-									<h:selectBooleanCheckbox value="#{plot.seleccionado}" />
-								</rich:column>
-								<rich:column styleClass="colTextoCorto">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
-									<h:outputText value="#{plot.name}" />
-								</rich:column>
-								<rich:column styleClass="colNumero">
-									<f:facet name="header">#{mensaje.label_size}</f:facet>
-									<h:outputText value="#{plot.size}" />
-								</rich:column>
-								<rich:column styleClass="colNumero">
-									<f:facet name="header">#{mensaje.label_enlace_mapa_ubicacion}</f:facet>
-									<h:outputText value="#{plot.locationLinkToMap}" />
-								</rich:column>
-								<f:facet name="footer">
-									<rich:columnGroup rendered="#{listaVacia}">
-										<rich:column colspan="5" styleClass="footTabla">
-											<h:outputText
-												value="#{mensaje.message_no_existen_registros_tabla}" />
-										</rich:column>
-									</rich:columnGroup>
-								</f:facet>
-							</rich:dataTable>
-							<a:outputPanel rendered="#{!listaVacia}" id="paginadorPlot">
-								<div class="W370P center inBlock">
-									<ui:include src="/plantillas/plantillaPaginador.xhtml">
-										<ui:param name="valParam2" value="si" />
-										<ui:param name="conParam2" value="1" />
-										<ui:param name="pager" value="paginador" />
-										<ui:param name="valReder" value=":popupForm:paginadorPlot, :popupForm:tPlot" />
-										<ui:param name="beanActionParam" value="#{plotAction}" />
-										<ui:param name="metodoActionParam"
-											value="consultarPlotPorFecha" />
-									</ui:include>
-								</div>
-							</a:outputPanel>
-							<br />
-							<br />
-							<div align="center">
-								<a:commandButton value="#{mensaje.button_agregar}"
-									id="btnSeleccionar" render="formCrops"
-									actionListener="#{plotAction.agregarSeleccionados()}"
-									action="#{cropsAction.agruparListasPlot()}" execute="popupPlot"
-									oncomplete="#{rich:component('popupPlot')}.hide();" />
-							</div>
+					</a:outputPanel>
+					<br />
+					<br />
+					<div align="center">
+						<a:commandButton value="#{mensaje.button_agregar}"
+							id="btnSeleccionar" render="formCrops"
+							actionListener="#{plotAction.agregarSeleccionados()}"
+							action="#{cropsAction.agruparListasPlot()}" execute="popupPlot"
+							oncomplete="#{rich:component('popupPlot')}.hide();" />
+					</div>
 				</rich:panel>
 			</rich:popupPanel>
 		</h:form>
