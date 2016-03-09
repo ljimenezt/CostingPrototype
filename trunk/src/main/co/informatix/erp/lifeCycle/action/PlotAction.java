@@ -410,7 +410,7 @@ public class PlotAction implements Serializable {
 	 */
 	private void listaFarms() throws Exception {
 		opcionesFarm = new ArrayList<SelectItem>();
-		List<Farm> listFarms = farmDao.listaFarms();
+		List<Farm> listFarms = farmDao.farmsList();
 		if (listFarms != null) {
 			for (Farm farms : listFarms) {
 				opcionesFarm.add(new SelectItem(farms.getIdFarm(), farms

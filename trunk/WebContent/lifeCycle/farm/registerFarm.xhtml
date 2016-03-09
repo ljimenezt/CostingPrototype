@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml"
 	xmlns:p="http://primefaces.org/ui">
-	<ui:param name="action" value="farmAction.agregarEditarFarm(null)" />
+	<ui:param name="action" value="farmAction.addEditFarm(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeLifeCycle.farm_label" />
 	<ui:define name="body">
@@ -30,7 +30,7 @@
 						<h:inputText value="#{farmAction.farm.name}"
 							styleClass="colTextoMediano" id="txtNombre" required="true"
 							size="41" maxlength="70"
-							validator="#{farmAction.validarNombreXSS}"
+							validator="#{farmAction.validateNameXSS}"
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="txtNombre" />
 
@@ -129,10 +129,10 @@
 							id="comboPaisFarm">
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 								itemValue="0" />
-							<f:selectItems value="#{farmAction.itemsPaises}" />
+							<f:selectItems value="#{farmAction.countryItems}" />
 							<a:ajax event="valueChange"
 								render="comboDepartamentoFarm, comboMunicipioFarm"
-								execute="@this" listener="#{farmAction.cargarDepartamentos}" />
+								execute="@this" listener="#{farmAction.loadDepartments}" />
 						</h:selectOneMenu>
 						<rich:message for="comboPaisFarm" />
 
@@ -143,9 +143,9 @@
 							id="comboDepartamentoFarm">
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 								itemValue="0" />
-							<f:selectItems value="#{farmAction.itemDepartamentos}" />
+							<f:selectItems value="#{farmAction.departmentItems}" />
 							<a:ajax event="change" render="comboMunicipioFarm"
-								listener="#{farmAction.cargarMunicipios}" execute="@this" />
+								listener="#{farmAction.loadMunicipalities}" execute="@this" />
 						</h:selectOneMenu>
 						<rich:message for="comboDepartamentoFarm" />
 
@@ -156,7 +156,7 @@
 							id="comboMunicipioFarm">
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 								itemValue="0" />
-							<f:selectItems value="#{farmAction.itemsMunicipios}" />
+							<f:selectItems value="#{farmAction.municipalityItems}" />
 						</h:selectOneMenu>
 						<rich:message for="comboMunicipioFarm" />
 
@@ -168,10 +168,10 @@
 						<h:panelGrid columns="1" cellspacing="0" cellpadding="0"
 							id="panelLogoFarm">
 							<a:outputPanel
-								rendered="#{farmAction.nombreFotoLogo != null and !(empty farmAction.nombreFotoLogo)}">
+								rendered="#{farmAction.logoPicName != null and !(empty farmAction.logoPicName)}">
 								<div class="uploadImg">
 									<div class="closeImg">
-										<a:commandLink action="#{farmAction.borrarFilename()}"
+										<a:commandLink action="#{farmAction.deleteFileName()}"
 											immediate="true" render=":formFarm:panelLogoFarm">
 											<h:graphicImage value="/img/close_14.png"
 												onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
@@ -180,21 +180,21 @@
 										</a:commandLink>
 									</div>
 									<h:graphicImage
-										value="#{farmAction.carpetaArchivosTemporal}/#{farmAction.nombreFotoLogo}"
-										title="#{farmAction.nombreFotoLogo}" styleClass="H200P W160P"
-										rendered="#{farmAction.cargarFotoTemporal}" />
+										value="#{farmAction.temporalFilesFolder}/#{farmAction.logoPicName}"
+										title="#{farmAction.logoPicName}" styleClass="H200P W160P"
+										rendered="#{farmAction.temporalPicLoading}" />
 									<h:graphicImage
-										value="#{farmAction.carpetaArchivos}/#{farmAction.nombreFotoLogo}"
-										title="#{farmAction.nombreFotoLogo}" styleClass="H200P W160P"
-										rendered="#{!farmAction.cargarFotoTemporal}" />
+										value="#{farmAction.filesFolder}/#{farmAction.logoPicName}"
+										title="#{farmAction.logoPicName}" styleClass="H200P W160P"
+										rendered="#{!farmAction.temporalPicLoading}" />
 								</div>
 							</a:outputPanel>
 							<a:outputPanel>
 								<h:graphicImage value="/img/noImage_240X203.png"
-									rendered="#{farmAction.nombreFotoLogo eq null or empty farmAction.nombreFotoLogo}"
+									rendered="#{farmAction.logoPicName eq null or empty farmAction.logoPicName}"
 									styleClass="H200P W160P" />
 								<p:fileUpload id="uploadLogo" dragDropSupport="true"
-									rendered="#{farmAction.nombreFotoLogo eq null or empty farmAction.nombreFotoLogo}"
+									rendered="#{farmAction.logoPicName eq null or empty farmAction.logoPicName}"
 									label="#{mensaje.label_seleccione_archivo}" mode="advanced"
 									auto="true" fileUploadListener="#{farmAction.submit}"
 									update="panelLogoFarm"
@@ -248,7 +248,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{farmAction.guardarFarm}"
+							action="#{farmAction.saveFarm}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

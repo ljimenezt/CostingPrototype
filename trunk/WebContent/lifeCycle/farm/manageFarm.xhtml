@@ -9,27 +9,27 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="farmAction.inicializarBusqueda" />
+	<ui:param name="action" value="farmAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeLifeCycle.farm_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{farmAction}" />
 		<ui:param name="listaVacia"
-			value="#{farmAction.listaFarms eq null or (empty farmAction.listaFarms)}" />
+			value="#{farmAction.farmsList eq null or (empty farmAction.farmsList)}" />
 		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{farmAction}" />
 		<ui:param name="renderLista" value="panelFarm vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarFarms" />
+		<ui:param name="metodoLista" value="searchFarms" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="farmAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarFarm" />
+		<ui:param name="metodoNuevo" value="addEditFarm" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
 		<h:form id="formFarm">
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listado_de} #{mensajeLifeCycle.farm_label_s}"
@@ -37,16 +37,16 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{farmAction.listaFarms}" var="farm"
+				<rich:dataTable value="#{farmAction.farmsList}" var="farm"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoAjustable">
 						<a:outputPanel>
-							<h:commandLink
-								onclick="#{rich:component('statPane')}.show();"
+							<h:commandLink onclick="#{rich:component('statPane')}.show();"
 								actionListener="#{plotAction.setFarm(farm)}"
 								action="#{plotAction.inicializarBusqueda()}">
-								<f:setPropertyActionListener target="#{plotAction.farmParameter}" value="true" />
+								<f:setPropertyActionListener
+									target="#{plotAction.farmParameter}" value="true" />
 								<h:graphicImage value="/img/add_16.png" />
 							</h:commandLink>
 							<rich:tooltip layout="block">
@@ -68,7 +68,7 @@
 					<rich:column styleClass="colTextoLargo">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 						<h:commandLink value="#{farm.name}"
-							action="#{farmAction.agregarEditarFarm(farm)}"
+							action="#{farmAction.addEditFarm(farm)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -137,7 +137,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelFarm" />
 							<ui:param name="beanActionParam" value="#{farmAction}" />
-							<ui:param name="metodoActionParam" value="consultarFarms" />
+							<ui:param name="metodoActionParam" value="searchFarms" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -160,13 +160,13 @@
 					<h:outputText value="#{mensaje.label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{farmAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{farmAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{farmAction.consultarFarms}"
+						actionListener="#{farmAction.searchFarms}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelFarm, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -198,7 +198,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{farmAction.eliminarFarm()}"
+							actionListener="#{farmAction.deleteFarm()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelFarm, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
