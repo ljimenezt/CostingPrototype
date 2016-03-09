@@ -9,8 +9,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="hrTypesAction.agregarEditarHrTypes(null)" />
+	<ui:param name="action" value="hrTypesAction.addEditHrTypes(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeRecursosHumanos.tipo_recurso_humano_label" />
 	<ui:define name="body">
@@ -43,7 +42,7 @@
 					<h:inputText value="#{hrTypesAction.hrTypes.name}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100"
-						validator="#{hrTypesAction.validarNombreXSS}"
+						validator="#{hrTypesAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
@@ -56,7 +55,6 @@
 						<f:validateLength maximum="200" />
 					</h:inputTextarea>
 					<rich:message for="txaDescription" />
-
 				</h:panelGrid>
 				<br />
 				<div align="center">
@@ -93,7 +91,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{hrTypesAction.guardaHrTypes}"
+							action="#{hrTypesAction.saveHrTypes}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

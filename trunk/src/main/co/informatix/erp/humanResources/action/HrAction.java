@@ -800,7 +800,7 @@ public class HrAction implements Serializable {
 	 */
 	private void cargarComboHrTypes() throws Exception {
 		itemsHrTypes = new ArrayList<SelectItem>();
-		List<HrTypes> tiposHrVigentes = hrTypesDao.consultarHrTypesVigentes();
+		List<HrTypes> tiposHrVigentes = hrTypesDao.queryHrTypes();
 		if (tiposHrVigentes != null) {
 			for (HrTypes hrType : tiposHrVigentes) {
 				itemsHrTypes.add(new SelectItem(hrType.getIdHrType(), hrType
