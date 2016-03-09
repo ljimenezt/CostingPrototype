@@ -23,7 +23,7 @@
 		$g(document).ready(function(){    
 				  $g('#formServiceType\\:txaDescripcion').maxlength({   
 				    events: [],     
-				    max: 250,    
+				    max: 200,    
 				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
 				    showFeedback: 'active'    
 				  }); 
@@ -37,16 +37,16 @@
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-					columnClasses="tdAlignTop,,,tdAlignTop">
-
+					columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 					<h:outputText value="#{mensaje.label_descripcion}"
 						styleClass="etiquetaTitulo" />
-					<h:outputText value="" styleClass="required" />
+					<h:outputText value="*" styleClass="required" />
 					<h:inputTextarea
 						value="#{serviceTypeAction.serviceType.description}"
 						styleClass="colTextoMedianoTextArea" id="txaDescripcion"
-						validator="#{encodeFilter.validarScripting}">
-						<f:validateLength maximum="250" />
+						validator="#{encodeFilter.validarScripting}" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:validateLength maximum="200" />
 					</h:inputTextarea>
 					<rich:message for="txaDescripcion" />
 				</h:panelGrid>
