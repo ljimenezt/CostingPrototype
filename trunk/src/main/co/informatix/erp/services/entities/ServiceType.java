@@ -43,6 +43,7 @@ public class ServiceType implements Serializable {
 	/**
 	 * @return description: service_types description of the table
 	 */
+	@Column(name = "description", length = 200)
 	public String getDescription() {
 		return description;
 	}
