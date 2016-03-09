@@ -24,31 +24,30 @@ public class FarmDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * This method consultation farm with a certain range sent as a parameter
-	 * and filtering the information sent search values.
+	 * This method look for farms with a certain range sent as a parameter and
+	 * the result is filtered according to some search values.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            : The record where the query result starts.
 	 * @param range
-	 *            : range of records
+	 *            : Range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
+	 *            : Query parameters.
 	 * @return List<Farm>: farms list
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Farm> consultarFarms(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
+	public List<Farm> searchFarms(int start, int range, StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT f FROM Farm f ");
 		query.append(consult);
 		query.append("ORDER BY f.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<Farm> resultList = q.getResultList();
@@ -59,75 +58,75 @@ public class FarmDao implements Serializable {
 	}
 
 	/**
-	 * Save a ranch in BD
+	 * Save a farm in the database.
 	 * 
 	 * @param farm
-	 *            : farm to save.
+	 *            : Farm to save.
 	 * @throws Exception
 	 */
-	public void guardarFarm(Farm farm) throws Exception {
+	public void saveFarm(Farm farm) throws Exception {
 		em.persist(farm);
 	}
 
 	/**
-	 * Edits a farm in BD
+	 * Edits a farm in the database.
 	 * 
 	 * @param farm
-	 *            : farm to edit.
+	 *            : Farm to edit.
 	 * @throws Exception
 	 */
-	public void editarFarm(Farm farm) throws Exception {
+	public void editFarm(Farm farm) throws Exception {
 		em.merge(farm);
 	}
 
 	/**
-	 * Remove a farm of the DB
+	 * Remove a farm of the database.
 	 * 
 	 * @param farm
-	 *            : farm to remove
+	 *            : Farm to remove.
 	 * @throws Exception
 	 */
-	public void eliminarFarm(Farm farm) throws Exception {
+	public void deleteFarm(Farm farm) throws Exception {
 		em.remove(em.merge(farm));
 	}
 
 	/**
-	 * Returns the number of existing farms in the database information by
-	 * filtering the search values sent.
+	 * Returns the number of existing farms in the database (information
+	 * filtered with search values)
 	 * 
-	 * @param consult
+	 * @param query
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
-	 * @return Long: amount of crop records found
+	 *            : Query parameters.
+	 * @return Long: Amount of crop records found.
 	 * @throws Exception
 	 */
-	public Long cantidadFarms(StringBuilder consult, List<SelectItem> parameters)
+	public Long amountFarms(StringBuilder query, List<SelectItem> parameters)
 			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(f) FROM Farm f ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(f) FROM Farm f ");
+		queryBuilder.append(query);
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * Consultation if the name of the farm exists in the database when storing
-	 * or editing.
+	 * Look for the name of the farm whether existing in the database when
+	 * storing or editing.
 	 * 
 	 * @param name
-	 *            : name of the farm to verify
+	 *            : Name of the farm to verify.
 	 * @param id
-	 *            : identifier of the property to check
-	 * @return Farm: farm object found with the search parameters name and
+	 *            : Identifier of the property to check
+	 * @return Farm: Farm object found with the search parameters name and
 	 *         identifier.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Farm nombreExiste(String name, int id) throws Exception {
+	public Farm nameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT f FROM Farm f ");
 		query.append("WHERE UPPER(f.name)=UPPER(:nombre) ");
@@ -147,24 +146,24 @@ public class FarmDao implements Serializable {
 	}
 
 	/**
-	 * Consult also article assigned to a farm, considering that they are only
-	 * those that are not null in the table
+	 * Query objects related with a farm, it is also queried the not null
+	 * objects.
 	 * 
 	 * @author Cristhian.Pico
 	 * 
-	 * @param nomObject
-	 *            : object found on the farm
+	 * @param objectName
+	 *            : Object found on the farm.
 	 * @param idFarm
-	 *            : identifier of the farm being queried
+	 *            : Identifier of the farm being queried.
 	 * @return Object information associated with the farm or null but there.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoFarm(String nomObject, int idFarm)
+	public Object searchFarmObject(String objectName, int idFarm)
 			throws Exception {
 		List<Object> results = em
 				.createQuery(
-						"SELECT f." + nomObject
+						"SELECT f." + objectName
 								+ " FROM Farm f WHERE f.id=:idFarm")
 				.setParameter("idFarm", idFarm).getResultList();
 
@@ -176,30 +175,30 @@ public class FarmDao implements Serializable {
 	}
 
 	/**
-	 * Method consulting the Farm object and stores it in a list
+	 * Method to search the Farm object and store it in a List.
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @return List<Farm>: Farms lists
+	 * @return List<Farm>: Farms list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Farm> listaFarms() throws Exception {
+	public List<Farm> farmsList() throws Exception {
 		Query q = em.createQuery("SELECT f FROM Farm f ");
 		return q.getResultList();
 
 	}
 
 	/**
-	 * This method allow consult all Farm stored in data base
+	 * This method queries all Farm stored in database.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
-	 * @return List<Farm>: all Farm stored in data base
+	 * @return List<Farm>: All Farm stored in database.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Farm> consultarAllFarm() throws Exception {
+	public List<Farm> queryFarms() throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT f FROM Farm f ");
 		Query q = em.createQuery(query.toString());
