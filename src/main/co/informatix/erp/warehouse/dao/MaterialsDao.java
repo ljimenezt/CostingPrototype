@@ -156,6 +156,7 @@ public class MaterialsDao implements Serializable {
 	 * This method allows consult the materials associated with a material type
 	 * 
 	 * @author Liseth.Jimenez
+	 * @modify Gerardo.Herrera
 	 * 
 	 * @param idMaterialType
 	 *            : Materials type identifier for consult to materials
@@ -168,10 +169,12 @@ public class MaterialsDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Materials m ");
-		query.append("WHERE m.materialType.idMaterialsType=:idMaterialType ");
+		query.append(idMaterialType != 0 ? "WHERE m.materialType.idMaterialsType=:idMaterialType "
+				: "");
 		query.append("ORDER BY m.name ");
-		Query q = em.createQuery(query.toString()).setParameter(
-				"idMaterialType", idMaterialType);
+		Query q = em.createQuery(query.toString());
+		if(idMaterialType != 0)
+		q.setParameter("idMaterialType", idMaterialType);
 		return q.getResultList();
 	}
 }

@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import co.informatix.erp.lifeCycle.entities.Farm;
 
@@ -29,6 +30,8 @@ import co.informatix.erp.lifeCycle.entities.Farm;
 public class Deposits implements Serializable {
 
 	private int idDeposit;
+	private boolean selected;
+
 	private Date dateTime;
 	private Date expireDate;
 	private Double initialQuantity;
@@ -41,6 +44,16 @@ public class Deposits implements Serializable {
 	private PurchaseInvoices purchaseInvoices;
 	private Farm farm;
 	private MeasurementUnits measurementUnits;
+
+	/**
+	 * Constructor
+	 */
+	public Deposits() {
+		this.materials = new Materials();
+		this.purchaseInvoices = new PurchaseInvoices();
+		this.farm=new Farm();
+		this.measurementUnits=new MeasurementUnits();
+	}
 
 	/**
 	 * @return idDeposit:Deposit identifier
@@ -241,6 +254,24 @@ public class Deposits implements Serializable {
 	 */
 	public void setMeasurementUnits(MeasurementUnits measurementUnits) {
 		this.measurementUnits = measurementUnits;
+	}
+
+	/**
+	 * @return selected: Flag to see if it is selected deposit, true is selected
+	 *         and false is not selected
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : Flag to see if it is selected deposit, true is selected and
+	 *            false is not selected
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override
