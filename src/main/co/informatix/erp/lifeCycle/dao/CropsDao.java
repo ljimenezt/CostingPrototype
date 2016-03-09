@@ -100,8 +100,9 @@ public class CropsDao implements Serializable {
 	 * Crops method that queries the object by its ID
 	 * 
 	 * @author Wilhelm.Boada
+	 * 
 	 * @param id
-	 *            : Identifier harvest to consult
+	 *            : Harvest identifier to consult
 	 * @return: Crops object found with the search parameter identifier
 	 * @throws Exception
 	 */
@@ -236,24 +237,5 @@ public class CropsDao implements Serializable {
 			return resultList;
 		}
 		return null;
-	}
-
-	/**
-	 * CropNames method that queries the object and saves it to a list
-	 * 
-	 * @author Mabell.Boada
-	 * @return List<CropNames>: List of crops
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Crops> listaDescriptionCropNames(int idCropsName)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT c FROM Crops c ");
-		query.append("WHERE c.cropNames.idCropName=:idCropsName ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idCropsName", idCropsName);
-		return q.getResultList();
-
 	}
 }

@@ -14,6 +14,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.event.FileUploadEvent;
+
 import co.informatix.erp.lifeCycle.dao.ActivityNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
@@ -28,8 +30,10 @@ import co.informatix.erp.services.dao.ServiceTypeDao;
 import co.informatix.erp.services.entities.ServiceType;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
+import co.informatix.erp.warehouse.dao.DepositsDao;
 import co.informatix.erp.warehouse.dao.MaterialsDao;
 import co.informatix.erp.warehouse.dao.MaterialsTypeDao;
 import co.informatix.erp.warehouse.entities.Materials;
@@ -60,13 +64,23 @@ public class CycleAction implements Serializable {
 	private Cycle cycle;
 	private Crops crops;
 	private String nameSearch;
-	private String messageCrumb;
+	private String nameDocument;
+	private String folderFile;
+	private String folderFileTemporal;
+	private boolean loadDocumentTemporal;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
 	private int idMaterialsType;
 	private int idMaterials;
+	private int idMachinesType;
+	private int idServicesType;
 	private int idActivitiesName;
+	private int quantity;
+	private int units;
+	private double quote;
 
+	@EJB
+	private FileUploadBean fileUploadBean;
 	@EJB
 	private CycleDao cycleDao;
 	@EJB
@@ -83,24 +97,26 @@ public class CycleAction implements Serializable {
 	private MachineTypesDao machineTypesDao;
 	@EJB
 	private ServiceTypeDao serviceTypeDao;
+	@EJB
+	private DepositsDao depositsDao;
 
 	/**
-	 * @return listCycles: List of cycles.
+	 * @return listCycles: cycles list.
 	 */
 	public List<Cycle> getListCycles() {
 		return listCycles;
 	}
 
 	/**
-	 * @param listaCycles
-	 *            : List of cycles.
+	 * @param listCycles
+	 *            : cycles list.
 	 */
 	public void setListCycles(List<Cycle> listCycles) {
 		this.listCycles = listCycles;
 	}
 
 	/**
-	 * @return optionsCropNames: crop name associated with an cycle.
+	 * @return optionsCropNames: crop name associated with a cycle.
 	 */
 	public List<SelectItem> getOptionsCropNames() {
 		return optionsCropNames;
@@ -108,14 +124,14 @@ public class CycleAction implements Serializable {
 
 	/**
 	 * @param optionsCropNames
-	 *            :crop name associated with an cycle.
+	 *            :crop name associated with a cycle.
 	 */
 	public void setptionsCropNames(List<SelectItem> optionsCropNames) {
 		this.optionsCropNames = optionsCropNames;
 	}
 
 	/**
-	 * @return optionsCrops: crops associated with an cycle.
+	 * @return optionsCrops: crops associated with a cycle.
 	 */
 	public List<SelectItem> getOptionsCrops() {
 		return optionsCrops;
@@ -123,7 +139,7 @@ public class CycleAction implements Serializable {
 
 	/**
 	 * @param optionsCrops
-	 *            :crops associated with an cycle.
+	 *            :crops associated with a cycle.
 	 */
 	public void setOptionsCrops(List<SelectItem> optionsCrops) {
 		this.optionsCrops = optionsCrops;
@@ -258,14 +274,14 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Gets the search parameter in the system.
+	 * @return nameSearch: Gets the search parameter in the system.
 	 */
 	public String getNameSearch() {
 		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            :Sets the search parameter in the system.
 	 */
 	public void setNameSearch(String nameSearch) {
@@ -273,18 +289,73 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * @return messageCrumb: message crumb of bread in the record template.
+	 * @return nameDocument: file name that has the information associated to
+	 *         the services.
 	 */
-	public String getMessageCrumb() {
-		return messageCrumb;
+	public String getNameDocument() {
+		return nameDocument;
 	}
 
 	/**
-	 * @param messageCrumb
-	 *            :message crumb of bread in the record template.
+	 * @param nameDocument
+	 *            : file name that has the information associated to the
+	 *            services.
 	 */
-	public void setMessageCrumb(String messageCrumb) {
-		this.messageCrumb = messageCrumb;
+	public void setNameDocument(String nameDocument) {
+		this.nameDocument = nameDocument;
+	}
+
+	/**
+	 * @return folderFile: route real folder where the pictures of the document
+	 *         of the cycle are loaded.
+	 */
+	public String getFolderFile() {
+		this.folderFile = Constantes.CARPETA_ARCHIVOS_SUBIDOS;
+		return folderFile;
+	}
+
+	/**
+	 * @return folderFileTemporal: path of the temporary folder where the
+	 *         document of the cycle are loaded.
+	 */
+	public String getFolderFileTemporal() {
+		this.folderFileTemporal = Constantes.CARPETA_ARCHIVOS_SUBIDOS
+				+ Constantes.CARPETA_ARCHIVOS_TEMP;
+		return folderFileTemporal;
+	}
+
+	/**
+	 * 
+	 * @return fileUploadBean: Variable that gets the object for uploading
+	 *         files.
+	 */
+	public FileUploadBean getFileUploadBean() {
+		return fileUploadBean;
+	}
+
+	/**
+	 * @param fileUploadBean
+	 *            : field that gets the object for uploading files.
+	 */
+	public void setFileUploadBean(FileUploadBean fileUploadBean) {
+		this.fileUploadBean = fileUploadBean;
+	}
+
+	/**
+	 * @return loadDocumentTemporal: Flag indicating whether the picture is
+	 *         loaded from the temporary location or not
+	 */
+	public boolean getLoadDocumentTemporal() {
+		return loadDocumentTemporal;
+	}
+
+	/**
+	 * @param loadDocumentTemporal
+	 *            : Flag indicating whether the picture is loaded from the
+	 *            temporary location or not
+	 */
+	public void setLoadDocumentTemporal(boolean loadDocumentTemporal) {
+		this.loadDocumentTemporal = loadDocumentTemporal;
 	}
 
 	/**
@@ -350,18 +421,93 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * @return idMaterials: materials identifier.
+	 * @return idMachinesType: machines type identifier.
+	 */
+	public int getIdMachinesType() {
+		return idMachinesType;
+	}
+
+	/**
+	 * @param idMachinesType
+	 *            : machines type identifier.
+	 */
+	public void setIdMachinesType(int idMachinesType) {
+		this.idMachinesType = idMachinesType;
+	}
+
+	/**
+	 * @return idServicesType: services type identifier.
+	 */
+	public int getIdServicesType() {
+		return idServicesType;
+	}
+
+	/**
+	 * @param idServicesType
+	 *            : services type identifier.
+	 */
+	public void setIdServicesType(int idServicesType) {
+		this.idServicesType = idServicesType;
+	}
+
+	/**
+	 * @return idActivitiesName: activitiesName identifier.
 	 */
 	public int getIdActivitiesName() {
 		return idActivitiesName;
 	}
 
 	/**
-	 * @param idMaterials
-	 *            : materials identifier.
+	 * @param idActivitiesName
+	 *            : activitiesName identifier.
 	 */
 	public void setIdActivitiesName(int idActivitiesName) {
 		this.idActivitiesName = idActivitiesName;
+	}
+
+	/**
+	 * @return quantity: materials quantity associated to the cycle.
+	 */
+	public int getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * @param quantity
+	 *            : materials quantity associated to the cycle.
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	/**
+	 * @return units: materials units associated to the cycle.
+	 */
+	public int getUnits() {
+		return units;
+	}
+
+	/**
+	 * @param units
+	 *            : materials units associated to the cycle.
+	 */
+	public void setUnits(int units) {
+		this.units = units;
+	}
+
+	/**
+	 * @return quote: services quote associated to the cycle.
+	 */
+	public double getQuote() {
+		return quote;
+	}
+
+	/**
+	 * @param quote
+	 *            : services quote associated to the cycle.
+	 */
+	public void setQuote(double quote) {
+		this.quote = quote;
 	}
 
 	/**
@@ -372,11 +518,11 @@ public class CycleAction implements Serializable {
 		this.initialDateSearch = null;
 		this.finalDateSearch = null;
 		this.cycle = new Cycle();
-		consultarCycles();
+		consultCycles();
 	}
 
 	/**
-	 * Method to edit or create a new assignment of cycle.
+	 * Method to initialize cycles.
 	 * 
 	 * @param cycle
 	 *            :Object of cycle are adding or editing.
@@ -384,7 +530,7 @@ public class CycleAction implements Serializable {
 	 * @return gesCycle: Template redirects to management Cycle.
 	 * 
 	 */
-	public String inicializateCycles(Cycle cycle) {
+	public String initializeCycle(Cycle cycle) {
 		try {
 			crops = cropsDao.descriptionSearch(Constantes.COSECHA);
 			if (crops != null) {
@@ -406,7 +552,7 @@ public class CycleAction implements Serializable {
 	 * @return regCycle: Template redirects to register Cycle.
 	 * 
 	 */
-	public String agregarEditarCycles(Cycle cycle) {
+	public String addEditCycles(Cycle cycle) {
 		try {
 			if (cycle != null) {
 				this.cycle = cycle;
@@ -415,6 +561,7 @@ public class CycleAction implements Serializable {
 				int idCropsName = this.crops.getCropNames().getIdCropName();
 				this.crops.setCropNames(cropNamesDao.cropNamesXId(idCropsName));
 				this.cycle.setCrops(this.crops);
+				clearFields();
 				loadCombos();
 
 			} else {
@@ -423,6 +570,9 @@ public class CycleAction implements Serializable {
 				this.cycle.setCrops(cropsDao
 						.descriptionSearch(Constantes.COSECHA));
 				this.cycle.setActiviyNames(new ActivityNames());
+				this.nameDocument = null;
+				this.loadDocumentTemporal = true;
+				clearFields();
 			}
 			loadActivities();
 			loadCropNames();
@@ -430,6 +580,20 @@ public class CycleAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return "regCycle";
+	}
+
+	/**
+	 * This method allows clean the fields.
+	 * 
+	 */
+	private void clearFields() {
+		this.idMachinesType = 0;
+		this.idMaterials = 0;
+		this.idMaterialsType = 0;
+		this.idServicesType = 0;
+		this.quantity = 0;
+		this.units = 0;
+		this.quote = 0;
 	}
 
 	/**
@@ -479,11 +643,10 @@ public class CycleAction implements Serializable {
 	 * 
 	 */
 	public void loadMaterialsType() {
-		itemsMaterialsType = new ArrayList<SelectItem>();
-
-		List<MaterialsType> materialsType;
 		try {
-			materialsType = materialsTypeDao.consultMaterialsTypes();
+			itemsMaterialsType = new ArrayList<SelectItem>();
+			List<MaterialsType> materialsType = materialsTypeDao
+					.consultMaterialsTypes();
 			if (materialsType != null) {
 				for (MaterialsType materialsTypes : materialsType) {
 					itemsMaterialsType.add(new SelectItem(materialsTypes
@@ -502,10 +665,10 @@ public class CycleAction implements Serializable {
 	public void loadMaterials() {
 		try {
 			itemsMaterials = new ArrayList<SelectItem>();
-			List<Materials> listaCropsVigentes = materialsDao
+			List<Materials> materialsList = materialsDao
 					.consultMaterialsByType(idMaterialsType);
-			if (listaCropsVigentes != null) {
-				for (Materials materials : listaCropsVigentes) {
+			if (materialsList != null) {
+				for (Materials materials : materialsList) {
 					itemsMaterials.add(new SelectItem(
 							materials.getIdMaterial(), materials.getName()));
 				}
@@ -520,10 +683,10 @@ public class CycleAction implements Serializable {
 	 * 
 	 */
 	public void loadMachines() {
-		itemsMachinesType = new ArrayList<SelectItem>();
-		List<MachineTypes> listMachinetypes;
 		try {
-			listMachinetypes = machineTypesDao.listMachineType();
+			itemsMachinesType = new ArrayList<SelectItem>();
+			List<MachineTypes> listMachinetypes = machineTypesDao
+					.listMachineType();
 			if (listMachinetypes != null) {
 				for (MachineTypes machineTypes : listMachinetypes) {
 					itemsMachinesType.add(new SelectItem(machineTypes
@@ -540,10 +703,10 @@ public class CycleAction implements Serializable {
 	 * 
 	 */
 	public void loadServices() {
-		itemsServicesType = new ArrayList<SelectItem>();
-		List<ServiceType> listServiceType;
 		try {
-			listServiceType = serviceTypeDao.consultarServicesTypes();
+			itemsServicesType = new ArrayList<SelectItem>();
+			List<ServiceType> listServiceType = serviceTypeDao
+					.consultarServicesTypes();
 			if (listServiceType != null) {
 				for (ServiceType serviceType : listServiceType) {
 					itemsServicesType.add(new SelectItem(serviceType
@@ -596,7 +759,7 @@ public class CycleAction implements Serializable {
 	/**
 	 * See the list of cycles depending on the crop.
 	 */
-	public void consultarCycles() {
+	public void consultCycles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeLifeCycle");
@@ -692,7 +855,7 @@ public class CycleAction implements Serializable {
 	/**
 	 * Method to remove a cycles of the database.
 	 * 
-	 * @return initializeCycles(): Consult the list of cycles and returns to
+	 * @return initializeSearch(): Consult the list of cycles and returns to
 	 *         manage view.
 	 */
 	public void deleteCycle() {
@@ -716,6 +879,8 @@ public class CycleAction implements Serializable {
 	/**
 	 * This method allows update the budget cost for a cycle.
 	 * 
+	 * @return initializeCycle(): Consult the list of cycles and returns to
+	 *         manage view.
 	 */
 	public String updateCycleBudget() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -733,14 +898,14 @@ public class CycleAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return inicializateCycles(this.cycle);
+		return initializeCycle(this.cycle);
 	}
 
 	/**
 	 * Method used to save or edit cycles
 	 * 
-	 * @return inicializateCycles: Redirects to manage the list of cycles with
-	 *         cycles updated
+	 * @return initializeCycle(): Redirects to manage the list of cycles with
+	 *         cycles updated.
 	 */
 	public String saveUpdateCycle() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -763,34 +928,105 @@ public class CycleAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return inicializateCycles(cycle);
+		return initializeCycle(cycle);
 	}
 
 	/**
-	 * This method validate the required fields.
+	 * Method allows you to load the file system.
+	 * 
+	 * @param e
+	 *            : Fileupload event for the file to be uploaded to the server.
 	 */
-	public void requiredOk() {
+	public void submit(FileUploadEvent e) {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String extAceptadas[] = Constantes.EXT_DOC_PDF.split(", ");
+		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFolderFileTemporal() };
+		fileUploadBean.setUploadedFile(e.getFile());
+		long maximuSizeFile = Constantes.TAMANYO_MAX_ARCHIVOS;
+		String resultUpload = fileUploadBean.uploadValTamanyo(extAceptadas,
+				ubicaciones, maximuSizeFile);
+		String message = "";
+		if (Constantes.UPLOAD_EXT_INVALIDA.equals(resultUpload)) {
+			message = "error_ext_invalida";
+		} else if (Constantes.UPLOAD_TAMANO_INVALIDA.equals(resultUpload)) {
+			String format = MessageFormat.format(
+					bundle.getString("error_tamanyo_invalido"),
+					maximuSizeFile, "MB");
+			ControladorContexto.mensajeError(
+					"formRegisterCycle:uploadDocument", format);
+		} else if (Constantes.UPLOAD_NULL.equals(resultUpload)) {
+			message = "error_carga_archivo";
+		}
+		if (!"".equals(message)) {
+			ControladorContexto.mensajeError(
+					"formRegisterCycle:uploadDocument",
+					bundle.getString(message));
+		}
+		this.nameDocument = fileUploadBean.getFileName();
+	}
+
+	/**
+	 * Delete the file name.
+	 * 
+	 */
+	public void deleteFilename() {
+		if (this.nameDocument != null && !"".equals(this.nameDocument)
+				&& this.loadDocumentTemporal) {
+			deleteFile(this.nameDocument);
+		}
+		this.nameDocument = null;
+		fileUploadBean.setFileName(null);
+	}
+
+	/**
+	 * Delete the files.
+	 * 
+	 * @param fileName
+	 *            : Name of the file to delete.
+	 * 
+	 */
+	public void deleteFile(String fileName) {
+		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFolderFileTemporal() };
+		fileUploadBean.delete(ubicaciones, fileName);
+	}
+
+	/**
+	 * This method allows validate the materials quantity in the deposit.
+	 * 
+	 */
+	public void validateQuantityMaterials() {
 		try {
-			if (this.cycle.getActiviyNames().getIdActivityName() == 0) {
-				ControladorContexto
-						.mensajeRequeridos("formRegisterCycle:activities");
-			}
-			if (this.cycle.getInitialDateTime() == null
-					|| "".equals(this.cycle.getInitialDateTime())) {
-				ControladorContexto
-						.mensajeRequeridos("formRegisterCycle:fechaInicio");
-			}
-			if (this.cycle.getFinalDateTime() == null
-					|| "".equals(this.cycle.getFinalDateTime())) {
-				ControladorContexto
-						.mensajeRequeridos("formRegisterCycle:fechaFinal");
-			}
-			if (this.cycle.getCycleNumber() == 0) {
-				ControladorContexto
-						.mensajeRequeridos("formRegisterCycle:cycleNumber");
+			ResourceBundle bundle = ControladorContexto
+					.getBundle("mensajeLifeCycle");
+			if (this.cycle.getMaterialsRequired()) {
+				boolean materialFlag = depositsDao
+						.associatedMaterialsDeposits(idMaterials);
+				Materials material = materialsDao.materialsById(idMaterials);
+
+				if (materialFlag) {
+					Double quantityActual = depositsDao
+							.quantityMaterialsById(idMaterials);
+					if (this.quantity > quantityActual) {
+						ControladorContexto
+								.mensajeError(
+										"formRegisterCycle:quantity",
+										MessageFormat.format(
+												bundle.getString("cylcle_message_not_enough_materials"),
+												material.getName()));
+					}
+				} else {
+					ControladorContexto.mensajeError(
+							"formRegisterCycle:quantity",
+							MessageFormat.format(bundle
+									.getString("cycle_message_no_materials"),
+									material.getName()));
+				}
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+
 	}
 }

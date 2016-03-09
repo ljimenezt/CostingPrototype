@@ -229,6 +229,9 @@ public class Constantes implements Serializable {
 			.getProperty("locate.ext.permitidas.xls");
 	public static final String EXT_DOC = PropertiesManager
 			.getProperty("locate.ext.permitidas.doc");
+	public static final String EXT_DOC_PDF = PropertiesManager
+			.getProperty("locate.ext.permitidas.doc.docx.pdf");
+	
 
 	/* Maximum size in MB, for uploading files */
 	public static final long TAMANYO_MAX_ARCHIVOS = Long
