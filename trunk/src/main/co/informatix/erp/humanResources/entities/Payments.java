@@ -41,7 +41,7 @@ public class Payments implements Serializable {
 	private Double netAmount;
 	private Double grossAmount;
 
-	private Contrato contrato;
+	private Contrato contract;
 	private Hr hr;
 
 	/**
@@ -180,20 +180,20 @@ public class Payments implements Serializable {
 	}
 
 	/**
-	 * @return contrato: Contract related to the payment order.
+	 * @return contract: Contract related to the payment order.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcontract", referencedColumnName = "id", nullable = false)
-	public Contrato getContrato() {
-		return contrato;
+	public Contrato getContract() {
+		return contract;
 	}
 
 	/**
-	 * @param contrato
+	 * @param contract
 	 *            : Contract related to the payment order.
 	 */
-	public void setContrato(Contrato contrato) {
-		this.contrato = contrato;
+	public void setContract(Contrato contract) {
+		this.contract = contract;
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class Payments implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((contrato == null) ? 0 : contrato.hashCode());
+				+ ((contract == null) ? 0 : contract.hashCode());
 		result = prime * result
 				+ ((emissionDate == null) ? 0 : emissionDate.hashCode());
 		result = prime * result
@@ -246,10 +246,10 @@ public class Payments implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Payments other = (Payments) obj;
-		if (contrato == null) {
-			if (other.contrato != null)
+		if (contract == null) {
+			if (other.contract != null)
 				return false;
-		} else if (!contrato.equals(other.contrato))
+		} else if (!contract.equals(other.contract))
 			return false;
 		if (emissionDate == null) {
 			if (other.emissionDate != null)
