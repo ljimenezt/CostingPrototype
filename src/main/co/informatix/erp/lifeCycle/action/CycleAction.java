@@ -939,20 +939,20 @@ public class CycleAction implements Serializable {
 	 */
 	public void submit(FileUploadEvent e) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String extAceptadas[] = Constantes.EXT_DOC_PDF.split(", ");
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+		String extAccepted[] = Constantes.EXT_DOC_PDF.split(", ");
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
 				+ getFolderFileTemporal() };
 		fileUploadBean.setUploadedFile(e.getFile());
 		long maximuSizeFile = Constantes.TAMANYO_MAX_ARCHIVOS;
-		String resultUpload = fileUploadBean.uploadValTamanyo(extAceptadas,
-				ubicaciones, maximuSizeFile);
+		String resultUpload = fileUploadBean.uploadValTamanyo(extAccepted,
+				locations, maximuSizeFile);
 		String message = "";
 		if (Constantes.UPLOAD_EXT_INVALIDA.equals(resultUpload)) {
 			message = "error_ext_invalida";
 		} else if (Constantes.UPLOAD_TAMANO_INVALIDA.equals(resultUpload)) {
 			String format = MessageFormat.format(
-					bundle.getString("error_tamanyo_invalido"),
-					maximuSizeFile, "MB");
+					bundle.getString("error_tamanyo_invalido"), maximuSizeFile,
+					"MB");
 			ControladorContexto.mensajeError(
 					"formRegisterCycle:uploadDocument", format);
 		} else if (Constantes.UPLOAD_NULL.equals(resultUpload)) {
@@ -987,9 +987,9 @@ public class CycleAction implements Serializable {
 	 * 
 	 */
 	public void deleteFile(String fileName) {
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
 				+ getFolderFileTemporal() };
-		fileUploadBean.delete(ubicaciones, fileName);
+		fileUploadBean.delete(locations, fileName);
 	}
 
 	/**
