@@ -27,6 +27,7 @@ import co.informatix.erp.warehouse.dao.MaterialsTypeDao;
 import co.informatix.erp.warehouse.dao.MeasurementUnitsDao;
 import co.informatix.erp.warehouse.dao.PurchaseInvoicesDao;
 import co.informatix.erp.warehouse.dao.SuppliersDao;
+import co.informatix.erp.warehouse.dao.TransactionsDao;
 import co.informatix.erp.warehouse.entities.Deposits;
 import co.informatix.erp.warehouse.entities.Materials;
 import co.informatix.erp.warehouse.entities.MaterialsType;
@@ -38,6 +39,7 @@ import co.informatix.erp.warehouse.entities.PurchaseInvoices;
  * deposits.
  * 
  * @author Sergio.Ortiz
+ * @modify 08/03/2016 Gerardo.Herrera
  * 
  */
 @SuppressWarnings("serial")
@@ -59,23 +61,30 @@ public class DepositsAction implements Serializable {
 	private MaterialsTypeDao materialsTypeDao;
 	@EJB
 	private SuppliersDao suppliersDao;
+	@EJB
+	private TransactionsDao transactionsDao;
 
 	private Paginador paginador = new Paginador();
 
 	private Deposits deposits;
+	private Deposits depositActualSelected;
+	private Deposits depositDetails;
 
-	private Date fechaInicioBuscar;
-	private Date fechaFinBuscar;
+	private TransactionsAction transactionsAction;
+
+	private Date dateStartSearch;
+	private Date dateEndSearch;
 
 	private Double unitCost;
 
-	private List<Deposits> listaDeposits;
+	private List<Deposits> listDeposits;
 	private List<SelectItem> itemsMaterial;
 	private List<SelectItem> itemsFarm;
 	private List<SelectItem> itemsMeasurementUnits;
 	private List<SelectItem> itemsMaterialType;
 
 	private int idMaterialType;
+	private int idMaterial;
 
 	/**
 	 * @return paginador: The paging controller object.
@@ -108,18 +117,62 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
-	 * @return listaDeposits: list with all deposits stored in data base
+	 * @return depositActualSelected: Deposit selected in the deposits table
 	 */
-	public List<Deposits> getListaDeposits() {
-		return listaDeposits;
+	public Deposits getDepositActualSelected() {
+		return depositActualSelected;
 	}
 
 	/**
-	 * @param listaDeposits
+	 * @param depositActualSelected
+	 *            : Deposit selected in the deposits table
+	 */
+	public void setDepositActualSelected(Deposits depositActualSelected) {
+		this.depositActualSelected = depositActualSelected;
+	}
+	
+	/**
+	 * @return depositDetails: Object deposit for details
+	 */
+	public Deposits getDepositDetails() {
+		return depositDetails;
+	}
+
+	/**
+	 * @param depositDetails: Object deposit for details
+	 */
+	public void setDepositDetails(Deposits depositDetails) {
+		this.depositDetails = depositDetails;
+	}
+
+	/**
+	 * @return transactionsAction: Object of transaction action
+	 */
+	public TransactionsAction getTransactionsAction() {
+		return transactionsAction;
+	}
+
+	/**
+	 * @param transactionsAction
+	 *            : Object of transaction action
+	 */
+	public void setTransactionsAction(TransactionsAction transactionsAction) {
+		this.transactionsAction = transactionsAction;
+	}
+
+	/**
+	 * @return listDeposits: list with all deposits stored in data base
+	 */
+	public List<Deposits> getListDeposits() {
+		return listDeposits;
+	}
+
+	/**
+	 * @param listDeposits
 	 *            : list with all deposits stored in data base
 	 */
-	public void setListaDeposits(List<Deposits> listaDeposits) {
-		this.listaDeposits = listaDeposits;
+	public void setListDeposits(List<Deposits> listDeposits) {
+		this.listDeposits = listDeposits;
 	}
 
 	/**
@@ -188,37 +241,37 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
-	 * @return fechaInicioBuscar: Determines the initial range to search for
+	 * @return dateStartSearch: Determines the initial range to search for
 	 *         deposits in the system
 	 */
-	public Date getFechaInicioBuscar() {
-		return fechaInicioBuscar;
+	public Date getDateStartSearch() {
+		return dateStartSearch;
 	}
 
 	/**
-	 * @param fechaInicioBuscar
+	 * @param dateStartSearch
 	 *            : Determines the initial range to search for deposits in the
 	 *            system
 	 */
-	public void setFechaInicioBuscar(Date fechaInicioBuscar) {
-		this.fechaInicioBuscar = fechaInicioBuscar;
+	public void setDateStartSearch(Date dateStartSearch) {
+		this.dateStartSearch = dateStartSearch;
 	}
 
 	/**
-	 * @return fechaFinBuscar: Determines the final range to search for deposits
+	 * @return dateEndSearch: Determines the final range to search for deposits
 	 *         in the system
 	 */
-	public Date getFechaFinBuscar() {
-		return fechaFinBuscar;
+	public Date getDateEndSearch() {
+		return dateEndSearch;
 	}
 
 	/**
-	 * @param fechaFinBuscar
+	 * @param dateEndSearch
 	 *            : Determines the final range to search for deposits in the
 	 *            system
 	 */
-	public void setFechaFinBuscar(Date fechaFinBuscar) {
-		this.fechaFinBuscar = fechaFinBuscar;
+	public void setDateEndSearch(Date dateEndSearch) {
+		this.dateEndSearch = dateEndSearch;
 	}
 
 	/**
@@ -252,30 +305,62 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
+	 * @return idMaterial: Identifier of material
+	 */
+	public int getIdMaterial() {
+		return idMaterial;
+	}
+
+	/**
+	 * @param idMaterial
+	 *            : Identifier of material
+	 */
+	public void setIdMaterial(int idMaterial) {
+		this.idMaterial = idMaterial;
+	}
+
+	/**
 	 * Method to initialize the fields in the search.
+	 * 
+	 * @modify 08/03/2016 Gerardo.Herrera
 	 * 
 	 * @return consultarMateriales: Materials consulting method and redirects to
 	 *         the template to manage materials.
 	 */
 	public String inicializarBusqueda() {
-		this.fechaInicioBuscar = null;
-		this.fechaFinBuscar = null;
+		if (ControladorContexto.getFacesContext() != null) {
+			this.transactionsAction = ControladorContexto
+					.getContextBean(TransactionsAction.class);
+		}
+		this.idMaterial = 0;
+		this.idMaterialType = 0;
+		this.depositActualSelected = null;
+		this.dateStartSearch = null;
+		this.dateEndSearch = null;
 		this.deposits = new Deposits();
-		return consultarDeposits();
+		try {
+			this.loadMaterialsType();
+			this.loadMaterials();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return consultDeposits();
 	}
 
 	/**
 	 * Consult the list of Deposits
 	 * 
+	 * @modify 07/03/2016 Gerardo.Herrera
+	 * 
 	 * @return gesDeposits: Navigation rule that redirects to manage deposits
 	 */
-	public String consultarDeposits() {
+	public String consultDeposits() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
 				.getBundle("mensajeWarehouse");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaDeposits = new ArrayList<Deposits>();
+		this.listDeposits = new ArrayList<Deposits>();
 		List<SelectItem> parametros = new ArrayList<SelectItem>();
 		StringBuilder consulta = new StringBuilder();
 		StringBuilder unionMensajesBusqueda = new StringBuilder();
@@ -288,17 +373,17 @@ public class DepositsAction implements Serializable {
 				paginador.paginar(cantidad);
 			}
 			if (cantidad != null && cantidad > 0) {
-				listaDeposits = depositsDao.consultDeposits(
+				listDeposits = depositsDao.consultDeposits(
 						paginador.getInicio(), paginador.getRango(), consulta,
 						parametros);
 			}
-			if ((listaDeposits == null || listaDeposits.size() <= 0)
+			if ((listDeposits == null || listDeposits.size() <= 0)
 					&& !"".equals(unionMensajesBusqueda.toString())) {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionMensajesBusqueda);
-			} else if (listaDeposits == null || listaDeposits.size() <= 0) {
+			} else if (listDeposits == null || listDeposits.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
 			} else if (!"".equals(unionMensajesBusqueda.toString())) {
@@ -309,7 +394,6 @@ public class DepositsAction implements Serializable {
 										.getString("deposits_label"),
 								unionMensajesBusqueda);
 			}
-			cargarDetallesDeposits();
 			validaciones.setMensajeBusqueda(mensajeBusqueda);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -321,6 +405,8 @@ public class DepositsAction implements Serializable {
 	 * This method allows to build the query to the advanced search and allows
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
+	 * 
+	 * @modify 01/03/2016 Gerardo.Herrera
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -336,65 +422,42 @@ public class DepositsAction implements Serializable {
 			StringBuilder unionMessagesSearch) {
 		SimpleDateFormat formato = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
+		boolean queryAdded = false;
 
-		if (this.fechaInicioBuscar != null && this.fechaFinBuscar != null) {
-			consult.append("WHERE d.dateTime BETWEEN :fechaInicioBuscar AND :fechaFinBuscar ");
-			SelectItem item = new SelectItem(fechaInicioBuscar,
-					"fechaInicioBuscar");
+		if (this.idMaterialType > 0) {
+			consult.append(queryAdded ? "AND " : "WHERE ");
+			consult.append("d.materials.materialType.idMaterialsType = :idMaterialType ");
+			SelectItem item = new SelectItem(this.idMaterialType,
+					"idMaterialType");
 			parameters.add(item);
-			SelectItem item2 = new SelectItem(fechaFinBuscar, "fechaFinBuscar");
+			queryAdded = true;
+		}
+
+		if (this.idMaterial > 0) {
+			consult.append(queryAdded ? "AND " : "WHERE ");
+			consult.append("d.materials.id = :idMaterial ");
+			SelectItem item = new SelectItem(this.idMaterial, "idMaterial");
+			parameters.add(item);
+			queryAdded = true;
+		}
+
+		if (this.dateStartSearch != null && this.dateEndSearch != null) {
+			consult.append(queryAdded ? "AND " : "WHERE ");
+			consult.append("d.dateTime BETWEEN :dateStartSearch AND :dateEndSearch ");
+			SelectItem item = new SelectItem(dateStartSearch,
+					"dateStartSearch");
+			parameters.add(item);
+			SelectItem item2 = new SelectItem(dateEndSearch, "dateEndSearch");
 			parameters.add(item2);
 			String dateFrom = bundle.getString("label_fecha_inicio") + ": "
-					+ '"' + formato.format(this.fechaInicioBuscar) + '"' + ", ";
+					+ '"' + formato.format(this.dateStartSearch) + '"' + ", ";
 			unionMessagesSearch.append(dateFrom);
 
 			String dateTo = bundle.getString("label_fecha_finalizacion") + ": "
-					+ '"' + formato.format(fechaFinBuscar) + '"';
+					+ '"' + formato.format(dateEndSearch) + '"';
 			unionMessagesSearch.append(dateTo);
 			parameters.add(item2);
-
 		}
-	}
-
-	/**
-	 * Method of uploading the details of the list of deposits or relationships
-	 * with other objects in the database.
-	 * 
-	 * @throws Exception
-	 */
-	private void cargarDetallesDeposits() throws Exception {
-		if (this.listaDeposits != null) {
-			for (Deposits deposits : this.listaDeposits) {
-				cargarDetallesDeposits(deposits);
-			}
-		}
-	}
-
-	/**
-	 * Method of uploading the details of a deposits or relationships with other
-	 * objects in the database.
-	 * 
-	 * @param deposits
-	 *            : deposits to load the details.
-	 * @throws Exception
-	 */
-	public void cargarDetallesDeposits(Deposits deposits) throws Exception {
-		int idDeposits = deposits.getIdDeposit();
-
-		Materials materials = (Materials) depositsDao.consultObjectDeposits(
-				"materials", idDeposits);
-		PurchaseInvoices purchaseInvoices = (PurchaseInvoices) depositsDao
-				.consultObjectDeposits("purchaseInvoices", idDeposits);
-		Farm farm = (Farm) depositsDao
-				.consultObjectDeposits("farm", idDeposits);
-		MeasurementUnits measurementUnits = (MeasurementUnits) depositsDao
-				.consultObjectDeposits("measurementUnits", idDeposits);
-
-		deposits.setMaterials(materials);
-		deposits.setPurchaseInvoices(purchaseInvoices);
-		deposits.setFarm(farm);
-		deposits.setMeasurementUnits(measurementUnits);
-
 	}
 
 	/**
@@ -519,7 +582,7 @@ public class DepositsAction implements Serializable {
 	/**
 	 * Method used to save or edit the deposits
 	 * 
-	 * @return consultarDeposits: Redirects to manage deposits with a list of
+	 * @return consultDeposits: Redirects to manage deposits with a list of
 	 *         updated deposits
 	 */
 	public String saveDeposits() {
@@ -538,13 +601,13 @@ public class DepositsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarDeposits();
+		return consultDeposits();
 	}
 
 	/**
 	 * Method that allows deposits to delete one database
 	 * 
-	 * @return consultarDeposits: Consult the list of deposits and returns to
+	 * @return consultDeposits: Consult the list of deposits and returns to
 	 *         manage deposits
 	 */
 	public String deleteDeposits() {
@@ -563,7 +626,7 @@ public class DepositsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarDeposits();
+		return consultDeposits();
 	}
 
 	/**
@@ -598,4 +661,61 @@ public class DepositsAction implements Serializable {
 	public void cleanInvoice() {
 		this.deposits.setPurchaseInvoices(new PurchaseInvoices());
 	}
+
+	/**
+	 * Initialize the dropdown filter for materialType
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param flag
+	 *            : True if this method is called from dropdown materialType and
+	 *            false if it is called from dropdown material
+	 */
+	public void initializeDropDownTypeMaterial(boolean flag) {
+		try {
+			if (flag) {
+				this.idMaterial = 0;
+				this.loadMaterials();
+			}
+			this.depositActualSelected = null;
+			this.consultDeposits();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Selects a single deposit for display the associated transaction
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param depositSelected
+	 *            : deposit selected on the view
+	 */
+	public void selectDeposit(Deposits depositSelected) {
+		this.depositActualSelected = new Deposits();
+		depositSelected.setSelected(true);
+		for (Deposits deposit : listDeposits) {
+			if (deposit.isSelected()) {
+				if (deposit.getIdDeposit() == depositSelected.getIdDeposit()) {
+					this.depositActualSelected = deposit;
+				} else {
+					deposit.setSelected(false);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Show the transactions associated to deposit.
+	 * 
+	 * @author Gerardo.Herrera
+	 */
+	public void showTransaction() {
+		if (transactionsAction != null) {
+			transactionsAction.setDepositSelected(depositActualSelected);
+			transactionsAction.consultTransaction();
+		}
+	}
+
 }

@@ -64,6 +64,8 @@ public class DepositsDao implements Serializable {
 	 * Consult the list of Deposits that comply with the option of force.
 	 * 
 	 * @author Sergio.Ortiz
+	 * @modify 07/03/2016 Gerardo.Herrera
+	 * 
 	 * @param start
 	 *            : Registry where consultation begins
 	 * @param range
@@ -83,6 +85,9 @@ public class DepositsDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT d FROM Deposits d ");
+		query.append("JOIN FETCH d.materials m ");
+		query.append("JOIN FETCH m.materialType ");
+		query.append("JOIN FETCH d.purchaseInvoices ");
 		query.append(consult);
 		query.append(" ORDER BY d.dateTime");
 		Query q = em.createQuery(query.toString());
@@ -90,7 +95,8 @@ public class DepositsDao implements Serializable {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
-		return q.getResultList();
+		List<Deposits> deposits=q.getResultList();
+		return deposits;
 	}
 
 	/**
