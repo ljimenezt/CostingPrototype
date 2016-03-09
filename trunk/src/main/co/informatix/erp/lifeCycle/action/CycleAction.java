@@ -706,11 +706,11 @@ public class CycleAction implements Serializable {
 		try {
 			itemsServicesType = new ArrayList<SelectItem>();
 			List<ServiceType> listServiceType = serviceTypeDao
-					.consultarServicesTypes();
+					.consultServicesTypes();
 			if (listServiceType != null) {
 				for (ServiceType serviceType : listServiceType) {
 					itemsServicesType.add(new SelectItem(serviceType
-							.getIdServiceType(), serviceType.getDescripcion()));
+							.getIdServiceType(), serviceType.getDescription()));
 				}
 			}
 		} catch (Exception e) {

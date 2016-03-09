@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesServiceType</from-outcome>
-			<to-view-id>/services/serviceType/gestionarServiceType.xhtml</to-view-id>
+			<to-view-id>/services/serviceType/manageServiceType.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regServiceType</from-outcome>
-			<to-view-id>/services/serviceType/registrarServiceType.xhtml</to-view-id>
+			<to-view-id>/services/serviceType/registerServiceType.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

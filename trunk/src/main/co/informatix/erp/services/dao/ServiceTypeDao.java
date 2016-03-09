@@ -25,35 +25,35 @@ public class ServiceTypeDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Saves a service type in the database
+	 * Saves a service type in the database.
 	 * 
 	 * @param serviceType
-	 *            : service type to save
+	 *            : service type to save.
 	 * @throws Exception
 	 */
-	public void guardarServiceType(ServiceType serviceType) throws Exception {
+	public void saveServiceType(ServiceType serviceType) throws Exception {
 		em.persist(serviceType);
 	}
 
 	/**
-	 * Edit a service type in the database
+	 * Edit a service type in the database.
 	 * 
 	 * @param serviceType
-	 *            : service type to edit
+	 *            : service type to edit.
 	 * @throws Exception
 	 */
-	public void editarServiceType(ServiceType serviceType) throws Exception {
+	public void editServiceType(ServiceType serviceType) throws Exception {
 		em.merge(serviceType);
 	}
 
 	/**
-	 * Removes a service type in the database
+	 * Removes a service type in the database.
 	 * 
 	 * @param serviceType
-	 *            : service type to removed
+	 *            : service type to removed.
 	 * @throws Exception
 	 */
-	public void eliminarServiceType(ServiceType serviceType) throws Exception {
+	public void removeServiceType(ServiceType serviceType) throws Exception {
 		em.remove(em.merge(serviceType));
 	}
 
@@ -62,27 +62,27 @@ public class ServiceTypeDao implements Serializable {
 	 * a parameter and filtering the information sent search values.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :where he started the consultation record.
 	 * @param range
-	 *            : range of records
+	 *            : range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : consult parameters.
-	 * @return List<ServiceType>: list of types of service
+	 * @return List<ServiceType>: list of types of service.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ServiceType> consultarServiceType(int start, int range,
+	public List<ServiceType> consultServiceType(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT ec FROM ServiceType ec ");
+		query.append("SELECT st FROM ServiceType st ");
 		query.append(consult);
-		query.append("ORDER BY ec.descripcion ");
+		query.append("ORDER BY st.description ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<ServiceType> resultList = q.getResultList();
@@ -101,17 +101,17 @@ public class ServiceTypeDao implements Serializable {
 	 *            filtered.
 	 * @param parameters
 	 *            : query parameters.
-	 * @return Long: amount of activities records found
+	 * @return Long: amount of activities records found.
 	 * @throws Exception
 	 */
-	public Long cantidadServiceType(StringBuilder consult,
+	public Long quantityServiceType(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(ec) FROM ServiceType ec ");
+		query.append("SELECT COUNT(st) FROM ServiceType st ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -125,9 +125,9 @@ public class ServiceTypeDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ServiceType> consultarServicesTypes() throws Exception {
+	public List<ServiceType> consultServicesTypes() throws Exception {
 		return em.createQuery(
-				"SELECT st FROM ServiceType st ORDER BY st.descripcion ")
+				"SELECT st FROM ServiceType st ORDER BY st.description ")
 				.getResultList();
 	}
 

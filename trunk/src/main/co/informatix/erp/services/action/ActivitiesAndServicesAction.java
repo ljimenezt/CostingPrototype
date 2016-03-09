@@ -595,11 +595,11 @@ public class ActivitiesAndServicesAction implements Serializable {
 		itemsServiceType = new ArrayList<SelectItem>();
 		itemsSupplier = new ArrayList<SelectItem>();
 		List<ServiceType> servicesType = serviceTypeDao
-				.consultarServicesTypes();
+				.consultServicesTypes();
 		if (servicesType != null) {
 			for (ServiceType serviceType : servicesType) {
 				itemsServiceType.add(new SelectItem(serviceType
-						.getIdServiceType(), serviceType.getDescripcion()));
+						.getIdServiceType(), serviceType.getDescription()));
 			}
 		}
 		List<Suppliers> suppliers = supplierDao.consultarComboSuppliers();
