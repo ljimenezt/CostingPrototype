@@ -523,37 +523,6 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
-	 * Valid fields are required in the view so that you can load the button
-	 * "add plots".
-	 * 
-	 * @author Sergio.Ortiz
-	 * @modify 24/06/2015 Gerardo.Herrera
-	 * 
-	 */
-	public void requeridosOk() {
-		try {
-			if (crops.getInitialDate() == null
-					|| "".equals(crops.getInitialDate())) {
-				ControladorContexto.mensajeRequeridos("formCrops:fechaInicio");
-			}
-			if (crops.getFinalDate() == null || "".equals(crops.getFinalDate())) {
-				ControladorContexto.mensajeRequeridos("formCrops:fechFin");
-			}
-			if (crops.getCropNames().getIdCropName() == 0
-					|| "".equals(crops.getCropNames().getIdCropName())) {
-				ControladorContexto.mensajeRequeridos("formCrops:cropNames");
-			}
-			if (crops.getDescription() == null
-					|| "".equals(crops.getDescription())) {
-				ControladorContexto
-						.mensajeRequeridos("formCrops:txtDescripcion");
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
 	 * Plots query associated with the Crop
 	 * 
 	 * @author Sergio.Ortiz

@@ -97,11 +97,14 @@
 							value="#{mensajeWarehouse.materials_label_responsible}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:panelGrid columns="4" cellpadding="0" cellspacing="0">
+
+						<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
 							<h:inputText styleClass="colTextoMediano"
 								value="#{materialsAction.materials.responsable.name}"
-								id="txtResponsable" readonly="true"
-								validator="#{encodeFilter.validarScripting}" />
+								id="txtResponsable" required="true"
+								validator="#{encodeFilter.validarScripting}"
+								requiredMessage="#{mensaje.message_campo_requerido}"
+								readonly="true" />
 							<a:commandLink id="lnkResponsable"
 								render=":popupForm:popupResponsable"
 								actionListener="#{hrAction.consultarHrs}" execute="@this"
@@ -119,14 +122,19 @@
 							<h:outputText value="&#32;&#32;&#32;" />
 							<a:commandLink
 								actionListener="#{materialsAction.limpiarResponsable()}"
-								render=":formMaterials:txtResponsable" execute="@this">
+								render=":formMaterials:txtResponsable,:formMaterials:txtResponsable2"
+								execute="@this">
 								<h:graphicImage value="/img/editRemove_16.png" />
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.label_quitar}" />
 								</rich:tooltip>
 							</a:commandLink>
+							<h:inputHidden
+								value="#{materialsAction.materials.responsable.name}"
+								id="txtResponsable2" required="true"
+								requiredMessage="#{mensaje.message_campo_requerido}" />
 						</h:panelGrid>
-						<rich:message for="txtResponsable" />
+						<rich:message for="txtResponsable2" />
 
 						<h:outputText
 							value="#{mensajeWarehouse.materials_label_time_harvest}"
@@ -282,7 +290,8 @@
 				</t:fieldset>
 				<br />
 				<div align="center">
-					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+					<a:commandButton
+						render="formConfirmar:popUpConfirmar,formGenerico,formMaterials"
 						execute="formMaterials"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_guardar}" />
@@ -394,7 +403,8 @@
 								</f:facet>
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header" />
-									<a:commandLink render=":formMaterials:txtResponsable"
+									<a:commandLink
+										render=":formMaterials:txtResponsable,:formMaterials:txtResponsable2"
 										actionListener="#{materialsAction.cargarResponsable(responsable)}"
 										oncomplete="#{rich:component('popupResponsable')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
