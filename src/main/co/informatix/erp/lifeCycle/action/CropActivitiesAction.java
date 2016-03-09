@@ -677,59 +677,62 @@ public class CropActivitiesAction implements Serializable {
 	/**
 	 * Consult the list of activities crops
 	 * 
+	 * @modify 09/03/2016 Mabell.Boada
+	 * 
 	 */
 	public void consultarActivityNamesXCrops() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeLifeCycle");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listaActivityNames = new ArrayList<ActivityNames>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
-
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessageSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = activityNamesDao.amountActivityNameCrops(
-					consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginarRangoDefinido(cantidad, 5);
+			busquedaAvanzada(consult, parameters, bundle, unionMessageSearch);
+			Long amount = activityNamesDao.amountActivityNameCrops(consult,
+					parameters);
+			if (amount != null) {
+				paginador.paginarRangoDefinido(amount, 5);
 			}
-			listaActivityNames = activityNamesDao
-					.queryActivityNamesXIdCrop(paginador.getInicio(),
-							paginador.getRango(), consulta, parametros);
-			for (ActivityNames activityNames : this.listaActivityNames) {
-				if (activityNames.isSeleccionado()) {
-					listaActivityNames.remove(activityNames);
-					break;
-				}
+			listaActivityNames = activityNamesDao.queryActivityNamesXIdCrop(
+					paginador.getInicio(), paginador.getRango(), consult,
+					parameters);
+			if (this.listaActivityNames != null
+					&& this.listaActivityNames.size() > 0) {
+				for (ActivityNames activityNames : this.listaActivityNames) {
+					if (activityNames.isSeleccionado()) {
+						listaActivityNames.remove(activityNames);
+						break;
+					}
 
+				}
 			}
 			if ((listaActivityNames == null || listaActivityNames.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 			} else if (listaActivityNames == null
 					|| listaActivityNames.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle
 										.getString("activity_names_label_s"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 			if (!"".equals(nombreBuscar)) {
 				ControladorContexto.mensajeInformacion(
-						"popupForm:tActivityNames", mensajeBusqueda);
+						"popupForm:tActivityNames", messageSearch);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

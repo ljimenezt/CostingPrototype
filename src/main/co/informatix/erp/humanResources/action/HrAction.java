@@ -413,6 +413,7 @@ public class HrAction implements Serializable {
 	 * 
 	 * @modify 13/05/2015 Andres.Gomez
 	 * @modify 14/07/2015 Gerardo.Herrera
+	 * @modify 08/03/2016 Mabell.Boada
 	 * 
 	 * @return retorno: Navigation rule that redirects to manage Human Resources
 	 *         According condition
@@ -421,59 +422,59 @@ public class HrAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = (ValidacionesAction) ControladorContexto
+		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listaHr = new ArrayList<Hr>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessageSearch = new StringBuilder();
+		String messageSearch = "";
 		String param2 = ControladorContexto.getParam("param2");
-		boolean desdeModal = (param2 != null && "si".equals(param2)) ? true
+		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
 				: false;
-		String retorno = desdeModal ? "" : "gesHumanResources";
+		String retorno = fromModal ? "" : "gesHumanResources";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					bundleRecursosHumanos, unionMensajesBusqueda);
-			Long cantidad = hrDao.cantidadHr(consulta, parametros);
-			if (cantidad != null) {
-				if (desdeModal) {
-					paginadorForm.paginarRangoDefinido(cantidad, 5);
+			busquedaAvanzada(consult, parameters, bundle,
+					bundleRecursosHumanos, unionMessageSearch);
+			Long amount = hrDao.cantidadHr(consult, parameters);
+			if (amount != null) {
+				if (fromModal) {
+					paginadorForm.paginarRangoDefinido(amount, 5);
 					this.listaHr = hrDao.consultarHr(paginadorForm.getInicio(),
-							paginadorForm.getRango(), consulta, parametros);
+							paginadorForm.getRango(), consult, parameters);
 
 				} else {
-					paginador.paginar(cantidad);
+					paginador.paginar(amount);
 					this.listaHr = hrDao.consultarHr(paginador.getInicio(),
-							paginador.getRango(), consulta, parametros);
+							paginador.getRango(), consult, parameters);
 				}
 			}
 			if ((listaHr == null || listaHr.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 			} else if (listaHr == null || listaHr.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
+			} else if (!"".equals(unionMessageSearch.toString())) {
 				String message = bundle
 						.getString("message_existen_registros_criterio_busqueda");
-				mensajeBusqueda = MessageFormat
+				messageSearch = MessageFormat
 						.format(message, bundleRecursosHumanos
 								.getString("recurso_humano_label"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 			}
-			if (cantidad != 0) {
+			if (amount != 0) {
 				cargarDetallesHr();
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
 			cargarComboHrTypes();
 			cargarComboPaymentMethods();
-			if (!"".equals(nombreBuscar)) {
-				ControladorContexto.mensajeInformacion(
-						"popupForm:tResponsable", mensajeBusqueda);
+			if (fromModal) {
+				validations.setMensajeBusquedaPopUp(messageSearch);
+			} else {
+				validations.setMensajeBusqueda(messageSearch);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

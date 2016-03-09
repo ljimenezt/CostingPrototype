@@ -750,71 +750,68 @@ public class PersonaAction implements Serializable {
 	 * taking into account the type of validity that is required by the
 	 * interface determined by the tipoVigenteSelect this variable.
 	 * 
-	 * @return retorno. redirects output page listarPersonas
+	 * @modify 04/06/2013 Luz.Jaimes
+	 * @modify 08/03/2016 Mabell.Boada
 	 * 
-	 * @modify Luz.Jaimes 04/06/2013
+	 * @return retorno: Redirects output page listarPersonas
 	 */
 	public String consultarPersonas() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		String enModal = ControladorContexto.getParam("param2");
-		String modal = ControladorContexto.getParam("modalId");
+		String inModal = ControladorContexto.getParam("param2");
 		this.personas = new ArrayList<Persona>();
 		List<Persona> personasTemp = new ArrayList<Persona>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
-		boolean desdeModal = (enModal != null && Constantes.SI.equals(enModal)) ? true
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessageSearch = new StringBuilder();
+		String messageSearch = "";
+		boolean fromModal = (inModal != null && Constantes.SI.equals(inModal)) ? true
 				: false;
-		String retorno = desdeModal ? "" : "gesPersonas";
-
+		String retorno = fromModal ? "" : "gesPersonas";
 		try {
-			if (!desdeModal)
+			if (!fromModal)
 				personasSinUsuario = false;
-			busquedaAvanzada(consulta, parametros, bundleRecursosHumanos,
-					unionMensajesBusqueda);
-			Long cantidadRegistros = this.personaDao.cantidadPersonas(consulta,
-					parametros);
+			busquedaAvanzada(consult, parameters, bundleRecursosHumanos,
+					unionMessageSearch);
+			Long cantidadRegistros = this.personaDao.cantidadPersonas(consult,
+					parameters);
 			if (cantidadRegistros != null) {
-				if (desdeModal)
+				if (fromModal)
 					paginador.paginarRangoDefinido(cantidadRegistros, 5);
 				else
 					this.paginador.paginar(cantidadRegistros);
 			}
 			personasTemp = personaDao.consultarPersonas(paginador.getInicio(),
-					paginador.getRango(), consulta, parametros);
+					paginador.getRango(), consult, parameters);
 			cargarInformacionDetallePersona(personasTemp);
 			if ((this.personas == null || this.personas.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 			} else if (this.personas == null || this.personas.size() <= 0) {
-				mensajeBusqueda = bundle
+				messageSearch = bundle
 						.getString("message_no_existen_registros");
-				if (!desdeModal) {
-					ControladorContexto.mensajeInformacion(null,
-							mensajeBusqueda);
-					mensajeBusqueda = "";
+				if (!fromModal) {
+					ControladorContexto.mensajeInformacion(null, messageSearch);
+					messageSearch = "";
 				}
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleRecursosHumanos
 										.getString("persona_label_s"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 			}
-			if (!"".equals(mensajeBusqueda) && desdeModal) {
-				ControladorContexto.mensajeInformacion(
-						modal + ":tablaPersonas", mensajeBusqueda);
+			if (fromModal) {
+				validations.setMensajeBusquedaPopUp(messageSearch);
 			} else {
-				validaciones.setMensajeBusqueda(mensajeBusqueda);
+				validations.setMensajeBusqueda(messageSearch);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

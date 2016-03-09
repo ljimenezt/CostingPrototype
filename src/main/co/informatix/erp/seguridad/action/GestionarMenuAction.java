@@ -69,7 +69,8 @@ public class GestionarMenuAction implements Serializable {
 	private boolean desdeRol = false;
 
 	/**
-	 * @return menuAction: Variable that gets the object menu of the user interface.
+	 * @return menuAction: Variable that gets the object menu of the user
+	 *         interface.
 	 */
 	public Menu getMenuAction() {
 		return menuAction;
@@ -260,32 +261,32 @@ public class GestionarMenuAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
 				.getBundle("mensajeSeguridad");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		String mensajeBusqueda = "";
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
+		String messageSearch = "";
+		StringBuilder unionMessageSearch = new StringBuilder();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
 		StringBuilder order = new StringBuilder();
 		listaMenus = new ArrayList<Menu>();
 		List<Menu> listaMenusTemporal = new ArrayList<Menu>();
-		String esPopup = ControladorContexto.getParam("param2");
-		boolean desdeModal = (esPopup != null && "si".equals(esPopup)) ? true
+		String isPopup = ControladorContexto.getParam("param2");
+		boolean fromModal = (isPopup != null && "si".equals(isPopup)) ? true
 				: false;
-		String retorno = desdeModal ? "" : "gesMenus";
+		String retorno = fromModal ? "" : "gesMenus";
 		try {
-			busquedaAvanzada(consulta, order, parametros, bundle,
-					unionMensajesBusqueda);
+			busquedaAvanzada(consult, order, parameters, bundle,
+					unionMessageSearch);
 			if (desdeRol
 					|| (this.nombreBuscar != null && !""
 							.equals(this.nombreBuscar))) {
 				this.listaTodosMenus = menuDao.consultarMenus(null, null,
-						consulta, order, parametros);
+						consult, order, parameters);
 				List<Menu> listaMenusDatos = filtrarMenusPorNombre(this.listaTodosMenus);
 				int inicio = 0;
 				int totalReg = paginador.getRango();
 				long cantidadMenus = (long) listaMenusDatos.size();
-				if (desdeModal) {
+				if (fromModal) {
 					paginador.paginarRangoDefinido(cantidadMenus, 5);
 					totalReg = 5;
 				} else {
@@ -298,44 +299,42 @@ public class GestionarMenuAction implements Serializable {
 				}
 				listaMenusTemporal = listaMenusDatos.subList(inicio, rango);
 			} else {
-				Long cantidadMenus = menuDao
-						.cantidadMenus(consulta, parametros);
-				if (desdeModal) {
+				Long cantidadMenus = menuDao.cantidadMenus(consult, parameters);
+				if (fromModal) {
 					paginador.paginarRangoDefinido(cantidadMenus, 5);
 				} else {
 					paginador.paginar(cantidadMenus);
 				}
 				listaMenusTemporal = menuDao.consultarMenus(
-						paginador.getInicio(), paginador.getRango(), consulta,
-						order, parametros);
+						paginador.getInicio(), paginador.getRango(), consult,
+						order, parameters);
 			}
 			this.listaMenus = cargarInformacionMenus(listaMenusTemporal);
 			if ((listaMenus == null || listaMenus.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 
 			} else if (listaMenus == null || listaMenus.size() <= 0) {
-				mensajeBusqueda = bundle
+				messageSearch = bundle
 						.getString("message_no_existen_registros");
-				if (!desdeModal) {
-					ControladorContexto.mensajeInformacion(null,
-							mensajeBusqueda);
-					mensajeBusqueda = "";
+				if (!fromModal) {
+					ControladorContexto.mensajeInformacion(null, messageSearch);
+					messageSearch = "";
 				}
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleSeguridad.getString("menu_label_s"),
-								unionMensajesBusqueda);
+								unionMessageSearch);
 			}
-			if (!"".equals(mensajeBusqueda) && desdeModal) {
-				validaciones.setMensajeBusquedaPopUp(mensajeBusqueda);
+			if (fromModal) {
+				validations.setMensajeBusquedaPopUp(messageSearch);
 			} else {
-				validaciones.setMensajeBusqueda(mensajeBusqueda);
+				validations.setMensajeBusqueda(messageSearch);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

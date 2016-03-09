@@ -5,7 +5,7 @@
 	xmlns:a="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
-	<rich:panel styleClass="H373P fondoAnchoUno W510P">
+	<rich:panel styleClass="H360P fondoAnchoUno W510P">
 		<a:outputPanel id="outputBuscarMenus">
 			<t:fieldset styleClass="BorderW2P">
 				<legend class="etiquetaTitulo">#{mensaje.label_buscar}
@@ -14,17 +14,22 @@
 					<h:outputText value="#{mensaje.label_nombre}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-						value="#{menuAction.nombreBuscar}" />
-
-					<a:commandButton value="#{mensaje.button_buscar}"
+						value="#{menuAction.nombreBuscar}"
+						onkeypress="return submitByEnter(event,'popupForm:btnSearch')" />
+					<a:commandButton value="#{mensaje.button_buscar}" id="btnSearch"
 						actionListener="#{menuAction.consultarMenus()}"
-						render="outputBuscarMenus">
+						render="outputBuscarMenus, outputMenus">
 						<f:param name="param2" value="si" />
 					</a:commandButton>
 				</h:panelGrid>
 			</t:fieldset>
 			<br />
-			<rich:messages id="mensajesPopup" styleClass="messageInfSpan W470P" />
+			<a:outputPanel>
+				<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+					<ui:param name="width" value="W520P" />
+					<ui:param name="id" value="popupBuscarMenu" />
+				</ui:include>
+			</a:outputPanel>
 			<br />
 			<ui:param name="listaVacia"
 				value="#{menuAction.listaMenus eq null or (empty menuAction.listaMenus)}" />

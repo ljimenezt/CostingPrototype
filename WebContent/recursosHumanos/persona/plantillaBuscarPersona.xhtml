@@ -19,10 +19,11 @@
 						value="#{mensajeRecursosHumanos.persona_message_consulta_nombre_apellido_identificacion}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="30" maxlength="100" id="txtNombreBuscarPersona"
-						value="#{personaAction.filtroBusqueda}" />
-					<a:commandButton value="#{mensaje.button_buscar}"
+						value="#{personaAction.filtroBusqueda}"
+						onkeypress="return submitByEnter(event,'formModalBusPersonas:btnSearch')" />
+					<a:commandButton value="#{mensaje.button_buscar}" id="btnSearch"
 						actionListener="#{personaAction.consultarPersonas()}"
-						render="outPutBuscarPersonas">
+						render="outPutBuscarPersonas, outputPersonas">
 						<f:param name="param2" value="si" />
 						<f:param name="modalId" value="#{idForm}" />
 						<f:setPropertyActionListener value="#{personasSinUser}"
@@ -31,7 +32,12 @@
 				</h:panelGrid>
 			</t:fieldset>
 			<br />
-			<rich:messages for="tablaPersonas" styleClass="messageInfSpan W480P" />
+			<a:outputPanel>
+				<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+					<ui:param name="width" value="W520P" />
+					<ui:param name="id" value="popupBuscarMenu" />
+				</ui:include>
+			</a:outputPanel>
 			<br />
 			<ui:param name="listaVacia"
 				value="#{personaAction.personas eq null or (empty personaAction.personas)}" />

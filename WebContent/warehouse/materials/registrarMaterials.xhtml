@@ -358,7 +358,7 @@
 							onclick="#{rich:component('popupResponsable')}.hide()" />
 					</h:panelGroup>
 				</f:facet>
-				<rich:panel styleClass="H373P fondoAnchoUno W580P">
+				<rich:panel styleClass="H360P fondoAnchoUno W580P">
 					<a:outputPanel id="outPutBuscarResponsable">
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
@@ -371,11 +371,18 @@
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
 									actionListener="#{hrAction.consultarHrs}"
-									render="outputResponsable">
+									render="outputResponsable, outPutBuscarResponsable">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
 							</h:panelGrid>
 						</t:fieldset>
+						<br />
+						<a:outputPanel>
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W520P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
 						<br />
 
 						<ui:param name="listaVacia"
