@@ -527,6 +527,8 @@ public class MachineUsageAction implements Serializable {
 	 * selected by user
 	 */
 	public void saveAllocateDepretiation() {
+		ResourceBundle bundleMachine = ControladorContexto
+				.getBundle("mensajeMachine");
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		listMachineUsage = new ArrayList<MachineUsage>();
 		String mensajeRegistro = "message_registro_modificar";
@@ -556,9 +558,8 @@ public class MachineUsageAction implements Serializable {
 			}
 			if (listMachineUsage == null || listMachineUsage.size() <= 0) {
 				String value = Integer.toString(year);
-				String format = MessageFormat.format(
-						bundle.getString("machine_usage_message_non_usage"),
-						value);
+				String format = MessageFormat.format(bundleMachine
+						.getString("machine_usage_message_non_usage"), value);
 				ControladorContexto.mensajeInformacion(null, format);
 			}
 		} catch (Exception e) {
@@ -573,6 +574,8 @@ public class MachineUsageAction implements Serializable {
 	 */
 	public void saveAllocateIsurance() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleMachine = ControladorContexto
+				.getBundle("mensajeMachine");
 		listMachineUsage = new ArrayList<MachineUsage>();
 		String mensajeRegistro = "message_registro_modificar";
 		try {
@@ -595,9 +598,8 @@ public class MachineUsageAction implements Serializable {
 			}
 			if (listMachineUsage == null || listMachineUsage.size() <= 0) {
 				String value = Integer.toString(year);
-				String format = MessageFormat.format(
-						bundle.getString("machine_usage_message_non_usage"),
-						value);
+				String format = MessageFormat.format(bundleMachine
+						.getString("machine_usage_message_non_usage"), value);
 				ControladorContexto.mensajeInformacion(null, format);
 			}
 		} catch (Exception e) {
@@ -612,6 +614,8 @@ public class MachineUsageAction implements Serializable {
 	 */
 	public void saveAllocateMaintenance() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleMachine = ControladorContexto
+				.getBundle("mensajeMachine");
 		listMachineUsage = new ArrayList<MachineUsage>();
 		String mensajeRegistro = "message_registro_modificar";
 		try {
@@ -634,9 +638,8 @@ public class MachineUsageAction implements Serializable {
 			}
 			if (listMachineUsage == null || listMachineUsage.size() <= 0) {
 				String value = Integer.toString(year);
-				String format = MessageFormat.format(
-						bundle.getString("machine_usage_message_non_usage"),
-						value);
+				String format = MessageFormat.format(bundleMachine
+						.getString("machine_usage_message_non_usage"), value);
 				ControladorContexto.mensajeInformacion(null, format);
 			}
 		} catch (Exception e) {
