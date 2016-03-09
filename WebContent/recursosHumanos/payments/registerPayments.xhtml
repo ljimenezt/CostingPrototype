@@ -11,7 +11,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="paymentsAction.agregarEditarPayments(null)" />
+		value="paymentsAction.addEditPayments(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeRecursosHumanos.contract_label" />
 	<ui:define name="body">
@@ -48,7 +48,7 @@
 								value="#{paymentsAction.payments.hr.name}"
 								validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkHr" render=":popupFormHr:popupHR"
-								actionListener="#{hrAction.inicializarBusqueda}" execute="@this"
+								actionListener="#{hrAction.consultarHrs}" execute="@this"
 								oncomplete="#{rich:component('popupHR')}.show(); setFocus('popupFormHr:txtHrBuscar');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />
@@ -61,7 +61,7 @@
 								<f:param name="param2" value="si" />
 							</a:commandLink>
 							<h:outputText value="&#32;&#32;&#32;" />
-							<a:commandLink actionListener="#{paymentsAction.limpiarHr()}"
+							<a:commandLink actionListener="#{paymentsAction.cleanHr()}"
 								render=":formPayments:txtHr , :formPayments:txtHrs"
 								execute="@this">
 								<h:graphicImage value="/img/editRemove_16.png" />
@@ -77,15 +77,15 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
 							<h:inputText styleClass="colTextoMediano"
-								value="#{paymentsAction.payments.contrato.persona.nombreCompleto}"
+								value="#{paymentsAction.payments.contract.persona.nombreCompleto}"
 								id="txtContrato" readonly="true"
 								validator="#{encodeFilter.validarScripting}" />
 							<h:inputHidden id="txtContratos"
-								value="#{paymentsAction.payments.contrato.persona.nombreCompleto}"
+								value="#{paymentsAction.payments.contract.persona.nombreCompleto}"
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								required="true" validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkContrato" render=":popupForm:popupContrato"
-								actionListener="#{contratoAction.inicializarBusqueda}"
+								actionListener="#{contratoAction.consultarContratos}"
 								execute="@this"
 								oncomplete="#{rich:component('popupContrato')}.show(); setFocus('popupForm:txtNombreBuscar');">
 								<h:graphicImage value="/img/add_22.png"
@@ -100,7 +100,7 @@
 							</a:commandLink>
 							<h:outputText value="&#32;&#32;&#32;" />
 							<a:commandLink
-								actionListener="#{paymentsAction.limpiarContrato()}"
+								actionListener="#{paymentsAction.cleanContract()}"
 								render=":formPayments:txtContrato , :formPayments:txtContratos"
 								execute="@this">
 								<h:graphicImage value="/img/editRemove_16.png" />
@@ -166,7 +166,7 @@
 							value="#{paymentsAction.payments.hr.name} #{paymentsAction.payments.hr.familyName}" />
 						<h:outputText value="#{mensaje.label_persona_responsable}" />
 						<h:outputText
-							value="#{paymentsAction.payments.contrato.persona.nombreCompleto}" />
+							value="#{paymentsAction.payments.contract.persona.nombreCompleto}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
@@ -191,7 +191,7 @@
 							onclick="#{rich:component('popupContrato')}.hide()" />
 					</h:panelGroup>
 				</f:facet>
-				<rich:panel styleClass="H360P fondoAnchoUno W580P">
+				<rich:panel styleClass="H373P fondoAnchoUno W580P">
 					<a:outputPanel id="outPutBuscarContrato">
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
@@ -204,19 +204,13 @@
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
 									actionListener="#{contratoAction.consultarContratos}"
-									render="outputContrato, outPutBuscarContrato">
+									render="outputContrato">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
 							</h:panelGrid>
 						</t:fieldset>
 						<br />
-						<a:outputPanel>
-							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
-								<ui:param name="width" value="W520P" />
-								<ui:param name="id" value="popupBuscarMenu" />
-							</ui:include>
-						</a:outputPanel>
-						<br />
+
 						<ui:param name="listaVacia"
 							value="#{contratoAction.listaContrato eq null or (empty contratoAction.listaContrato )}" />
 						<div align="right" class="W560P">
@@ -244,7 +238,7 @@
 									<f:facet name="header" />
 									<a:commandLink
 										render=":formPayments:txtContrato , :formPayments:txtContratos "
-										actionListener="#{paymentsAction.cargarContrato(contrato)}"
+										actionListener="#{paymentsAction.loadContract(contrato)}"
 										oncomplete="#{rich:component('popupContrato')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">
@@ -303,7 +297,7 @@
 							styleClass="cursor" onclick="#{rich:component('popupHR')}.hide()" />
 					</h:panelGroup>
 				</f:facet>
-				<rich:panel styleClass="H360P fondoAnchoUno W580P">
+				<rich:panel styleClass="H373P fondoAnchoUno W580P">
 					<a:outputPanel id="outPutBuscarHr">
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
@@ -316,19 +310,13 @@
 									onkeypress="return submitByEnter(event,'popupFormHr:btnBuscarHr')" />
 								<a:commandButton value="#{mensaje.button_buscar}"
 									id="btnBuscarHr" actionListener="#{hrAction.consultarHrs}"
-									render="outputHr, outPutBuscarHr">
+									render="outputHr">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
 							</h:panelGrid>
 						</t:fieldset>
 						<br />
-						<a:outputPanel>
-							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
-								<ui:param name="width" value="W520P" />
-								<ui:param name="id" value="popupBuscarMenu" />
-							</ui:include>
-						</a:outputPanel>
-						<br />
+
 						<ui:param name="listaVacia"
 							value="#{hrAction.listaHr eq null or (empty hrAction.listaHr)}" />
 						<div align="right" class="W560P">
@@ -356,7 +344,7 @@
 									<f:facet name="header" />
 									<a:commandLink
 										render=":formPayments:txtHr , :formPayments:txtHrs "
-										actionListener="#{paymentsAction.cargarHr(hr)}"
+										actionListener="#{paymentsAction.loadHr(hr)}"
 										oncomplete="#{rich:component('popupHR')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">

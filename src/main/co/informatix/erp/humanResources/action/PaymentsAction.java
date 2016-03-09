@@ -39,25 +39,25 @@ public class PaymentsAction implements Serializable {
 	@EJB
 	private ContratoDao contratoDao;
 
-	private List<Payments> listaPayments;
+	private List<Payments> listPayments;
 	private Payments payments;
 	private Paginador paginador = new Paginador();
 
-	private String nombreBuscar = "";
+	private String nameSearch = "";
 
 	/**
-	 * @return listaPayments: Gets the list of payments.
+	 * @return listPayments: Gets the list of payments.
 	 */
-	public List<Payments> getListaPayments() {
-		return listaPayments;
+	public List<Payments> getListPayments() {
+		return listPayments;
 	}
 
 	/**
-	 * @param listaPayments
+	 * @param listPayments
 	 *            : Gets the list of payments.
 	 */
-	public void setListaPayments(List<Payments> listaPayments) {
-		this.listaPayments = listaPayments;
+	public void setListPayments(List<Payments> listPayments) {
+		this.listPayments = listPayments;
 	}
 
 	/**
@@ -91,77 +91,76 @@ public class PaymentsAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: gets the name by which you want to consult the
+	 * @return nameSearch: gets the name by which you want to consult the
 	 *         payments.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : gets the name by which you want to consult the payments.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load initial list
 	 * of contracts.
 	 * 
-	 * @return consultarPayments: method that consults the payments, and takes
+	 * @return consultPayments: method that consults the payments, and takes
 	 *         the user to the payments management template.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarPayments();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultPayments();
 	}
 
 	/**
-	 * Consult the list of contracts
+	 * Consult the list of contracts.
 	 * 
 	 * @return "gesPayments": redirects to the template to manage contracts.
 	 */
-	public String consultarPayments() {
+	public String consultPayments() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaPayments = new ArrayList<Payments>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listPayments = new ArrayList<Payments>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = paymentsDao.cantidadPayments(consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle,
+					unionMessagesSearch);
+			Long quantity = paymentsDao.cantidadPayments(query, parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaPayments = paymentsDao.consultarPayments(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaPayments == null || listaPayments.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listPayments = paymentsDao.consultPayments(paginador.getInicio(),
+					paginador.getRango(), query, parameters);
+			if ((listPayments == null || listPayments.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaPayments == null || listaPayments.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listPayments == null || listPayments.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle.getString("payments_label_s"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			cargarDetallesPayments();
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			loadDetailsPayments();
+			validaciones.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -173,28 +172,28 @@ public class PaymentsAction implements Serializable {
 	 * messages to display depending on the search criteria selected by the
 	 * user.
 	 * 
-	 * @param consulta
-	 *            : query to concatenate
-	 * @param parametros
+	 * @param consult
+	 *            : query to concatenate.
+	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
 	 *            : access language tags
 	 * 
-	 * @param unionMensajesBusqueda
+	 * @param unionMessagesSearch
 	 *            : Message search
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consulta,
-			List<SelectItem> parametros, ResourceBundle bundle,
-			StringBuilder unionMensajesBusqueda) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consulta.append("WHERE UPPER(p.hr.name) LIKE UPPER(:keyword) ");
-			consulta.append("OR UPPER(p.hr.familyName) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+	private void advancedSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("WHERE UPPER(p.hr.name) LIKE UPPER(:keyword) ");
+			consult.append("OR UPPER(p.hr.familyName) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
-			parametros.add(item);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nombreBuscar + '"');
+			parameters.add(item);
+			unionMessagesSearch.append(bundle.getString("label_nombre")
+					+ ": " + '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -203,14 +202,14 @@ public class PaymentsAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void cargarDetallesPayments() throws Exception {
+	public void loadDetailsPayments() throws Exception {
 		List<Payments> payments = new ArrayList<Payments>();
-		if (this.listaPayments != null) {
-			payments.addAll(this.listaPayments);
-			this.listaPayments = new ArrayList<Payments>();
+		if (this.listPayments != null) {
+			payments.addAll(this.listPayments);
+			this.listPayments = new ArrayList<Payments>();
 			for (Payments payment : payments) {
-				cargarDetallesPayment(payment);
-				this.listaPayments.add(payment);
+				loadDetailsPayment(payment);
+				this.listPayments.add(payment);
 			}
 		}
 	}
@@ -222,29 +221,29 @@ public class PaymentsAction implements Serializable {
 	 *            : payment which will carry the details.
 	 * @throws Exception
 	 */
-	public void cargarDetallesPayment(Payments payment) throws Exception {
+	public void loadDetailsPayment(Payments payment) throws Exception {
 		int idPayment = payment.getIdPayment();
-		Contrato contrato = (Contrato) this.paymentsDao
-				.consultarObjetoPayments("contrato", idPayment);
-		Hr hr = (Hr) this.paymentsDao.consultarObjetoPayments("hr", idPayment);
-		int idContrato = contrato.getId();
+		Contrato contract = (Contrato) this.paymentsDao
+				.consultObjectPayments("contract", idPayment);
+		Hr hr = (Hr) this.paymentsDao.consultObjectPayments("hr", idPayment);
+		int idContrato = contract.getId();
 		Persona persona = (Persona) this.contratoDao.consultarObjetoContrato(
 				"persona", idContrato);
-		contrato.setPersona(persona);
-		payment.setContrato(contrato);
+		contract.setPersona(persona);
+		payment.setContract(contract);
 		payment.setHr(hr);
 	}
 
 	/**
 	 * Method that allows to eliminate payment of the database.
 	 * 
-	 * @return consultarPayments: Consulting payment method, return to the
+	 * @return consultPayments: Consulting payment method, return to the
 	 *         template management.
 	 */
-	public String eliminarPayments() {
+	public String removePayments() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			paymentsDao.eliminarPayments(this.payments);
+			paymentsDao.removePayments(this.payments);
 			String format = MessageFormat.format(bundle
 					.getString("message_registro_eliminar"), payments.getHr()
 					.getName() + " " + payments.getHr().getFamilyName());
@@ -257,7 +256,7 @@ public class PaymentsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarPayments();
+		return consultPayments();
 	}
 
 	/**
@@ -269,16 +268,16 @@ public class PaymentsAction implements Serializable {
 	 * @return "regPayments": redirected to the template record payments.
 	 * @throws Exception
 	 */
-	public String agregarEditarPayments(Payments payments) throws Exception {
+	public String addEditPayments(Payments payments) throws Exception {
 		if (payments != null) {
 			this.payments = payments;
-			cargarDetallesPayment(payments);
+			loadDetailsPayment(payments);
 		} else {
 			this.payments = new Payments();
 			this.payments.setHr(new Hr());
-			Contrato contrato = new Contrato();
-			contrato.setPersona(new Persona());
-			this.payments.setContrato(contrato);
+			Contrato contract = new Contrato();
+			contract.setPersona(new Persona());
+			this.payments.setContract(contract);
 		}
 		return "regPayments";
 	}
@@ -286,24 +285,24 @@ public class PaymentsAction implements Serializable {
 	/**
 	 * Method for cleaning the contract associated with the payment.
 	 */
-	public void limpiarContrato() {
-		this.payments.setContrato(new Contrato());
+	public void cleanContract() {
+		this.payments.setContract(new Contrato());
 	}
 
 	/**
 	 * Method to load the selected contract.
 	 * 
-	 * @param contrato
+	 * @param contract
 	 *            : object selected contract.
 	 */
-	public void cargarContrato(Contrato contrato) {
-		this.payments.setContrato(contrato);
+	public void loadContract(Contrato contract) {
+		this.payments.setContract(contract);
 	}
 
 	/**
 	 * Method to clean the HR associated with the payment.
 	 */
-	public void limpiarHr() {
+	public void cleanHr() {
 		this.payments.setHr(new Hr());
 	}
 
@@ -313,14 +312,14 @@ public class PaymentsAction implements Serializable {
 	 * @param hr
 	 *            : object HR selected.
 	 */
-	public void cargarHr(Hr hr) {
+	public void loadHr(Hr hr) {
 		this.payments.setHr(hr);
 	}
 
 	/**
 	 * Method used to save or edit payments.
 	 * 
-	 * @return inicializarBusqueda(): Method consulting payments and returns to
+	 * @return searchInitialization(): Method consulting payments and returns to
 	 *         template management.
 	 */
 	public String guardarPayments() {
@@ -328,12 +327,12 @@ public class PaymentsAction implements Serializable {
 		String key = bundle.getString("message_registro_modificar");
 		try {
 			if (this.payments.getIdPayment() != 0) {
-				paymentsDao.editarPayments(this.payments);
+				paymentsDao.editPayments(this.payments);
 			} else {
 				key = bundle.getString("message_registro_guardar");
-				paymentsDao.guardarPayments(this.payments);
+				paymentsDao.savePayments(this.payments);
 			}
-			this.nombreBuscar = "";
+			this.nameSearch = "";
 			ControladorContexto.mensajeInformacion(
 					null,
 					MessageFormat.format(key, payments.getHr().getName() + " "
@@ -341,6 +340,6 @@ public class PaymentsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return inicializarBusqueda();
+		return searchInitialization();
 	}
 }

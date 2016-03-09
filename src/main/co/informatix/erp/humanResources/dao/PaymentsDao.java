@@ -32,7 +32,7 @@ public class PaymentsDao implements Serializable {
 	 *            : edit payment.
 	 * @throws Exception
 	 */
-	public void editarPayments(Payments payments) throws Exception {
+	public void editPayments(Payments payments) throws Exception {
 		em.merge(payments);
 	}
 
@@ -40,10 +40,10 @@ public class PaymentsDao implements Serializable {
 	 * Save payment in the BD.
 	 * 
 	 * @param payments
-	 *            : Pay to save
+	 *            : Pay to save.
 	 * @throws Exception
 	 */
-	public void guardarPayments(Payments payments) throws Exception {
+	public void savePayments(Payments payments) throws Exception {
 		em.persist(payments);
 	}
 
@@ -51,10 +51,10 @@ public class PaymentsDao implements Serializable {
 	 * Removes payment in BD.
 	 * 
 	 * @param payments
-	 *            : payment to eliminate
+	 *            : payment to eliminate.
 	 * @throws Exception
 	 */
-	public void eliminarPayments(Payments payments) throws Exception {
+	public void removePayments(Payments payments) throws Exception {
 		Payments payment = em.find(Payments.class, payments.getIdPayment());
 		em.remove(em.merge(payment));
 	}
@@ -63,21 +63,21 @@ public class PaymentsDao implements Serializable {
 	 * Returns the number of existing payments in the DB by filtering
 	 * information sent search values.
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : String containing the query why the filter payments.
-	 * @param parametros
+	 * @param parameters
 	 *            : query parameters.
 	 * @return Long: amount of payment records found.
 	 * @throws Exception
 	 */
-	public Long cantidadPayments(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long cantidadPayments(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(p) FROM Payments p ");
-		query.append(consulta);
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -86,31 +86,31 @@ public class PaymentsDao implements Serializable {
 	 * This payment method consultation with a range determined sent as and
 	 * filtering the information parameter values for search sent.
 	 * 
-	 * @param inicio
-	 *            : where it initiates the query record
-	 * @param rango
-	 *            : range of records
-	 * @param consulta
+	 * @param start
+	 *            : where it initiates the query record.
+	 * @param range
+	 *            : range of records.
+	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
-	 * @param parametros
+	 * @param parameters
 	 *            : query parameters.
 	 * @return List <Payments> : list of payments.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Payments> consultarPayments(int inicio, int rango,
-			StringBuilder consulta, List<SelectItem> parametros)
+	public List<Payments> consultPayments(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT p FROM Payments p ");
-		query.append(consulta);
+		query.append(consult);
 		query.append("ORDER BY p.idPayment ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
+		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
-		q.setFirstResult(inicio).setMaxResults(rango);
+		q.setFirstResult(start).setMaxResults(range);
 		List<Payments> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
@@ -119,26 +119,24 @@ public class PaymentsDao implements Serializable {
 	}
 
 	/**
+	 * Consult object assigned to a payment, considering that they are just
+	 * those that are not null in the table.
 	 * 
-	 Consult object assigned to a payment, considering that they are just
-	 * those that are not null in the table
-	 * 
-	 * 
-	 * @param nomObject
-	 *            : object to check payment
+	 * @param namObject
+	 *            : object to check payment.
 	 * @param idPayment
-	 *            : id payment is consulted
+	 *            : id payment is consulted.
 	 * @return Object information associated with the payment or null if not
 	 *         present.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoPayments(String nomObject, int idPayment)
+	public Object consultObjectPayments(String namObject, int idPayment)
 			throws Exception {
 		List<Object> results = em
 				.createQuery(
 						"SELECT p."
-								+ nomObject
+								+ namObject
 								+ " FROM Payments p WHERE p.idPayment=:idPayment")
 				.setParameter("idPayment", idPayment).getResultList();
 
