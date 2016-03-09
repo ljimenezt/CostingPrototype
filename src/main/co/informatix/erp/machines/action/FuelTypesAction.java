@@ -42,11 +42,11 @@ public class FuelTypesAction implements Serializable {
 	private FuelTypes fuelTypes;
 	private Paginador paginador = new Paginador();
 
-	private String nombreBuscar;
+	private String nameSearch;
 
 	/**
 	 * @return listFuelTypes: list of the types of fuel shown in the user
-	 *         interface
+	 *         interface.
 	 */
 	public List<FuelTypes> getListFuelTypes() {
 		return listFuelTypes;
@@ -54,14 +54,14 @@ public class FuelTypesAction implements Serializable {
 
 	/**
 	 * @param listFuelTypes
-	 *            :list of the types of fuel shown in the user interface
+	 *            :list of the types of fuel shown in the user interface.
 	 */
 	public void setListFuelTypes(List<FuelTypes> listFuelTypes) {
 		this.listFuelTypes = listFuelTypes;
 	}
 
 	/**
-	 * @return fuelTypes: object containing data on the types of fuel
+	 * @return fuelTypes: object containing data on the types of fuel.
 	 */
 	public FuelTypes getFuelTypes() {
 		return fuelTypes;
@@ -69,7 +69,7 @@ public class FuelTypesAction implements Serializable {
 
 	/**
 	 * @param fuelTypes
-	 *            :object containing data on the types of fuel
+	 *            :object containing data on the types of fuel.
 	 */
 	public void setFuelTypes(FuelTypes fuelTypes) {
 		this.fuelTypes = fuelTypes;
@@ -91,49 +91,49 @@ public class FuelTypesAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Type of fuel to search
+	 * @return nameSearch: Type of fuel to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            :Type of fuel to search
+	 * @param nameSearch
+	 *            :Type of fuel to search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * listing of the types of fuel
+	 * listing of the types of fuel.
 	 * 
 	 * @return consultFuelTypes: method to query the types of fuel, returns to
 	 *         the template management.
 	 */
 	public String initializeSearch() {
-		nombreBuscar = "";
+		nameSearch = "";
 		return consultFuelTypes();
 	}
 
 	/**
-	 * Consult the list of the types of fuel
+	 * Consult the list of the types of fuel.
 	 * 
 	 * @return "gesFuelTypes": redirects to the template to manage the types of
-	 *         fuels
+	 *         fuels.
 	 */
 	public String consultFuelTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
 				.getBundle("mensajeMachine");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listFuelTypes = new ArrayList<FuelTypes>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
-		String mensajeBusqueda = "";
+		String messageSearch = "";
 		try {
 			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
 			Long amount = fuelTypesDao.amountFuelTypes(consult, parameters);
@@ -145,7 +145,7 @@ public class FuelTypesAction implements Serializable {
 					parameters);
 			if ((listFuelTypes == null || listFuelTypes.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
-				mensajeBusqueda = MessageFormat
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionMessagesSearch);
@@ -153,14 +153,14 @@ public class FuelTypesAction implements Serializable {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
 			} else if (!"".equals(unionMessagesSearch.toString())) {
-				mensajeBusqueda = MessageFormat
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleMachineType
 										.getString("machine_types_label_s"),
 								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -173,25 +173,25 @@ public class FuelTypesAction implements Serializable {
 	 * user.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(ft.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -199,7 +199,7 @@ public class FuelTypesAction implements Serializable {
 	 * Method to edit or create new types of fuel.
 	 * 
 	 * @param fuelTypes
-	 *            :types of fuel that you are adding or editing
+	 *            :types of fuel that you are adding or editing.
 	 * 
 	 * @return "regFuelTypes": redirected to the template record fuel types.
 	 */
@@ -217,12 +217,12 @@ public class FuelTypesAction implements Serializable {
 	 * and validates against XSS.
 	 * 
 	 * @param context
-	 *            : application context
+	 *            : application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : validate component.
 	 * @param value
-	 *            : field value to be valid
+	 *            : field value to be valid.
 	 */
 	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
@@ -251,24 +251,24 @@ public class FuelTypesAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the types of fuel
+	 * Method used to save or edit the types of fuel.
 	 * 
 	 * @return consultFuelTypes: Redirects to manage types of fuel with the list
-	 *         of names updated
+	 *         of names updated.
 	 */
 	public String saveFuelTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 
 			if (fuelTypes.getIdFuelType() != 0) {
 				fuelTypesDao.editFuelTypes(fuelTypes);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
+				messageLog = "message_registro_guardar";
 				fuelTypesDao.saveFuelTypes(fuelTypes);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), fuelTypes.getName()));
+					bundle.getString(messageLog), fuelTypes.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -276,11 +276,11 @@ public class FuelTypesAction implements Serializable {
 	}
 
 	/**
-	 * Method to delete a type of fuel database
+	 * Method to delete a type of fuel database.
 	 * 
 	 * 
 	 * @return consultFuelTypes(): Consult the list of the types of fuel and
-	 *         returns to manages the fuels
+	 *         returns to manages the fuels.
 	 */
 	public String deleteFuelTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
