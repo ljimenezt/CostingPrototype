@@ -32,28 +32,28 @@ public class ServiceTypeAction implements Serializable {
 	@EJB
 	private ServiceTypeDao serviceTypeDao;
 
-	private List<ServiceType> listaServiceType;
+	private List<ServiceType> listServiceType;
 	private ServiceType serviceType;
 	private Paginador paginador = new Paginador();
-	private String nombreBuscar;
+	private String nameSearch;
 
 	/**
-	 * @return listaServiceType: Service Type List
+	 * @return listServiceType: Service Type List.
 	 */
-	public List<ServiceType> getListaServiceType() {
-		return listaServiceType;
+	public List<ServiceType> getListServiceType() {
+		return listServiceType;
 	}
 
 	/**
-	 * @param listaServiceType
-	 *            : Service Type List
+	 * @param listServiceType
+	 *            : Service Type List.
 	 */
-	public void setListaServiceType(List<ServiceType> listaServiceType) {
-		this.listaServiceType = listaServiceType;
+	public void setListServiceType(List<ServiceType> listServiceType) {
+		this.listServiceType = listServiceType;
 	}
 
 	/**
-	 * @return serviceType: service type record
+	 * @return serviceType: service type record.
 	 */
 	public ServiceType getServiceType() {
 		return serviceType;
@@ -61,7 +61,7 @@ public class ServiceTypeAction implements Serializable {
 
 	/**
 	 * @param serviceType
-	 *            : service type record
+	 *            : service type record.
 	 */
 	public void setServiceType(ServiceType serviceType) {
 		this.serviceType = serviceType;
@@ -83,78 +83,77 @@ public class ServiceTypeAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Name the type of service to find.
+	 * @return nameSearch: Name the type of service to find.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : Name the type of service to find.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of service type.
 	 * 
-	 * @return consultarServiceType: method consulting service types, returns to
+	 * @return consultServiceType: method consulting service types, returns to
 	 *         the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarServiceType();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultServiceType();
 	}
 
 	/**
-	 * Consult the list of types of service
+	 * Consult the list of types of service.
 	 * 
 	 * @return "gesServiceType": navigation rule that directs the managed
-	 *         service type
+	 *         service type.
 	 */
-	public String consultarServiceType() {
+	public String consultServiceType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ResourceBundle bundleServices = ControladorContexto
+				.getBundle("mensajeServices");
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaServiceType = new ArrayList<ServiceType>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listServiceType = new ArrayList<ServiceType>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = serviceTypeDao.cantidadServiceType(consulta,
-					parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = serviceTypeDao.quantityServiceType(query,
+					parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaServiceType = serviceTypeDao.consultarServiceType(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaServiceType == null || listaServiceType.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listServiceType = serviceTypeDao.consultServiceType(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
+			if ((listServiceType == null || listServiceType.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaServiceType == null || listaServiceType.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listServiceType == null || listServiceType.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleRecursosHumanos
-										.getString("tipo_recurso_humano_label"),
-								unionMensajesBusqueda);
+								bundleServices
+										.getString("service_type_label"),
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -167,24 +166,24 @@ public class ServiceTypeAction implements Serializable {
 	 * the user.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consult.append("WHERE UPPER(ec.descripcion) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("WHERE UPPER(st.description) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -196,7 +195,7 @@ public class ServiceTypeAction implements Serializable {
 	 * @return regServiceType: redirected to the template type of service
 	 *         record.
 	 */
-	public String agregarEditarServiceType(ServiceType serviceType) {
+	public String addEditServiceType(ServiceType serviceType) {
 		if (serviceType != null) {
 			this.serviceType = serviceType;
 		} else {
@@ -206,52 +205,53 @@ public class ServiceTypeAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the types of service
+	 * Method used to save or edit the types of service.
 	 * 
-	 * @return consultarServiceType: Redirects to manage the types of service
-	 *         with the list of upgraded service types
+	 * @return consultServiceType: Redirects to manage the types of service with
+	 *         the list of upgraded service types.
 	 */
-	public String guardarServiceType() {
+	public String saveServiceType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 			if (serviceType.getIdServiceType() != 0) {
-				serviceTypeDao.editarServiceType(serviceType);
+				serviceTypeDao.editServiceType(serviceType);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				serviceTypeDao.guardarServiceType(serviceType);
+				messageLog = "message_registro_guardar";
+				serviceTypeDao.saveServiceType(serviceType);
 			}
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
-					serviceType.getDescripcion()));
+			ControladorContexto
+					.mensajeInformacion(null, MessageFormat.format(
+							bundle.getString(messageLog),
+							serviceType.getDescription()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarServiceType();
+		return consultServiceType();
 	}
 
 	/**
-	 * Method for removing a service type of database
+	 * Method for removing a service type of database.
 	 * 
-	 * @return consultarServiceType: See the list of service types and returns
-	 *         to manage type of service
+	 * @return consultServiceType: See the list of service types and returns to
+	 *         manage type of service.
 	 */
-	public String eliminarServiceType() {
+	public String removeServiceType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			serviceTypeDao.eliminarServiceType(serviceType);
+			serviceTypeDao.removeServiceType(serviceType);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
-					serviceType.getDescripcion()));
+					serviceType.getDescription()));
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),
-					serviceType.getDescripcion());
+					serviceType.getDescription());
 			ControladorContexto.mensajeError(e, null, format);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarServiceType();
+		return consultServiceType();
 	}
 }

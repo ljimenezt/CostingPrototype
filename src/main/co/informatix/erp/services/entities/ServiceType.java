@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class ServiceType implements Serializable {
 
 	private int idServiceType;
-	private String descripcion;
+	private String description;
 
 	/**
 	 * @return idServiceType: Table identifier service_type
@@ -39,21 +39,20 @@ public class ServiceType implements Serializable {
 	public void setIdServiceType(int idServiceType) {
 		this.idServiceType = idServiceType;
 	}
-
+	
 	/**
-	 * @return descripcion: service_types description of the table
+	 * @return description: service_types description of the table
 	 */
-	@Column(name = "description", length = 200)
-	public String getDescripcion() {
-		return descripcion;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
-	 * @param descripcion
+	 * @param description
 	 *            : service_types description of the table
 	 */
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -61,7 +60,7 @@ public class ServiceType implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((descripcion == null) ? 0 : descripcion.hashCode());
+				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + idServiceType;
 		return result;
 	}
@@ -75,14 +74,16 @@ public class ServiceType implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ServiceType other = (ServiceType) obj;
-		if (descripcion == null) {
-			if (other.descripcion != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!descripcion.equals(other.descripcion))
+		} else if (!description.equals(other.description))
 			return false;
 		if (idServiceType != other.idServiceType)
 			return false;
 		return true;
 	}
+
+	
 
 }

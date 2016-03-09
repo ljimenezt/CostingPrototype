@@ -9,28 +9,28 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="serviceTypeAction.inicializarBusqueda" />
+	<ui:param name="action" value="serviceTypeAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeServices.service_type_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{serviceTypeAction}" />
 		<ui:param name="listaVacia"
-			value="#{serviceTypeAction.listaServiceType eq null or (empty serviceTypeAction.listaServiceType)}" />
+			value="#{serviceTypeAction.listServiceType eq null or (empty serviceTypeAction.listServiceType)}" />
 		<ui:param name="anchoTabla" value="anchoSeis" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{serviceTypeAction}" />
 		<ui:param name="renderLista" value="panelServiceType vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarServiceType" />
+		<ui:param name="metodoLista" value="consultServiceType" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="serviceTypeAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarServiceType" />
+		<ui:param name="metodoNuevo" value="addEditServiceType" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formServiceType">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -40,7 +40,7 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{serviceTypeAction.listaServiceType}"
+				<rich:dataTable value="#{serviceTypeAction.listServiceType}"
 					var="serviceType"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -60,14 +60,14 @@
 
 					<rich:column styleClass="colTextoExtraLargo">
 						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
-						<h:commandLink value="#{serviceType.descripcion}"
-							action="#{serviceTypeAction.agregarEditarServiceType(serviceType)}"
+						<h:commandLink value="#{serviceType.description}"
+							action="#{serviceTypeAction.addEditServiceType(serviceType)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
-							<rich:column colspan="7" styleClass="footTabla">
+							<rich:column colspan="2" styleClass="footTabla">
 								<h:outputText
 									value="#{mensaje.message_no_existen_registros_tabla}" />
 							</rich:column>
@@ -84,7 +84,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelServiceType" />
 							<ui:param name="beanActionParam" value="#{serviceTypeAction}" />
-							<ui:param name="metodoActionParam" value="consultarServiceType" />
+							<ui:param name="metodoActionParam" value="consultServiceType" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -107,13 +107,13 @@
 					<h:outputText value="#{mensaje.label_descripcion}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{serviceTypeAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{serviceTypeAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{serviceTypeAction.consultarServiceType}"
+						actionListener="#{serviceTypeAction.consultServiceType}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelServiceType, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -141,11 +141,11 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}:" />
-						<h:outputText value="#{serviceTypeAction.serviceType.descripcion}" />
+						<h:outputText value="#{serviceTypeAction.serviceType.description}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{serviceTypeAction.eliminarServiceType()}"
+							actionListener="#{serviceTypeAction.removeServiceType()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelServiceType, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
