@@ -26,7 +26,7 @@ public class FuelTypesDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Saves a fuel type in the DB
+	 * Saves a fuel type in the DB.
 	 * 
 	 * @param fuelTypes
 	 *            : one fuel type to save.
@@ -37,7 +37,7 @@ public class FuelTypesDao implements Serializable {
 	}
 
 	/**
-	 * Edits a fuel type BD
+	 * Edits a fuel type BD.
 	 * 
 	 * @param fuelTypes
 	 *            : type of fuel to edit.
@@ -48,10 +48,10 @@ public class FuelTypesDao implements Serializable {
 	}
 
 	/**
-	 * Deletes a fuel type BD
+	 * Deletes a fuel type BD.
 	 * 
 	 * @param fuelTypes
-	 *            : type of fuel to remove
+	 *            : type of fuel to remove.
 	 * @throws Exception
 	 */
 	public void deleteFuelTypes(FuelTypes fuelTypes) throws Exception {
@@ -67,7 +67,7 @@ public class FuelTypesDao implements Serializable {
 	 *            filtered.
 	 * @param parameters
 	 *            : query parameters.
-	 * @return Long: number of records found type of fuel
+	 * @return Long: number of records found type of fuel.
 	 * @throws Exception
 	 */
 	public Long amountFuelTypes(StringBuilder consult,
@@ -76,8 +76,8 @@ public class FuelTypesDao implements Serializable {
 		query.append("SELECT COUNT(ft) FROM FuelTypes ft ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -87,9 +87,9 @@ public class FuelTypesDao implements Serializable {
 	 * to display build depending on the search criteria selected by the user.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :where he started the consultation record.
 	 * @param range
-	 *            : range of records
+	 *            : range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
@@ -106,8 +106,8 @@ public class FuelTypesDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY ft.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<FuelTypes> resultList = q.getResultList();
@@ -122,9 +122,9 @@ public class FuelTypesDao implements Serializable {
 	 * editing.
 	 * 
 	 * @param name
-	 *            : type of fuel to verify
+	 *            : type of fuel to verify.
 	 * @param id
-	 *            : id the type of fuel to verify
+	 *            : id the type of fuel to verify.
 	 * @return FuelTypes: fuel types object found with the search parameters
 	 *         name and id.
 	 * @throws Exception
@@ -150,9 +150,9 @@ public class FuelTypesDao implements Serializable {
 	}
 
 	/**
-	 * Method that consult all fuel types object and stores it in a list
+	 * Method that consult all fuel types object and stores it in a list.
 	 * 
-	 * @return List<FuelTypes>: Fuel types list
+	 * @return List<FuelTypes>: Fuel types list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
