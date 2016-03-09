@@ -1182,11 +1182,6 @@ fieldset {
 	float: right;
 	position: relative;
 }
-
-.quitarDecoracionLink {
-		color: #000000 !important;
-		text-decoration: none;
-	}
 	
 /*Styles for sort table*/
 .FL {
