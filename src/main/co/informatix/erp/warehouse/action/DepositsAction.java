@@ -341,8 +341,8 @@ public class DepositsAction implements Serializable {
 	 * 
 	 * @modify 08/03/2016 Gerardo.Herrera
 	 * 
-	 * @return consultarMateriales: Materials consulting method and redirects to
-	 *         the template to manage materials.
+	 * @return consultDeposits: Deposits consulting method and redirects to the
+	 *         template to manage deposits.
 	 */
 	public String initializeSearch() {
 		if (ControladorContexto.getFacesContext() != null) {
@@ -406,8 +406,7 @@ public class DepositsAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleWarehouse
-										.getString("deposits_label"),
+								bundleWarehouse.getString("deposits_label"),
 								allMessageSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
