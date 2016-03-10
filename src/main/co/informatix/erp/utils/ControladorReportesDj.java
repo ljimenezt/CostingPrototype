@@ -535,16 +535,16 @@ public class ControladorReportesDj implements Serializable {
 		String dateString = dateFormat.format(currentDate);
 		String horaString = hoursFormat.format(currentDate);
 		String extension = ".pdf";
-		StringBuilder ruta = new StringBuilder();
-		ruta.append(Constantes.CARPETA_TEMP_SISTEMA());
-		ruta.append("/");
-		ruta.append("reporte_");
-		ruta.append(dateString);
-		ruta.append(horaString);
-		File outputFile;
-		File parentFile;
-		FileOutputStream fos;
 		try {
+			StringBuilder ruta = new StringBuilder();
+			ruta.append(Constantes.CARPETA_TEMP_SISTEMA());
+			ruta.append("/");
+			ruta.append("reporte_");
+			ruta.append(dateString);
+			ruta.append(horaString);
+			File outputFile;
+			File parentFile;
+			FileOutputStream fos;
 			if (formato.equals("pdf")) {
 				byte[] bytes = JasperExportManager
 						.exportReportToPdf(jasperPrint);

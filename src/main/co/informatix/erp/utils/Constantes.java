@@ -14,10 +14,11 @@ public class Constantes implements Serializable {
 
 	/* FOLDER PATHS */
 	/* Generic */
-	public static final String RUTA_UPLOADFILE_GLASFISH = PropertiesManager
-			.getProperty("locate.carpeta.servidor.glassfish");
-	public static final String RUTA_UPLOADFILE_WORKSPACE = PropertiesManager
-			.getProperty("locate.carpeta.servidor.local");
+	public static final String RUTA_UPLOADFILE_GLASFISH = Utils.RUTA_SERVIDOR();
+
+	public static final String RUTA_UPLOADFILE_WORKSPACE = ControladorGenerico
+			.RUTA_LOCAL();
+
 	public static final String CARPETA_ARCHIVOS_SUBIDOS = PropertiesManager
 			.getProperty("locate.carpeta.archivos");
 	public static final String RUTA_IMG = PropertiesManager
@@ -30,8 +31,6 @@ public class Constantes implements Serializable {
 			.getProperty("locate.carpeta.img.menu.cabecera");
 	public static final String CARPETA_ARCHIVOS_TEMP = PropertiesManager
 			.getProperty("locate.carpeta.archivos.temp");
-	public static final String NOMBRE_SISTEMA = PropertiesManager
-			.getProperty("locate.nombre.sistema");
 	public static final String IMG_REPORTE_LOGO = PropertiesManager
 			.getProperty("locate.img.reporte.logo.informatix");
 	public static final String IMG_REPORTE_LOGO_APLICACION = PropertiesManager
@@ -41,11 +40,11 @@ public class Constantes implements Serializable {
 	public static final String CARPETA_GESTION_DOCUMENTAL = PropertiesManager
 			.getProperty("locate.carpeta.archivos.gestion.documental");
 
-	public static final String CARPETA_TEMP_SISTEMA() {
+	public static final String CARPETA_TEMP_SISTEMA() throws Exception {
 		String tempdir = System.getProperty("java.io.tmpdir");
 		if (!(tempdir.endsWith("/") || tempdir.endsWith("\\")))
 			tempdir += System.getProperty("file.separator");
-		tempdir += NOMBRE_SISTEMA;
+		tempdir += Utils.getNombreAplicacion();
 		tempdir += System.getProperty("file.separator");
 		return tempdir;
 	}
@@ -73,6 +72,7 @@ public class Constantes implements Serializable {
 			.getProperty("locate.carpeta.archivos.reportes.formatos.exogena");
 	public static final String REPORTES_ACTIVIDADES = PropertiesManager
 			.getProperty("locate.carpeta.archivos.reportes.actividad");
+
 	/* Activity reports */
 	public static final String REPORTE_ACTIVIDAD_LABEL_ACTIVOS = PropertiesManager
 			.getProperty("locate.reporte.actividad.label.activos");
@@ -92,8 +92,8 @@ public class Constantes implements Serializable {
 			.getProperty("locate.carpeta.archivos.personas");
 
 	/* Validation Scripting */
-	public static final String POLICY_FILE_LOCATION = PropertiesManager
-			.getProperty("locate.carpeta.policy.file");
+	public static final String POLICY_FILE_LOCATION = RUTA_UPLOADFILE_GLASFISH
+			+ PropertiesManager.getProperty("locate.archivo.policy.file");
 
 	/* Graphic module */
 	public static final Long TAMANYO_MAPA_FINCA = Long
