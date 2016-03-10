@@ -171,7 +171,7 @@
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
-							<rich:column width="100px">
+							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 								<a:commandLink id="linkReg"
 									render="popupFormReg:popupRegActivity" value="" execute="@form"
@@ -180,48 +180,54 @@
 									<h:outputText value="#{activities.activityName.activityName}" />
 								</a:commandLink>
 							</rich:column>
-							<rich:column styleClass="colTextoLargo"
+							<rich:column styleClass="colTextoMediano"
 								style="word-break: normal;">
 								<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
 								<h:outputText value="#{activities.description}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMini center">
 								<f:facet name="header">#{mensaje.label_hr_requerido}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{activities.hrRequired eq true}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMini center">
 								<f:facet name="header">#{mensaje.label_maquina_requerida}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{activities.machineRequired eq true}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMini center">
 								<f:facet name="header">#{mensaje.label_servicio_requerido}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{activities.serviceRequired eq true}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMini center">
 								<f:facet name="header">#{mensaje.label_material_requerido}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{activities.materialsRequired eq true}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colTextoMini">
 								<f:facet name="header">#{mensaje.label_numero_secuencia}</f:facet>
 								<h:outputText value="#{activities.sequenceNumber}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colFechaLarga">
 								<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
-								<h:outputText value="#{activities.initialDtBudget}" />
+								<h:outputText value="#{activities.initialDtBudget}">
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colFechaLarga">
 								<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
-								<h:outputText value="#{activities.finalDtBudget}" />
+								<h:outputText value="#{activities.finalDtBudget}">
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colTextoMini">
 								<f:facet name="header">#{mensaje.label_duracion_activities}</f:facet>
 								<h:outputText value="#{activities.durationBudget}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMini center">
 								<f:facet name="header">#{mensaje.label_dangerous}</f:facet>
 								<h:graphicImage value="/img/peligroso_19.png"
 									rendered="#{activities.dangerous eq true}" />
