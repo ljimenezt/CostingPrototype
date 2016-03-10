@@ -10,7 +10,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="depositsAction.inicializarBusqueda" />
+	<ui:param name="action" value="depositsAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeWarehouse.deposits_label" />
 	<ui:define name="body">
@@ -28,7 +28,7 @@
 		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{depositsAction}" />
-		<ui:param name="renderLista" value="panelDeposits vigenciaPopup" />
+		<ui:param name="renderLista" value="panelDeposits" />
 		<ui:param name="metodoLista" value="consultDeposits" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
@@ -38,7 +38,7 @@
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 		<h:form id="formDeposits">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -86,23 +86,21 @@
 					<rich:dataTable value="#{depositsAction.listDeposits}"
 						id="depositsTable" var="deposit"
 						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
-						rowClasses="#{deposit.selected ? 'rf-ddm-itm-sel backgroundNone left':'odd-row'} , #{deposit.selected ? 'rf-ddm-itm-sel backgroundNone left' : 'even-row'}"
+						rowClasses="#{deposit.selected ? 'rf-ddm-itm-sel backgroundNone left, rf-ddm-itm-sel backgroundNone left':'odd-row, even-row'}"
 						footerClass="H130P">
 
+
 						<rich:column styleClass="colIconoUno">
-							<f:facet name="header" />
 							<a:commandLink render="formDeposits, transactionsTable"
 								actionListener="#{depositsAction.selectDeposit(deposit)}"
 								action="#{depositsAction.showTransaction()}"
 								oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
-								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
-										styleClass="verticalAlignMiddle"
-										rendered="#{deposit.selected eq true}" />
-									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
-										styleClass="verticalAlignMiddle"
-										rendered="#{deposit.selected eq false}" />
-								</h:panelGrid>
+								<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+									styleClass="verticalAlignMiddle"
+									rendered="#{deposit.selected eq true}" />
+								<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+									styleClass="verticalAlignMiddle"
+									rendered="#{deposit.selected eq false}" />
 							</a:commandLink>
 						</rich:column>
 						<rich:column styleClass="colFecha">
@@ -152,14 +150,21 @@
 
 						<rich:column styleClass="colTextoMini">
 							<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label}</f:facet>
-							<h:commandLink value="#{deposit.purchaseInvoices.invoiceNumber}"
-								onclick="#{rich:component('statPane')}.show();">
-							</h:commandLink>
+							<a:commandLink value="#{deposit.purchaseInvoices.invoiceNumber}"
+								render="purchaseDetails"
+								actionListener="#{depositsAction.setPurchaseInvoice(deposit.purchaseInvoices)}"
+								oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('purchaseDetails')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+							</a:commandLink>
 						</rich:column>
 
-						<rich:column styleClass="colTextoMini">
+						<rich:column styleClass="colIconoUno">
 							<f:facet name="header">#{mensaje.label_adjust}</f:facet>
-							<a:commandButton value="#{mensaje.label_adjust}" />
+							<a:commandLink render="purchaseDetails">
+								<h:graphicImage value="/img/adjust_16.png" />
+								<rich:tooltip layout="block" styleClass="campoTooltip">
+									<h:outputText value="#{mensaje.label_adjust}" />
+								</rich:tooltip>
+							</a:commandLink>
 						</rich:column>
 
 						<f:facet name="footer">
@@ -271,38 +276,81 @@
 							onclick="#{rich:component('depositDetails')}.hide()" />
 					</h:panelGroup>
 				</f:facet>
-				<t:fieldset styleClass="BorderW2P">
-					<legend class="etiquetaTitulo">#{depositsAction.depositDetails.materials.name}
-						- #{mensajeWarehouse.purchase_invoice_label}:
-						#{depositsAction.depositDetails.purchaseInvoices.invoiceNumber}</legend>
-					<a:outputPanel id="detailsDeposits">
-						<a:outputPanel>
-							<h:panelGrid columns="2"
-								columnClasses="columnaDerecha, columnaDerecha">
-								<h:outputText styleClass="etiquetaTitulo"
-									value="#{mensajeWarehouse.deposits_label_initial_quantity_actual}:" />
-								<h:outputText
-									value="#{depositsAction.depositDetails.initialQuantity}" />
+				<a:outputPanel id="detailsDeposits">
+					<a:outputPanel>
+						<h:panelGrid columns="2"
+							columnClasses="columnaDerecha, columnaDerecha">
 
-								<h:outputText styleClass="etiquetaTitulo"
-									value="#{mensaje.label_total_cost}:" />
-								<h:outputText value="#{depositsAction.depositDetails.totalCost}" />
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeWarehouse.materials_label}:" />
+							<h:outputText
+								value="#{depositsAction.depositDetails.materials.name}" />
 
-								<h:outputText styleClass="etiquetaTitulo"
-									value="#{mensajeWarehouse.deposits_label_initial_quantity_actual}:" />
-								<h:outputText
-									value="#{depositsAction.depositDetails.actualQuantity}" />
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeWarehouse.purchase_invoice_label}:" />
+							<h:outputText
+								value="#{depositsAction.depositDetails.purchaseInvoices.invoiceNumber}" />
 
-								<h:outputText styleClass="etiquetaTitulo"
-									value="#{mensaje.label_fecha} #{mensajeWarehouse.purchase_invoice_label}:" />
-								<h:outputText
-									value="#{depositsAction.depositDetails.purchaseInvoices.dateTime}" />
-							</h:panelGrid>
-						</a:outputPanel>
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeWarehouse.deposits_label_initial_quantity_actual}:" />
+							<h:outputText
+								value="#{depositsAction.depositDetails.initialQuantity}" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_total_cost}:" />
+							<h:outputText value="#{depositsAction.depositDetails.totalCost}" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeWarehouse.deposits_label_initial_quantity_actual}:" />
+							<h:outputText
+								value="#{depositsAction.depositDetails.actualQuantity}" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_fecha} #{mensajeWarehouse.purchase_invoice_label}:" />
+							<h:outputText
+								value="#{depositsAction.depositDetails.purchaseInvoices.dateTime}">
+								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+									locale="#{idioma.locale}" />
+							</h:outputText>
+						</h:panelGrid>
 					</a:outputPanel>
-				</t:fieldset>
+				</a:outputPanel>
 			</rich:popupPanel>
 		</h:form>
+
+		<h:form id="formPurchaseDetail">
+			<rich:popupPanel id="purchaseDetails" modal="true"
+				domElementAttachment="form" autosized="true" width="1200"
+				maxWidth="1300"
+				header="#{mensaje.label_detalles}  #{mensajeWarehouse.purchase_invoice_label}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('purchaseDetails')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<a:outputPanel id="purchaseDetail">
+					<h:panelGrid columns="2"
+						columnClasses="columnaDerecha, columnaDerecha">
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.materials_label}:" />
+						<h:outputText
+							value="#{depositsAction.purchaseInvoice.invoiceNumber}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.purchase_invoice_label}:" />
+						<h:outputText
+							value="#{depositsAction.purchaseInvoice.totalValueActual}" />
+
+					</h:panelGrid>
+				</a:outputPanel>
+			</rich:popupPanel>
+		</h:form>
+
 
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" width="330"
