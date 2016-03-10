@@ -127,7 +127,7 @@ public class PaymentsAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listPayments = new ArrayList<Payments>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
@@ -137,7 +137,7 @@ public class PaymentsAction implements Serializable {
 		try {
 			advancedSearch(query, parameters, bundle,
 					unionMessagesSearch);
-			Long quantity = paymentsDao.cantidadPayments(query, parameters);
+			Long quantity = paymentsDao.quantityPayments(query, parameters);
 			if (quantity != null) {
 				paginador.paginar(quantity);
 			}
@@ -160,7 +160,7 @@ public class PaymentsAction implements Serializable {
 								unionMessagesSearch);
 			}
 			loadDetailsPayments();
-			validaciones.setMensajeBusqueda(messageSearch);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -226,10 +226,10 @@ public class PaymentsAction implements Serializable {
 		Contrato contract = (Contrato) this.paymentsDao
 				.consultObjectPayments("contract", idPayment);
 		Hr hr = (Hr) this.paymentsDao.consultObjectPayments("hr", idPayment);
-		int idContrato = contract.getId();
-		Persona persona = (Persona) this.contratoDao.consultarObjetoContrato(
-				"persona", idContrato);
-		contract.setPersona(persona);
+		int idContract = contract.getId();
+		Persona person = (Persona) this.contratoDao.consultarObjetoContrato(
+				"persona", idContract);
+		contract.setPersona(person);
 		payment.setContract(contract);
 		payment.setHr(hr);
 	}
@@ -322,7 +322,7 @@ public class PaymentsAction implements Serializable {
 	 * @return searchInitialization(): Method consulting payments and returns to
 	 *         template management.
 	 */
-	public String guardarPayments() {
+	public String savePayments() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String key = bundle.getString("message_registro_modificar");
 		try {

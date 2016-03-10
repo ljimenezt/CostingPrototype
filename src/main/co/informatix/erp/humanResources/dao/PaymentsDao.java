@@ -70,7 +70,7 @@ public class PaymentsDao implements Serializable {
 	 * @return Long: amount of payment records found.
 	 * @throws Exception
 	 */
-	public Long cantidadPayments(StringBuilder consult,
+	public Long quantityPayments(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(p) FROM Payments p ");
