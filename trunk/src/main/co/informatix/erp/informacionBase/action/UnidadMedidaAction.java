@@ -1085,7 +1085,6 @@ public class UnidadMedidaAction implements Serializable {
 	 * 
 	 * @modify 13/12/2011 marisol.calderon
 	 * 
-	 * @throws Exception
 	 */
 	public void cargarComboUnidadesFinales() {
 		itemsUnidadFinal = new HashMap<String, Integer>();
