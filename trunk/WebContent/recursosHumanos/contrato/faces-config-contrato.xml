@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesContrato</from-outcome>
-			<to-view-id>/recursosHumanos/contrato/gestionarContrato.xhtml</to-view-id>
+			<to-view-id>/recursosHumanos/contrato/manageContracts.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regContrato</from-outcome>
-			<to-view-id>/recursosHumanos/contrato/registrarContrato.xhtml</to-view-id>
+			<to-view-id>/recursosHumanos/contrato/registerContract.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

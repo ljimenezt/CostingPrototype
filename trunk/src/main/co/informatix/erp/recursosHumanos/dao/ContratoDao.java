@@ -12,8 +12,8 @@ import javax.persistence.Query;
 import co.informatix.erp.recursosHumanos.entities.Contrato;
 
 /**
- * Class DAO that establishes the connection between business logic and database
- * management contracts are handled in the payroll of the company.
+ * DAO Class that establishes the connection between business logic and database
+ * management. Contracts are handled in the payroll of the company.
  * 
  * @author Andres.Gomez
  * 
@@ -26,56 +26,56 @@ public class ContratoDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Save a contract in BD.
+	 * Save a contract in database.
 	 * 
-	 * @param contrato
+	 * @param contract
 	 *            : Contract to keep.
 	 * @throws Exception
 	 */
-	public void guardarContrato(Contrato contrato) throws Exception {
-		em.persist(contrato);
+	public void saveContract(Contrato contract) throws Exception {
+		em.persist(contract);
 	}
 
 	/**
-	 * Edit the information of an existing contract in BD.
+	 * Edit the information of an existing contract in database.
 	 * 
-	 * @param contrato
+	 * @param contract
 	 *            : Contract edited.
 	 * @throws Exception
 	 */
-	public void editarContrato(Contrato contrato) throws Exception {
-		em.merge(contrato);
+	public void editContract(Contrato contract) throws Exception {
+		em.merge(contract);
 	}
 
 	/**
-	 * Removes BD contract
+	 * Removes a contract in database.
 	 * 
-	 * @param contrato
-	 *            : contract to remove
+	 * @param contract
+	 *            : Contract to remove.
 	 * @throws Exception
 	 */
-	public void eliminarContrato(Contrato contrato) throws Exception {
-		em.remove(em.merge(contrato));
+	public void deleteContract(Contrato contract) throws Exception {
+		em.remove(em.merge(contract));
 	}
 
 	/**
-	 * Method for querying an object of contract.
+	 * Method for querying an object of Contract.
 	 * 
-	 * @param nomObject
-	 *            : property that you want to query the object.
-	 * @param idContrato
-	 *            : id of the Contract to be consulted
-	 * @return Contract Object query results.
+	 * @param objectName
+	 *            : Object property you want to query.
+	 * @param contractId
+	 *            : Id of the Contract to get.
+	 * @return Contract Object for the query results.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoContrato(String nomObject, int idContrato)
+	public Object searchContract(String objectName, int contractId)
 			throws Exception {
 		List<Object> result = (List<Object>) em
 				.createQuery(
-						"SELECT c." + nomObject + " FROM Contrato c "
+						"SELECT c." + objectName + " FROM Contrato c "
 								+ "WHERE c.id=:idContrato")
-				.setParameter("idContrato", idContrato).getResultList();
+				.setParameter("idContrato", contractId).getResultList();
 		if (result.size() > 0) {
 			return (Object) result.get(0);
 		}
@@ -83,58 +83,57 @@ public class ContratoDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of existing contracts in the database information by
-	 * filtering the search values sent.
+	 * Returns the number of existing contracts in the database; the information
+	 * is filtered with search values.
 	 * 
-	 * @param consult
-	 *            : String containing the query for which contracts are
-	 *            filtered.
+	 * @param query
+	 *            : String containing the query with filtered contracts.
 	 * @param parameters
-	 *            : query parameters.
-	 * @return Long: amount of contract records found
+	 *            : Query parameters.
+	 * @return Long: Amount of contract records found.
 	 * @throws Exception
 	 */
-	public Long cantidadContratos(StringBuilder consult,
-			List<SelectItem> parameters) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(c) FROM Contrato c ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public Long amountContracts(StringBuilder query, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(c) FROM Contrato c ");
+		queryBuilder.append(query);
+		Query result = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			result.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		return (Long) q.getSingleResult();
+		return (Long) result.getSingleResult();
 	}
 
 	/**
-	 * This method consultation contracts with a given range sent as a parameter
-	 * and filtering the information by the values sent search.
+	 * This method looks for contracts with a given range sent as a parameter
+	 * and filters the information with search values.
 	 * 
-	 * @param start
-	 *            :where he started the consultation record
+	 * @param first
+	 *            : The first record selected of the query.
 	 * @param range
-	 *            : range of records
-	 * @param consult
+	 *            : Range of records.
+	 * @param query
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
-	 * @return List<Contrato>: contracts list
+	 *            : Query parameters.
+	 * @return List<Contrato>: Contracts list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Contrato> consultarContratos(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT c FROM Contrato c ");
-		query.append(consult);
-		query.append("ORDER BY c.id ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public List<Contrato> searchContracts(int first, int range,
+			StringBuilder query, List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT c FROM Contrato c ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY c.id ");
+		Query resultQuery = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			resultQuery
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(start).setMaxResults(range);
-		List<Contrato> resultList = q.getResultList();
+		resultQuery.setFirstResult(first).setMaxResults(range);
+		List<Contrato> resultList = resultQuery.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
