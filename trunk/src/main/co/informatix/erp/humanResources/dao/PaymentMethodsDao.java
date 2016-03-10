@@ -138,6 +138,8 @@ public class PaymentMethodsDao implements Serializable {
 	 * Query whether the payment method name exists in the database when storing
 	 * or editing.
 	 * 
+	 * @author Sergio.Gelves
+	 * 
 	 * @param name
 	 *            : Name to verify the PaymentMethods.
 	 * @param id
@@ -145,8 +147,6 @@ public class PaymentMethodsDao implements Serializable {
 	 * @return paymentMethods: PaymentMethods object found with the search
 	 *         parameters id and name.
 	 * @throws Exception
-	 * 
-	 * @author Sergio.Gelves
 	 */
 	@SuppressWarnings("unchecked")
 	public PaymentMethods nameExists(String name, int id) throws Exception {
