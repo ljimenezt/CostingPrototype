@@ -12,8 +12,8 @@ import javax.persistence.Query;
 import co.informatix.erp.humanResources.entities.PaymentMethods;
 
 /**
- * DAO class that establishes the connection between business logic and base
- * data for managing the entity PaymentMethods
+ * DAO class that establishes the connection between business logic and database
+ * for managing the entity PaymentMethods.
  * 
  * @author Sergio.Ortiz
  * 
@@ -25,70 +25,70 @@ public class PaymentMethodsDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Saves a PaymentMethods in BD
+	 * Saves a PaymentMethods in the database.
 	 * 
 	 * @param paymentMethods
-	 *            object of PaymentMethods class to store in the database
+	 *            : Object of PaymentMethods class to store in the database.
 	 * @throws Exception
 	 */
-	public void guardaPaymentMethods(PaymentMethods paymentMethods)
+	public void savePaymentMethods(PaymentMethods paymentMethods)
 			throws Exception {
 		em.persist(paymentMethods);
 	}
 
 	/**
-	 * Edits PaymentMethods in BD
+	 * Edits PaymentMethods in the database.
 	 * 
 	 * @param paymentMethods
 	 * @throws Exception
 	 */
-	public void editarPaymentMethods(PaymentMethods paymentMethods)
+	public void editPaymentMethods(PaymentMethods paymentMethods)
 			throws Exception {
 		em.merge(paymentMethods);
 	}
 
 	/**
-	 * Removes PaymentMethods
+	 * Removes PaymentMethods from the database.
 	 * 
 	 * @param paymentMethods
-	 *            : Payment methods eliminate
+	 *            : PaymentMethods to eliminate.
 	 * @throws Exception
 	 */
-	public void eliminarPaymentMethods(PaymentMethods paymentMethods)
+	public void deletePaymentMethods(PaymentMethods paymentMethods)
 			throws Exception {
 		em.remove(em.merge(paymentMethods));
 	}
 
 	/**
-	 * This method queries the PaymentMethods sent a certain range as a
-	 * parameter and filtering the information by the values of search sent.
-	 ** 
-	 * @param inicio
-	 *            : where it initiates the query record
-	 * @param rango
-	 *            : range of records
-	 * @param consulta
-	 *            : Consult the logs depending on the parameters selected by the
-	 *            user.
-	 * @param parametros
-	 *            : query parameters.
-	 * @return List<PaymentMethods>: List PaymentMethods types.
+	 * This method queries the PaymentMethods for a certain range and filters
+	 * the information with search values sent as parameters.
+	 * 
+	 * @param first
+	 *            : The record where the result query starts.
+	 * @param range
+	 *            : Range of records.
+	 * @param query
+	 *            : Query the payments depending on the parameters selected by
+	 *            the user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<PaymentMethods>: List of PaymentMethods.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<PaymentMethods> consultarPaymentMethods(int inicio, int rango,
-			StringBuilder consulta, List<SelectItem> parametros)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT pm FROM  PaymentMethods pm ");
-		query.append(consulta);
-		query.append("ORDER BY pm.name ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public List<PaymentMethods> searchPaymentMethods(int first, int range,
+			StringBuilder query, List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT pm FROM  PaymentMethods pm ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY pm.name ");
+		Query resultQuery = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			resultQuery
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(inicio).setMaxResults(rango);
-		List<PaymentMethods> resultList = q.getResultList();
+		resultQuery.setFirstResult(first).setMaxResults(range);
+		List<PaymentMethods> resultList = resultQuery.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
@@ -96,42 +96,74 @@ public class PaymentMethodsDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of existing PaymentMethods in the database filtering
-	 * information search by the values sent.
+	 * Returns the number of existing PaymentMethods in the database and it
+	 * filters the information with search values sent as parameters.
 	 * 
-	 * @param consulta
-	 *            : String containing the query why the filter types of
-	 *            consumables.
-	 * @param parametros
-	 *            : query parameters.
-	 * @return Long: number of records found PaymentMethods type
+	 * @param query
+	 *            : String containing the query filters.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Amount of paymentMethods records that were found.
 	 * @throws Exception
 	 */
-	public Long cantidadPaymentMethods(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(pm) FROM PaymentMethods pm ");
-		query.append(consulta);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public Long amountPaymentMethods(StringBuilder query,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(pm) FROM PaymentMethods pm ");
+		queryBuilder.append(query);
+		Query resultQuery = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			resultQuery
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		return (Long) q.getSingleResult();
+		return (Long) resultQuery.getSingleResult();
 	}
 
 	/**
-	 * Consultation payments are current.
+	 * Look for available payment methods.
 	 * 
 	 * @author Cristhian.Pico
 	 * 
-	 * @return List<PaymentMethods>: list of current payment types found.
+	 * @return List<PaymentMethods>: List of current payment types found.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<PaymentMethods> consultarPaymentMethodsVigentes()
-			throws Exception {
+	public List<PaymentMethods> queryPaymentMethods() throws Exception {
 		return em.createQuery(
 				"SELECT pm FROM PaymentMethods pm " + "ORDER BY pm.name")
 				.getResultList();
 	}
+
+	/**
+	 * Query whether the payment method name exists in the database when storing
+	 * or editing.
+	 * 
+	 * @param name
+	 *            : Name to verify the PaymentMethods.
+	 * @param id
+	 *            : Payment method id to verify
+	 * @return paymentMethods: PaymentMethods object found with the search
+	 *         parameters id and name.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public PaymentMethods nameExists(String name, int id) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT pt FROM PaymentMethods pt ");
+		queryBuilder.append("WHERE UPPER(pt.name)=UPPER(:name) ");
+		if (id != 0) {
+			queryBuilder.append("AND pt.idPaymentMethod <>:idPaymentMethod ");
+		}
+		Query query = em.createQuery(queryBuilder.toString());
+		query.setParameter("name", name);
+		if (id != 0) {
+			query.setParameter("idPaymentMethod", id);
+		}
+		List<PaymentMethods> result = query.getResultList();
+		if (result.size() > 0) {
+			return result.get(0);
+		}
+		return null;
+	}
+
 }

@@ -820,7 +820,7 @@ public class HrAction implements Serializable {
 	private void cargarComboPaymentMethods() throws Exception {
 		itemsPaymentMethods = new ArrayList<SelectItem>();
 		List<PaymentMethods> tiposPagoVigentes = paymentMethodsDao
-				.consultarPaymentMethodsVigentes();
+				.queryPaymentMethods();
 		if (tiposPagoVigentes != null) {
 			for (PaymentMethods paymentMethod : tiposPagoVigentes) {
 				itemsPaymentMethods.add(new SelectItem(paymentMethod
