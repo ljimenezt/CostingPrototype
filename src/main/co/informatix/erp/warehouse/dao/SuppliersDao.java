@@ -164,4 +164,17 @@ public class SuppliersDao implements Serializable {
 				.getResultList();
 	}
 
+	/**
+	 * Suppliers method that queries the object by its ID
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @param id
+	 *            : Suppliers identifier to consult
+	 * @return: Suppliers object found with the search parameter identifier
+	 * @throws Exception
+	 */
+	public Suppliers suppliersById(int id) throws Exception {
+		return em.find(Suppliers.class, id);
+	}
 }
