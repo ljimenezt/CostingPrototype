@@ -152,7 +152,7 @@
 							<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label}</f:facet>
 							<a:commandLink value="#{deposit.purchaseInvoices.invoiceNumber}"
 								render="purchaseDetails"
-								actionListener="#{depositsAction.setPurchaseInvoice(deposit.purchaseInvoices)}"
+								actionListener="#{depositsAction.setInoviceSupplier(deposit.purchaseInvoices)}"
 								oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('purchaseDetails')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
 							</a:commandLink>
 						</rich:column>
@@ -224,7 +224,10 @@
 
 						<rich:column styleClass="colValor">
 							<f:facet name="header">#{mensaje.label_cantidad}</f:facet>
-							<h:outputText value="#{transaction.quantity}" />
+							<h:outputText value="#{transaction.quantity}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 
 						<rich:column styleClass="colTextoCorto">
@@ -294,24 +297,26 @@
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.deposits_label_initial_quantity_actual}:" />
 							<h:outputText
-								value="#{depositsAction.depositDetails.initialQuantity}" />
+								value="#{depositsAction.depositDetails.initialQuantity}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_total_cost}:" />
-							<h:outputText value="#{depositsAction.depositDetails.totalCost}" />
-
-							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeWarehouse.deposits_label_initial_quantity_actual}:" />
-							<h:outputText
-								value="#{depositsAction.depositDetails.actualQuantity}" />
-
-							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_fecha} #{mensajeWarehouse.purchase_invoice_label}:" />
-							<h:outputText
-								value="#{depositsAction.depositDetails.purchaseInvoices.dateTime}">
-								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
-									locale="#{idioma.locale}" />
+							<h:outputText value="#{depositsAction.depositDetails.totalCost}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
 							</h:outputText>
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeWarehouse.deposits_label_real_quantity_actual}:" />
+							<h:outputText
+								value="#{depositsAction.depositDetails.actualQuantity}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
+
 						</h:panelGrid>
 					</a:outputPanel>
 				</a:outputPanel>
@@ -337,15 +342,21 @@
 						columnClasses="columnaDerecha, columnaDerecha">
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeWarehouse.materials_label}:" />
+							value="#{mensajeWarehouse.purchase_invoice_label}:" />
 						<h:outputText
 							value="#{depositsAction.purchaseInvoice.invoiceNumber}" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeWarehouse.purchase_invoice_label}:" />
+							value="#{mensajeWarehouse.suppliers_label}:" />
 						<h:outputText
-							value="#{depositsAction.purchaseInvoice.totalValueActual}" />
+							value="#{depositsAction.purchaseInvoice.suppliers.name}" />
 
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_fecha} #{mensajeWarehouse.purchase_invoice_label}:" />
+						<h:outputText value="#{depositsAction.purchaseInvoice.dateTime}">
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
 					</h:panelGrid>
 				</a:outputPanel>
 			</rich:popupPanel>
