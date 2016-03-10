@@ -41,7 +41,7 @@
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,,,tdAlignTop">
+						columnClasses="tdAlignTop W140P,,,tdAlignTop">
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensajeMachine.machine_types_label_s}" />
 						<h:outputText value="*" styleClass="required" />
@@ -79,7 +79,7 @@
 					<h:panelGrid columns="3"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,,tdAlignTop">
+						columnClasses="tdAlignTop W140P,,tdAlignTop">
 						<h:outputText value="#{mensajeMachine.insurance_label}"
 							styleClass="etiquetaTitulo" />
 						<h:inputTextarea value="#{insuranceAction.insurance.descripcion}"
@@ -146,15 +146,22 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_fecha}" />
-						<h:outputText value="#{insuranceAction.insurance.dateTime}" />
+
+						<h:outputText value="#{mensaje.label_tipo_maquina}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(insuranceAction.opcionesMachinesType, insuranceAction.machineTypes.idMachineType)}" />
+						<h:outputText value="#{mensajeMachine.insurance_label_maquina}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(insuranceAction.listaMachines, insuranceAction.machines.idMachine)}" />
 						<h:outputText value="#{mensaje.label_descripcion}:" />
 						<h:outputText value="#{insuranceAction.insurance.descripcion}" />
+						<h:outputText value="#{mensaje.label_fecha}:" />
+						<h:outputText value="#{insuranceAction.insurance.dateTime}" />
 						<h:outputText
-							value="#{mensajeMachine.insurance_label_total_costo_presupuesto}" />
+							value="#{mensajeMachine.insurance_label_total_costo_presupuesto}:" />
 						<h:outputText value="#{insuranceAction.insurance.totalCostBudget}" />
 						<h:outputText
-							value="#{mensajeMachine.insurance_label_costo_total_actual}" />
+							value="#{mensajeMachine.insurance_label_costo_total_actual}:" />
 						<h:outputText value="#{insuranceAction.insurance.totalCostActual}" />
 
 					</ui:define>

@@ -253,6 +253,14 @@
 	width: 130px;
 }
 
+.W135P {
+	width: 135px;
+}
+
+.W140P {
+	width: 140px;
+}
+
 .W150P {
 	width: 150px;
 }
@@ -273,8 +281,16 @@
 	width: 180px;
 }
 
+.W185P {
+	width: 185px !important;
+}
+
 .W210P {
 	width: 210px;
+}
+
+.W235P {
+	width: 235px;
 }
 
 .W240P {

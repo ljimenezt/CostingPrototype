@@ -37,7 +37,7 @@
 						value="#{maintenanceLinesAction.maintenanceLines.machines.idMachine}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"/>
+						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
 						<f:selectItems value="#{maintenanceLinesAction.opcionesMachines}" />
 						<f:ajax event="change"
 							listener="#{maintenanceLinesAction.llenarMaintenance()}"
@@ -120,18 +120,27 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
+
 						<h:outputText
-							value="#{mensajeMachine.lineas_mantenimiento_label_descripcion}" />
+							value="#{mensajeMachine.lineas_mantenimiento_label_nombre_maquina}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(maintenanceLinesAction.opcionesMachines,maintenanceLinesAction.maintenanceLines.machines.idMachine)}" />
+						<h:outputText
+							value="#{mensajeMachine.mantenimiento_calibracion_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(maintenanceLinesAction.opcionesMaintenance,maintenanceLinesAction.maintenanceLines.maintenanceAndCalibration.idMaintenance)}" />
+						<h:outputText value="#{mensaje.label_descripcion}:" />
 						<h:outputText
 							value="#{maintenanceLinesAction.maintenanceLines.description}" />
 						<h:outputText
-							value="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}" />
+							value="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}:" />
 						<h:outputText
 							value="#{maintenanceLinesAction.maintenanceLines.costBudget}" />
 						<h:outputText
-							value="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}" />
+							value="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}:" />
 						<h:outputText
 							value="#{maintenanceLinesAction.maintenanceLines.costActual}" />
+
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"

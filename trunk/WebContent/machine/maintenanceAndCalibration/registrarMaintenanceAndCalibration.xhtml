@@ -26,7 +26,7 @@
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,,,tdAlignTop">
+						columnClasses="tdAlignTop W135P,,W235P,tdAlignTop">
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensajeMachine.machine_types_label_s}" />
@@ -68,7 +68,7 @@
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,,,tdAlignTop">
+						columnClasses="tdAlignTop W135P,,W235P,tdAlignTop">
 
 						<h:outputText value="#{mensaje.label_fecha }"
 							styleClass="etiquetaTitulo" />
@@ -124,11 +124,18 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_fecha}" />
+
+						<h:outputText value="#{mensaje.label_tipo_maquina}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(maintenanceAndCalibrationAction.machinesTypeItems, maintenanceAndCalibrationAction.machineTypes.idMachineType)}" />
+						<h:outputText value="#{mensajeMachine.insurance_label_maquina}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(maintenanceAndCalibrationAction.machinesItems, maintenanceAndCalibrationAction.machines.idMachine)}" />
+						<h:outputText value="#{mensaje.label_fecha}:" />
 						<h:outputText
 							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}" />
 						<h:outputText
-							value="#{mensajeMachine.mantenimiento_calibracion_label_maquina_buenas_condiciones}" />
+							value="#{mensajeMachine.mantenimiento_calibracion_label_maquina_buenas_condiciones}:" />
 						<h:outputText
 							rendered="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
 							value="#{mensaje.label_si}" />
