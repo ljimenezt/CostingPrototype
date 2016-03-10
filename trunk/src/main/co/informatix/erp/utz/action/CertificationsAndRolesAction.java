@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
@@ -34,17 +33,18 @@ import co.informatix.erp.utz.entities.CertificationsAndRoles;
 @ManagedBean
 @RequestScoped
 public class CertificationsAndRolesAction implements Serializable {
+
 	@EJB
 	private CertificationsAndRolesDao certificationsAndRolesDao;
 
 	private CertificationsAndRoles certificationsAndRoles;
-	private String nombreBuscar;
-	private List<CertificationsAndRoles> listaCertificacionesAndRoles;
+	private String nameSearch;
+	private List<CertificationsAndRoles> listCertificacionesAndRoles;
 	private Paginador paginador = new Paginador();
 
 	/**
 	 * @return certificationsAndRoles: object containing data type
-	 *         certifications and roles
+	 *         certifications and roles.
 	 * 
 	 */
 	public CertificationsAndRoles getCertificationsAndRoles() {
@@ -53,7 +53,7 @@ public class CertificationsAndRolesAction implements Serializable {
 
 	/**
 	 * @param certificationsAndRoles
-	 *            : object containing data type certifications and roles
+	 *            : object containing data type certifications and roles.
 	 */
 	public void setCertificationsAndRoles(
 			CertificationsAndRoles certificationsAndRoles) {
@@ -61,34 +61,34 @@ public class CertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: name to search type certification and role
+	 * @return nameSearch: name to search type certification and role.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : name to search type certification and role
+	 * @param nameSearch
+	 *            : name to search type certification and role.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return listaCertificacionesAndRoles: list of certifications and role
+	 * @return listCertificacionesAndRoles: list of certifications and role.
 	 */
-	public List<CertificationsAndRoles> getListaCertificacionesAndRoles() {
-		return listaCertificacionesAndRoles;
+	public List<CertificationsAndRoles> getListCertificacionesAndRoles() {
+		return listCertificacionesAndRoles;
 	}
 
 	/**
-	 * @param listaCertificacionesAndRoles
-	 *            : list of certifications and role
+	 * @param listCertificacionesAndRoles
+	 *            : list of certifications and role.
 	 */
-	public void setListaCertificacionesAndRoles(
-			List<CertificationsAndRoles> listaCertificacionesAndRoles) {
-		this.listaCertificacionesAndRoles = listaCertificacionesAndRoles;
+	public void setListCertificacionesAndRoles(
+			List<CertificationsAndRoles> listCertificacionesAndRoles) {
+		this.listCertificacionesAndRoles = listCertificacionesAndRoles;
 	}
 
 	/**
@@ -108,64 +108,61 @@ public class CertificationsAndRolesAction implements Serializable {
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * list of certifications and role
+	 * list of certifications and role.
 	 * 
-	 * @return consultarCertificationsAndRoles: method to query the roles
+	 * @return consultCertificationsAndRoles: method to query the roles
 	 *         certifications and returns to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarCertificationsAndRoles();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultCertificationsAndRoles();
 	}
 
 	/**
-	 * Consult the list of certifications and roles
+	 * Consult the list of certifications and roles.
 	 * 
-	 * @return gesCertifi: Template manage certifications and roles
+	 * @return gesCertifi: Template manage certifications and roles.
 	 */
-	public String consultarCertificationsAndRoles() {
+	public String consultCertificationsAndRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaCertificacionesAndRoles = new ArrayList<CertificationsAndRoles>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listCertificacionesAndRoles = new ArrayList<CertificationsAndRoles>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = certificationsAndRolesDao
-					.cantidadCertificationsAndRoles(consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = certificationsAndRolesDao
+					.quantityCertificationsAndRoles(query, parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaCertificacionesAndRoles = certificationsAndRolesDao
-					.consultarCertificationsAndRolesAction(
-							paginador.getInicio(), paginador.getRango(),
-							consulta, parametros);
-			if ((listaCertificacionesAndRoles == null || listaCertificacionesAndRoles
-					.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listCertificacionesAndRoles = certificationsAndRolesDao
+					.consultCertificationsAndRolesAction(paginador.getInicio(),
+							paginador.getRango(), query, parameters);
+			if ((listCertificacionesAndRoles == null || listCertificacionesAndRoles
+					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaCertificacionesAndRoles == null
-					|| listaCertificacionesAndRoles.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listCertificacionesAndRoles == null
+					|| listCertificacionesAndRoles.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleMachineType
 										.getString("certifications_and_roles_label_s"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -178,38 +175,38 @@ public class CertificationsAndRolesAction implements Serializable {
 	 * by the user.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(ct.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
 	/**
-	 * Method to edit or create a new CertificationsANdRoles
+	 * Method to edit or create a new CertificationsANdRoles.
 	 * 
 	 * @param certificationsAndRoles
-	 *            :certicicationsAndRoles types that are adding or editing
+	 *            :certicicationsAndRoles types that are adding or editing.
 	 * 
 	 * @return "regCertifi":redirects to register certicicationsAndRoles
 	 *         template.
 	 */
-	public String agregarEditarCertificationsAndRoles(
+	public String addEditCertificationsAndRoles(
 			CertificationsAndRoles certificationsAndRoles) {
 		if (certificationsAndRoles != null) {
 			this.certificationsAndRoles = certificationsAndRoles;
@@ -220,36 +217,36 @@ public class CertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
-	 * Allows validate the type of certification, that it is not repeated in the
-	 * database (valid for the name of the certification)
+	 * To validate the name of the certification and roles, to not repeat in the database and
+	 * validates against XSS.
+	 * 
+	 * @modify 10/03/2016 Jhair.Leal
 	 * 
 	 * @param context
-	 *            : application context
+	 *            : application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : validate component.
 	 * @param value
-	 *            : field value to be valid
+	 *            : field value to be valid.
 	 */
-	public void validarNombreXSS(FacesContext context, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String nombre = (String) value;
+
+		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
-
+			int id = certificationsAndRoles.getIdCertificactionsAndRoles();
 			CertificationsAndRoles certificationsAndRolesAux = new CertificationsAndRoles();
-			certificationsAndRolesAux = certificationsAndRolesDao
-					.nombreExiste(nombre);
+			certificationsAndRolesAux = certificationsAndRolesDao.nameExists(
+					name, id);
 			if (certificationsAndRolesAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
-				context.addMessage(
-						clientId,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
-								.getString(mensajeExistencia), null));
+				String messageExistence = "message_ya_existe_verifique";
+				ControladorContexto.mensajeErrorEspecifico(clientId,
+						messageExistence, "mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -259,35 +256,35 @@ public class CertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the types of certifications and roles
+	 * Method used to save or edit the types of certifications and roles.
 	 * 
-	 * @return consultarCertificationAndRoles: Redirects to manage types of
-	 *         certificationsAndroles with the list of names updated
+	 * @return consultCertificationAndRoles: Redirects to manage types of
+	 *         certificationsAndroles with the list of names updated.
 	 */
-	public String guardarCertificationsAndRoles() {
+	public String saveCertificationsAndRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 
 			if (certificationsAndRoles.getIdCertificactionsAndRoles() != 0) {
 				certificationsAndRolesDao
-						.editarCertificationsAndRoles(certificationsAndRoles);
+						.editCertificationsAndRoles(certificationsAndRoles);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
+				messageLog = "message_registro_guardar";
 				certificationsAndRolesDao
-						.guardaCertificationsAndRoles(certificationsAndRoles);
+						.saveCertificationsAndRoles(certificationsAndRoles);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
+					bundle.getString(messageLog),
 					certificationsAndRoles.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarCertificationsAndRoles();
+		return consultCertificationsAndRoles();
 	}
 
 	/**
-	 * Method to delete a type certificate and role of the database
+	 * Method to delete a type certificate and role of the database.
 	 * 
 	 * @author Andres.Gomez
 	 * 
@@ -295,11 +292,11 @@ public class CertificationsAndRolesAction implements Serializable {
 	 *         of certifications and role and returns to manage certification
 	 *         and role.
 	 */
-	public String eliminarCertificationsAndRoles() {
+	public String removeCertificationsAndRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
 			certificationsAndRolesDao
-					.eliminarCertificationsAndRoles(certificationsAndRoles);
+					.removeCertificationsAndRoles(certificationsAndRoles);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					certificationsAndRoles.getName()));
@@ -312,7 +309,7 @@ public class CertificationsAndRolesAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarCertificationsAndRoles();
+		return consultCertificationsAndRoles();
 	}
 
 }

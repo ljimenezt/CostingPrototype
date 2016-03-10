@@ -581,7 +581,7 @@ public class ActivitiesAction implements Serializable {
 	 */
 	private void cargarComboCertificationsAndRoles() throws Exception {
 		List<CertificationsAndRoles> listaCertificationsAndRoles = certificationsAndRolesDao
-				.consultarCertificationsAndRoles();
+				.consultCertificationsAndRoles();
 		this.itemsCertificationsAndRoles = new ArrayList<SelectItem>();
 		for (CertificationsAndRoles certificationsAndRoles : listaCertificationsAndRoles) {
 			this.itemsCertificationsAndRoles.add(new SelectItem(
