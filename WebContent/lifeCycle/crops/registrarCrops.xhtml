@@ -119,8 +119,7 @@
 					<!-- Boton popup -->
 					<div class="W560P">
 						<a:commandLink id="lnkCrops" render="popupPlot"
-							styleClass="iconsDataTable quitarDecoracionLink"
-							execute="@this"
+							styleClass="iconsDataTable quitarDecoracionLink" execute="@this"
 							action="#{plotAction.consultarPlotPorFecha}"
 							oncomplete="#{rich:component('popupPlot')}.show();">
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
@@ -164,7 +163,9 @@
 							</rich:column>
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensaje.label_size}</f:facet>
-								<h:outputText value="#{plot.size}" />
+								<h:outputText value="#{plot.size}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensaje.label_enlace_mapa_ubicacion}</f:facet>
@@ -183,7 +184,8 @@
 				</t:fieldset>
 				<br />
 				<div align="center">
-					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico,formCrops"
+					<a:commandButton
+						render="formConfirmar:popUpConfirmar,formGenerico,formCrops"
 						execute="formCrops"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_guardar}" />
@@ -317,7 +319,9 @@
 						</rich:column>
 						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensaje.label_size}</f:facet>
-							<h:outputText value="#{plot.size}" />
+							<h:outputText value="#{plot.size}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensaje.label_enlace_mapa_ubicacion}</f:facet>

@@ -63,8 +63,10 @@
 					</h:selectOneMenu>
 					<rich:message for="farm" />
 				</h:panelGrid>
-				<t:fieldset styleClass="#{plotAction.farmParameter eq true ? 'BorderW2P anchoDos' : 'BorderW0P Padding0P'} ">
-				<legend class="etiquetaTitulo" >#{plotAction.farmParameter eq true ? mensajeLifeCycle.plot_label_s : ''}</legend>
+				<t:fieldset
+					styleClass="#{plotAction.farmParameter eq true ? 'BorderW2P anchoDos' : 'BorderW0P Padding0P'} ">
+					<legend class="etiquetaTitulo">#{plotAction.farmParameter
+						eq true ? mensajeLifeCycle.plot_label_s : ''}</legend>
 					<rich:message for="tablaPlot" styleClass="messageInfSpanMsg" />
 					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 						<ui:param name="tieneVigencia" value="no" />
@@ -104,7 +106,9 @@
 						</rich:column>
 						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensaje.label_size}</f:facet>
-							<h:outputText value="#{plot.size}" />
+							<h:outputText value="#{plot.size}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensajeLifeCycle.plot_numbers_trees}</f:facet>

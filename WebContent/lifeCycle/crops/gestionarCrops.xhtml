@@ -34,90 +34,96 @@
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listado_de} #{mensajeLifeCycle.crops_label_s}"
 				id="panelCrops">
+				<br />
+				<h:panelGrid columns="3"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,tdAlignTop">
+					<h:outputText value="#{mensaje.label_nombre_cosecha}"
+						styleClass="etiquetaTitulo" />
+					<h:selectOneMenu id="cropName" value="#{cropsAction.nombreCrop}"
+						styleClass="colTextoMediano" required="true">
+						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItems value="#{cropsAction.opciones}" />
+						<f:ajax event="change" listener="#{cropsAction.consultarCrops()}"
+							render=":mensajes :fromCrops :mensajeBusqueda" />
+					</h:selectOneMenu>
+					<rich:message for="cropName" />
+				</h:panelGrid>
+				<rich:message for="tablaCrops" styleClass="messageInfSpanMsg" />
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<rich:dataTable value="#{cropsAction.listaCrops}" var="crops"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoUno">
+						<a:outputPanel
+							rendered="#{(identity.autorizado('cropsAction','A') or identity.autorizado('cropsAction','D'))}">
+							<a:commandLink render="popupEliminar"
+								actionListener="#{cropsAction.setCrops(crops)}"
+								oncomplete="#{rich:component('popupEliminar')}.show()">
+								<h:graphicImage value="/img/delete_16.png" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.button_eliminar}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</a:outputPanel>
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeLifeCycle.crops_label}</f:facet>
+						<h:commandLink value="#{crops.description}"
+							action="#{cropsAction.agregarEditarCrops(crops)}"
+							onclick="#{rich:component('statPane')}.show();">
+						</h:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeLifeCycle.crop_names_label_s}</f:facet>
+						<h:outputText value="#{crops.cropNames.cropName}" />
+					</rich:column>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+						<h:outputText value="#{crops.initialDate}">
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+						<h:outputText value="#{crops.finalDate}">
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_anyo_registro}</f:facet>
+						<h:outputText value="#{crops.registrationYear}">
+							<f:convertDateTime pattern="yyyy" />
+						</h:outputText>
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="7" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="botonesAbajo" value="si" />
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<a:outputPanel rendered="#{!listaVacia}">
 					<br />
-					<h:panelGrid columns="3"
-						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,,,tdAlignTop">
-						<h:outputText value="#{mensaje.label_nombre_cosecha}"
-							styleClass="etiquetaTitulo" />
-						<h:selectOneMenu id="cropName" value="#{cropsAction.nombreCrop}"
-							styleClass="colTextoMediano" required="true">
-							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
-							<f:selectItems value="#{cropsAction.opciones}" />
-							<f:ajax event="change" listener="#{cropsAction.consultarCrops()}"
-								render=":mensajes :fromCrops :mensajeBusqueda" />
-						</h:selectOneMenu>
-						<rich:message for="cropName" />
-					</h:panelGrid>
-					<rich:message for="tablaCrops" styleClass="messageInfSpanMsg" />
-					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-						<ui:param name="tieneVigencia" value="no" />
-					</ui:include>
-					<rich:dataTable value="#{cropsAction.listaCrops}" var="crops"
-						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
-						rowClasses="odd-row, even-row" footerClass="H130P">
-						<rich:column styleClass="colIconoUno">
-							<a:outputPanel
-								rendered="#{(identity.autorizado('cropsAction','A') or identity.autorizado('cropsAction','D'))}">
-								<a:commandLink render="popupEliminar"
-									actionListener="#{cropsAction.setCrops(crops)}"
-									oncomplete="#{rich:component('popupEliminar')}.show()">
-									<h:graphicImage value="/img/delete_16.png" />
-									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.button_eliminar}" />
-									</rich:tooltip>
-								</a:commandLink>
-							</a:outputPanel>
-						</rich:column>
-						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeLifeCycle.crops_label}</f:facet>
-							<h:commandLink value="#{crops.description}"
-								action="#{cropsAction.agregarEditarCrops(crops)}"
-								onclick="#{rich:component('statPane')}.show();">
-							</h:commandLink>
-						</rich:column>
-						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeLifeCycle.crop_names_label_s}</f:facet>
-							<h:outputText value="#{crops.cropNames.cropName}" />
-						</rich:column>
-						<rich:column styleClass="colFecha">
-							<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
-							<h:outputText value="#{crops.initialDate}" />
-						</rich:column>
-						<rich:column styleClass="colFecha">
-							<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
-							<h:outputText value="#{crops.finalDate}" />
-						</rich:column>
-						<rich:column styleClass="colFecha">
-							<f:facet name="header">#{mensaje.label_anyo_registro}</f:facet>
-							<h:outputText value="#{crops.registrationYear}">
-								<f:convertDateTime pattern="yyyy" />
-							</h:outputText>
-						</rich:column>
-						<f:facet name="footer">
-							<rich:columnGroup rendered="#{listaVacia}">
-								<rich:column colspan="7" styleClass="footTabla">
-									<h:outputText
-										value="#{mensaje.message_no_existen_registros_tabla}" />
-								</rich:column>
-							</rich:columnGroup>
-						</f:facet>
-					</rich:dataTable>
-					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-						<ui:param name="botonesAbajo" value="si" />
-						<ui:param name="tieneVigencia" value="no" />
-					</ui:include>
-					<a:outputPanel rendered="#{!listaVacia}">
-						<br />
-						<div class="#{anchoTabla} center inBlock">
-							<ui:include src="/plantillas/plantillaPaginador.xhtml">
-								<ui:param name="valReder" value="panelCrops" />
-								<ui:param name="beanActionParam" value="#{cropsAction}" />
-								<ui:param name="metodoActionParam" value="consultarCrops" />
-							</ui:include>
-						</div>
-					</a:outputPanel>
+					<div class="#{anchoTabla} center inBlock">
+						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+							<ui:param name="valReder" value="panelCrops" />
+							<ui:param name="beanActionParam" value="#{cropsAction}" />
+							<ui:param name="metodoActionParam" value="consultarCrops" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
 			</rich:panel>
 		</h:form>
 		<h:form id="formBuscar">

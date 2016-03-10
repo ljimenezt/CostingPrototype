@@ -109,7 +109,10 @@
 
 						<rich:column styleClass="colFecha">
 							<f:facet name="header">#{mensaje.label_ultimo_mantenimiento}</f:facet>
-							<h:outputText value="#{machines.lastMaintenance}" />
+							<h:outputText value="#{machines.lastMaintenance}">
+								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+									locale="#{idioma.locale}" />
+							</h:outputText>
 						</rich:column>
 
 						<rich:column styleClass="colNumero">
@@ -129,17 +132,24 @@
 
 						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensaje.label_tiempo_vida}</f:facet>
-							<h:outputText value="#{machines.lifeYears}" />
+							<h:outputText value="#{machines.lifeYears}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 
 						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensaje.label_valor_residual}</f:facet>
-							<h:outputText value="#{machines.residualValue}" />
+							<h:outputText value="#{machines.residualValue}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 
 						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensaje.label_depreciacion}</f:facet>
-							<h:outputText value="#{machines.depreciation}" />
+							<h:outputText value="#{machines.depreciation}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 
 						<rich:column styleClass="colFechaExtraLarga">
