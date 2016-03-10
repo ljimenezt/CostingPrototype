@@ -266,6 +266,8 @@ public class PaymentMethodsAction implements Serializable {
 	 * To validate the name of the kinds of human resources; so that, it is not
 	 * repeated in the database and it is valid compared with XSS.
 	 * 
+	 * @author Sergio.Gelves
+	 * 
 	 * @param context
 	 *            : Application context.
 	 * 
@@ -273,8 +275,6 @@ public class PaymentMethodsAction implements Serializable {
 	 *            : Validate component.
 	 * @param value
 	 *            : Field value is valid.
-	 * 
-	 * @author Sergio.Gelves
 	 */
 	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
