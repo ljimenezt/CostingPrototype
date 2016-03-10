@@ -166,10 +166,10 @@ public class BeanIndexAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of the machine usages to show in the view
+	 * Consult the beanIndex list usages to show in the view.
 	 * 
-	 * @return "gesMachineUsage": redirects to the template to manage the
-	 *         machine usage
+	 * @return "manageBeanIndex": redirects to the template to manage the
+	 *         beanIndex usage.
 	 */
 	public String consultBeanIndex() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");

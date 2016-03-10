@@ -121,16 +121,16 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}" />
+						<h:outputText value="#{mensaje.label_nombre}:" />
 						<h:outputText
 							value="#{certificationsAndRolesAction.certificationsAndRoles.name}" />
-						<h:outputText value="#{mensaje.label_certifications}" />
+						<h:outputText value="#{mensaje.label_certifications}:" />
 						<h:outputText
 							value="#{certificationsAndRolesAction.certificationsAndRoles.certifications eq 'true'? mensaje.label_si:mensaje.label_no}" />
-						<h:outputText value="#{mensaje.label_role}" />
+						<h:outputText value="#{mensaje.label_role}:" />
 						<h:outputText
 							value="#{certificationsAndRolesAction.certificationsAndRoles.role eq 'true'? mensaje.label_si:mensaje.label_no}" />
-						<h:outputText value="#{mensaje.label_dangerous}" />
+						<h:outputText value="#{mensaje.label_dangerous}:" />
 						<h:outputText
 							value="#{certificationsAndRolesAction.certificationsAndRoles.dangerous eq 'true'? mensaje.label_si:mensaje.label_no}" />
 						<h:outputText value="#{mensaje.label_descripcion}:" />
