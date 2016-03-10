@@ -10,8 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="paymentsAction.addEditPayments(null)" />
+	<ui:param name="action" value="paymentsAction.addEditPayments(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeRecursosHumanos.contract_label" />
 	<ui:define name="body">
@@ -85,22 +84,21 @@
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								required="true" validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkContrato" render=":popupForm:popupContrato"
-								actionListener="#{contratoAction.consultarContratos}"
+								actionListener="#{contratoAction.searchContracts}"
 								execute="@this"
 								oncomplete="#{rich:component('popupContrato')}.show(); setFocus('popupForm:txtNombreBuscar');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />
 								<f:param name="param2" value="si" />
 								<f:setPropertyActionListener value=""
-									target="#{contratoAction.nombreBuscar}" />
+									target="#{contratoAction.nameSearch}" />
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.label_seleccionar}" />
 								</rich:tooltip>
 								<f:param name="param2" value="si" />
 							</a:commandLink>
 							<h:outputText value="&#32;&#32;&#32;" />
-							<a:commandLink
-								actionListener="#{paymentsAction.cleanContract()}"
+							<a:commandLink actionListener="#{paymentsAction.cleanContract()}"
 								render=":formPayments:txtContrato , :formPayments:txtContratos"
 								execute="@this">
 								<h:graphicImage value="/img/editRemove_16.png" />
@@ -200,10 +198,10 @@
 								<h:outputText value="#{mensaje.label_nombre}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-									value="#{contratoAction.nombreBuscar}"
+									value="#{contratoAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-									actionListener="#{contratoAction.consultarContratos}"
+									actionListener="#{contratoAction.searchContracts}"
 									render="outputContrato">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
@@ -212,12 +210,12 @@
 						<br />
 
 						<ui:param name="listaVacia"
-							value="#{contratoAction.listaContrato eq null or (empty contratoAction.listaContrato )}" />
+							value="#{contratoAction.contractList eq null or (empty contratoAction.contractList )}" />
 						<div align="right" class="W560P">
 							<a:commandLink render="outPutBuscarContrato"
 								styleClass="quitarDecoracionLink"
-								action="#{contratoAction.consultarContratos}"
-								actionListener="#{contratoAction.setNombreBuscar(null)}">
+								action="#{contratoAction.searchContracts}"
+								actionListener="#{contratoAction.setNameSearch(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />
 									<h:outputText value="#{mensaje.button_listar_todos}" />
@@ -226,7 +224,7 @@
 							</a:commandLink>
 						</div>
 						<a:outputPanel id="outputContrato">
-							<rich:dataTable value="#{contratoAction.listaContrato}"
+							<rich:dataTable value="#{contratoAction.contractList}"
 								var="contrato" id="tcontrato" footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 								rowClasses="odd-row, even-row">
@@ -276,7 +274,7 @@
 										<ui:param name="pager" value="paginador" />
 										<ui:param name="valReder" value=":popupForm:outputContrato" />
 										<ui:param name="beanActionParam" value="#{contratoAction}" />
-										<ui:param name="metodoActionParam" value="consultarContratos" />
+										<ui:param name="metodoActionParam" value="searchContracts" />
 									</ui:include>
 								</div>
 							</a:outputPanel>
