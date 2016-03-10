@@ -217,8 +217,8 @@ public class CertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
-	 * To validate the name of the certification and roles, to not repeat in the database and
-	 * validates against XSS.
+	 * To validate the name of the certification and roles, to not repeat in the
+	 * database and validates against XSS.
 	 * 
 	 * @modify 10/03/2016 Jhair.Leal
 	 * 
