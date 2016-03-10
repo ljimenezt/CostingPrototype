@@ -143,7 +143,7 @@ public class ContratoAction implements Serializable {
 	 * @modify 31/08/2015 Andres.Gomez
 	 * @modify 08/03/2016 Mabell.Boada
 	 * 
-	 * @return retorno: Redirects to the template to manage contracts.
+	 * @return returns: Redirects to the template to manage contracts.
 	 * 
 	 */
 	public String searchContracts() {
