@@ -218,14 +218,11 @@ public class Payments implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((contract == null) ? 0 : contract.hashCode());
-		result = prime * result
 				+ ((emissionDate == null) ? 0 : emissionDate.hashCode());
 		result = prime * result
 				+ ((finalWorkDay == null) ? 0 : finalWorkDay.hashCode());
 		result = prime * result
 				+ ((grossAmount == null) ? 0 : grossAmount.hashCode());
-		result = prime * result + ((hr == null) ? 0 : hr.hashCode());
 		result = prime * result + idPayment;
 		result = prime * result
 				+ ((initiaWorkDay == null) ? 0 : initiaWorkDay.hashCode());
@@ -246,11 +243,6 @@ public class Payments implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Payments other = (Payments) obj;
-		if (contract == null) {
-			if (other.contract != null)
-				return false;
-		} else if (!contract.equals(other.contract))
-			return false;
 		if (emissionDate == null) {
 			if (other.emissionDate != null)
 				return false;
@@ -265,11 +257,6 @@ public class Payments implements Serializable {
 			if (other.grossAmount != null)
 				return false;
 		} else if (!grossAmount.equals(other.grossAmount))
-			return false;
-		if (hr == null) {
-			if (other.hr != null)
-				return false;
-		} else if (!hr.equals(other.hr))
 			return false;
 		if (idPayment != other.idPayment)
 			return false;
