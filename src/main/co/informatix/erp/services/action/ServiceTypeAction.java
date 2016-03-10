@@ -149,8 +149,7 @@ public class ServiceTypeAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleServices
-										.getString("service_type_label"),
+								bundleServices.getString("service_type_label"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);

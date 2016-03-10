@@ -10,11 +10,15 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.dao.AllocationDao;
 import co.informatix.erp.costs.entities.Allocation;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
@@ -33,9 +37,9 @@ public class AllocationAction implements Serializable {
 	private AllocationDao allocationDao;
 
 	private Allocation allocation;
-	private List<Allocation> listaAllocation;
+	private List<Allocation> listAllocation;
 	private Paginador paginador = new Paginador();
-	private String nombreBuscar;
+	private String nameSearch;
 
 	/**
 	 * @return allocation: returns an assignment.
@@ -53,18 +57,18 @@ public class AllocationAction implements Serializable {
 	}
 
 	/**
-	 * @return listaAllocation: list of assignments.
+	 * @return listAllocation: list of assignments.
 	 */
-	public List<Allocation> getListaAllocation() {
-		return listaAllocation;
+	public List<Allocation> getListAllocation() {
+		return listAllocation;
 	}
 
 	/**
-	 * @param listaAllocation
+	 * @param listAllocation
 	 *            : list of assignments.
 	 */
-	public void setListaAllocation(List<Allocation> listaAllocation) {
-		this.listaAllocation = listaAllocation;
+	public void setListAllocation(List<Allocation> listAllocation) {
+		this.listAllocation = listAllocation;
 	}
 
 	/**
@@ -83,30 +87,30 @@ public class AllocationAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Name of the assignment to search
+	 * @return nameSearch: Name of the assignment to search
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : Name of the assignment to search
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * list of assignments
+	 * list of assignments.
 	 * 
-	 * @return consultarAllocation: Method to initialize the parameters of the
-	 *         search and load the initial list of assignments
+	 * @return consultAllocation: Method to initialize the parameters of the
+	 *         search and load the initial list of assignments.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarAllocation();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultAllocation();
 	}
 
 	/**
@@ -114,46 +118,44 @@ public class AllocationAction implements Serializable {
 	 * 
 	 * @return "gesAllocation": navigation rule to manage allocation
 	 */
-	public String consultarAllocation() {
+	public String consultAllocation() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaAllocation = new ArrayList<Allocation>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listAllocation = new ArrayList<Allocation>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = allocationDao.cantidadAllocation(consulta,
-					parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = allocationDao.quantityAllocation(query, parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaAllocation = allocationDao.consultarAllocation(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaAllocation == null || listaAllocation.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listAllocation = allocationDao.consultAllocation(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
+			if ((listAllocation == null || listAllocation.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaAllocation == null || listaAllocation.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listAllocation == null || listAllocation.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleRecursosHumanos
 										.getString("tipo_recurso_humano_label"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -165,26 +167,26 @@ public class AllocationAction implements Serializable {
 	 * assemble messages to display depending on the search criteria selected by
 	 * the user.
 	 * 
-	 * @param consulta
-	 *            : query to concatenate
-	 * @param parametros
+	 * @param consult
+	 *            : query to concatenate.
+	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            : access language tags
-	 * @param unionMensajesBusqueda
-	 *            : Message search
+	 *            : access language tags.
+	 * @param unionMessagesSearch
+	 *            : Message search.
 	 */
-	private void busquedaAvanzada(StringBuilder consulta,
-			List<SelectItem> parametros, ResourceBundle bundle,
-			StringBuilder unionMensajesBusqueda) {
+	private void advancedSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
 
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consulta.append("WHERE UPPER(ec.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("WHERE UPPER(a.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
-			parametros.add(item);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nombreBuscar + '"');
+			parameters.add(item);
+			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -192,10 +194,10 @@ public class AllocationAction implements Serializable {
 	 * Method to edit or create a new assignment.
 	 * 
 	 * @param allocation
-	 *            : assignment to be adding or editing
+	 *            : assignment to be adding or editing.
 	 * @return regAllocation: redirected to the page register allocation.
 	 */
-	public String agregarEditarAllocation(Allocation allocation) {
+	public String addEditAllocation(Allocation allocation) {
 		if (allocation != null) {
 			this.allocation = allocation;
 		} else {
@@ -207,38 +209,38 @@ public class AllocationAction implements Serializable {
 	/**
 	 * Method used to save or edit the assignments.
 	 * 
-	 * @return consultarAllocation: redirects to manage staff assignments with
-	 *         the updated list of assignments
+	 * @return consultAllocation: redirects to manage staff assignments with the
+	 *         updated list of assignments.
 	 */
-	public String guardarAllocation() {
+	public String saveAllocation() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 
 			if (allocation.getIdAllocation() != 0) {
-				allocationDao.editarAllocation(allocation);
+				allocationDao.editAllocation(allocation);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				allocationDao.guardarAllocation(allocation);
+				messageLog = "message_registro_guardar";
+				allocationDao.saveAllocation(allocation);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), allocation.getName()));
+					bundle.getString(messageLog), allocation.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarAllocation();
+		return consultAllocation();
 	}
 
 	/**
 	 * Method to remove an allocation of the database.
 	 * 
-	 * @return consultarAllocation: Consult the list of allocation and returns
-	 *         to manage allocation.
+	 * @return consultAllocation: Consult the list of allocation and returns to
+	 *         manage allocation.
 	 */
-	public String eliminarAllocation() {
+	public String removeAllocation() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			allocationDao.eliminarAllocation(allocation);
+			allocationDao.removeAllocation(allocation);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					allocation.getName()));
@@ -251,7 +253,44 @@ public class AllocationAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarAllocation();
+		return consultAllocation();
+	}
+
+	/**
+	 * To validate the name of the allocation, to not repeat in the database and
+	 * validates against XSS.
+	 * 
+	 * @author Jhair.Leal
+	 * 
+	 * @param context
+	 *            : Application context.
+	 * 
+	 * @param toValidate
+	 *            : Validate component.
+	 * @param value
+	 *            : Field value is validated.
+	 */
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			int id = allocation.getIdAllocation();
+			Allocation allocationTypeAux = new Allocation();
+			allocationTypeAux = allocationDao.nameExists(name, id);
+			if (allocationTypeAux != null) {
+				String messageExistence = "message_ya_existe_verifique";
+				ControladorContexto.mensajeErrorEspecifico(clientId,
+						messageExistence, "mensaje");
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 
 }

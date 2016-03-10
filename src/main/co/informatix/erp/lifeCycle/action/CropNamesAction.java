@@ -140,10 +140,8 @@ public class CropNamesAction implements Serializable {
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
 		try {
-			advancedSearch(query, parameters, bundle,
-					unionMessagesSearch);
-			Long quantity = cropNamesDao
-					.quantityCropNames(query, parameters);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = cropNamesDao.quantityCropNames(query, parameters);
 			if (quantity != null) {
 				paginador.paginar(quantity);
 			}
@@ -271,10 +269,8 @@ public class CropNamesAction implements Serializable {
 				messageLog = "message_registro_guardar";
 				cropNamesDao.saveCropNames(cropNames);
 			}
-			ControladorContexto
-					.mensajeInformacion(null, MessageFormat.format(
-							bundle.getString(messageLog),
-							cropNames.getCropName()));
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString(messageLog), cropNames.getCropName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -286,8 +282,8 @@ public class CropNamesAction implements Serializable {
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @return consultCropNames: Consult the list of names of crops and
-	 *         returns to manage the crop name.
+	 * @return consultCropNames: Consult the list of names of crops and returns
+	 *         to manage the crop name.
 	 */
 	public String removeCropNames() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
