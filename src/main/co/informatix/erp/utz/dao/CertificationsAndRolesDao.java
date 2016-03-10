@@ -21,38 +21,40 @@ import co.informatix.erp.utz.entities.CertificationsAndRoles;
 @SuppressWarnings("serial")
 @Stateless
 public class CertificationsAndRolesDao implements Serializable {
+
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
 
 	/**
-	 * Saves a type of certification and role in BD
+	 * Saves a type of certification and role in BD.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @param certificationsAndRoles
 	 *            : Certification type and role to save.
 	 * @throws Exception
 	 */
-	public void guardaCertificationsAndRoles(
+	public void saveCertificationsAndRoles(
 			CertificationsAndRoles certificationsAndRoles) throws Exception {
 		em.persist(certificationsAndRoles);
 	}
 
 	/**
-	 * Removes a type of certification and the role of BD
+	 * Removes a type of certification and the role of BD.
 	 * 
-	 * @author Andres.Gomez
+	 * @author Andres.Gomez.
 	 * 
 	 * @param certificationsAndRoles
-	 *            : certification and role to eliminate
+	 *            : certification and role to eliminate.
 	 * @throws Exception
 	 */
-	public void eliminarCertificationsAndRoles(
+	public void removeCertificationsAndRoles(
 			CertificationsAndRoles certificationsAndRoles) throws Exception {
 		em.remove(em.merge(certificationsAndRoles));
 	}
 
 	/**
-	 * Edit a type of certification and role in BD
+	 * Edit a type of certification and role in BD.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
@@ -60,7 +62,7 @@ public class CertificationsAndRolesDao implements Serializable {
 	 *            : type Certification and editing role.
 	 * @throws Exception
 	 */
-	public void editarCertificationsAndRoles(
+	public void editCertificationsAndRoles(
 			CertificationsAndRoles certificationsAndRoles) throws Exception {
 		em.merge(certificationsAndRoles);
 	}
@@ -68,12 +70,12 @@ public class CertificationsAndRolesDao implements Serializable {
 	/**
 	 * Method that returns the list of certificates and roles.
 	 * 
-	 * @return List<CertificationsAndRoles>: List all certificates and roles
+	 * @return List<CertificationsAndRoles>: List all certificates and roles.
 	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<CertificationsAndRoles> consultarCertificationsAndRoles()
+	public List<CertificationsAndRoles> consultCertificationsAndRoles()
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT cr FROM CertificationsAndRoles cr ");
@@ -93,9 +95,9 @@ public class CertificationsAndRolesDao implements Serializable {
 	 * @modify 05/08/2015 Mabell.Boada
 	 * 
 	 * @param start
-	 *            : records where start the consult
+	 *            : records where start the consult.
 	 * @param range
-	 *            : ranges to records
+	 *            : ranges to records.
 	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
@@ -106,7 +108,7 @@ public class CertificationsAndRolesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<CertificationsAndRoles> consultarCertificationsAndRolesAction(
+	public List<CertificationsAndRoles> consultCertificationsAndRolesAction(
 			int start, int range, StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -114,8 +116,8 @@ public class CertificationsAndRolesDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY ct.idCertificactionsAndRoles ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<CertificationsAndRoles> resultList = q.getResultList();
@@ -130,15 +132,16 @@ public class CertificationsAndRolesDao implements Serializable {
 	 * information by filtering the search values sent.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @param consult
 	 *            : String containing the query why certifications and filtered
-	 *            roles
+	 *            roles.
 	 * @param parameters
 	 *            : query parameters.
-	 * @return Long: number of records found sAndRoles type of Certification
+	 * @return Long: number of records founds and roles type of Certification.
 	 * @throws Exception
 	 */
-	public Long cantidadCertificationsAndRoles(StringBuilder consult,
+	public Long quantityCertificationsAndRoles(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(ct) FROM CertificationsAndRoles ct ");
@@ -151,23 +154,35 @@ public class CertificationsAndRolesDao implements Serializable {
 	}
 
 	/**
-	 * Consult If the certificationsAndRoles name exists in the database when
-	 * storing or editing.
+	 * Consult if the name of the certification and roles exist in the database
+	 * when saving or editing.
 	 * 
 	 * @author Sergio.Ortiz
+	 * @modify 10/03/2016 Jhair.Leal
+	 * 
 	 * @param nombre
-	 *            : name of certification to verify
+	 *            : name of certification to verify.
 	 * 
 	 * @return CertificationsAndRoles: certificationsAndRoles object found with
 	 *         the search parameters name and id.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public CertificationsAndRoles nombreExiste(String nombre) throws Exception {
-		List<CertificationsAndRoles> results = em
-				.createQuery(
-						"FROM CertificationsAndRoles WHERE UPPER(name)=UPPER(:nombre)")
-				.setParameter("nombre", nombre).getResultList();
+	public CertificationsAndRoles nameExists(String name,
+			int idCertificactionsAndRoles) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT cr FROM CertificationsAndRoles cr ");
+		query.append("WHERE UPPER(cr.name)=UPPER(:name) ");
+		if (idCertificactionsAndRoles != 0) {
+			query.append("AND cr.idCertificactionsAndRoles <>:idCertificactionsAndRoles ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("name", name);
+		if (idCertificactionsAndRoles != 0) {
+			q.setParameter("idCertificactionsAndRoles",
+					idCertificactionsAndRoles);
+		}
+		List<CertificationsAndRoles> results = q.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}

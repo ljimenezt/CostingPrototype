@@ -319,7 +319,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 		certificationsAndRoles = new CertificationsAndRoles();
 		itemsCertificationsAndRoles = new ArrayList<SelectItem>();
 		List<CertificationsAndRoles> listCertificationsAndRoles = certificationsAndRolesDao
-				.consultarCertificationsAndRoles();
+				.consultCertificationsAndRoles();
 		if (listCertificationsAndRoles != null) {
 			for (CertificationsAndRoles certificationsAndRoles : listCertificationsAndRoles) {
 				itemsCertificationsAndRoles.add(new SelectItem(

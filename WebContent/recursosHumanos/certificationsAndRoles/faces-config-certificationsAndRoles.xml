@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesCertifi</from-outcome>
-			<to-view-id>/recursosHumanos/certificationsAndRoles/gestionarCertificationsAndRoles.xhtml</to-view-id>
+			<to-view-id>/recursosHumanos/certificationsAndRoles/manageCertificationsAndRoles.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regCertifi</from-outcome>
-			<to-view-id>/recursosHumanos/certificationsAndRoles/registrarCertificationsAndRoles.xhtml</to-view-id>
+			<to-view-id>/recursosHumanos/certificationsAndRoles/registerCertificationsAndRoles.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
