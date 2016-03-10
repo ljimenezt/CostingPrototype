@@ -56,8 +56,8 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
-							value="#{cycleAction.crops.cropNames.idCropName}"
-							id="cmbCropNames" styleClass="W250P">
+							value="#{cycleAction.idCropsName}" id="cmbCropNames"
+							styleClass="W250P">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
 							<f:selectItems value="#{cycleAction.optionsCropNames}" />
 							<f:ajax event="change"
@@ -70,7 +70,7 @@
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensajeLifeCycle.crops_label}" />
 						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu value="#{cycleAction.crops.idCrop}" id="cmbCrops"
+						<h:selectOneMenu value="#{cycleAction.idCrops}" id="cmbCrops"
 							required="true" styleClass="W250P"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
@@ -80,6 +80,7 @@
 							<f:attribute name="tipo" value="Int" />
 						</h:selectOneMenu>
 						<rich:message for="cmbCrops" />
+						
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -125,7 +126,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensajeLifeCycle.cycle_type_label}</f:facet>
+								<f:facet name="header">#{mensajeLifeCycle.cycle_label_type}</f:facet>
 								<h:commandLink id="linkReg"
 									value="#{cycle.activiyNames.activityName}"
 									action="#{cycleAction.addEditCycles(cycle)}"

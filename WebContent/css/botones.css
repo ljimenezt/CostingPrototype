@@ -290,6 +290,11 @@ input[value="Como Presupuestado"],input[value="Como Presupuestado"]:hover
 	border: none;
 }
 
+.sytleButtonUpload {
+    font-family: Arial,sans-serif;
+    font-size: 11px;
+}
+
 /*Hover General para nuevos botones*/
 .estiloBoton:hover {
 	box-shadow: #777777 2px 2px 8px;

@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 
 import co.informatix.erp.lifeCycle.dao.ActivityNamesDao;
@@ -67,9 +68,12 @@ public class CycleAction implements Serializable {
 	private String nameDocument;
 	private String folderFile;
 	private String folderFileTemporal;
-	private boolean loadDocumentTemporal;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
+	private boolean loadDocumentTemporal;
+	private boolean iconPdf;
+	private int idCrops;
+	private int idCropsName;
 	private int idMaterialsType;
 	private int idMaterials;
 	private int idMachinesType;
@@ -325,6 +329,38 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
+	 * @return initialDateSearch: gets the initial date of the cycle to search
+	 *         in a range.
+	 */
+	public Date getInitialDateSearch() {
+		return initialDateSearch;
+	}
+
+	/**
+	 * @param initialDateSearch
+	 *            :sets the initial date of the cycle to search in a range.
+	 */
+	public void setInitialDateSearch(Date initialDateSearch) {
+		this.initialDateSearch = initialDateSearch;
+	}
+
+	/**
+	 * @return finalDateSearch: gets the final date of the cycle to search in a
+	 *         range.
+	 */
+	public Date getFinalDateSearch() {
+		return finalDateSearch;
+	}
+
+	/**
+	 * @param finalDateSearch
+	 *            :sets the final date of the cycle to search in a range.
+	 */
+	public void setFinalDateSearch(Date finalDateSearch) {
+		this.finalDateSearch = finalDateSearch;
+	}
+
+	/**
 	 * 
 	 * @return fileUploadBean: Variable that gets the object for uploading
 	 *         files.
@@ -359,35 +395,50 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * @return initialDateSearch: gets the initial date of the cycle to search
-	 *         in a range.
+	 * @return iconPdf: Flag indicating whether the file is loaded from the
+	 *         temporary location or not
 	 */
-	public Date getInitialDateSearch() {
-		return initialDateSearch;
+	public boolean getIconPdf() {
+		return iconPdf;
 	}
 
 	/**
-	 * @param initialDateSearch
-	 *            :sets the initial date of the cycle to search in a range.
+	 * @param iconPdf
+	 *            : Flag indicating whether the file is loaded from the
+	 *            temporary location or not
 	 */
-	public void setInitialDateSearch(Date initialDateSearch) {
-		this.initialDateSearch = initialDateSearch;
+	public void setIconPdf(boolean iconPdf) {
+		this.iconPdf = iconPdf;
 	}
 
 	/**
-	 * @return finalDateSearch: gets the final date of the cycle to search in a
-	 *         range.
+	 * @return idCrops: Crop identifier.
 	 */
-	public Date getFinalDateSearch() {
-		return finalDateSearch;
+	public int getIdCrops() {
+		return idCrops;
 	}
 
 	/**
-	 * @param finalDateSearch
-	 *            :sets the final date of the cycle to search in a range.
+	 * @param idCrops
+	 *            : Crops identifier.
 	 */
-	public void setFinalDateSearch(Date finalDateSearch) {
-		this.finalDateSearch = finalDateSearch;
+	public void setIdCrops(int idCrops) {
+		this.idCrops = idCrops;
+	}
+
+	/**
+	 * @return idCropsName: Crops name identifier.
+	 */
+	public int getIdCropsName() {
+		return idCropsName;
+	}
+
+	/**
+	 * @param idCropsName
+	 *            : Crops name identifier.
+	 */
+	public void setIdCropsName(int idCropsName) {
+		this.idCropsName = idCropsName;
 	}
 
 	/**
@@ -532,7 +583,13 @@ public class CycleAction implements Serializable {
 	 */
 	public String initializeCycle(Cycle cycle) {
 		try {
-			crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+			if (cycle != null) {
+				crops = cropsDao.cropsById(cycle.getCrops().getIdCrop());
+			} else {
+				crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+			}
+			this.idCrops = crops.getIdCrop();
+			this.idCropsName = crops.getCropNames().getIdCropName();
 			if (crops != null) {
 				initializeSearch();
 			}
@@ -554,26 +611,25 @@ public class CycleAction implements Serializable {
 	 */
 	public String addEditCycles(Cycle cycle) {
 		try {
+			this.crops = new Crops();
+			this.crops.setCropNames(new CropNames());
 			if (cycle != null) {
 				this.cycle = cycle;
-				int idCrops = this.cycle.getCrops().getIdCrop();
+				this.idCrops = this.cycle.getCrops().getIdCrop();
 				this.crops = cropsDao.cropsById(idCrops);
-				int idCropsName = this.crops.getCropNames().getIdCropName();
-				this.crops.setCropNames(cropNamesDao.cropNamesXId(idCropsName));
-				this.cycle.setCrops(this.crops);
-				clearFields();
+				this.idCropsName = this.crops.getCropNames().getIdCropName();
 				loadCombos();
-
 			} else {
-				this.crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+				if (this.idCrops == 0 && this.idCropsName == 0) {
+					this.crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+					this.idCrops = this.getCrops().getIdCrop();
+					this.idCropsName = this.getCrops().getCropNames()
+							.getIdCropName();
+				}
 				this.cycle = new Cycle();
-				this.cycle.setCrops(cropsDao
-						.descriptionSearch(Constantes.COSECHA));
 				this.cycle.setActiviyNames(new ActivityNames());
-				this.nameDocument = null;
-				this.loadDocumentTemporal = true;
-				clearFields();
 			}
+			clearFields();
 			loadActivities();
 			loadCropNames();
 		} catch (Exception e) {
@@ -594,27 +650,26 @@ public class CycleAction implements Serializable {
 		this.quantity = 0;
 		this.units = 0;
 		this.quote = 0;
+		this.nameDocument = null;
+		this.loadDocumentTemporal = true;
 	}
 
 	/**
 	 * This method allows load of name crops list.
 	 * 
+	 * @throws Exception
+	 * 
 	 */
-	private void loadCropNames() {
+	private void loadCropNames() throws Exception {
 		optionsCropNames = new ArrayList<SelectItem>();
-
-		try {
-			List<CropNames> listCropNames = cropNamesDao.listCropNames();
-			if (listCropNames != null) {
-				for (CropNames cropNames : listCropNames) {
-					optionsCropNames.add(new SelectItem(cropNames
-							.getIdCropName(), cropNames.getCropName()));
-				}
+		List<CropNames> listCropNames = cropNamesDao.listCropNames();
+		if (listCropNames != null) {
+			for (CropNames cropNames : listCropNames) {
+				optionsCropNames.add(new SelectItem(cropNames.getIdCropName(),
+						cropNames.getCropName()));
 			}
-			loadCropNamesCrop();
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
 		}
+		loadCropNamesCrop();
 	}
 
 	/**
@@ -625,8 +680,7 @@ public class CycleAction implements Serializable {
 		try {
 			optionsCrops = new ArrayList<SelectItem>();
 			List<Crops> listCropsActive = cropsDao
-					.consultarCropNamesCropsVigentes(this.crops.getCropNames()
-							.getIdCropName());
+					.consultarCropNamesCropsVigentes(this.idCropsName);
 			if (listCropsActive != null) {
 				for (Crops crops : listCropsActive) {
 					optionsCrops.add(new SelectItem(crops.getIdCrop(), crops
@@ -726,7 +780,7 @@ public class CycleAction implements Serializable {
 		try {
 			itemsActivityName = new ArrayList<SelectItem>();
 			List<ActivityNames> tiposActivityNames = activityNamesDao
-					.queryActivityNamesXCrop(this.crops.getIdCrop());
+					.queryActivityNamesXCrop(this.idCrops);
 			if (tiposActivityNames != null) {
 				for (ActivityNames activitiesName : tiposActivityNames) {
 					itemsActivityName.add(new SelectItem(activitiesName
@@ -771,17 +825,18 @@ public class CycleAction implements Serializable {
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
 		try {
-			int idCrops = this.crops.getIdCrop();
 			advanceSearchCycles(consult, parameters, bundle,
 					unionMessagesSearch);
-			Long amount = cycleDao
-					.amountCycleCrop(consult, parameters, idCrops);
+			Long amount = cycleDao.amountCycleCrop(consult, parameters,
+					this.idCrops);
 			if (amount != null) {
 				paginador.paginar(amount);
 			}
 			if (amount != null && amount > 0) {
-				listCycles = cycleDao.consultCycleByCrop(paginador.getInicio(),
-						paginador.getRango(), consult, parameters, idCrops);
+				listCycles = cycleDao
+						.consultCycleByCrop(paginador.getInicio(),
+								paginador.getRango(), consult, parameters,
+								this.idCrops);
 			}
 			if ((listCycles == null || listCycles.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
@@ -912,19 +967,19 @@ public class CycleAction implements Serializable {
 		String mensajeRegistro = "message_registro_modificar";
 
 		try {
+			this.crops.setIdCrop(this.idCrops);
+			this.cycle.setCrops(this.crops);
 			if (cycle.getIdCycle() != 0) {
 				cycleDao.editCycle(cycle);
 			} else {
 				mensajeRegistro = "message_registro_guardar";
-				this.cycle.setCycleNumber(1);
 				cycleDao.saveCycle(cycle);
 			}
-			ActivityNames activityNames = activityNamesDao
-					.queryActivityNamesById(this.cycle.getActiviyNames()
+			String activitisName = (String) ValidacionesAction.getLabel(
+					itemsActivityName, cycle.getActiviyNames()
 							.getIdActivityName());
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
-					activityNames.getActivityName()));
+					bundle.getString(mensajeRegistro), activitisName));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -964,6 +1019,15 @@ public class CycleAction implements Serializable {
 					bundle.getString(message));
 		}
 		this.nameDocument = fileUploadBean.getFileName();
+		if (Constantes.OK.equals(resultUpload)) {
+			String suffix = FilenameUtils.getExtension(this.nameDocument);
+			if (suffix.equals("pdf")) {
+				iconPdf = true;
+			} else {
+				iconPdf = false;
+			}
+		}
+
 	}
 
 	/**
@@ -999,12 +1063,12 @@ public class CycleAction implements Serializable {
 	public void validateQuantityMaterials() {
 		try {
 			ResourceBundle bundle = ControladorContexto
-					.getBundle("mensajeLifeCycle");
+					.getBundle("mensajeWarehouse");
 			if (this.cycle.getMaterialsRequired()) {
 				boolean materialFlag = depositsDao
 						.associatedMaterialsDeposits(idMaterials);
-				Materials material = materialsDao.materialsById(idMaterials);
-
+				String materialName = (String) ValidacionesAction.getLabel(
+						this.itemsMaterials, idMaterials);
 				if (materialFlag) {
 					Double quantityActual = depositsDao
 							.quantityMaterialsById(idMaterials);
@@ -1013,15 +1077,16 @@ public class CycleAction implements Serializable {
 								.mensajeError(
 										"formRegisterCycle:quantity",
 										MessageFormat.format(
-												bundle.getString("cylcle_message_not_enough_materials"),
-												material.getName()));
+												bundle.getString("deposits_message_not_enough_materials"),
+												materialName));
 					}
 				} else {
-					ControladorContexto.mensajeError(
-							"formRegisterCycle:quantity",
-							MessageFormat.format(bundle
-									.getString("cycle_message_no_materials"),
-									material.getName()));
+					ControladorContexto
+							.mensajeError(
+									"formRegisterCycle:quantity",
+									MessageFormat.format(
+											bundle.getString("deposits_message_no_materials"),
+											materialName));
 				}
 			}
 		} catch (Exception e) {

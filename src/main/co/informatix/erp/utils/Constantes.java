@@ -144,6 +144,7 @@ public class Constantes implements Serializable {
 	public static final String ADD = "add";
 	public static final String VIGENTE = "vigente";
 	public static final String SIN_VIGENTE = "sinVigencia";
+	public static final String OK = "ok";
 
 	/* States */
 	public static final String ESTADO_CANCELADO = "Cancelado";
@@ -231,7 +232,6 @@ public class Constantes implements Serializable {
 			.getProperty("locate.ext.permitidas.doc");
 	public static final String EXT_DOC_PDF = PropertiesManager
 			.getProperty("locate.ext.permitidas.doc.docx.pdf");
-	
 
 	/* Maximum size in MB, for uploading files */
 	public static final long TAMANYO_MAX_ARCHIVOS = Long

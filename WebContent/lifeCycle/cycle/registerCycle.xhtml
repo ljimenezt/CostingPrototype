@@ -30,13 +30,12 @@
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,tdAlignTop">
+						columnClasses="tdAlignTop W130P,tdAlignTop">
 						<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
-							
+
 						<h:outputText value="" styleClass="required" />
-						<h:selectOneMenu id="cropName"
-							value="#{cycleAction.cycle.crops.cropNames.idCropName}"
+						<h:selectOneMenu id="cropName" value="#{cycleAction.idCropsName}"
 							styleClass="colTextoMediano" required="true">
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 								itemValue="0" />
@@ -49,8 +48,7 @@
 						<h:outputText value="#{mensajeLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" styleClass="required" />
-						<h:selectOneMenu id="crop"
-							value="#{cycleAction.cycle.crops.idCrop}"
+						<h:selectOneMenu id="crop" value="#{cycleAction.idCrops}"
 							styleClass="colTextoMediano" required="true">
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 								itemValue="0" />
@@ -59,12 +57,12 @@
 								render="formRegisterCycle" />
 						</h:selectOneMenu>
 						<rich:message for="crop" />
-						
+
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="anchoDos BorderW2P"
-					rendered="#{cycleAction.cycle.crops.idCrop gt 0 and cycleAction.crops.cropNames.idCropName gt 0}">
+					rendered="#{cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}">
 					<legend class="etiquetaTitulo">#{mensajeLifeCycle.cycle_label}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -112,7 +110,7 @@
 						</p:calendar>
 						<rich:message for="fechaFinal" />
 
-						<h:outputText value="#{mensajeLifeCycle.cycle_label_number}:" />
+						<h:outputText value="#{mensajeLifeCycle.cycle_label_number}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="cycleNumber" maxlength="5" rendered="true"
 							value="#{cycleAction.cycle.cycleNumber}" required="true"
@@ -167,12 +165,12 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="anchoDos BorderW2P"
-					rendered="#{cycleAction.cycle.materialsRequired}">
+					rendered="#{cycleAction.cycle.materialsRequired eq true and cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}">
 					<legend class="etiquetaTitulo">#{mensajeWarehouse.materials_label_s}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,">
+						columnClasses=" W130P etiquetaTitulo tdAlignTop,,W180P,">
 
 						<h:outputText value="#{mensajeWarehouse.materials_type_label}" />
 						<h:outputText value="*" styleClass="required" />
@@ -226,12 +224,12 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="anchoDos BorderW2P"
-					rendered="#{cycleAction.cycle.machineRequired}">
+					rendered="#{cycleAction.cycle.machineRequired eq true and cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}">
 					<legend class="etiquetaTitulo">#{mensajeMachine.machines_label_names_s}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,">
+						columnClasses=" W130P etiquetaTitulo tdAlignTop,,W180P,">
 
 						<h:outputText value="#{mensaje.label_tipo_maquina}" />
 						<h:outputText value="*" styleClass="required" />
@@ -249,14 +247,14 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="anchoDos BorderW2P"
-					rendered="#{cycleAction.cycle.serviceRequired}">
+					rendered="#{cycleAction.cycle.serviceRequired eq true and cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}">
 					<legend class="etiquetaTitulo">#{mensajeServices.service_label_s}</legend>
-					<h:panelGrid>
+					<h:panelGrid columns="2" columnClasses="W550P tdAlignTop,">
 
 						<h:panelGrid columns="4"
 							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-							columnClasses=" W130P etiquetaTitulo tdAlignTop,,,">
+							columnClasses=" W130P etiquetaTitulo tdAlignTop,,W180P,">
 
 							<h:outputText value="#{mensajeServices.service_type_label}" />
 							<h:outputText value="*" styleClass="required" />
@@ -273,7 +271,8 @@
 							<h:outputText value="#{mensaje.label_quote}" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText id="quote" maxlength="5" rendered="true"
-								value="#{cycleAction.quote}" required="true" styleClass="colValor"
+								value="#{cycleAction.quote}" required="true"
+								styleClass="colValor"
 								converterMessage="#{mensaje.message_campo_positivo}"
 								requiredMessage="#{mensaje.message_campo_requerido}">
 								<f:validateDoubleRange minimum="1" />
@@ -288,7 +287,7 @@
 								id="panelDocumentCycle">
 								<a:outputPanel
 									rendered="#{cycleAction.nameDocument != null and !(empty cycleAction.nameDocument)}">
-									<div class="uploadImg">
+									<div class="uploadImg155P">
 										<div class="closeImg">
 											<a:commandLink action="#{cycleAction.deleteFilename()}"
 												immediate="true"
@@ -296,27 +295,45 @@
 												<h:graphicImage value="/img/close_14.png"
 													onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 													onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-													styleClass="cursor" title="#{mensaje.label_cambiar_file}" />
+													styleClass="cursor" title="#{mensaje.label_change_file}" />
 											</a:commandLink>
 										</div>
-										<a:outputPanel rendered="#{cycleAction.loadDocumentTemporal}">
-											<a target="_blank"
-												href="#{request.contextPath}#{cycleAction.folderFileTemporal}/#{cycleAction.nameDocument}"><h:graphicImage
-													title="#{cycleAction.nameDocument}" styleClass="H175P"
-													value="/img/document_128.png" /></a>
+										<a:outputPanel
+											rendered="#{cycleAction.loadDocumentTemporal eq true and cycleAction.iconPdf eq true }">
+											<a:outputPanel rendered="#{cycleAction.loadDocumentTemporal}">
+												<a target="_blank"
+													href="#{request.contextPath}#{cycleAction.folderFileTemporal}/#{cycleAction.nameDocument}"><h:graphicImage
+														title="#{cycleAction.nameDocument}" styleClass="H156P"
+														value="/img/bigPdf_128.png" /></a>
+											</a:outputPanel>
+											<a:outputPanel>
+												<h:graphicImage value="/img/bigPdf_128.png"
+													title="#{cycleAction.nameDocument}" styleClass="H156P"
+													rendered="#{!cycleAction.loadDocumentTemporal}" />
+											</a:outputPanel>
 										</a:outputPanel>
-										<a:outputPanel>
-											<h:graphicImage value="/img/document_128.png"
-												title="#{cycleAction.nameDocument}" styleClass="H156P"
-												rendered="#{!cycleAction.loadDocumentTemporal}" />
+										<a:outputPanel
+											rendered="#{cycleAction.loadDocumentTemporal eq true and cycleAction.iconPdf eq false }">
+											<a:outputPanel rendered="#{cycleAction.loadDocumentTemporal}">
+												<a target="_blank"
+													href="#{request.contextPath}#{cycleAction.folderFileTemporal}/#{cycleAction.nameDocument}"><h:graphicImage
+														title="#{cycleAction.nameDocument}" styleClass="H156P"
+														value="/img/bigWord_128.png" /></a>
+											</a:outputPanel>
+											<a:outputPanel>
+												<h:graphicImage value="/img/bigWord_128.png"
+													title="#{cycleAction.nameDocument}" styleClass="H156P"
+													rendered="#{!cycleAction.loadDocumentTemporal}" />
+											</a:outputPanel>
 										</a:outputPanel>
 									</div>
 								</a:outputPanel>
 								<a:outputPanel>
 									<h:graphicImage value="/img/fileLess_128.png"
 										rendered="#{cycleAction.nameDocument eq null or empty cycleAction.nameDocument}"
-										styleClass="H185P W160P" />
+										styleClass="H162P" />
 									<p:fileUpload id="uploadDocument" dragDropSupport="true"
+										styleClass="sytleButtonUpload"
 										rendered="#{cycleAction.nameDocument eq null or empty cycleAction.nameDocument}"
 										label="#{mensaje.label_seleccione_archivo}" mode="advanced"
 										auto="true" fileUploadListener="#{cycleAction.submit}"
@@ -364,6 +381,29 @@
 					<ui:define name="mensaje">
 						<h:outputText value="#{mensaje.message_registro_confirmacion}"
 							styleClass="etiquetaTitulo" />
+					</ui:define>
+
+					<ui:define name="campos">
+						<h:outputText value="#{mensajeLifeCycle.crop_names_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(cycleAction.optionsCropNames,cycleAction.idCropsName)}" />
+
+						<h:outputText value="#{mensajeLifeCycle.crops_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(cycleAction.optionsCrops,cycleAction.idCrops)}" />
+
+						<h:outputText value="#{mensajeLifeCycle.activity_names_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(cycleAction.itemsActivityName,cycleAction.cycle.activiyNames.idActivityName)}" />
+
+						<h:outputText value="#{mensaje.label_fecha_inicio}:" />
+						<h:outputText value="#{cycleAction.cycle.initialDateTime}" />
+
+						<h:outputText value="#{mensaje.label_fecha_fin}:" />
+						<h:outputText value="#{cycleAction.cycle.finalDateTime}" />
+
+						<h:outputText value="#{mensajeLifeCycle.cycle_label_number}:" />
+						<h:outputText value="#{cycleAction.cycle.cycleNumber}" />
 					</ui:define>
 
 					<ui:define name="botones">
