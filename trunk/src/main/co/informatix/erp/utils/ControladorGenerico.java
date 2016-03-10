@@ -5,16 +5,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ResourceBundle;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import co.informatix.security.utils.Parametros;
 
 /**
  * Esta clase permite realizar la logica del negocio para los metodos genericos
@@ -24,118 +21,6 @@ import co.informatix.security.utils.Parametros;
  */
 @SuppressWarnings("serial")
 public class ControladorGenerico implements Serializable {
-
-	/**
-	 * Metodo que permite visualizar un mensaje de FacesMessage.SEVERITY_INFO en
-	 * la interfaz del usuario
-	 * 
-	 * @param formAMostrarMensaje
-	 *            : form en donde se visualizara el mensaje
-	 * @param mensajeAMostrar
-	 *            : mensaje a visualizar
-	 */
-	public static void mensajeInformacion(String formAMostrarMensaje,
-			String mensajeAMostrar) {
-		FacesContext contexto = FacesContext.getCurrentInstance();
-
-		if (formAMostrarMensaje != null && formAMostrarMensaje.equals("")) {
-			formAMostrarMensaje = null;
-		}
-		contexto.addMessage(formAMostrarMensaje, new FacesMessage(
-				FacesMessage.SEVERITY_INFO, mensajeAMostrar, mensajeAMostrar));
-	}
-
-	/**
-	 * Metodo que cuando ocurre un error guarda el error en el log de la
-	 * aplicacion y visualiza el mensaje de FacesMessage.SEVERITY_ERROR en la
-	 * interfaz del usuario
-	 * 
-	 * @param e
-	 *            : Exception a guardar en el log
-	 * @param formAMostrarMensaje
-	 *            : form en donde se visualizara el mensaje
-	 * @param mensajeAMostrar
-	 *            : mensaje a visualizar
-	 */
-	public static void mensajeError(Exception e, String formAMostrarMensaje,
-			String mensajeAMostrar) {
-		FacesContext contexto = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = contexto.getApplication().getResourceBundle(
-				contexto, "mensaje");
-
-		if (mensajeAMostrar == null || mensajeAMostrar.equals("")) {
-			mensajeAMostrar = bundle.getString("message_error");
-		}
-		if (formAMostrarMensaje != null && formAMostrarMensaje.equals("")) {
-			formAMostrarMensaje = null;
-		}
-		if (e != null) {
-			Parametros.getLog().error(
-					Parametros.getExceptionStackTraceAsString(e));
-			e.printStackTrace();
-		}
-		contexto.addMessage(formAMostrarMensaje, new FacesMessage(
-				FacesMessage.SEVERITY_ERROR, mensajeAMostrar, mensajeAMostrar));
-	}
-
-	/**
-	 * Metodo que obtiene el contexto de un Bean dependiendo de la Class enviada
-	 * como parametro.
-	 * 
-	 * <p>
-	 * ejemplo de uso:
-	 * <p>
-	 * Objet object = (Object)ControladorGenerico.getContextBean(Object.class);
-	 * <p>
-	 * donde Object es el objeto a obtener el contexto
-	 * 
-	 * @param objectClass
-	 *            : clase del objeto a obtener el contexto
-	 * @return: Contexto del objeto deseado
-	 */
-	@SuppressWarnings("rawtypes")
-	public static Object getContextBean(Class objectClass) {
-		FacesContext contexto = FacesContext.getCurrentInstance();
-
-		/* Se pasa la primera letra del nombre del Bean a minuscula */
-		String nombreBean = objectClass.getSimpleName();
-		String primeraLetra = "" + nombreBean.charAt(0);
-		nombreBean = "" + primeraLetra.toLowerCase() + nombreBean.substring(1);
-
-		Object object = contexto.getApplication().getELResolver()
-				.getValue(contexto.getELContext(), null, nombreBean);
-		return object;
-	}
-
-	/**
-	 * Metodo que genera un Bundle a partir de un parametro enviado
-	 * 
-	 * @param keyBundle
-	 *            : String necesario para la generacion del bundle
-	 * @return Objeto ResourceBundle generado
-	 */
-	public static ResourceBundle getBundle(String keyBundle) {
-		FacesContext contexto = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = contexto.getApplication().getResourceBundle(
-				contexto, keyBundle);
-		return bundle;
-	}
-
-	/**
-	 * Este metodo permite retornar el parametro a travez del contexto.
-	 * 
-	 * @author marisol.calderon
-	 * 
-	 * @param param
-	 *            : param que se quiere consultar.
-	 * @return valor del paremtro enviado.
-	 */
-	public static String getParam(String param) {
-		FacesContext contexto = FacesContext.getCurrentInstance();
-		String valor = contexto.getExternalContext().getRequestParameterMap()
-				.get(param);
-		return valor;
-	}
 
 	/**
 	 * Este metodo permite al usuario descargar un archivo ubicado en la ruta
@@ -212,5 +97,20 @@ public class ControladorGenerico implements Serializable {
 				bos.close();
 		}
 		return pictureIndex;
+	}
+
+	/**
+	 * Este metodo permite consultar el prefijo de la ruta del servidor 'C:/' en
+	 * windows o '/' en unix y la concatena con la ruta de la carpeta local para
+	 * el archivo de propiedades SIRT.properties.
+	 * 
+	 * @author marisol.calderon
+	 * 
+	 * @return ruta de la carpeta local del sistema.
+	 */
+	public static String RUTA_LOCAL() {
+		String ruta = FilenameUtils.getPrefix(Utils.RUTA_SERVIDOR())
+				+ PropertiesManagerUtils.getProperty("locate.folder.backup");
+		return ruta;
 	}
 }
