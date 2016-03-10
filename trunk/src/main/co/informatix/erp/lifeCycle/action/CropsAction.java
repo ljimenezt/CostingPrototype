@@ -523,6 +523,42 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
+	 * Valid fields are required in the view so that you can load the button
+	 * "add plots".
+	 * 
+	 * @author Sergio.Ortiz
+	 * @modify 24/06/2015 Gerardo.Herrera
+	 * 
+	 */
+	public void requeridosOk() {
+		try {
+			if (crops.getCropNames().getIdCropName() == 0
+					|| "".equals(crops.getCropNames().getIdCropName())) {
+				ControladorContexto.mensajeRequeridos("formCrops:cropNames");
+			}
+			if (crops.getInitialDate() == null
+					|| "".equals(crops.getInitialDate())) {
+				ControladorContexto.mensajeRequeridos("formCrops:fechaInicio");
+			}
+			if (crops.getFinalDate() == null || "".equals(crops.getFinalDate())) {
+				ControladorContexto.mensajeRequeridos("formCrops:fechFin");
+			}
+
+			if (this.anyo == null || "".equals(this.anyo)) {
+				ControladorContexto.mensajeRequeridos("formCrops:cropAnyo");
+			}
+
+			if (crops.getDescription() == null
+					|| "".equals(crops.getDescription())) {
+				ControladorContexto
+						.mensajeRequeridos("formCrops:txtDescripcion");
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
 	 * Plots query associated with the Crop
 	 * 
 	 * @author Sergio.Ortiz
@@ -579,9 +615,9 @@ public class CropsAction implements Serializable {
 	 * @author Sergio.Ortiz
 	 */
 	private void seleccionAnyo() {
-		Calendar anyo = new GregorianCalendar();
+		Calendar anio = new GregorianCalendar();
 		seleccionarAnyo = new ArrayList<SelectItem>();
-		int fechaAnyo = anyo.get(Calendar.YEAR);
+		int fechaAnyo = anio.get(Calendar.YEAR);
 		for (int i = 2000; i <= fechaAnyo; i++) {
 			String fecha = "" + i;
 			seleccionarAnyo.add(new SelectItem(i, fecha));
