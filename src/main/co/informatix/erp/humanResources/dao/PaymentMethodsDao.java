@@ -25,7 +25,7 @@ public class PaymentMethodsDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Saves a PaymentMethods in the database.
+	 * This method allows save a PaymentMethods in the database.
 	 * 
 	 * @param paymentMethods
 	 *            : Object of PaymentMethods class to store in the database.
@@ -37,9 +37,10 @@ public class PaymentMethodsDao implements Serializable {
 	}
 
 	/**
-	 * Edits PaymentMethods in the database.
+	 * This method allows edit a PaymentMethods in the database.
 	 * 
 	 * @param paymentMethods
+	 *            : Object of PaymentMethods class to store in the database.
 	 * @throws Exception
 	 */
 	public void editPaymentMethods(PaymentMethods paymentMethods)
@@ -48,7 +49,7 @@ public class PaymentMethodsDao implements Serializable {
 	}
 
 	/**
-	 * Removes PaymentMethods from the database.
+	 * This method allows remove a PaymentMethods from the database.
 	 * 
 	 * @param paymentMethods
 	 *            : PaymentMethods to eliminate.

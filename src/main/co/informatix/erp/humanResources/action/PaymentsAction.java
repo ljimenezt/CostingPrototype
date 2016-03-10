@@ -110,8 +110,8 @@ public class PaymentsAction implements Serializable {
 	 * Method to initialize the parameters of the search and load initial list
 	 * of contracts.
 	 * 
-	 * @return consultPayments: method that consults the payments, and takes
-	 *         the user to the payments management template.
+	 * @return consultPayments: method that consults the payments, and takes the
+	 *         user to the payments management template.
 	 */
 	public String searchInitialization() {
 		nameSearch = "";
@@ -135,8 +135,7 @@ public class PaymentsAction implements Serializable {
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
 		try {
-			advancedSearch(query, parameters, bundle,
-					unionMessagesSearch);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long quantity = paymentsDao.quantityPayments(query, parameters);
 			if (quantity != null) {
 				paginador.paginar(quantity);
@@ -192,8 +191,8 @@ public class PaymentsAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nameSearch + '"');
+			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -223,8 +222,8 @@ public class PaymentsAction implements Serializable {
 	 */
 	public void loadDetailsPayment(Payments payment) throws Exception {
 		int idPayment = payment.getIdPayment();
-		Contrato contract = (Contrato) this.paymentsDao
-				.consultObjectPayments("contract", idPayment);
+		Contrato contract = (Contrato) this.paymentsDao.consultObjectPayments(
+				"contract", idPayment);
 		Hr hr = (Hr) this.paymentsDao.consultObjectPayments("hr", idPayment);
 		int idContract = contract.getId();
 		Persona person = (Persona) this.contratoDao.consultarObjetoContrato(
@@ -263,21 +262,24 @@ public class PaymentsAction implements Serializable {
 	 * Method to edit or create a new payment.
 	 * 
 	 * @param payments
-	 *            : payment is to add or edit
-	 * 
+	 *            : payment is to add or edit.
 	 * @return "regPayments": redirected to the template record payments.
-	 * @throws Exception
 	 */
-	public String addEditPayments(Payments payments) throws Exception {
-		if (payments != null) {
-			this.payments = payments;
-			loadDetailsPayment(payments);
-		} else {
-			this.payments = new Payments();
-			this.payments.setHr(new Hr());
-			Contrato contract = new Contrato();
-			contract.setPersona(new Persona());
-			this.payments.setContract(contract);
+	public String addEditPayments(Payments payments) {
+		try {
+			if (payments != null) {
+				this.payments = payments;
+				loadDetailsPayment(payments);
+			} else {
+				this.payments = new Payments();
+				this.payments.setHr(new Hr());
+				Contrato contract = new Contrato();
+				contract.setPersona(new Persona());
+				this.payments.setContract(contract);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+
 		}
 		return "regPayments";
 	}
