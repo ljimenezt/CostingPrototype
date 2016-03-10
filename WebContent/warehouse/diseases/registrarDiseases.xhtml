@@ -40,8 +40,7 @@
 					<h:outputText value="#{mensaje.label_nombre}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
-					<h:inputText
-						value="#{diseasesAction.diseases.name}"
+					<h:inputText value="#{diseasesAction.diseases.name}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100"
 						validator="#{diseasesAction.validarNombreXSS}"
@@ -51,8 +50,7 @@
 					<h:outputText styleClass="etiquetaTitulo"
 						value="#{mensaje.label_descripcion}" />
 					<h:outputText value="" />
-					<h:inputTextarea
-						value="#{diseasesAction.diseases.description}"
+					<h:inputTextarea value="#{diseasesAction.diseases.description}"
 						styleClass="colTextoMedianoTextArea" id="txaDescription"
 						validator="#{encodeFilter.validarScripting}">
 						<f:validateLength maximum="200" />
@@ -87,12 +85,10 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}" />
-						<h:outputText
-							value="#{diseasesAction.diseases.name}" />
-						<h:outputText value="#{mensaje.label_descripcion}" />
-						<h:outputText
-							value="#{diseasesAction.diseases.description}" />
+						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{diseasesAction.diseases.name}" />
+						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{diseasesAction.diseases.description}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"

@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="customerAction.agregarEditarCustomer(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeSales.customer_label" />
+		value="mensaje.label_registrar,mensajeMenu.customer_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -21,7 +21,7 @@
 		<t:saveState value="#{customerAction}" />
 		<h:form id="formCustomer">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeSales.customer_label}"
+				header="#{mensaje.label_registrar} #{mensajeMenu.customer_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarCustomer">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -129,15 +129,15 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}" />
+						<h:outputText value="#{mensaje.label_nombre}:" />
 						<h:outputText value="#{customerAction.customer.name}" />
-						<h:outputText value="#{mensaje.label_direccion}" />
+						<h:outputText value="#{mensaje.label_direccion}:" />
 						<h:outputText value="#{customerAction.customer.address}" />
-						<h:outputText value="#{mensajeWarehouse.suppliers_label_ciudad}" />
+						<h:outputText value="#{mensajeWarehouse.suppliers_label_ciudad}:" />
 						<h:outputText value="#{customerAction.customer.city}" />
 						<h:outputText value="#{mensaje.label_codigo_postal}:" />
 						<h:outputText value="#{customerAction.customer.postalCode}" />
-						<h:outputText value="#{mensaje.label_telefono}" />
+						<h:outputText value="#{mensaje.label_telefono}:" />
 						<h:outputText value="#{customerAction.customer.phone}" />
 					</ui:define>
 					<ui:define name="botones">
