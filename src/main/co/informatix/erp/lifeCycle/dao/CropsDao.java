@@ -205,8 +205,9 @@ public class CropsDao implements Serializable {
 	 * @param crop
 	 *            : description of the crop to search
 	 * @return Crops: Crops object type.
+	 * @throws Exception
 	 */
-	public Crops descriptionSearch(String crop) {
+	public Crops descriptionSearch(String crop) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT c FROM Crops c ");
 		query.append("JOIN FETCH c.cropNames cn ");
