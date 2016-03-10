@@ -10,17 +10,21 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.dao.PaymentMethodsDao;
 import co.informatix.erp.humanResources.entities.PaymentMethods;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class is all the logic related to the creation, update, and delete types
- * that can PaymentMethods exist.
+ * This class implements the business logic related to creating, updating, and
+ * deleting PaymentMethods.
  * 
  * @author Sergio.Ortiz
  * 
@@ -31,39 +35,40 @@ import co.informatix.erp.utils.ValidacionesAction;
 public class PaymentMethodsAction implements Serializable {
 	@EJB
 	private PaymentMethodsDao paymentMethodsDao;
-	private List<PaymentMethods> listaPaymentMethods;
-	private String nombreBuscar;
+	private List<PaymentMethods> paymentMethodsList;
+	private String nameSearch;
 	private Paginador paginador = new Paginador();
 	private PaymentMethods paymentMethods;
 
 	/**
-	 * @return listaPaymentMethods: PaymentMethods list shown User interface
+	 * @return paymentMethodsList: PaymentMethods list shown in the user
+	 *         interface.
 	 */
-	public List<PaymentMethods> getListaPaymentMethods() {
-		return listaPaymentMethods;
+	public List<PaymentMethods> getPaymentMethodsList() {
+		return paymentMethodsList;
 	}
 
 	/**
-	 * @param listaPaymentMethods
-	 *            : PaymentMethods list shown User interface
+	 * @param paymentMethodsList
+	 *            : PaymentMethods list shown in the user interface.
 	 */
-	public void setListaPaymentMethods(List<PaymentMethods> listaPaymentMethods) {
-		this.listaPaymentMethods = listaPaymentMethods;
+	public void setPaymentMethodsList(List<PaymentMethods> paymentMethodsList) {
+		this.paymentMethodsList = paymentMethodsList;
 	}
 
 	/**
-	 * @return nombreBuscar: PaymentMethods to search
+	 * @return nameSearch: PaymentMethods name to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : PaymentMethods to search
+	 * @param nameSearch
+	 *            : PaymentMethods name to search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
@@ -82,7 +87,7 @@ public class PaymentMethodsAction implements Serializable {
 	}
 
 	/**
-	 * @return paymentMethods: data object containing a Payment methods
+	 * @return paymentMethods: Data object containing a Payment methods.
 	 */
 	public PaymentMethods getPaymentMethods() {
 		return paymentMethods;
@@ -90,7 +95,7 @@ public class PaymentMethodsAction implements Serializable {
 
 	/**
 	 * @param paymentMethods
-	 *            : data object containing a Payment methods
+	 *            : Data object containing a Payment methods.
 	 */
 	public void setPaymentMethods(PaymentMethods paymentMethods) {
 		this.paymentMethods = paymentMethods;
@@ -100,61 +105,60 @@ public class PaymentMethodsAction implements Serializable {
 	 * Method to initialize the parameters of the search and load initial
 	 * listing of the types of PaymentMethods
 	 * 
-	 * @return consultarPaymentMethods: consulting method types PaymentMethods
+	 * @return searchPaymentMethods: consulting method types PaymentMethods
 	 *         returns to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarPaymentMethods();
+	public String initializeSearch() {
+		nameSearch = "";
+		return searchPaymentMethods();
 	}
 
 	/**
-	 * Consult the list of PaymentMethods who are in the BD
+	 * Search a list of PaymentMethods that are in the database.
 	 * 
-	 * @return "gesPaymentMethods": redirects to the template to manage types of
-	 *         PaymentMethods
+	 * @return "gesPaymentMethods": Redirects to a template to manage
+	 *         PaymentMethods.
 	 */
-	public String consultarPaymentMethods() {
+	public String searchPaymentMethods() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundlePaymentMethods = ControladorContexto
+		ResourceBundle paymentMethodsmBundle = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaPaymentMethods = new ArrayList<PaymentMethods>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		paymentMethodsList = new ArrayList<PaymentMethods>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder jointSearchMessages = new StringBuilder();
+		String searchMessage = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = paymentMethodsDao.cantidadPaymentMethods(consulta,
-					parametros);
+			advancedSearch(query, parameters, bundle, jointSearchMessages);
+			Long cantidad = paymentMethodsDao.amountPaymentMethods(query,
+					parameters);
 			if (cantidad != null) {
 				paginador.paginar(cantidad);
 			}
-			listaPaymentMethods = paymentMethodsDao.consultarPaymentMethods(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaPaymentMethods == null || listaPaymentMethods.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			paymentMethodsList = paymentMethodsDao.searchPaymentMethods(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
+			if ((paymentMethodsList == null || paymentMethodsList.size() <= 0)
+					&& !"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaPaymentMethods == null
-					|| listaPaymentMethods.size() <= 0) {
+								jointSearchMessages);
+			} else if (paymentMethodsList == null
+					|| paymentMethodsList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundlePaymentMethods
+								paymentMethodsmBundle
 										.getString("paymentmethods_label_s"),
-								unionMensajesBusqueda);
+								jointSearchMessages);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validation.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -162,31 +166,31 @@ public class PaymentMethodsAction implements Serializable {
 	}
 
 	/**
-	 * This method constructs the query to the advanced search also allows build
+	 * This method builds the query to the advanced search and it also builds
 	 * messages to display depending on the search criteria selected by the
 	 * user.
 	 * 
-	 * @param consulta
-	 *            : query to concatenate
-	 * @param parametros
-	 *            : list of search parameters.
+	 * @param query
+	 *            : Query to concatenate.
+	 * @param parameter
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            : access language tags
+	 *            : Context to access language tags.
 	 * 
-	 * @param unionMensajesBusqueda
-	 *            : Message search
+	 * @param jointSearchMessages
+	 *            : Message search.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consulta,
-			List<SelectItem> parametros, ResourceBundle bundle,
-			StringBuilder unionMensajesBusqueda) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consulta.append("WHERE UPPER(pm.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+	private void advancedSearch(StringBuilder query,
+			List<SelectItem> parameter, ResourceBundle bundle,
+			StringBuilder jointSearchMessages) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			query.append("WHERE UPPER(pm.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
-			parametros.add(item);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nombreBuscar + '"');
+			parameter.add(item);
+			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -194,12 +198,12 @@ public class PaymentMethodsAction implements Serializable {
 	 * Method to edit or create a new PaymentMethods.
 	 * 
 	 * @param paymentMethods
-	 *            : Payment methods types that are adding or editing
+	 *            : Payment methods that is going to be added or edited.
 	 * 
-	 * @return "regPaymentMethods": redirected to the template record Payment
+	 * @return "regPaymentMethods": Redirects to the template to manage Payment
 	 *         methods.
 	 */
-	public String agregarEditarPaymentMethods(PaymentMethods paymentMethods) {
+	public String addEditPaymentMethods(PaymentMethods paymentMethods) {
 		if (paymentMethods != null) {
 			this.paymentMethods = paymentMethods;
 		} else {
@@ -209,40 +213,40 @@ public class PaymentMethodsAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the PaymentMethods
+	 * Method to save or edit the PaymentMethods
 	 * 
-	 * @return consultarPaymentMethods: To manage types redirects PaymentMethods
-	 *         with the list of names updated
+	 * @return searchPaymentMethods: Redirects to PaymentMethods managing with
+	 *         the updated list of names.
 	 */
-	public String guardaPaymentMethods() {
+	public String savePaymentMethods() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String registerMessage = "message_registro_modificar";
 		try {
 			if (paymentMethods.getIdPaymentMethod() != 0) {
-				paymentMethodsDao.editarPaymentMethods(paymentMethods);
+				paymentMethodsDao.editPaymentMethods(paymentMethods);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				paymentMethodsDao.guardaPaymentMethods(paymentMethods);
+				registerMessage = "message_registro_guardar";
+				paymentMethodsDao.savePaymentMethods(paymentMethods);
 			}
 			ControladorContexto.mensajeInformacion(null,
-					MessageFormat.format(bundle.getString(mensajeRegistro),
+					MessageFormat.format(bundle.getString(registerMessage),
 							paymentMethods.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarPaymentMethods();
+		return searchPaymentMethods();
 	}
 
 	/**
-	 * PaymentMethods delete method allowing the database
+	 * Delete PaymentMethods in the database.
 	 * 
-	 * @return consultarPaymentMethods: Consult the list of PaymentMethods and
-	 *         returns to manage PaymentMethods
+	 * @return searchPaymentMethods: Search the list of PaymentMethods and
+	 *         redirects to manage PaymentMethods.
 	 */
-	public String eliminarPaymentMethods() {
+	public String deletePaymentMethods() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			paymentMethodsDao.eliminarPaymentMethods(paymentMethods);
+			paymentMethodsDao.deletePaymentMethods(paymentMethods);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					paymentMethods.getName()));
@@ -255,6 +259,42 @@ public class PaymentMethodsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarPaymentMethods();
+		return searchPaymentMethods();
 	}
+
+	/**
+	 * To validate the name of the kinds of human resources, so that it is not
+	 * repeated in the database and it is valid compared with XSS.
+	 * 
+	 * @param context
+	 *            : Application context.
+	 * 
+	 * @param toValidate
+	 *            : Validate component.
+	 * @param value
+	 *            : Field value is valid.
+	 */
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			int id = paymentMethods.getIdPaymentMethod();
+			PaymentMethods auxPaymentMethods = new PaymentMethods();
+			auxPaymentMethods = paymentMethodsDao.nameExists(name, id);
+			if (auxPaymentMethods != null) {
+				String existenceMessage = "message_ya_existe_verifique";
+				ControladorContexto.mensajeErrorEspecifico(clientId,
+						existenceMessage, "mensaje");
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
 }
