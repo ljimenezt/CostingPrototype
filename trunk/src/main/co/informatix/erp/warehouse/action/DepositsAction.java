@@ -33,6 +33,7 @@ import co.informatix.erp.warehouse.entities.Materials;
 import co.informatix.erp.warehouse.entities.MaterialsType;
 import co.informatix.erp.warehouse.entities.MeasurementUnits;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
+import co.informatix.erp.warehouse.entities.Suppliers;
 
 /**
  * This class is all related logic with creating, updating and removal of
@@ -732,4 +733,23 @@ public class DepositsAction implements Serializable {
 		}
 	}
 
+	/**
+	 * This method allows to consult the supplier associated to an invoice
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @param invoices
+	 *            : Purchase invoice for consult supplier
+	 */
+	public void setInoviceSupplier(PurchaseInvoices invoices) {
+		try {
+			this.purchaseInvoice = invoices;
+			Suppliers suppliers = suppliersDao
+					.suppliersById(this.purchaseInvoice.getSuppliers()
+							.getIdSupplier());
+			this.purchaseInvoice.setSuppliers(suppliers);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
 }
