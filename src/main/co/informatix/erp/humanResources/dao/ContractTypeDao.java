@@ -13,7 +13,7 @@ import co.informatix.erp.humanResources.entities.ContractType;
 
 /**
  * DAO class that establishes the connection between business logic and
- * database. ContractTypeAction used for managing ContractType
+ * database. ContractTypeAction used for managing ContractType.
  * 
  * @author Mabell.Boada
  * 
@@ -25,93 +25,92 @@ public class ContractTypeDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Edit the track information for one type of contract
+	 * Edit the track information for one type of contract.
 	 * 
 	 * @param contractType
-	 *            : Contract to edit
+	 *            : Contract to edit.
 	 * @throws Exception
 	 */
-	public void editarContractType(ContractType contractType) throws Exception {
+	public void editContractType(ContractType contractType) throws Exception {
 		em.merge(contractType);
 	}
 
 	/**
 	 * 
-	 Saves the type of contract in the database
+	 Saves the type of contract in the database.
 	 * 
 	 * @param contractType
-	 *            : Contract to save
+	 *            : Contract to save.
 	 * @throws Exception
 	 */
-	public void guardarContractType(ContractType contractType) throws Exception {
+	public void saveContractType(ContractType contractType) throws Exception {
 		em.persist(contractType);
 	}
 
 	/**
-	 * Removes a type of contract BD
+	 * Removes a type of contract BD.
 	 * 
 	 * @param contractType
-	 *            : Contract to remove
+	 *            : Contract to remove.
 	 * @throws Exception
 	 */
-	public void eliminarContractType(ContractType contractType)
-			throws Exception {
+	public void removeContractType(ContractType contractType) throws Exception {
 		em.remove(em.merge(contractType));
 	}
 
 	/**
 	 * Returns the number of existing contract types in the database filtering
-	 * information search by the values sent
+	 * information search by the values sent.
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : String containing the query why the filter names types of
-	 *            contract
-	 * @param parametros
-	 *            : Query parameters
-	 * @return Long: Number of records found types of contract
+	 *            contract.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Number of records found types of contract.
 	 * @throws Exception
 	 */
-	public Long cantidadContractType(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long quantityContractType(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(ct) FROM ContractType ct ");
-		query.append(consulta);
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
 	 * This method consultation contract types with a certain range sent as a
-	 * parameter and filtering the information by the values of sent search
+	 * parameter and filtering the information by the values of sent search.
 	 * 
-	 * @param inicio
-	 *            : Registry where consultation begins
-	 * @param rango
-	 *            : Range of records
-	 * @param consulta
+	 * @param start
+	 *            : Registry where consultation begins.
+	 * @param range
+	 *            : Range of records.
+	 * @param consult
 	 *            : Consult the logs depending on the parameters selected by the
-	 *            user
-	 * @param parametros
-	 *            : Query parameters
-	 * @return List<ContractType>: List of contract types
+	 *            user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<ContractType>: List of contract types.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ContractType> consultarContractType(int inicio, int rango,
-			StringBuilder consulta, List<SelectItem> parametros)
+	public List<ContractType> consultContractType(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ct FROM ContractType ct ");
-		query.append(consulta);
+		query.append(consult);
 		query.append("ORDER BY ct.nombre ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(inicio).setMaxResults(rango);
+		q.setFirstResult(start).setMaxResults(range);
 		List<ContractType> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
@@ -121,17 +120,17 @@ public class ContractTypeDao implements Serializable {
 
 	/**
 	 * Consult if the name of the contract types exist in the database when
-	 * saving or editing
+	 * saving or editing.
 	 * 
-	 * @param nombre
-	 *            : Name the type of contract to verify
+	 * @param name
+	 *            : Name the type of contract to verify.
 	 * @param id
-	 *            : id the type of contract to verify
-	 * @return ContractType: Object found with the search parameters id and name
+	 *            : id the type of contract to verify.
+	 * @return ContractType: Object found with the search parameters id and name.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public ContractType nombreExiste(String nombre, int id) throws Exception {
+	public ContractType nameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ct FROM ContractType ct ");
 		query.append("WHERE UPPER(ct.nombre)=UPPER(:name) ");
@@ -139,7 +138,7 @@ public class ContractTypeDao implements Serializable {
 			query.append("AND ct.id <>:id ");
 		}
 		Query q = em.createQuery(query.toString());
-		q.setParameter("name", nombre);
+		q.setParameter("name", name);
 		if (id != 0) {
 			q.setParameter("id", id);
 		}

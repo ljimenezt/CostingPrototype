@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="contractTypeAction.agregarEditarContractType(null)" />
+		value="contractTypeAction.addEditContractType(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeRecursosHumanos.contract_type_label" />
 	<ui:define name="body">
@@ -22,7 +22,7 @@
 			$(document).ready(function(){    
 				  $('#formContractType\\:txaDescription').maxlength({   
 				    events: [],     
-				    max: 200,    
+				    max: 250,    
 				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
 				    showFeedback: 'active'    
 				  }); 
@@ -43,7 +43,7 @@
 					<h:inputText value="#{contractTypeAction.contractType.nombre}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100"
-						validator="#{contractTypeAction.validarNombreXSS}"
+						validator="#{contractTypeAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
@@ -54,7 +54,7 @@
 						value="#{contractTypeAction.contractType.descripcion}"
 						styleClass="colTextoMedianoTextArea" id="txaDescription"
 						validator="#{encodeFilter.validarScripting}">
-						<f:validateLength maximum="200" />
+						<f:validateLength maximum="250" />
 					</h:inputTextarea>
 					<rich:message for="txaDescription" />
 
@@ -86,15 +86,15 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}" />
+						<h:outputText value="#{mensaje.label_nombre}:" />
 						<h:outputText value="#{contractTypeAction.contractType.nombre}" />
-						<h:outputText value="#{mensaje.label_descripcion}" />
+						<h:outputText value="#{mensaje.label_descripcion}:" />
 						<h:outputText
 							value="#{contractTypeAction.contractType.descripcion}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{contractTypeAction.guardarContractType()}"
+							action="#{contractTypeAction.saveContractType()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
