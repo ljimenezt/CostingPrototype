@@ -10,8 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml"
 	xmlns:p="http://primefaces.org/ui">
-	<ui:param name="action"
-		value="contratoAction.agregarEditarContrato(null)" />
+	<ui:param name="action" value="contratoAction.addEditContract(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeRecursosHumanos.contract_label" />
 	<ui:define name="body">
@@ -47,11 +46,11 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
 							<h:inputText styleClass="colTextoMediano" required="true"
-								value="#{contratoAction.contrato.persona.nombreCompleto}"
+								value="#{contratoAction.contract.persona.nombreCompleto}"
 								id="txtPersona" readonly="true"
 								validator="#{encodeFilter.validarScripting}" />
 							<h:inputHidden id="txtPersonas"
-								value="#{contratoAction.contrato.persona.nombreCompleto}"
+								value="#{contratoAction.contract.persona.nombreCompleto}"
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								required="true" validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkPersona" render=":popupForm:popupPersona"
@@ -69,8 +68,7 @@
 								<f:param name="param2" value="si" />
 							</a:commandLink>
 							<h:outputText value="&#32;&#32;&#32;" />
-							<a:commandLink
-								actionListener="#{contratoAction.limpiarPersona()}"
+							<a:commandLink actionListener="#{contratoAction.deletePerson()}"
 								render=":formContrato:txtPersona , :formContrato:txtPersonas"
 								execute="@this">
 								<h:graphicImage value="/img/editRemove_16.png" />
@@ -84,7 +82,7 @@
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_fecha_fin_contrato}" />
 						<h:outputText value="" />
-						<p:calendar value="#{contratoAction.contrato.fechaFinContrato}"
+						<p:calendar value="#{contratoAction.contract.fechaFinContrato}"
 							showOn="button" navigator="true"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							id="fechaFinContrato" pattern="MM/dd/yyyy hh:mm"
@@ -98,7 +96,7 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:selectBooleanCheckbox styleClass="marginCheckbox"
-							value="#{contratoAction.contrato.esPeriodoPrueba}"
+							value="#{contratoAction.contract.esPeriodoPrueba}"
 							id="txtPeriodoPrueba">
 						</h:selectBooleanCheckbox>
 						<rich:message for="txtPeriodoPrueba" />
@@ -106,7 +104,7 @@
 						<h:outputText value="#{mensaje.label_observaciones}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
-						<h:inputTextarea value="#{contratoAction.contrato.observaciones}"
+						<h:inputTextarea value="#{contratoAction.contract.observaciones}"
 							styleClass="colTextoMedianoTextArea" id="txaDescripcion"
 							validator="#{encodeFilter.validarScripting}">
 							<f:validateLength maximum="250" />
@@ -144,13 +142,13 @@
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}" />
 						<h:outputText
-							value="#{contratoAction.contrato.persona.nombreCompleto}" />
+							value="#{contratoAction.contract.persona.nombreCompleto}" />
 						<h:outputText value="#{mensaje.label_observaciones}" />
-						<h:outputText value="#{contratoAction.contrato.observaciones}" />
+						<h:outputText value="#{contratoAction.contract.observaciones}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{contratoAction.guardarContrato}"
+							action="#{contratoAction.saveContract}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
@@ -224,7 +222,7 @@
 									<f:facet name="header" />
 									<a:commandLink
 										render=":formContrato:txtPersona , :formContrato:txtPersonas "
-										actionListener="#{contratoAction.cargarPersona(persona)}"
+										actionListener="#{contratoAction.loadPerson(persona)}"
 										oncomplete="#{rich:component('popupPersona')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">

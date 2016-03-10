@@ -24,10 +24,10 @@ import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.security.action.IdentityAction;
 
 /**
- * This class handles the business logic of contracts, which communicates with
- * the view to record and manage contracts.
+ * This class handles the business logic of contracts which communicates the
+ * view (register and manage contracts) with the data model.
  * 
- * The logic is to consult, edit and add contracts.
+ * The logic is to query, edit and add contracts.
  * 
  * @author Andres.Gomez
  * 
@@ -42,42 +42,42 @@ public class ContratoAction implements Serializable {
 	@Inject
 	private IdentityAction identity;
 
-	private List<Contrato> listaContrato;
+	private List<Contrato> contractList;
 
-	private Contrato contrato;
+	private Contrato contract;
 	private Paginador paginador = new Paginador();
 
-	private String nombreBuscar = "";
-	private String vigencia = Constantes.SI;
+	private String nameSearch = "";
+	private String valid = Constantes.SI;
 
 	/**
-	 * @return listaContrato: list of contracts shown in the user interface.
+	 * @return contractList: List of contracts shown in the user interface.
 	 */
-	public List<Contrato> getListaContrato() {
-		return listaContrato;
+	public List<Contrato> getContractList() {
+		return contractList;
 	}
 
 	/**
-	 * @param listaContrato
-	 *            :list of contracts shown in the user interface.
+	 * @param contractList
+	 *            :List of contracts shown in the user interface.
 	 */
-	public void setListaContrato(List<Contrato> listaContrato) {
-		this.listaContrato = listaContrato;
+	public void setContractList(List<Contrato> contractList) {
+		this.contractList = contractList;
 	}
 
 	/**
-	 * @return contrato: Object containing contract information.
+	 * @return contract: Object containing contract information.
 	 */
-	public Contrato getContrato() {
-		return contrato;
+	public Contrato getContract() {
+		return contract;
 	}
 
 	/**
-	 * @param contrato
+	 * @param contract
 	 *            :Object containing contract information.
 	 */
-	public void setContrato(Contrato contrato) {
-		this.contrato = contrato;
+	public void setContract(Contrato contract) {
+		this.contract = contract;
 	}
 
 	/**
@@ -96,74 +96,74 @@ public class ContratoAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: value by which you want to consult the contract.
+	 * @return nameSearch: Search value you use to query the contract.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            :value by which you want to consult the contract.
+	 * @param nameSearch
+	 *            : Search value you use to query the contract.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return vigencia: gets the value for the validity management of records
+	 * @return valid: Gets the value for the validity management of records.
 	 */
-	public String getVigencia() {
-		return vigencia;
+	public String getValid() {
+		return valid;
 	}
 
 	/**
-	 * @param vigencia
-	 *            : sets the value for the validity management of records
+	 * @param valid
+	 *            : Sets the value for the validity management of records.
 	 */
-	public void setVigencia(String vigencia) {
-		this.vigencia = vigencia;
+	public void setValid(String valid) {
+		this.valid = valid;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of contracts.
 	 * 
-	 * @return consultarContratos: method consulting contracts, returns to the
+	 * @return searchContracts: method consulting contracts, returns to the
 	 *         template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarContratos();
+	public String initializeSearch() {
+		nameSearch = "";
+		return searchContracts();
 	}
 
 	/**
-	 * Consult the list of contracts
+	 * Look for contracts.
 	 * 
 	 * @modify 31/08/2015 Andres.Gomez
 	 * @modify 08/03/2016 Mabell.Boada
 	 * 
-	 * @return retorno: redirects to the template to manage contracts.
+	 * @return retorno: Redirects to the template to manage contracts.
 	 * 
 	 */
-	public String consultarContratos() {
+	public String searchContracts() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		String inModal = ControladorContexto.getParam("param2");
-		listaContrato = new ArrayList<Contrato>();
+		contractList = new ArrayList<Contrato>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
-		StringBuilder consult = new StringBuilder();
-		StringBuilder unionMessageSearch = new StringBuilder();
-		String messageSearch = "";
+		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder jointSearchMessage = new StringBuilder();
+		String searchMessage = "";
 		boolean fromModal = (inModal != null && Constantes.SI.equals(inModal)) ? true
 				: false;
-		String retorno = fromModal ? "" : "gesContrato";
+		String returns = fromModal ? "" : "gesContrato";
 		try {
-			busquedaAvanzada(consult, parameters, bundle, unionMessageSearch);
-			Long amount = contratoDao.cantidadContratos(consult, parameters);
+			advancedSearch(queryBuilder, parameters, bundle, jointSearchMessage);
+			Long amount = contratoDao.amountContracts(queryBuilder, parameters);
 			if (amount != null) {
 				if (fromModal) {
 					paginador.paginarRangoDefinido(amount, 5);
@@ -171,82 +171,80 @@ public class ContratoAction implements Serializable {
 					paginador.paginar(amount);
 				}
 			}
-			listaContrato = contratoDao.consultarContratos(
-					paginador.getInicio(), paginador.getRango(), consult,
-					parameters);
-			if ((listaContrato == null || listaContrato.size() <= 0)
-					&& !"".equals(unionMessageSearch.toString())) {
-				messageSearch = MessageFormat
+			contractList = contratoDao.searchContracts(paginador.getInicio(),
+					paginador.getRango(), queryBuilder, parameters);
+			if ((contractList == null || contractList.size() <= 0)
+					&& !"".equals(jointSearchMessage.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMessageSearch);
-			} else if (listaContrato == null || listaContrato.size() <= 0) {
+								jointSearchMessage);
+			} else if (contractList == null || contractList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMessageSearch.toString())) {
-				messageSearch = MessageFormat
+			} else if (!"".equals(jointSearchMessage.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle.getString("contract_label_s"),
-								unionMessageSearch);
+								jointSearchMessage);
 			}
-			cargarDetallesContratos();
+			loadContractsDetails();
 			if (fromModal) {
-				validations.setMensajeBusquedaPopUp(messageSearch);
+				validations.setMensajeBusquedaPopUp(searchMessage);
 			} else {
-				validations.setMensajeBusqueda(messageSearch);
+				validations.setMensajeBusqueda(searchMessage);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return retorno;
+		return returns;
 	}
 
 	/**
-	 * This method allows to build the query to the advanced search and allows
-	 * to construct messages displayed depending on the search criteria selected
-	 * by the user.
+	 * This method builds the advanced search and allows to construct display
+	 * messages depending on the search criteria selected by the user.
 	 * 
-	 * @param consult
-	 *            : query to concatenate
+	 * @param query
+	 *            : Query to concatenate.
 	 * @param parameters
-	 *            : list of search parameters.
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            : Context to access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : Search message.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consult.append("WHERE UPPER(c.persona.nombres) LIKE UPPER(:keyword) ");
-			consult.append("OR UPPER(c.persona.apellidos) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			query.append("WHERE UPPER(c.persona.nombres) LIKE UPPER(:keyword) ");
+			query.append("OR UPPER(c.persona.apellidos) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
 	/**
 	 * Method to edit or create a new contract.
 	 * 
-	 * @param contrato
-	 *            :contract that will add or edit
+	 * @param contract
+	 *            : Contract to add or edit.
 	 * 
-	 * @return "regContrato": redirected to the template record contract.
+	 * @return "regContrato": Redirects to the template to register a contract.
 	 * @throws Exception
 	 */
-	public String agregarEditarContrato(Contrato contrato) throws Exception {
-		if (contrato != null) {
-			this.contrato = contrato;
-			cargarDetallesContrato(contrato);
+	public String addEditContract(Contrato contract) throws Exception {
+		if (contract != null) {
+			this.contract = contract;
+			loadContractDetails(contract);
 		} else {
-			this.contrato = new Contrato();
-			this.contrato.setPersona(new Persona());
+			this.contract = new Contrato();
+			this.contract.setPersona(new Persona());
 		}
 		return "regContrato";
 	}
@@ -256,97 +254,97 @@ public class ContratoAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void cargarDetallesContratos() throws Exception {
-		List<Contrato> contratos = new ArrayList<Contrato>();
-		if (this.listaContrato != null) {
-			contratos.addAll(this.listaContrato);
-			this.listaContrato = new ArrayList<Contrato>();
-			for (Contrato contrato : contratos) {
-				cargarDetallesContrato(contrato);
-				this.listaContrato.add(contrato);
+	public void loadContractsDetails() throws Exception {
+		List<Contrato> contracts = new ArrayList<Contrato>();
+		if (this.contractList != null) {
+			contracts.addAll(this.contractList);
+			this.contractList = new ArrayList<Contrato>();
+			for (Contrato contract : contracts) {
+				loadContractDetails(contract);
+				this.contractList.add(contract);
 			}
 		}
 	}
 
 	/**
-	 * Method to load the details of a contract.
+	 * Method to load the details of a single contract.
 	 * 
-	 * @param contrato
-	 *            : contract which will carry the details.
+	 * @param contract
+	 *            : Contract which will carry the details.
 	 * @throws Exception
 	 */
-	public void cargarDetallesContrato(Contrato contrato) throws Exception {
-		int idContrato = contrato.getId();
-		Persona persona = (Persona) this.contratoDao.consultarObjetoContrato(
-				"persona", idContrato);
-		contrato.setPersona(persona);
+	public void loadContractDetails(Contrato contract) throws Exception {
+		int contractId = contract.getId();
+		Persona person = (Persona) this.contratoDao.searchContract("persona",
+				contractId);
+		contract.setPersona(person);
 	}
 
 	/**
-	 * Method that eliminates the contract database.
+	 * Method that eliminates the contract in database.
 	 * 
-	 * @return consultarContratos: method consulting contracts, returns to the
-	 *         template management.
+	 * @return searchContracts: Method that consults contracts; it redirects to
+	 *         the contracts management template.
 	 */
-	public String eliminarContrato() {
+	public String deleteContract() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			contratoDao.eliminarContrato(contrato);
+			contratoDao.deleteContract(contract);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString("message_registro_eliminar"), contrato
+					bundle.getString("message_registro_eliminar"), contract
 							.getPersona().getNombres()));
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),
-					contrato.getPersona().getNombres());
+					contract.getPersona().getNombres());
 			ControladorContexto.mensajeError(e, null, format);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarContratos();
+		return searchContracts();
 	}
 
 	/**
-	 * Cleaning method that allows the person associated with the contract.
+	 * Cleans the person field associated with the contract.
 	 */
-	public void limpiarPersona() {
-		this.contrato.setPersona(new Persona());
+	public void deletePerson() {
+		this.contract.setPersona(new Persona());
 	}
 
 	/**
 	 * Method to load the selected person.
 	 * 
-	 * @param persona
-	 *            : object of the selected person.
+	 * @param person
+	 *            : Object of the selected person.
 	 */
-	public void cargarPersona(Persona persona) {
-		this.contrato.setPersona(persona);
+	public void loadPerson(Persona person) {
+		this.contract.setPersona(person);
 	}
 
 	/**
 	 * Method used to save or edit the contracts.
 	 * 
-	 * @return inicializarBusqueda(): Method consulting contracts and returns to
+	 * @return initializeSearch(): Method to query contracts and redirects to
 	 *         the template management.
 	 */
-	public String guardarContrato() {
+	public String saveContract() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String key = bundle.getString("message_registro_modificar");
 		try {
-			if (this.contrato.getId() != 0) {
-				contratoDao.editarContrato(contrato);
+			if (this.contract.getId() != 0) {
+				contratoDao.editContract(contract);
 			} else {
 				key = bundle.getString("message_registro_guardar");
-				this.contrato.setFechaCreacion(new Date());
-				this.contrato.setUserName(identity.getUserName());
-				contratoDao.guardarContrato(contrato);
+				this.contract.setFechaCreacion(new Date());
+				this.contract.setUserName(identity.getUserName());
+				contratoDao.saveContract(contract);
 			}
-			this.nombreBuscar = "";
+			this.nameSearch = "";
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					key, contrato.getPersona().getNombreCompleto()));
+					key, contract.getPersona().getNombreCompleto()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return inicializarBusqueda();
+		return initializeSearch();
 	}
 }
