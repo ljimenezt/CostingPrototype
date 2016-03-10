@@ -83,46 +83,46 @@ public class TransactionsAction implements Serializable {
 	 */
 	public void consultTransaction() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
+		ResourceBundle bundleWarehouse = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listTransactions = new ArrayList<Transactions>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder allMessageSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			advancedSearchTransactions(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = transactionsDao.quantityTransactions(consulta,
-					parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearchTransactions(consult, parameters, bundle,
+					allMessageSearch);
+			Long quantity = transactionsDao.quantityTransactions(consult,
+					parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			if (cantidad != null && cantidad > 0) {
+			if (quantity != null && quantity > 0) {
 				this.listTransactions = transactionsDao.consultTransactions(
-						paginador.getInicio(), paginador.getRango(), consulta,
-						parametros);
+						paginador.getInicio(), paginador.getRango(), consult,
+						parameters);
 			}
 			if ((listTransactions == null || listTransactions.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(allMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								allMessageSearch);
 			} else if (listTransactions == null || listTransactions.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(allMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleRecursosHumanos
+								bundleWarehouse
 										.getString("deposits_label"),
-								unionMensajesBusqueda);
+										allMessageSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
