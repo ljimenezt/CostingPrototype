@@ -173,8 +173,10 @@ public class GeneralTrendAction implements Serializable {
 	 * This method allows load the crops list to generate report according to
 	 * crop
 	 * 
+	 * @throws Exception
+	 * 
 	 */
-	public void initializeCropDefault() {
+	public void initializeCropDefault() throws Exception {
 		crops = new Crops();
 		crops.setCropNames(new CropNames());
 		crops = cropsDao.descriptionSearch(Constantes.COSECHA);
@@ -209,24 +211,25 @@ public class GeneralTrendAction implements Serializable {
 	 * selected.
 	 * 
 	 * @author Andres.Gomez
-	 * @throws Exception
-	 * 
 	 */
-	public void fillCropNamesCrop() throws Exception {
+	public void fillCropNamesCrop() {
 		int idCropsName = 0;
 		itemsCrops = new ArrayList<SelectItem>();
-		if (this.crops != null && this.crops.getCropNames() != null) {
-			idCropsName = this.crops.getCropNames().getIdCropName();
-		}
-		List<Crops> listaCrops = cropsDao
-				.consultarCropNamesCropsVigentes(idCropsName);
-		if (listaCrops != null) {
-			for (Crops crops : listaCrops) {
-				itemsCrops.add(new SelectItem(crops.getIdCrop(), crops
-						.getDescription()));
+		try {
+			if (this.crops != null && this.crops.getCropNames() != null) {
+				idCropsName = this.crops.getCropNames().getIdCropName();
 			}
+			List<Crops> listaCrops = cropsDao
+					.consultarCropNamesCropsVigentes(idCropsName);
+			if (listaCrops != null) {
+				for (Crops crops : listaCrops) {
+					itemsCrops.add(new SelectItem(crops.getIdCrop(), crops
+							.getDescription()));
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
-
 	}
 
 	/**
@@ -312,7 +315,8 @@ public class GeneralTrendAction implements Serializable {
 	public void consultBySection() {
 		ResourceBundle bundleReports = ControladorContexto
 				.getBundle("mensajeReports");
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeLifeCycle");
 
 		StringBuilder reportQuery = new StringBuilder();
 		StringBuilder filters = new StringBuilder();
@@ -326,7 +330,7 @@ public class GeneralTrendAction implements Serializable {
 		try {
 			String cycleLabel = bundleReports
 					.getString("reports_label_cycle_number");
-			String lblCycle = bundle.getString("label_cycle");
+			String lblCycle = bundle.getString("cycle_label");
 			DataJson.addCol(colsBySection, cycleLabel, "string");
 			buildConsult(filters, params, reportQuery, queryGroupBy, 2);
 			List<Integer> sectionList = beanIndexDao.consultBySection(params);
