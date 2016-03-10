@@ -331,31 +331,4 @@ public class ActivityNamesDao implements Serializable {
 		}
 		return null;
 	}
-
-	/**
-	 * This method consult the ActivityNames object by identifier.
-	 * 
-	 * @author Wilhelm.Boada
-	 * 
-	 * @param idActivityName
-	 *            : activityName identifier.
-	 * @return ActivityNames: activityName object found with the search and
-	 *         identifier.
-	 * @throws Exception
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	public ActivityNames queryActivityNamesById(int idActivityName)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT an FROM ActivityNames an ");
-		query.append("WHERE an.idActivityName=:idActivityName ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idActivityName", idActivityName);
-		List<ActivityNames> result = q.getResultList();
-		if (result.size() > 0) {
-			return result.get(0);
-		}
-		return null;
-	}
 }

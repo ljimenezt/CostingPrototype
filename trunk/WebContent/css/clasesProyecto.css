@@ -204,6 +204,13 @@ table.radio input[type=radio] {
 	height: 110px;
 }
 
+.uploadImg155P {
+	margin: 0 5px;
+	float: left;
+	overflow: hidden;
+	height: 155px;
+}
+
 .ocultar {
 	display: none;
 }
