@@ -70,6 +70,7 @@ public class DepositsAction implements Serializable {
 	private Deposits depositActualSelected;
 	private Deposits depositDetails;
 
+	private PurchaseInvoices purchaseInvoice;
 	private TransactionsAction transactionsAction;
 
 	private Date dateStartSearch;
@@ -130,7 +131,7 @@ public class DepositsAction implements Serializable {
 	public void setDepositActualSelected(Deposits depositActualSelected) {
 		this.depositActualSelected = depositActualSelected;
 	}
-	
+
 	/**
 	 * @return depositDetails: Object deposit for details
 	 */
@@ -139,10 +140,26 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
-	 * @param depositDetails: Object deposit for details
+	 * @param depositDetails
+	 *            : Object deposit for details
 	 */
 	public void setDepositDetails(Deposits depositDetails) {
 		this.depositDetails = depositDetails;
+	}
+
+	/**
+	 * @return purchaseInvoice: Object purchase for deposit
+	 */
+	public PurchaseInvoices getPurchaseInvoice() {
+		return purchaseInvoice;
+	}
+
+	/**
+	 * @param purchaseInvoice
+	 *            : Object purchase for deposit
+	 */
+	public void setPurchaseInvoice(PurchaseInvoices purchaseInvoice) {
+		this.purchaseInvoice = purchaseInvoice;
 	}
 
 	/**
@@ -327,7 +344,7 @@ public class DepositsAction implements Serializable {
 	 * @return consultarMateriales: Materials consulting method and redirects to
 	 *         the template to manage materials.
 	 */
-	public String inicializarBusqueda() {
+	public String initializeSearch() {
 		if (ControladorContexto.getFacesContext() != null) {
 			this.transactionsAction = ControladorContexto
 					.getContextBean(TransactionsAction.class);
@@ -356,45 +373,44 @@ public class DepositsAction implements Serializable {
 	 */
 	public String consultDeposits() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
+		ResourceBundle bundleWarehouse = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listDeposits = new ArrayList<Deposits>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder allMessageSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = depositsDao.amountDeposits(consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advanceSearch(consult, parameters, bundle, allMessageSearch);
+			Long quantity = depositsDao.amountDeposits(consult, parameters);
+			if (quantity != null) {
+				paginador.paginarRangoDefinido(quantity, 5);
 			}
-			if (cantidad != null && cantidad > 0) {
+			if (quantity != null && quantity > 0) {
 				listDeposits = depositsDao.consultDeposits(
-						paginador.getInicio(), paginador.getRango(), consulta,
-						parametros);
+						paginador.getInicio(), paginador.getRango(), consult,
+						parameters);
 			}
 			if ((listDeposits == null || listDeposits.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(allMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								allMessageSearch);
 			} else if (listDeposits == null || listDeposits.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(allMessageSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleRecursosHumanos
+								bundleWarehouse
 										.getString("deposits_label"),
-								unionMensajesBusqueda);
+								allMessageSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -417,10 +433,10 @@ public class DepositsAction implements Serializable {
 	 * @param unionMessagesSearch
 	 *            : message search
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advanceSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		SimpleDateFormat formato = new SimpleDateFormat(
+		SimpleDateFormat format = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
 		boolean queryAdded = false;
 
@@ -444,17 +460,16 @@ public class DepositsAction implements Serializable {
 		if (this.dateStartSearch != null && this.dateEndSearch != null) {
 			consult.append(queryAdded ? "AND " : "WHERE ");
 			consult.append("d.dateTime BETWEEN :dateStartSearch AND :dateEndSearch ");
-			SelectItem item = new SelectItem(dateStartSearch,
-					"dateStartSearch");
+			SelectItem item = new SelectItem(dateStartSearch, "dateStartSearch");
 			parameters.add(item);
 			SelectItem item2 = new SelectItem(dateEndSearch, "dateEndSearch");
 			parameters.add(item2);
 			String dateFrom = bundle.getString("label_fecha_inicio") + ": "
-					+ '"' + formato.format(this.dateStartSearch) + '"' + ", ";
+					+ '"' + format.format(this.dateStartSearch) + '"' + ", ";
 			unionMessagesSearch.append(dateFrom);
 
 			String dateTo = bundle.getString("label_fecha_finalizacion") + ": "
-					+ '"' + formato.format(dateEndSearch) + '"';
+					+ '"' + format.format(dateEndSearch) + '"';
 			unionMessagesSearch.append(dateTo);
 			parameters.add(item2);
 		}
