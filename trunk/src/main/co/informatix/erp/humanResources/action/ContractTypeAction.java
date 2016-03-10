@@ -24,7 +24,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 
 /**
  * This class is all the logic related to the creation, update, and delete types
- * of contracts in the system
+ * of contracts in the system.
  * 
  * @author Mabell.Boada
  * 
@@ -33,32 +33,33 @@ import co.informatix.erp.utils.ValidacionesAction;
 @ManagedBean
 @RequestScoped
 public class ContractTypeAction implements Serializable {
-	private List<ContractType> listaContractType;
+	
+	private List<ContractType> listContractType;
 	private Paginador paginador = new Paginador();
 	private ContractType contractType;
 
-	private String nombreBuscar;
+	private String nameSearch;
 
 	@EJB
 	private ContractTypeDao contractTypeDao;
 
 	/**
-	 * @return listaContractType: List of types of contract
+	 * @return listContractType: List of types of contract.
 	 */
-	public List<ContractType> getListaContractType() {
-		return listaContractType;
+	public List<ContractType> getListContractType() {
+		return listContractType;
 	}
 
 	/**
-	 * @param listaContractType
-	 *            : List of types of contract
+	 * @param listContractType
+	 *            : List of types of contract.
 	 */
-	public void setListaContractType(List<ContractType> listaContractType) {
-		this.listaContractType = listaContractType;
+	public void setListContractType(List<ContractType> listContractType) {
+		this.listContractType = listContractType;
 	}
 
 	/**
-	 * @return paginador: Paginated list of the types of contract may be in view
+	 * @return paginador: Paginated list of the types of contract may be in view.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -66,14 +67,14 @@ public class ContractTypeAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : Paginated list of the types of contract may be in view
+	 *            : Paginated list of the types of contract may be in view.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return contractType: Object of the contract types
+	 * @return contractType: Object of the contract types.
 	 */
 	public ContractType getContractType() {
 		return contractType;
@@ -81,86 +82,86 @@ public class ContractTypeAction implements Serializable {
 
 	/**
 	 * @param contractType
-	 *            : Object of the contract types
+	 *            : Object of the contract types.
 	 */
 	public void setContractType(ContractType contractType) {
 		this.contractType = contractType;
 	}
 
 	/**
-	 * @return nombreBuscar: Name by which you want to query the type of
-	 *         contract
+	 * @return nameSearch: Name by which you want to query the type of
+	 *         contract.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
-
+	
 	/**
-	 * @param nombreBuscar
-	 *            : Name by which you want to query the type of contract
+	 * @param nameSearch
+	 *            : Name by which you want to query the type of contract.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load initial
-	 * listing of the types of contract
+	 * listing of the types of contract.
 	 * 
 	 * @return consultarContractType: Method consulting contract types, returns
-	 *         to the template management
+	 *         to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarContractType();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultContractType();
 	}
 
 	/**
-	 * Consult the list of the types of contract
+	 * Consult the list of the types of contract.
 	 * 
 	 * @return gesContrType: Navigation rule that redirects to manage contract
-	 *         types
+	 *         types.
 	 */
-	public String consultarContractType() {
+	public String consultContractType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaContractType = new ArrayList<ContractType>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listContractType = new ArrayList<ContractType>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = contractTypeDao.cantidadContractType(consulta,
-					parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle,
+					unionMessagesSearch);
+			Long quantity = contractTypeDao.quantityContractType(query,
+					parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaContractType = contractTypeDao.consultarContractType(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaContractType == null || listaContractType.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listContractType = contractTypeDao.consultContractType(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
+			if ((listContractType == null || listContractType.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaContractType == null
-					|| listaContractType.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listContractType == null
+					|| listContractType.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
+			} else if (!"".equals(unionMessagesSearch.toString())) {
 				String message = bundle
 						.getString("message_existen_registros_criterio_busqueda");
-				mensajeBusqueda = MessageFormat.format(message,
+				messageSearch = MessageFormat.format(message,
 						bundleRecursosHumanos.getString("contract_type_label"),
-						unionMensajesBusqueda);
+						unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -170,40 +171,40 @@ public class ContractTypeAction implements Serializable {
 	/**
 	 * This method constructs the query to the advanced search also allows build
 	 * messages to be displayed depending on the search criteria selected by the
-	 * user
+	 * user.
 	 * 
-	 * @param consulta
-	 *            : Consult concatenate
-	 * @param parametros
-	 *            : List of search parameters
+	 * @param consult
+	 *            : Consult concatenate.
+	 * @param parameters
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            : Access language tags
+	 *            : Access language tags.
 	 * 
-	 * @param unionMensajesBusqueda
-	 *            : Message search
+	 * @param unionMessagesSearch
+	 *            : Message search.
 	 */
-	private void busquedaAvanzada(StringBuilder consulta,
-			List<SelectItem> parametros, ResourceBundle bundle,
-			StringBuilder unionMensajesBusqueda) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consulta.append("WHERE UPPER(ct.nombre) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+	private void advancedSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("WHERE UPPER(ct.nombre) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
-			parametros.add(item);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nombreBuscar + '"');
+			parameters.add(item);
+			unionMessagesSearch.append(bundle.getString("label_nombre")
+					+ ": " + '"' + this.nameSearch + '"');
 		}
 	}
 
 	/**
-	 * Method to edit or create a new type of contract
+	 * Method to edit or create a new type of contract.
 	 * 
 	 * @param contractType
-	 *            : Type of contract that will add or edit
+	 *            : Type of contract that will add or edit.
 	 * 
-	 * @return regContrType: Redirected to the template record type contract
+	 * @return regContrType: Redirected to the template record type contract.
 	 */
-	public String agregarEditarContractType(ContractType contractType) {
+	public String addEditContractType(ContractType contractType) {
 		if (contractType != null) {
 			this.contractType = contractType;
 		} else {
@@ -216,29 +217,29 @@ public class ContractTypeAction implements Serializable {
 	 * To validate the name of the contract types, to not repeat in the database
 	 * and validates against XSS.
 	 * 
-	 * @param contexto
-	 *            : Application context
+	 * @param context
+	 *            : Application context.
 	 * 
 	 * @param toValidate
-	 *            : Validate component
+	 *            : Validate component.
 	 * @param value
-	 *            : Field value is validated
+	 *            : Field value is validated.
 	 */
-	public void validarNombreXSS(FacesContext contexto, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
-		String nombre = (String) value;
-		String clientId = toValidate.getClientId(contexto);
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
 		try {
 			int id = contractType.getId();
 			ContractType contractTypeAux = new ContractType();
-			contractTypeAux = contractTypeDao.nombreExiste(nombre, id);
+			contractTypeAux = contractTypeDao.nameExists(name, id);
 			if (contractTypeAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+				String messageExistence = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,
-						mensajeExistencia, "mensaje");
+						messageExistence, "mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -248,40 +249,40 @@ public class ContractTypeAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the types of contract
+	 * Method used to save or edit the types of contract.
 	 * 
-	 * @return consultarContractType: Redirects to manage the types of contracts
+	 * @return consultContractType: Redirects to manage the types of contracts
 	 *         with the list of names updated.
 	 */
-	public String guardarContractType() {
+	public String saveContractType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 			if (contractType.getId() != 0) {
-				contractTypeDao.editarContractType(contractType);
+				contractTypeDao.editContractType(contractType);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				contractTypeDao.guardarContractType(contractType);
+				messageLog = "message_registro_guardar";
+				contractTypeDao.saveContractType(contractType);
 			}
 			ControladorContexto.mensajeInformacion(null,
-					MessageFormat.format(bundle.getString(mensajeRegistro),
+					MessageFormat.format(bundle.getString(messageLog),
 							contractType.getNombre()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarContractType();
+		return consultContractType();
 	}
 
 	/**
-	 * Method to delete a type of contract database
+	 * Method to delete a type of contract database.
 	 * 
-	 * @return consultarContractType: Redirects to manage the types of contracts
-	 *         with the list of names updated
+	 * @return consultContractType: Redirects to manage the types of contracts
+	 *         with the list of names updated.
 	 */
-	public String eliminarContractType() {
+	public String removeContractType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			contractTypeDao.eliminarContractType(contractType);
+			contractTypeDao.removeContractType(contractType);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					contractType.getNombre()));
@@ -293,7 +294,7 @@ public class ContractTypeAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarContractType();
+		return consultContractType();
 	}
 
 }
