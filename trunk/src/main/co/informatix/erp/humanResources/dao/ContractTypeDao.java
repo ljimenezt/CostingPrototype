@@ -126,7 +126,8 @@ public class ContractTypeDao implements Serializable {
 	 *            : Name the type of contract to verify.
 	 * @param id
 	 *            : id the type of contract to verify.
-	 * @return ContractType: Object found with the search parameters id and name.
+	 * @return ContractType: Object found with the search parameters id and
+	 *         name.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

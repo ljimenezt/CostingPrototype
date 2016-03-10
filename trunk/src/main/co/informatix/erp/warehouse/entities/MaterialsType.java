@@ -57,7 +57,7 @@ public class MaterialsType implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * @return description: description MaterialsType
 	 */

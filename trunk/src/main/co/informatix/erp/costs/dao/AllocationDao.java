@@ -26,35 +26,35 @@ public class AllocationDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Save an assignment in the database
+	 * Save an assignment in the database.
 	 * 
 	 * @param allocation
 	 *            : Assignment to save.
 	 * @throws Exception
 	 */
-	public void guardarAllocation(Allocation allocation) throws Exception {
+	public void saveAllocation(Allocation allocation) throws Exception {
 		em.persist(allocation);
 	}
 
 	/**
-	 * Edit an assignment in the database
+	 * Edit an assignment in the database.
 	 * 
 	 * @param allocation
 	 *            : Assignment to edit.
 	 * @throws Exception
 	 */
-	public void editarAllocation(Allocation allocation) throws Exception {
+	public void editAllocation(Allocation allocation) throws Exception {
 		em.merge(allocation);
 	}
 
 	/**
-	 * Removes an assignment in the database
+	 * Removes an assignment in the database.
 	 * 
 	 * @param allocation
-	 *            : Assignment to remove
+	 *            : Assignment to remove.
 	 * @throws Exception
 	 */
-	public void eliminarAllocation(Allocation allocation) throws Exception {
+	public void removeAllocation(Allocation allocation) throws Exception {
 		em.remove(em.merge(allocation));
 	}
 
@@ -62,31 +62,31 @@ public class AllocationDao implements Serializable {
 	 * This method consulting assignments with a certain range sent as a
 	 * parameter and filtering the information by the values of search sent.
 	 * 
-	 * @param inicio
-	 *            : where it initiates the consultation record
-	 * @param rango
-	 *            : range of records
-	 * @param consulta
+	 * @param start
+	 *            : where it initiates the consultation record.
+	 * @param range
+	 *            : range of records.
+	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
-	 * @param parametros
+	 * @param parameters
 	 *            : query parameters.
 	 * @return List<Allocation>: List of assignments
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Allocation> consultarAllocation(int inicio, int rango,
-			StringBuilder consulta, List<SelectItem> parametros)
+	public List<Allocation> consultAllocation(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT ec FROM Allocation ec ");
-		query.append(consulta);
-		query.append("ORDER BY ec.name ");
+		query.append("SELECT a FROM Allocation a ");
+		query.append(consult);
+		query.append("ORDER BY a.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(inicio).setMaxResults(rango);
+		q.setFirstResult(start).setMaxResults(range);
 		List<Allocation> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
@@ -98,23 +98,57 @@ public class AllocationDao implements Serializable {
 	 * Returns the number of existing allocations in the database filtering
 	 * information search by the values sent.
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : String containing the query why the filter assignments.
-	 * @param parametros
+	 * @param parameters
 	 *            : query parameters.
 	 * @return long: number of records found allocations.
 	 * @throws Exception
 	 */
-	public Long cantidadAllocation(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long quantityAllocation(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(ec) FROM Allocation ec ");
-		query.append(consulta);
+		query.append("SELECT COUNT(a) FROM Allocation a ");
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * Consult if the name of the allocations exist in the database when saving
+	 * or editing.
+	 * 
+	 * @author Jhair.Leal
+	 * 
+	 * @param name
+	 *            : Name the allocation to verify.
+	 * @param id
+	 *            : id the allocation to verify.
+	 * @return Allocation: Object found with the search parameters id and name.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Allocation nameExists(String name, int idAllocation)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT a FROM Allocation a ");
+		query.append("WHERE UPPER(a.name)=UPPER(:name) ");
+		if (idAllocation != 0) {
+			query.append("AND a.idAllocation <>:idAllocation ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("name", name);
+		if (idAllocation != 0) {
+			q.setParameter("idAllocation", idAllocation);
+		}
+		List<Allocation> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
 	}
 
 }

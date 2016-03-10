@@ -594,8 +594,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	private void loadCombos() throws Exception {
 		itemsServiceType = new ArrayList<SelectItem>();
 		itemsSupplier = new ArrayList<SelectItem>();
-		List<ServiceType> servicesType = serviceTypeDao
-				.consultServicesTypes();
+		List<ServiceType> servicesType = serviceTypeDao.consultServicesTypes();
 		if (servicesType != null) {
 			for (ServiceType serviceType : servicesType) {
 				itemsServiceType.add(new SelectItem(serviceType

@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="allocationAction.agregarEditarAllocation(null)" />
+		value="allocationAction.addEditAllocation(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar, mensajeCosts.allocation_label" />
 	<ui:define name="body">
@@ -32,7 +32,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText value="#{allocationAction.allocation.name}"
-						validator="#{encodeFilter.validarScripting}"
+						validator="#{allocationAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100" />
@@ -65,12 +65,12 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}" />
+						<h:outputText value="#{mensaje.label_nombre}:" />
 						<h:outputText value="#{allocationAction.allocation.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{allocationAction.guardarAllocation}"
+							action="#{allocationAction.saveAllocation}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

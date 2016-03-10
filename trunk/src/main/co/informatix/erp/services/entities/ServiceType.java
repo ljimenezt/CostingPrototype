@@ -39,7 +39,7 @@ public class ServiceType implements Serializable {
 	public void setIdServiceType(int idServiceType) {
 		this.idServiceType = idServiceType;
 	}
-	
+
 	/**
 	 * @return description: service_types description of the table
 	 */
@@ -84,7 +84,5 @@ public class ServiceType implements Serializable {
 			return false;
 		return true;
 	}
-
-	
 
 }

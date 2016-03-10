@@ -33,7 +33,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 @ManagedBean
 @RequestScoped
 public class ContractTypeAction implements Serializable {
-	
+
 	private List<ContractType> listContractType;
 	private Paginador paginador = new Paginador();
 	private ContractType contractType;
@@ -59,7 +59,8 @@ public class ContractTypeAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paginated list of the types of contract may be in view.
+	 * @return paginador: Paginated list of the types of contract may be in
+	 *         view.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -89,13 +90,12 @@ public class ContractTypeAction implements Serializable {
 	}
 
 	/**
-	 * @return nameSearch: Name by which you want to query the type of
-	 *         contract.
+	 * @return nameSearch: Name by which you want to query the type of contract.
 	 */
 	public String getNameSearch() {
 		return nameSearch;
 	}
-	
+
 	/**
 	 * @param nameSearch
 	 *            : Name by which you want to query the type of contract.
@@ -134,8 +134,7 @@ public class ContractTypeAction implements Serializable {
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
 		try {
-			advancedSearch(query, parameters, bundle,
-					unionMessagesSearch);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long quantity = contractTypeDao.quantityContractType(query,
 					parameters);
 			if (quantity != null) {
@@ -150,8 +149,7 @@ public class ContractTypeAction implements Serializable {
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionMessagesSearch);
-			} else if (listContractType == null
-					|| listContractType.size() <= 0) {
+			} else if (listContractType == null || listContractType.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
 			} else if (!"".equals(unionMessagesSearch.toString())) {
@@ -191,8 +189,8 @@ public class ContractTypeAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nameSearch + '"');
+			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -264,9 +262,8 @@ public class ContractTypeAction implements Serializable {
 				messageLog = "message_registro_guardar";
 				contractTypeDao.saveContractType(contractType);
 			}
-			ControladorContexto.mensajeInformacion(null,
-					MessageFormat.format(bundle.getString(messageLog),
-							contractType.getNombre()));
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString(messageLog), contractType.getNombre()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
