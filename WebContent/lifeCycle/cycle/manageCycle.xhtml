@@ -15,7 +15,7 @@
 	<ui:define name="body">
 		<ui:param name="listaVacia"
 			value="#{cycleAction.listCycles eq null or (empty cycleAction.listCycles)}" />
-		<ui:param name="anchoTabla" value="anchoNueve" />
+		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{cycleAction}" />
 		<ui:param name="renderLista" value="pnlCycles" />
@@ -31,10 +31,6 @@
 		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 		<t:saveState value="#{cycleAction}" />
-		<t:saveState value="#{activityNamesAction}" />
-		<t:saveState value="#{activitiesAction}" />
-		<t:saveState value="#{validacionesAction}" />
-		<t:saveState value="#{encodeFilter}" />
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
@@ -44,8 +40,8 @@
 		</script>
 		<h:form id="formCycle">
 			<rich:panel header="#{mensajeLifeCycle.cycle_label_list}"
-				styleClass="anchoExtend MinH253P" id="panelAssignCycles">
-				<t:fieldset styleClass="BorderW2P">
+				styleClass="anchoUno MinH253P" id="panelAssignCycles">
+				<t:fieldset styleClass="anchoDos BorderW2P">
 					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -85,21 +81,16 @@
 				</t:fieldset>
 				<br />
 				<a:outputPanel id="pnlCycles">
-					<script type="text/javascript">
-						$g=jQuery.noConflict();
-					</script>
-					<t:fieldset styleClass="BorderW2P">
+					<t:fieldset styleClass="anchoDos BorderW2P">
 						<legend class="etiquetaTitulo">#{mensajeLifeCycle.cycle_label_s}</legend>
 
-						<div align="right">
-							<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-								<ui:param name="tieneVigencia" value="no" />
-							</ui:include>
-						</div>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
 
 						<rich:dataTable value="#{cycleAction.listCycles}" var="cycle"
 							id="txtCycle" footerClass="H130P"
-							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W1000P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 							rowClasses="odd-row, even-row">
 							<script type="text/javascript">
 								$g=jQuery.noConflict();
@@ -183,7 +174,10 @@
 								</rich:columnGroup>
 							</f:facet>
 						</rich:dataTable>
-
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="botonesAbajo" value="si" />
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
 						<div class="anchoDos center inBlock">
 							<ui:include src="/plantillas/plantillaPaginador.xhtml">
 								<ui:param name="valReder" value="pnlCycles" />
