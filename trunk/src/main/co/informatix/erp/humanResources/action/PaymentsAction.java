@@ -226,8 +226,8 @@ public class PaymentsAction implements Serializable {
 				"contract", idPayment);
 		Hr hr = (Hr) this.paymentsDao.consultObjectPayments("hr", idPayment);
 		int idContract = contract.getId();
-		Persona person = (Persona) this.contratoDao.searchContract(
-				"persona", idContract);
+		Persona person = (Persona) this.contratoDao.searchContract("persona",
+				idContract);
 		contract.setPersona(person);
 		payment.setContract(contract);
 		payment.setHr(hr);
