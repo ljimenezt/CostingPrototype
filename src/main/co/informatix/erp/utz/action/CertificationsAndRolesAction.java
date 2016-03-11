@@ -39,7 +39,7 @@ public class CertificationsAndRolesAction implements Serializable {
 
 	private CertificationsAndRoles certificationsAndRoles;
 	private String nameSearch;
-	private List<CertificationsAndRoles> listCertificacionesAndRoles;
+	private List<CertificationsAndRoles> listCertificationsAndRoles;
 	private Paginador paginador = new Paginador();
 
 	/**
@@ -76,19 +76,19 @@ public class CertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
-	 * @return listCertificacionesAndRoles: list of certifications and role.
+	 * @return listCertificationsAndRoles: list of certifications and role.
 	 */
-	public List<CertificationsAndRoles> getListCertificacionesAndRoles() {
-		return listCertificacionesAndRoles;
+	public List<CertificationsAndRoles> getListCertificationsAndRoles() {
+		return listCertificationsAndRoles;
 	}
 
 	/**
-	 * @param listCertificacionesAndRoles
+	 * @param listCertificationsAndRoles
 	 *            : list of certifications and role.
 	 */
-	public void setListCertificacionesAndRoles(
-			List<CertificationsAndRoles> listCertificacionesAndRoles) {
-		this.listCertificacionesAndRoles = listCertificacionesAndRoles;
+	public void setListCertificationsAndRoles(
+			List<CertificationsAndRoles> listCertificationsAndRoles) {
+		this.listCertificationsAndRoles = listCertificationsAndRoles;
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class CertificationsAndRolesAction implements Serializable {
 				.getBundle("mensajeRecursosHumanos");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listCertificacionesAndRoles = new ArrayList<CertificationsAndRoles>();
+		listCertificationsAndRoles = new ArrayList<CertificationsAndRoles>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder query = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
@@ -141,17 +141,17 @@ public class CertificationsAndRolesAction implements Serializable {
 			if (quantity != null) {
 				paginador.paginar(quantity);
 			}
-			listCertificacionesAndRoles = certificationsAndRolesDao
+			listCertificationsAndRoles = certificationsAndRolesDao
 					.consultCertificationsAndRolesAction(paginador.getInicio(),
 							paginador.getRango(), query, parameters);
-			if ((listCertificacionesAndRoles == null || listCertificacionesAndRoles
+			if ((listCertificationsAndRoles == null || listCertificationsAndRoles
 					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionMessagesSearch);
-			} else if (listCertificacionesAndRoles == null
-					|| listCertificacionesAndRoles.size() <= 0) {
+			} else if (listCertificationsAndRoles == null
+					|| listCertificationsAndRoles.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
 			} else if (!"".equals(unionMessagesSearch.toString())) {
