@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesPlot</from-outcome>
-			<to-view-id>/lifeCycle/plot/gestionarPlot.xhtml</to-view-id>
+			<to-view-id>/lifeCycle/plot/managePlot.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regPlot</from-outcome>
-			<to-view-id>/lifeCycle/plot/registrarPlot.xhtml</to-view-id>
+			<to-view-id>/lifeCycle/plot/registerPlot.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

@@ -41,6 +41,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 @ManagedBean
 @RequestScoped
 public class PlotAction implements Serializable {
+
 	@EJB
 	private PlotDao plotDao;
 	@EJB
@@ -48,19 +49,19 @@ public class PlotAction implements Serializable {
 
 	private boolean estadoPaginador;
 	private boolean farmParameter = false;
-	private int nombreFarm;
+	private int nameFarm;
 
-	private List<SelectItem> opcionesFarm;
-	private List<Plot> listaPlots;
-	private List<Plot> listaPlotsSeleccionado;
-	private List<Plot> listaPlotFecha;
+	private List<SelectItem> optionsFarm;
+	private List<Plot> listPlots;
+	private List<Plot> listPlotsSelected;
+	private List<Plot> listPlotDate;
 	private Plot plot;
 	private Farm farm;
 	private Paginador paginador = new Paginador();
-	private String nombreBuscar;
+	private String nameSearch;
 
 	/**
-	 * @return farm: farm related a plot
+	 * @return farm: farm related a plot.
 	 */
 	public Farm getFarm() {
 		return farm;
@@ -68,44 +69,44 @@ public class PlotAction implements Serializable {
 
 	/**
 	 * @param farm
-	 *            farm related a plot
+	 *            farm related a plot.
 	 */
 	public void setFarm(Farm farm) {
 		this.farm = farm;
 	}
 
 	/**
-	 * @return listaPlots: list of plots
+	 * @return listPlots: list of plots.
 	 */
-	public List<Plot> getListaPlots() {
-		return listaPlots;
+	public List<Plot> getListPlots() {
+		return listPlots;
 	}
 
 	/**
-	 * @param listaPlots
-	 *            :list of plots
+	 * @param listPlots
+	 *            :list of plots.
 	 */
-	public void setListaPlots(List<Plot> listaPlots) {
-		this.listaPlots = listaPlots;
+	public void setListPlots(List<Plot> listPlots) {
+		this.listPlots = listPlots;
 	}
 
 	/**
-	 * @return listaPlotsSeleccionado: list of selected plots
+	 * @return listPlotsSelected: list of selected plots.
 	 */
-	public List<Plot> getListaPlotsSeleccionado() {
-		return listaPlotsSeleccionado;
+	public List<Plot> getListPlotsSelected() {
+		return listPlotsSelected;
 	}
 
 	/**
-	 * @param listaPlotsSeleccionado
-	 *            : list of selected plots
+	 * @param listPlotsSelected
+	 *            : list of selected plots.
 	 */
-	public void setListaPlotsSeleccionado(List<Plot> listaPlotsSeleccionado) {
-		this.listaPlotsSeleccionado = listaPlotsSeleccionado;
+	public void setListPlotsSelected(List<Plot> listPlotsSelected) {
+		this.listPlotsSelected = listPlotsSelected;
 	}
 
 	/**
-	 * @return plot: gets the registration of plot
+	 * @return plot: gets the registration of plot.
 	 */
 	public Plot getPlot() {
 		return plot;
@@ -113,7 +114,7 @@ public class PlotAction implements Serializable {
 
 	/**
 	 * @param plot
-	 *            :sets the registration of plot
+	 *            :sets the registration of plot.
 	 */
 	public void setPlot(Plot plot) {
 		this.plot = plot;
@@ -135,33 +136,33 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Name plot to search
+	 * @return nameSearch: Name plot to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : Name plot to search
+	 * @param nameSearch
+	 *            : Name plot to search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return listaPlotFecha: plot list found on a certain date
+	 * @return listPlotDate: plot list found on a certain date.
 	 */
-	public List<Plot> getListaPlotFecha() {
-		return listaPlotFecha;
+	public List<Plot> getListPlotDate() {
+		return listPlotDate;
 	}
 
 	/**
-	 * @param listaPlotFecha
-	 *            : plot list found on a certain date
+	 * @param listPlotDate
+	 *            : plot list found on a certain date.
 	 */
-	public void setListaPlotFecha(List<Plot> listaPlotFecha) {
-		this.listaPlotFecha = listaPlotFecha;
+	public void setListPlotDate(List<Plot> listPlotDate) {
+		this.listPlotDate = listPlotDate;
 	}
 
 	/**
@@ -185,7 +186,7 @@ public class PlotAction implements Serializable {
 
 	/**
 	 * @return farmParameter: parameter that takes the 'true' value if a farm or
-	 *         'false' if there is none
+	 *         'false' if there is none.
 	 */
 	public boolean isFarmParameter() {
 		return farmParameter;
@@ -194,135 +195,134 @@ public class PlotAction implements Serializable {
 	/**
 	 * @param farmParameter
 	 *            : parameter that takes the 'true' value if a farm or 'false'
-	 *            if there is none
+	 *            if there is none.
 	 */
 	public void setFarmParameter(boolean farmParameter) {
 		this.farmParameter = farmParameter;
 	}
 
 	/**
-	 * @return nombreFarm: identifier name of the farm to look for.
+	 * @return nameFarm: identifier name of the farm to look for.
 	 */
-	public int getNombreFarm() {
-		return nombreFarm;
+	public int getNameFarm() {
+		return nameFarm;
 	}
 
 	/**
-	 * @param nombreFarm
+	 * @param nameFarm
 	 *            :identifier name of the farm to look for.
 	 */
-	public void setNombreFarm(int nombreFarm) {
-		this.nombreFarm = nombreFarm;
+	public void setNameFarm(int nameFarm) {
+		this.nameFarm = nameFarm;
 	}
 
 	/**
-	 * @return opcionesFarm: Items of values that can take the list of farms
+	 * @return optionsFarm: Items of values that can take the list of farms.
 	 */
-	public List<SelectItem> getOpcionesFarm() {
-		return opcionesFarm;
+	public List<SelectItem> getOptionsFarm() {
+		return optionsFarm;
 	}
 
 	/**
-	 * @param opcionesFarm
-	 *            :Items of values that can take the list of farms
+	 * @param optionsFarm
+	 *            :Items of values that can take the list of farms.
 	 */
-	public void setOpcionesFarm(List<SelectItem> opcionesFarm) {
-		this.opcionesFarm = opcionesFarm;
+	public void setOptionsFarm(List<SelectItem> optionsFarm) {
+		this.optionsFarm = optionsFarm;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * listing of the plots
+	 * listing of the plots.
 	 * 
 	 * @modify 21/07/2015 Andres.Gomez
 	 * @modify 01/10/2015 Gerardo.Herrera
 	 * 
-	 * @return consultarPlots: plots query method returns to the template
+	 * @return consultPlots: plots query method returns to the template
 	 *         management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
+	public String searchInitialization() {
+		nameSearch = "";
 		if (!farmParameter) {
 			this.farm = null;
-			this.nombreFarm = 0;
+			this.nameFarm = 0;
 		}
-		return consultarPlots();
+		return consultPlots();
 	}
 
 	/**
-	 * It is responsible for initializing the changing state flag farmParameter
+	 * It is responsible for initializing the changing state flag farmParameter.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
-	 * @return inicializarBusqueda(): method to initialize the parameters of the
-	 *         search and load the initial listing of the plots
+	 * @return searchInitialization(): method to initialize the parameters of
+	 *         the search and load the initial listing of the plots.
 	 */
 	public String initializeSearchPlot() {
 		this.farmParameter = false;
-		return inicializarBusqueda();
+		return searchInitialization();
 	}
 
 	/**
-	 * Consult the list of the plots
+	 * Consult the list of the plots.
 	 * 
 	 * @modify 21/07/2015 Andres.Gomez
 	 * @modify 15/05/2015 Sergio.Ortiz
 	 * 
-	 * @return retorno: redirects to the template to manage parcels or register
-	 *         popup Crops
+	 * @return back: redirects to the template to manage parcels or register
+	 *         popups Crops.
 	 */
-	public String consultarPlots() {
+	public String consultPlots() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeLifeCycle");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaPlots = new ArrayList<Plot>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listPlots = new ArrayList<Plot>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 
 		String param2 = ControladorContexto.getParam("param2");
-		boolean desdeModal = (param2 != null && "si".equals(param2)) ? true
+		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
 				: false;
-		String retorno = desdeModal ? "" : "gesPlot";
+		String back = fromModal ? "" : "gesPlot";
 
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = plotDao.cantidadPlots(consulta, parametros);
-			if (cantidad != null) {
-				if (desdeModal) {
-					paginador.paginarRangoDefinido(cantidad, 5);
+			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
+			Long quantity = plotDao.quantityPlots(consult, parameters);
+			if (quantity != null) {
+				if (fromModal) {
+					paginador.paginarRangoDefinido(quantity, 5);
 				} else {
-					paginador.paginar(cantidad);
+					paginador.paginar(quantity);
 				}
 			}
-			listaPlots = plotDao.consultarPlots(paginador.getInicio(),
-					paginador.getRango(), consulta, parametros);
-			listaFarms();
-			if ((listaPlots == null || listaPlots.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listPlots = plotDao.consultPlots(paginador.getInicio(),
+					paginador.getRango(), consult, parameters);
+			listFarms();
+			if ((listPlots == null || listPlots.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaPlots == null || listaPlots.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listPlots == null || listPlots.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle.getString("plot_label_s"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return retorno;
+		return back;
 	}
 
 	/**
@@ -340,26 +340,26 @@ public class PlotAction implements Serializable {
 	 *            : message search
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(p.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 			if (this.farm != null) {
 				consult.append("AND p.farm.idFarm=:keyword2 ");
 				item = new SelectItem(farm.getIdFarm(), "keyword2");
 				parameters.add(item);
 			}
 
-			if (this.nombreFarm != 0) {
+			if (this.nameFarm != 0) {
 				consult.append("AND p.farm.idFarm = :keyword3 ");
-				item = new SelectItem(this.nombreFarm, "keyword3");
+				item = new SelectItem(this.nameFarm, "keyword3");
 				parameters.add(item);
 			}
 
@@ -370,9 +370,9 @@ public class PlotAction implements Serializable {
 				parameters.add(item);
 			}
 
-			if (this.nombreFarm != 0) {
+			if (this.nameFarm != 0) {
 				consult.append("WHERE p.farm.idFarm = :keyword ");
-				SelectItem item = new SelectItem(this.nombreFarm, "keyword");
+				SelectItem item = new SelectItem(this.nameFarm, "keyword");
 				parameters.add(item);
 			}
 
@@ -381,39 +381,39 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * This method fills the various objects associated with a plot
+	 * This method fills the various objects associated with a plot.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @throws Exception
 	 */
-	public void cargarDetallesPlot() throws Exception {
+	public void loadDetailsPlot() throws Exception {
 		List<Plot> plots = new ArrayList<Plot>();
-		if (this.listaPlots != null) {
-			plots.addAll(this.listaPlots);
-			this.listaPlots = new ArrayList<Plot>();
+		if (this.listPlots != null) {
+			plots.addAll(this.listPlots);
+			this.listPlots = new ArrayList<Plot>();
 			for (Plot plot : plots) {
-				Farm farm = (Farm) this.plotDao.consultarObjetoPlot("farm",
+				Farm farm = (Farm) this.plotDao.consultObjectPlot("farm",
 						plot.getIdPlot());
 				plot.setFarm(farm);
-				this.listaPlots.add(plot);
+				this.listPlots.add(plot);
 			}
 		}
 	}
 
 	/**
-	 * Method that loads a farms list
+	 * Method that loads a farms list.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @throws Exception
 	 */
-	private void listaFarms() throws Exception {
-		opcionesFarm = new ArrayList<SelectItem>();
+	private void listFarms() throws Exception {
+		optionsFarm = new ArrayList<SelectItem>();
 		List<Farm> listFarms = farmDao.farmsList();
 		if (listFarms != null) {
 			for (Farm farms : listFarms) {
-				opcionesFarm.add(new SelectItem(farms.getIdFarm(), farms
+				optionsFarm.add(new SelectItem(farms.getIdFarm(), farms
 						.getName()));
 			}
 		}
@@ -426,11 +426,11 @@ public class PlotAction implements Serializable {
 	 * @modify 01/10/2015 Gerardo.Herrera
 	 * 
 	 * @param plot
-	 *            :plot to be add or edit
+	 *            :plot to be add or edit.
 	 * 
 	 * @return "regPlot":redirects to register plot template.
 	 */
-	public String agregarEditarPlot(Plot plot) {
+	public String addEditPlot(Plot plot) {
 		try {
 			if (plot != null) {
 				this.plot = plot;
@@ -440,8 +440,8 @@ public class PlotAction implements Serializable {
 				if (!farmParameter)
 					this.farm = new Farm();
 			}
-			listaFarms();
-			cargarDetallesPlot();
+			listFarms();
+			loadDetailsPlot();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -453,31 +453,31 @@ public class PlotAction implements Serializable {
 	 * and valid against XSS.
 	 * 
 	 * @param context
-	 *            : application context
+	 *            : application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : validate component.
 	 * @param value
-	 *            : field value to be valid
+	 *            : field value to be valid.
 	 */
-	public void validarNombreXSS(FacesContext context, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String nombre = (String) value;
+		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = plot.getIdPlot();
 			Plot plotAux = new Plot();
-			plotAux = plotDao.nombreExiste(nombre, id);
+			plotAux = plotDao.nameExist(name, id);
 			if (plotAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
-								.getString(mensajeExistencia), null));
+								.getString(messageExistence), null));
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -487,44 +487,46 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the plots
+	 * Method used to save or edit the plots.
 	 * 
 	 * @modify 21/07/2015 Andres.Gomez
 	 * 
-	 * @return inicializarBusqueda: Redirects to manage the list of sites with
+	 * @return searchInitialization: Redirects to manage the list of sites with
 	 *         plots updated
 	 */
-	public String guardarPlot() {
+	public String savePlot() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 			plot.setFarm(farm);
 			if (plot.getIdPlot() != 0) {
-				plotDao.editarPlot(plot);
+				plotDao.editPlot(plot);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				plotDao.guardarPlot(plot);
+				messageLog = "message_registro_guardar";
+				plotDao.savePlot(plot);
 			}
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), plot.getName()));
+			ControladorContexto.mensajeInformacion(
+					null,
+					MessageFormat.format(bundle.getString(messageLog),
+							plot.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return inicializarBusqueda();
+		return searchInitialization();
 	}
 
 	/**
-	 * Method to remove a plot of the database
+	 * Method to remove a plot of the database.
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @return consultarPlots(): Consult the list of parcels and returns to
-	 *         manage plot
+	 * @return consultPlots(): Consult the list of parcels and returns to manage
+	 *         plot.
 	 */
-	public String eliminarPlot() {
+	public String removePlot() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			plotDao.eliminarPlot(plot);
+			plotDao.removePlot(plot);
 			ControladorContexto.mensajeInformacion(
 					null,
 					MessageFormat.format(
@@ -538,20 +540,20 @@ public class PlotAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarPlots();
+		return consultPlots();
 	}
 
 	/**
-	 * Method a list is saved with the selected plots in the harvest POPUP
+	 * Method a list is saved with the selected plots in the harvest POPUP.
 	 * 
 	 * @author Sergio.Ortiz
 	 */
-	public void agregarSeleccionados() {
-		listaPlotsSeleccionado = new ArrayList<Plot>();
+	public void addSelected() {
+		listPlotsSelected = new ArrayList<Plot>();
 		try {
-			for (Plot plot : listaPlotFecha) {
+			for (Plot plot : listPlotDate) {
 				if (plot.isSeleccionado()) {
-					this.listaPlotsSeleccionado.add(plot);
+					this.listPlotsSelected.add(plot);
 				}
 			}
 		} catch (Exception e) {
@@ -561,14 +563,14 @@ public class PlotAction implements Serializable {
 
 	/**
 	 * Method to validate that dishes are available depending on the date range
-	 * entered in the view of crops
+	 * entered in the view of crops.
 	 * 
 	 * @author Sergio.Ortiz
 	 * @modify Gerardo.Herrera
 	 * @modify 11/03/2016 Mabell.Boada
 	 * 
 	 */
-	public void consultarPlotPorFecha() {
+	public void consultPlotForDate() {
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionMessageSearch = new StringBuilder();
 		String messageSearch = "";
@@ -580,11 +582,10 @@ public class PlotAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		CropsAction crops = ControladorContexto
 				.getContextBean(CropsAction.class);
-		listaPlotFecha = new ArrayList<Plot>();
+		listPlotDate = new ArrayList<Plot>();
 		try {
-			busquedaAvanzadaPopup(consult, parameters, bundle,
-					unionMessageSearch);
-			Long amount = plotDao.cantidadPlotsFiltrados(crops
+			searchAdvancedPopup(consult, parameters, bundle, unionMessageSearch);
+			Long amount = plotDao.quantityPlotsFiltered(crops
 					.getListaPlotsAsociados(), crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(),
 					consult, parameters);
@@ -595,17 +596,17 @@ public class PlotAction implements Serializable {
 			if (amount != null) {
 				paginador.paginarRangoDefinido(amount, 5);
 			}
-			listaPlotFecha = plotDao.buscarCopsPlotsFecha(crops.getCrops()
+			listPlotDate = plotDao.searchCopsPlotsDate(crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(), crops
 					.getListaPlotsAsociados(), paginador.getInicio(), paginador
 					.getRango(), consult, parameters);
-			if ((listaPlotFecha == null || listaPlotFecha.size() <= 0)
+			if ((listPlotDate == null || listPlotDate.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionMessageSearch);
-			} else if (listaPlotFecha == null || listaPlotFecha.size() <= 0) {
+			} else if (listPlotDate == null || listPlotDate.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
 			} else if (!"".equals(unionMessageSearch.toString())) {
@@ -625,25 +626,25 @@ public class PlotAction implements Serializable {
 	 * This method weapon search query to pop into the user selected POPUP.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 * 
 	 */
-	private void busquedaAvanzadaPopup(StringBuilder consult,
+	private void searchAdvancedPopup(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("AND UPPER(p.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 

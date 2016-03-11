@@ -29,9 +29,9 @@ public class PlotDao implements Serializable {
 	 * filtering the information sent search values.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :where he started the consultation record.
 	 * @param range
-	 *            : range of records
+	 *            : range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
@@ -40,17 +40,16 @@ public class PlotDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Plot> consultarPlots(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
+	public List<Plot> consultPlots(int start, int range, StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT p FROM  Plot p ");
 		query.append("JOIN FETCH p.farm ");
 		query.append(consult);
 		query.append("ORDER BY p.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<Plot> resultList = q.getResultList();
@@ -61,37 +60,37 @@ public class PlotDao implements Serializable {
 	}
 
 	/**
-	 * Saves a plot in BD
+	 * Saves a plot in BD.
 	 * 
 	 * @param plot
 	 *            : plot to save.
 	 * @throws Exception
 	 */
-	public void guardarPlot(Plot plot) throws Exception {
+	public void savePlot(Plot plot) throws Exception {
 		em.persist(plot);
 	}
 
 	/**
-	 * Edits a plot in BD
+	 * Edits a plot in BD.
 	 * 
 	 * @param plot
 	 *            : plot editing.
 	 * @throws Exception
 	 */
-	public void editarPlot(Plot plot) throws Exception {
+	public void editPlot(Plot plot) throws Exception {
 		em.merge(plot);
 	}
 
 	/**
-	 * Removes the BD plot
+	 * Removes the BD plot.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param plot
-	 *            : plot to eliminate
+	 *            : plot to eliminate.
 	 * @throws Exception
 	 */
-	public void eliminarPlot(Plot plot) throws Exception {
+	public void removePlot(Plot plot) throws Exception {
 		em.remove(em.merge(plot));
 	}
 
@@ -107,7 +106,7 @@ public class PlotDao implements Serializable {
 	 * @return Long: amount of plots records found
 	 * @throws Exception
 	 */
-	public Long cantidadPlots(StringBuilder consult, List<SelectItem> parameters)
+	public Long quantityPlots(StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(p) FROM Plot p ");
@@ -132,15 +131,15 @@ public class PlotDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Plot nombreExiste(String name, int id) throws Exception {
+	public Plot nameExist(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT p FROM Plot p ");
-		query.append("WHERE UPPER(p.name)=UPPER(:nombre) ");
+		query.append("WHERE UPPER(p.name)=UPPER(:name) ");
 		if (id != 0) {
 			query.append("AND p.idPlot <>:idPlot ");
 		}
 		Query q = em.createQuery(query.toString());
-		q.setParameter("nombre", name);
+		q.setParameter("name", name);
 		if (id != 0) {
 			q.setParameter("idPlot", id);
 		}
@@ -153,19 +152,19 @@ public class PlotDao implements Serializable {
 
 	/**
 	 * Consult also article assigned to a plot, considering only those that are
-	 * not null in the table
+	 * not null in the table.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param nomObject
-	 *            : object found on the plot
+	 *            : object found on the plot.
 	 * @param idPlot
-	 *            : plot ID being queried
+	 *            : plot ID being queried.
 	 * @return Object: Information associated with the plot or null but there.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoPlot(String nomObject, int idPlot)
+	public Object consultObjectPlot(String nomObject, int idPlot)
 			throws Exception {
 		List<Object> results = em
 				.createQuery(
@@ -181,20 +180,20 @@ public class PlotDao implements Serializable {
 	}
 
 	/**
-	 * Method associates a crop plots are consulted on a particular date range
+	 * Method associates a crop plots are consulted on a particular date range.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
 	 * @param dateStart
-	 *            : start date which is associated with a plot to a crop
+	 *            : start date which is associated with a plot to a crop.
 	 * @param dateEnd
-	 *            : end date of a crop plot association
+	 *            : end date of a crop plot association.
 	 * @param plotSelected
-	 *            : a list of associated crop plots a certain date range,
+	 *            : a list of associated crop plots a certain date range.
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :where he started the consultation record.
 	 * @param range
-	 *            : range of records
+	 *            : range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
@@ -204,7 +203,7 @@ public class PlotDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Plot> buscarCopsPlotsFecha(Date dateStart, Date dateEnd,
+	public List<Plot> searchCopsPlotsDate(Date dateStart, Date dateEnd,
 			List<Plot> plotSelected, int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
@@ -229,8 +228,8 @@ public class PlotDao implements Serializable {
 		if (plotSelected != null && plotSelected.size() > 0) {
 			q.setParameter("plotSeleccionado", plotSelected);
 		}
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 
 		q.setFirstResult(start).setMaxResults(range);
@@ -243,18 +242,18 @@ public class PlotDao implements Serializable {
 	}
 
 	/**
-	 * method consulting in the plots that are associated with a Crop
+	 * method consulting in the plots that are associated with a Crop.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
 	 * @param idCrop
-	 *            : Crops identifier to which you want to know which is
-	 *            associated Plots
-	 * @return list<Plots>: Plots list associated Crops
+	 *            : Crops identifier to which you want to know which is.
+	 *            associated Plots.
+	 * @return list<Plots>: Plots list associated Crops.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Plot> cropsPlotsAsociados(int idCrop) throws Exception {
+	public List<Plot> cropsPlotsAssociated(int idCrop) throws Exception {
 
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT cp.cropsPlotsPK.plot FROM CropsPlots cp ");
@@ -266,16 +265,17 @@ public class PlotDao implements Serializable {
 
 	/**
 	 * Returns the number of existing filtering Plot in the database search by
-	 * the values sent
+	 * the values sent.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
 	 * @param plotSelected
-	 *            : plot to which you want to view the number of associated plot
+	 *            : plot to which you want to view the number of associated
+	 *            plot.
 	 * @param dateStart
-	 *            : where he started the consultation record
+	 *            : where he started the consultation record.
 	 * @param dateEnd
-	 *            : end date of the plot to crop association
+	 *            : end date of the plot to crop association.
 	 * @param consult
 	 *            : String containing the query why the names are filtered plot.
 	 * @param parameters
@@ -283,7 +283,7 @@ public class PlotDao implements Serializable {
 	 * @return Long: plot number of records found
 	 * @throws Exception
 	 */
-	public Long cantidadPlotsFiltrados(List<Plot> plotSelected, Date dateStart,
+	public Long quantityPlotsFiltered(List<Plot> plotSelected, Date dateStart,
 			Date dateEnd, StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
