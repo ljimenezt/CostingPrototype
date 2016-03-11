@@ -107,14 +107,14 @@ public class OvertimePaymentRateAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: overtime payment rate name search.
+	 * @return nameSearch: overtime payment rate name search.
 	 */
 	public String getNameSearch() {
 		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            :overtime payment rate name search.
 	 */
 	public void setNameSearch(String nameSearch) {
@@ -143,7 +143,7 @@ public class OvertimePaymentRateAction implements Serializable {
 	 */
 	public String consultOvertimePaymentRate() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle mensajeRH = ControladorContexto
+		ResourceBundle messageRH = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
@@ -182,7 +182,7 @@ public class OvertimePaymentRateAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								mensajeRH
+								messageRH
 										.getString("overtime_payment_rate_label_s"),
 								unionMessagesSearch);
 			}
