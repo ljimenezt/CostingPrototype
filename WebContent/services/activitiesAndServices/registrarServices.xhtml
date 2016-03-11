@@ -235,6 +235,19 @@
 						<h:outputText value="#{mensaje.message_registro_confirmacion}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
+
+					<ui:define name="campos">
+						<h:outputText value="#{mensajeLifeCycle.crop_names_label}:" />
+						<h:outputText
+							value="#{activitiesAndServicesAction.crops.cropNames.cropName}" />
+						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText
+							value="#{activitiesAndServicesAction.crops.description}" />
+						<h:outputText value="#{mensajeCosts.activities_label}:" />
+						<h:outputText
+							value="#{activitiesAndServicesAction.activities.activityName.activityName}" />
+					</ui:define>
+
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}" execute="@form"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();"
