@@ -249,7 +249,7 @@ public class FarmAction implements Serializable {
 	/**
 	 * Consult the list of estates.
 	 * 
-	 * @modify Sergio.Gelves
+	 * @modify 09/03/2016 Sergio.Gelves
 	 * 
 	 * @return "gesFarm": Redirects to the template to manage the estates.
 	 */
@@ -327,10 +327,10 @@ public class FarmAction implements Serializable {
 	/**
 	 * Method to edit or create a new farm.
 	 * 
+	 * @modify 09/03/2016 Sergio.Gelves
+	 * 
 	 * @param farm
 	 *            : Property that you are adding or editing.
-	 * 
-	 * @modify Sergio.Gelves
 	 * 
 	 * @return "regFarm": Redirects to the record template farm.
 	 * @throws Exception
