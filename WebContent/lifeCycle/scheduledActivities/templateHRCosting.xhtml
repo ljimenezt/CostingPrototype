@@ -142,7 +142,7 @@
 							<a:commandButton
 								actionListener="#{recordActivitiesActualsAction.budgetCopy()}"
 								execute="@this" value="#{mensaje.button_as_budgeted}">
-								<a:ajax resetValues="true"
+								<f:ajax resetValues="true"
 									render="fechaInicioTimeActual costActual fechaFinalTimeActual duration overtimeRate" />
 							</a:commandButton>
 							<a:commandButton value="#{mensaje.button_guardar}"
