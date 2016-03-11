@@ -427,7 +427,7 @@ public class CropsAction implements Serializable {
 	 */
 	private void guardarCropsPlots() throws Exception {
 		List<Plot> listaCropsPlotsAsociados = new ArrayList<Plot>();
-		listaCropsPlotsAsociados = plotsDao.cropsPlotsAsociados(crops
+		listaCropsPlotsAsociados = plotsDao.cropsPlotsAssociated(crops
 				.getIdCrop());
 
 		if (this.listaPlotsAsociados != null
@@ -570,7 +570,7 @@ public class CropsAction implements Serializable {
 	private void plotsAsociados(Crops crops) throws Exception {
 		if (crops != null) {
 			this.listaPlotsAsociados = new ArrayList<Plot>();
-			this.listaPlotsAsociados = plotsDao.cropsPlotsAsociados(crops
+			this.listaPlotsAsociados = plotsDao.cropsPlotsAssociated(crops
 					.getIdCrop());
 		}
 	}
@@ -586,7 +586,7 @@ public class CropsAction implements Serializable {
 	 */
 	public void agruparListasPlot() {
 		PlotAction plot = ControladorContexto.getContextBean(PlotAction.class);
-		for (Plot plotAsociados : plot.getListaPlotsSeleccionado()) {
+		for (Plot plotAsociados : plot.getListPlotsSelected()) {
 			this.listaPlotsAsociados.add(plotAsociados);
 		}
 	}

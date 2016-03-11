@@ -115,7 +115,7 @@
 					<div class="W560P">
 						<a:commandLink id="lnkCrops" render="popupForm:popupPlot"
 							styleClass="iconsDataTable quitarDecoracionLink"
-							action="#{plotAction.consultarPlotPorFecha}"
+							action="#{plotAction.consultPlotForDate}"
 							execute="fechaInicio, fechFin, cropNames, txtDescripcion, cropAnyo"
 							oncomplete="#{rich:component('popupPlot')}.show(); setFocus('popupForm:txtNombreBuscar');">
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
@@ -125,7 +125,7 @@
 							</h:panelGrid>
 							<f:param name="param2" value="si" />
 							<f:setPropertyActionListener value=""
-								target="#{plotAction.nombreBuscar}" />
+								target="#{plotAction.nameSearch}" />
 							<f:setPropertyActionListener value="true"
 								target="#{plotAction.estadoPaginador}" />
 							<rich:tooltip layout="block">
@@ -275,10 +275,10 @@
 								<h:outputText value="#{mensaje.label_nombre}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="20" maxlength="100" id="txtNombreBuscar"
-									value="#{plotAction.nombreBuscar}"
+									value="#{plotAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-									actionListener="#{plotAction.consultarPlotPorFecha}"
+									actionListener="#{plotAction.consultPlotForDate}"
 									render="tPlot, paginadorPlot, outPutSearchPlot, outPutPlotDate">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
@@ -293,12 +293,12 @@
 						</a:outputPanel>
 						<br />
 						<ui:param name="listaVacia"
-							value="#{plotAction.listaPlotFecha eq null or (empty plotAction.listaPlotFecha)}" />
+							value="#{plotAction.listPlotDate eq null or (empty plotAction.listPlotDate)}" />
 						<div class="W370P">
 							<a:commandLink render="tPlot, paginadorPlot, outPutSearchPlot"
 								styleClass="quitarDecoracionLink iconsDataTable"
-								action="#{plotAction.consultarPlotPorFecha}"
-								actionListener="#{plotAction.setNombreBuscar(null)}">
+								action="#{plotAction.consultPlotForDate}"
+								actionListener="#{plotAction.setNameSearch(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />
 									<h:outputText value="#{mensaje.button_listar_todos}" />
@@ -307,7 +307,7 @@
 							</a:commandLink>
 						</div>
 						<a:outputPanel id="outPutPlotDate">
-							<rich:dataTable value="#{plotAction.listaPlotFecha}" var="plot"
+							<rich:dataTable value="#{plotAction.listPlotDate}" var="plot"
 								id="tPlot" footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W370P"
 								rowClasses="odd-row, even-row">
@@ -358,7 +358,7 @@
 						<div align="center">
 							<a:commandButton value="#{mensaje.button_agregar}"
 								id="btnSeleccionar" render="formCrops"
-								actionListener="#{plotAction.agregarSeleccionados()}"
+								actionListener="#{plotAction.addSelected()}"
 								action="#{cropsAction.agruparListasPlot()}" execute="popupPlot"
 								oncomplete="#{rich:component('popupPlot')}.hide();" />
 						</div>
