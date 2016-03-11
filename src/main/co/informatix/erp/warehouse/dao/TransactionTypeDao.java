@@ -28,6 +28,7 @@ public class TransactionTypeDao implements Serializable {
 	 * Saves a TransactionType in the database.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @param transactionType
 	 *            : Save transactionType.
 	 * @throws Exception
@@ -41,6 +42,7 @@ public class TransactionTypeDao implements Serializable {
 	 * Modify a TransactionType in the database.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @param transactionType
 	 *            : TransactionType to edit.
 	 * @throws Exception
@@ -54,8 +56,9 @@ public class TransactionTypeDao implements Serializable {
 	 * Removes the BD TransactionType.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @param transactionType
-	 *            : TransactionType to be removed
+	 *            : TransactionType to be removed.
 	 * @throws Exception
 	 */
 	public void deleteTransactionType(TransactionType transactionType)
@@ -69,20 +72,20 @@ public class TransactionTypeDao implements Serializable {
 	 * @author Sergio.Ortiz
 	 * 
 	 * @param start
-	 *            : Registry where consultation begins
+	 *            : Registry where consultation begins.
 	 * @param range
-	 *            : Range of records
+	 *            : Range of records.
 	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
-	 *            the user
+	 *            the user.
 	 * @param parameters
-	 *            : Query parameters
+	 *            : Query parameters.
 	 * @return List<TransactionType>:List of TransactionType that comply with
 	 *         the condition of validity.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<TransactionType> consultarTransactionType(int start, int range,
+	public List<TransactionType> consultTransactionType(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -90,8 +93,8 @@ public class TransactionTypeDao implements Serializable {
 		query.append(consult);
 		query.append(" ORDER BY t.transactionType");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		return q.getResultList();
@@ -103,21 +106,21 @@ public class TransactionTypeDao implements Serializable {
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : Query running on SQL.
-	 * @param parametros
+	 * @param parameters
 	 *            :Parameters of the query.
 	 * @return Number of records found.
 	 * @throws Exception
 	 */
-	public Long cantidadtransactionType(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long quantityTransactionType(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(t) FROM TransactionType t ");
-		query.append(consulta);
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -129,9 +132,9 @@ public class TransactionTypeDao implements Serializable {
 	 * @author Liseth.Jimenez
 	 * 
 	 * @param name
-	 *            : name of the transaction type to verify
+	 *            : name of the transaction type to verify.
 	 * @param id
-	 *            : identifier of the transaction type to verify
+	 *            : identifier of the transaction type to verify.
 	 * @return TransactionType : TransactionType object found with the search
 	 *         parameters name and identifier.
 	 * @throws Exception

@@ -43,7 +43,7 @@ public class TransactionTypeAction implements Serializable {
 
 	private List<TransactionType> transactionTypeList;
 
-	private String nombreBuscar;
+	private String nameSearch;
 
 	/**
 	 * @return paginador: The paging controller object.
@@ -61,7 +61,7 @@ public class TransactionTypeAction implements Serializable {
 	}
 
 	/**
-	 * @return transactionType: transactionType stored in data base
+	 * @return transactionType: transactionType stored in data base.
 	 */
 	public TransactionType getTransactionType() {
 		return transactionType;
@@ -69,30 +69,31 @@ public class TransactionTypeAction implements Serializable {
 
 	/**
 	 * @param transactionType
-	 *            : transactionType stored in data base
+	 *            : transactionType stored in data base.
 	 */
 	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;
 	}
 
 	/**
-	 * @return nombreBuscar :Name by which you want to consult the
+	 * @return nameSearch :Name by which you want to consult the
 	 *         transactionType.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : Name by which you want to consult the transactionType.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return transactionTypeList: list of transaction type stored in data base
+	 * @return transactionTypeList: list of transaction type stored in data
+	 *         base.
 	 */
 	public List<TransactionType> getTransactionTypeList() {
 		return transactionTypeList;
@@ -100,7 +101,7 @@ public class TransactionTypeAction implements Serializable {
 
 	/**
 	 * @param transactionTypeList
-	 *            : list of transaction type stored in data base
+	 *            : list of transaction type stored in data base.
 	 */
 	public void setTransactionTypeList(List<TransactionType> transactionTypeList) {
 		this.transactionTypeList = transactionTypeList;
@@ -110,12 +111,13 @@ public class TransactionTypeAction implements Serializable {
 	 * Method to initialize the fields in the search.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @return consultTransactionType: TransactionType consulting method and
 	 *         redirects to the template to manage TransactionType.
 	 */
-	public String inicializarBusqueda() {
+	public String searchInitialization() {
 
-		this.nombreBuscar = null;
+		this.nameSearch = null;
 		this.transactionType = new TransactionType();
 		return consultTransactionType();
 	}
@@ -132,45 +134,44 @@ public class TransactionTypeAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		transactionTypeList = new ArrayList<TransactionType>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = transactionTypeDao.cantidadtransactionType(
-					consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = transactionTypeDao.quantityTransactionType(query,
+					parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			if (cantidad != null && cantidad > 0) {
+			if (quantity != null && quantity > 0) {
 				transactionTypeList = transactionTypeDao
-						.consultarTransactionType(paginador.getInicio(),
-								paginador.getRango(), consulta, parametros);
+						.consultTransactionType(paginador.getInicio(),
+								paginador.getRango(), query, parameters);
 			}
 			if ((transactionTypeList == null || transactionTypeList.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			} else if (transactionTypeList == null
 					|| transactionTypeList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleRecursosHumanos
 										.getString("transactionType_label"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -183,24 +184,24 @@ public class TransactionTypeAction implements Serializable {
 	 * by the user.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(t.transactionType) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -210,11 +211,11 @@ public class TransactionTypeAction implements Serializable {
 	 * @author Sergio.Ortiz
 	 * 
 	 * @param transactionType
-	 *            :transactionType are adding or editing
+	 *            :transactionType are adding or editing.
 	 * 
 	 * @return "regTrans":redirected to the template record transactionType.
 	 */
-	public String agregarEditarTransactionType(TransactionType transactionType) {
+	public String addEditTransactionType(TransactionType transactionType) {
 		try {
 			if (transactionType != null) {
 				this.transactionType = transactionType;
@@ -228,26 +229,26 @@ public class TransactionTypeAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the transactionType
+	 * Method used to save or edit the transactionType.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
 	 * @return contulTransactionType: Redirects to manage transactionType with a
-	 *         list of updated transactionType
+	 *         list of updated transactionType.
 	 */
 	public String saveTransactionType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 
 			if (transactionType.getIdTransactionType() != 0) {
 				transactionTypeDao.editTransactionType(transactionType);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
+				messageLog = "message_registro_guardar";
 				transactionTypeDao.saveTransactionType(transactionType);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
+					bundle.getString(messageLog),
 					transactionType.getTransactionType()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -256,12 +257,12 @@ public class TransactionTypeAction implements Serializable {
 	}
 
 	/**
-	 * Method that allows contulTransactionType to delete one database
+	 * Method that allows contulTransactionType to delete one database.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
-	 * @return panelTransactionType: Consult the list of transactionType and
-	 *         returns to manage TransactionType
+	 * @return consultTransactionType: Consult the list of transactionType and
+	 *         returns to manage TransactionType.
 	 */
 	public String deleteTransactionType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -288,12 +289,12 @@ public class TransactionTypeAction implements Serializable {
 	 * @author Liseth.Jimenez
 	 * 
 	 * @param context
-	 *            : application context
+	 *            : application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : validate component.
 	 * @param value
-	 *            : field value to be valid
+	 *            : field value to be valid.
 	 */
 	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {

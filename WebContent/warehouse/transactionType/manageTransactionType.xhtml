@@ -11,7 +11,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="transactionTypeAction.inicializarBusqueda" />
+		value="transactionTypeAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeWarehouse.transactionType_label" />
 
@@ -36,11 +36,11 @@
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="transactionTypeAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarTransactionType" />
+		<ui:param name="metodoNuevo" value="addEditTransactionType" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formTransactionType">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -68,7 +68,7 @@
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 						<h:commandLink value="#{transaction.transactionType}"
-							action="#{transactionTypeAction.agregarEditarTransactionType(transaction)}"
+							action="#{transactionTypeAction.addEditTransactionType(transaction)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -118,11 +118,11 @@
 		     			 $g=jQuery.noConflict();
 					</script>
 					<rich:messages id="messagePopUp" styleClass="messageBlock" />
-					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+					<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_nombre}:" />
-						<h:inputText value="#{transactionTypeAction.nombreBuscar}"
-							maxlength="100" id="txtNombreBuscar"
+						<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
+							value="#{transactionTypeAction.nameSearch}" maxlength="100"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 					</h:panelGrid>
 				</a:outputPanel>
