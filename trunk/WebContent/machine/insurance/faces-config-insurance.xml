@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesInsurance</from-outcome>
-			<to-view-id>/machine/insurance/gestionarInsurance.xhtml</to-view-id>
+			<to-view-id>/machine/insurance/manageInsurance.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regInsurance</from-outcome>
-			<to-view-id>/machine/insurance/registrarInsurance.xhtml</to-view-id>
+			<to-view-id>/machine/insurance/registerInsurance.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

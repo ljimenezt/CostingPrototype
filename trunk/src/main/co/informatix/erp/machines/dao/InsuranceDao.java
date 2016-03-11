@@ -12,8 +12,8 @@ import javax.persistence.Query;
 import co.informatix.erp.machines.entities.Insurance;
 
 /**
- * Class DAO that establishes the connection between business logic and database
- * management Insurance (Insurance).
+ * DAO Class that establishes the connection between business logic and the
+ * database for insurance management.
  * 
  * @author Sergio.Ortiz
  * 
@@ -25,35 +25,35 @@ public class InsuranceDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * This method build the consult the Insurance with determined range sent as
-	 * a parameter filtering the information by the values sent search.
+	 * This method builds the insurance query with a determined range sent as a
+	 * parameter and filtered information with search values.
 	 * 
-	 * @param start
-	 *            :where he started the consultation record
+	 * @param first
+	 *            : The first record that the result retrieve.
 	 * @param range
-	 *            : range of records
-	 * @param consult
+	 *            : Range of records.
+	 * @param query
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
-	 * @return List<Insurance>: List of Insurance.
+	 *            : Query parameters.
+	 * @return List<Insurance>: List of Insurances.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Insurance> consultarInsurance(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT ins FROM  Insurance ins ");
-		query.append("JOIN ins.machines m ");
-		query.append(consult);
-		query.append("ORDER BY ins.dateTime ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public List<Insurance> searchInsurances(int first, int range,
+			StringBuilder query, List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT ins FROM  Insurance ins ");
+		queryBuilder.append("JOIN ins.machines m ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY ins.dateTime ");
+		Query resultQuery = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			resultQuery
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(start).setMaxResults(range);
-		List<Insurance> resultList = q.getResultList();
+		resultQuery.setFirstResult(first).setMaxResults(range);
+		List<Insurance> resultList = resultQuery.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
@@ -61,75 +61,73 @@ public class InsuranceDao implements Serializable {
 	}
 
 	/**
-	 * Saves a DB insurance
+	 * Saves an insurance in the database.
 	 * 
 	 * @param insurance
-	 *            : insurance saving.
+	 *            : Insurance to save.
 	 * @throws Exception
 	 */
-	public void guardarInsurance(Insurance insurance) throws Exception {
+	public void saveInsurance(Insurance insurance) throws Exception {
 		em.persist(insurance);
 	}
 
 	/**
-	 * Edits a DB insurance
+	 * Edits a database insurance.
 	 * 
 	 * @param insurance
-	 *            : insurance editing.
+	 *            : insurance to edit.
 	 * @throws Exception
 	 */
-	public void editarInsurance(Insurance insurance) throws Exception {
+	public void editInsurance(Insurance insurance) throws Exception {
 		em.merge(insurance);
 	}
 
 	/**
-	 * Insurance removes the database
+	 * Insurance to remove of the database.
 	 * 
 	 * @param insurance
-	 *            : eliminate insurance
+	 *            : Eliminated insurance.
 	 * @throws Exception
 	 */
-	public void eliminarInsurance(Insurance insurance) throws Exception {
+	public void deleteInsurance(Insurance insurance) throws Exception {
 		em.remove(em.merge(insurance));
 	}
 
 	/**
-	 * Returns the number of existing insurance in the database by filtering
-	 * information sent search values.
+	 * Returns the number of existing insurances in the database with its
+	 * information filtered with search values.
 	 * 
-	 * @param consult
-	 *            : String containing the query for which the properties are
-	 *            filtered.
+	 * @param query
+	 *            : String containing the query with filtered properties.
 	 * @param parameters
 	 *            : query parameters.
-	 * @return Long: amount of insurance records found
+	 * @return Long: Amount of insurance records found.
 	 * @throws Exception
 	 */
-	public Long cantidadInsurance(StringBuilder consult,
+	public Long insurancesAmount(StringBuilder query,
 			List<SelectItem> parameters) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(ins) FROM Insurance ins ");
-		query.append("JOIN ins.machines m ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(ins) FROM Insurance ins ");
+		queryBuilder.append("JOIN ins.machines m ");
+		queryBuilder.append(query);
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * Method that consult all insurance object depend search criteria and
-	 * stores it in a list
+	 * Method to calculate an insurance for a known machine and year.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param idMachine
-	 *            : Identifier of the machine to search
+	 *            : Machine identifier to search.
 	 * @param year
-	 *            : year to search a machine
+	 *            : Year to filter the insurance.
 	 * 
-	 * @return List<ActivityMachine>: ActivityMachine list
+	 * @return Double: Insurance value.
 	 * @throws Exception
 	 */
 	public Double calculateInsurance(int idMachine, String year)

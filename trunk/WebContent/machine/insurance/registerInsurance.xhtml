@@ -26,7 +26,7 @@
 		$g(document).ready(function(){    
 			  $g('#formInsurance\\:txaDescripcion').maxlength({   
 			    events: [],     
-			    max: 200,    
+			    max: 250,    
 			    feedbackText: "#{mensaje.label_caracteres_restantes}",  
 			    showFeedback: 'active'    
 			  }); 
@@ -51,9 +51,9 @@
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 								itemValue="" />
-							<f:selectItems value="#{insuranceAction.opcionesMachinesType}" />
+							<f:selectItems value="#{insuranceAction.machineTypeOption}" />
 							<f:ajax event="change"
-								listener="#{insuranceAction.llenarMachine()}"
+								listener="#{insuranceAction.loadMachines()}"
 								render=":formInsurance:maquina" />
 							<f:attribute name="tipo" value="Int" />
 						</h:selectOneMenu>
@@ -67,7 +67,7 @@
 							styleClass="colTextoMediano" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
-							<f:selectItems value="#{insuranceAction.listaMachines}" />
+							<f:selectItems value="#{insuranceAction.machinesList}" />
 						</h:selectOneMenu>
 						<rich:message for="maquina" />
 					</h:panelGrid>
@@ -76,22 +76,28 @@
 				<t:fieldset styleClass="BorderW2P">
 					<legend class="etiquetaTitulo">#{mensaje.button_nuevo}
 						#{mensajeMachine.insurance_label}</legend>
-					<h:panelGrid columns="3"
+					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop W140P,,tdAlignTop">
+						columnClasses="tdAlignTop W140P,tdAlignTop,,tdAlignTop">
 						<h:outputText value="#{mensajeMachine.insurance_label}"
 							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
 						<h:inputTextarea value="#{insuranceAction.insurance.descripcion}"
+							required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
 							styleClass="colTextoMedianoTextArea" id="txaDescripcion"
 							validator="#{encodeFilter.validarScripting}">
-							<f:validateLength maximum="200" />
+							<f:validateLength maximum="250" />
 						</h:inputTextarea>
 						<rich:message for="txaDescripcion" />
 
 						<h:outputText value="#{mensaje.label_fecha}"
 							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{insuranceAction.insurance.dateTime}"
+							required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
 							showOn="button" navigator="true" id="fechMaint"
 							pattern="MM/dd/yyyy"
 							validator="#{controladorFechas.validarRangoFecha}">
@@ -101,6 +107,7 @@
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensajeMachine.insurance_label_total_costo_presupuesto}" />
+						<h:outputText value="" />
 						<h:inputText
 							label="#{mensajeMachine.insurance_label_total_costo_presupuesto}"
 							value="#{insuranceAction.insurance.totalCostBudget}"
@@ -110,6 +117,7 @@
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensajeMachine.insurance_label_costo_total_actual}" />
+						<h:outputText value="" />
 						<h:inputText
 							label="#{mensajeMachine.insurance_label_costo_total_actual}"
 							value="#{insuranceAction.insurance.totalCostActual}"
@@ -149,10 +157,10 @@
 
 						<h:outputText value="#{mensaje.label_tipo_maquina}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(insuranceAction.opcionesMachinesType, insuranceAction.machineTypes.idMachineType)}" />
+							value="#{validacionesAction.getLabel(insuranceAction.machineTypeOption, insuranceAction.machineTypes.idMachineType)}" />
 						<h:outputText value="#{mensajeMachine.insurance_label_maquina}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(insuranceAction.listaMachines, insuranceAction.machines.idMachine)}" />
+							value="#{validacionesAction.getLabel(insuranceAction.machinesList, insuranceAction.machines.idMachine)}" />
 						<h:outputText value="#{mensaje.label_descripcion}:" />
 						<h:outputText value="#{insuranceAction.insurance.descripcion}" />
 						<h:outputText value="#{mensaje.label_fecha}:" />
@@ -167,7 +175,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{insuranceAction.guardarInsurance()}"
+							action="#{insuranceAction.saveInsurance()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
