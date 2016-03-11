@@ -46,7 +46,7 @@
 						value="#{overtimePaymentRateAction.overtimePaymentRate.overtimeRateType}"
 						styleClass="colTextoMediano" id="txtRateType" required="true"
 						size="41" maxlength="100"
-						validator="#{encodeFilter.validarScripting}"
+						validator="#{overtimePaymentRateAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtRateType" />
 

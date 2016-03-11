@@ -25,7 +25,7 @@ public class OvertimePaymentRateDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Save a overtime payment rate in DB
+	 * Save a overtime payment rate in DB.
 	 * 
 	 * @param overtimePaymentRate
 	 *            : overtime payment rate to save.
@@ -37,7 +37,7 @@ public class OvertimePaymentRateDao implements Serializable {
 	}
 
 	/**
-	 * Edits a overtime payment rate in DB
+	 * Edits a overtime payment rate in DB.
 	 * 
 	 * @param overtimePaymentRate
 	 *            : edit overtime payment rate.
@@ -49,10 +49,10 @@ public class OvertimePaymentRateDao implements Serializable {
 	}
 
 	/**
-	 * Removes overtime payment Rate DB
+	 * Removes overtime payment Rate DB.
 	 * 
 	 * @param overtimePaymentRate
-	 *            : overtime payment rate to remove
+	 *            : overtime payment rate to remove.
 	 * @throws Exception
 	 */
 	public void deleteOvertimePaymentRate(
@@ -68,7 +68,7 @@ public class OvertimePaymentRateDao implements Serializable {
 	 *            : String containing the query why customers are filtered.
 	 * @param parameters
 	 *            : query parameters.
-	 * @return Long: number of customer records found
+	 * @return Long: number of customer records found.
 	 * @throws Exception
 	 */
 	public Long amountOvertimePaymentRate(StringBuilder consult,
@@ -77,8 +77,8 @@ public class OvertimePaymentRateDao implements Serializable {
 		query.append("SELECT COUNT(op) FROM OvertimePaymentRate op ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -89,9 +89,9 @@ public class OvertimePaymentRateDao implements Serializable {
 	 * sent search.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :where he started the consultation record.
 	 * @param range
-	 *            : range of records
+	 *            : range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
@@ -108,8 +108,8 @@ public class OvertimePaymentRateDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY op.overtimepaymentid ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<OvertimePaymentRate> resultList = q.getResultList();
@@ -120,13 +120,13 @@ public class OvertimePaymentRateDao implements Serializable {
 	}
 
 	/**
-	 * Consult the OvertimePaymentRate for default rate
+	 * Consult the OvertimePaymentRate for default rate.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
 	 * @param defaultRate
-	 *            : parameter to search overtime payment rate
-	 * @return OvertimePaymentRate: OvertimePaymentRate object
+	 *            : parameter to search overtime payment rate.
+	 * @return OvertimePaymentRate: OvertimePaymentRate object.
 	 * @throws Exception
 	 */
 	public OvertimePaymentRate overtimePaymentRateXDefaultRate(
@@ -144,7 +144,7 @@ public class OvertimePaymentRateDao implements Serializable {
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
-	 * @return List<OvertimePaymentRate>: OvertimePaymentRate list
+	 * @return List<OvertimePaymentRate>: OvertimePaymentRate list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -154,7 +154,7 @@ public class OvertimePaymentRateDao implements Serializable {
 	}
 
 	/**
-	 * Consult overtime payment rate for Id
+	 * Consult overtime payment rate for Id.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
@@ -166,6 +166,41 @@ public class OvertimePaymentRateDao implements Serializable {
 	public OvertimePaymentRate overtimePaymentRateXId(int overtimePaymentRateId)
 			throws Exception {
 		return em.find(OvertimePaymentRate.class, overtimePaymentRateId);
+	}
+
+	/**
+	 * Consult if the name of the overtime payment rate exist in the database
+	 * when saving or editing.
+	 * 
+	 * @author Jhair.Leal
+	 * 
+	 * @param overtimeRateType
+	 *            : Name the overtime payment rate to verify.
+	 * @param overtimepaymentid
+	 *            : id the overtime payment rate to verify.
+	 * @return OvertimePaymentRate: Object found with the search parameters id
+	 *         and name.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public OvertimePaymentRate nameExists(String overtimeRateType,
+			int overtimepaymentid) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT op FROM OvertimePaymentRate op ");
+		query.append("WHERE UPPER(op.overtimeRateType)=UPPER(:overtimeRateType) ");
+		if (overtimepaymentid != 0) {
+			query.append("AND op.overtimepaymentid <>:overtimepaymentid ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("overtimeRateType", overtimeRateType);
+		if (overtimepaymentid != 0) {
+			q.setParameter("overtimepaymentid", overtimepaymentid);
+		}
+		List<OvertimePaymentRate> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
 	}
 
 }
