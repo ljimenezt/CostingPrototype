@@ -24,8 +24,8 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class allows the logic of customers who can be in the database. The
- * logic is to see, edit, add or remove clients
+ * This class implements the logic of customers who would be in the database.
+ * The logic is to see, edit, add or remove clients.
  * 
  * @author Andres.Gomez
  * 
@@ -37,30 +37,30 @@ public class CustomerAction implements Serializable {
 	@EJB
 	private CustomerDao customerDao;
 
-	private List<Customer> listaCustomers;
+	private List<Customer> customersList;
 
 	private Customer customer;
 	private Paginador paginador = new Paginador();
 
-	private String nombreBuscar;
+	private String nameSearch;
 
 	/**
-	 * @return listaCustomers: customer list.
+	 * @return customersList: Customer list.
 	 */
-	public List<Customer> getListaCustomers() {
-		return listaCustomers;
+	public List<Customer> getCustomersList() {
+		return customersList;
 	}
 
 	/**
-	 * @param listaCustomers
-	 *            :customer list.
+	 * @param customersList
+	 *            : Customer list.
 	 */
-	public void setListaCustomers(List<Customer> listaCustomers) {
-		this.listaCustomers = listaCustomers;
+	public void setCustomersList(List<Customer> customersList) {
+		this.customersList = customersList;
 	}
 
 	/**
-	 * @return customer: get the customer record.
+	 * @return customer: Get the customer record.
 	 */
 	public Customer getCustomer() {
 		return customer;
@@ -68,7 +68,7 @@ public class CustomerAction implements Serializable {
 
 	/**
 	 * @param customer
-	 *            :set the customer record.
+	 *            : Set the customer record.
 	 */
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
@@ -90,30 +90,30 @@ public class CustomerAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Customer name search.
+	 * @return nameSearch: Customer name to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            :Customer name search.
+	 * @param nameSearch
+	 *            :Customer name to search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * Method to initialize the parameters of the search and load the initial
-	 * list of customers
+	 * Method to initialize the search parameters and load the initial customers
+	 * list.
 	 * 
-	 * @return consultarCustomers: query method that customers return to the
+	 * @return searchCustomers: query method that customers return to the
 	 *         template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarCustomers();
+	public String initializeSearch() {
+		nameSearch = "";
+		return searchCustomers();
 	}
 
 	/**
@@ -121,45 +121,43 @@ public class CustomerAction implements Serializable {
 	 * 
 	 * @return "gesCustomer": redirects to the template to manage clients.
 	 */
-	public String consultarCustomers() {
+	public String searchCustomers() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle mensajeSales = ControladorContexto
+		ResourceBundle salesMessages = ControladorContexto
 				.getBundle("mensajeSales");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaCustomers = new ArrayList<Customer>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		customersList = new ArrayList<Customer>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder jointQueryMessages = new StringBuilder();
+		String queryMessage = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = customerDao.cantidadCustomers(consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedQuery(queryBuilder, parameters, bundle, jointQueryMessages);
+			Long amount = customerDao.customersAmount(queryBuilder, parameters);
+			if (amount != null) {
+				paginador.paginar(amount);
 			}
-			listaCustomers = customerDao.consultarCustomers(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
+			customersList = customerDao.searchCustomers(paginador.getInicio(),
+					paginador.getRango(), queryBuilder, parameters);
 
-			if ((listaCustomers == null || listaCustomers.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			if ((customersList == null || customersList.size() <= 0)
+					&& !"".equals(jointQueryMessages.toString())) {
+				queryMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaCustomers == null || listaCustomers.size() <= 0) {
+								jointQueryMessages);
+			} else if (customersList == null || customersList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(jointQueryMessages.toString())) {
+				queryMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								mensajeSales.getString("customer_label_s"),
-								unionMensajesBusqueda);
+								salesMessages.getString("customer_label_s"),
+								jointQueryMessages);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validation.setMensajeBusqueda(queryMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -167,31 +165,30 @@ public class CustomerAction implements Serializable {
 	}
 
 	/**
-	 * This method allows to build the query to the advanced search and allows
-	 * to construct messages displayed depending on the search criteria selected
-	 * by the user.
+	 * This method builds the query for an advanced search and get display
+	 * messages depending on the search criteria selected by the user.
 	 * 
-	 * @param consult
-	 *            : query to concatenate
+	 * @param query
+	 *            : Query to concatenate.
 	 * @param parameters
-	 *            : list of search parameters.
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            :access language tags
-	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : Context to access language tags
+	 * @param jointSearchMessages
+	 *            : Message search.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedQuery(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
+			StringBuilder jointSearchMessages) {
 
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consult.append("WHERE UPPER(c.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			query.append("WHERE UPPER(c.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -199,11 +196,11 @@ public class CustomerAction implements Serializable {
 	 * Method to edit or create a new customer.
 	 * 
 	 * @param customer
-	 *            :customer that you are adding or editing
+	 *            : Customer that you are adding or editing.
 	 * 
-	 * @return "regCustomer":redirects the customer record template.
+	 * @return "regCustomer": Redirects to the register customer template.
 	 */
-	public String agregarEditarCustomer(Customer customer) {
+	public String addEditCustomer(Customer customer) {
 		if (customer != null) {
 			this.customer = customer;
 		} else {
@@ -213,35 +210,35 @@ public class CustomerAction implements Serializable {
 	}
 
 	/**
-	 * Allows validate the customer's name so that it does not recur in the
-	 * database and validates against XSS.
+	 * Validates the customer's name; so that, it does not query the database
+	 * and it validates against XSS.
 	 * 
 	 * @param context
-	 *            : application context
+	 *            : Application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : Validate component.
 	 * @param value
-	 *            : field value to be valid
+	 *            : Field value to be valid.
 	 */
-	public void validarNombreXSS(FacesContext context, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String nombre = (String) value;
+		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = customer.getIdCustomer();
-			Customer customerAux = new Customer();
-			customerAux = customerDao.nombreExiste(nombre, id);
-			if (customerAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+			Customer auxCustomer = new Customer();
+			auxCustomer = customerDao.cutomerExists(name, id);
+			if (auxCustomer != null) {
+				String existenceMessage = "message_ya_existe_verifique";
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
-								.getString(mensajeExistencia), null));
+								.getString(existenceMessage), null));
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -253,42 +250,43 @@ public class CustomerAction implements Serializable {
 	/**
 	 * Method used to save or edit customers
 	 * 
-	 * @return consultarCustomers: Redirects customers to manage the list of
+	 * @return searchCustomers: Redirects customers to manage the list of
 	 *         clients updated
 	 */
-	public String guardarCustomer() {
+	public String saveCustomer() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String registerMessage = "message_registro_modificar";
 		try {
 
 			if (customer.getIdCustomer() != 0) {
-				customerDao.editarCustomer(customer);
+				customerDao.editCustomer(customer);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				customerDao.guardarCustomer(customer);
+				registerMessage = "message_registro_guardar";
+				customerDao.saveCustomer(customer);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), customer.getName()));
+					bundle.getString(registerMessage), customer.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarCustomers();
+		return searchCustomers();
 	}
 
 	/**
 	 * Method for removing a client from the database.
 	 * 
-	 * @return consultarCustomers: Consult the list of customers and manage
-	 *         customer returns.
+	 * @modify 10/03/2016 Sergio.Gelves
+	 * 
+	 * @return searchCustomers: Query the list of customers and redirects to the
+	 *         manage customer view.
 	 */
-	public String eliminarCustomer() {
+	public String deleteCustomer() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			customerDao.eliminarCustomer(customer);
+			customerDao.deleteCustomer(customer);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(bundle
-							.getString("message_registro_eliminar")), customer
-							.getName()));
+					bundle.getString("message_registro_eliminar"),
+					customer.getName()));
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),
@@ -298,7 +296,7 @@ public class CustomerAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarCustomers();
+		return searchCustomers();
 	}
 
 }

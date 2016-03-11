@@ -25,34 +25,34 @@ public class CustomerDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * This method consultation with customers determined range sent as a
-	 * parameter range and filtering the information by the values sent search.
+	 * This method queries customers with a certain range sent as a parameter
+	 * and it filters the information with search values.
 	 * 
-	 * @param start
-	 *            :where he started the consultation record
+	 * @param first
+	 *            : The first record that is retrieved from the query result.
 	 * @param range
-	 *            : range of records
-	 * @param consult
+	 *            : Range of records.
+	 * @param query
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
-	 * @return List<Customer>: list of customers.
+	 *            : Query parameters.
+	 * @return List<Customer>: List of customers.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Customer> consultarCustomers(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT c FROM  Customer c ");
-		query.append(consult);
-		query.append("ORDER BY c.name ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public List<Customer> searchCustomers(int first, int range,
+			StringBuilder query, List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT c FROM  Customer c ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY c.name ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(start).setMaxResults(range);
-		List<Customer> resultList = q.getResultList();
+		queryResult.setFirstResult(first).setMaxResults(range);
+		List<Customer> resultList = queryResult.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
@@ -60,75 +60,73 @@ public class CustomerDao implements Serializable {
 	}
 
 	/**
-	 * Save a client in BD
+	 * Save a client in the database.
 	 * 
 	 * @param customer
-	 *            : customer to save.
+	 *            : Customer to save.
 	 * @throws Exception
 	 */
-	public void guardarCustomer(Customer customer) throws Exception {
+	public void saveCustomer(Customer customer) throws Exception {
 		em.persist(customer);
 	}
 
 	/**
-	 * Edits a client in BD
+	 * Edits a client in the database.
 	 * 
 	 * @param customer
-	 *            : edit customer.
+	 *            : Editable customer.
 	 * @throws Exception
 	 */
-	public void editarCustomer(Customer customer) throws Exception {
+	public void editCustomer(Customer customer) throws Exception {
 		em.merge(customer);
 	}
 
 	/**
-	 * Removes BD client
+	 * Removes client from the database.
 	 * 
 	 * @param customer
-	 *            : client to remove
+	 *            : Client to remove.
 	 * @throws Exception
 	 */
-	public void eliminarCustomer(Customer customer) throws Exception {
+	public void deleteCustomer(Customer customer) throws Exception {
 		em.remove(em.merge(customer));
 	}
 
 	/**
-	 * Returns the number of existing customers in the database information by
-	 * filtering the search values sent.
+	 * Returns the number of existing customers in the database with its
+	 * information filtered with search values.
 	 * 
-	 * @param consulta
-	 *            : String containing the query why customers are filtered.
-	 * @param parametros
-	 *            : query parameters.
-	 * @return Long: number of customer records found
+	 * @param query
+	 *            : String containing the query and its filters.
+	 * @param parameters
+	 *            : Query parameters for filtering.
+	 * @return Long: Amount of customer records found.
 	 * @throws Exception
 	 */
-	public Long cantidadCustomers(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(c) FROM Customer c ");
-		query.append(consulta);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public Long customersAmount(StringBuilder query, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(c) FROM Customer c ");
+		queryBuilder.append(query);
+		Query result = em.createQuery(queryBuilder.toString());
+		for (SelectItem parametro : parameters) {
+			result.setParameter(parametro.getLabel(), parametro.getValue());
 		}
-		return (Long) q.getSingleResult();
+		return (Long) result.getSingleResult();
 	}
 
 	/**
-	 * Consultation If the client name exists in the database when storing or
-	 * editing.
+	 * Check if the client name exists in the database when storing or editing.
 	 * 
 	 * @param name
-	 *            : customer name to verify
+	 *            : Customer name to verify.
 	 * @param id
-	 *            : to verify customer id
-	 * @return Customer: Customer object found with the search parameters name
-	 *         and id.
+	 *            : Customer id to verify.
+	 * @return Customer: Customer object found with the search parameters.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Customer nombreExiste(String name, int id) throws Exception {
+	public Customer cutomerExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT c FROM Customer c ");
 		query.append("WHERE UPPER(c.name)=UPPER(:nombre) ");

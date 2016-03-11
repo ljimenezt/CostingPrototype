@@ -9,28 +9,28 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="customerAction.inicializarBusqueda" />
+	<ui:param name="action" value="customerAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeMenu.customer_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{customerAction}" />
 		<ui:param name="listaVacia"
-			value="#{customerAction.listaCustomers eq null or (empty customerAction.listaCustomers)}" />
+			value="#{customerAction.customersList eq null or (empty customerAction.customersList)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{customerAction}" />
 		<ui:param name="renderLista" value="panelCustomer vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarCustomers" />
+		<ui:param name="metodoLista" value="searchCustomers" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="customerAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarCustomer" />
+		<ui:param name="metodoNuevo" value="addEditCustomer" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 		<h:form id="formCustomer">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -40,7 +40,7 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{customerAction.listaCustomers}"
+				<rich:dataTable value="#{customerAction.customersList}"
 					var="customer"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -60,7 +60,7 @@
 					<rich:column styleClass="colTextoLargo">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 						<h:commandLink value="#{customer.name}"
-							action="#{customerAction.agregarEditarCustomer(customer)}"
+							action="#{customerAction.addEditCustomer(customer)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -99,7 +99,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelCustomer" />
 							<ui:param name="beanActionParam" value="#{customerAction}" />
-							<ui:param name="metodoActionParam" value="consultarCustomers" />
+							<ui:param name="metodoActionParam" value="searchCustomers" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -122,13 +122,13 @@
 					<h:outputText value="#{mensaje.label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{customerAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{customerAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{customerAction.consultarCustomers}"
+						actionListener="#{customerAction.searchCustomers}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelCustomer, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -160,7 +160,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{customerAction.eliminarCustomer()}"
+							actionListener="#{customerAction.deleteCustomer()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelCustomer, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
