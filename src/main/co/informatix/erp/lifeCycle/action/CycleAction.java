@@ -73,6 +73,7 @@ public class CycleAction implements Serializable {
 	private Date finalDateSearch;
 	private boolean loadDocumentTemporal;
 	private boolean iconPdf;
+	private boolean flagCrops;
 	private int idCrops;
 	private int idCropsName;
 	private int idMaterialsType;
@@ -593,6 +594,7 @@ public class CycleAction implements Serializable {
 			if (crops != null) {
 				initializeSearch();
 			}
+			this.flagCrops = false;
 			loadCropNames();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -629,6 +631,7 @@ public class CycleAction implements Serializable {
 				this.cycle = new Cycle();
 				this.cycle.setActiviyNames(new ActivityNames());
 			}
+			this.flagCrops = false;
 			clearFields();
 			loadActivities();
 			loadCropNames();
@@ -678,6 +681,9 @@ public class CycleAction implements Serializable {
 	 */
 	public void loadCropNamesCrop() {
 		try {
+			if (this.flagCrops) {
+				this.idCrops = 0;
+			}
 			optionsCrops = new ArrayList<SelectItem>();
 			List<Crops> listCropsActive = cropsDao
 					.consultarCropNamesCropsVigentes(this.idCropsName);
@@ -687,6 +693,7 @@ public class CycleAction implements Serializable {
 							.getDescription()));
 				}
 			}
+			this.flagCrops = true;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
