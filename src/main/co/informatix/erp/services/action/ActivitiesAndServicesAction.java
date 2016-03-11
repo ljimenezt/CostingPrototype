@@ -29,9 +29,9 @@ import co.informatix.erp.warehouse.dao.SuppliersDao;
 import co.informatix.erp.warehouse.entities.Suppliers;
 
 /**
- * This class allows the logic to allocate services to activities that may be
- * related to crops in the database. The logic is: insert services activities to
- * a particular crop.
+ * This class implements the logic to allocate services to activities that may
+ * be related to crops in the database. The logic is: insert services and
+ * activities to a particular crop.
  * 
  * @author Andres.Gomez
  * 
@@ -121,7 +121,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * @return optionsCrops :Crop associated with an activity.
+	 * @return optionsCrops: Crop associated with an activity.
 	 */
 	public List<SelectItem> getOptionsCrops() {
 		return optionsCrops;
@@ -129,7 +129,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * @param optionsCrops
-	 *            :Crop associated with an activity.
+	 *            : Crop associated with an activity.
 	 */
 	public void setOptionsCrops(List<SelectItem> optionsCrops) {
 		this.optionsCrops = optionsCrops;
@@ -197,7 +197,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * @return activityNames: Object of the class name activities.
+	 * @return activityNames: Object of the class activity names.
 	 */
 	public ActivityNames getActivityNames() {
 		return activityNames;
@@ -205,14 +205,14 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * @param activityNames
-	 *            :Object of the class name activities.
+	 *            :Object of the class activity names.
 	 */
 	public void setActivityNames(ActivityNames activityNames) {
 		this.activityNames = activityNames;
 	}
 
 	/**
-	 * @return crops: Object of class culture.
+	 * @return crops: Object of class crops.
 	 */
 	public Crops getCrops() {
 		return crops;
@@ -220,14 +220,14 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * @param crops
-	 *            :Object of class culture.
+	 *            :Object of class crops.
 	 */
 	public void setCrops(Crops crops) {
 		this.crops = crops;
 	}
 
 	/**
-	 * @return cropNames: Object of the class name of the crop.
+	 * @return cropNames: Object of the class crop name.
 	 */
 	public CropNames getCropNames() {
 		return cropNames;
@@ -235,14 +235,14 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * @param cropNames
-	 *            :Object of the class name of the crop.
+	 *            : Object of the class crop name.
 	 */
 	public void setCropNames(CropNames cropNames) {
 		this.cropNames = cropNames;
 	}
 
 	/**
-	 * @return paginador: Management paged list of activities.
+	 * @return paginador: Paged list of activities.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -250,7 +250,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : Management paged list of activities.
+	 *            : Paged list of activities.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
@@ -287,8 +287,8 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * @return idCropNamesSearch: id crop name by which you want to see the
-	 *         culture.
+	 * @return idCropNamesSearch: crop name id that will be used to get the
+	 *         crop.
 	 */
 	public int getIdCropNamesSearch() {
 		return idCropNamesSearch;
@@ -296,14 +296,14 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * @param idCropNamesSearch
-	 *            :id crop name by which you want to see the culture.
+	 *            : crop name id that will be used to get the crop.
 	 */
 	public void setIdCropNamesSearch(int idCropNamesSearch) {
 		this.idCropNamesSearch = idCropNamesSearch;
 	}
 
 	/**
-	 * @return idCropName: Identifier crop name.
+	 * @return idCropName: Crop name identifier.
 	 */
 	public int getIdCropName() {
 		return idCropName;
@@ -311,27 +311,27 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * @param idCropName
-	 *            :Identifier crop name.
+	 *            : Crop name identifier.
 	 */
 	public void setIdCropName(int idCropName) {
 		this.idCropName = idCropName;
 	}
 
 	/**
-	 * Method to assign a new service to an activity
+	 * Method to assign a new service to an activity.
 	 * 
 	 * @param activitiesAndServices
-	 *            :Object of activities and services that are adding or editing
+	 *            : Object of activities and services that to add or edit.
 	 * 
-	 * @return regActivitiesAndServices: Template redirects to assign activities
-	 *         and services.
+	 * @return regActivitiesAndServices: Redirects to register activities and
+	 *         services template.
 	 * 
 	 */
 	public String addEditActivitiesAndServices(
 			ActivitiesAndServices activitiesAndServices) {
 		try {
 			cleanActivities();
-			llenarCropNames();
+			loadCropNames();
 			if (activitiesAndServices == null) {
 				this.activitiesAndServices = new ActivitiesAndServices();
 				activities = new Activities();
@@ -351,7 +351,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * Method to clean up the list of activities and the name of the crop
+	 * Method to clean up the list of activities and the name of the crop.
 	 */
 	public void cleanActivities() {
 		this.listActivities = new ArrayList<Activities>();
@@ -360,11 +360,11 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * That method loads CropNames in a list.
+	 * Method that loads CropNames in a list.
 	 * 
 	 * @throws Exception
 	 */
-	private void llenarCropNames() throws Exception {
+	private void loadCropNames() throws Exception {
 		optionsCropNames = new ArrayList<SelectItem>();
 		List<CropNames> listCropNames = cropNamesDao.listCropNames();
 		if (listCropNames != null) {
@@ -377,7 +377,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * Method allows filling the list of crops according to the selected name.
+	 * Method that fills the list of crops according to the selected name.
 	 * 
 	 */
 	public void fillCropNamesCrop() {
@@ -405,10 +405,10 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * list of activities
+	 * list of activities.
 	 * 
-	 * @return consultActivities: method consulting activities depending on the
-	 *         crop, returns to the template management.
+	 * @return consultActivities: Method that queries activities for a known
+	 *         crop; it redirects to the template management.
 	 */
 	public void initializingSearch() {
 		nameSearch = "";
@@ -416,7 +416,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * See the list of activities depending on the crop.
+	 * Load the list of activities depending on the crop.
 	 * 
 	 */
 	public void consultActivities() {
@@ -463,42 +463,39 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * This method constructs the query to the advanced search also allows
-	 * messages to display build depending on the search criteria selected by
-	 * the user.
+	 * This method builds the query to the advanced search; and, it also builds
+	 * display messages depending on the search criteria selected by the user.
 	 * 
-	 * @param consult
-	 *            : query to concatenate
+	 * @param query
+	 *            : Query to concatenate.
 	 * @param parameters
-	 *            : list of search parameters.
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            :access language tags
-	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : Context to access language tags.
+	 * @param jointSearchMessages
+	 *            : Search message.
 	 * 
 	 */
-	private void advancedSearch(StringBuilder consult,
+	private void advancedSearch(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
+			StringBuilder jointSearchMessages) {
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("AND UPPER(an.activityName) LIKE UPPER(:keyword) ");
+			query.append("AND UPPER(an.activityName) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
 	}
 
 	/**
-	 * Method to edit or create a new service to an activity
+	 * Method to edit or create a new service for an activity.
 	 * 
 	 * @param activities
-	 *            :Object of activities to be r to add or edit a service
+	 *            : Object of activities that will be added or edited a service.
 	 * 
-	 * @return regServices: Template redirects to assign a service to the
-	 *         selected activity.
-	 * 
+	 * @return regServices: Redirects to register a service in an activity.
 	 */
 	public String addEditServices(Activities activities) {
 		try {
@@ -508,9 +505,8 @@ public class ActivitiesAndServicesAction implements Serializable {
 				this.setCrops(activities.getCrop());
 				loadDetailsCrop(this.crops);
 				this.setActivityNames(activities.getActivityName());
-
 				this.listActivitiesServices = activitiesAndServicesDao
-						.consultarXActivities(activities);
+						.searchXActivities(activities);
 				if (this.listActivitiesServices == null) {
 					this.listActivitiesServices = new ArrayList<ActivitiesAndServices>();
 					this.activitiesAndServices = new ActivitiesAndServices();
@@ -527,7 +523,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * This method fills the various objects associated with a service
+	 * This method fills the various objects associated with a service.
 	 * 
 	 * @throws Exception
 	 */
@@ -542,31 +538,31 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * Method of uploading the details of a human resource.
+	 * Method to upload the details of a human resource.
 	 * 
 	 * @param activitiesAndServices
-	 *            : activities and services which will carry the details.
+	 *            : Activities and services which will carry the details.
 	 * @throws Exception
 	 */
 	private void loadDetailActivitiesServices(
 			ActivitiesAndServices activitiesAndServices) throws Exception {
 		int idServices = activitiesAndServices.getIdService();
 		Activities activities = (Activities) this.activitiesAndServicesDao
-				.consultarObjetoServices("activities", idServices);
+				.searchServiceProperty("activities", idServices);
 		ServiceType serviceType = (ServiceType) this.activitiesAndServicesDao
-				.consultarObjetoServices("serviceType", idServices);
+				.searchServiceProperty("serviceType", idServices);
 		Suppliers suppliers = (Suppliers) this.activitiesAndServicesDao
-				.consultarObjetoServices("suppliers", idServices);
+				.searchServiceProperty("suppliers", idServices);
 		activitiesAndServices.setActivities(activities);
 		activitiesAndServices.setServiceType(serviceType);
 		activitiesAndServices.setSuppliers(suppliers);
 	}
 
 	/**
-	 * Method of uploading the details of a crops.
+	 * Method to upload the details of a crop.
 	 * 
 	 * @param crops
-	 *            : crops to which the details will be loaded.
+	 *            : Crops that will have its details modified.
 	 * @throws Exception
 	 */
 	public void loadDetailsCrop(Crops crops) throws Exception {
@@ -577,7 +573,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * Adds a service in the list from the user interface.
+	 * Adds a service in the list of the user interface.
 	 * 
 	 */
 	public void addListServices() {
@@ -586,17 +582,17 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * This method allows you to load the combos to register a new interface
-	 * services.
+	 * This method loads the combo boxes and registers a new service in the
+	 * interface.
 	 * 
 	 * @throws Exception
 	 */
 	private void loadCombos() throws Exception {
 		itemsServiceType = new ArrayList<SelectItem>();
 		itemsSupplier = new ArrayList<SelectItem>();
-		List<ServiceType> servicesType = serviceTypeDao.consultServicesTypes();
-		if (servicesType != null) {
-			for (ServiceType serviceType : servicesType) {
+		List<ServiceType> serviceTypes = serviceTypeDao.consultServicesTypes();
+		if (serviceTypes != null) {
+			for (ServiceType serviceType : serviceTypes) {
 				itemsServiceType.add(new SelectItem(serviceType
 						.getIdServiceType(), serviceType.getDescription()));
 			}
@@ -611,10 +607,11 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * Method allows you to save or edit a service assigned to an activity
+	 * Method to save or edit a service assigned to an activity.
 	 * 
 	 * @return addEditActivitiesAndServices: Method to assign a new service for
-	 *         an activity has wanted a navigation rule
+	 *         an activity and redirect to the register services and activities
+	 *         template.
 	 */
 	public String saveActivitiesAndServices() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -626,14 +623,14 @@ public class ActivitiesAndServicesAction implements Serializable {
 					key = "message_registro_modificar";
 					outTxtSave += services.getDescription() + ", ";
 					activitiesAndServicesDao
-							.editarActivitiesAndServices(services);
+							.editActivitiesAndServices(services);
 				} else {
 					outTxtSave += services.getDescription() + ", ";
 					Activities activity = activitiesDao
 							.obtenerActivity(this.activities.getIdActivity());
 					services.setActivities(activity);
 					activitiesAndServicesDao
-							.guardarActivitiesAndServices(services);
+							.saveActivitiesAndServices(services);
 				}
 			}
 			ControladorContexto.mensajeInformacion(null,

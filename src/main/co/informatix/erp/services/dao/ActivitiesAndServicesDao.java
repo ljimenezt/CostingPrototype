@@ -12,9 +12,8 @@ import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.services.entities.ActivitiesAndServices;
 
 /**
- * Class DAO that establishes the connection between business logic and
- * database. ActivitiesAndServicesAction used for the management of activities
- * and services.
+ * DAO Class that establishes the connection between business logic and
+ * database. ActivitiesAndServicesAction manages activities and services.
  * 
  * @author Andres.Gomez
  * 
@@ -27,13 +26,13 @@ public class ActivitiesAndServicesDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Save an Activity and service in the database.
+	 * Save an activity and service in the database.
 	 * 
 	 * @param activitiesAndServices
 	 *            : Activity and service to save.
 	 * @throws Exception
 	 */
-	public void guardarActivitiesAndServices(
+	public void saveActivitiesAndServices(
 			ActivitiesAndServices activitiesAndServices) throws Exception {
 		em.persist(activitiesAndServices);
 	}
@@ -45,29 +44,29 @@ public class ActivitiesAndServicesDao implements Serializable {
 	 *            : Activity and service to edit.
 	 * @throws Exception
 	 */
-	public void editarActivitiesAndServices(
+	public void editActivitiesAndServices(
 			ActivitiesAndServices activitiesAndServices) throws Exception {
 		em.merge(activitiesAndServices);
 	}
 
 	/**
-	 * This method consultation activities that are associated with a service.
+	 * This method queries activities that are associated with a service.
 	 * 
 	 * @param activities
-	 *            : associated service activity.
-	 * @return List<ActivitiesAndServices>: list of activities and services.
+	 *            : Associated activity and service.
+	 * @return List<ActivitiesAndServices>: List of activities and services.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivitiesAndServices> consultarXActivities(
-			Activities activities) throws Exception {
+	public List<ActivitiesAndServices> searchXActivities(Activities activities)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT aas FROM  ActivitiesAndServices aas ");
 		query.append("JOIN aas.activities a ");
 		query.append("WHERE a =:activities ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("activities", activities);
-		List<ActivitiesAndServices> resultList = q.getResultList();
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("activities", activities);
+		List<ActivitiesAndServices> resultList = queryResult.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
@@ -75,26 +74,26 @@ public class ActivitiesAndServicesDao implements Serializable {
 	}
 
 	/**
-	 * Consult object assigned to a service, considering that are only those who
-	 * are not null in the table
+	 * Look for an specified property of a service; the result retrieves only
+	 * those which are not null in the table.
 	 * 
 	 * 
-	 * @param nomObject
-	 *            : object consulting service
+	 * @param propertyName
+	 *            : Property name of the ActivitiesAndService entity.
 	 * @param idService
-	 *            : id service being queried
-	 * @return Object information associated with the service or null if not
-	 *         present.
+	 *            : Identifier for the service that is being queried.
+	 * @return Property information or object associated with the service. Null
+	 *         if there is nothing.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoServices(String nomObject, int idService)
+	public Object searchServiceProperty(String propertyName, int idService)
 			throws Exception {
 		List<Object> results = em
 				.createQuery(
-						"SELECT aas."
-								+ nomObject
-								+ " FROM ActivitiesAndServices aas WHERE aas.idService=:idService")
+						"SELECT aas." + propertyName
+								+ " FROM ActivitiesAndServices aas WHERE"
+								+ " aas.idService=:idService")
 				.setParameter("idService", idService).getResultList();
 
 		if (results.size() > 0) {
