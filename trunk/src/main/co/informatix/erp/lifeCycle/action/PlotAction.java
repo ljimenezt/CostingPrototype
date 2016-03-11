@@ -565,39 +565,57 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @author Sergio.Ortiz
 	 * @modify Gerardo.Herrera
+	 * @modify 11/03/2016 Mabell.Boada
 	 * 
 	 */
 	public void consultarPlotPorFecha() {
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessageSearch = new StringBuilder();
+		String messageSearch = "";
+		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleLifeCycle = ControladorContexto
+				.getBundle("mensajeLifeCycle");
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		CropsAction crops = ControladorContexto
+				.getContextBean(CropsAction.class);
+		listaPlotFecha = new ArrayList<Plot>();
 		try {
-			StringBuilder consulta = new StringBuilder();
-			StringBuilder unionMensajesBusqueda = new StringBuilder();
-			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-			List<SelectItem> parametros = new ArrayList<SelectItem>();
-			CropsAction crops = ControladorContexto
-					.getContextBean(CropsAction.class);
-			busquedaAvanzadaPopup(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-
-			Long cantidad = plotDao.cantidadPlotsFiltrados(crops
+			busquedaAvanzadaPopup(consult, parameters, bundle,
+					unionMessageSearch);
+			Long amount = plotDao.cantidadPlotsFiltrados(crops
 					.getListaPlotsAsociados(), crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(),
-					consulta, parametros);
-
+					consult, parameters);
 			if (estadoPaginador) {
 				paginador = new Paginador();
 				estadoPaginador = false;
 			}
-
-			if (cantidad != null) {
-				paginador.paginarRangoDefinido(cantidad, 5);
+			if (amount != null) {
+				paginador.paginarRangoDefinido(amount, 5);
 			}
-
-			listaPlotFecha = new ArrayList<Plot>();
 			listaPlotFecha = plotDao.buscarCopsPlotsFecha(crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(), crops
 					.getListaPlotsAsociados(), paginador.getInicio(), paginador
-					.getRango(), consulta, parametros);
-
+					.getRango(), consult, parameters);
+			if ((listaPlotFecha == null || listaPlotFecha.size() <= 0)
+					&& !"".equals(unionMessageSearch.toString())) {
+				messageSearch = MessageFormat
+						.format(bundle
+								.getString("message_no_existen_registros_criterio_busqueda"),
+								unionMessageSearch);
+			} else if (listaPlotFecha == null || listaPlotFecha.size() <= 0) {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_existen_registros"));
+			} else if (!"".equals(unionMessageSearch.toString())) {
+				String message = bundle
+						.getString("message_existen_registros_criterio_busqueda");
+				messageSearch = MessageFormat.format(message,
+						bundleLifeCycle.getString("plot_label_s"),
+						unionMessageSearch);
+			}
+			validations.setMensajeBusquedaPopUp(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
