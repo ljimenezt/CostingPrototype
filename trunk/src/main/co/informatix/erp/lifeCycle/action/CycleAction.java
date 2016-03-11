@@ -68,6 +68,7 @@ public class CycleAction implements Serializable {
 	private String nameDocument;
 	private String folderFile;
 	private String folderFileTemporal;
+	private String units;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
 	private boolean loadDocumentTemporal;
@@ -80,7 +81,6 @@ public class CycleAction implements Serializable {
 	private int idServicesType;
 	private int idActivitiesName;
 	private int quantity;
-	private int units;
 	private double quote;
 
 	@EJB
@@ -329,6 +329,21 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
+	 * @return units: materials units associated to the cycle.
+	 */
+	public String getUnits() {
+		return units;
+	}
+
+	/**
+	 * @param units
+	 *            : materials units associated to the cycle.
+	 */
+	public void setUnits(String units) {
+		this.units = units;
+	}
+
+	/**
 	 * @return initialDateSearch: gets the initial date of the cycle to search
 	 *         in a range.
 	 */
@@ -532,21 +547,6 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * @return units: materials units associated to the cycle.
-	 */
-	public int getUnits() {
-		return units;
-	}
-
-	/**
-	 * @param units
-	 *            : materials units associated to the cycle.
-	 */
-	public void setUnits(int units) {
-		this.units = units;
-	}
-
-	/**
 	 * @return quote: services quote associated to the cycle.
 	 */
 	public double getQuote() {
@@ -648,7 +648,7 @@ public class CycleAction implements Serializable {
 		this.idMaterialsType = 0;
 		this.idServicesType = 0;
 		this.quantity = 0;
-		this.units = 0;
+		this.units = "";
 		this.quote = 0;
 		this.nameDocument = null;
 		this.loadDocumentTemporal = true;
