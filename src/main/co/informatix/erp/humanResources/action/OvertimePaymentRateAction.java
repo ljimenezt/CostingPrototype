@@ -10,11 +10,15 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.dao.OvertimePaymentRateDao;
 import co.informatix.erp.humanResources.entities.OvertimePaymentRate;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
@@ -38,10 +42,10 @@ public class OvertimePaymentRateAction implements Serializable {
 	private OvertimePaymentRate overtimePaymentRate;
 	private OvertimePaymentRate overtimePaymentDefault;
 	private Paginador paginador = new Paginador();
-	private String nombreBuscar;
+	private String nameSearch;
 
 	/**
-	 * @return listOvertimePaymentes: overtime payment rate list
+	 * @return listOvertimePaymentes: overtime payment rate list.
 	 */
 	public List<OvertimePaymentRate> getListOvertimePayments() {
 		return listOvertimePayments;
@@ -49,7 +53,7 @@ public class OvertimePaymentRateAction implements Serializable {
 
 	/**
 	 * @param listOvertimePayments
-	 *            :overtime payment rate list
+	 *            :overtime payment rate list.
 	 */
 	public void setListOvertimePayments(
 			List<OvertimePaymentRate> listOvertimePayments) {
@@ -57,7 +61,7 @@ public class OvertimePaymentRateAction implements Serializable {
 	}
 
 	/**
-	 * @return overtimePaymentRate: gets the overtime payment rate record
+	 * @return overtimePaymentRate: gets the overtime payment rate record.
 	 */
 	public OvertimePaymentRate getOvertimePaymentRate() {
 		return overtimePaymentRate;
@@ -65,14 +69,14 @@ public class OvertimePaymentRateAction implements Serializable {
 
 	/**
 	 * @param overtimePaymentRate
-	 *            :sets the overtime payment rate record
+	 *            :sets the overtime payment rate record.
 	 */
 	public void setOvertimePaymentRate(OvertimePaymentRate overtimePaymentRate) {
 		this.overtimePaymentRate = overtimePaymentRate;
 	}
 
 	/**
-	 * @return overtimePaymentDefault: overtime payment rate object default
+	 * @return overtimePaymentDefault: overtime payment rate object default.
 	 */
 	public OvertimePaymentRate getOvertimePaymentDefault() {
 		return overtimePaymentDefault;
@@ -80,7 +84,7 @@ public class OvertimePaymentRateAction implements Serializable {
 
 	/**
 	 * @param overtimePaymentDefault
-	 *            :overtime payment rate object default
+	 *            :overtime payment rate object default.
 	 */
 	public void setOvertimePaymentDefault(
 			OvertimePaymentRate overtimePaymentDefault) {
@@ -103,34 +107,34 @@ public class OvertimePaymentRateAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: overtime payment rate name search
+	 * @return nombreBuscar: overtime payment rate name search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
 	 * @param nombreBuscar
 	 *            :overtime payment rate name search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * list of overtime payment rate
+	 * list of overtime payment rate.
 	 * 
 	 * @return consultOvertimePaymentRate: query method that overtime payment
 	 *         rate return to the template management.
 	 */
 	public String initializingSearch() {
-		nombreBuscar = "";
+		nameSearch = "";
 		return consultOvertimePaymentRate();
 	}
 
 	/**
-	 * Consult the list of overtime payment rate in the data base
+	 * Consult the list of overtime payment rate in the data base.
 	 * 
 	 * @modify Cristhian.Pico
 	 * 
@@ -141,15 +145,15 @@ public class OvertimePaymentRateAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle mensajeRH = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listOvertimePayments = new ArrayList<OvertimePaymentRate>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			advancedSearch(consult, parameters, bundle, unionMensajesBusqueda);
+			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
 			Long amount = overtimePaymentRateDao.amountOvertimePaymentRate(
 					consult, parameters);
 			if (amount != null) {
@@ -165,25 +169,24 @@ public class OvertimePaymentRateAction implements Serializable {
 				this.listOvertimePayments.add(otPayment);
 			}
 			if ((this.listOvertimePayments == null || this.listOvertimePayments
-					.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			} else if (this.listOvertimePayments == null
 					|| this.listOvertimePayments.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								mensajeRH
 										.getString("overtime_payment_rate_label_s"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -196,26 +199,26 @@ public class OvertimePaymentRateAction implements Serializable {
 	 * by the user.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(op.overtimeRateType) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -223,7 +226,7 @@ public class OvertimePaymentRateAction implements Serializable {
 	 * Method to edit or create a new overtime payment rate.
 	 * 
 	 * @param overtimePaymentRate
-	 *            :overtime payment rate that you are adding or editing
+	 *            :overtime payment rate that you are adding or editing.
 	 * 
 	 * @return "regOvertimePayment":redirects the overtime payment rate record
 	 *         template.
@@ -238,10 +241,10 @@ public class OvertimePaymentRateAction implements Serializable {
 	}
 
 	/**
-	 * Method allows assign the current overtime payment rate to set a default
+	 * Method allows assign the current overtime payment rate to set a default.
 	 * 
 	 * @param overtimePaymentRate
-	 *            : current overtime payment rate selected by the user
+	 *            : current overtime payment rate selected by the user.
 	 */
 	public void assignOvertimePayment(OvertimePaymentRate overtimePaymentRate) {
 		overtimePaymentRate.setByDefault(true);
@@ -263,26 +266,26 @@ public class OvertimePaymentRateAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit overtime payment rate
+	 * Method used to save or edit overtime payment rate.
 	 * 
 	 * @return consultOvertimePaymentRate: Redirects overtime payment rate to
-	 *         manage the list of clients updated
+	 *         manage the list of clients updated.
 	 */
 	public String saveOvertimePaymentRate() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 			if (this.overtimePaymentRate.getOvertimepaymentid() != 0) {
 				this.overtimePaymentRateDao
 						.editOvertimePaymentRate(this.overtimePaymentRate);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
+				messageLog = "message_registro_guardar";
 				this.overtimePaymentRate.setByDefault(false);
 				this.overtimePaymentRateDao
 						.saveOvertimePaymentRate(this.overtimePaymentRate);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
+					bundle.getString(messageLog),
 					this.overtimePaymentRate.getOvertimeRateType()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -313,6 +316,44 @@ public class OvertimePaymentRateAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return consultOvertimePaymentRate();
+	}
+
+	/**
+	 * To validate the name of the overtime payment rate, to not repeat in the
+	 * database and validates against XSS.
+	 * 
+	 * @author Jhair.Leal
+	 * 
+	 * @param context
+	 *            : Application context.
+	 * 
+	 * @param toValidate
+	 *            : Validate component.
+	 * @param value
+	 *            : Field value is validated.
+	 */
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			int id = overtimePaymentRate.getOvertimepaymentid();
+			OvertimePaymentRate overtimePaymentRateTypeAux = new OvertimePaymentRate();
+			overtimePaymentRateTypeAux = overtimePaymentRateDao.nameExists(
+					name, id);
+			if (overtimePaymentRateTypeAux != null) {
+				String messageExistence = "message_ya_existe_verifique";
+				ControladorContexto.mensajeErrorEspecifico(clientId,
+						messageExistence, "mensaje");
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 
 }
