@@ -69,7 +69,9 @@
 					</rich:column>
 					<rich:column styleClass="colNumeroLargo">
 						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_sample_weight}</f:facet>
-						<h:outputText value="#{beanIndex.sampleWeight}" />
+						<h:outputText value="#{beanIndex.sampleWeight}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colNumero">
 						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_cycle_number}</f:facet>
@@ -77,7 +79,10 @@
 					</rich:column>
 					<rich:column styleClass="colFecha">
 						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_date}</f:facet>
-						<h:outputText value="#{beanIndex.dateBean}" />
+						<h:outputText value="#{beanIndex.dateBean}">
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
 					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">

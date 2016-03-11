@@ -135,9 +135,11 @@
 							<h:outputText value="#{deposit.materials.activeIngredients}" />
 						</rich:column>
 
-						<rich:column styleClass="colValor">
+						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensajeWarehouse.deposits_label_initial_quantity_actual}</f:facet>
-							<h:outputText value="#{deposit.actualQuantity}" />
+							<h:outputText value="#{deposit.actualQuantity}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 
 						<rich:column styleClass="colFecha">
@@ -222,11 +224,10 @@
 								value="#{transaction.activities.activityName.activityName}" />
 						</rich:column>
 
-						<rich:column styleClass="colValor">
+						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensaje.label_cantidad}</f:facet>
 							<h:outputText value="#{transaction.quantity}">
-								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
-									minFractionDigits="2" pattern="#,##0.00" />
+								<f:convertNumber pattern="#,##0.00" />
 							</h:outputText>
 						</rich:column>
 

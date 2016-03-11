@@ -109,7 +109,8 @@
 								action="#{insuranceAction.agregarEditarInsurance(insurance)}"
 								onclick="#{rich:component('statPane')}.show();">
 								<h:outputText value="#{insurance.dateTime}">
-									<f:convertDateTime pattern="MMM dd yyyy" />
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
 								</h:outputText>
 							</h:commandLink>
 						</rich:column>
@@ -119,11 +120,17 @@
 						</rich:column>
 						<rich:column styleClass="colValorLargo">
 							<f:facet name="header">#{mensajeMachine.insurance_label_total_costo_presupuesto}</f:facet>
-							<h:outputText value="#{insurance.totalCostBudget}" />
+							<h:outputText value="#{insurance.totalCostBudget}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorLargo">
 							<f:facet name="header">#{mensajeMachine.insurance_label_costo_total_actual}</f:facet>
-							<h:outputText value="#{insurance.totalCostActual}" />
+							<h:outputText value="#{insurance.totalCostActual}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 						<f:facet name="footer">
 							<rich:columnGroup rendered="#{listaVacia}">
@@ -155,7 +162,7 @@
 			<rich:popupPanel id="popupBuscar" autosized="true" width="330"
 				maxWidth="450" height="180"
 				header="#{mensaje.button_buscar} #{mensajeMachine.insurance_label}"
-				domElementAttachment="form" >
+				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -175,8 +182,8 @@
 							value="#{mensaje.label_fecha_inicio}:" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{insuranceAction.fechaInicioBuscar}"
-							showOn="button" navigator="true"
-							id="fechaInicio" pattern="MM/dd/yyyy" required="true"
+							showOn="button" navigator="true" id="fechaInicio"
+							pattern="MM/dd/yyyy" required="true"
 							label="#{mensaje.label_fecha_inicio}">
 							<p:ajax event="dateSelect" update="fechFin" />
 						</p:calendar>

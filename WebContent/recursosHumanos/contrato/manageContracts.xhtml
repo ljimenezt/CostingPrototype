@@ -80,12 +80,18 @@
 
 					<rich:column styleClass="colFechaExtraLarga">
 						<f:facet name="header">#{mensaje.label_fecha_fin_contrato}</f:facet>
-						<h:outputText value="#{contrato.fechaFinContrato}" />
+						<h:outputText value="#{contrato.fechaFinContrato}">
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
 					</rich:column>
 
 					<rich:column styleClass="colFechaExtraLarga">
 						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
-						<h:outputText value="#{contrato.fechaCreacion}" />
+						<h:outputText value="#{contrato.fechaCreacion}">
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
 					</rich:column>
 
 					<f:facet name="footer">

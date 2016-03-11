@@ -87,7 +87,10 @@
 
 					<rich:column styleClass="colFechaLarga">
 						<f:facet name="header">#{mensaje.label_emission_date}</f:facet>
-						<h:outputText value="#{payments.emissionDate}" />
+						<h:outputText value="#{payments.emissionDate}">
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
 					</rich:column>
 
 					<f:facet name="footer">

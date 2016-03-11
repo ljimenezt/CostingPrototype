@@ -117,7 +117,7 @@
 									value="#{activities.activityName.activityName}">
 								</h:commandLink>
 							</rich:column>
-							<rich:column width="300px">
+							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
 								<h:outputText
 									value="#{activities.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? activities.description.substring(0, propPrototipoCostos['locate.activitiesandhr.long.descripcion']) : activities.description} #{activities.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? '...' : ''}" />
@@ -126,29 +126,31 @@
 									<h:outputText value="#{activities.description}" />
 								</rich:tooltip>
 							</rich:column>
-							<rich:column styleClass="W120P">
+							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_secuencia_abr}</f:facet>
 								<h:outputText value="#{activities.sequenceNumber}" />
 							</rich:column>
-							<rich:column styleClass="W450P">
+							<rich:column styleClass="colFechaLarga">
 								<f:facet name="header">#{mensajeCosts.budget_label_hora_inicio}</f:facet>
 								<h:outputText value="#{activities.initialDtBudget}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
 										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="W450P">
+							<rich:column styleClass="colFechaLarga">
 								<f:facet name="header">#{mensajeCosts.budget_label_hora_fin}</f:facet>
 								<h:outputText value="#{activities.finalDtBudget}">
-									<f:convertDateTime type="date" pattern="dd/MM/YYYY HH:mm:ss"
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
 										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
-							<rich:column width="250px">
+							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{mensajeCosts.budget_label_duracion}</f:facet>
-								<h:outputText value="#{activities.durationBudget}" />
+								<h:outputText value="#{activities.durationBudget}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
 							</rich:column>
-							<rich:column width="250px" styleClass="center">
+							<rich:column styleClass="center colIconoUno">
 								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_peligroso}</f:facet>
 								<h:graphicImage value="/img/peligroso_19.png"
 									rendered="#{actividad.dangerous eq true}" />

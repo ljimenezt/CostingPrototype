@@ -67,9 +67,12 @@
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
-					<rich:column styleClass="colTextoLargo">
+					<rich:column styleClass="colValor">
 						<f:facet name="header">#{mensajeRecursosHumanos.overtime_payment_rate_label_ratio}</f:facet>
-						<h:outputText value="#{overtimes.overtimeRateRatio}" />
+						<h:outputText value="#{overtimes.overtimeRateRatio}">
+							<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+								minFractionDigits="2" pattern="#,##0.00" />
+						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colTextoLargo">
 						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
