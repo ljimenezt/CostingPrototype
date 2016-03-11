@@ -17,7 +17,7 @@
 	<ui:define name="body">
 		<t:saveState value="#{certificationsAndRolesAction}" />
 		<ui:param name="listaVacia"
-			value="#{certificationsAndRolesAction.listCertificacionesAndRoles eq null or (empty certificationsAndRolesAction.listCertificacionesAndRoles)}" />
+			value="#{certificationsAndRolesAction.listCertificationsAndRoles eq null or (empty certificationsAndRolesAction.listCertificationsAndRoles)}" />
 		<ui:param name="anchoTabla" value="anchoTres" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{certificationsAndRolesAction}" />
@@ -43,7 +43,7 @@
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
 				<rich:dataTable
-					value="#{certificationsAndRolesAction.listCertificacionesAndRoles}"
+					value="#{certificationsAndRolesAction.listCertificationsAndRoles}"
 					var="certificationsAndRoles"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">

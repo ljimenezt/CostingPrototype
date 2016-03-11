@@ -47,7 +47,7 @@ public class PlotAction implements Serializable {
 	@EJB
 	private FarmDao farmDao;
 
-	private boolean estadoPaginador;
+	private boolean pagerState;
 	private boolean farmParameter = false;
 	private int nameFarm;
 
@@ -167,21 +167,21 @@ public class PlotAction implements Serializable {
 
 	/**
 	 * 
-	 * @return estadoPaginador: Pager state, "true" if first initialized,
-	 *         "false" If you are browsing pager.
+	 * @return pagerState: Pager state, "true" if first initialized, "false" If
+	 *         you are browsing pager.
 	 */
-	public boolean isEstadoPaginador() {
-		return estadoPaginador;
+	public boolean isPagerState() {
+		return pagerState;
 	}
 
 	/**
 	 * 
-	 * @param estadoPaginador
+	 * @param pagerState
 	 *            : Pager state, "true" if first initialized, "false" If you are
 	 *            browsing pager.
 	 */
-	public void setEstadoPaginador(boolean estadoPaginador) {
-		this.estadoPaginador = estadoPaginador;
+	public void setPagerState(boolean pagerState) {
+		this.pagerState = pagerState;
 	}
 
 	/**
@@ -589,9 +589,9 @@ public class PlotAction implements Serializable {
 					.getListaPlotsAsociados(), crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(),
 					consult, parameters);
-			if (estadoPaginador) {
+			if (pagerState) {
 				paginador = new Paginador();
-				estadoPaginador = false;
+				pagerState = false;
 			}
 			if (amount != null) {
 				paginador.paginarRangoDefinido(amount, 5);
