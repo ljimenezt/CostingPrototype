@@ -56,32 +56,38 @@
 							</a:commandLink>
 						</a:outputPanel>
 					</rich:column>
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colTextoLargo">
 						<f:facet name="header">#{mensajeMachine.machines_label_names}</f:facet>
 						<h:commandLink value="#{machineUsage.machineUsagePK.machine.name}"
 							action="#{machineUsageAction.addEditMachineUsage(machineUsage)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensaje.label_anio}</f:facet>
 						<h:outputText value="#{machineUsage.machineUsagePK.year}" />
 					</rich:column>
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensaje.label_uso}</f:facet>
 						<h:outputText value="#{machineUsage.usage}" />
 					</rich:column>
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colValorLargo">
 						<f:facet name="header">#{mensajeMachine.machine_usage_label_hourly_maintenance}</f:facet>
-						<h:outputText value="#{machineUsage.hourlyMaintenance}" />
+						<h:outputText value="#{machineUsage.hourlyMaintenance}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 					</rich:column>
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colValorLargo">
 						<f:facet name="header">#{mensajeMachine.machine_usage_label_hourly_insurance}</f:facet>
-						<h:outputText value="#{machineUsage.hourlyInsurance}" />
+						<h:outputText value="#{machineUsage.hourlyInsurance}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 					</rich:column>
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colValorLargo">
 						<f:facet name="header">#{mensajeMachine.machine_usage_label_hourly_depreciation}</f:facet>
-						<h:outputText value="#{machineUsage.hourlyDepreciation}" />
+						<h:outputText value="#{machineUsage.hourlyDepreciation}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">

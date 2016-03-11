@@ -155,17 +155,26 @@
 						<rich:column styleClass="colFecha">
 							<f:facet name="header">#{mensaje.label_ultimo_mantenimiento}</f:facet>
 							<h:outputText
-								value="#{maintenanceAndCalibration.machines.lastMaintenance}" />
+								value="#{maintenanceAndCalibration.machines.lastMaintenance}">
+								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+									locale="#{idioma.locale}" />
+							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorTextoMediano">
 							<f:facet name="header">#{mensajeMachine.mantenimiento_calibracion_label_total_costo_presupuesto}</f:facet>
 							<h:outputText
-								value="#{maintenanceAndCalibration.totalCostBudget}" />
+								value="#{maintenanceAndCalibration.totalCostBudget}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorTextoMediano">
 							<f:facet name="header">#{mensajeMachine.mantenimiento_calibracion_label_costo_total_actual}</f:facet>
 							<h:outputText
-								value="#{maintenanceAndCalibration.totalCostActual}" />
+								value="#{maintenanceAndCalibration.totalCostActual}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colIconoUno">
 							<f:facet name="header">#{mensajeMachine.mantenimiento_calibracion_label_maquina_buenas_condiciones}</f:facet>
@@ -334,13 +343,21 @@
 										<h:outputText value="#{maintenanceLines.description}" />
 									</a:commandLink>
 								</rich:column>
-								<rich:column width="100px" styleClass="center">
+								<rich:column width="100px" styleClass="colValorLargo">
 									<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}</f:facet>
-									<h:outputText value="#{maintenanceLines.costBudget}" />
+									<h:outputText value="#{maintenanceLines.costBudget}">
+										<f:convertNumber locale="#{idioma.locale}"
+											maxFractionDigits="2" minFractionDigits="2"
+											pattern="#,##0.00" />
+									</h:outputText>
 								</rich:column>
-								<rich:column width="100px" styleClass="center">
+								<rich:column width="100px" styleClass="colValorLargo">
 									<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_actual}</f:facet>
-									<h:outputText value="#{maintenanceLines.costActual}" />
+									<h:outputText value="#{maintenanceLines.costActual}">
+										<f:convertNumber locale="#{idioma.locale}"
+											maxFractionDigits="2" minFractionDigits="2"
+											pattern="#,##0.00" />
+									</h:outputText>
 								</rich:column>
 								<f:facet name="footer">
 									<rich:columnGroup rendered="#{listaVacia}">

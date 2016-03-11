@@ -122,12 +122,17 @@
 
 						<rich:column styleClass="colNumero">
 							<f:facet name="header">#{mensajeMachine.machines_label_fuel_consumption}</f:facet>
-							<h:outputText value="#{machines.fuelConsumption}" />
+							<h:outputText value="#{machines.fuelConsumption}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 
-						<rich:column styleClass="colNumero">
+						<rich:column styleClass="colValor">
 							<f:facet name="header">#{mensaje.label_inversion}</f:facet>
-							<h:outputText value="#{machines.investment}" />
+							<h:outputText value="#{machines.investment}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
 						</rich:column>
 
 						<rich:column styleClass="colNumero">
@@ -144,7 +149,7 @@
 							</h:outputText>
 						</rich:column>
 
-						<rich:column styleClass="colNumero">
+						<rich:column styleClass="colValor">
 							<f:facet name="header">#{mensaje.label_depreciacion}</f:facet>
 							<h:outputText value="#{machines.depreciation}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"

@@ -268,7 +268,7 @@
 							value="#{cropActivitiesAction.subListCycleStandardActivities}"
 							var="standardActivities" id="txStandardActivities"
 							footerClass="H130P"
-							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W950P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W1000P"
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass="colIconoUno">
 								<a:commandLink
@@ -291,49 +291,64 @@
 										value="#{standardActivities.activityNames.activityName}" />
 								</a:commandLink>
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMini center">
 								<f:facet name="header">#{mensaje.label_hr_requerido}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{standardActivities.hrRequired eq true}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMini center">
 								<f:facet name="header">#{mensaje.label_maquina_requerida}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{standardActivities.machineRequired eq true}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMini center">
 								<f:facet name="header">#{mensaje.label_servicio_requerido}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{standardActivities.serviceRequired eq true}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMini center">
 								<f:facet name="header">#{mensaje.label_material_requerido}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{standardActivities.materialsRequired eq true}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colTextoMini">
 								<f:facet name="header">#{mensaje.label_numero_secuencia}</f:facet>
 								<h:outputText value="#{standardActivities.sequenceNumber}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensaje.label_hr_costo}</f:facet>
-								<h:outputText value="#{standardActivities.costHrHa}" />
+								<h:outputText value="#{standardActivities.costHrHa}">
+									<f:convertNumber locale="#{idioma.locale}"
+										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
+								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensaje.label_costo_maquina}</f:facet>
-								<h:outputText value="#{standardActivities.costMachinesEqHa}" />
+								<h:outputText value="#{standardActivities.costMachinesEqHa}">
+									<f:convertNumber locale="#{idioma.locale}"
+										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
+								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensaje.label_costo_servicio}</f:facet>
-								<h:outputText value="#{standardActivities.costServicesHa}" />
+								<h:outputText value="#{standardActivities.costServicesHa}">
+									<f:convertNumber locale="#{idioma.locale}"
+										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
+								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensaje.label_costo_material}</f:facet>
-								<h:outputText value="#{standardActivities.costMaterialsHa}" />
+								<h:outputText value="#{standardActivities.costMaterialsHa}">
+									<f:convertNumber locale="#{idioma.locale}"
+										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
+								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensaje.label_costo_general}</f:facet>
-								<h:outputText value="#{standardActivities.generalCostHa}" />
+								<h:outputText value="#{standardActivities.generalCostHa}">
+									<f:convertNumber locale="#{idioma.locale}"
+										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
+								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colNumeroMini">
 								<f:facet name="header">#{mensaje.label_duracion_activities}</f:facet>

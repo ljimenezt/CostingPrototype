@@ -56,14 +56,20 @@
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colValor">
 						<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}</f:facet>
-						<h:outputText value="#{maintenanceLines.costBudget}" />
+						<h:outputText value="#{maintenanceLines.costBudget}">
+							<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+								minFractionDigits="2" pattern="#,##0.00" />
+						</h:outputText>
 					</rich:column>
 
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colValor">
 						<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_actual}</f:facet>
-						<h:outputText value="#{maintenanceLines.costActual}" />
+						<h:outputText value="#{maintenanceLines.costActual}">
+							<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+								minFractionDigits="2" pattern="#,##0.00" />
+						</h:outputText>
 					</rich:column>
 
 					<f:facet name="footer">

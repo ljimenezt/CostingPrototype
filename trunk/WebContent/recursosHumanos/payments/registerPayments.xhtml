@@ -47,7 +47,7 @@
 								value="#{paymentsAction.payments.hr.name}"
 								validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkHr" render=":popupFormHr:popupHR"
-								actionListener="#{hrAction.consultarHrs}" execute="@this"
+								actionListener="#{hrAction.inicializarBusqueda}" execute="@this"
 								oncomplete="#{rich:component('popupHR')}.show(); setFocus('popupFormHr:txtHrBuscar');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />
@@ -84,7 +84,7 @@
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								required="true" validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkContrato" render=":popupForm:popupContrato"
-								actionListener="#{contratoAction.searchContracts}"
+								actionListener="#{contratoAction.initializeSearch}"
 								execute="@this"
 								oncomplete="#{rich:component('popupContrato')}.show(); setFocus('popupForm:txtNombreBuscar');">
 								<h:graphicImage value="/img/add_22.png"
@@ -202,11 +202,18 @@
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
 									actionListener="#{contratoAction.searchContracts}"
-									render="outputContrato">
+									render="outputContrato, outPutBuscarContrato">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
 							</h:panelGrid>
 						</t:fieldset>
+						<br />
+						<a:outputPanel>
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W520P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
 						<br />
 
 						<ui:param name="listaVacia"
@@ -308,11 +315,18 @@
 									onkeypress="return submitByEnter(event,'popupFormHr:btnBuscarHr')" />
 								<a:commandButton value="#{mensaje.button_buscar}"
 									id="btnBuscarHr" actionListener="#{hrAction.consultarHrs}"
-									render="outputHr">
+									render="outputHr, outPutBuscarHr">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
 							</h:panelGrid>
 						</t:fieldset>
+						<br />
+						<a:outputPanel>
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W520P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
 						<br />
 
 						<ui:param name="listaVacia"
