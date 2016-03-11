@@ -240,7 +240,17 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_descripcion}" />
+						<h:outputText value="#{mensajeLifeCycle.crop_names_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(cropsAction.opciones,cropsAction.crops.cropNames.idCropName)}" />
+						<h:outputText value="#{mensajeLifeCycle.plot_inicial_date}:" />
+						<h:outputText value="#{cropsAction.crops.initialDate}" />
+						<h:outputText value="#{mensajeLifeCycle.plot_final_date}:" />
+						<h:outputText value="#{cropsAction.crops.finalDate}" />
+						<h:outputText value="#{mensaje.label_anyo_registro}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(cropsAction.seleccionarAnyo,cropsAction.anyo)}" />
+						<h:outputText value="#{mensaje.label_descripcion}:" />
 						<h:outputText value="#{cropsAction.crops.description}" />
 					</ui:define>
 					<ui:define name="botones">
