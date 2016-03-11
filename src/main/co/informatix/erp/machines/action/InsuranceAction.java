@@ -26,8 +26,8 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class allows load logic of insurance that may be in the BD The logic is
- * to consult, edit or add insurance
+ * This class implements logic of insurance that may be in the database. The
+ * logic is to consult, edit or add insurances.
  * 
  * @author Sergio.Ortiz
  **/
@@ -45,67 +45,66 @@ public class InsuranceAction implements Serializable {
 	@EJB
 	private MachineTypesDao machineTypesDao;
 
-	private ArrayList<SelectItem> listaMachines;
-	private ArrayList<SelectItem> opcionesMachinesType;
-	private List<Insurance> listaInsurance;
+	private ArrayList<SelectItem> machinesList;
+	private ArrayList<SelectItem> machineTypeOption;
+	private List<Insurance> insurancesList;
 
-	private Date fechaInicioBuscar;
-	private Date fechaFinBuscar;
+	private Date initDaySearch;
+	private Date lastDaySearch;
 
 	private Paginador paginador = new Paginador();
 	private Insurance insurance;
 	private Machines machines;
 	private MachineTypes machineTypes;
-	private MachineTypes machineTypesConsulta;
+	private MachineTypes machineTypesResult;
 
 	/**
-	 * @return listaMachines: list of machines associated with insurance
+	 * @return machinesList: List of machines associated to an insurance.
 	 */
-	public ArrayList<SelectItem> getListaMachines() {
-		return listaMachines;
+	public ArrayList<SelectItem> getMachinesList() {
+		return machinesList;
 	}
 
 	/**
-	 * @param listaMachines
-	 *            : list of machines associated with insurance
+	 * @param machinesList
+	 *            : List of machines associated to an insurance.
 	 */
-	public void setListaMachines(ArrayList<SelectItem> listaMachines) {
-		this.listaMachines = listaMachines;
+	public void setMachinesList(ArrayList<SelectItem> machinesList) {
+		this.machinesList = machinesList;
 	}
 
 	/**
-	 * @return opcionesMachinesType: machinesType list
+	 * @return machineTypeOption: MachinesType list.
 	 */
-	public ArrayList<SelectItem> getOpcionesMachinesType() {
-		return opcionesMachinesType;
+	public ArrayList<SelectItem> getMachineTypeOption() {
+		return machineTypeOption;
 	}
 
 	/**
-	 * @param opcionesMachinesType
-	 *            : machinesType list
+	 * @param machineTypeOption
+	 *            : MachinesType list.
 	 */
-	public void setOpcionesMachinesType(
-			ArrayList<SelectItem> opcionesMachinesType) {
-		this.opcionesMachinesType = opcionesMachinesType;
+	public void setMachineTypeOption(ArrayList<SelectItem> machineTypeOption) {
+		this.machineTypeOption = machineTypeOption;
 	}
 
 	/**
-	 * @return listaInsurance: insurance list
+	 * @return insurancesList: Insurance list.
 	 */
-	public List<Insurance> getListaInsurance() {
-		return listaInsurance;
+	public List<Insurance> getInsurancesList() {
+		return insurancesList;
 	}
 
 	/**
-	 * @param listaInsurance
-	 *            : insurance list
+	 * @param insurancesList
+	 *            : Insurance list.
 	 */
-	public void setListaInsurance(List<Insurance> listaInsurance) {
-		this.listaInsurance = listaInsurance;
+	public void setInsurancesList(List<Insurance> insurancesList) {
+		this.insurancesList = insurancesList;
 	}
 
 	/**
-	 * @return insurance: class object insurance
+	 * @return insurance: Object of the insurance class.
 	 */
 	public Insurance getInsurance() {
 		return insurance;
@@ -113,7 +112,7 @@ public class InsuranceAction implements Serializable {
 
 	/**
 	 * @param insurance
-	 *            : class object insurance
+	 *            : Object of the insurance class.
 	 * 
 	 */
 	public void setInsurance(Insurance insurance) {
@@ -121,7 +120,7 @@ public class InsuranceAction implements Serializable {
 	}
 
 	/**
-	 * @return machines: machines object class
+	 * @return machines: Machines object.
 	 */
 	public Machines getMachines() {
 		return machines;
@@ -129,15 +128,15 @@ public class InsuranceAction implements Serializable {
 
 	/**
 	 * @param machines
-	 *            : machines object class
+	 *            : Machines object.
 	 */
 	public void setMachines(Machines machines) {
 		this.machines = machines;
 	}
 
 	/**
-	 * @return machineTypes: machine object type that is associated with the
-	 *         insurance
+	 * @return machineTypes: Machine type object that is associated with the
+	 *         insurance.
 	 */
 	public MachineTypes getMachineTypes() {
 		return machineTypes;
@@ -145,48 +144,48 @@ public class InsuranceAction implements Serializable {
 
 	/**
 	 * @param machineTypes
-	 *            : machine object type that is associated with the insurance
+	 *            : Machine type object that is associated with the insurance.
 	 */
 	public void setMachineTypes(MachineTypes machineTypes) {
 		this.machineTypes = machineTypes;
 	}
 
 	/**
-	 * @return fechaInicioBuscar: Determines the initial range to search for
-	 *         insurance in the system
+	 * @return initDaySearch: Determines the beginning of the range to search
+	 *         for insurances in the system.
 	 */
-	public Date getFechaInicioBuscar() {
-		return fechaInicioBuscar;
+	public Date getInitDaySearch() {
+		return initDaySearch;
 	}
 
 	/**
-	 * @param fechaInicioBuscar
-	 *            : Determines the initial range to search for insurance in the
-	 *            system
+	 * @param initDaySearch
+	 *            : Determines the beginning of the range to search for
+	 *            insurances in the system.
 	 */
-	public void setFechaInicioBuscar(Date fechaInicioBuscar) {
-		this.fechaInicioBuscar = fechaInicioBuscar;
+	public void setInitDaySearch(Date initDaySearch) {
+		this.initDaySearch = initDaySearch;
 	}
 
 	/**
-	 * @return fechaFinBuscar: Determines the final range to search for
-	 *         insurance in the system
+	 * @return lastDaySearch: Determines the end of the range to search for
+	 *         insurances in the system.
 	 */
-	public Date getFechaFinBuscar() {
-		return fechaFinBuscar;
+	public Date getLastDaySearch() {
+		return lastDaySearch;
 	}
 
 	/**
-	 * @param fechaFinBuscar
-	 *            : Determines the final range to search for insurance in the
-	 *            system
+	 * @param lastDaySearch
+	 *            : Determines the end of the range to search for insurance in
+	 *            the system.
 	 */
-	public void setFechaFinBuscar(Date fechaFinBuscar) {
-		this.fechaFinBuscar = fechaFinBuscar;
+	public void setLastDaySearch(Date lastDaySearch) {
+		this.lastDaySearch = lastDaySearch;
 	}
 
 	/**
-	 * @return paginador: paged list of insurance that may be in view
+	 * @return paginador: Paged list of insurance that may be in view.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -194,41 +193,42 @@ public class InsuranceAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : paged list of insurance that may be in view
+	 *            : Paged list of insurance that may be in view
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return machineTypesConsulta: type of machine to compare the associated
-	 *         DB and selected from the view
+	 * @return machineTypesResult: Type of machine to compare with one
+	 *         associated to the database and selected from the view.
 	 */
-	public MachineTypes getMachineTypesConsulta() {
-		return machineTypesConsulta;
+	public MachineTypes getMachineTypesResult() {
+		return machineTypesResult;
 	}
 
 	/**
-	 * @param machineTypesConsulta
-	 *            : type of machine to compare the associated DB and selected
-	 *            from the view
+	 * @param machineTypesResult
+	 *            : Type of machine to compare with one associated to the
+	 *            database and selected from the view.
 	 */
-	public void setMachineTypesConsulta(MachineTypes machineTypesConsulta) {
-		this.machineTypesConsulta = machineTypesConsulta;
+	public void setMachineTypesResult(MachineTypes machineTypesResult) {
+		this.machineTypesResult = machineTypesResult;
 	}
 
 	/**
-	 * Method to initialize the parameters of the search and load the initial
-	 * list of insurance
+	 * Method to initialize the search parameters and load the initial list of
+	 * insurances.
 	 * 
-	 * @return gesInsurance: Navigation rule that redirects manage Insurance
+	 * @return gesInsurance: Navigation rule that redirects to manage insurance
+	 *         template.
 	 */
-	public String inicializarBusqueda() {
+	public String initializeSearch() {
 		try {
-			llenarMachinesType();
-			fechaInicioBuscar = null;
-			fechaFinBuscar = null;
-			this.listaInsurance = new ArrayList<Insurance>();
+			loadMachineTypeCombos();
+			initDaySearch = null;
+			lastDaySearch = null;
+			this.insurancesList = new ArrayList<Insurance>();
 			this.insurance = new Insurance();
 			this.insurance.setMachines(new Machines());
 			this.machines = new Machines();
@@ -241,115 +241,117 @@ public class InsuranceAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of existing insurance
+	 * Fills the insurancesList with the existing insurances.
 	 * 
 	 */
-	public void consultarInsurance() {
+	public void searchInsurances() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleInsurance = ControladorContexto
+		ResourceBundle insuranceBundle = ControladorContexto
 				.getBundle("mensajeMachine");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaInsurance = new ArrayList<Insurance>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		insurancesList = new ArrayList<Insurance>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder jointSearchMessages = new StringBuilder();
+		String searchMessage = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = insuranceDao
-					.cantidadInsurance(consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(queryBuilder, parameters, bundle,
+					jointSearchMessages);
+			Long amount = insuranceDao.insurancesAmount(queryBuilder,
+					parameters);
+			if (amount != null) {
+				paginador.paginar(amount);
 			}
-			listaInsurance = insuranceDao.consultarInsurance(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaInsurance == null || listaInsurance.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			insurancesList = insuranceDao.searchInsurances(
+					paginador.getInicio(), paginador.getRango(), queryBuilder,
+					parameters);
+			if ((insurancesList == null || insurancesList.size() <= 0)
+					&& !"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaInsurance == null || listaInsurance.size() <= 0) {
+								jointSearchMessages);
+			} else if (insurancesList == null || insurancesList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleInsurance.getString("insurance_label"),
-								unionMensajesBusqueda);
+								insuranceBundle.getString("insurance_label"),
+								jointSearchMessages);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validation.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
 
 	/**
-	 * This method build consultation for advanced search also displayed
+	 * This method builds an advanced search for a query and it also displays
 	 * messages depending on the search criteria selected by the user.
 	 * 
-	 * @param consult
-	 *            : query to concatenate
+	 * @param query
+	 *            : Query to concatenate
 	 * @param parameters
-	 *            : list of search parameters.
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            :access language tags
-	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : Context to access language tags.
+	 * @param jointSearchMessages
+	 *            : Search message.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
-		SimpleDateFormat formato = new SimpleDateFormat(
+			StringBuilder jointSearchMessages) {
+		SimpleDateFormat format = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
-		int idMachine = machines.getIdMachine();
-		if (this.fechaInicioBuscar != null && this.fechaFinBuscar != null) {
-			consult.append("WHERE ins.dateTime BETWEEN :fechaInicioBuscar AND :fechaFinBuscar ");
-			consult.append("AND m.idMachine =:idMachine ");
-			SelectItem item = new SelectItem(fechaInicioBuscar,
-					"fechaInicioBuscar");
+		int machineId = machines.getIdMachine();
+		if (this.initDaySearch != null && this.lastDaySearch != null) {
+			query.append("WHERE ins.dateTime BETWEEN :fechaInicioBuscar AND :fechaFinBuscar ");
+			query.append("AND m.idMachine =:idMachine ");
+			SelectItem item = new SelectItem(initDaySearch, "fechaInicioBuscar");
 			parameters.add(item);
-			SelectItem item2 = new SelectItem(fechaFinBuscar, "fechaFinBuscar");
+			SelectItem item2 = new SelectItem(lastDaySearch, "fechaFinBuscar");
 			parameters.add(item2);
 			String dateFrom = bundle.getString("label_fecha_inicio") + ": "
-					+ '"' + formato.format(this.fechaInicioBuscar) + '"' + ", ";
-			unionMessagesSearch.append(dateFrom);
+					+ '"' + format.format(this.initDaySearch) + '"' + ", ";
+			jointSearchMessages.append(dateFrom);
 
 			String dateTo = bundle.getString("label_fecha_finalizacion") + ": "
-					+ '"' + formato.format(fechaFinBuscar) + '"';
-			unionMessagesSearch.append(dateTo);
+					+ '"' + format.format(lastDaySearch) + '"';
+			jointSearchMessages.append(dateTo);
 			parameters.add(item2);
 
 		} else {
-			consult.append("WHERE m.idMachine =:idMachine ");
+			query.append("WHERE m.idMachine =:idMachine ");
 		}
-		SelectItem item3 = new SelectItem(idMachine, "idMachine");
+		SelectItem item3 = new SelectItem(machineId, "idMachine");
 		parameters.add(item3);
 	}
 
 	/**
 	 * Method to edit or create an insurance.
 	 * 
-	 * @param insurance
-	 *            : Object of insurance that will add or edit
+	 * @modify 11/03/2016 Sergio.Gelves
 	 * 
-	 * @return regInsurance: Redirects to register a template Insurance
+	 * @param insurance
+	 *            : Object of insurance to add or edit.
+	 * 
+	 * @return regInsurance: Redirects to the register insurance template.
 	 * 
 	 */
-	public String agregarEditarInsurance(Insurance insurance) {
+	public String addEditInsurance(Insurance insurance) {
 		try {
-			llenarMachinesType();
+			loadMachineTypeCombos();
 			if (insurance != null) {
 				this.insurance = insurance;
 				this.insurance.setMachines(machines);
 			} else {
 				this.insurance = new Insurance();
 				this.insurance.setMachines(new Machines());
+				this.insurance.setDateTime(new Date());
 				this.machines = new Machines();
 				this.machines.setMachineTypes(new MachineTypes());
 				this.machineTypes = new MachineTypes();
@@ -361,76 +363,76 @@ public class InsuranceAction implements Serializable {
 	}
 
 	/**
-	 * Method that loads a MachinesTypes list
+	 * Method that loads a MachineTypes list.
 	 * 
 	 * @throws Exception
 	 */
-	private void llenarMachinesType() throws Exception {
-		opcionesMachinesType = new ArrayList<SelectItem>();
-		List<MachineTypes> listMachineType = machineTypesDao.listMachineType();
-		if (listMachineType != null) {
-			for (MachineTypes listamachinesTypes : listMachineType) {
-				opcionesMachinesType.add(new SelectItem(listamachinesTypes
-						.getIdMachineType(), listamachinesTypes.getName()));
+	private void loadMachineTypeCombos() throws Exception {
+		machineTypeOption = new ArrayList<SelectItem>();
+		List<MachineTypes> result = machineTypesDao.listMachineType();
+		if (result != null) {
+			for (MachineTypes machinesType : result) {
+				machineTypeOption.add(new SelectItem(machinesType
+						.getIdMachineType(), machinesType.getName()));
 			}
 		}
-		llenarMachine();
+		loadMachines();
 	}
 
 	/**
-	 * Method used to save or edit insurance
+	 * Method used to save or edit insurance.
 	 * 
-	 * @return inicializarBusqueda: Redirects to manage the insurance with
-	 *         updated list of insurance
+	 * @return initializeSearch: Redirects to manage the insurance with an
+	 *         updated list of insurances.
 	 */
-	public String guardarInsurance() {
+	public String saveInsurance() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String registerMessage = "message_registro_modificar";
 		try {
 			this.insurance.setMachines(machines);
 			this.insurance.getMachines().setMachineTypes(machineTypes);
 			if (this.insurance.getIdInsurance() != 0) {
-				insuranceDao.editarInsurance(this.insurance);
+				insuranceDao.editInsurance(this.insurance);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				insuranceDao.guardarInsurance(this.insurance);
+				registerMessage = "message_registro_guardar";
+				insuranceDao.saveInsurance(this.insurance);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
+					bundle.getString(registerMessage),
 					this.insurance.getDescripcion()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return inicializarBusqueda();
+		return initializeSearch();
 	}
 
 	/**
-	 * Redirects to manage the insurance with updated list of insurance
+	 * Redirects to manage the insurance with an updated list of insurances.
 	 * 
 	 **/
-	public void llenarMachine() {
-		int idMachine = 0;
+	public void loadMachines() {
+		int machineId = 0;
 		try {
 
-			listaMachines = new ArrayList<SelectItem>();
+			machinesList = new ArrayList<SelectItem>();
 			if (this.insurance != null && machineTypes == null) {
-				idMachine = this.insurance.getMachines().getIdMachine();
-				this.machines = machinesDao.machinesXId(idMachine);
-				listaMachines.add(new SelectItem(machines.getIdMachine(),
+				machineId = this.insurance.getMachines().getIdMachine();
+				this.machines = machinesDao.machinesXId(machineId);
+				machinesList.add(new SelectItem(machines.getIdMachine(),
 						machines.getName()));
 
-				machineTypes = machineTypesDao.machineTypeXMachine(idMachine);
-				machines.setMachineTypes(machineTypesConsulta);
+				machineTypes = machineTypesDao.machineTypeXMachine(machineId);
+				machines.setMachineTypes(machineTypesResult);
 			} else {
 				if (machineTypes != null) {
-					idMachine = machineTypes.getIdMachineType();
+					machineId = machineTypes.getIdMachineType();
 				}
-				List<Machines> listMachines = machinesDao
-						.listaMachinesPorTypes(idMachine);
-				if (listMachines != null) {
-					for (Machines machines : listMachines) {
-						listaMachines.add(new SelectItem(machines
-								.getIdMachine(), machines.getName()));
+				List<Machines> result = machinesDao
+						.listaMachinesPorTypes(machineId);
+				if (result != null) {
+					for (Machines machine : result) {
+						machinesList.add(new SelectItem(machine.getIdMachine(),
+								machine.getName()));
 					}
 				}
 			}
@@ -441,16 +443,16 @@ public class InsuranceAction implements Serializable {
 	}
 
 	/**
-	 * Method that allows a Insurance delete the database
+	 * Method that deletes an insurance of the database.
 	 * 
 	 * 
-	 * @return inicializarBusqueda: Redirects to manage the insurance with
-	 *         updated list of insurance
+	 * @return initializeSearch: Redirects to manage the insurance with an
+	 *         updated list of insurances.
 	 */
-	public String eliminarInsurance() {
+	public String deleteInsurance() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			insuranceDao.eliminarInsurance(insurance);
+			insuranceDao.deleteInsurance(insurance);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					this.insurance.getDescripcion()));
@@ -463,6 +465,6 @@ public class InsuranceAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return inicializarBusqueda();
+		return initializeSearch();
 	}
 }
