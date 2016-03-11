@@ -387,7 +387,7 @@ public class DepositsAction implements Serializable {
 			advanceSearch(consult, parameters, bundle, allMessageSearch);
 			Long quantity = depositsDao.amountDeposits(consult, parameters);
 			if (quantity != null) {
-				paginador.paginarRangoDefinido(quantity, 5);
+				paginador.paginar(quantity);
 			}
 			if (quantity != null && quantity > 0) {
 				listDeposits = depositsDao.consultDeposits(
@@ -616,7 +616,7 @@ public class DepositsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultDeposits();
+		return initializeSearch();
 	}
 
 	/**
