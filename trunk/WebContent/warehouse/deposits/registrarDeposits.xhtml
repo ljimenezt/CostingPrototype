@@ -73,7 +73,7 @@
 						<h:outputText value="" styleClass="required" />
 						<h:inputText styleClass="colTextoMediano"
 							value="#{depositsAction.deposits.purchaseInvoices.suppliers.name}"
-							id="txtSupplier" readonly="true" required="true"
+							id="txtSupplier" readonly="true"
 							validator="#{encodeFilter.validarScripting}" />
 						<rich:message for="txtSupplier" />
 					</h:panelGrid>
@@ -90,7 +90,7 @@
 							value="#{mensajeWarehouse.materials_type_label}" />
 						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu value="#{depositsAction.idMaterialType}"
-							id="materialsType" required="true">
+							id="materialsType">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 								itemValue="0" />
 							<f:selectItems value="#{depositsAction.itemsMaterialType}" />
@@ -105,8 +105,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu
 							value="#{depositsAction.deposits.materials.idMaterial}"
-							id="materials" required="true"
-							validator="#{validacionesAction.validarComboRequerido}">
+							id="materials">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 								itemValue="0" />
 							<f:selectItems value="#{depositsAction.itemsMaterial}" />
@@ -118,8 +117,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu
 							value="#{depositsAction.deposits.measurementUnits.idMeasurementUnits}"
-							id="measurementUnits" required="true"
-							validator="#{validacionesAction.validarComboRequerido}">
+							id="measurementUnits">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 								itemValue="0" />
 							<f:selectItems value="#{depositsAction.itemsMeasurementUnits}" />
@@ -130,9 +128,8 @@
 							value="#{mensaje.label_cantidad}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{depositsAction.deposits.initialQuantity}"
-							id="initialQuantity" required="true" maxlength="25"
+							id="initialQuantity" maxlength="25"
 							label="#{mensaje.label_cantidad}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_campo_positivo}">
 							<f:validateDoubleRange minimum="1" />
 							<f:validateLength maximum="25" />
@@ -146,9 +143,7 @@
 							value="#{mensaje.label_total_cost}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{depositsAction.deposits.totalCost}"
-							id="totalCost" maxlength="25" required="true"
-							label="#{mensaje.label_total_cost}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
+							id="totalCost" maxlength="25" label="#{mensaje.label_total_cost}"
 							converterMessage="#{mensaje.message_campo_positivo}">
 							<f:validateDoubleRange minimum="1" />
 							<a:ajax execute="initialQuantity, totalCost"
@@ -162,6 +157,8 @@
 						<h:outputText value="" styleClass="required" />
 						<h:inputText value="#{depositsAction.unitCost}" id="unitCost"
 							maxlength="25" readonly="true" label="#{mensaje.label_unit_cost}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
 						<rich:message for="unitCost" />
 
@@ -169,12 +166,11 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{depositsAction.deposits.dateTime}"
-							required="true" showOn="button" navigator="true"
+							showOn="button" navigator="true"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							id="datePurchase" pattern="MM/dd/yyyy" readonlyInput="true"
 							validator="#{controladorFechas.validarRangoFecha}"
-							label="#{mensaje.label_purchase_date}"
-							requiredMessage="#{mensaje.message_campo_requerido}">
+							label="#{mensaje.label_purchase_date}">
 							<p:ajax event="dateSelect" update="dateExpire" />
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
@@ -187,8 +183,7 @@
 							showOn="button" navigator="true"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							id="dateExpire" pattern="MM/dd/yyyy" readonlyInput="true"
-							mindate="#{depositsAction.deposits.dateTime}"
-							validator="#{controladorFechas.validarRangoFecha}">
+							mindate="#{depositsAction.deposits.dateTime}">
 							<p:ajax event="dateSelect" update="datePurchase" />
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
@@ -198,8 +193,7 @@
 							value="#{mensajeMenu.farms_label}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu value="#{depositsAction.deposits.farm.idFarm}"
-							id="farm" validator="#{validacionesAction.validarComboRequerido}"
-							required="true">
+							id="farm">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 								itemValue="0" />
 							<f:selectItems value="#{depositsAction.itemsFarm}" />
@@ -211,14 +205,14 @@
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
 						execute="formDeposits"
+						actionListener="#{depositsAction.validateRequired()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_guardar}" />
 				</div>
 			</rich:panel>
 			<h:inputHidden
 				value="#{depositsAction.deposits.purchaseInvoices.invoiceNumber}"
-				id="txtInvoiceNumber" required="true"
-				requiredMessage="#{mensaje.message_campo_requerido}" />
+				id="txtInvoiceNumber" />
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
