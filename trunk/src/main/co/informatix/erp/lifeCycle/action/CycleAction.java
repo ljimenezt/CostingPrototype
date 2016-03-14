@@ -727,7 +727,7 @@ public class CycleAction implements Serializable {
 		try {
 			itemsMaterials = new ArrayList<SelectItem>();
 			List<Materials> materialsList = materialsDao
-					.consultMaterialsByType(idMaterialsType);
+					.queryMaterialsByType(idMaterialsType);
 			if (materialsList != null) {
 				for (Materials materials : materialsList) {
 					itemsMaterials.add(new SelectItem(

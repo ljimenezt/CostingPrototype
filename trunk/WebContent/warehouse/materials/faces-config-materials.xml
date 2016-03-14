@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesMaterials</from-outcome>
-			<to-view-id>/warehouse/materials/gestionarMaterials.xhtml</to-view-id>
+			<to-view-id>/warehouse/materials/manageMaterials.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regMaterials</from-outcome>
-			<to-view-id>/warehouse/materials/registrarMaterials.xhtml</to-view-id>
+			<to-view-id>/warehouse/materials/registerMaterials.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
