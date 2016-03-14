@@ -650,9 +650,14 @@ public class DepositsAction implements Serializable {
 	 * @author Liseth.Jimenez
 	 */
 	public void calculateUnitCost() {
-		if (deposits.getInitialQuantity() > 0) {
-			unitCost = ControladorContable.dividir(deposits.getTotalCost(),
-					deposits.getInitialQuantity());
+		if (deposits.getInitialQuantity() != null
+				&& deposits.getTotalCost() != null) {
+			if (deposits.getInitialQuantity() > 0) {
+				unitCost = ControladorContable.dividir(deposits.getTotalCost(),
+						deposits.getInitialQuantity());
+			}
+		} else {
+			unitCost = 0d;
 		}
 	}
 
