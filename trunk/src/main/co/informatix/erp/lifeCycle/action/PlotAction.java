@@ -449,8 +449,10 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * To validate the name of the plot, so it is not repeated in the database
-	 * and valid against XSS.
+	 * To validate the name of the plot, so it is not repeated in the farm and
+	 * in the database and valid against XSS.
+	 * 
+	 * @modify 14/03/2016 Jhair.Leal
 	 * 
 	 * @param context
 	 *            : application context.
@@ -467,8 +469,9 @@ public class PlotAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = plot.getIdPlot();
+			int idFarm = farm.getIdFarm();
 			Plot plotAux = new Plot();
-			plotAux = plotDao.nameExist(name, id);
+			plotAux = plotDao.nameExist(name, id, idFarm);
 			if (plotAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(

@@ -119,8 +119,10 @@ public class PlotDao implements Serializable {
 	}
 
 	/**
-	 * Consultation if the name of the plot exists in the database when storing
-	 * or editing.
+	 * Consultation if the name of the plot exist in the farm and in the
+	 * database when storing or editing.
+	 * 
+	 * @modify 14/03/2016 Jhair.Leal
 	 * 
 	 * @param name
 	 *            : plot name to verify
@@ -131,15 +133,17 @@ public class PlotDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Plot nameExist(String name, int id) throws Exception {
+	public Plot nameExist(String name, int id, int idFarm) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT p FROM Plot p ");
+		query.append("SELECT p FROM Plot p JOIN p.farm f ");
 		query.append("WHERE UPPER(p.name)=UPPER(:name) ");
+		query.append("AND f.idFarm = :idFarm ");
 		if (id != 0) {
 			query.append("AND p.idPlot <>:idPlot ");
 		}
 		Query q = em.createQuery(query.toString());
 		q.setParameter("name", name);
+		q.setParameter("idFarm", idFarm);
 		if (id != 0) {
 			q.setParameter("idPlot", id);
 		}
