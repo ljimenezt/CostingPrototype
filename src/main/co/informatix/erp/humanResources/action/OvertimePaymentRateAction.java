@@ -137,6 +137,7 @@ public class OvertimePaymentRateAction implements Serializable {
 	 * Consult the list of overtime payment rate in the data base.
 	 * 
 	 * @modify Cristhian.Pico
+	 * @modify 14/03/2016 Jhair.Leal
 	 * 
 	 * @return "gesOvertimePayment": redirects to the template to manage of
 	 *         overtime payment rate.
@@ -162,11 +163,16 @@ public class OvertimePaymentRateAction implements Serializable {
 			List<OvertimePaymentRate> overtimePaymentsTemp = overtimePaymentRateDao
 					.consultOvertimePaymentRate(paginador.getInicio(),
 							paginador.getRango(), consult, parameters);
-			for (OvertimePaymentRate otPayment : overtimePaymentsTemp) {
-				double paymentRatio = otPayment.getOvertimeRateRatio();
-				otPayment
-						.setOvertimeRateRatio(Math.round(paymentRatio * 10.0) / 10.0);
-				this.listOvertimePayments.add(otPayment);
+			if (overtimePaymentsTemp != null) {
+				for (OvertimePaymentRate otPayment : overtimePaymentsTemp) {
+					if (otPayment.getOvertimeRateRatio() != null) {
+						double paymentRatio = otPayment.getOvertimeRateRatio();
+						otPayment.setOvertimeRateRatio(Math
+								.round(paymentRatio * 10.0) / 10.0);
+					}
+					this.listOvertimePayments.add(otPayment);
+
+				}
 			}
 			if ((this.listOvertimePayments == null || this.listOvertimePayments
 					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {
