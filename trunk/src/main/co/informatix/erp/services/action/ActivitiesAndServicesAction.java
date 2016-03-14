@@ -597,7 +597,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 						.getIdServiceType(), serviceType.getDescription()));
 			}
 		}
-		List<Suppliers> suppliers = supplierDao.consultarComboSuppliers();
+		List<Suppliers> suppliers = supplierDao.querySuppliers();
 		if (suppliers != null) {
 			for (Suppliers supplier : suppliers) {
 				itemsSupplier.add(new SelectItem(supplier.getIdSupplier(),
