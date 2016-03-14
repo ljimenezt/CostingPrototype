@@ -9,28 +9,28 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="diseasesAction.inicializarBusqueda" />
+	<ui:param name="action" value="diseasesAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeWarehouse.diseases_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{diseasesAction}" />
 		<ui:param name="listaVacia"
-			value="#{diseasesAction.listaDiseases eq null or (empty diseasesAction.listaDiseases)}" />
+			value="#{diseasesAction.listDiseases eq null or (empty diseasesAction.listDiseases)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{diseasesAction}" />
 		<ui:param name="renderLista" value="panelDiseases vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarDiseases" />
+		<ui:param name="metodoLista" value="consultDiseases" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="diseasesAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarDiseases" />
+		<ui:param name="metodoNuevo" value="addEditDiseases" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formDiseases">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -39,7 +39,7 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{diseasesAction.listaDiseases}"
+				<rich:dataTable value="#{diseasesAction.listDiseases}"
 					var="diseases"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -59,7 +59,7 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 						<h:commandLink value="#{diseases.name}"
-							action="#{diseasesAction.agregarEditarDiseases(diseases)}"
+							action="#{diseasesAction.addEditDiseases(diseases)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -87,7 +87,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelDiseases" />
 							<ui:param name="beanActionParam" value="#{diseasesAction}" />
-							<ui:param name="metodoActionParam" value="consultarDiseases" />
+							<ui:param name="metodoActionParam" value="consultDiseases" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -110,13 +110,13 @@
 					<h:outputText value="#{mensajeWarehouse.diseases_label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{diseasesAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{diseasesAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{diseasesAction.consultarDiseases()}"
+						actionListener="#{diseasesAction.consultDiseases()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelDiseases, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -149,7 +149,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{diseasesAction.eliminarDiseases()}"
+							actionListener="#{diseasesAction.removeDiseases()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelDiseases, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
