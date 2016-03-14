@@ -10,10 +10,6 @@
 			value="#{identity ne null and identity.autenticado}" />
 		<rich:toolbar itemSeparator="grid" height="26">
 			<rich:toolbarGroup location="right">
-				
-				
-				
-				
 				<h:form id="formBotonesGraficosEmp">
 					<a:outputPanel rendered="#{isLogin}">
 						<h:outputText value="#{mensajeOrganizaciones.empresa_label}: " styleClass="ocultar"/>
@@ -36,10 +32,6 @@
 							action="#{sesionEmpresa.asignarEmpresaHacienda()}" />
 					</a:outputPanel>
 				</h:form>
-				
-				 
-				 
-				 
 			</rich:toolbarGroup>
 			<rich:toolbarGroup location="right">
 				<f:view locale="#{idioma.locale}">
