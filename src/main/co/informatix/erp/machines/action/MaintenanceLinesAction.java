@@ -248,7 +248,7 @@ public class MaintenanceLinesAction implements Serializable {
 	 */
 	private void llenarMachine() throws Exception {
 		opcionesMachines = new ArrayList<SelectItem>();
-		List<Machines> listMachines = machinesDao.listaMachines();
+		List<Machines> listMachines = machinesDao.listMachines();
 		if (listMachines != null) {
 			for (Machines machines : listMachines) {
 				opcionesMachines.add(new SelectItem(machines.getIdMachine(),

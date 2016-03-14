@@ -11,7 +11,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="machinesAction.agregarEditarMachines(null)" />
+		value="machinesAction.addEditMachines(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeMachines.machines_label_types" />
 	<ui:define name="body">
@@ -283,7 +283,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{machinesAction.guardarMachines}"
+							action="#{machinesAction.saveMachines}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

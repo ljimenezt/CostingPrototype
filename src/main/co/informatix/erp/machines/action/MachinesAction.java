@@ -28,7 +28,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 
 /**
  * This class allows the logic of the machines may be in the DB The logic is to
- * consult, edit or add machines
+ * consult, edit or add machines.
  * 
  * @author Sergio.Ortiz
  * @modify 16/10/2015 Andres.Gomez
@@ -49,18 +49,18 @@ public class MachinesAction implements Serializable {
 	private ScheduledActivitiesAction scheduledActivitiesAction;
 
 	private Paginador paginador = new Paginador();
-	private String nombreBuscar;
+	private String nameSearch;
 	private String serialSearch;
 
-	private int nombreMachines;
+	private int nameMachines;
 	private boolean state;
 
-	private List<Machines> listaMachines;
+	private List<Machines> listMachines;
 	private ArrayList<SelectItem> itemsMachinesType;
 	private ArrayList<SelectItem> itemsFuelTypes;
 
 	/**
-	 * @return machines: object containing data machine
+	 * @return machines: object containing data machine.
 	 */
 	public Machines getMachines() {
 		return machines;
@@ -68,14 +68,14 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * @param machines
-	 *            : object containing data machine
+	 *            : object containing data machine.
 	 */
 	public void setMachines(Machines machines) {
 		this.machines = machines;
 	}
 
 	/**
-	 * @return scheduledActivitiesAction: scheduledActivitiesAction object
+	 * @return scheduledActivitiesAction: scheduledActivitiesAction object.
 	 */
 	public ScheduledActivitiesAction getScheduledActivitiesAction() {
 		return scheduledActivitiesAction;
@@ -83,7 +83,7 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * @param scheduledActivitiesAction
-	 *            : scheduledActivitiesAction object
+	 *            : scheduledActivitiesAction object.
 	 */
 	public void setScheduledActivitiesAction(
 			ScheduledActivitiesAction scheduledActivitiesAction) {
@@ -91,22 +91,22 @@ public class MachinesAction implements Serializable {
 	}
 
 	/**
-	 * @return listaMachines: list of objects of type machine
+	 * @return listMachines: list of objects of type machine.
 	 */
-	public List<Machines> getListaMachines() {
-		return listaMachines;
+	public List<Machines> getListMachines() {
+		return listMachines;
 	}
 
 	/**
-	 * @param listaMachines
-	 *            : list of objects of type machine
+	 * @param listMachines
+	 *            : list of objects of type machine.
 	 */
-	public void setListaMachines(List<Machines> listaMachines) {
-		this.listaMachines = listaMachines;
+	public void setListMachines(List<Machines> listMachines) {
+		this.listMachines = listMachines;
 	}
 
 	/**
-	 * @return paginador: Management paged list of names of machines
+	 * @return paginador: Management paged list of names of machines.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -114,29 +114,29 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : Management paged list of names of machines
+	 *            : Management paged list of names of machines.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return nombreBuscar: machine name to search
+	 * @return nameSearch: machine name to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : machine name to search
+	 * @param nameSearch
+	 *            : machine name to search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return serialSearch: serial number of the machine to search
+	 * @return serialSearch: serial number of the machine to search.
 	 */
 	public String getSerialSearch() {
 		return serialSearch;
@@ -144,29 +144,29 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * @param serialSearch
-	 *            :serial number of the machine to search
+	 *            :serial number of the machine to search.
 	 */
 	public void setSerialSearch(String serialSearch) {
 		this.serialSearch = serialSearch;
 	}
 
 	/**
-	 * @return nombreMachines: id name of the machine to look for.
+	 * @return nameMachines: id name of the machine to look for.
 	 */
-	public int getNombreMachines() {
-		return nombreMachines;
+	public int getNameMachines() {
+		return nameMachines;
 	}
 
 	/**
-	 * @param nombreMachines
+	 * @param nameMachines
 	 *            :id name of the machine to look for.
 	 */
-	public void setNombreMachines(int nombreMachines) {
-		this.nombreMachines = nombreMachines;
+	public void setNameMachines(int nameMachines) {
+		this.nameMachines = nameMachines;
 	}
 
 	/**
-	 * @return state: modifies the logic of the method consult machines
+	 * @return state: modifies the logic of the method consult machines.
 	 */
 	public boolean isState() {
 		return state;
@@ -174,14 +174,14 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * @param state
-	 *            : modifies the logic of the method consult machines
+	 *            : modifies the logic of the method consult machines.
 	 */
 	public void setState(boolean state) {
 		this.state = state;
 	}
 
 	/**
-	 * @return itemsMachinesType: list of the types of machine
+	 * @return itemsMachinesType: list of the types of machine.
 	 */
 	public ArrayList<SelectItem> getItemsMachinesType() {
 		return itemsMachinesType;
@@ -189,14 +189,14 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * @param itemsMachinesType
-	 *            : list of the types of machine
+	 *            : list of the types of machine.
 	 */
 	public void setItemsMachinesType(ArrayList<SelectItem> itemsMachinesType) {
 		this.itemsMachinesType = itemsMachinesType;
 	}
 
 	/**
-	 * @return itemsFuelTypes :list of the types of fuel
+	 * @return itemsFuelTypes :list of the types of fuel.
 	 */
 	public ArrayList<SelectItem> getItemsFuelTypes() {
 		return itemsFuelTypes;
@@ -204,7 +204,7 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * @param itemsFuelTypes
-	 *            :list of types of fuel
+	 *            :list of types of fuel.
 	 */
 	public void setItemsFuelTypes(ArrayList<SelectItem> itemsFuelTypes) {
 		this.itemsFuelTypes = itemsFuelTypes;
@@ -212,29 +212,29 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * list of machines
+	 * list of machines.
 	 * 
 	 * @modify 28/05/2015 Mabell.Boada
 	 * @modify 19/08/2015 Andres.Gomez
 	 * 
-	 * @return gesMachines: Returns to the template management
+	 * @return gesMachines: Returns to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
+	public String searchInitialization() {
+		nameSearch = "";
 		serialSearch = "";
 		setState(false);
 		this.paginador = new Paginador();
-		this.nombreMachines = 0;
-		return consultarMachines();
+		this.nameMachines = 0;
+		return consultMachines();
 
 	}
 
 	/**
-	 * This method load all types of machines from a list
+	 * This method load all types of machines from a list.
 	 * 
 	 * @throws Exception
 	 */
-	private void llenarMachineTypes() throws Exception {
+	private void loadMachineTypes() throws Exception {
 		itemsMachinesType = new ArrayList<SelectItem>();
 		List<MachineTypes> listMachinetypes;
 		listMachinetypes = machineTypesDao.listMachineType();
@@ -248,7 +248,7 @@ public class MachinesAction implements Serializable {
 	}
 
 	/**
-	 * This method allow load all type of fuel from a list
+	 * This method allow load all type of fuel from a list.
 	 * 
 	 * @author Andres.Gomez
 	 * 
@@ -267,83 +267,82 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * Consult initialized machines considering a state that allows changing the
-	 * logic to check
+	 * logic to check.
 	 * 
 	 * @author Gerardo.Herrera
 	 */
 	public void initializeMachines() {
 		setState(true);
 		this.paginador.setOpcion('f');
-		consultarMachines();
+		consultMachines();
 	}
 
 	/**
-	 * Consult the list of the machines
+	 * Consult the list of the machines.
 	 * 
 	 * @modify 28/05/2015 Mabell.Boada
 	 * @modify 19/08/2015 Andres.Gomez
 	 * @modify 11/11/2015 Gerardo.Herrera
 	 * 
-	 * @return "gesMachines": Redirects to the template to manage machines
+	 * @return "gesMachines": Redirects to the template to manage machines.
 	 */
-	public String consultarMachines() {
+	public String consultMachines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
 				.getBundle("mensajeMachine");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaMachines = new ArrayList<Machines>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listMachines = new ArrayList<Machines>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		String result = this.state ? "" : "gesMachines";
 		try {
 			if (this.state) {
-				advancedSearchActivityMachine(consulta, parametros);
+				advancedSearchActivityMachine(query, parameters);
 			} else {
-				busquedaAvanzada(consulta, parametros, bundle,
-						unionMensajesBusqueda);
+				advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			}
-			Long cantidad = machinesDao.cantidadMachines(consulta, parametros);
-			if (cantidad != null) {
+			Long quantity = machinesDao.quantityMachines(query, parameters);
+			if (quantity != null) {
 				if (this.state) {
-					paginador.paginarRangoDefinido(cantidad, 5);
+					paginador.paginarRangoDefinido(quantity, 5);
 				} else {
-					paginador.paginar(cantidad);
+					paginador.paginar(quantity);
 				}
 			}
-			this.listaMachines = machinesDao.consultarMachines(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
+			this.listMachines = machinesDao.consultMachines(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
 			if (!this.state) {
-				llenarMachineTypes();
+				loadMachineTypes();
 				fillFuelTypes();
 			}
-			if ((listaMachines == null || listaMachines.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			if ((listMachines == null || listMachines.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaMachines == null || listaMachines.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listMachines == null || listMachines.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleMachineType
 										.getString("machines_label_names_s"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			if (cantidad != 0 && !this.state) {
+			if (quantity != 0 && !this.state) {
 				loadDetailsMachines();
 			}
 			if (this.state) {
 				persistMachines();
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -353,33 +352,33 @@ public class MachinesAction implements Serializable {
 	/**
 	 * This method build consultation for advanced search build also allows
 	 * messages to be displayed depending on the search criteria selected by the
-	 * user (search by name)
+	 * user (search by name).
 	 * 
 	 * @modify 19/08/2015 Andres.Gomez
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(m.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_modelo") + ": "
-					+ '"' + this.nombreBuscar + '"');
-			if (this.nombreMachines != 0) {
+					+ '"' + this.nameSearch + '"');
+			if (this.nameMachines != 0) {
 				consult.append("AND mt.idMachineType = :keyword1 ");
-				item = new SelectItem(this.nombreMachines, "keyword1");
+				item = new SelectItem(this.nameMachines, "keyword1");
 				parameters.add(item);
 			}
 			if (this.serialSearch != null && !"".equals(this.serialSearch)) {
@@ -388,10 +387,9 @@ public class MachinesAction implements Serializable {
 				parameters.add(item);
 			}
 		} else {
-			if (this.nombreMachines != 0) {
+			if (this.nameMachines != 0) {
 				consult.append("WHERE mt.idMachineType = :keyword1 ");
-				SelectItem item = new SelectItem(this.nombreMachines,
-						"keyword1");
+				SelectItem item = new SelectItem(this.nameMachines, "keyword1");
 				parameters.add(item);
 				if (this.serialSearch != null && !"".equals(this.serialSearch)) {
 					consult.append("AND UPPER(m.serialNumber) LIKE UPPER (:keyword2) ");
@@ -412,12 +410,12 @@ public class MachinesAction implements Serializable {
 	/**
 	 * This method build consultation for advanced search of machine for
 	 * activity - machine relation build also allows messages to be displayed
-	 * depending on the search criteria selected by the user (search by name)
+	 * depending on the search criteria selected by the user (search by name).
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
 	 * @param query
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 */
@@ -430,7 +428,7 @@ public class MachinesAction implements Serializable {
 					.getContextBean(ScheduledActivitiesAction.class);
 			selectedActivity = scheduledActivitiesAction.getSelectedActivity();
 		}
-		if (this.nombreMachines != 0) {
+		if (this.nameMachines != 0) {
 			query.append("WHERE mt.idMachineType = :idMachineType ");
 			seleccion = true;
 		}
@@ -440,8 +438,8 @@ public class MachinesAction implements Serializable {
 		query.append("JOIN am.activityMachinePK.machines ma ");
 		query.append("WHERE am.initialDateTime BETWEEN :itemInitialdate AND :itemFinalDate ");
 		query.append("OR am.finalDateTime BETWEEN :itemInitialdate AND :itemFinalDate) ");
-		if (this.nombreMachines != 0) {
-			SelectItem itemMachineType = new SelectItem(this.nombreMachines,
+		if (this.nameMachines != 0) {
+			SelectItem itemMachineType = new SelectItem(this.nameMachines,
 					"idMachineType");
 			parameters.add(itemMachineType);
 		}
@@ -454,20 +452,20 @@ public class MachinesAction implements Serializable {
 	}
 
 	/**
-	 * This method fills the various objects associated with a machines
+	 * This method fills the various objects associated with a machines.
 	 * 
 	 * @throws Exception
 	 */
 	private void loadDetailsMachines() throws Exception {
 		List<Machines> machines = new ArrayList<Machines>();
-		machines.addAll(this.listaMachines);
-		this.listaMachines = new ArrayList<Machines>();
+		machines.addAll(this.listMachines);
+		this.listMachines = new ArrayList<Machines>();
 		for (Machines machine : machines) {
 			int idMachine = machine.getIdMachine();
 			FuelTypes fuelTypes = (FuelTypes) this.machinesDao
 					.consultObjectMachines("fuelTypes", idMachine);
 			machine.setFuelTypes(fuelTypes);
-			this.listaMachines.add(machine);
+			this.listMachines.add(machine);
 		}
 	}
 
@@ -475,12 +473,12 @@ public class MachinesAction implements Serializable {
 	 * Method to edit or create a new machine.
 	 * 
 	 * @param machines
-	 *            :machine that you are adding or editing
+	 *            :machine that you are adding or editing.
 	 * 
 	 * @return "regMachines":redirected to the template record machine.
 	 */
-	public String agregarEditarMachines(Machines machines) throws Exception {
-		llenarMachineTypes();
+	public String addEditMachines(Machines machines) throws Exception {
+		loadMachineTypes();
 		fillFuelTypes();
 		if (machines != null) {
 			this.machines = machines;
@@ -496,14 +494,14 @@ public class MachinesAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit machines
+	 * Method used to save or edit machines.
 	 * 
-	 * @return consultarMachines: Redirects to manage the list of machines with
-	 *         machines updated
+	 * @return consultMachines: Redirects to manage the list of machines with
+	 *         machines updated.
 	 */
-	public String guardarMachines() {
+	public String saveMachines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 
 		try {
 			if (machines.getFuelTypes().getIdFuelType() == 0) {
@@ -513,30 +511,32 @@ public class MachinesAction implements Serializable {
 				machines.setSerialNumber(null);
 			}
 			if (machines.getIdMachine() != 0) {
-				machinesDao.editarMachines(machines);
+				machinesDao.editMachines(machines);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				machinesDao.guardarMachines(machines);
+				messageLog = "message_registro_guardar";
+				machinesDao.saveMachines(machines);
 			}
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), machines.getName()));
+			ControladorContexto.mensajeInformacion(
+					null,
+					MessageFormat.format(bundle.getString(messageLog),
+							machines.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMachines();
+		return consultMachines();
 	}
 
 	/**
-	 * Delete method that allows a machine to database
+	 * Delete method that allows a machine to database.
 	 * 
 	 * 
-	 * @return consultarMachines: Consult the list of machines and returns to
-	 *         manage machines
+	 * @return consultMachines: Consult the list of machines and returns to
+	 *         manage machines.
 	 */
-	public String eliminarMachines() {
+	public String removeMachines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			machinesDao.eliminarMachines(machines);
+			machinesDao.removeMachines(machines);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					machines.getIdMachine()));
@@ -548,7 +548,7 @@ public class MachinesAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMachines();
+		return consultMachines();
 	}
 
 	/**
@@ -627,9 +627,9 @@ public class MachinesAction implements Serializable {
 	 * not repeated in the database and validates against XSS.
 	 * 
 	 * @param clientId
-	 *            : context application
+	 *            : context application.
 	 * @param value
-	 *            : value to validate
+	 *            : value to validate.
 	 */
 	public void validateNameXSS(String clientId, String value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -659,8 +659,8 @@ public class MachinesAction implements Serializable {
 			this.scheduledActivitiesAction = ControladorContexto
 					.getContextBean(ScheduledActivitiesAction.class);
 		}
-		if (this.listaMachines != null) {
-			for (Machines machine : this.listaMachines) {
+		if (this.listMachines != null) {
+			for (Machines machine : this.listMachines) {
 				for (ActivityMachine machineSelected : scheduledActivitiesAction
 						.getListActivityMachineTemp()) {
 					int idMachineSelected = machineSelected

@@ -33,9 +33,9 @@ public class MachinesDao implements Serializable {
 	 * @modify 19/08/2015 Andres.Gomez
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :where he started the consultation record.
 	 * @param range
-	 *            : range of records
+	 *            : range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
@@ -44,7 +44,7 @@ public class MachinesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Machines> consultarMachines(int start, int range,
+	public List<Machines> consultMachines(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -53,8 +53,8 @@ public class MachinesDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY m.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<Machines> resultList = q.getResultList();
@@ -65,35 +65,35 @@ public class MachinesDao implements Serializable {
 	}
 
 	/**
-	 * Save a machine in DB
+	 * Save a machine in DB.
 	 * 
 	 * @param machines
 	 *            : machine to save.
 	 * @throws Exception
 	 */
-	public void guardarMachines(Machines machines) throws Exception {
+	public void saveMachines(Machines machines) throws Exception {
 		em.persist(machines);
 	}
 
 	/**
-	 * Edits a machine in DB
+	 * Edits a machine in DB.
 	 * 
 	 * @param machines
 	 *            : editing machine.
 	 * @throws Exception
 	 */
-	public void editarMachines(Machines machines) throws Exception {
+	public void editMachines(Machines machines) throws Exception {
 		em.merge(machines);
 	}
 
 	/**
-	 * Machines removed from the database
+	 * Machines removed from the database.
 	 * 
 	 * @param machines
-	 *            : machines to removes
+	 *            : machines to removes.
 	 * @throws Exception
 	 */
-	public void eliminarMachines(Machines machines) throws Exception {
+	public void removeMachines(Machines machines) throws Exception {
 		em.remove(em.merge(machines));
 	}
 
@@ -109,41 +109,41 @@ public class MachinesDao implements Serializable {
 	 *            filtered.
 	 * @param parameters
 	 *            : query parameters.
-	 * @return Long: amount number of machines found
+	 * @return Long: amount number of machines found.
 	 * @throws Exception
 	 */
-	public Long cantidadMachines(StringBuilder consult,
+	public Long quantityMachines(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(m) FROM Machines m ");
 		query.append("JOIN m.machineTypes mt ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * Machines method that queries the object and saves it to a lists
+	 * Machines method that queries the object and saves it to a lists.
 	 * 
 	 * @author Mabell.Boada
-	 * @return List<Machines>: List of machines
+	 * @return List<Machines>: List of machines.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Machines> listaMachines() throws Exception {
+	public List<Machines> listMachines() throws Exception {
 		Query q = em.createQuery("SELECT m FROM Machines m ");
 		return q.getResultList();
 	}
 
 	/**
-	 * Method that queries the machine that is associated with the idMachines
+	 * Method that queries the machine that is associated with the idMachines.
 	 * 
 	 * @param idMachine
-	 *            : the machine identifier
-	 * @return Machines: machine associated with insurances
+	 *            : the machine identifier.
+	 * @return Machines: machine associated with insurances.
 	 * @throws Exception
 	 */
 	public Machines machinesXId(int idMachine) throws Exception {
@@ -154,15 +154,15 @@ public class MachinesDao implements Serializable {
 	}
 
 	/**
-	 * Method to query the machines associated with a type of machines
+	 * Method to query the machines associated with a type of machines.
 	 * 
 	 * @param idMachineType
-	 *            : identifier idMachineType
-	 * @return List<Machines>: list of machines associated with MachineType
+	 *            : identifier idMachineType.
+	 * @return List<Machines>: list of machines associated with MachineType.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Machines> listaMachinesPorTypes(int idMachineType)
+	public List<Machines> listMachinesByTypes(int idMachineType)
 			throws Exception {
 
 		return em
@@ -175,14 +175,14 @@ public class MachinesDao implements Serializable {
 
 	/**
 	 * Consult article assigned to a machine, considering that are only those
-	 * that are not null in the table
+	 * that are not null in the table.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param nomObject
-	 *            : object to refer to human resources
+	 *            : object to refer to human resources.
 	 * @param idMachine
-	 *            : Machine id being queried
+	 *            : Machine id being queried.
 	 * @return Object information associated with machine or null if not exists.
 	 * @throws Exception
 	 */
@@ -208,7 +208,7 @@ public class MachinesDao implements Serializable {
 	 * @author Andres.Gomez
 	 * 
 	 * @param value
-	 *            : string value for validate
+	 *            : string value for validate.
 	 * @param id
 	 *            : identifier of the machine.
 	 * 

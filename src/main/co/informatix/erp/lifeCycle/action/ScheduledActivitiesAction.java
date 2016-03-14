@@ -558,7 +558,7 @@ public class ScheduledActivitiesAction implements Serializable {
 		if (ControladorContexto.getFacesContext() != null) {
 			machinesAction = ControladorContexto
 					.getContextBean(MachinesAction.class);
-			this.listMachine = machinesAction.getListaMachines();
+			this.listMachine = machinesAction.getListMachines();
 		}
 	}
 

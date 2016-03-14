@@ -787,7 +787,7 @@ public class MachineUsageAction implements Serializable {
 	 */
 	private void loadComboMachine() throws Exception {
 		itemsMachines = new ArrayList<SelectItem>();
-		List<Machines> machines = machinesDao.listaMachines();
+		List<Machines> machines = machinesDao.listMachines();
 		if (machines != null) {
 			for (Machines machine : machines) {
 				itemsMachines.add(new SelectItem(machine.getIdMachine(),
