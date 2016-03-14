@@ -26,8 +26,8 @@ import co.informatix.erp.warehouse.entities.MeasurementUnits;
 import co.informatix.erp.warehouse.entities.TypeOfManagement;
 
 /**
- * This class is all related logic with creating, updating and removal of
- * material.
+ * This class implements the business logic for creating, updating and removing
+ * materials.
  * 
  * @author Andres.Gomez
  * 
@@ -46,30 +46,30 @@ public class MaterialsAction implements Serializable {
 	@EJB
 	private TypeOfManagementDao typeOfManagementDao;
 
-	private String nombreBuscar;
+	private String nameSearch;
 
 	private Paginador paginador = new Paginador();
 
 	private Materials materials;
 
-	private List<Materials> listaMateriales;
-	private List<SelectItem> itemsTipoMaterial;
-	private List<SelectItem> itemsUnidadMedida;
-	private List<SelectItem> itemsTipoGestion;
+	private List<Materials> materialsList;
+	private List<SelectItem> materialTypeItems;
+	private List<SelectItem> measureUnitItems;
+	private List<SelectItem> managementTypeItems;
 
 	/**
-	 * @return nombreBuscar :Name by which you want to consult the material.
+	 * @return nameSearch : The material name that is going to be queried.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            :Name by which you want to consult the material.
+	 * @param nameSearch
+	 *            : The material name that is going to be queried.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
@@ -88,8 +88,7 @@ public class MaterialsAction implements Serializable {
 	}
 
 	/**
-	 * @return materials: Material object to which the management is done: edit
-	 *         or record.
+	 * @return materials: Material object that is going to be managed.
 	 */
 	public Materials getMaterials() {
 		return materials;
@@ -97,140 +96,139 @@ public class MaterialsAction implements Serializable {
 
 	/**
 	 * @param materials
-	 *            :Material object to which the management is done: edit or
-	 *            record.
+	 *            : Material object that is going to be managed.
 	 */
 	public void setMaterials(Materials materials) {
 		this.materials = materials;
 	}
 
 	/**
-	 * @return listaMateriales: List of materials that are loaded into the user
+	 * @return materialsList: List of materials that is loaded into the user
 	 *         interface.
 	 */
-	public List<Materials> getListaMateriales() {
-		return listaMateriales;
+	public List<Materials> getMaterialsList() {
+		return materialsList;
 	}
 
 	/**
-	 * @param listaMateriales
-	 *            :List of materials that are loaded into the user interface.
+	 * @param materialsList
+	 *            : List of materials that is loaded into the user interface.
 	 */
-	public void setListaMateriales(List<Materials> listaMateriales) {
-		this.listaMateriales = listaMateriales;
+	public void setMaterialsList(List<Materials> materialsList) {
+		this.materialsList = materialsList;
 	}
 
 	/**
-	 * @return itemsTipoMaterial: List of items of the types of materials to be
+	 * @return materialTypeItems: List of items of the types of materials to be
 	 *         loaded into the combo in the user interface.
 	 */
-	public List<SelectItem> getItemsTipoMaterial() {
-		return itemsTipoMaterial;
+	public List<SelectItem> getMaterialTypeItems() {
+		return materialTypeItems;
 	}
 
 	/**
-	 * @param itemsTipoMaterial
+	 * @param materialTypeItems
 	 *            :List of items of the types of materials to be loaded into the
 	 *            combo in the user interface.
 	 */
-	public void setItemsTipoMaterial(List<SelectItem> itemsTipoMaterial) {
-		this.itemsTipoMaterial = itemsTipoMaterial;
+	public void setMaterialTypeItems(List<SelectItem> materialTypeItems) {
+		this.materialTypeItems = materialTypeItems;
 	}
 
 	/**
-	 * @return itemsUnidadMedida: List of items from the units of measure of
+	 * @return measureUnitItems: List of items from the units of measure of
 	 *         materials are loaded into the combo in the user interface.
 	 */
-	public List<SelectItem> getItemsUnidadMedida() {
-		return itemsUnidadMedida;
+	public List<SelectItem> getMeasureUnitItems() {
+		return measureUnitItems;
 	}
 
 	/**
-	 * @param itemsUnidadMedida
+	 * @param measureUnitItems
 	 *            :List of items from the units of measure of materials are
 	 *            loaded into the combo in the user interface.
 	 */
-	public void setItemsUnidadMedida(List<SelectItem> itemsUnidadMedida) {
-		this.itemsUnidadMedida = itemsUnidadMedida;
+	public void setMeasureUnitItems(List<SelectItem> measureUnitItems) {
+		this.measureUnitItems = measureUnitItems;
 	}
 
 	/**
-	 * @return itemsTipoGestion :List of items of materials management types
+	 * @return managementTypeItems :List of items of materials management types
 	 *         that are loaded into the combo in the user interface.
 	 */
-	public List<SelectItem> getItemsTipoGestion() {
-		return itemsTipoGestion;
+	public List<SelectItem> getManagementTypeItems() {
+		return managementTypeItems;
 	}
 
 	/**
-	 * @param itemsTipoGestion
+	 * @param managementTypeItems
 	 *            :List of items of materials management types that are loaded
 	 *            into the combo in the user interface.
 	 */
-	public void setItemsTipoGestion(List<SelectItem> itemsTipoGestion) {
-		this.itemsTipoGestion = itemsTipoGestion;
+	public void setManagementTypeItems(List<SelectItem> managementTypeItems) {
+		this.managementTypeItems = managementTypeItems;
 	}
 
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
-	 * @return consultarMateriales: Materials consulting method and redirects to
-	 *         the template to manage materials.
+	 * @return searchMaterials: Materials query method that redirects to the
+	 *         template to manage materials.
 	 */
-	public String inicializarBusqueda() {
-		this.nombreBuscar = "";
+	public String initializeSearch() {
+		this.nameSearch = "";
 		this.materials = null;
-		return consultarMateriales();
+		return searchMaterials();
 	}
 
 	/**
-	 * Consult the list of Materials
+	 * Query the list of Materials.
 	 * 
-	 * @return gesMaterials: Navigation rule that redirects to manage materials
+	 * @return gesMaterials: Navigation rule that redirects to manage materials.
 	 */
-	public String consultarMateriales() {
+	public String searchMaterials() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaMateriales = new ArrayList<Materials>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		materialsList = new ArrayList<Materials>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder jointSearchMessages = new StringBuilder();
+		String searchMessage = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = materialsDao.cantidadMateriales(consulta,
-					parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(queryBuilder, parameters, bundle,
+					jointSearchMessages);
+			Long amount = materialsDao
+					.materialsAmount(queryBuilder, parameters);
+			if (amount != null) {
+				paginador.paginar(amount);
 			}
-			if (cantidad != null && cantidad > 0) {
-				listaMateriales = materialsDao.consultarMateriales(
-						paginador.getInicio(), paginador.getRango(), consulta,
-						parametros);
+			if (amount != null && amount > 0) {
+				materialsList = materialsDao.queryMaterials(
+						paginador.getInicio(), paginador.getRango(),
+						queryBuilder, parameters);
 			}
-			if ((listaMateriales == null || listaMateriales.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			if ((materialsList == null || materialsList.size() <= 0)
+					&& !"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaMateriales == null || listaMateriales.size() <= 0) {
+								jointSearchMessages);
+			} else if (materialsList == null || materialsList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleRecursosHumanos
 										.getString("materials_label_s"),
-								unionMensajesBusqueda);
+								jointSearchMessages);
 			}
-			cargarDetallesMateriales();
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			loadMaterialsDetails();
+			validation.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -238,42 +236,41 @@ public class MaterialsAction implements Serializable {
 	}
 
 	/**
-	 * This method allows to build the query to the advanced search and allows
-	 * to construct messages displayed depending on the search criteria selected
-	 * by the user.
+	 * This method builds the query to the advanced search and display messages
+	 * depending on the search criteria selected by the user.
 	 * 
-	 * @param consult
-	 *            : query to concatenate
+	 * @param queryBuilder
+	 *            : Query to concatenate.
 	 * @param parameters
-	 *            : list of search parameters.
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            : Context to access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : Search message.
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder queryBuilder,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consult.append("WHERE UPPER(m.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			queryBuilder.append("WHERE UPPER(m.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
 	/**
-	 * Method of uploading the details of the list of materials or relationships
+	 * Method to upload the details of a list of materials and their relations
 	 * with other objects in the database.
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarDetallesMateriales() throws Exception {
-		if (this.listaMateriales != null) {
-			for (Materials materiales : this.listaMateriales) {
-				cargarDetallesMaterial(materiales);
+	private void loadMaterialsDetails() throws Exception {
+		if (this.materialsList != null) {
+			for (Materials material : this.materialsList) {
+				loadMaterialDetails(material);
 			}
 		}
 	}
@@ -283,19 +280,19 @@ public class MaterialsAction implements Serializable {
 	 * objects in the database.
 	 * 
 	 * @param materials
-	 *            : Materials to load the details.
+	 *            : Materials to load its details.
 	 * @throws Exception
 	 */
-	public void cargarDetallesMaterial(Materials materials) throws Exception {
-		int idMaterials = materials.getIdMaterial();
+	public void loadMaterialDetails(Materials materials) throws Exception {
+		int materialId = materials.getIdMaterial();
 		MaterialsType materialsType = (MaterialsType) materialsDao
-				.consultarObjetoMaterials("materialType", idMaterials);
+				.queryMaterialObject("materialType", materialId);
 		MeasurementUnits measurementUnits = (MeasurementUnits) materialsDao
-				.consultarObjetoMaterials("measurementUnits", idMaterials);
+				.queryMaterialObject("measurementUnits", materialId);
 		TypeOfManagement typeOfManagement = (TypeOfManagement) materialsDao
-				.consultarObjetoMaterials("typeOfManagement", idMaterials);
-		Hr responsable = (Hr) materialsDao.consultarObjetoMaterials(
-				"responsable", idMaterials);
+				.queryMaterialObject("typeOfManagement", materialId);
+		Hr responsable = (Hr) materialsDao.queryMaterialObject("responsable",
+				materialId);
 
 		materials.setMaterialType(materialsType);
 		materials.setMeasurementUnits(measurementUnits);
@@ -307,24 +304,24 @@ public class MaterialsAction implements Serializable {
 	 * Method to edit or create a new material.
 	 * 
 	 * @param materiales
-	 *            :material are adding or editing
+	 *            : Material to modify.
 	 * 
-	 * @return "regMaterials":redirected to the template record materials.
+	 * @return "regMaterials": Redirects to the register materials template.
 	 */
-	public String agregarEditarMaterials(Materials materiales) {
+	public String addEditMaterials(Materials materiales) {
 		try {
 			if (materiales != null) {
 				this.materials = materiales;
-				Hr responsable = (Hr) materialsDao.consultarObjetoMaterials(
+				Hr personInCharge = (Hr) materialsDao.queryMaterialObject(
 						"responsable", materiales.getIdMaterial());
-				if (responsable != null) {
-					this.materials.setResponsable(responsable);
+				if (personInCharge != null) {
+					this.materials.setResponsable(personInCharge);
 				}
 			} else {
 				this.materials = new Materials();
 				this.materials.setResponsable(new Hr());
 			}
-			cargarCombos();
+			loadComboBoxes();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -332,70 +329,68 @@ public class MaterialsAction implements Serializable {
 	}
 
 	/**
-	 * This method allows you to load combo interface for registering a new
-	 * material.
+	 * This method loads combo in the register a new material template.
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarCombos() throws Exception {
-		itemsTipoMaterial = new ArrayList<SelectItem>();
-		itemsUnidadMedida = new ArrayList<SelectItem>();
-		itemsTipoGestion = new ArrayList<SelectItem>();
+	private void loadComboBoxes() throws Exception {
+		materialTypeItems = new ArrayList<SelectItem>();
+		measureUnitItems = new ArrayList<SelectItem>();
+		managementTypeItems = new ArrayList<SelectItem>();
 
-		List<MaterialsType> materialsType = materialsTypeDao
+		List<MaterialsType> materialTypes = materialsTypeDao
 				.consultMaterialsTypes();
-		if (materialsType != null) {
-			for (MaterialsType materialsTypes : materialsType) {
-				itemsTipoMaterial.add(new SelectItem(materialsTypes
-						.getIdMaterialsType(), materialsTypes.getName()));
+		if (materialTypes != null) {
+			for (MaterialsType materialType : materialTypes) {
+				materialTypeItems.add(new SelectItem(materialType
+						.getIdMaterialsType(), materialType.getName()));
 			}
 		}
-		List<MeasurementUnits> unidadesMedida = measurementUnitsDao
+		List<MeasurementUnits> measureUnits = measurementUnitsDao
 				.consultarMeasurementsUnits();
-		if (unidadesMedida != null) {
-			for (MeasurementUnits uMedidas : unidadesMedida) {
-				itemsUnidadMedida.add(new SelectItem(uMedidas
-						.getIdMeasurementUnits(), uMedidas.getName()));
+		if (measureUnits != null) {
+			for (MeasurementUnits mUnit : measureUnits) {
+				measureUnitItems.add(new SelectItem(mUnit
+						.getIdMeasurementUnits(), mUnit.getName()));
 			}
 		}
-		List<TypeOfManagement> tiposGestion = typeOfManagementDao
+		List<TypeOfManagement> managementType = typeOfManagementDao
 				.queryTypesOfManagements();
-		if (tiposGestion != null) {
-			for (TypeOfManagement tGestion : tiposGestion) {
-				itemsTipoGestion.add(new SelectItem(tGestion
-						.getIdTypeOfManagement(), tGestion.getName()));
+		if (managementType != null) {
+			for (TypeOfManagement mType : managementType) {
+				managementTypeItems.add(new SelectItem(mType
+						.getIdTypeOfManagement(), mType.getName()));
 			}
 		}
 	}
 
 	/**
-	 * Method to clean the charge.
+	 * Method to erase the person in charge.
 	 */
-	public void limpiarResponsable() {
+	public void erasePersonInCharge() {
 		this.materials.setResponsable(new Hr());
 	}
 
 	/**
-	 * Method to load the selected charge.
+	 * Method to load the person in charge.
 	 * 
-	 * @param responsable
-	 *            : Selected object responsible.
+	 * @param personInCharge
+	 *            : The selected person in charge.
 	 */
-	public void cargarResponsable(Hr responsable) {
-		this.materials.setResponsable(responsable);
+	public void loadPersonInCharge(Hr personInCharge) {
+		this.materials.setResponsable(personInCharge);
 	}
 
 	/**
-	 * Method that allows materials to delete one database
+	 * Method that deletes materials of the database.
 	 * 
-	 * 
-	 * @return consultarMateriales: Consult the list of materials and returns to
-	 *         manage materials
+	 * @return searchMaterials: Query the list of materials and redirects to
+	 *         manage materials template.
 	 */
-	public String eliminarMaterials() {
+	public String deleteMaterials() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			materialsDao.eliminarMateriales(materials);
+			materialsDao.deleteMateriales(materials);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					materials.getName()));
@@ -408,31 +403,31 @@ public class MaterialsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarMateriales();
+		return searchMaterials();
 	}
 
 	/**
-	 * Method used to save or edit the materials
+	 * Save or edit the materials.
 	 * 
-	 * @return consultarMateriales: Redirects to manage materials with a list of
-	 *         updated materials
+	 * @return searchMaterials: Redirects to manage materials with a list of
+	 *         updated materials.
 	 */
-	public String guardarMaterials() {
+	public String saveMaterials() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String registerMessage = "message_registro_modificar";
 		try {
 
 			if (materials.getIdMaterial() != 0) {
-				materialsDao.editarMaterials(materials);
+				materialsDao.editMaterials(materials);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				materialsDao.guardarMaterials(materials);
+				registerMessage = "message_registro_guardar";
+				materialsDao.saveMaterials(materials);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), materials.getName()));
+					bundle.getString(registerMessage), materials.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMateriales();
+		return searchMaterials();
 	}
 }

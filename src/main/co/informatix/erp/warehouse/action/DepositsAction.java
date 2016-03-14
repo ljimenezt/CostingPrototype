@@ -582,7 +582,7 @@ public class DepositsAction implements Serializable {
 		try {
 			itemsMaterial = new ArrayList<SelectItem>();
 			List<Materials> materials = materialsDao
-					.consultMaterialsByType(idMaterialType);
+					.queryMaterialsByType(idMaterialType);
 			if (materials != null) {
 				for (Materials material : materials) {
 					this.itemsMaterial.add(new SelectItem(material

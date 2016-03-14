@@ -9,8 +9,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="materialsAction.agregarEditarMaterials(null)" />
+	<ui:param name="action" value="materialsAction.addEditMaterials(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeWarehouse.materials_label_s" />
 	<ui:define name="body">
@@ -52,7 +51,7 @@
 							validator="#{validacionesAction.validarComboRequerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 								itemValue="0" />
-							<f:selectItems value="#{materialsAction.itemsTipoMaterial}" />
+							<f:selectItems value="#{materialsAction.materialTypeItems}" />
 						</h:selectOneMenu>
 						<rich:message for="cmbMaterialsType" />
 
@@ -65,7 +64,7 @@
 							validator="#{validacionesAction.validarComboRequerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 								itemValue="0" />
-							<f:selectItems value="#{materialsAction.itemsUnidadMedida}" />
+							<f:selectItems value="#{materialsAction.measureUnitItems}" />
 						</h:selectOneMenu>
 						<rich:message for="cmbMeasurementUnits" />
 
@@ -78,7 +77,7 @@
 							validator="#{validacionesAction.validarComboRequerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 								itemValue="0" />
-							<f:selectItems value="#{materialsAction.itemsTipoGestion}" />
+							<f:selectItems value="#{materialsAction.managementTypeItems}" />
 						</h:selectOneMenu>
 						<rich:message for="cmbTypeOfManagement" />
 
@@ -121,7 +120,7 @@
 							</a:commandLink>
 							<h:outputText value="&#32;&#32;&#32;" />
 							<a:commandLink
-								actionListener="#{materialsAction.limpiarResponsable()}"
+								actionListener="#{materialsAction.erasePersonInCharge()}"
 								render=":formMaterials:txtResponsable,:formMaterials:txtResponsable2"
 								execute="@this">
 								<h:graphicImage value="/img/editRemove_16.png" />
@@ -337,7 +336,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{materialsAction.guardarMaterials()}"
+							action="#{materialsAction.saveMaterials()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
@@ -412,7 +411,7 @@
 									<f:facet name="header" />
 									<a:commandLink
 										render=":formMaterials:txtResponsable,:formMaterials:txtResponsable2"
-										actionListener="#{materialsAction.cargarResponsable(responsable)}"
+										actionListener="#{materialsAction.loadPersonInCharge(responsable)}"
 										oncomplete="#{rich:component('popupResponsable')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">
