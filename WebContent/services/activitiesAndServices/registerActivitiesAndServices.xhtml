@@ -25,6 +25,8 @@
 		<script type="text/javascript">
 			$g=jQuery.noConflict();
 		</script>
+		<ui:param name="listaVacia"
+			value="#{activitiesAndServicesAction.listActivities eq null or (empty activitiesAndServicesAction.listActivities )}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{activitiesAndServicesAction}" />
@@ -96,7 +98,7 @@
 				<br />
 				<a:outputPanel id="formActivities">
 					<t:fieldset
-						rendered="#{activitiesAndServicesAction.listActivities ne null and (!empty activitiesAndServicesAction.listActivities)}">
+						rendered="#{activitiesAndServicesAction.crops.cropNames.idCropName ne 0}">
 						<legend class="etiquetaTitulo">#{mensaje.label_listado_de}
 							#{mensajeCosts.activities_label_s}</legend>
 
@@ -159,9 +161,24 @@
 									<h:outputText value="#{mensaje.label_dangerous}" />
 								</rich:tooltip>
 							</rich:column>
+
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="7" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
 						</rich:dataTable>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="botonesAbajo" value="si" />
+							<ui:param name="tieneVigencia" value="no" />
+							<ui:param name="ocultarNuevo" value="si" />
+						</ui:include>
+
 						<br />
-						<a:outputPanel>
+						<a:outputPanel rendered="#{!listaVacia}">
 							<div class="#{anchoTabla} center inBlock">
 								<ui:include src="/plantillas/plantillaPaginador.xhtml">
 									<ui:param name="conParam2" value="1" />
