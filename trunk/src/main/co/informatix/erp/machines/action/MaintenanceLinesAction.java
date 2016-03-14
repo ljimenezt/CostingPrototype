@@ -267,7 +267,7 @@ public class MaintenanceLinesAction implements Serializable {
 		SimpleDateFormat fecha = new SimpleDateFormat("yyyy/MM/dd");
 		try {
 			List<MaintenanceAndCalibration> listMaintenanceAndCalibration = maintenanceAndCalibrationDao
-					.mantenimientoCalibracionXId(this.maintenanceLines
+					.maintenanceCalibrationXId(this.maintenanceLines
 							.getMachines().getIdMachine());
 			if (listMaintenanceAndCalibration != null) {
 				for (MaintenanceAndCalibration maintenanceAndCalibration : listMaintenanceAndCalibration) {
