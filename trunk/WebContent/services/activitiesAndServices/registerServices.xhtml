@@ -54,11 +54,11 @@
 				</t:fieldset>
 				<br />
 				<div align="right">
-					<a:commandLink id="repetir"
+					<a:commandLink id="repetir" styleClass="quitarDecoracionLink"
 						actionListener="#{activitiesAndServicesAction.addListServices()}"
 						render="formServices:panelServices">
 						<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-							<h:graphicImage value="/img/add_16.png" />
+							<h:graphicImage value="/img/services_16.png" />
 							<h:outputText
 								value="#{mensaje.button_agregar} #{mensajeMenu.services_label_administracion}" />
 						</h:panelGrid>

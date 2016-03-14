@@ -81,14 +81,12 @@
 					<rich:column styleClass="colIconoUno verticalAlignMiddle">
 						<f:facet name="header" />
 						<a:commandLink>
-							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-								<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
-									styleClass="verticalAlignMiddle"
-									rendered="#{overtimes.byDefault eq true}" />
-								<h:graphicImage value="/img/seleccionarRadioOut_16.png"
-									styleClass="verticalAlignMiddle"
-									rendered="#{overtimes.byDefault eq false}" />
-							</h:panelGrid>
+							<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+								styleClass="verticalAlignMiddle"
+								rendered="#{overtimes.byDefault eq true}" />
+							<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+								styleClass="verticalAlignMiddle"
+								rendered="#{overtimes.byDefault eq false}" />
 							<f:ajax event="click"
 								listener="#{overtimePaymentRateAction.assignOvertimePayment(overtimes)}"
 								render="@form" />
