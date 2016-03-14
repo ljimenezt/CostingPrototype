@@ -74,8 +74,9 @@
 						value="#{hrCertificationsAndRolesAction.hrCertificationsAndRoles.releaseDate}"
 						showOn="button" navigator="true"
 						converterMessage="#{mensaje.message_validar_formato_fecha}"
-						onSelectUpdate="fechFin" id="fechaInicio" pattern="MM/dd/yyyy"
+						id="fechaInicio" pattern="MM/dd/yyyy"
 						validator="#{controladorFechas.validarRangoFecha}">
+						<p:ajax event="dateSelect" update="fechaFin" />
 						<f:attribute name="validarHora" value="si" />
 					</p:calendar>
 					<rich:message for="fechaInicio" />
@@ -88,7 +89,9 @@
 						showOn="button" navigator="true"
 						converterMessage="#{mensaje.message_validar_formato_fecha}"
 						id="fechaFin" pattern="MM/dd/yyyy"
+						mindate="#{hrCertificationsAndRolesAction.hrCertificationsAndRoles.releaseDate}"
 						validator="#{controladorFechas.validarRangoFecha}">
+						<p:ajax event="dateSelect" update="fechaInicio" />
 						<f:attribute name="validarHora" value="si" />
 					</p:calendar>
 					<rich:message for="fechaFin" />
