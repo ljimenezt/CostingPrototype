@@ -618,7 +618,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 					&& maintenanceDate.before(dateComnpareTo)) {
 				machines.setLastMaintenance(dateComnpareTo);
 			}
-			machinesDao.editarMachines(machines);
+			machinesDao.editMachines(machines);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(mensajeRegistro),
 					formato.format(maintenanceAndCalibration.getDateTime())));
@@ -675,7 +675,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 					idMachine = machineTypes.getIdMachineType();
 				}
 				List<Machines> listMachines = machinesDao
-						.listaMachinesPorTypes(idMachine);
+						.listMachinesByTypes(idMachine);
 				if (listMachines != null) {
 					for (Machines machines : listMachines) {
 						machinesItems.add(new SelectItem(machines

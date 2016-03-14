@@ -428,7 +428,7 @@ public class InsuranceAction implements Serializable {
 					machineId = machineTypes.getIdMachineType();
 				}
 				List<Machines> result = machinesDao
-						.listaMachinesPorTypes(machineId);
+						.listMachinesByTypes(machineId);
 				if (result != null) {
 					for (Machines machine : result) {
 						machinesList.add(new SelectItem(machine.getIdMachine(),

@@ -9,27 +9,27 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="MachinesAction.inicializarBusqueda" />
+	<ui:param name="action" value="MachinesAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeMachines.machines_label_types_s" />
 	<ui:define name="body">
 		<t:saveState value="#{machinesAction}" />
 		<ui:param name="listaVacia"
-			value="#{machinesAction.listaMachines eq null or (empty machinesAction.listaMachines)}" />
+			value="#{machinesAction.listMachines eq null or (empty machinesAction.listMachines)}" />
 		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{machinesAction}" />
 		<ui:param name="renderLista" value="panelMachines vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarMachines" />
+		<ui:param name="metodoLista" value="consultMachines" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="machinesAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarMachines" />
+		<ui:param name="metodoNuevo" value="addEditMachines" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 		<h:form id="formMachines">
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensajeMachine.machines_label_list}" id="panelMachines">
@@ -41,13 +41,13 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" styleClass="required" />
 					<h:selectOneMenu id="tipoMaquina"
-						value="#{machinesAction.nombreMachines}"
+						value="#{machinesAction.nameMachines}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
 						<f:selectItems value="#{machinesAction.itemsMachinesType}" />
 						<f:ajax event="change"
-							listener="#{machinesAction.consultarMachines()}"
+							listener="#{machinesAction.consultMachines()}"
 							render=":formMachines" />
 					</h:selectOneMenu>
 					<rich:message for="tipoMaquina" />
@@ -58,7 +58,7 @@
 					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 						<ui:param name="tieneVigencia" value="no" />
 					</ui:include>
-					<rich:dataTable value="#{machinesAction.listaMachines}"
+					<rich:dataTable value="#{machinesAction.listMachines}"
 						id="tablaMachines" var="machines"
 						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 						rowClasses="odd-row, even-row" footerClass="H130P">
@@ -80,7 +80,7 @@
 						<rich:column styleClass="colTextoMediano">
 							<f:facet name="header">#{mensaje.label_modelo}</f:facet>
 							<h:commandLink value="#{machines.name}"
-								action="#{machinesAction.agregarEditarMachines(machines)}"
+								action="#{machinesAction.addEditMachines(machines)}"
 								onclick="#{rich:component('statPane')}.show();">
 							</h:commandLink>
 						</rich:column>
@@ -167,7 +167,7 @@
 
 						<f:facet name="footer">
 							<rich:columnGroup rendered="#{listaVacia}">
-								<rich:column colspan="14" styleClass="footTabla">
+								<rich:column colspan="15" styleClass="footTabla">
 									<h:outputText
 										value="#{mensaje.message_no_existen_registros_tabla}" />
 								</rich:column>
@@ -184,7 +184,7 @@
 							<ui:include src="/plantillas/plantillaPaginador.xhtml">
 								<ui:param name="valReder" value="panelMachines" />
 								<ui:param name="beanActionParam" value="#{machinesAction}" />
-								<ui:param name="metodoActionParam" value="consultarMachines" />
+								<ui:param name="metodoActionParam" value="consultMachines" />
 							</ui:include>
 						</div>
 					</a:outputPanel>
@@ -208,7 +208,7 @@
 					<h:outputText value="#{mensaje.label_tipo_maquina}"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="tipoMaquina" styleClass="colTextoCorto"
-						value="#{machinesAction.nombreMachines}"
+						value="#{machinesAction.nameMachines}"
 						onkeypress="return submitByEnter(event,'formBuscar:tipoMaquina')">
 						<f:selectItem itemValue="0"
 							itemLabel="#{mensaje.label_seleccionar}" />
@@ -217,7 +217,7 @@
 					<h:outputText value="#{mensaje.label_nombre}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{machinesAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{machinesAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 					<h:outputText
 						value="#{mensajeMachine.machines_label_serial_number}"
@@ -229,7 +229,7 @@
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{machinesAction.consultarMachines}"
+						actionListener="#{machinesAction.consultMachines}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelMachines, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -261,7 +261,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{machinesAction.eliminarMachines()}"
+							actionListener="#{machinesAction.removeMachines()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelMachines, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
