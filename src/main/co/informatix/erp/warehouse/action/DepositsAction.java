@@ -752,4 +752,40 @@ public class DepositsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
+	/**
+	 * This method allows validate the required fields.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void validateRequired() {
+
+		if (this.deposits.getPurchaseInvoices().getInvoiceNumber() == null
+				|| "".equals(this.deposits.getPurchaseInvoices()
+						.getInvoiceNumber())) {
+			ControladorContexto
+					.mensajeRequeridos("formDeposits:txtInvoiceNumber");
+		}
+		if (this.deposits.getMaterials().getIdMaterial() == 0) {
+			ControladorContexto.mensajeRequeridos("formDeposits:materials");
+		}
+		if (this.deposits.getMeasurementUnits().getIdMeasurementUnits() == 0) {
+			ControladorContexto
+					.mensajeRequeridos("formDeposits:measurementUnits");
+		}
+		if (this.deposits.getInitialQuantity() == null) {
+			ControladorContexto
+					.mensajeRequeridos("formDeposits:initialQuantity");
+		}
+		if (this.deposits.getTotalCost() == null) {
+			ControladorContexto.mensajeRequeridos("formDeposits:totalCost");
+		}
+		if (this.deposits.getDateTime() == null
+				|| "".equals(this.deposits.getDateTime())) {
+			ControladorContexto.mensajeRequeridos("formDeposits:datePurchase");
+		}
+		if (this.deposits.getFarm().getIdFarm() == 0) {
+			ControladorContexto.mensajeRequeridos("formDeposits:farm");
+		}
+	}
 }
