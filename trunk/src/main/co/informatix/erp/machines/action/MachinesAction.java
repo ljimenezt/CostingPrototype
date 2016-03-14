@@ -476,6 +476,8 @@ public class MachinesAction implements Serializable {
 	 *            :machine that you are adding or editing.
 	 * 
 	 * @return "regMachines":redirected to the template record machine.
+	 * 
+	 * @throws Exception
 	 */
 	public String addEditMachines(Machines machines) throws Exception {
 		loadMachineTypes();
