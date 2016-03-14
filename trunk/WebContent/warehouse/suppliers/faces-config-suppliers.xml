@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesSuppliers</from-outcome>
-			<to-view-id>/warehouse/suppliers/gestionarSuppliers.xhtml</to-view-id>
+			<to-view-id>/warehouse/suppliers/manageSuppliers.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regSuppliers</from-outcome>
-			<to-view-id>/warehouse/suppliers/registrarSuppliers.xhtml</to-view-id>
+			<to-view-id>/warehouse/suppliers/registerSuppliers.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
