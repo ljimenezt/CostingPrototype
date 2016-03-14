@@ -1,10 +1,12 @@
 package co.informatix.erp.utz.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import co.informatix.erp.utz.entities.ActivitiesAndCertifications;
 
@@ -14,7 +16,6 @@ import co.informatix.erp.utz.entities.ActivitiesAndCertifications;
  * ActivitiesAndCertifications.
  * 
  * @author Johnatan.Naranjo
- * 
  * 
  */
 @SuppressWarnings("serial")
@@ -51,4 +52,36 @@ public class ActivitiesAndCertificationsDao implements Serializable {
 		em.remove(em.merge(activitiesAndCertifications));
 	}
 
+	/**
+	 * This method allows search the ActivitiesAndCertifications object whit the
+	 * parameters of search.
+	 * 
+	 * @author Mabell.Boada
+	 * 
+	 * @param idActivities
+	 *            : Identifier of activities.
+	 * @param idCertAndRoles
+	 *            : Identifier of certifications and roles.
+	 * @return ActivitiesAndCertifications: Object of
+	 *         ActivitiesAndCertifications that is related.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public ActivitiesAndCertifications activAndCertifXIdActiviAndIdCertAndRol(
+			int idActivities, int idCertAndRoles) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ac FROM ActivitiesAndCertifications ac ");
+		query.append("JOIN FETCH ac.activitiesAndCertificationsPK.activities a ");
+		query.append("JOIN FETCH ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
+		query.append("WHERE a.idActivity=:idActivities ");
+		query.append("AND cr.idCertificactionsAndRoles=:idCertAndRoles ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idActivities", idActivities);
+		q.setParameter("idCertAndRoles", idCertAndRoles);
+		List<ActivitiesAndCertifications> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
 }

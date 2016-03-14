@@ -160,6 +160,8 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	public void setHrCertificationsAndRoles(
 			HrCertificationsAndRoles hrCertificationsAndRoles) {
 		this.hrCertificationsAndRoles = hrCertificationsAndRoles;
+		this.hr = this.hrCertificationsAndRoles.getHrCertificationsAndRolesPK()
+				.getHr();
 	}
 
 	/**

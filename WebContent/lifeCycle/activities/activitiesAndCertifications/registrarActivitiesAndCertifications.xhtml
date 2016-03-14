@@ -24,33 +24,33 @@
 			<rich:panel
 				header="#{mensaje.label_registrar} #{mensajeLifeCycle.activities_certifications_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarActiCert">
-					<h:panelGrid columns="4" columnClasses="tdAlignTop,,,tdAlignTop">
-						<h:outputText
-							value="#{mensajeLifeCycle.activities_certifications_label_certifications}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu id="certificacion"
-							value="#{activitiesAndCertificationsAction.certificationsAndRoles.idCertificactionsAndRoles}"
-							styleClass="colTextoMediano" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
-							<f:selectItems
-								value="#{activitiesAndCertificationsAction.itemsCertificationsAndRoles}" />
-						</h:selectOneMenu>
-						<rich:message for="certificacion" />
-						<h:outputText value="#{mensajeLifeCycle.activity_names_label}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu id="actividad"
-							value="#{activitiesAndCertificationsAction.activityNames.idActivityName}"
-							styleClass="colTextoMediano" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
-							<f:selectItems
-								value="#{activitiesAndCertificationsAction.itemsActivities}" />
-						</h:selectOneMenu>
-						<rich:message for="actividad" />
-					</h:panelGrid>
+				<h:panelGrid columns="4" columnClasses="tdAlignTop,,,tdAlignTop">
+					<h:outputText
+						value="#{mensajeLifeCycle.activities_certifications_label_certifications}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:selectOneMenu id="certificacion"
+						value="#{activitiesAndCertificationsAction.certificationsAndRoles.idCertificactionsAndRoles}"
+						styleClass="colTextoMediano" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItems
+							value="#{activitiesAndCertificationsAction.itemsCertificationsAndRoles}" />
+					</h:selectOneMenu>
+					<rich:message for="certificacion" />
+					<h:outputText value="#{mensajeLifeCycle.activity_names_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:selectOneMenu id="actividad"
+						value="#{activitiesAndCertificationsAction.activityNames.idActivityName}"
+						styleClass="colTextoMediano" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItems
+							value="#{activitiesAndCertificationsAction.itemsActivities}" />
+					</h:selectOneMenu>
+					<rich:message for="actividad" />
+				</h:panelGrid>
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
@@ -77,7 +77,15 @@
 						<h:outputText value="#{mensaje.message_registro_confirmacion}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
-
+					<ui:define name="campos">
+						<h:outputText
+							value="#{mensajeLifeCycle.activities_certifications_label_certifications}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(activitiesAndCertificationsAction.itemsCertificationsAndRoles, activitiesAndCertificationsAction.certificationsAndRoles.idCertificactionsAndRoles)}" />
+						<h:outputText value="#{mensajeLifeCycle.activity_names_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(activitiesAndCertificationsAction.itemsActivities, activitiesAndCertificationsAction.activityNames.idActivityName)}" />
+					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
 							action="#{activitiesAndCertificationsAction.guardarActivities()}"

@@ -77,7 +77,7 @@
 							<rich:column styleClass="colIconoUno">
 								<a:outputPanel
 									rendered="#{(identity.autorizado('hrCertificationsAndRolesAction','A') or identity.autorizado('hrCertificationsAndRolesAction','D'))}">
-									<a:commandLink render="popupEliminar"
+									<a:commandLink render="popupEliminar" execute="panelHrCerARol"
 										actionListener="#{hrCertificationsAndRolesAction.setHrCertificationsAndRoles(hrCertRol)}"
 										oncomplete="#{rich:component('popupEliminar')}.show()">
 										<h:graphicImage value="/img/delete_16.png" />
@@ -192,8 +192,7 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}:" />
-						<h:outputText
-							value="#{hrCertificationsAndRolesAction.hrCertificationsAndRolesPK.hr.name}" />
+						<h:outputText value="#{hrCertificationsAndRolesAction.hr.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
