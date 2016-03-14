@@ -31,7 +31,7 @@
 								<h:outputText value="#{mensajeMachine.machines_label_types}"
 									styleClass="etiquetaTitulo" />
 								<h:selectOneMenu id="machine"
-									value="#{machinesAction.nombreMachines}" styleClass="W180P"
+									value="#{machinesAction.nameMachines}" styleClass="W180P"
 									required="true">
 									<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
 									<f:selectItems
@@ -47,8 +47,8 @@
 							<legend class="etiquetaTitulo">#{mensajeMachine.machines_label_names_s}</legend>
 							<a:outputPanel id="outputBuscar">
 								<ui:param name="listaVacia"
-									value="#{machinesAction.listaMachines eq null or (empty machinesAction.listaMachines)}" />
-								<rich:dataTable value="#{machinesAction.listaMachines}"
+									value="#{machinesAction.listMachines eq null or (empty machinesAction.listMachines)}" />
+								<rich:dataTable value="#{machinesAction.listMachines}"
 									var="machine" id="machines" footerClass="H130P"
 									styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W350P"
 									rowClasses="odd-row, even-row">
