@@ -399,9 +399,9 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	public String guardarActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		int idActName = this.activityNames.getIdActivityName();
+		Object nameCert = new Object();
 		try {
-			Object nameCert = ValidacionesAction.getLabel(
-					itemsCertificationsAndRoles,
+			nameCert = ValidacionesAction.getLabel(itemsCertificationsAndRoles,
 					this.certificationsAndRoles.getIdCertificactionsAndRoles());
 			activities = activitiesDao.activityXIdActNames(idActName);
 			String mensajeRegistro = "message_registro_guardar";
@@ -418,6 +418,15 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 			ControladorContexto.mensajeInformacion(null, format);
 			activityNames = new ActivityNames();
 			certificationsAndRoles = new CertificationsAndRoles();
+		} catch (EJBException e2) {
+			String errorLog = e2.getCause().getCause().getCause().toString();
+			String error = "ConstraintViolationException";
+			if (errorLog.contains(error)) {
+				String format = MessageFormat.format(bundle
+						.getString("message_relationship_exist"), nameCert,
+						activities.getActivityName().getActivityName());
+				ControladorContexto.mensajeError(e2, null, format);
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
