@@ -9,8 +9,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="suppliersAction.agregarEditarSuppliers(null)" />
+	<ui:param name="action" value="suppliersAction.addEditSuppliers(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeWarehouse.suppliers_label" />
 	<ui:define name="body">
@@ -34,7 +33,7 @@
 					<h:inputText value="#{suppliersAction.suppliers.name}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100"
-						validator="#{suppliersAction.validarNombreXSS}"
+						validator="#{suppliersAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
@@ -147,7 +146,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{suppliersAction.guardarSuppliers}"
+							action="#{suppliersAction.saveSupplier}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
