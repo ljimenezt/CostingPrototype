@@ -273,3 +273,27 @@ function setFocusPopUp() {
 			$('.rf-pp-cntr'));
 	firstElement.focus();
 }
+
+/**
+ * Funcion que limpia el foco despues de hacer click en botones tipo submit.
+ *
+ */
+$(function(){
+
+	  $( 'input:submit' ).click(function( event ) {
+			 $('input:submit').blur();   		 	
+				});
+});
+
+
+
+/**
+ * Funcion que impide envio de formulario con tecla enter.
+ *
+ */
+$(document).on('keyup keypress', 'form input[type="text"]', function(e) {
+	  if(e.which == 13) {
+	    e.preventDefault();
+	    return false;
+	  }
+	});
