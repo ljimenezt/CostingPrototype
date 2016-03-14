@@ -45,6 +45,8 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	private ActivitiesAndCertifications activitiesAndCertifications;
 	private ActivitiesAndCertificationsPK activitiesAndCertificationsPK;
 
+	private int idCertAndRoles;
+
 	private String nombreBuscar;
 
 	private Paginador paginador = new Paginador();
@@ -193,6 +195,22 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	}
 
 	/**
+	 * @return idCertAndRoles: Identifier of certifications and roles.
+	 */
+	public int getIdCertAndRoles() {
+		return idCertAndRoles;
+	}
+
+	/**
+	 * @param idCertAndRoles
+	 *            : Identifier of certifications and roles.
+	 * 
+	 */
+	public void setIdCertAndRoles(int idCertAndRoles) {
+		this.idCertAndRoles = idCertAndRoles;
+	}
+
+	/**
 	 * @return nombreBuscar: Activity name to search
 	 */
 	public String getNombreBuscar() {
@@ -333,7 +351,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 		StringBuilder consulta = new StringBuilder();
 		StringBuilder unionMensajesBusqueda = new StringBuilder();
 		String mensajeBusqueda = "";
-		int idCertAndRoles = this.certificationsAndRoles
+		this.idCertAndRoles = this.certificationsAndRoles
 				.getIdCertificactionsAndRoles();
 		try {
 			busquedaAvanzada(consulta, parametros, bundle,
@@ -374,8 +392,8 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * Method used to save or edit activities and certifications.
 	 * 
-	 * @return agregarEditarActiAndCert: Method to load the variables and
-	 *         redirects to consult and certification activities.
+	 * @return inicializarBusqueda: Method to initialize the search parameters
+	 *         and load the template to manage activities and certifications.
 	 * 
 	 */
 	public String guardarActivities() {
@@ -403,7 +421,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return agregarEditarActiAndCert(null);
+		return inicializarBusqueda();
 	}
 
 	/**
@@ -437,29 +455,29 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * Method to delete an activity, certification of the database.
 	 * 
-	 * @return agregarEditarActiAndCert: Method to edit or create a
-	 *         certification activity.
+	 * @return inicializarBusqueda: Method to initialize the search parameters
+	 *         and load the template to manage activities and certifications.
 	 */
-	public String eliminarActivitiesCert() {
+	public String eliminarActivitiesAndCert() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
+			int idActivities = this.activities.getIdActivity();
+			ActivitiesAndCertifications activitiesAndCertifications = activitiesAndCertificationsDao
+					.activAndCertifXIdActiviAndIdCertAndRol(idActivities,
+							this.idCertAndRoles);
 			activitiesAndCertificationsDao
 					.eliminarActivitiesAndCertifications(activitiesAndCertifications);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
-					activitiesAndCertificationsPK.getActivities()
-							.getIdActivity()));
+					this.activities.getActivityName().getActivityName()));
 		} catch (EJBException e) {
-			String format = MessageFormat.format(bundle
-					.getString("message_existe_relacion_eliminar"),
-					activitiesAndCertificationsPK.getActivities()
-							.getIdActivity());
+			String format = MessageFormat.format(
+					bundle.getString("message_existe_relacion_eliminar"),
+					this.activities.getActivityName().getActivityName());
 			ControladorContexto.mensajeError(e, null, format);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-
-		return agregarEditarActiAndCert(null);
+		return inicializarBusqueda();
 	}
-
 }

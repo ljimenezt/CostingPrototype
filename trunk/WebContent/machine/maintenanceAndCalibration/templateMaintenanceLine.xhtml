@@ -110,26 +110,26 @@
 				</ui:define>
 				<ui:define name="campos">
 					<h:outputText
-						value="#{mensajeMachine.lineas_mantenimiento_label_nombre_maquina}" />
+						value="#{mensajeMachine.lineas_mantenimiento_label_nombre_maquina}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.machines.name}" />
 
 					<h:outputText
-						value="#{mensajeMachine.mantenimiento_calibracion_label}" />
+						value="#{mensajeMachine.mantenimiento_calibracion_label}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.maintenanceAndCalibration.dateTime}" />
 
-					<h:outputText value="#{mensaje.label_descripcion}" />
+					<h:outputText value="#{mensaje.label_descripcion}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.description}" />
 
 					<h:outputText
-						value="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}" />
+						value="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.costBudget}" />
 
 					<h:outputText
-						value="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}" />
+						value="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.costActual}" />
 				</ui:define>

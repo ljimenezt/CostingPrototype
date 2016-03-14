@@ -59,66 +59,65 @@
 				</h:panelGrid>
 				<a:outputPanel id="panelActCert"
 					rendered="#{activitiesAndCertificationsAction.certificationsAndRoles.idCertificactionsAndRoles ne 0}">
-						<rich:message for="tablaActCert" styleClass="messageInfSpanMsg" />
-						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-							<ui:param name="tieneVigencia" value="no" />
-						</ui:include>
-						<rich:dataTable
-							value="#{activitiesAndCertificationsAction.listActivities}"
-							id="tablaActiCert" var="activitiesCert"
-							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
-							rowClasses="odd-row, even-row" footerClass="H130P">
-							<rich:column styleClass="colIconoUno">
-								<a:outputPanel
-									rendered="#{(identity.autorizado('activitiesAndCertificationsAction','A') or identity.autorizado('activitiesAndCertificationsAction','D'))}">
-									<a:commandLink render="popupEliminar"
-										actionListener="#{activitiesAndCertificationsAction.setActivitiesAndCertifications(activitiesAndCertifications)}"
-										oncomplete="#{rich:component('popupEliminar')}.show()">
-										<h:graphicImage value="/img/delete_16.png" />
-										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.button_eliminar}" />
-										</rich:tooltip>
-									</a:commandLink>
-								</a:outputPanel>
-							</rich:column>
-							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensajeLifeCycle.activity_names_label}</f:facet>
-								<h:outputText
-									value="#{activitiesCert.activityName.activityName}" />
-							</rich:column>
-							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensajeLifeCycle.crop_names_label}</f:facet>
-								<h:outputText value="#{activitiesCert.crop.cropNames.cropName}" />
-							</rich:column>
-							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensajeLifeCycle.crop_names_label}</f:facet>
-								<h:outputText
-									value="#{activitiesCert.crop.cropNames.description}" />
-							</rich:column>
-							<f:facet name="footer">
-								<rich:columnGroup rendered="#{listaVacia}">
-									<rich:column colspan="4" styleClass="footTabla">
-										<h:outputText
-											value="#{mensaje.message_no_existen_registros_tabla}" />
-									</rich:column>
-								</rich:columnGroup>
-							</f:facet>
-						</rich:dataTable>
-						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-							<ui:param name="botonesAbajo" value="si" />
-							<ui:param name="tieneVigencia" value="no" />
-						</ui:include>
-						<a:outputPanel rendered="#{!listaVacia}">
-							<br />
-							<div class="#{anchoTabla} center inBlock">
-								<ui:include src="/plantillas/plantillaPaginador.xhtml">
-									<ui:param name="valReder" value="panelActAndCert" />
-									<ui:param name="beanActionParam"
-										value="#{activitiesAndCertificationsAction}" />
-									<ui:param name="metodoActionParam" value="consultarActividades" />
-								</ui:include>
-							</div>
-						</a:outputPanel>
+					<rich:message for="tablaActCert" styleClass="messageInfSpanMsg" />
+					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+						<ui:param name="tieneVigencia" value="no" />
+					</ui:include>
+					<rich:dataTable
+						value="#{activitiesAndCertificationsAction.listActivities}"
+						id="tablaActiCert" var="activitiesCert"
+						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+						rowClasses="odd-row, even-row" footerClass="H130P">
+						<rich:column styleClass="colIconoUno">
+							<a:outputPanel
+								rendered="#{(identity.autorizado('activitiesAndCertificationsAction','A') or identity.autorizado('activitiesAndCertificationsAction','D'))}">
+								<a:commandLink render="popupEliminar" execute="@this"
+									actionListener="#{activitiesAndCertificationsAction.setActivities(activitiesCert)}"
+									oncomplete="#{rich:component('popupEliminar')}.show()">
+									<h:graphicImage value="/img/delete_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.button_eliminar}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</a:outputPanel>
+						</rich:column>
+						<rich:column styleClass="colTextoMediano">
+							<f:facet name="header">#{mensajeLifeCycle.activity_names_label}</f:facet>
+							<h:outputText value="#{activitiesCert.activityName.activityName}" />
+						</rich:column>
+						<rich:column styleClass="colTextoMediano">
+							<f:facet name="header">#{mensajeLifeCycle.crop_names_label}</f:facet>
+							<h:outputText value="#{activitiesCert.crop.cropNames.cropName}" />
+						</rich:column>
+						<rich:column styleClass="colTextoMediano">
+							<f:facet name="header">#{mensajeLifeCycle.crop_names_label}</f:facet>
+							<h:outputText
+								value="#{activitiesCert.crop.cropNames.description}" />
+						</rich:column>
+						<f:facet name="footer">
+							<rich:columnGroup rendered="#{listaVacia}">
+								<rich:column colspan="4" styleClass="footTabla">
+									<h:outputText
+										value="#{mensaje.message_no_existen_registros_tabla}" />
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+					</rich:dataTable>
+					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+						<ui:param name="botonesAbajo" value="si" />
+						<ui:param name="tieneVigencia" value="no" />
+					</ui:include>
+					<a:outputPanel rendered="#{!listaVacia}">
+						<br />
+						<div class="#{anchoTabla} center inBlock">
+							<ui:include src="/plantillas/plantillaPaginador.xhtml">
+								<ui:param name="valReder" value="panelActAndCert" />
+								<ui:param name="beanActionParam"
+									value="#{activitiesAndCertificationsAction}" />
+								<ui:param name="metodoActionParam" value="consultarActividades" />
+							</ui:include>
+						</div>
+					</a:outputPanel>
 				</a:outputPanel>
 			</rich:panel>
 		</h:form>
@@ -179,7 +178,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{activitiesAndCertificationsAction.eliminarActivitiesCert()}"
+							actionListener="#{activitiesAndCertificationsAction.eliminarActivitiesAndCert()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelActAndCert, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
