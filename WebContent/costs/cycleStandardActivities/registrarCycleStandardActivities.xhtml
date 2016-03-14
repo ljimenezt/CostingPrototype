@@ -46,7 +46,8 @@
 					<rich:message for="cropName" />
 				</h:panelGrid>
 				<div class="anchoCuatro">
-					<a:commandLink id="lnkActivityNames" styleClass="iconsDataTable"
+					<a:commandLink id="lnkActivityNames"
+						styleClass="iconsDataTable quitarDecoracionLink"
 						rendered="#{cycleStandardActivitiesAction.cropNames.idCropName ne 0}"
 						render=":popupForm:popupActivityNames"
 						actionListener="#{cycleStandardActivitiesAction.setIdCropNames(cycleStandardActivitiesAction.cropNames.idCropName)}"
