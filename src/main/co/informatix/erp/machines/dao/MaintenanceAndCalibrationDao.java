@@ -15,7 +15,7 @@ import co.informatix.erp.machines.entities.MaintenanceAndCalibration;
 /**
  * Class DAO that establishes the connection between business logic and
  * database. MaintenanceAndCalibrationAction used for managing
- * MaintenanceAndCalibration
+ * MaintenanceAndCalibration.
  * 
  * @author Mabell.Boada
  * 
@@ -27,26 +27,26 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Edit the information of a maintenance and calibration record
+	 * Edit the information of a maintenance and calibration record.
 	 * 
 	 * @param maintenanceAndCalibration
-	 *            : Maintenance and calibration to edit
+	 *            : Maintenance and calibration to edit.
 	 * @throws Exception
 	 */
-	public void editarMaintenanceAndCalibration(
+	public void editMaintenanceAndCalibration(
 			MaintenanceAndCalibration maintenanceAndCalibration)
 			throws Exception {
 		em.merge(maintenanceAndCalibration);
 	}
 
 	/**
-	 * Save the maintenance and calibration in the database
+	 * Save the maintenance and calibration in the database.
 	 * 
 	 * @param maintenanceAndCalibration
-	 *            :Maintenance and calibration to save
+	 *            :Maintenance and calibration to save.
 	 * @throws Exception
 	 */
-	public void guardarMaintenanceAndCalibration(
+	public void saveMaintenanceAndCalibration(
 			MaintenanceAndCalibration maintenanceAndCalibration)
 			throws Exception {
 		em.persist(maintenanceAndCalibration);
@@ -54,7 +54,7 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 
 	/**
 	 * Returns the number of existing maintenance and calibration in the
-	 * database by filtering the information by the values sent search
+	 * database by filtering the information by the values sent search.
 	 * 
 	 * @modify 13/11/2015 cristhian.pico
 	 * 
@@ -63,18 +63,18 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 	 *            filtered.
 	 * @param parameters
 	 *            : query parameters.
-	 * @return Long: Number of calibration and maintenance records found
+	 * @return Long: Number of calibration and maintenance records found.
 	 * @throws Exception
 	 */
-	public Long cantidadMaintenanceAndCalibration(StringBuilder consult,
+	public Long quantityMaintenanceAndCalibration(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(mc) FROM MaintenanceAndCalibration mc ");
 		query.append("LEFT JOIN mc.machines m ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -82,13 +82,13 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 	/**
 	 * This method queries the maintenance and calibration with a range defined
 	 * as a parameter sent and filtering the information by the values sent
-	 * search
+	 * search.
 	 * 
 	 * @modify 13/11/2015 cristhian.pico
 	 * @modify 04/12/2015 Andres.Gomez
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :where he started the consultation record.
 	 * @param range
 	 *            : range of records
 	 * @param consult
@@ -96,11 +96,11 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 	 * @param parameters
 	 *            : consult parameters.
 	 * @return List<MaintenanceAndCalibration>: List of maintenance and
-	 *         calibration
+	 *         calibration.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MaintenanceAndCalibration> consultarMaintenanceAndCalibration(
+	public List<MaintenanceAndCalibration> consultMaintenanceAndCalibration(
 			int start, int range, StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -109,8 +109,8 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY mc.dateTime DESC ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<MaintenanceAndCalibration> resultList = q.getResultList();
@@ -143,15 +143,15 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 	}
 
 	/**
-	 * Consult a record of the class by identifier MaintenanceLines
+	 * Consult a record of the class by identifier MaintenanceLines.
 	 * 
 	 * @param id
-	 *            : MaintenanceLines primary key class
-	 * @return MaintenanceAndCalibration: Object Maintenance and calibration
+	 *            : MaintenanceLines primary key class.
+	 * @return MaintenanceAndCalibration: Object Maintenance and calibration.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MaintenanceAndCalibration> mantenimientoCalibracionXId(int id)
+	public List<MaintenanceAndCalibration> maintenanceCalibrationXId(int id)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT mc FROM MaintenanceAndCalibration mc ");
@@ -164,16 +164,16 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 
 	/**
 	 * Method that consult all maintenance object depend search criteria and
-	 * stores it in a list
+	 * stores it in a list.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param idMachine
-	 *            : Identifier of the machine to search
+	 *            : Identifier of the machine to search.
 	 * @param year
-	 *            : year to search a machine
+	 *            : year to search a machine.
 	 * 
-	 * @return Boolean: double with the plus of the cost actual
+	 * @return Boolean: double with the plus of the cost actual.
 	 * @throws Exception
 	 */
 	public Double calculateMaintenance(int idMachine, String year)

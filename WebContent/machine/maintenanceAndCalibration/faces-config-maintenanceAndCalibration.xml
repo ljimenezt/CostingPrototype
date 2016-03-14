@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesMaintAndCali</from-outcome>
-			<to-view-id>/machine/maintenanceAndCalibration/gestionarMaintenanceAndCalibration.xhtml</to-view-id>
+			<to-view-id>/machine/maintenanceAndCalibration/manageMaintenanceAndCalibration.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regMaintAndCal</from-outcome>
-			<to-view-id>/machine/maintenanceAndCalibration/registrarMaintenanceAndCalibration.xhtml</to-view-id>
+			<to-view-id>/machine/maintenanceAndCalibration/registerMaintenanceAndCalibration.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

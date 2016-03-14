@@ -11,7 +11,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="maintenanceAndCalibrationAction.agregarEditarMaintenanceAndCalibration(null)" />
+		value="maintenanceAndCalibrationAction.addEditMaintenanceAndCalibration(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeMachine.mantenimiento_calibracion_label" />
 	<ui:define name="body">
@@ -40,7 +40,7 @@
 							<f:selectItems
 								value="#{maintenanceAndCalibrationAction.machinesTypeItems}" />
 							<f:ajax event="change"
-								listener="#{maintenanceAndCalibrationAction.llenarMachine()}"
+								listener="#{maintenanceAndCalibrationAction.loadMachine()}"
 								render=":formMaintenanceAndCalibration:maquina" />
 							<f:attribute name="tipo" value="Int" />
 						</h:selectOneMenu>
@@ -145,7 +145,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{maintenanceAndCalibrationAction.guardarMaintenanceAndCalibration()}"
+							action="#{maintenanceAndCalibrationAction.saveMaintenanceAndCalibration()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

@@ -11,15 +11,15 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="maintenanceAndCalibrationAction.inicializarBusqueda" />
+		value="maintenanceAndCalibrationAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeMachine.mantenimiento_calibracion_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceAndCalibrationAction}" />
 		<ui:param name="listaVacia"
-			value="#{maintenanceAndCalibrationAction.listaMaintenanceAndCalibrations eq null 
-			or (empty maintenanceAndCalibrationAction.listaMaintenanceAndCalibrations)}" />
+			value="#{maintenanceAndCalibrationAction.listMaintenanceAndCalibrations eq null 
+			or (empty maintenanceAndCalibrationAction.listMaintenanceAndCalibrations)}" />
 		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista"
@@ -33,11 +33,11 @@
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="maintenanceAndCalibrationAction" />
 		<ui:param name="metodoNuevo"
-			value="agregarEditarMaintenanceAndCalibration" />
+			value="addEditMaintenanceAndCalibration" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formMaintenanceAndCalibration">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -66,7 +66,7 @@
 								<f:selectItems
 									value="#{maintenanceAndCalibrationAction.machinesTypeItems}" />
 								<f:ajax event="change"
-									listener="#{maintenanceAndCalibrationAction.llenarMachine()}"
+									listener="#{maintenanceAndCalibrationAction.loadMachine()}"
 									render=":formMaintenanceAndCalibration:modelSearch" />
 							</h:selectOneMenu>
 
@@ -109,7 +109,7 @@
 						<ui:param name="tieneVigencia" value="no" />
 					</ui:include>
 					<rich:dataTable id="maintenanceCalibrationTable"
-						value="#{maintenanceAndCalibrationAction.listaMaintenanceAndCalibrations}"
+						value="#{maintenanceAndCalibrationAction.listMaintenanceAndCalibrations}"
 						var="maintenanceAndCalibration"
 						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 						rowClasses="odd-row, even-row" footerClass="H130P">
@@ -131,7 +131,7 @@
 						<rich:column styleClass="colFecha">
 							<f:facet name="header">#{mensajeMachine.mantenimiento_calibracion_label_fecha_mantenimiento}</f:facet>
 							<h:commandLink
-								action="#{maintenanceAndCalibrationAction.agregarEditarMaintenanceAndCalibration(maintenanceAndCalibration)}"
+								action="#{maintenanceAndCalibrationAction.addEditMaintenanceAndCalibration(maintenanceAndCalibration)}"
 								onclick="#{rich:component('statPane')}.show();">
 								<h:outputText value="#{maintenanceAndCalibration.dateTime}">
 									<f:convertDateTime pattern="MMM dd yyyy" />
@@ -208,7 +208,7 @@
 								<ui:param name="beanActionParam"
 									value="#{maintenanceAndCalibrationAction}" />
 								<ui:param name="metodoActionParam"
-									value="consultarMaintenanceAndCalibration" />
+									value="consultMaintenanceAndCalibration" />
 							</ui:include>
 						</div>
 					</a:outputPanel>
@@ -235,7 +235,7 @@
 						value="#{mensaje.label_fecha_inicio}:" />
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar
-						value="#{maintenanceAndCalibrationAction.fechaInicioBuscar}"
+						value="#{maintenanceAndCalibrationAction.startDateSearch}"
 						showOn="button" navigator="true" onSelectUpdate="fechFin"
 						id="fechaInicio" pattern="MM/dd/yyyy" required="true"
 						label="#{mensaje.label_fecha_inicio}">
@@ -246,9 +246,9 @@
 						value="#{mensaje.label_fecha_finalizacion}:" />
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar
-						value="#{maintenanceAndCalibrationAction.fechaFinBuscar}"
+						value="#{maintenanceAndCalibrationAction.endDateSearch}"
 						showOn="button" navigator="true" required="true"
-						mindate="#{maintenanceAndCalibrationAction.fechaInicioBuscar}"
+						mindate="#{maintenanceAndCalibrationAction.startDateSearch}"
 						id="fechFin" pattern="MM/dd/yyyy"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
 						label="#{mensaje.label_fecha_finalizacion}" />
