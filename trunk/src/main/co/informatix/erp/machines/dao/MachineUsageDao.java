@@ -12,8 +12,8 @@ import javax.persistence.Query;
 import co.informatix.erp.machines.entities.MachineUsage;
 
 /**
- * Class DAO that establishes the connection between business logic and database
- * for handling the manage usage.
+ * DAO Class that establishes the connection between business logic and database
+ * for handling the machine usages.
  * 
  * @author Andres.Gomez
  * 
@@ -26,10 +26,10 @@ public class MachineUsageDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Saves a machine usage in the DB
+	 * Saves a machine usage in the DataBase.
 	 * 
 	 * @param machineUsage
-	 *            : one machine usage to save.
+	 *            : One machine usage to save.
 	 * @throws Exception
 	 */
 	public void saveMachineUsage(MachineUsage machineUsage) throws Exception {
@@ -37,10 +37,10 @@ public class MachineUsageDao implements Serializable {
 	}
 
 	/**
-	 * Edits a machine usage BD
+	 * Edits a machine usage in the database.
 	 * 
 	 * @param machineUsage
-	 *            : machine usage to edit.
+	 *            : Machine usage to edit.
 	 * @throws Exception
 	 */
 	public void editMachineUsage(MachineUsage machineUsage) throws Exception {
@@ -48,10 +48,10 @@ public class MachineUsageDao implements Serializable {
 	}
 
 	/**
-	 * Deletes a machine usage BD
+	 * Deletes a machine usage of the database.
 	 * 
 	 * @param machineUsage
-	 *            : machine usage to remove
+	 *            : Machine usage to remove.
 	 * @throws Exception
 	 */
 	public void deleteMachineUsage(MachineUsage machineUsage) throws Exception {
@@ -59,68 +59,67 @@ public class MachineUsageDao implements Serializable {
 	}
 
 	/**
-	 * Consult the machine usage with a identifier
+	 * Query the machine usage according to an identifier.
 	 * 
 	 * @param machineUsage
-	 *            : identifier of the machine usage to found
-	 * @return machineUsage: Object founded for the identifier
+	 *            : Identifier of the machine usage to find.
+	 * @return machineUsage: Object found with the identifier.
 	 * @throws Exception
 	 */
-	public MachineUsage machineUsageXId(int machineUsage) throws Exception {
+	public MachineUsage machineUsageById(int machineUsage) throws Exception {
 		return em.find(MachineUsage.class, machineUsage);
 	}
 
 	/**
-	 * Returns the number of machine usages in the database information by
-	 * filtering the search values sent.
+	 * Returns the number of machine usages in the database; its information is
+	 * filtered with search values.
 	 * 
-	 * @param consult
-	 *            : String containing the query for which the properties are
-	 *            filtered.
+	 * @param query
+	 *            : String containing the query with its properties filtered.
 	 * @param parameters
-	 *            : query parameters.
-	 * @return Long: number of records found machine usage
+	 *            : Query parameters.
+	 * @return Long: Amount of machine usage records found.
 	 * @throws Exception
 	 */
-	public Long amountMachineUsage(StringBuilder consult,
+	public Long machineUsageAmount(StringBuilder query,
 			List<SelectItem> parameters) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(mu) FROM MachineUsage mu ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(mu) FROM MachineUsage mu ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+			queryResult
+					.setParameter(parametro.getLabel(), parametro.getValue());
 		}
-		return (Long) q.getSingleResult();
+		return (Long) queryResult.getSingleResult();
 	}
 
 	/**
-	 * This method build the query to the advanced search also allows messages
-	 * to display build depending on the search criteria selected by the user.
+	 * This method builds a query with an advanced search, it also makes display
+	 * messages depending on the search criteria selected by the user.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            : The first record retrieved of the query result.
 	 * @param range
-	 *            : range of records
-	 * @param consult
+	 *            : Range of records
+	 * @param query
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : consult parameters.
-	 * @return List<MachineUsage>: list of the machine usages.
+	 * @return List<MachineUsage>: List of the machine usages.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MachineUsage> consultMachineUsage(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT mu FROM MachineUsage mu ");
-		query.append("JOIN mu.machineUsagePK.machine ma ");
-		query.append(consult);
-		query.append("ORDER BY mu.usage ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public List<MachineUsage> searchMachineUsage(int start, int range,
+			StringBuilder query, List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT mu FROM MachineUsage mu ");
+		queryBuilder.append("JOIN mu.machineUsagePK.machine ma ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY mu.usage ");
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<MachineUsage> resultList = q.getResultList();
@@ -131,9 +130,10 @@ public class MachineUsageDao implements Serializable {
 	}
 
 	/**
-	 * Method that consult all Machine Usages object and stores it in a list
+	 * Method that queries all Machine Usages object and retrieves then in a
+	 * list.
 	 * 
-	 * @return List<MachineUsage>: Machine Usages list
+	 * @return List<MachineUsage>: Machine Usages list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -143,25 +143,24 @@ public class MachineUsageDao implements Serializable {
 	}
 
 	/**
-	 * Consultation if the machine there in the database when storing or
-	 * editing.
+	 * Check if the machine is in the database when storing or editing.
 	 * 
-	 * @param idMachine
-	 *            : identifier machine to verify
+	 * @param machineId
+	 *            : Machine Identifier to verify.
 	 * @param year
-	 *            : year harvest to verify
-	 * @return MachineUsage: Object machine usage
+	 *            : Harvest year to verify.
+	 * @return MachineUsage: Object machine usage.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public MachineUsage machineUsageExists(int idMachine, int year)
+	public MachineUsage machineUsageExists(int machineId, int year)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT mu FROM MachineUsage mu ");
 		query.append("WHERE mu.machineUsagePK.machine.idMachine = :idMachine ");
 		query.append("AND mu.machineUsagePK.year = :year ");
 		Query q = em.createQuery(query.toString());
-		q.setParameter("idMachine", idMachine);
+		q.setParameter("idMachine", machineId);
 		q.setParameter("year", year);
 		List<MachineUsage> results = q.getResultList();
 		if (results.size() > 0) {
@@ -171,27 +170,27 @@ public class MachineUsageDao implements Serializable {
 	}
 
 	/**
-	 * Method that consult all activity and machine object and stores it in a
-	 * list
+	 * Method that queries all activities and machine object and stores it in a
+	 * list.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param year
-	 *            : year to search a machine usage
+	 *            : Year to search a machine usage.
 	 * 
-	 * @return List<MachineUsage>: Machine Usage list
+	 * @return List<MachineUsage>: Machine Usage list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<MachineUsage> listMachineUsageXYear(int year) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT mu FROM MachineUsage mu ");
-		query.append("JOIN FETCH mu.machineUsagePK.machine ma ");
-		query.append("WHERE mu.machineUsagePK.year = :year ");
-		query.append("AND mu.usage IS NOT NULL ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("year", year);
-		List<MachineUsage> resultList = q.getResultList();
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT mu FROM MachineUsage mu ");
+		queryBuilder.append("JOIN FETCH mu.machineUsagePK.machine ma ");
+		queryBuilder.append("WHERE mu.machineUsagePK.year = :year ");
+		queryBuilder.append("AND mu.usage IS NOT NULL ");
+		Query query = em.createQuery(queryBuilder.toString());
+		query.setParameter("year", year);
+		List<MachineUsage> resultList = query.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
