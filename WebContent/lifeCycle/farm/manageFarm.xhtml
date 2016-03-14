@@ -44,7 +44,7 @@
 						<a:outputPanel>
 							<h:commandLink onclick="#{rich:component('statPane')}.show();"
 								actionListener="#{plotAction.setFarm(farm)}"
-								action="#{plotAction.inicializarBusqueda()}">
+								action="#{plotAction.searchInitialization()}">
 								<f:setPropertyActionListener
 									target="#{plotAction.farmParameter}" value="true" />
 								<h:graphicImage value="/img/add_16.png" />
