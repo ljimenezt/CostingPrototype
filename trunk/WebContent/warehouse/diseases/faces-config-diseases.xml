@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesDiseases</from-outcome>
-			<to-view-id>/warehouse/diseases/gestionarDiseases.xhtml</to-view-id>
+			<to-view-id>/warehouse/diseases/manageDiseases.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regDiseases</from-outcome>
-			<to-view-id>/warehouse/diseases/registrarDiseases.xhtml</to-view-id>
+			<to-view-id>/warehouse/diseases/registerDiseases.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

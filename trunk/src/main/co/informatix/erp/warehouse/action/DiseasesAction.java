@@ -25,7 +25,7 @@ import co.informatix.erp.warehouse.entities.Diseases;
 
 /**
  * This class is all the logic related to the creation, updating, and deleting
- * diseases in the system
+ * diseases in the system.
  * 
  * @author Mabell.Boada
  * 
@@ -34,31 +34,31 @@ import co.informatix.erp.warehouse.entities.Diseases;
 @ManagedBean
 @RequestScoped
 public class DiseasesAction implements Serializable {
-	private List<Diseases> listaDiseases;
+	private List<Diseases> listDiseases;
 	private Paginador paginador = new Paginador();
 	private Diseases diseases;
-	private String nombreBuscar;
+	private String nameSearch;
 
 	@EJB
 	private DiseasesDao diseasesDao;
 
 	/**
-	 * @return listaDiseases: List of diseases
+	 * @return listDiseases: List of diseases.
 	 */
-	public List<Diseases> getListaDiseases() {
-		return listaDiseases;
+	public List<Diseases> getListDiseases() {
+		return listDiseases;
 	}
 
 	/**
-	 * @param listaDiseases
-	 *            : List of diseases
+	 * @param listDiseases
+	 *            : List of diseases.
 	 */
-	public void setListaDiseases(List<Diseases> listaDiseases) {
-		this.listaDiseases = listaDiseases;
+	public void setListDiseases(List<Diseases> listDiseases) {
+		this.listDiseases = listDiseases;
 	}
 
 	/**
-	 * @return paginador: Paging from the list of diseases that can be in view
+	 * @return paginador: Paging from the list of diseases that can be in view.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -66,14 +66,14 @@ public class DiseasesAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : Paging from the list of diseases that can be in view
+	 *            : Paging from the list of diseases that can be in view.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return diseases: Object of diseases
+	 * @return diseases: Object of diseases.
 	 */
 	public Diseases getDiseases() {
 		return diseases;
@@ -81,84 +81,82 @@ public class DiseasesAction implements Serializable {
 
 	/**
 	 * @param diseases
-	 *            : Object of diseases
+	 *            : Object of diseases.
 	 */
 	public void setDiseases(Diseases diseases) {
 		this.diseases = diseases;
 	}
 
 	/**
-	 * @return nombreBuscar: Name by which you want to consult disease
+	 * @return nameSearch: Name by which you want to consult disease.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : Name by which you want to consult disease
+	 * @param nameSearch
+	 *            : Name by which you want to consult disease.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * list of diseases
+	 * list of diseases.
 	 * 
-	 * @return consultarDiseases: Method consulting diseases, returns to the
-	 *         template management
+	 * @return consultDiseases: Method consulting diseases, returns to the
+	 *         template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarDiseases();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultDiseases();
 	}
 
 	/**
-	 * Consult the list of existing diseases
+	 * Consult the list of existing diseases.
 	 * 
 	 * @modify 13/05/2015 Cristhian.Pico
 	 * 
-	 * @return gesDiseases: Navigation rule that redirects manage diseases
+	 * @return gesDiseases: Navigation rule that redirects manage diseases.
 	 */
-	public String consultarDiseases() {
+	public String consultDiseases() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleWarehouse = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaDiseases = new ArrayList<Diseases>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listDiseases = new ArrayList<Diseases>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = diseasesDao.cantidadDiseases(consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
+			Long quantity = diseasesDao.quantityDiseases(consult, parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaDiseases = diseasesDao.consultarDiseases(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaDiseases == null || listaDiseases.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listDiseases = diseasesDao.consultDiseases(paginador.getInicio(),
+					paginador.getRango(), consult, parameters);
+			if ((listDiseases == null || listDiseases.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaDiseases == null || listaDiseases.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listDiseases == null || listDiseases.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleWarehouse.getString("diseases_label"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -171,37 +169,37 @@ public class DiseasesAction implements Serializable {
 	 * by the user.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(d.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
 	/**
-	 * Method to edit or create a new disease
+	 * Method to edit or create a new disease.
 	 * 
 	 * @param diseases
-	 *            : Disease are adding or editing
+	 *            : Disease are adding or editing.
 	 * 
-	 * @return regDiseases: Template redirects to register disease
+	 * @return regDiseases: Template redirects to register disease.
 	 */
-	public String agregarEditarDiseases(Diseases diseases) {
+	public String addEditDiseases(Diseases diseases) {
 		if (diseases != null) {
 			this.diseases = diseases;
 		} else {
@@ -215,31 +213,31 @@ public class DiseasesAction implements Serializable {
 	 * database and validates against XSS.
 	 * 
 	 * @param context
-	 *            : Application context
+	 *            : Application context.
 	 * 
 	 * @param toValidate
-	 *            : Validate component
+	 *            : Validate component.
 	 * @param value
-	 *            : Field value is validated
+	 *            : Field value is validated.
 	 */
-	public void validarNombreXSS(FacesContext context, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String nombre = (String) value;
+		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = diseases.getIdDisease();
 			Diseases diseasesAux = new Diseases();
-			diseasesAux = diseasesDao.nombreExiste(nombre, id);
+			diseasesAux = diseasesDao.nameExist(name, id);
 			if (diseasesAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
-								.getString(mensajeExistencia), null));
+								.getString(messageExistence), null));
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -249,47 +247,48 @@ public class DiseasesAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit diseases
+	 * Method used to save or edit diseases.
 	 * 
 	 * @modify 13/05/2015 Cristhian.Pico
 	 * 
-	 * @return consultarDiseases: Redirects to manage the disease with the list
-	 *         of names updated
+	 * @return consultDiseases: Redirects to manage the disease with the list of
+	 *         names updated.
 	 */
-	public String guardarDiseases() {
+	public String saveDiseases() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 
 			if (diseases.getIdDisease() != 0) {
-				diseasesDao.editarDiseases(diseases);
+				diseasesDao.editDiseases(diseases);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				diseasesDao.guardarDiseases(diseases);
+				messageLog = "message_registro_guardar";
+				diseasesDao.saveDiseases(diseases);
 			}
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), diseases.getName()));
+			ControladorContexto.mensajeInformacion(
+					null,
+					MessageFormat.format(bundle.getString(messageLog),
+							diseases.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarDiseases();
+		return consultDiseases();
 	}
 
 	/**
-	 * Method for eliminating a disease of the database
+	 * Method for eliminating a disease of the database.
 	 * 
 	 * 
-	 * @return consultarDiseases: Redirects to manage the disease with the list
-	 *         of names updated
+	 * @return consultDiseases: Redirects to manage the disease with the list of
+	 *         names updated.
 	 */
-	public String eliminarDiseases() {
+	public String removeDiseases() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			diseasesDao.eliminarDiseases(diseases);
+			diseasesDao.removeDiseases(diseases);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(bundle
-							.getString("message_registro_eliminar")), diseases
-							.getName()));
+					bundle.getString("message_registro_eliminar"),
+					diseases.getName()));
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),
@@ -298,8 +297,7 @@ public class DiseasesAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-
-		return consultarDiseases();
+		return consultDiseases();
 	}
 
 }

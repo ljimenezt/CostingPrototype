@@ -125,9 +125,11 @@ public class PlotDao implements Serializable {
 	 * @modify 14/03/2016 Jhair.Leal
 	 * 
 	 * @param name
-	 *            : plot name to verify
+	 *            : plot name to verify.
 	 * @param id
-	 *            : identifier to verify the plot
+	 *            : identifier to verify the plot.
+	 * @param idFarm
+	 *            : identifier to verify the farm.
 	 * @return Plot: plot object found with the search parameters name and
 	 *         identifier.
 	 * @throws Exception
