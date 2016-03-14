@@ -383,7 +383,8 @@
 				<br />
 				<div align="center">
 					<h:panelGrid columns="2">
-						<a:commandButton render="formAssignActivities, mensajes"
+						<a:commandButton
+							render="formGenerico, formAssignActivities, mensajes"
 							rendered="#{cropActivitiesAction.crops.idCrop ne 0}"
 							id="btnRegresar" execute="@form"
 							actionListener="#{cropActivitiesAction.agregarEditarCropActivities(null)}"
