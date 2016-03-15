@@ -821,10 +821,10 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
 		try {
 			if (maintenanceLines.getIdMaintenanceline() != 0) {
-				maintenanceLinesDao.editarMaintenanceLines(maintenanceLines);
+				maintenanceLinesDao.editMaintenanceLines(maintenanceLines);
 			} else {
 				messageLog = "message_registro_guardar";
-				maintenanceLinesDao.guardarMaintenanceLines(maintenanceLines);
+				maintenanceLinesDao.saveMaintenanceLines(maintenanceLines);
 			}
 			Double costBudget = 0d;
 			Double costActual = 0d;
