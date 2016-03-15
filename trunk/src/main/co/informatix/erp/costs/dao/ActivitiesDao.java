@@ -320,6 +320,7 @@ public class ActivitiesDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT a FROM Activities a ");
 		query.append("JOIN FETCH a.activityName an ");
+		query.append("ORDER BY an.activityName ASC");
 		Query q = em.createQuery(query.toString());
 		List<Activities> resultList = q.getResultList();
 		if (resultList.size() > 0) {

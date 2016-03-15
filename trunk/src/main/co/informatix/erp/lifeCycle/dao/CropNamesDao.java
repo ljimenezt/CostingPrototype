@@ -158,7 +158,7 @@ public class CropNamesDao implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<CropNames> listCropNames() throws Exception {
-		Query q = em.createQuery("SELECT cn FROM CropNames cn ");
+		Query q = em.createQuery("SELECT cn FROM CropNames cn ORDER BY cn.cropName ASC");
 		return q.getResultList();
 
 	}

@@ -78,7 +78,7 @@ public class SectionDao implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Section> listSection() throws Exception {
-		Query q = em.createQuery("SELECT s FROM Section s ");
+		Query q = em.createQuery("SELECT s FROM Section s ORDER BY s.name ");
 		return q.getResultList();
 	}
 

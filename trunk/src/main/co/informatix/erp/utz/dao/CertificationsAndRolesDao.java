@@ -79,6 +79,7 @@ public class CertificationsAndRolesDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT cr FROM CertificationsAndRoles cr ");
+		query.append("ORDER BY cr.name ASC");
 		Query q = em.createQuery(query.toString());
 		List<CertificationsAndRoles> resultList = q.getResultList();
 		if (resultList.size() > 0) {

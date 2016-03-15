@@ -104,7 +104,7 @@ public class CropsDao implements Serializable {
 	 * 
 	 * @param id
 	 *            : Harvest identifier to consult.
-	 *            
+	 * 
 	 * @return: Crops object found with the search parameter identifier.
 	 * @throws Exception
 	 */
@@ -165,7 +165,7 @@ public class CropsDao implements Serializable {
 				.createQuery(
 						"SELECT c FROM Crops c "
 								+ "WHERE c.cropNames.idCropName=:idCropsName "
-								+ "ORDER BY c.description")
+								+ "ORDER BY c.description ASC")
 				.setParameter("idCropsName", idCropsName).getResultList();
 	}
 
@@ -233,7 +233,7 @@ public class CropsDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT c FROM  Crops c ");
 		query.append("JOIN FETCH c.cropNames cn ");
-		query.append("ORDER BY c.idCrop ");
+		query.append("ORDER BY c.description ");
 		Query q = em.createQuery(query.toString());
 		List<Crops> resultList = q.getResultList();
 		if (resultList.size() > 0) {

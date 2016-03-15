@@ -198,6 +198,7 @@ public class HrDao implements Serializable {
 	public List<Hr> consultarHr() throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT hr FROM Hr hr ");
+		query.append("ORDER BY hr.name ASC");
 		Query q = em.createQuery(query.toString());
 		List<Hr> resultList = q.getResultList();
 		if (resultList.size() > 0) {

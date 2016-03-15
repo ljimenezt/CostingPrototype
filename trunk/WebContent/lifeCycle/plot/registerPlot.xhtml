@@ -48,8 +48,6 @@
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
 						<f:selectItems value="#{plotAction.optionsFarm}" />
-						<f:ajax event="change" listener="#{plotAction.consultPlots()}"
-							render="formPlot" />
 					</h:selectOneMenu>
 					<h:outputText value="#{plotAction.farm.name}"
 						styleClass="MarginL0P"

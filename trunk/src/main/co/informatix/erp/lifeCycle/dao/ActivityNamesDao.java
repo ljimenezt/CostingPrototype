@@ -305,6 +305,7 @@ public class ActivityNamesDao implements Serializable {
 		query.append(" ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCrop", idCrop);
+		query.append("ORDER BY an.activityName ASC ");
 		List<ActivityNames> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
