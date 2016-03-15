@@ -179,12 +179,14 @@ public class FarmDao implements Serializable {
 	 * 
 	 * @author Andres.Gomez
 	 * 
+	 * @modify 15/03/2016 Wilhelm.Boada
+	 * 
 	 * @return List<Farm>: Farms list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Farm> farmsList() throws Exception {
-		Query q = em.createQuery("SELECT f FROM Farm f ");
+		Query q = em.createQuery("SELECT f FROM Farm f ORDER BY f.name ");
 		return q.getResultList();
 
 	}
