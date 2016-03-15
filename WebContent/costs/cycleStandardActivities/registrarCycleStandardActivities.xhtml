@@ -349,6 +349,7 @@
 								value="#{mensajeCosts.cycle_standard_activities_label_num_secuencia}" />
 							<h:outputText value="" />
 							<h:inputText
+								label="#{mensajeCosts.cycle_standard_activities_label_num_secuencia}"
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.sequenceNumber}"
 								styleClass="colNumeroLargo MP0" id="txtSecNum">
 							</h:inputText>
@@ -361,6 +362,7 @@
 								value="#{mensajeCosts.cycle_standard_activities_label_duracion}" />
 							<h:outputText value="" />
 							<h:inputText
+								label="#{mensajeCosts.cycle_standard_activities_label_duracion}"
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.duration}"
 								styleClass="colNumeroLargo MP0" id="txtDuration">
 							</h:inputText>
@@ -378,7 +380,6 @@
 					</a:outputPanel>
 				</rich:panel>
 			</rich:popupPanel>
-
 		</h:form>
 
 		<h:form id="formConfirmar">
