@@ -170,13 +170,13 @@
 					</div>
 					<br />
 					<div align="center">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							render="formGenerico, seleccionarTrabajador:trabajadores "
 							actionListener="#{activitiesAndHrAction.agregarTrabajadores()}"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpAgregarTrabajador')}.hide();}
 									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
 						</a:commandButton>
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							render="seleccionarTrabajador:trabajadores"
 							onclick="#{rich:component('popUpAgregarTrabajador')}.hide()" />
 					</div>
@@ -203,11 +203,11 @@
 						styleClass="etiquetaTitulo" />
 				</ui:define>
 				<ui:define name="botones">
-					<a:commandButton value="#{mensaje.button_aceptar}"
+					<a:commandButton value="#{mensaje.button_accept}"
 						render=":formActivitiesAndHr, mensajes, mensajeBusqueda"
 						actionListener="#{activitiesAndHrAction.crearListaActivitiesAndHr()}"
 						onclick="#{rich:component('popUpConfirmarSeleccionTrabajador')}.hide(); #{rich:component('popUpEditarActivitiesAndHr')}.hide(); #{rich:component('popupTrabajador')}.hide(); #{rich:component('statPane')}.show();" />
-					<a:commandButton value="#{mensaje.button_cancelar}"
+					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popUpConfirmarSeleccionTrabajador')}.hide()" />
 				</ui:define>
 			</ui:decorate>
@@ -312,13 +312,13 @@
 						<br />
 						<br />
 						<div align="center">
-							<a:commandButton value="#{mensaje.button_guardar}"
+							<a:commandButton value="#{mensaje.button_save}"
 								execute="formEditarActivitiesAndHr"
 								render="formConfirmarSeleccionTrabajador:popUpConfirmarSeleccionTrabajador,formGenerico"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmarSeleccionTrabajador')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
-							<a:commandButton value="#{mensaje.button_cancelar}"
+							<a:commandButton value="#{mensaje.button_cancel}"
 								onclick="#{rich:component('popUpEditarActivitiesAndHr')}.hide()" />
 						</div>
 						<br />
@@ -350,11 +350,11 @@
 						value="#{activitiesAndHrAction.activitiesAndHr.activitiesAndHrPK.hr.name}" />
 				</ui:define>
 				<ui:define name="botones">
-					<a:commandButton value="#{mensaje.button_aceptar}"
+					<a:commandButton value="#{mensaje.button_accept}"
 						render="formActivitiesAndHr, mensajes, mensajeBusqueda"
 						actionListener="#{activitiesAndHrAction.eliminarActivitiesAndHr()}"
 						onclick="#{rich:component('popupEliminar')}.hide();" />
-					<a:commandButton value="#{mensaje.button_cancelar}"
+					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popupEliminar')}.hide()" />
 				</ui:define>
 			</ui:decorate>

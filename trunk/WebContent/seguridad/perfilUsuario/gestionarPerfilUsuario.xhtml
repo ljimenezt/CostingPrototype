@@ -42,7 +42,7 @@
 						</ui:include>
 						<br />
 						<div class="inBlock W100Per center">
-							<a:commandButton value="#{mensaje.button_guardar}"
+							<a:commandButton value="#{mensaje.button_save}"
 								actionListener="#{perfilUsuarioAction.setGuardarPersonaDesdePerfil('true')}"
 								action="#{personaAction.requeridosOk('formPerfilUsuario')}"
 								render="formGenerico,confirmacionPopUp"
@@ -159,11 +159,11 @@
 							value="#{perfilUsuarioAction.permisoPersonaEmpresa.empresa.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							render="tableEmpresasPermisos, mensajes, mensajeBusqueda"
 							onclick="#{rich:component('popupPredeterminada')}.hide()"
 							actionListener="#{perfilUsuarioAction.predeterminarEmpresa()}" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupPredeterminada')}.hide()" />
 					</ui:define>
 				</ui:decorate>

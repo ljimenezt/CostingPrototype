@@ -28,8 +28,7 @@
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="certificationsAndRolesAction" />
-		<ui:param name="metodoNuevo"
-			value="addEditCertificationsAndRoles" />
+		<ui:param name="metodoNuevo" value="addEditCertificationsAndRoles" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
@@ -147,7 +146,7 @@
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelCertificationsAndRoles, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -175,11 +174,11 @@
 							value="#{certificationsAndRolesAction.certificationsAndRoles.name}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{certificationsAndRolesAction.removeCertificationsAndRoles()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelCertificationsAndRoles, mensajes, mensajeBusqueda" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

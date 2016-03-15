@@ -64,19 +64,19 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelEmpresa, mensajes"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								actionListener="#{empresaAction.vigenciaEmpresa('true', empresaAction.tabSelect)}"
 								rendered="#{empresaAction.vigencia eq 'si'}" />
 
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelEmpresa, mensajes"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								actionListener="#{empresaAction.vigenciaEmpresa('false', empresaAction.tabSelect)}"
 								rendered="#{empresaAction.vigencia eq 'no'}" />
 						</a:outputPanel>
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -109,7 +109,7 @@
 						render="panelEmpresa, mensajes, mensajeBusqueda">
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

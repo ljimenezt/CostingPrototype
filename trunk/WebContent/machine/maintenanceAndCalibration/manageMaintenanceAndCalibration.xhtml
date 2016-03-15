@@ -32,8 +32,7 @@
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="maintenanceAndCalibrationAction" />
-		<ui:param name="metodoNuevo"
-			value="addEditMaintenanceAndCalibration" />
+		<ui:param name="metodoNuevo" value="addEditMaintenanceAndCalibration" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
@@ -260,7 +259,7 @@
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
 						render="panelMaintenanceAndCalibration, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -311,7 +310,7 @@
 									oncomplete="#{rich:component('popupMaintenanceLine')}.show();">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/new_16.png" />
-										<h:outputText value="#{mensaje.button_nuevo}" />
+										<h:outputText value="#{mensaje.button_new}" />
 									</h:panelGrid>
 								</a:commandLink>
 								<a:commandLink render="outPutSearchMaintenanceLine"

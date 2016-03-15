@@ -209,13 +209,13 @@
 					<h:panelGrid columns="2" id="pnlButtons">
 						<h:commandButton id="btnRegresar" execute="@this, pnlButtons"
 							action="#{activitiesAndServicesAction.addEditActivitiesAndServices(null)}"
-							value="#{mensaje.button_atras}" />
+							value="#{mensaje.button_back}" />
 						<a:commandButton
 							render="formConfirmar:popUpConfirmar,formGenerico, mensajes"
 							execute="formServices"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} 
 							else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-							value="#{mensaje.button_guardar}" />
+							value="#{mensaje.button_save}" />
 					</h:panelGrid>
 				</div>
 			</rich:panel>
@@ -251,10 +251,10 @@
 					</ui:define>
 
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}" execute="@form"
+						<h:commandButton value="#{mensaje.button_accept}" execute="@form"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();"
 							action="#{activitiesAndServicesAction.saveActivitiesAndServices()}" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

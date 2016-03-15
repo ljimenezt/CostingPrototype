@@ -22,7 +22,7 @@
 				</ui:include>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_guardar}"
+					<a:commandButton value="#{mensaje.button_save}"
 						actionListener="#{personaAction.requeridosOk('frmRegistrarPersona')}"
 						render="formGenerico, confirmacionPopUp"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) { #{rich:component('confirmacionPopUp')}.show() }

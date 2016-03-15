@@ -40,7 +40,7 @@
 										action="#{personaAction.registrarPersona(null)}"
 										image="/img/new_16.png" id="idButtonNuevo"
 										onclick="#{rich:component('statPane')}.show();" />
-									<h:outputText value="#{mensaje.button_nuevo}" />
+									<h:outputText value="#{mensaje.button_new}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('formListarUsario:idButtonBuscar').click();}">
@@ -87,7 +87,7 @@
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateDelete_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+								<h:outputText value="#{mensaje.button_finish_force}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</rich:column>
@@ -98,7 +98,7 @@
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateAdd_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+								<h:outputText value="#{mensaje.button_start_term}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</rich:column>
@@ -176,7 +176,7 @@
 									action="#{personaAction.registrarPersona(null)}"
 									image="/img/new_16.png" id="idButtonNuevoInf"
 									onclick="#{rich:component('statPane')}.show();" />
-								<h:outputText value="#{mensaje.button_nuevo}" />
+								<h:outputText value="#{mensaje.button_new}" />
 							</h:panelGrid>
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 								onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('formListarUsario:idButtonBuscarInf').click();}">
@@ -240,19 +240,19 @@
 							value="#{personaAction.persona.nombres} #{personaAction.persona.apellidos}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							render="personasPanel, mensajes, mensajeBusqueda"
 							onclick="#{rich:component('popupVigencia')}.hide()"
 							actionListener="#{personaAction.cambioVigenciaPersonas('true')}"
 							rendered="#{personaAction.vigencia eq 'si'}" />
 
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							render="personasPanel, mensajes, mensajeBusqueda"
 							onclick="#{rich:component('popupVigencia')}.hide()"
 							actionListener="#{personaAction.cambioVigenciaPersonas('false')}"
 							rendered="#{personaAction.vigencia eq 'no'}" />
 
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -390,7 +390,7 @@
 				</rich:panel>
 				<br />
 				<div align="center">
-					<a:commandButton value="#{mensaje.button_aceptar}"
+					<a:commandButton value="#{mensaje.button_accept}"
 						onclick="#{rich:component('PopUpDetalles')}.hide()" />
 				</div>
 
@@ -424,7 +424,7 @@
 						render="personasPanel, mensajes, mensajeBusqueda">
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

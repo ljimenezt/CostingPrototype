@@ -152,7 +152,7 @@
 				</t:fieldset>
 				<br />
 				<div class="anchoDos center inBlock">
-					<a:commandButton value="#{mensaje.button_guardar}"
+					<a:commandButton value="#{mensaje.button_save}"
 						actionListener="#{organizacionAction.requeridosOk()}"
 						render="formGenerico,:formConfirmacion:confirmacionPopUp"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
@@ -226,10 +226,10 @@
 						<h:outputText value="#{organizacionAction.organizacion.telefono}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{organizacionAction.guardarOrganizacion}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide()" />
 					</ui:define>
 				</ui:decorate>

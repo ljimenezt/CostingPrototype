@@ -44,7 +44,7 @@
 										action="#{organizacionAction.registrarOrganizacion(null)}"
 										image="/img/new_16.png" id="idButtonNuevo"
 										onclick="#{rich:component('statPane')}.show();" />
-									<h:outputText value="#{mensaje.button_nuevo}" />
+									<h:outputText value="#{mensaje.button_new}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('organizacionForm:idButtonBuscar').click();}">
@@ -91,7 +91,7 @@
 							actionListener="#{organizacionAction.asignarOrganizacionModificar(organizacionList)}">
 							<h:graphicImage value="/img/dateDelete_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+								<h:outputText value="#{mensaje.button_finish_force}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</rich:column>
@@ -103,7 +103,7 @@
 							actionListener="#{organizacionAction.asignarOrganizacionModificar(organizacionList)}">
 							<h:graphicImage value="/img/dateAdd_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+								<h:outputText value="#{mensaje.button_start_term}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</rich:column>
@@ -163,7 +163,7 @@
 									action="#{organizacionAction.registrarOrganizacion(null)}"
 									image="/img/new_16.png" id="idButtonNuevoInf"
 									onclick="#{rich:component('statPane')}.show();" />
-								<h:outputText value="#{mensaje.button_nuevo}" />
+								<h:outputText value="#{mensaje.button_new}" />
 							</h:panelGrid>
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 								onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('organizacionForm:idButtonBuscarInf').click();}">
@@ -280,17 +280,17 @@
 					<ui:define name="botones">
 						<h:panelGroup layout="block">
 							<center>
-								<a:commandButton value="#{mensaje.button_aceptar}"
+								<a:commandButton value="#{mensaje.button_accept}"
 									action="#{organizacionAction.vigenciaOrganizaciones(true)}"
 									onclick="#{rich:component('popupFinalizar')}.hide()"
 									rendered="#{organizacionAction.vigencia eq 'si'}"
 									render="panelOrganizacion, mensajes, mensajeBusqueda" />
-								<a:commandButton value="#{mensaje.button_aceptar}"
+								<a:commandButton value="#{mensaje.button_accept}"
 									action="#{organizacionAction.vigenciaOrganizaciones(false)}"
 									onclick="#{rich:component('popupFinalizar')}.hide()"
 									rendered="#{organizacionAction.vigencia eq 'no'}"
 									render="panelOrganizacion, mensajes, mensajeBusqueda" />
-								<a:commandButton value="#{mensaje.button_cancelar}"
+								<a:commandButton value="#{mensaje.button_cancel}"
 									onclick="#{rich:component('popupFinalizar')}.hide()"
 									type="button" />
 							</center>
@@ -328,7 +328,7 @@
 						render="panelOrganizacion, mensajes, mensajeBusqueda">
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

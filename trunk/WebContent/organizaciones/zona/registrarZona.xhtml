@@ -6,8 +6,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:p="http://primefaces.org/ui" xmlns:a="http://richfaces.org/a4j"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="zonaAction.registrarZona(null)" />
+	<ui:param name="action" value="zonaAction.registrarZona(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeOrganizaciones.zona_label_s" />
 	<ui:define name="body">
@@ -49,16 +48,14 @@
 					<h:outputText styleClass="etiquetaTitulo"
 						value="#{mensaje.label_descripcion}" />
 					<h:outputText value="" />
-					<h:inputTextarea
-						value="#{zonaAction.zona.descripcion}"
+					<h:inputTextarea value="#{zonaAction.zona.descripcion}"
 						styleClass="colTextoMedianoTextArea" id="txtDescripcion"
 						validator="#{encodeFilter.validarScripting}">
 						<f:validateLength maximum="500" />
 					</h:inputTextarea>
 					<rich:message for="txaDescripcion" />
 
-					<h:outputText
-						value="#{mensajeOrganizaciones.tipo_zona_label}"
+					<h:outputText value="#{mensajeOrganizaciones.tipo_zona_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu required="true"
@@ -67,8 +64,7 @@
 						id="cmbListaTipoZona">
 						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 							itemValue="" />
-						<f:selectItems
-							value="#{zonaAction.itemsTipoZona}" />
+						<f:selectItems value="#{zonaAction.itemsTipoZona}" />
 						<f:ajax event="change"
 							listener="#{zonaAction.seleccionarComboTipoZona()}"
 							render=":frmRegistrarZona:cmbListaVariedadZona" />
@@ -77,8 +73,7 @@
 
 
 
-					<h:outputText
-						value="#{mensajeOrganizaciones.variedad_zona_label}"
+					<h:outputText value="#{mensajeOrganizaciones.variedad_zona_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu required="true"
@@ -87,16 +82,14 @@
 						id="cmbListaVariedadZona">
 						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 							itemValue="" />
-						<f:selectItems
-							value="#{zonaAction.itemsVariedadZona}" />
+						<f:selectItems value="#{zonaAction.itemsVariedadZona}" />
 
 					</h:selectOneMenu>
 					<rich:message for="cmbListaVariedadZona" />
 				</h:panelGrid>
 				<div class="inBlock W100Per center">
-					<a:commandButton value="#{mensaje.button_guardar}"
-						render="formGenerico, popupConfirmar"
-						execute="pnlRegistrarZona"
+					<a:commandButton value="#{mensaje.button_save}"
+						render="formGenerico, popupConfirmar" execute="pnlRegistrarZona"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) { #{rich:component('popupConfirmar')}.show(); } 
 									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						rendered="#{(zonaAction.zona.id ne 0 and identity.autorizado('zonaAction','U')) or identity.autorizado('zonaAction','A') or identity.autorizado('zonaAction','I')}">
@@ -122,15 +115,14 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}:" />
-						<h:outputText
-							value="#{zonaAction.zona.nombre}" />
+						<h:outputText value="#{zonaAction.zona.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{zonaAction.agregarEditarZona}"
 							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<h:commandButton id="btnCancelarConfirmacion"
-							value="#{mensaje.button_cancelar}"
+							value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupConfirmar')}.hide()"
 							type="button" />
 					</ui:define>

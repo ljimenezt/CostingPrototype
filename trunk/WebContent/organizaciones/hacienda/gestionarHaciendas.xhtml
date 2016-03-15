@@ -36,7 +36,7 @@
 										action="#{haciendaAction.agregarEditarHacienda(null)}"
 										image="/img/new_16.png" id="idButtonNuevo"
 										onclick="#{rich:component('statPane')}.show();" />
-									<h:outputText value="#{mensaje.button_nuevo}" />
+									<h:outputText value="#{mensaje.button_new}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmHacienda:idButtonBuscar').click();}">
@@ -138,7 +138,7 @@
 										action="#{haciendaAction.agregarEditarHacienda(null)}"
 										image="/img/new_16.png" id="idButtonNuevoInf"
 										onclick="#{rich:component('statPane')}.show();" />
-									<h:outputText value="#{mensaje.button_nuevo}" />
+									<h:outputText value="#{mensaje.button_new}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmHacienda:idButtonBuscarInf').click();}">
@@ -332,7 +332,7 @@
 						render="panelHacienda, mensajes, mensajeBusqueda" />
 					<a:commandButton
 						onclick="#{rich:component('popupBuscarEmpresa')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

@@ -27,7 +27,7 @@
 				</ui:include>
 				<br />
 				<div class="inBlock W100Per center">
-					<a:commandButton value="#{mensaje.button_guardar}"
+					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico, :formConfirmacion:popupConfirmar, mensajes"
 						execute="pnlRegistrarEmpresa"
 						actionListener="#{empresaAction.establecerEmpresaValidarRolYRequeridos(empresaAction.empresa)}"
@@ -103,11 +103,11 @@
 							value="#{validacionesAction.getLabel(empresaAction.itemsMunicipios,empresaAction.empresa.municipio.id)}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{empresaAction.agregarEditarEmpresa(empresaAction.tabSelect)}"
 							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

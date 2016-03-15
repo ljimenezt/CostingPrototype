@@ -147,7 +147,7 @@
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelOvertimePayment, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -175,12 +175,12 @@
 							value="#{overtimePaymentRateAction.overtimePaymentRate.overtimeRateType}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{overtimePaymentRateAction.deleteOvertimePaymentRate()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelOvertimePayment, mensajes, mensajeBusqueda"
 							execute="formOvertime" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

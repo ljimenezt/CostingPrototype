@@ -228,11 +228,11 @@
 					</ui:define>
 
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cycleAction.deleteCycle()}"
 							onclick="#{rich:component('popupDelete')}.hide()"
 							render="pnlCycles, mensajes" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupDelete')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -301,7 +301,7 @@
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupSearch')}.hide();}"
 						render="pnlCycles, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -389,7 +389,7 @@
 					<br />
 					<div align="center">
 						<h:panelGrid columns="2" columnClasses="right W106P, center">
-							<a:commandButton value="#{mensaje.button_guardar}"
+							<a:commandButton value="#{mensaje.button_save}"
 								execute=":formDetalles"
 								render="formConfirmActual:popUpConfirmActual,formGenerico"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
@@ -397,7 +397,7 @@
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
 							<a:commandButton
 								onclick="#{rich:component('PopUpDetails')}.hide()"
-								value="#{mensaje.button_cancelar}" />
+								value="#{mensaje.button_cancel}" />
 						</h:panelGrid>
 					</div>
 				</t:fieldset>
@@ -425,12 +425,12 @@
 					<ui:define name="campos">
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cycleAction.updateCycleBudget()}"
 							onclick="#{rich:component('popUpConfirmActual')}.hide(); #{rich:component('statPane')}.show();">
 							<f:param name="param2" value="si" />
 						</h:commandButton>
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmActual')}.hide()" />
 					</ui:define>
 				</ui:decorate>

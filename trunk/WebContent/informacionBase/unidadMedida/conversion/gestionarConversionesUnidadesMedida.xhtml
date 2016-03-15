@@ -33,7 +33,7 @@
 										action="#{unidadMedidaAction.registrarConversionUnidades(null)}"
 										image="/img/new_16.png" id="idButtonNuevo"
 										onclick="#{rich:component('statPane')}.show();" />
-									<h:outputText value="#{mensaje.button_nuevo}" />
+									<h:outputText value="#{mensaje.button_new}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarConversionUnidad:idButtonBuscar').click();}">
@@ -119,7 +119,7 @@
 									action="#{unidadMedidaAction.registrarConversionUnidades(null)}"
 									image="/img/new_16.png" id="idButtonNuevoInf"
 									onclick="#{rich:component('statPane')}.show();" />
-								<h:outputText value="#{mensaje.button_nuevo}" />
+								<h:outputText value="#{mensaje.button_new}" />
 							</h:panelGrid>
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 								onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarConversionUnidad:idButtonBuscarInf').click();}">
@@ -183,7 +183,7 @@
 						render="pnlConversionUnidades, mensajes, mensajeBusqueda">
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

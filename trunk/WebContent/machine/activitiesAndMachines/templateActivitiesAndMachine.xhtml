@@ -153,13 +153,13 @@
 					</div>
 					<br />
 					<div align="center">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							render="formGenerico, selectMachines:machines "
 							actionListener="#{activitiesAndMachineAction.addMachines()}"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpAddMachine')}.hide();}
 									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
 						</a:commandButton>
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							render="selectMachines:machines"
 							onclick="#{rich:component('popUpAddMachine')}.hide()" />
 					</div>
@@ -190,11 +190,11 @@
 						value="#{activitiesAndMachineAction.activityMachine.activityMachinePK.machines.name}" />
 				</ui:define>
 				<ui:define name="botones">
-					<a:commandButton value="#{mensaje.button_aceptar}"
+					<a:commandButton value="#{mensaje.button_accept}"
 						render="formActivitiesAndMachines mensajes, mensajeBusqueda"
 						actionListener="#{activitiesAndMachineAction.deleteActivitiesAndMachine()}"
 						onclick="#{rich:component('popupDeleteActivityMachine')}.hide();" />
-					<a:commandButton value="#{mensaje.button_cancelar}"
+					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popupDeleteActivityMachine')}.hide()" />
 				</ui:define>
 			</ui:decorate>
@@ -279,13 +279,13 @@
 						</h:panelGrid>
 						<br />
 						<div align="center">
-							<a:commandButton value="#{mensaje.button_guardar}"
+							<a:commandButton value="#{mensaje.button_save}"
 								execute="formUpdateActivitiesAndMachine"
 								render="formConfirmSaveMachine:popUpConfirmSaveMachine ,formGenerico"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmSaveMachine')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
-							<a:commandButton value="#{mensaje.button_cancelar}"
+							<a:commandButton value="#{mensaje.button_cancel}"
 								onclick="#{rich:component('popUpUpdateActivitiesAndMachine')}.hide()" />
 						</div>
 						<br />
@@ -313,11 +313,11 @@
 						styleClass="etiquetaTitulo" />
 				</ui:define>
 				<ui:define name="botones">
-					<a:commandButton value="#{mensaje.button_aceptar}"
+					<a:commandButton value="#{mensaje.button_accept}"
 						render=":formActivitiesAndMachines, mensajes, mensajeBusqueda, :formActivitiesAndMachines:listMachines"
 						actionListener="#{activitiesAndMachineAction.updateActivityMachine()}"
 						onclick="#{rich:component('popUpConfirmSaveMachine')}.hide(); #{rich:component('popUpUpdateActivitiesAndMachine')}.hide(); #{rich:component('statPane')}.show();" />
-					<a:commandButton value="#{mensaje.button_cancelar}"
+					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popUpConfirmSaveMachine')}.hide()" />
 				</ui:define>
 			</ui:decorate>

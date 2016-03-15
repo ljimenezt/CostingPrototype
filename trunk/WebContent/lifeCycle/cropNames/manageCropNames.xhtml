@@ -45,8 +45,7 @@
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoDos">
 						<a:outputPanel>
-							<h:commandLink
-								onclick="#{rich:component('statPane')}.show();"
+							<h:commandLink onclick="#{rich:component('statPane')}.show();"
 								actionListener="#{cropsAction.setCropNames(cropNames)}"
 								action="#{cropsAction.consultarCrops()}">
 								<h:graphicImage value="/img/variedadMaterialVegetal_16.png" />
@@ -75,9 +74,9 @@
 						</h:commandLink>
 					</rich:column>
 					<rich:column styleClass="colTextoExxtraLargo">
-							<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
-							<h:outputText value="#{cropNames.description}" />
-						</rich:column>
+						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+						<h:outputText value="#{cropNames.description}" />
+					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
 							<rich:column colspan="3" styleClass="footTabla">
@@ -130,7 +129,7 @@
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelCropNames, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -157,11 +156,11 @@
 						<h:outputText value="#{cropNamesAction.cropNames.cropName}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cropNamesAction.removeCropNames()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelCropNames, mensajes, mensajeBusqueda" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

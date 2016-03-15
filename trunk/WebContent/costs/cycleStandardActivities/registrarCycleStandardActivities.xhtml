@@ -165,7 +165,7 @@
 				<br />
 				<br />
 				<div class="anchoCuatro center">
-					<a:commandButton value="#{mensaje.button_guardar}"
+					<a:commandButton value="#{mensaje.button_save}"
 						rendered="#{cycleStandardActivitiesAction.cropNames.idCropName ne 0}"
 						id="btnSeleccionar" render=":formInicio, mensajes"
 						actionListener="#{cycleStandardActivitiesAction.guardarCycleStandardActivities()}"
@@ -429,10 +429,10 @@
 							value="#{cycleStandardActivitiesAction.cycleStandardActivities.dangerous eq true ? mensaje.label_si : mensaje.label_no}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}" execute="@form"
+						<a:commandButton value="#{mensaje.button_accept}" execute="@form"
 							render=":formInicio"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupRegCycle')}.hide();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -460,11 +460,11 @@
 					</ui:define>
 
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cycleStandardActivitiesAction.eliminarSeleccionados()}"
 							onclick="#{rich:component('popupEliminarLista')}.hide()"
 							render=":formInicio" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminarLista')}.hide()" />
 					</ui:define>
 				</ui:decorate>

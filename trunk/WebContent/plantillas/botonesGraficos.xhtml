@@ -12,14 +12,17 @@
 			<rich:toolbarGroup location="right">
 				<h:form id="formBotonesGraficosEmp">
 					<a:outputPanel rendered="#{isLogin}">
-						<h:outputText value="#{mensajeOrganizaciones.empresa_label}: " styleClass="ocultar"/>
+						<h:outputText value="#{mensajeOrganizaciones.empresa_label}: "
+							styleClass="ocultar" />
 						<h:selectOneMenu value="#{sesionEmpresa.id}" styleClass="ocultar"
 							onchange="document.getElementById('formBotonesGraficosEmp:buttonCargar').click()">
 							<f:selectItems value="#{sesionEmpresa.itemsEmpresas}" />
 						</h:selectOneMenu>
 
-						<h:outputText value="#{mensajeOrganizaciones.hacienda_label}: " styleClass="ocultar"/>
-						<h:selectOneMenu value="#{sesionEmpresa.idHacienda}" styleClass="ocultar"
+						<h:outputText value="#{mensajeOrganizaciones.hacienda_label}: "
+							styleClass="ocultar" />
+						<h:selectOneMenu value="#{sesionEmpresa.idHacienda}"
+							styleClass="ocultar"
 							onchange="document.getElementById('formBotonesGraficosEmp:buttonAsignar').click()">
 							<f:selectItems value="#{sesionEmpresa.itemsHaciendas}" />
 						</h:selectOneMenu>

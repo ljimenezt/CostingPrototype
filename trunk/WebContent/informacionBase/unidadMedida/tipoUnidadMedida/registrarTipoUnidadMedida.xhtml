@@ -59,7 +59,7 @@
 					</h:panelGrid>
 					<br />
 					<div align="center">
-						<a:commandButton value="#{mensaje.button_guardar}"
+						<a:commandButton value="#{mensaje.button_save}"
 							rendered="#{(unidadMedidaAction.tipoUnidad.id ne null and identity.autorizado('tipoUnidadMedida','U')) or identity.autorizado('tipoUnidadMedida','A') or identity.autorizado('tipoUnidadMedida','I')}"
 							render="confirmacionCrearPopUp,formGenerico"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionCrearPopUp')}.show();}
@@ -92,11 +92,11 @@
 						<h:outputText value="#{unidadMedidaAction.tipoUnidad.descripcion}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{unidadMedidaAction.guardarTipoUnidadMedida()}"
 							onclick="#{rich:component('confirmacionCrearPopUp')}.hide(); #{rich:component('statPane')}.show();"
 							render="mensajes" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionCrearPopUp')}.hide()" />
 					</ui:define>
 				</ui:decorate>

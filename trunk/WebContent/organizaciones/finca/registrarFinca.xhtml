@@ -365,7 +365,7 @@
 				<br />
 				<div class="anchoDos center inBlock">
 					<br />
-					<a:commandButton value="#{mensaje.button_guardar}"
+					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico, popupConfirmar, mensajes"
 						actionListener="#{fincaAction.requeridosOk()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}){#{rich:component('popupConfirmar')}.show();}
@@ -416,10 +416,10 @@
 							value="#{fincaAction.finca.area} #{validacionesAction.getLabel(fincaAction.itemsUnidadesMedida,fincaAction.finca.unidadMedida.id)}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{fincaAction.guardarFinca}"
 							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -445,7 +445,7 @@
 					<ui:define name="botones">
 						<a:commandButton
 							onclick="#{rich:component('popupValidar')}.hide()"
-							value="#{mensaje.button_aceptar}" />
+							value="#{mensaje.button_accept}" />
 					</ui:define>
 				</ui:decorate>
 			</rich:popupPanel>
@@ -499,11 +499,11 @@
 							value="#{mensajeModuloGrafico.mapa_message_validar_quitar_aclaracion}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{fincaAction.borrarFilename(false)}"
 							oncomplete="if (#{facesContext.maximumSeverity.ordinal == 0} || #{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionQuitarMapa')}.hide();}"
 							render=":fincaForm:panelMapaFinca, mensajes" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionQuitarMapa')}.hide()" />
 					</ui:define>
 				</ui:decorate>

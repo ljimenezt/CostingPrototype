@@ -46,7 +46,7 @@
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateDelete_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+								<h:outputText value="#{mensaje.button_finish_force}" />
 							</rich:tooltip>
 						</a:commandLink>
 						<a:commandLink rendered="#{zonaAction.vigencia eq 'no'}"
@@ -55,7 +55,7 @@
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateAdd_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+								<h:outputText value="#{mensaje.button_start_term}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</rich:column>
@@ -147,18 +147,18 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								actionListener="#{zonaAction.vigenciaZona('true')}"
 								render="panelZona, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								rendered="#{zonaAction.vigencia eq 'si'}" />
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								actionListener="#{zonaAction.vigenciaZona('false')}"
 								render="panelZona, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								rendered="#{zonaAction.vigencia eq 'no'}" />
 						</a:outputPanel>
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -192,7 +192,7 @@
 						render="panelZona, mensajes, mensajeBusqueda">
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

@@ -64,9 +64,9 @@
 						</h:commandLink>
 					</rich:column>
 					<rich:column styleClass="colTextoExxtraLargo">
-							<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
-							<h:outputText value="#{machineTypes.description}" />
-						</rich:column>
+						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+						<h:outputText value="#{machineTypes.description}" />
+					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
 							<rich:column colspan="7" styleClass="footTabla">
@@ -119,7 +119,7 @@
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelMachineTypes, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -146,11 +146,11 @@
 						<h:outputText value="#{machineTypesAction.machineTypes.name}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{machineTypesAction.removeMachineTypes()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelMachineTypes, mensajes, mensajeBusqueda" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

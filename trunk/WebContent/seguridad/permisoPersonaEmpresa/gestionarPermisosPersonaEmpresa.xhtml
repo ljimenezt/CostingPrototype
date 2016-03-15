@@ -118,7 +118,7 @@
 									rendered="#{identity.autorizado('permisoPersonaEmpresaAction','A') or identity.autorizado('permisoPersonaEmpresaAction','U')}">
 									<h:graphicImage value="/img/dateDelete_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+										<h:outputText value="#{mensaje.button_finish_force}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -129,7 +129,7 @@
 									oncomplete="#{rich:component('popupVigencia')}.show()">
 									<h:graphicImage value="/img/dateAdd_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+										<h:outputText value="#{mensaje.button_start_term}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -248,10 +248,12 @@
 					<h:outputText styleClass="etiquetaTitulo"
 						value="#{mensajeOrganizaciones.hacienda_label}:" />
 					<h:selectOneMenu
-						value="#{permisoPersonaEmpresaAction.idHaciendaBuscar}" id="cmbHacienda">
+						value="#{permisoPersonaEmpresaAction.idHaciendaBuscar}"
+						id="cmbHacienda">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 							itemValue="0" />
-						<f:selectItems value="#{permisoPersonaEmpresaAction.itemsHaciendas}" />
+						<f:selectItems
+							value="#{permisoPersonaEmpresaAction.itemsHaciendas}" />
 					</h:selectOneMenu>
 				</h:panelGrid>
 				<br />
@@ -261,7 +263,7 @@
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelEmpresaPermiso, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -291,18 +293,18 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelEmpresaPermiso, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								actionListener="#{permisoPersonaEmpresaAction.cambiarVigenciaPermisosEmpresa('true')}"
 								rendered="#{permisoPersonaEmpresaAction.vigencia eq 'si'}" />
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelEmpresaPermiso, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								actionListener="#{permisoPersonaEmpresaAction.cambiarVigenciaPermisosEmpresa('false')}"
 								rendered="#{permisoPersonaEmpresaAction.vigencia eq 'no'}" />
 						</a:outputPanel>
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
 					</ui:define>
 				</ui:decorate>
