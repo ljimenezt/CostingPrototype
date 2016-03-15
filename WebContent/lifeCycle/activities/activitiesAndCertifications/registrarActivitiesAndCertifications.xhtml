@@ -56,7 +56,7 @@
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
 						execute="formActCert"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						value="#{mensaje.button_guardar}" />
+						value="#{mensaje.button_save}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -87,10 +87,10 @@
 							value="#{validacionesAction.getLabel(activitiesAndCertificationsAction.itemsActivities, activitiesAndCertificationsAction.activityNames.idActivityName)}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{activitiesAndCertificationsAction.guardarActivities()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

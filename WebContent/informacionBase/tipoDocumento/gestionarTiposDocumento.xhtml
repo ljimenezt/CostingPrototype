@@ -45,7 +45,7 @@
 										action="#{tipoDocumentoAction.nuevoTipoDocumento}"
 										image="/img/new_16.png" id="idButtonNuevo"
 										onclick="#{rich:component('statPane')}.show();" />
-									<h:outputText value="#{mensaje.button_nuevo}" />
+									<h:outputText value="#{mensaje.button_new}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmTiposDocumento:idButtonBuscar').click();}">
@@ -82,7 +82,7 @@
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateDelete_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+								<h:outputText value="#{mensaje.button_finish_force}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</rich:column>
@@ -93,7 +93,7 @@
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateAdd_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+								<h:outputText value="#{mensaje.button_start_term}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</rich:column>
@@ -150,7 +150,7 @@
 									action="#{tipoDocumentoAction.nuevoTipoDocumento}"
 									image="/img/new_16.png" id="idButtonNuevoInf"
 									onclick="#{rich:component('statPane')}.show();" />
-								<h:outputText value="#{mensaje.button_nuevo}" />
+								<h:outputText value="#{mensaje.button_new}" />
 							</h:panelGrid>
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 								onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmTiposDocumento:idButtonBuscarInf').click();}">
@@ -211,17 +211,17 @@
 						<h:outputText value="#{tipoDocumentoAction.tipoDocumento.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{tipoDocumentoAction.vigenciaTiposDocumento('true')}"
 							onclick="#{rich:component('popupVigencia')}.hide()"
 							render="panelTipoDocumento, mensajes, mensajeBusqueda"
 							rendered="#{tipoDocumentoAction.vigencia eq 'si'}" />
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{tipoDocumentoAction.vigenciaTiposDocumento('false')}"
 							onclick="#{rich:component('popupVigencia')}.hide()"
 							render="panelTipoDocumento, mensajes, mensajeBusqueda"
 							rendered="#{tipoDocumentoAction.vigencia eq 'no'}" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -252,7 +252,7 @@
 						render="panelTipoDocumento, mensajes, mensajeBusqueda">
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

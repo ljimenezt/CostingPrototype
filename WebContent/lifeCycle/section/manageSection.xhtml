@@ -118,7 +118,7 @@
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="pnlSection, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -145,11 +145,11 @@
 						<h:outputText value="#{sectionAction.section.name}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{sectionAction.deleteSection()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="pnlSection, mensajes, mensajeBusqueda" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

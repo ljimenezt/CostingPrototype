@@ -115,10 +115,10 @@
 						<a:outputPanel id="outChangePassword">
 							<a:commandButton render="modalContrasena:popupContrasena"
 								oncomplete="#{rich:component('popupContrasena')}.show();"
-								value="#{mensaje.button_renovar}"
+								value="#{mensaje.button_renew}"
 								rendered="#{usuarioAction.editar and !usuarioAction.renovarPassword}">
 							</a:commandButton>
-							<a:commandButton value="#{mensaje.button_cancelar_renovar}"
+							<a:commandButton value="#{mensaje.button_cancel_renewal}"
 								actionListener="#{usuarioAction.setRenovarPassword('false')}"
 								render=":usuarioForm:outChangePassword"
 								rendered="#{usuarioAction.editar and usuarioAction.renovarPassword}">
@@ -208,7 +208,7 @@
 											<f:setPropertyActionListener value="#{rolesUsuarioList}"
 												target="#{usuarioAction.rolUsuario}" />
 											<rich:tooltip layout="block">
-												<h:outputText value="#{mensaje.button_renovar}" />
+												<h:outputText value="#{mensaje.button_renew}" />
 											</rich:tooltip>
 										</a:commandLink>
 									</rich:column>
@@ -238,7 +238,7 @@
 				</t:fieldset>
 				<br />
 				<div class="anchoDos center inBlock">
-					<a:commandButton value="#{mensaje.button_guardar}"
+					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,confirmacionPopUp"
 						actionListener="#{usuarioAction.setUsuario(usuarioAction.usuario)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
@@ -273,19 +273,19 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_aceptar}" id="btnBuscarC"
+					<a:commandButton value="#{mensaje.button_accept}" id="btnBuscarC"
 						rendered="#{!usuarioAction.renovarRol}"
 						actionListener="#{usuarioAction.controladorListaRoles('addRolUsuario', null)}"
 						oncomplete="if (#{facesContext.maximumSeverity.ordinal == 0} || #{facesContext.maximumSeverity==null}) {#{rich:component('popUpAsignarRol')}.hide();}"
 						render=":usuarioForm:outputRoles, :usuarioForm:selVigencia, :usuarioForm:tablaRolesUsuario, mensajes">
 					</a:commandButton>
-					<a:commandButton value="#{mensaje.button_aceptar}"
+					<a:commandButton value="#{mensaje.button_accept}"
 						rendered="#{usuarioAction.renovarRol}"
 						actionListener="#{usuarioAction.controladorListaRoles('changeRolUsuario', null)}"
 						oncomplete="if (#{facesContext.maximumSeverity.ordinal == 0} || #{facesContext.maximumSeverity==null}) {#{rich:component('popUpAsignarRol')}.hide();}"
 						render=":usuarioForm:outputRoles, :usuarioForm:selVigencia, :usuarioForm:tablaRolesUsuario, mensajes">
 					</a:commandButton>
-					<h:commandButton value="#{mensaje.button_cancelar}">
+					<h:commandButton value="#{mensaje.button_cancel}">
 						<rich:componentControl target="popUpAsignarRol" operation="hide"
 							event="click" />
 					</h:commandButton>
@@ -311,12 +311,12 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{usuarioAction.setRenovarPassword('true')}"
 							oncomplete="#{rich:component('popupContrasena')}.hide()"
 							render=":usuarioForm:outChangePassword">
 						</a:commandButton>
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupContrasena')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -345,10 +345,10 @@
 						<h:outputText value="#{usuarioAction.usuario.nombreUsuario}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{usuarioAction.guardarUsuario}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide();#{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide()" />
 					</ui:define>
 				</ui:decorate>

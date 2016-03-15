@@ -42,7 +42,7 @@
 											action="#{unidadMedidaAction.registrarTipoUnidad(null)}"
 											image="/img/new_16.png" id="idButtonNuevo"
 											onclick="#{rich:component('statPane')}.show();" />
-										<h:outputText value="#{mensaje.button_nuevo}" />
+										<h:outputText value="#{mensaje.button_new}" />
 									</h:panelGrid>
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 										onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('formTipoUnidad:idButtonBuscar').click();}">
@@ -95,7 +95,7 @@
 									oncomplete="#{rich:component('popupVigencia')}.show()"
 									actionListener="#{unidadMedidaAction.setTipoUnidad(tipoUnidad)}" />
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+									<h:outputText value="#{mensaje.button_finish_force}" />
 								</rich:tooltip>
 							</a:outputPanel>
 						</rich:column>
@@ -107,7 +107,7 @@
 									actionListener="#{unidadMedidaAction.setTipoUnidad(tipoUnidad)}"
 									oncomplete="#{rich:component('popupVigencia')}.show()" />
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+									<h:outputText value="#{mensaje.button_start_term}" />
 								</rich:tooltip>
 							</a:outputPanel>
 						</rich:column>
@@ -172,7 +172,7 @@
 										action="#{unidadMedidaAction.registrarTipoUnidad(null)}"
 										image="/img/new_16.png" id="idButtonNuevoInf"
 										onclick="#{rich:component('statPane')}.show();" />
-									<h:outputText value="#{mensaje.button_nuevo}" />
+									<h:outputText value="#{mensaje.button_new}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('formTipoUnidad:idButtonBuscarInf').click();}">
@@ -235,18 +235,18 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelTipoUnidad, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								rendered="#{unidadMedidaAction.tipoVigenteSelect eq 1}"
 								actionListener="#{unidadMedidaAction.cambiarVigenciaTipoUnidadMedida('true')}" />
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelTipoUnidad, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								rendered="#{unidadMedidaAction.tipoVigenteSelect eq 2}"
 								actionListener="#{unidadMedidaAction.cambiarVigenciaTipoUnidadMedida('false')}" />
 						</a:outputPanel>
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -276,7 +276,7 @@
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelTipoUnidad, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

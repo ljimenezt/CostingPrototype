@@ -5,8 +5,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:rich="http://richfaces.org/rich"
-	xmlns:a="http://richfaces.org/a4j"
-	xmlns:p="http://primefaces.org/ui"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
@@ -44,7 +43,7 @@
 										action="#{estadoCivilAction.nuevoEstadoCivil(null)}"
 										image="/img/new_16.png" id="idButtonNuevo"
 										onclick="#{rich:component('statPane')}.show();" />
-									<h:outputText value="#{mensaje.button_nuevo}" />
+									<h:outputText value="#{mensaje.button_new}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarEstadoCivil:idButtonBuscar').click();}">
@@ -82,7 +81,7 @@
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateDelete_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_finalizar_vigencia}" />
+								<h:outputText value="#{mensaje.button_finish_force}" />
 							</rich:tooltip>
 						</a:commandLink>
 						<a:commandLink rendered="#{estadoCivilAction.vigencia eq 'no'}"
@@ -91,7 +90,7 @@
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateAdd_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_iniciar_vigencia}" />
+								<h:outputText value="#{mensaje.button_start_term}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</rich:column>
@@ -150,7 +149,7 @@
 									action="#{estadoCivilAction.nuevoEstadoCivil(null)}"
 									image="/img/new_16.png" id="idButtonNuevoInf"
 									onclick="#{rich:component('statPane')}.show();" />
-								<h:outputText value="#{mensaje.button_nuevo}" />
+								<h:outputText value="#{mensaje.button_new}" />
 							</h:panelGrid>
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 								onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarEstadoCivil:idButtonBuscarInf').click();}">
@@ -213,18 +212,18 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								actionListener="#{estadoCivilAction.vigenciaEstadoCivil('true')}"
 								render="panelEstadoCivil, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								rendered="#{estadoCivilAction.vigencia eq 'si'}" />
-							<a:commandButton value="#{mensaje.button_aceptar}"
+							<a:commandButton value="#{mensaje.button_accept}"
 								actionListener="#{estadoCivilAction.vigenciaEstadoCivil('false')}"
 								render="panelEstadoCivil, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								rendered="#{estadoCivilAction.vigencia eq 'no'}" />
 						</a:outputPanel>
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -255,7 +254,7 @@
 						render="panelEstadoCivil, mensajes, mensajeBusqueda">
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

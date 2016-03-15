@@ -183,7 +183,7 @@
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
 						actionListener="#{cropsAction.requeridosOk()}" execute="formCrops"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						value="#{mensaje.button_guardar}" />
+						value="#{mensaje.button_save}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -211,12 +211,12 @@
 					</ui:define>
 					<ui:define name="botones">
 
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="formCrops"
 							actionListener="#{cropsAction.eliminarPlotLista()}"
 							execute="popupEliminar" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -254,10 +254,10 @@
 						<h:outputText value="#{cropsAction.crops.description}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{cropsAction.guardarCrops}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -357,8 +357,7 @@
 										<ui:param name="valReder"
 											value=":popupForm:paginadorPlot, :popupForm:tPlot :popupForm:outPutPlotDate" />
 										<ui:param name="beanActionParam" value="#{plotAction}" />
-										<ui:param name="metodoActionParam"
-											value="consultPlotForDate" />
+										<ui:param name="metodoActionParam" value="consultPlotForDate" />
 									</ui:include>
 								</div>
 							</a:outputPanel>

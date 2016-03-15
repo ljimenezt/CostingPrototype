@@ -134,7 +134,7 @@
 					execute="popupFormReg, fechaInicio, fechaFin"
 					actionListener="#{cropActivitiesAction.validarFechas()}"
 					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-					value="#{mensaje.button_guardar}" />
+					value="#{mensaje.button_save}" />
 			</div>
 		</a:outputPanel>
 	</rich:panel>

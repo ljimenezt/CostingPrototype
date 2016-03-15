@@ -149,7 +149,7 @@
 				<br />
 				<div class="anchoDos center inBlock">
 					<a:commandButton id="btnEnviarGuardar"
-						value="#{mensaje.button_guardar}"
+						value="#{mensaje.button_save}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('dialogoConfirmacion')}.show();}
 						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						render="formGenerico,dialogoConfirmacion, mensajes"
@@ -179,11 +179,11 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton id="btnEnviarGuardarConfirmar"
-							value="#{mensaje.button_aceptar}"
+							value="#{mensaje.button_accept}"
 							action="#{departamentoEmpresaAction.guardarDepartamentoEmpresa()}"
 							onclick="#{rich:component('dialogoConfirmacion')}.hide(); #{rich:component('statPane')}.show();" />
 						<h:commandButton id="btnCancelarConfirmacion"
-							value="#{mensaje.button_cancelar}"
+							value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('dialogoConfirmacion')}.hide()"
 							type="button" />
 					</ui:define>

@@ -77,7 +77,7 @@
 				</h:panelGrid>
 				<div class="anchoDos center inBlock">
 					<br />
-					<a:commandButton value="#{mensaje.button_guardar}"
+					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,:formModificacion:confirmacionPopUp"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
@@ -118,10 +118,10 @@
 						<h:outputText value="#{municipioAction.municipio.codigoPostal}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{municipioAction.agregarEditarMunicipio}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide()" />
 					</ui:define>
 				</ui:decorate>

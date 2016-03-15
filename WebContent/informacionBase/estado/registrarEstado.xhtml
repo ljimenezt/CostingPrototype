@@ -4,8 +4,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:a="http://richfaces.org/a4j"
+	xmlns:p="http://primefaces.org/ui" xmlns:a="http://richfaces.org/a4j"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="estadoAction.nuevoEstado(null)" />
 	<ui:param name="titulo"
@@ -53,7 +52,7 @@
 					<rich:message for="txtDescripcion" />
 				</h:panelGrid>
 				<div class="inBlock W100Per center">
-					<a:commandButton value="#{mensaje.button_guardar}"
+					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,popupConfirmar" execute="panelRegEstadoCivil"
 						actionListener="#{estadoAction.setEstado(estadoAction.estado)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupConfirmar')}.show();}
@@ -82,11 +81,11 @@
 						<h:outputText value="#{estadoAction.estado.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{estadoAction.guardarEstado()}"
 							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<h:commandButton id="btnCancelarConfirmacion"
-							value="#{mensaje.button_cancelar}"
+							value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupConfirmar')}.hide()"
 							type="button" />
 					</ui:define>

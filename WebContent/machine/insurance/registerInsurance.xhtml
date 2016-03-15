@@ -74,7 +74,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P">
-					<legend class="etiquetaTitulo">#{mensaje.button_nuevo}
+					<legend class="etiquetaTitulo">#{mensaje.button_new}
 						#{mensajeMachine.insurance_label}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -132,7 +132,7 @@
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
 						execute="formInsurance"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						value="#{mensaje.button_guardar}" />
+						value="#{mensaje.button_save}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -180,10 +180,10 @@
 
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{insuranceAction.saveInsurance()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

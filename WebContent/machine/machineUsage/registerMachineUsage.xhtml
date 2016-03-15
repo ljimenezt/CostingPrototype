@@ -172,10 +172,10 @@
 						<h:outputText value="#{machineUsageAction.year}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{machineUsageAction.calculateMachinesActivities}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -204,10 +204,10 @@
 						<h:outputText value="#{machineUsageAction.year}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{machineUsageAction.saveAllocateDepretiation}"
 							onclick="#{rich:component('popUpConfirmarDepreciation')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmarDepreciation')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -236,10 +236,10 @@
 						<h:outputText value="#{machineUsageAction.year}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{machineUsageAction.saveAllocateIsurance}"
 							onclick="#{rich:component('popUpConfirmarInsurance')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmarInsurance')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -268,10 +268,10 @@
 						<h:outputText value="#{machineUsageAction.year}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{machineUsageAction.saveAllocateMaintenance}"
 							onclick="#{rich:component('popUpConfirmarMaintenance')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmarMaintenance')}.hide()" />
 					</ui:define>
 				</ui:decorate>

@@ -80,13 +80,13 @@
 					</t:fieldset>
 					<br />
 					<div class="W100Per center inBlock">
-						<a:commandButton value="#{mensaje.button_guardar}" id="btnSave"
+						<a:commandButton value="#{mensaje.button_save}" id="btnSave"
 							render="formConfirmation:confirmationPopUp, formGenerico "
 							execute="registerMaintenanceLine"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmationPopUp')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
 						<a:commandButton
 							onclick="#{rich:component('popupMaintenanceLine')}.hide()"
-							value="#{mensaje.button_cancelar}" />
+							value="#{mensaje.button_cancel}" />
 					</div>
 				</a:outputPanel>
 			</rich:panel>
@@ -140,11 +140,11 @@
 					</h:outputText>
 				</ui:define>
 				<ui:define name="botones">
-					<a:commandButton value="#{mensaje.button_aceptar}"
+					<a:commandButton value="#{mensaje.button_accept}"
 						actionListener="#{maintenanceAndCalibrationAction.saveMaintenanceLines()}"
 						onclick="#{rich:component('confirmationPopUp')}.hide(); #{rich:component('popupMaintenanceLine')}.hide(); #{rich:component('statPane')}.show();"
 						render="popupForm:outPutSearchMaintenanceLine " />
-					<a:commandButton value="#{mensaje.button_cancelar}"
+					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('confirmationPopUp')}.hide()" />
 				</ui:define>
 			</ui:decorate>

@@ -151,7 +151,7 @@
 								<f:ajax resetValues="true"
 									render="fechaInicioTimeActual costActual fechaFinalTimeActual duration overtimeRate" />
 							</a:commandButton>
-							<a:commandButton value="#{mensaje.button_guardar}"
+							<a:commandButton value="#{mensaje.button_save}"
 								execute=":formAgregarActivitiesAndHr"
 								render="formConfirmar:popUpConfirmar,formGenerico"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
@@ -181,13 +181,13 @@
 						styleClass="etiquetaTitulo" />
 				</ui:define>
 				<ui:define name="botones">
-					<a:commandButton value="#{mensaje.button_aceptar}"
+					<a:commandButton value="#{mensaje.button_accept}"
 						render="formHrReporting, mensajes, mensajeBusqueda"
 						actionListener="#{recordActivitiesActualsAction.actualizarActivitiesAndHr()}"
 						onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popUpAgregarActualsActivitiesAndHr')}.hide();">
 						<f:param name="param2" value="mostrar" />
 					</a:commandButton>
-					<a:commandButton value="#{mensaje.button_cancelar}"
+					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popUpConfirmar')}.hide()" />
 				</ui:define>
 			</ui:decorate>
@@ -212,11 +212,11 @@
 						styleClass="etiquetaTitulo" />
 				</ui:define>
 				<ui:define name="botones">
-					<a:commandButton value="#{mensaje.button_aceptar}"
+					<a:commandButton value="#{mensaje.button_accept}"
 						render="formHrReporting, mensajes, mensajeBusqueda"
 						actionListener="#{recordActivitiesActualsAction.endActivity()}"
 						onclick="#{rich:component('popUpConfirmEndActivity')}.hide(); #{rich:component('statPane')}.show();" />
-					<a:commandButton value="#{mensaje.button_cancelar}"
+					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popUpConfirmEndActivity')}.hide()" />
 				</ui:define>
 			</ui:decorate>

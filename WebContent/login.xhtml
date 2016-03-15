@@ -17,7 +17,7 @@
 						columnClasses="tdAlignTop,,,tdAlignTop">
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.button_usuario}" />
+							value="#{mensaje.button_user}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="username" styleClass="colTextoCorto"
 							maxlength="50" value="#{identity.nombreUsuario}" required="true"
@@ -40,7 +40,7 @@
 					</h:panelGrid>
 					<br />
 					<div class="anchoDos center inBlock">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							onclick="#{rich:component('statPane')}.show();"
 							action="#{loginAction.validateLogin(true)}" styleClass="boton" />
 					</div>

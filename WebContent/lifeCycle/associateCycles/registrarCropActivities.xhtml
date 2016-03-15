@@ -388,13 +388,13 @@
 							rendered="#{cropActivitiesAction.crops.idCrop ne 0}"
 							id="btnRegresar" execute="@form"
 							actionListener="#{cropActivitiesAction.agregarEditarCropActivities(null)}"
-							value="#{mensaje.button_atras}" />
+							value="#{mensaje.button_back}" />
 						<a:commandButton render="formAssignActivities, mensajes"
 							id="btnSeleccionar"
 							actionListener="#{cropActivitiesAction.guardarCropActivities()}"
 							execute="@form"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-							value="#{mensaje.button_guardar}" />
+							value="#{mensaje.button_save}" />
 					</h:panelGrid>
 				</div>
 			</rich:panel>
@@ -604,9 +604,9 @@
 							value="#{cropActivitiesAction.activities.dangerous eq true ? mensaje.label_si : mensaje.label_no}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}" execute="@form"
+						<h:commandButton value="#{mensaje.button_accept}" execute="@form"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupFormReg')}.hide();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -661,9 +661,9 @@
 							value="#{cropActivitiesAction.cycleStandardActivities.dangerous}" />
 					</ui:define>
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}" execute="@form"
+						<a:commandButton value="#{mensaje.button_accept}" execute="@form"
 							onclick="#{rich:component('popUpConfirmarStandard')}.hide(); #{rich:component('popupFormRegStandard')}.hide();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmarStandard')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -690,11 +690,11 @@
 					</ui:define>
 
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cropActivitiesAction.eliminarSeleccionados()}"
 							onclick="#{rich:component('popupEliminarLista')}.hide()"
 							render="pnlActivities, mensajes" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminarLista')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -720,11 +720,11 @@
 					</ui:define>
 
 					<ui:define name="botones">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cropActivitiesAction.eliminarSeleccionados()}"
 							onclick="#{rich:component('popupEliminarListaStandard')}.hide()"
 							render="formStandardActivities, mensajes " />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminarListaStandard')}.hide()" />
 					</ui:define>
 				</ui:decorate>
@@ -794,7 +794,7 @@
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
 						render="pnlActivities, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -878,7 +878,7 @@
 					</h:panelGrid>
 					<br />
 					<div align="center">
-						<a:commandButton value="#{mensaje.button_aceptar}"
+						<a:commandButton value="#{mensaje.button_accept}"
 							onclick="#{rich:component('PopUpDetalles')}.hide()" />
 					</div>
 				</rich:panel>

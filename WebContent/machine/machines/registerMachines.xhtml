@@ -10,8 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="machinesAction.addEditMachines(null)" />
+	<ui:param name="action" value="machinesAction.addEditMachines(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeMachines.machines_label_types" />
 	<ui:define name="body">
@@ -231,7 +230,7 @@
 						execute="formMachines"
 						action="#{machinesAction.calculateDepreciation()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						value="#{mensaje.button_guardar}" />
+						value="#{mensaje.button_save}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -282,10 +281,10 @@
 							value="#{validacionesAction.getLabel(machinesAction.itemsFuelTypes, machinesAction.machines.fuelTypes.idFuelType)}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{machinesAction.saveMachines}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancelar}"
+						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>

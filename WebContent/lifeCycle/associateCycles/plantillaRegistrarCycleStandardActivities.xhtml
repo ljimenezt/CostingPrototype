@@ -14,7 +14,7 @@
 				cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 				cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 				columnClasses="right,tdAlignTop">
-				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
 					value="#{cropActivitiesAction.cycleStandardActivities.hrRequired}"
 					id="txtHr">
 				</h:selectBooleanCheckbox>
@@ -23,7 +23,7 @@
 					styleClass="etiquetaTitulo" />
 				<rich:message for="txtHr" />
 
-				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
 					value="#{cropActivitiesAction.cycleStandardActivities.machineRequired}"
 					id="txtMachine">
 				</h:selectBooleanCheckbox>
@@ -31,7 +31,7 @@
 					value="#{mensajeCosts.cycle_standard_activities_label_maquina}" />
 				<rich:message for="txtMachine" />
 
-				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
 					value="#{cropActivitiesAction.cycleStandardActivities.serviceRequired}"
 					id="txtService">
 				</h:selectBooleanCheckbox>
@@ -39,7 +39,7 @@
 					value="#{mensajeCosts.cycle_standard_activities_label_servicio}" />
 				<rich:message for="txtService" />
 
-				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
 					value="#{cropActivitiesAction.cycleStandardActivities.materialsRequired}"
 					id="txtMaterials">
 				</h:selectBooleanCheckbox>
@@ -47,7 +47,7 @@
 					value="#{mensajeCosts.cycle_standard_activities_label_materiales}" />
 				<rich:message for="txtMaterials" />
 
-				<h:selectBooleanCheckbox  styleClass="marginCheckbox"
+				<h:selectBooleanCheckbox styleClass="marginCheckbox"
 					value="#{cropActivitiesAction.cycleStandardActivities.dangerous}"
 					id="txtDange">
 				</h:selectBooleanCheckbox>
@@ -85,7 +85,7 @@
 					render=":formConfirmarStandard:popUpConfirmarStandard,formGenerico"
 					execute="@form"
 					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmarStandard')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-					value="#{mensaje.button_guardar}" />
+					value="#{mensaje.button_save}" />
 			</div>
 		</a:outputPanel>
 	</rich:panel>
