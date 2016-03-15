@@ -172,8 +172,7 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 	 *            : Identifier of the machine to search.
 	 * @param year
 	 *            : year to search a machine.
-	 * 
-	 * @return Boolean: double with the plus of the cost actual.
+	 * @return Double: double with the plus of the cost actual
 	 * @throws Exception
 	 */
 	public Double calculateMaintenance(int idMachine, String year)
