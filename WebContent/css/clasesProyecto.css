@@ -1189,7 +1189,7 @@ fieldset {
 	float: right;
 	position: relative;
 }
-	
+
 /*Styles for sort table*/
 .FL {
 	float: left;
@@ -1211,4 +1211,8 @@ fieldset {
 
 .headerLink a:hover {
 	display: block;
+}
+
+.wordBreakNormal {
+	word-break: normal
 }
