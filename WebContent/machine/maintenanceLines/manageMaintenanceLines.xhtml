@@ -10,31 +10,30 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://richfaces.org/rich"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="maintenanceLinesAction.inicializarBusqueda" />
+	<ui:param name="action" value="maintenanceLinesAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeMachine.lineas_mantenimiento_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceLinesAction}" />
 		<ui:param name="listaVacia"
-			value="#{maintenanceLinesAction.listaMaintenanceLines eq null 
-			or (empty maintenanceLinesAction.listaMaintenanceLines)}" />
+			value="#{maintenanceLinesAction.maintenanceLinesList eq null 
+			or (empty maintenanceLinesAction.maintenanceLinesList)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{maintenanceLinesAction}" />
 		<ui:param name="renderLista"
 			value="panelMaintenanceLines vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarMaintenanceLines" />
+		<ui:param name="metodoLista" value="searchMaintenanceLines" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="maintenanceLinesAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarMaintenanceLines" />
+		<ui:param name="metodoNuevo" value="addEditMaintenanceLines" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 		<h:form id="formMaintenanceLines">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -44,14 +43,14 @@
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
 				<rich:dataTable
-					value="#{maintenanceLinesAction.listaMaintenanceLines}"
+					value="#{maintenanceLinesAction.maintenanceLinesList}"
 					var="maintenanceLines"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
 						<h:commandLink value="#{maintenanceLines.description}"
-							action="#{maintenanceLinesAction.agregarEditarMaintenanceLines(maintenanceLines)}"
+							action="#{maintenanceLinesAction.addEditMaintenanceLines(maintenanceLines)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -93,8 +92,7 @@
 							<ui:param name="valReder" value="panelMaintenanceLines" />
 							<ui:param name="beanActionParam"
 								value="#{maintenanceLinesAction}" />
-							<ui:param name="metodoActionParam"
-								value="consultarMaintenanceLines" />
+							<ui:param name="metodoActionParam" value="searchMaintenanceLines" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -119,14 +117,14 @@
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar"
-						value="#{maintenanceLinesAction.nombreMaquinaBuscar}"
+						value="#{maintenanceLinesAction.machineNameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{maintenanceLinesAction.consultarMaintenanceLines}"
+						actionListener="#{maintenanceLinesAction.searchMaintenanceLines}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelMaintenanceLines, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"

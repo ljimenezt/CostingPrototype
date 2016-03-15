@@ -12,8 +12,8 @@ import javax.persistence.Query;
 import co.informatix.erp.machines.entities.MaintenanceLines;
 
 /**
- * Class DAO that establishes the connection between business logic and
- * database. MaintenanceLinesAction used for managing MaintenanceLines
+ * Class DAO that implements the connection between business logic and database.
+ * MaintenanceLinesAction manages MaintenanceLines.
  * 
  * @author Mabell.Boada
  * 
@@ -26,81 +26,81 @@ public class MaintenanceLinesDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Edit the information of a maintenance lines records
+	 * Edit the information of maintenance lines records.
 	 * 
 	 * @param maintenanceLines
-	 *            : maintenance lines to edit.
+	 *            : Maintenance lines to edit.
 	 * @throws Exception
 	 */
-	public void editarMaintenanceLines(MaintenanceLines maintenanceLines)
+	public void editMaintenanceLines(MaintenanceLines maintenanceLines)
 			throws Exception {
 		em.merge(maintenanceLines);
 	}
 
 	/**
-	 * Saved maintenance lines in the database
+	 * Save maintenance lines in the database.
 	 * 
 	 * @param maintenanceLines
-	 *            :lines Maintenance to save
+	 *            : Maintenance lines to save.
 	 * @throws Exception
 	 */
-	public void guardarMaintenanceLines(MaintenanceLines maintenanceLines)
+	public void saveMaintenanceLines(MaintenanceLines maintenanceLines)
 			throws Exception {
 		em.persist(maintenanceLines);
 	}
 
 	/**
-	 * Returns the number of lines in the database maintenance existing
-	 * filtering the information by the values sent search
+	 * Returns the amount of maintenance lines in the database; they are
+	 * filtered with search values.
 	 * 
-	 * @param consult
-	 *            : String containing the query for which the properties are
-	 *            filtered.
+	 * @param query
+	 *            : String that contains the query where properties have
+	 *            filters.
 	 * @param parameters
-	 *            : query parameters.
-	 * @return Long: Number of lines Maintenance records found
+	 *            : Query parameters.
+	 * @return Long: Amount of maintenance lines records found.
 	 * @throws Exception
 	 */
-	public Long cantidadMaintenanceLines(StringBuilder consult,
+	public Long maintenanceLinesAmount(StringBuilder query,
 			List<SelectItem> parameters) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(ml) FROM MaintenanceLines ml ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(ml) FROM MaintenanceLines ml ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		return (Long) q.getSingleResult();
+		return (Long) queryResult.getSingleResult();
 	}
 
 	/**
-	 * This method query maintenance lines sent as a defined parameter range and
-	 * filtering the information by the values sent search.
+	 * This method queries maintenance lines with a certain range and they are
+	 * filtered with search values.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            : First record of the query result that is retrieved.
 	 * @param range
-	 *            : range of records
-	 * @param consult
+	 *            : Range of records.
+	 * @param query
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
-	 * @return List<MaintenanceLines>: List lines maintenance
+	 *            : Query parameters.
+	 * @return List<MaintenanceLines>: List maintenance lines.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<MaintenanceLines> consultarMaintenanceLines(int start,
-			int range, StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT ml FROM MaintenanceLines ml ");
-		query.append("JOIN FETCH ml.machines ");
-		query.append("JOIN FETCH ml.maintenanceAndCalibration ");
-		query.append(consult);
-		query.append("ORDER BY ml.description ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public List<MaintenanceLines> queryMaintenanceLines(int start, int range,
+			StringBuilder query, List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT ml FROM MaintenanceLines ml ");
+		queryBuilder.append("JOIN FETCH ml.machines ");
+		queryBuilder.append("JOIN FETCH ml.maintenanceAndCalibration ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY ml.description ");
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<MaintenanceLines> resultList = q.getResultList();
@@ -111,72 +111,75 @@ public class MaintenanceLinesDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of lines in the database maintenance existing
-	 * filtering the information by the values sent search
+	 * Returns the amount of maintenance lines in the database for a known
+	 * maintenanceAndCalibration identifier, but it is done without a JOIN
+	 * FETCH.
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @param consult
-	 *            : String containing the query for which the properties are
-	 *            filtered.
+	 * @param query
+	 *            : String containing the query that has filters.
 	 * @param parameters
-	 *            : query parameters.
+	 *            : Query parameters.
 	 * @param idMaintenance
-	 *            : identifier of the maintenance to search
-	 * @return Long: Number of lines Maintenance records found
+	 *            : Identifier of the maintenance lines to search.
+	 * @return Long: Amount of lines Maintenance records found.
 	 * @throws Exception
 	 */
-	public Long amountMaintenanceLines(StringBuilder consult,
+	public Long amountMaintenanceLines(StringBuilder query,
 			List<SelectItem> parameters, int idMaintenance) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(ml) FROM MaintenanceLines ml ");
-		query.append("JOIN ml.maintenanceAndCalibration mc ");
-		query.append("WHERE mc.idMaintenance =:idMaintenance ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idMaintenance", idMaintenance);
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(ml) FROM MaintenanceLines ml ");
+		queryBuilder.append("JOIN ml.maintenanceAndCalibration mc ");
+		queryBuilder.append("WHERE mc.idMaintenance =:idMaintenance ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idMaintenance", idMaintenance);
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		return (Long) q.getSingleResult();
+		return (Long) queryResult.getSingleResult();
 	}
 
 	/**
-	 * Method that consult all activity and machine object and stores it in a
-	 * list
+	 * Method that queries all activity and machine objects and it stores them
+	 * in a list.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            : First record of the query result that is retrieved.
 	 * @param range
-	 *            : range of records
-	 * @param consult
+	 *            : Range of records.
+	 * @param query
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
-	 *            : consult parameters.
+	 *            : Query parameters.
 	 * @param idMaintenance
-	 *            : identifier of the maintenance to search
-	 * @return List<MaintenanceLines>: Maintenance Lines list
+	 *            : identifier of the maintenance line to search.
+	 * 
+	 * @return List<MaintenanceLines>: Maintenance Lines list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<MaintenanceLines> listMaintenanceLinesXCalibration(int start,
-			int range, StringBuilder consult, List<SelectItem> parameters,
+			int range, StringBuilder query, List<SelectItem> parameters,
 			int idMaintenance) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT ml FROM MaintenanceLines ml ");
-		query.append("JOIN FETCH ml.maintenanceAndCalibration mc ");
-		query.append("JOIN FETCH ml.machines m ");
-		query.append("WHERE mc.idMaintenance =:idMaintenance ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idMaintenance", idMaintenance);
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT ml FROM MaintenanceLines ml ");
+		queryBuilder.append("JOIN FETCH ml.maintenanceAndCalibration mc ");
+		queryBuilder.append("JOIN FETCH ml.machines m ");
+		queryBuilder.append("WHERE mc.idMaintenance =:idMaintenance ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idMaintenance", idMaintenance);
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(start).setMaxResults(range);
-		List<MaintenanceLines> resultList = q.getResultList();
+		queryResult.setFirstResult(start).setMaxResults(range);
+		List<MaintenanceLines> resultList = queryResult.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}

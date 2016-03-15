@@ -11,7 +11,7 @@
 	xmlns:p="http://richfaces.org/rich"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="maintenanceLinesAction.agregarEditarMaintenanceLines(null)" />
+		value="maintenanceLinesAction.addEditMaintenanceLines(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeMachine.lineas_mantenimiento_label" />
 	<ui:define name="body">
@@ -19,6 +19,16 @@
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){    
+				  $('#formMaintenanceLines\\:txaDescription').maxlength({   
+				    events: [],     
+				    max: 200,    
+				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    showFeedback: 'active'    
+				  }); 
+			});		
+		</script>
 		<t:saveState value="#{maintenanceLinesAction}" />
 		<h:form id="formMaintenanceLines">
 			<rich:panel
@@ -38,9 +48,9 @@
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
-						<f:selectItems value="#{maintenanceLinesAction.opcionesMachines}" />
+						<f:selectItems value="#{maintenanceLinesAction.machineOptions}" />
 						<f:ajax event="change"
-							listener="#{maintenanceLinesAction.llenarMaintenance()}"
+							listener="#{maintenanceLinesAction.loadMaintenance()}"
 							render=":formMaintenanceLines:cmbFechaMaquina" execute="@this" />
 						<f:attribute name="maquina" value="short" />
 					</h:selectOneMenu>
@@ -55,8 +65,7 @@
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
-						<f:selectItems
-							value="#{maintenanceLinesAction.opcionesMaintenance}" />
+						<f:selectItems value="#{maintenanceLinesAction.machineOptions}" />
 					</h:selectOneMenu>
 					<rich:message for="cmbFechaMaquina" />
 
@@ -124,11 +133,11 @@
 						<h:outputText
 							value="#{mensajeMachine.lineas_mantenimiento_label_nombre_maquina}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(maintenanceLinesAction.opcionesMachines,maintenanceLinesAction.maintenanceLines.machines.idMachine)}" />
+							value="#{validacionesAction.getLabel(maintenanceLinesAction.machineOptions,maintenanceLinesAction.maintenanceLines.machines.idMachine)}" />
 						<h:outputText
 							value="#{mensajeMachine.mantenimiento_calibracion_label}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(maintenanceLinesAction.opcionesMaintenance,maintenanceLinesAction.maintenanceLines.maintenanceAndCalibration.idMaintenance)}" />
+							value="#{validacionesAction.getLabel(maintenanceLinesAction.machineOptions,maintenanceLinesAction.maintenanceLines.maintenanceAndCalibration.idMaintenance)}" />
 						<h:outputText value="#{mensaje.label_descripcion}:" />
 						<h:outputText
 							value="#{maintenanceLinesAction.maintenanceLines.description}" />
@@ -150,7 +159,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{maintenanceLinesAction.guardarMaintenanceLines()}"
+							action="#{maintenanceLinesAction.saveMaintenanceLines()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

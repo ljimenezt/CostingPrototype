@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesMaintLin</from-outcome>
-			<to-view-id>/machine/maintenanceLines/gestionarMaintenanceLines.xhtml</to-view-id>
+			<to-view-id>/machine/maintenanceLines/manageMaintenanceLines.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regMaintLin</from-outcome>
-			<to-view-id>/machine/maintenanceLines/registrarMaintenanceLines.xhtml</to-view-id>
+			<to-view-id>/machine/maintenanceLines/registerMaintenanceLines.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
