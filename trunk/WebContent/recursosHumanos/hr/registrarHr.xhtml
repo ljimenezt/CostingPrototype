@@ -545,7 +545,10 @@
 						<h:outputText value="#{hrAction.hr.movil}" />
 						<h:outputText
 							value="#{mensajeRecursosHumanos.recurso_humano_label_salario_anual}:" />
-						<h:outputText value="#{hrAction.hr.annualWage}" />
+						<h:outputText value="#{hrAction.hr.annualWage}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText
 							value="#{mensajeRecursosHumanos.recurso_humano_label_horas_por_dia}:" />
 						<h:outputText value="#{hrAction.hr.hoursPerDay}" />

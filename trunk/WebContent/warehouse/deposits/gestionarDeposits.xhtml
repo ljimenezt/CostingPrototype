@@ -310,7 +310,7 @@
 								value="#{mensaje.label_total_cost}:" />
 							<h:outputText value="#{depositsAction.depositDetails.totalCost}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
-									minFractionDigits="2" pattern="#,##0.00" />
+									minFractionDigits="2" type="currency" currencySymbol="$" />
 							</h:outputText>
 
 							<h:outputText styleClass="etiquetaTitulo"

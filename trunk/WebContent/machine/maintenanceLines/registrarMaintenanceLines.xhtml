@@ -135,11 +135,17 @@
 						<h:outputText
 							value="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}:" />
 						<h:outputText
-							value="#{maintenanceLinesAction.maintenanceLines.costBudget}" />
+							value="#{maintenanceLinesAction.maintenanceLines.costBudget}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText
 							value="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}:" />
 						<h:outputText
-							value="#{maintenanceLinesAction.maintenanceLines.costActual}" />
+							value="#{maintenanceLinesAction.maintenanceLines.costActual}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 
 					</ui:define>
 					<ui:define name="botones">

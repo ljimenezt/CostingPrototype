@@ -87,7 +87,10 @@
 
 					<rich:column styleClass="colValorLargo">
 						<f:facet name="header">#{mensajeRecursosHumanos.recurso_humano_label_salario_anual}</f:facet>
-						<h:outputText value="#{hr.annualWage}" />
+						<h:outputText value="#{hr.annualWage}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colValorLargo">
 						<f:facet name="header">#{mensajeRecursosHumanos.recurso_humano_label_horas_por_dia}</f:facet>
@@ -100,7 +103,10 @@
 					</rich:column>
 					<rich:column styleClass="colValorLargo">
 						<f:facet name="header">#{mensajeRecursosHumanos.recurso_humano_label_costo_hora}</f:facet>
-						<h:outputText value="#{hr.hourCost}" />
+						<h:outputText value="#{hr.hourCost}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 					</rich:column>
 
 					<f:facet name="footer">

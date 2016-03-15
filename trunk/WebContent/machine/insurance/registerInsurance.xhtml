@@ -167,10 +167,16 @@
 						<h:outputText value="#{insuranceAction.insurance.dateTime}" />
 						<h:outputText
 							value="#{mensajeMachine.insurance_label_total_costo_presupuesto}:" />
-						<h:outputText value="#{insuranceAction.insurance.totalCostBudget}" />
+						<h:outputText value="#{insuranceAction.insurance.totalCostBudget}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText
 							value="#{mensajeMachine.insurance_label_costo_total_actual}:" />
-						<h:outputText value="#{insuranceAction.insurance.totalCostActual}" />
+						<h:outputText value="#{insuranceAction.insurance.totalCostActual}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 
 					</ui:define>
 					<ui:define name="botones">

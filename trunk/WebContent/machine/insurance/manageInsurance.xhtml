@@ -122,14 +122,14 @@
 							<f:facet name="header">#{mensajeMachine.insurance_label_total_costo_presupuesto}</f:facet>
 							<h:outputText value="#{insurance.totalCostBudget}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
-									minFractionDigits="2" pattern="#,##0.00" />
+									minFractionDigits="2" currencySymbol="$" type="currency" />
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorLargo">
 							<f:facet name="header">#{mensajeMachine.insurance_label_costo_total_actual}</f:facet>
 							<h:outputText value="#{insurance.totalCostActual}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
-									minFractionDigits="2" pattern="#,##0.00" />
+									minFractionDigits="2" currencySymbol="$" type="currency" />
 							</h:outputText>
 						</rich:column>
 						<f:facet name="footer">

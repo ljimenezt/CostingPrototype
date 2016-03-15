@@ -165,7 +165,7 @@
 							<h:outputText
 								value="#{maintenanceAndCalibration.totalCostBudget}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
-									minFractionDigits="2" pattern="#,##0.00" />
+									minFractionDigits="2" type="currency" currencySymbol="$" />
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorTextoMediano">
@@ -173,7 +173,7 @@
 							<h:outputText
 								value="#{maintenanceAndCalibration.totalCostActual}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
-									minFractionDigits="2" pattern="#,##0.00" />
+									minFractionDigits="2" type="currency" currencySymbol="$" />
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colIconoUno">
@@ -347,16 +347,16 @@
 									<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}</f:facet>
 									<h:outputText value="#{maintenanceLines.costBudget}">
 										<f:convertNumber locale="#{idioma.locale}"
-											maxFractionDigits="2" minFractionDigits="2"
-											pattern="#,##0.00" />
+											maxFractionDigits="2" minFractionDigits="2" type="currency"
+											currencySymbol="$" />
 									</h:outputText>
 								</rich:column>
 								<rich:column width="100px" styleClass="colValorLargo">
 									<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_actual}</f:facet>
 									<h:outputText value="#{maintenanceLines.costActual}">
 										<f:convertNumber locale="#{idioma.locale}"
-											maxFractionDigits="2" minFractionDigits="2"
-											pattern="#,##0.00" />
+											maxFractionDigits="2" minFractionDigits="2" type="currency"
+											currencySymbol="$" />
 									</h:outputText>
 								</rich:column>
 								<f:facet name="footer">
