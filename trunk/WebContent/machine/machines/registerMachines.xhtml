@@ -97,7 +97,7 @@
 							styleClass="colNumero" id="txtHorse"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
-							<f:validateDoubleRange />
+							<f:validateDoubleRange minimum="0"/>
 						</h:inputText>
 						<rich:message for="txtHorse" />
 
@@ -108,7 +108,7 @@
 							styleClass="colNumero" id="txtKilowatts"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
-							<f:validateDoubleRange />
+							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
 						<rich:message for="txtKilowatts" />
 					</h:panelGrid>
