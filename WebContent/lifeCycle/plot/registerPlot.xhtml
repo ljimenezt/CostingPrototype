@@ -70,7 +70,9 @@
 					<h:outputText value="" />
 					<h:inputText value="#{plotAction.plot.locationLinkToMap}"
 						styleClass="colTextoMediano" id="txtLocation" size="41"
-						label="#{mensaje.label_enlace_mapa_ubicacion}" maxlength="100">
+						label="#{mensaje.label_enlace_mapa_ubicacion}"
+						validatorMessage="#{mensaje.message_campo_positivo}"
+						maxlength="100">
 						<f:validateDoubleRange minimum="0" />
 					</h:inputText>
 					<rich:message for="txtLocation" />
@@ -89,6 +91,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText value="#{plotAction.plot.numberOfTrees}"
+						label="#{mensajeLifeCycle.plot_numbers_trees}"
 						styleClass="colTextoCorto" id="txtNumberTrees" maxlength="100">
 						<f:validateLongRange></f:validateLongRange>
 					</h:inputText>
