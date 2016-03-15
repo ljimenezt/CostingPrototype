@@ -552,7 +552,7 @@ public class ActivitiesAction implements Serializable {
 				mensajeRegistro = "message_registro_guardar";
 				activitiesDao.guardarActivities(activities);
 				activitiesAndCertificationsDao
-						.guardarActivitiesAndCertifications(activitiesAndCertifications);
+						.saveActivitiesAndCertifications(activitiesAndCertifications);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(mensajeRegistro),

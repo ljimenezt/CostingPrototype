@@ -11,7 +11,7 @@
 	xmlns:p="http://richfaces.org/rich"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="activitiesAndCertificationsAction.agregarEditarActiAndCert(null)" />
+		value="activitiesAndCertificationsAction.addEditActiAndCert(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeLifeCycle.activities_certifications_label" />
 	<ui:define name="body">
@@ -88,7 +88,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{activitiesAndCertificationsAction.guardarActivities()}"
+							action="#{activitiesAndCertificationsAction.saveActivities()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

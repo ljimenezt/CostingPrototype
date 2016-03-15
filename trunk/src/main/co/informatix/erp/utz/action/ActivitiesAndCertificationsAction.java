@@ -47,7 +47,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 
 	private int idCertAndRoles;
 
-	private String nombreBuscar;
+	private String nameSearch;
 
 	private Paginador paginador = new Paginador();
 
@@ -211,19 +211,19 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Activity name to search
+	 * @return nameSearch: Activity name to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : Activity name to search
+	 * @param nameSearch
+	 *            : Activity name to search.
 	 * 
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
@@ -250,12 +250,12 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * @return gesActivAndCert: Returns to the template management and
 	 *         certification activities.
 	 */
-	public String inicializarBusqueda() {
+	public String searchInitialization() {
 		try {
-			nombreBuscar = "";
+			nameSearch = "";
 			certificationsAndRoles = new CertificationsAndRoles();
 			activityNames = new ActivityNames();
-			cargarComboCertAndRoles();
+			loadComboCertAndRoles();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -272,11 +272,11 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * @return regActivAndCert: Template redirects to record activities and
 	 *         certifications.
 	 */
-	public String agregarEditarActiAndCert(
+	public String addEditActiAndCert(
 			ActivitiesAndCertifications activitiesAndCertifications) {
 		try {
-			cargarComboCertAndRoles();
-			cargarComboActivityNames();
+			loadComboCertAndRoles();
+			loadComboActivityNames();
 			if (activitiesAndCertifications != null) {
 				this.activitiesAndCertifications = activitiesAndCertifications;
 
@@ -302,7 +302,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarComboCertAndRoles() throws Exception {
+	private void loadComboCertAndRoles() throws Exception {
 		itemsCertificationsAndRoles = new ArrayList<SelectItem>();
 		List<CertificationsAndRoles> listCertificationsAndRoles = certificationsAndRolesDao
 				.consultCertificationsAndRoles();
@@ -321,7 +321,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarComboActivityNames() throws Exception {
+	private void loadComboActivityNames() throws Exception {
 		itemsActivities = new ArrayList<SelectItem>();
 		List<Activities> listActivities = activitiesDao.consultarActivities();
 		if (listActivities != null) {
@@ -340,49 +340,49 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * @return "gesActivAndCert": Redirects to the template to manage activities
 	 *         and certifications.
 	 */
-	public String consultarActividades() {
+	public String consultActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeLifeCycle");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listActivities = new ArrayList<Activities>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		this.idCertAndRoles = this.certificationsAndRoles
 				.getIdCertificactionsAndRoles();
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = activitiesDao.cantidadActivitiesXIdCert(
-					idCertAndRoles, consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle,
+					unionMessagesSearch);
+			Long quantity = activitiesDao.cantidadActivitiesXIdCert(
+					idCertAndRoles, query, parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
 			listActivities = activitiesDao.consultarActivityNamesXIdCert(
 					idCertAndRoles, paginador.getInicio(),
-					paginador.getRango(), consulta, parametros);
+					paginador.getRango(), query, parameters);
 
 			if ((listActivities == null || listActivities.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			} else if (listActivities == null || listActivities.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle
 										.getString("activities_certifications_label_s"),
-								unionMensajesBusqueda);
+										unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -392,11 +392,11 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * Method used to save or edit activities and certifications.
 	 * 
-	 * @return inicializarBusqueda: Method to initialize the search parameters
+	 * @return searchInitialization: Method to initialize the search parameters
 	 *         and load the template to manage activities and certifications.
 	 * 
 	 */
-	public String guardarActivities() {
+	public String saveActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		int idActName = this.activityNames.getIdActivityName();
 		Object nameCert = new Object();
@@ -404,17 +404,17 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 			nameCert = ValidacionesAction.getLabel(itemsCertificationsAndRoles,
 					this.certificationsAndRoles.getIdCertificactionsAndRoles());
 			activities = activitiesDao.activityXIdActNames(idActName);
-			String mensajeRegistro = "message_registro_guardar";
+			String messageLog = "message_registro_guardar";
 			activitiesAndCertificationsPK.setActivities(activities);
 			activitiesAndCertificationsPK
 					.setCertificationsAndRoles(certificationsAndRoles);
 			activitiesAndCertifications
 					.setActivitiesAndCertificationsPK(activitiesAndCertificationsPK);
 			activitiesAndCertificationsDao
-					.guardarActivitiesAndCertifications(activitiesAndCertifications);
+					.saveActivitiesAndCertifications(activitiesAndCertifications);
 
 			String format = MessageFormat.format(
-					bundle.getString(mensajeRegistro), nameCert);
+					bundle.getString(messageLog), nameCert);
 			ControladorContexto.mensajeInformacion(null, format);
 			activityNames = new ActivityNames();
 			certificationsAndRoles = new CertificationsAndRoles();
@@ -430,7 +430,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return inicializarBusqueda();
+		return searchInitialization();
 	}
 
 	/**
@@ -448,26 +448,26 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 *            : message search
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("AND UPPER(an.activityName) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
 	/**
 	 * Method to delete an activity, certification of the database.
 	 * 
-	 * @return inicializarBusqueda: Method to initialize the search parameters
+	 * @return searchInitialization: Method to initialize the search parameters
 	 *         and load the template to manage activities and certifications.
 	 */
-	public String eliminarActivitiesAndCert() {
+	public String removeActivitiesAndCert() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
 			int idActivities = this.activities.getIdActivity();
@@ -475,7 +475,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 					.activAndCertifXIdActiviAndIdCertAndRol(idActivities,
 							this.idCertAndRoles);
 			activitiesAndCertificationsDao
-					.eliminarActivitiesAndCertifications(activitiesAndCertifications);
+					.removeActivitiesAndCertifications(activitiesAndCertifications);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					this.activities.getActivityName().getActivityName()));
@@ -487,6 +487,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return inicializarBusqueda();
+		return searchInitialization();
 	}
 }
