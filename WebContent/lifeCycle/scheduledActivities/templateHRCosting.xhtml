@@ -113,12 +113,18 @@
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true" id="costBudget"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.totalCostBudget}"
-							styleClass="W108P" />
+							styleClass="W108P">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:inputText>
 						<h:inputText id="costActual" required="true" disabled="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.totalCostActual}"
-							styleClass="W103P" />
+							styleClass="W103P">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:inputText>
 						<rich:message for="costActual" />
 						<h:outputText
 							value="#{mensajeRecursosHumanos.overtime_payment_rate_label_overtime_rate}"

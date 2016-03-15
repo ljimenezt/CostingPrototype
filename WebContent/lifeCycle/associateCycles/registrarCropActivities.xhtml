@@ -835,29 +835,44 @@
 							<h:outputText value="#{mensaje.label_costo_general}:"
 								styleClass="etiquetaTitulo" />
 							<h:outputText
-								value="#{activitiesAction.activities.generalCostBudget}" />
+								value="#{activitiesAction.activities.generalCostBudget}">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
 
 						</h:panelGrid>
 						<h:panelGrid columns="2">
 
 							<h:outputText value="#{mensaje.label_hr_costo}:"
 								styleClass="etiquetaTitulo" />
-							<h:outputText value="#{activitiesAction.activities.costHrBudget}" />
+							<h:outputText value="#{activitiesAction.activities.costHrBudget}">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
 
 							<h:outputText value="#{mensaje.label_costo_maquina}:"
 								styleClass="etiquetaTitulo" />
 							<h:outputText
-								value="#{activitiesAction.activities.costMachinesEqBudget}" />
+								value="#{activitiesAction.activities.costMachinesEqBudget}">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
 
 							<h:outputText value="#{mensaje.label_costo_servicio}:"
 								styleClass="etiquetaTitulo" />
 							<h:outputText
-								value="#{activitiesAction.activities.costServicesBudget}" />
+								value="#{activitiesAction.activities.costServicesBudget}">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
 
 							<h:outputText value="#{mensaje.label_costo_material}:"
 								styleClass="etiquetaTitulo" />
 							<h:outputText
-								value="#{activitiesAction.activities.costMaterialsBudget}" />
+								value="#{activitiesAction.activities.costMaterialsBudget}">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
 
 						</h:panelGrid>
 					</h:panelGrid>
