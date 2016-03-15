@@ -350,8 +350,10 @@
 							<h:outputText value="" />
 							<h:inputText
 								label="#{mensajeCosts.cycle_standard_activities_label_num_secuencia}"
+								converterMessage="#{mensaje.message_campo_positivo}"
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.sequenceNumber}"
 								styleClass="colNumeroLargo MP0" id="txtSecNum">
+								<f:validateLongRange minimum="0" />
 							</h:inputText>
 							<rich:message for="txtSecNum" />
 
@@ -363,8 +365,10 @@
 							<h:outputText value="" />
 							<h:inputText
 								label="#{mensajeCosts.cycle_standard_activities_label_duracion}"
+								converterMessage="#{mensaje.message_campo_positivo}"
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.duration}"
 								styleClass="colNumeroLargo MP0" id="txtDuration">
+								<f:validateDoubleRange minimum="0.0" />
 							</h:inputText>
 							<rich:message for="txtDuration" />
 						</h:panelGrid>
