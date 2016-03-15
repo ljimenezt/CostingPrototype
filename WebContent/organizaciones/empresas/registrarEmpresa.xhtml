@@ -34,7 +34,7 @@
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupConfirmar')}.show();}
 									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						rendered="#{(empresaAction.opcion eq 'editar' and identity.autorizado('empresaAction','U')) or identity.autorizado('empresaAction','A') or identity.autorizado('empresaAction','I')}" />
-					<a:commandButton value="#{mensajePuc.tercero_button_volver}"
+					<a:commandButton value="#{mensajePuc.tercero_button_return}"
 						render="popupValidarRegresarTercero"
 						oncomplete="#{rich:component('popupValidarRegresarTercero')}.show();"
 						immediate="true"
