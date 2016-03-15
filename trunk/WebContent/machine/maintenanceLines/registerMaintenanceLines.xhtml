@@ -86,7 +86,9 @@
 					<h:inputText
 						label="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}"
 						value="#{maintenanceLinesAction.maintenanceLines.costBudget}"
-						styleClass="colNumero" id="txtTotalCostBudget">
+						styleClass="colNumero" id="txtTotalCostBudget"
+						converterMessage="#{mensaje.message_juego_caracter_numeros}">
+						<f:validateDoubleRange minimum="0" />
 					</h:inputText>
 					<rich:message for="txtTotalCostBudget" />
 
@@ -96,7 +98,9 @@
 					<h:inputText
 						label="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}"
 						value="#{maintenanceLinesAction.maintenanceLines.costActual}"
-						styleClass="colNumero" id="txtCostActual">
+						styleClass="colNumero" id="txtCostActual"
+						converterMessage="#{mensaje.message_juego_caracter_numeros}">
+						<f:validateDoubleRange minimum="0" />
 					</h:inputText>
 					<rich:message for="txtCostActual" />
 
