@@ -40,8 +40,8 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class is all the logic related to the creation, updating or removal of
- * human resources in the system.
+ * This class implements the business logic: creating, deleting and updating
+ * maintenance lines in the system.
  * 
  * @author Cristhian.Pico
  * 
@@ -70,42 +70,42 @@ public class HrAction implements Serializable {
 	private Hr hr;
 	private Paginador paginador = new Paginador();
 	private Paginador paginadorForm = new Paginador();
-	private String nombreBuscar;
-	private String apellidoBuscar;
-	private String carpetaArchivos;
-	private String carpetaArchivosTemporal;
-	private String nombreFotoHr;
-	private Date fechaActual = new Date();
+	private String nameSearch;
+	private String lastNameSearch;
+	private String filesFolder;
+	private String temporalFilesFolder;
+	private String hrPicName;
+	private Date currentDate = new Date();
 
-	private List<Hr> listaHr;
-	private List<SelectItem> itemsPaisesNacimiento;
-	private List<SelectItem> itemDepartamentosNacimiento;
-	private List<SelectItem> itemsMunicipiosNacimiento;
-	private List<SelectItem> itemsPaisesResidencia;
-	private List<SelectItem> itemDepartamentosResidencia;
-	private List<SelectItem> itemsMunicipiosResidencia;
-	private List<SelectItem> itemsEstadosCivil;
-	private List<SelectItem> itemsHrTypes;
-	private List<SelectItem> itemsPaymentMethods;
+	private List<Hr> hrList;
+	private List<SelectItem> birthCountryItems;
+	private List<SelectItem> birthStateItems;
+	private List<SelectItem> birthMunicipalityItems;
+	private List<SelectItem> residenceCountryItems;
+	private List<SelectItem> residenceStateItems;
+	private List<SelectItem> residenceMunicipalityItems;
+	private List<SelectItem> maritalStatusItems;
+	private List<SelectItem> hrTypesItems;
+	private List<SelectItem> paymentMethodsItems;
 
-	private int hrTypeBuscar;
-	private int paymentTypeBuscar;
+	private int hrTypeSearch;
+	private int paymentTypeSearch;
 
-	private boolean cargarFotoTemporal;
+	private boolean temporalPicLoaded;
 
 	/**
-	 * @return listaHr: gets the list of human resources
+	 * @return hrList: gets the list of human resources
 	 */
-	public List<Hr> getListaHr() {
-		return listaHr;
+	public List<Hr> getHrList() {
+		return hrList;
 	}
 
 	/**
-	 * @param listaHr
+	 * @param hrList
 	 *            : gets the list of human resources
 	 */
-	public void setListaHr(List<Hr> listaHr) {
-		this.listaHr = listaHr;
+	public void setHrList(List<Hr> hrList) {
+		this.hrList = hrList;
 	}
 
 	/**
@@ -155,179 +155,179 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: gets the name by which you want to consult Human
+	 * @return nameSearch: gets the name by which you want to consult Human
 	 *         resources
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : gets the name by which you want to consult Human resources
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return apellidoBuscar: Name by which you want to consult human Resources
+	 * @return lastNameSearch: Name by which you want to consult human Resources
 	 */
-	public String getApellidoBuscar() {
-		return apellidoBuscar;
+	public String getLastNameSearch() {
+		return lastNameSearch;
 	}
 
 	/**
-	 * @param apellidoBuscar
+	 * @param lastNameSearch
 	 *            : Name by which you want to consult human Resources
 	 */
-	public void setApellidoBuscar(String apellidoBuscar) {
-		this.apellidoBuscar = apellidoBuscar;
+	public void setLastNameSearch(String lastNameSearch) {
+		this.lastNameSearch = lastNameSearch;
 	}
 
 	/**
-	 * @return hrTypeBuscar: Type of human resources for which they want search
+	 * @return hrTypeSearch: Type of human resources for which they want search
 	 *         for human resources.
 	 */
-	public int getHrTypeBuscar() {
-		return hrTypeBuscar;
+	public int getHrTypeSearch() {
+		return hrTypeSearch;
 	}
 
 	/**
-	 * @param hrTypeBuscar
+	 * @param hrTypeSearch
 	 *            : Type of human resources for which they want search for human
 	 *            resources.
 	 */
-	public void setHrTypeBuscar(int hrTypeBuscar) {
-		this.hrTypeBuscar = hrTypeBuscar;
+	public void setHrTypeSearch(int hrTypeSearch) {
+		this.hrTypeSearch = hrTypeSearch;
 	}
 
 	/**
-	 * @return paymentTypeBuscar: Payment type for which you want to search for
+	 * @return paymentTypeSearch: Payment type for which you want to search for
 	 *         human Resources.
 	 */
-	public int getPaymentTypeBuscar() {
-		return paymentTypeBuscar;
+	public int getPaymentTypeSearch() {
+		return paymentTypeSearch;
 	}
 
 	/**
-	 * @param paymentTypeBuscar
+	 * @param paymentTypeSearch
 	 *            : Payment type for which you want to search for human
 	 *            Resources.
 	 */
-	public void setPaymentTypeBuscar(int paymentTypeBuscar) {
-		this.paymentTypeBuscar = paymentTypeBuscar;
+	public void setPaymentTypeSearch(int paymentTypeSearch) {
+		this.paymentTypeSearch = paymentTypeSearch;
 	}
 
 	/**
-	 * @return itemsPaisesNacimiento: Items of the countries shown in the combo
+	 * @return birthCountryItems: Items of the countries shown in the combo of
+	 *         country of birth in the user interface
+	 */
+	public List<SelectItem> getBirthCountryItems() {
+		return birthCountryItems;
+	}
+
+	/**
+	 * @return birthStateItems: Items Items of the countries shown in the combo
 	 *         of country of birth in the user interface
 	 */
-	public List<SelectItem> getItemsPaisesNacimiento() {
-		return itemsPaisesNacimiento;
+	public List<SelectItem> getBirthStateItems() {
+		return birthStateItems;
 	}
 
 	/**
-	 * @return itemDepartamentosNacimiento: Items Items of the countries shown
-	 *         in the combo of country of birth in the user interface
-	 */
-	public List<SelectItem> getItemDepartamentosNacimiento() {
-		return itemDepartamentosNacimiento;
-	}
-
-	/**
-	 * @return itemsMunicipiosNacimiento: Items of the municipalities that are
+	 * @return birthMunicipalityItems: Items of the municipalities that are
 	 *         shown in the combo municipality of birth interface user
 	 */
-	public List<SelectItem> getItemsMunicipiosNacimiento() {
-		return itemsMunicipiosNacimiento;
+	public List<SelectItem> getBirthMunicipalityItems() {
+		return birthMunicipalityItems;
 	}
 
 	/**
-	 * @return itemsPaisesResidencia: Items of the municipalities that are shown
+	 * @return residenceCountryItems: Items of the municipalities that are shown
 	 *         in the combo municipality of birth interface user
 	 */
-	public List<SelectItem> getItemsPaisesResidencia() {
-		return itemsPaisesResidencia;
+	public List<SelectItem> getResidenceCountryItems() {
+		return residenceCountryItems;
 	}
 
 	/**
-	 * @return itemDepartamentosResidencia: Items of the departments shown in
-	 *         the department of residence combobox interface user
+	 * @return residenceStateItems: Items of the departments shown in the
+	 *         department of residence combo box interface user
 	 */
-	public List<SelectItem> getItemDepartamentosResidencia() {
-		return itemDepartamentosResidencia;
+	public List<SelectItem> getResidenceStateItems() {
+		return residenceStateItems;
 	}
 
 	/**
-	 * @return itemsMunicipiosResidencia: Items of the departments shown in the
-	 *         department of residence combobox interface user
+	 * @return residenceMunicipalityItems: Items of the departments shown in the
+	 *         department of residence combo box interface user
 	 */
-	public List<SelectItem> getItemsMunicipiosResidencia() {
-		return itemsMunicipiosResidencia;
+	public List<SelectItem> getResidenceMunicipalityItems() {
+		return residenceMunicipalityItems;
 	}
 
 	/**
-	 * @return itemsEstadosCivil: civil status items that are loaded into the
+	 * @return maritalStatusItems: civil status items that are loaded into the
 	 *         combo in the user interface.
 	 */
-	public List<SelectItem> getItemsEstadosCivil() {
-		return itemsEstadosCivil;
+	public List<SelectItem> getMaritalStatusItems() {
+		return maritalStatusItems;
 	}
 
 	/**
-	 * @return itemsHrTypes: civil status items that are loaded into the combo
+	 * @return hrTypesItems: civil status items that are loaded into the combo
 	 *         in the user interface.
 	 */
-	public List<SelectItem> getItemsHrTypes() {
-		return itemsHrTypes;
+	public List<SelectItem> getHrTypesItems() {
+		return hrTypesItems;
 	}
 
 	/**
-	 * @return itemsPaymentMethods: the method of payment items that are loaded
+	 * @return paymentMethodsItems: the method of payment items that are loaded
 	 *         into the combo in the user interface.
 	 */
-	public List<SelectItem> getItemsPaymentMethods() {
-		return itemsPaymentMethods;
+	public List<SelectItem> getPaymentMethodsItems() {
+		return paymentMethodsItems;
 	}
 
 	/**
-	 * @return nombreFotoHr: filename of the picture that is associated with
-	 *         human resource
+	 * @return hrPicName: filename of the picture that is associated with human
+	 *         resource
 	 */
-	public String getNombreFotoHr() {
-		return nombreFotoHr;
+	public String getHrPicName() {
+		return hrPicName;
 	}
 
 	/**
-	 * @param nombreFotoHr
+	 * @param hrPicName
 	 *            : filename of the picture that is associated with human
 	 *            resource
 	 */
-	public void setNombreFotoHr(String nombreFotoHr) {
-		this.nombreFotoHr = nombreFotoHr;
+	public void setHrPicName(String hrPicName) {
+		this.hrPicName = hrPicName;
 	}
 
 	/**
-	 * @return carpetaArchivos: the actual folder path where you load the Photos
-	 *         of human resources
+	 * @return filesFolder: the actual folder path where you load the Photos of
+	 *         human resources
 	 */
-	public String getCarpetaArchivos() {
-		this.carpetaArchivos = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
+	public String getFilesFolder() {
+		this.filesFolder = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
 				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_PERSONAS;
-		return carpetaArchivos;
+		return filesFolder;
 	}
 
 	/**
-	 * @return carpetaArchivosTemporal: temporary folder path where Photo charge
-	 *         of human resources
+	 * @return temporalFilesFolder: temporary folder path where Photo charge of
+	 *         human resources
 	 */
-	public String getCarpetaArchivosTemporal() {
-		this.carpetaArchivosTemporal = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
+	public String getTemporalFilesFolder() {
+		this.temporalFilesFolder = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
 				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
-		return carpetaArchivosTemporal;
+		return temporalFilesFolder;
 	}
 
 	/**
@@ -347,48 +347,48 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * @return cargarFotoTemporal: Flag indicating whether the picture is loaded
+	 * @return temporalPicLoaded: Flag indicating whether the picture is loaded
 	 *         from temporary location or not
 	 */
-	public boolean isCargarFotoTemporal() {
-		return cargarFotoTemporal;
+	public boolean isTemporalPicLoaded() {
+		return temporalPicLoaded;
 	}
 
 	/**
-	 * @param cargarFotoTemporal
+	 * @param temporalPicLoaded
 	 *            : Flag indicating whether the picture is loaded from temporary
 	 *            location or not
 	 */
-	public void setCargarFotoTemporal(boolean cargarFotoTemporal) {
-		this.cargarFotoTemporal = cargarFotoTemporal;
+	public void setTemporalPicLoaded(boolean temporalPicLoaded) {
+		this.temporalPicLoaded = temporalPicLoaded;
 	}
 
 	/**
-	 * @return fechaActual: variable that gets the current system date.
+	 * @return currentDate: variable that gets the current system date.
 	 */
-	public Date getFechaActual() {
-		return fechaActual;
+	public Date getCurrentDate() {
+		return currentDate;
 	}
 
 	/**
-	 * @param fechaActual
+	 * @param currentDate
 	 *            : variable that gets the current system date.
 	 */
-	public void setFechaActual(Date fechaActual) {
-		this.fechaActual = fechaActual;
+	public void setCurrentDate(Date currentDate) {
+		this.currentDate = currentDate;
 	}
 
 	/**
 	 * Initializes the search parameters to filter by hrTypes
 	 * 
-	 * @return consultarHrs(): method that queries resource types human, returns
-	 *         to the template management.
+	 * @return searchHrs(): method that queries resource types human, returns to
+	 *         the template management.
 	 */
-	public String inicializarFiltro() {
-		nombreBuscar = "";
-		apellidoBuscar = "";
-		paymentTypeBuscar = 0;
-		return consultarHrs();
+	public String initializeFilter() {
+		nameSearch = "";
+		lastNameSearch = "";
+		paymentTypeSearch = 0;
+		return searchHrs();
 	}
 
 	/**
@@ -397,15 +397,15 @@ public class HrAction implements Serializable {
 	 * 
 	 * @modify 15/07/2015 Gerardo.Herrera
 	 * 
-	 * @return consultarHrs: method to query the types of human resources,
-	 *         returns to the template management.
+	 * @return searchHrs: method to query the types of human resources, returns
+	 *         to the template management.
 	 */
-	public String inicializarBusqueda() {
-		hrTypeBuscar = 0;
-		nombreBuscar = "";
-		apellidoBuscar = "";
-		paymentTypeBuscar = 0;
-		return consultarHrs();
+	public String initializeSearch() {
+		hrTypeSearch = 0;
+		nameSearch = "";
+		lastNameSearch = "";
+		paymentTypeSearch = 0;
+		return searchHrs();
 	}
 
 	/**
@@ -415,71 +415,71 @@ public class HrAction implements Serializable {
 	 * @modify 14/07/2015 Gerardo.Herrera
 	 * @modify 08/03/2016 Mabell.Boada
 	 * 
-	 * @return retorno: Navigation rule that redirects to manage Human Resources
+	 * @return returns: Navigation rule that redirects to manage Human Resources
 	 *         According condition
 	 */
-	public String consultarHrs() {
+	public String searchHrs() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
 		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		this.listaHr = new ArrayList<Hr>();
+		this.hrList = new ArrayList<Hr>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
-		StringBuilder consult = new StringBuilder();
-		StringBuilder unionMessageSearch = new StringBuilder();
-		String messageSearch = "";
+		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder jointSearchMessages = new StringBuilder();
+		String searchMessage = "";
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
 				: false;
-		String retorno = fromModal ? "" : "gesHumanResources";
+		String returns = fromModal ? "" : "gesHumanResources";
 		try {
-			busquedaAvanzada(consult, parameters, bundle,
-					bundleRecursosHumanos, unionMessageSearch);
-			Long amount = hrDao.cantidadHr(consult, parameters);
+			advancedSearch(queryBuilder, parameters, bundle,
+					bundleRecursosHumanos, jointSearchMessages);
+			Long amount = hrDao.hrAmount(queryBuilder, parameters);
 			if (amount != null) {
 				if (fromModal) {
 					paginadorForm.paginarRangoDefinido(amount, 5);
-					this.listaHr = hrDao.consultarHr(paginadorForm.getInicio(),
-							paginadorForm.getRango(), consult, parameters);
+					this.hrList = hrDao.queryHr(paginadorForm.getInicio(),
+							paginadorForm.getRango(), queryBuilder, parameters);
 
 				} else {
 					paginador.paginar(amount);
-					this.listaHr = hrDao.consultarHr(paginador.getInicio(),
-							paginador.getRango(), consult, parameters);
+					this.hrList = hrDao.queryHr(paginador.getInicio(),
+							paginador.getRango(), queryBuilder, parameters);
 				}
 			}
-			if ((listaHr == null || listaHr.size() <= 0)
-					&& !"".equals(unionMessageSearch.toString())) {
-				messageSearch = MessageFormat
+			if ((hrList == null || hrList.size() <= 0)
+					&& !"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMessageSearch);
-			} else if (listaHr == null || listaHr.size() <= 0) {
+								jointSearchMessages);
+			} else if (hrList == null || hrList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMessageSearch.toString())) {
+			} else if (!"".equals(jointSearchMessages.toString())) {
 				String message = bundle
 						.getString("message_existen_registros_criterio_busqueda");
-				messageSearch = MessageFormat
+				searchMessage = MessageFormat
 						.format(message, bundleRecursosHumanos
 								.getString("recurso_humano_label"),
-								unionMessageSearch);
+								jointSearchMessages);
 			}
 			if (amount != 0) {
-				cargarDetallesHr();
+				loadHrDetails();
 			}
-			cargarComboHrTypes();
-			cargarComboPaymentMethods();
+			loadHrTypesCombo();
+			loadPaymentMethodsCombo();
 			if (fromModal) {
-				validations.setMensajeBusquedaPopUp(messageSearch);
+				validations.setMensajeBusquedaPopUp(searchMessage);
 			} else {
-				validations.setMensajeBusqueda(messageSearch);
+				validations.setMensajeBusqueda(searchMessage);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return retorno;
+		return returns;
 	}
 
 	/**
@@ -489,74 +489,72 @@ public class HrAction implements Serializable {
 	 * 
 	 * @modify 14/07/2015 Gerardo.Herrera
 	 * 
-	 * @param consulta
+	 * @param query
 	 *            : query to concatenate
-	 * @param parametros
+	 * @param parameter
 	 *            : list of search parameters.
 	 * @param bundle
 	 *            : access language tags
 	 * 
-	 * @param bundleRecursosHumanos
+	 * @param bundleHr
 	 *            : access language tags HR
 	 * 
-	 * @param unionMensajesBusqueda
+	 * @param jointSearchMessages
 	 *            : Message search
 	 */
-	private void busquedaAvanzada(StringBuilder consulta,
-			List<SelectItem> parametros, ResourceBundle bundle,
-			ResourceBundle bundleRecursosHumanos,
-			StringBuilder unionMensajesBusqueda) {
-		boolean agregarFiltro = false;
-		String tipoRecursoHumano = "";
-		String tipoPago = "";
-		if ((this.nombreBuscar != null && !"".equals(this.nombreBuscar))) {
-			consulta.append(agregarFiltro ? "AND " : "WHERE ");
-			consulta.append(" UPPER(h.name) LIKE UPPER(:keywordNombre) ");
-			SelectItem itemNombre = new SelectItem("%" + this.nombreBuscar
-					+ "%", "keywordNombre");
-			parametros.add(itemNombre);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nombreBuscar + '"' + " ");
-			agregarFiltro = true;
+	private void advancedSearch(StringBuilder query,
+			List<SelectItem> parameter, ResourceBundle bundle,
+			ResourceBundle bundleHr, StringBuilder jointSearchMessages) {
+		boolean addFilter = false;
+		String hrType = "";
+		String paymentType = "";
+		if ((this.nameSearch != null && !"".equals(this.nameSearch))) {
+			query.append(addFilter ? "AND " : "WHERE ");
+			query.append(" UPPER(h.name) LIKE UPPER(:keywordNombre) ");
+			SelectItem nameItem = new SelectItem("%" + this.nameSearch + "%",
+					"keywordNombre");
+			parameter.add(nameItem);
+			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nameSearch + '"' + " ");
+			addFilter = true;
 		}
-		if (this.apellidoBuscar != null && !"".equals(this.apellidoBuscar)) {
-			consulta.append(agregarFiltro ? "AND " : "WHERE ");
-			consulta.append(" UPPER(h.familyName) LIKE UPPER(:keywordApellido) ");
-			SelectItem itemApellido = new SelectItem("%" + this.apellidoBuscar
+		if (this.lastNameSearch != null && !"".equals(this.lastNameSearch)) {
+			query.append(addFilter ? "AND " : "WHERE ");
+			query.append(" UPPER(h.familyName) LIKE UPPER(:keywordApellido) ");
+			SelectItem lastNameItem = new SelectItem("%" + this.lastNameSearch
 					+ "%", "keywordApellido");
-			parametros.add(itemApellido);
-			unionMensajesBusqueda.append(bundle.getString("label_apellido")
-					+ ": " + '"' + this.apellidoBuscar + '"' + " ");
-			agregarFiltro = true;
+			parameter.add(lastNameItem);
+			jointSearchMessages.append(bundle.getString("label_apellido")
+					+ ": " + '"' + this.lastNameSearch + '"' + " ");
+			addFilter = true;
 		}
-		if (this.hrTypeBuscar > 0) {
-			consulta.append(agregarFiltro ? "AND " : "WHERE ");
-			consulta.append(" h.hrTypes.idHrType = :keywordHrType ");
-			SelectItem itemHrType = new SelectItem(this.hrTypeBuscar,
+		if (this.hrTypeSearch > 0) {
+			query.append(addFilter ? "AND " : "WHERE ");
+			query.append(" h.hrTypes.idHrType = :keywordHrType ");
+			SelectItem hrTypeItem = new SelectItem(this.hrTypeSearch,
 					"keywordHrType");
-			parametros.add(itemHrType);
-			tipoRecursoHumano = nombreTipoBusqueda(itemsHrTypes, hrTypeBuscar);
-			unionMensajesBusqueda.append(bundleRecursosHumanos
+			parameter.add(hrTypeItem);
+			hrType = searchTypeName(hrTypesItems, hrTypeSearch);
+			jointSearchMessages.append(bundleHr
 					.getString("tipo_recurso_humano_label")
 					+ ": "
 					+ '"'
-					+ tipoRecursoHumano + '"' + " ");
-			agregarFiltro = true;
+					+ hrType + '"' + " ");
+			addFilter = true;
 		}
-		if (this.paymentTypeBuscar > 0) {
-			consulta.append(agregarFiltro ? "AND " : "WHERE ");
-			consulta.append(" h.paymentMethods.idPaymentMethod = :keywordPaymentType ");
-			SelectItem itemPaymentType = new SelectItem(this.paymentTypeBuscar,
+		if (this.paymentTypeSearch > 0) {
+			query.append(addFilter ? "AND " : "WHERE ");
+			query.append(" h.paymentMethods.idPaymentMethod = :keywordPaymentType ");
+			SelectItem paymentTypeItem = new SelectItem(this.paymentTypeSearch,
 					"keywordPaymentType");
-			parametros.add(itemPaymentType);
-			tipoPago = nombreTipoBusqueda(itemsPaymentMethods,
-					paymentTypeBuscar);
-			unionMensajesBusqueda.append(bundleRecursosHumanos
+			parameter.add(paymentTypeItem);
+			paymentType = searchTypeName(paymentMethodsItems, paymentTypeSearch);
+			jointSearchMessages.append(bundleHr
 					.getString("recurso_humano_label_tipo_pago")
 					+ ": "
 					+ '"'
-					+ tipoPago + '"' + " ");
-			agregarFiltro = true;
+					+ paymentType + '"' + " ");
+			addFilter = true;
 		}
 	}
 
@@ -566,24 +564,26 @@ public class HrAction implements Serializable {
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
-	 * @param parametro
+	 * @param parameters
 	 *            : List of objects type SelectItem
 	 * @param id
 	 *            : Object Identifier
-	 * @return resultado: returns the value of the object sought
+	 * @return result: returns the value of the object sought
 	 */
-	private String nombreTipoBusqueda(List<SelectItem> parametro, int id) {
-		String resultado = "";
-		for (SelectItem tipos : parametro) {
-			if (tipos.getValue() == (Integer) id) {
-				resultado = tipos.getLabel();
+	private String searchTypeName(List<SelectItem> parameters, int id) {
+		String result = "";
+		for (SelectItem types : parameters) {
+			if (types.getValue() == (Integer) id) {
+				result = types.getLabel();
 			}
 		}
-		return resultado;
+		return result;
 	}
 
 	/**
 	 * Method to edit or create a new human resource.
+	 * 
+	 * @modify 15/03/2016 Sergio.Gelves
 	 * 
 	 * @param hr
 	 *            : human resource that will add or edit
@@ -591,19 +591,52 @@ public class HrAction implements Serializable {
 	 * @return "regHumanResources": redirected to the template record human
 	 *         Resources.
 	 */
-	public String agregarEditarHr(Hr hr) {
+	public String addEditHr(Hr hr) {
 		try {
 			if (hr != null) {
 				this.hr = hr;
-				this.nombreFotoHr = this.hr.getFoto();
-				this.cargarFotoTemporal = false;
+				this.hrPicName = this.hr.getFoto();
+				this.temporalPicLoaded = false;
+				/*
+				 * Just in case that there have been registered human resources
+				 * without selecting a municipality or department, because they
+				 * are foreign keys with a lazy retrieving
+				 */
+				if (this.hr.getMunicipioNacimiento() != null) {
+					this.hr.setMunicipioNacimiento(this.hr
+							.getMunicipioNacimiento());
+				} else {
+					this.hr.setMunicipioNacimiento(new Municipio());
+				}
+				if (this.hr.getMunicipioResidencia() != null) {
+					this.hr.setMunicipioResidencia(this.hr
+							.getMunicipioResidencia());
+				} else {
+					this.hr.setMunicipioResidencia(new Municipio());
+				}
+				if (this.hr.getDepartamentoNacimiento() != null) {
+					this.hr.setDepartamentoNacimiento(this.hr
+							.getDepartamentoNacimiento());
+				} else {
+					this.hr.setDepartamentoNacimiento(new Departamento());
+				}
+				if (this.hr.getDepartamentoResidencia() != null) {
+					this.hr.setDepartamentoResidencia(this.hr
+							.getDepartamentoResidencia());
+				} else {
+					this.hr.setDepartamentoResidencia(new Departamento());
+				}
 			} else {
 				this.hr = new Hr();
-				this.nombreFotoHr = null;
+				this.hrPicName = null;
 				this.fileUploadBean = new FileUploadBean();
-				this.cargarFotoTemporal = true;
+				this.temporalPicLoaded = true;
+				this.hr.setMunicipioNacimiento(new Municipio());
+				this.hr.setMunicipioResidencia(new Municipio());
+				this.hr.setDepartamentoNacimiento(new Departamento());
+				this.hr.setDepartamentoResidencia(new Departamento());
 			}
-			cargarCombos();
+			loadCombos();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -611,15 +644,15 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * Delete method that allows a human resource database
+	 * Delete method that allows a human resource database.
 	 * 
-	 * @return consultarHrs(): human resources consulting the database and
-	 *         returns to manage hr
+	 * @return searchHrs(): human resources consulting the database and returns
+	 *         to manage hr
 	 */
-	public String eliminarHr() {
+	public String deleteHr() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			hrDao.eliminarHr(hr);
+			hrDao.deleteHr(hr);
 			String format = MessageFormat
 					.format(bundle.getString("message_registro_eliminar"),
 							hr.getName());
@@ -627,7 +660,7 @@ public class HrAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarHrs();
+		return searchHrs();
 	}
 
 	/**
@@ -637,9 +670,9 @@ public class HrAction implements Serializable {
 	 * @author Dario.Lopez
 	 * 
 	 * @param value
-	 *            : field value is validated
+	 *            : field value is validated.
 	 */
-	public void agregarNombreValidacionXSS(Object value) {
+	public void validateAddNameXSS(Object value) {
 		String nombre = (String) value;
 		this.hr.setName(nombre);
 	}
@@ -658,22 +691,22 @@ public class HrAction implements Serializable {
 	 * @param value
 	 *            : field value is validated
 	 */
-	public void validarNombreCompletoXSS(FacesContext contexto,
+	public void validateFullNameXSS(FacesContext contexto,
 			UIComponent toValidate, Object value) {
-		String apellido = (String) value;
-		String nombre = (String) toValidate.getAttributes().get("nombre");
+		String lastName = (String) value;
+		String name = (String) toValidate.getAttributes().get("nombre");
 		String clientId = toValidate.getClientId(contexto);
 		try {
 			int id = hr.getIdHr();
 			Hr hrAux = new Hr();
-			hrAux = hrDao.nombreCompletoExiste(nombre, apellido, id);
+			hrAux = hrDao.fullNameExists(name, lastName, id);
 			if (hrAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+				String existenceMessage = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,
-						mensajeExistencia, "mensaje");
+						existenceMessage, "mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(apellido, clientId,
+			if (!EncodeFilter.validarXSS(lastName, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -683,15 +716,15 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit human resources
+	 * Save or edit human resources
 	 * 
-	 * @return consultarHrs: Redirects to manage human resources in updated list
+	 * @return searchHrs: Redirects to manage human resources in updated list
 	 */
-	public String guardarHr() {
+	public String saveHr() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
-		boolean seCambioLogo = false;
-		String nombreFotoBorrar = null;
+		String registerMessage = "message_registro_modificar";
+		boolean picChanged = false;
+		String picNameDelete = null;
 		try {
 			/* No son campos requeridos */
 			if (this.hr.getDepartamentoNacimiento().getId() == 0) {
@@ -712,46 +745,45 @@ public class HrAction implements Serializable {
 
 			if (hr.getIdHr() != 0) {
 				if (this.hr.getFoto() != null && !"".equals(this.hr.getFoto())
-						&& !this.hr.getFoto().equals(this.nombreFotoHr)) {
-					this.borrarArchivoReal(this.hr.getFoto());
-					seCambioLogo = true;
+						&& !this.hr.getFoto().equals(this.hrPicName)) {
+					this.deleteRealFile(this.hr.getFoto());
+					picChanged = true;
 				} else if (hr.getFoto() == null
 						&& fileUploadBean.getFileName() != null
 						&& !"".equals(fileUploadBean.getFileName())) {
-					seCambioLogo = true;
+					picChanged = true;
 				}
-				this.hr.setFoto(this.nombreFotoHr);
-				if (hr.getFoto() != null && seCambioLogo) {
-					nombreFotoBorrar = this.nombreFotoHr;
-					/* Se carga la imagen en la ubicacion real */
-					subirImagenUbicacionReal();
+				this.hr.setFoto(this.hrPicName);
+				if (hr.getFoto() != null && picChanged) {
+					picNameDelete = this.hrPicName;
+					/* The image is loaded into the non-temporal folder */
+					loadImageRealFolder();
 				}
-				hrDao.editarHr(hr);
+				hrDao.editHr(hr);
 			} else {
-				if (this.nombreFotoHr != null
-						&& !"".equals(this.nombreFotoHr.trim())) {
-					nombreFotoBorrar = this.nombreFotoHr;
-					subirImagenUbicacionReal();
+				if (this.hrPicName != null && !"".equals(this.hrPicName.trim())) {
+					picNameDelete = this.hrPicName;
+					loadImageRealFolder();
 				}
-				this.hr.setFoto(this.nombreFotoHr);
-				mensajeRegistro = "message_registro_guardar";
-				hrDao.guardarHr(hr);
+				this.hr.setFoto(this.hrPicName);
+				registerMessage = "message_registro_guardar";
+				hrDao.saveHr(hr);
 			}
-			/* Se borra el archivo temporal */
-			if (nombreFotoBorrar != null && !"".equals(nombreFotoBorrar)) {
-				this.borrarArchivo(nombreFotoBorrar);
+			/* Delete the temporal file */
+			if (picNameDelete != null && !"".equals(picNameDelete)) {
+				this.deleteFile(picNameDelete);
 			}
 			String format = MessageFormat.format(
-					bundle.getString(mensajeRegistro), hr.getName());
+					bundle.getString(registerMessage), hr.getName());
 			ControladorContexto.mensajeInformacion(null, format);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarHrs();
+		return searchHrs();
 	}
 
 	/**
-	 * This method allows you to load combos country, department and
+	 * This method allows you to load country combos, department and
 	 * municipality
 	 * 
 	 * @modify 14/07/2015 Gerardo.Herrera
@@ -759,37 +791,37 @@ public class HrAction implements Serializable {
 	 * @throws Exception
 	 * 
 	 */
-	private void cargarCombos() throws Exception {
-		/* Pais */
-		itemsPaisesNacimiento = new ArrayList<SelectItem>();
-		itemsPaisesResidencia = new ArrayList<SelectItem>();
-		List<Pais> paises = paisDao.consultarPaisesVigentes();
-		if (paises != null) {
-			for (Pais pais : paises) {
-				itemsPaisesNacimiento.add(new SelectItem(pais.getId(), pais
+	private void loadCombos() throws Exception {
+		/* Country */
+		birthCountryItems = new ArrayList<SelectItem>();
+		residenceCountryItems = new ArrayList<SelectItem>();
+		List<Pais> countries = paisDao.consultarPaisesVigentes();
+		if (countries != null) {
+			for (Pais country : countries) {
+				birthCountryItems.add(new SelectItem(country.getId(), country
 						.getNombre()));
-				itemsPaisesResidencia.add(new SelectItem(pais.getId(), pais
-						.getNombre()));
+				residenceCountryItems.add(new SelectItem(country.getId(),
+						country.getNombre()));
 			}
 		}
-		/* Departamentos */
-		cargarDepartamentosNacimiento();
-		cargarDepartamentosResidencia();
-		/* Municipios */
-		cargarMunicipiosNacimiento();
-		cargarMunicipiosResidencia();
-		/* Estado Civil */
-		itemsEstadosCivil = new ArrayList<SelectItem>();
-		List<EstadoCivil> estadosCivilesVigentes = estadoCivilDao
+		/* Department or State */
+		loadBirthStates();
+		loadResidenceStates();
+		/* Municipality */
+		loadBirthMunicipality();
+		loadResidenceMunicipality();
+		/* Marital status */
+		maritalStatusItems = new ArrayList<SelectItem>();
+		List<EstadoCivil> currentMaritalStatus = estadoCivilDao
 				.consultarEstadosCivilesVigentes();
-		if (estadosCivilesVigentes != null) {
-			for (EstadoCivil estadoCivil : estadosCivilesVigentes) {
-				itemsEstadosCivil.add(new SelectItem(estadoCivil.getId(),
-						estadoCivil.getNombre()));
+		if (currentMaritalStatus != null) {
+			for (EstadoCivil maritalStatus : currentMaritalStatus) {
+				maritalStatusItems.add(new SelectItem(maritalStatus.getId(),
+						maritalStatus.getNombre()));
 			}
 		}
-		cargarComboPaymentMethods();
-		cargarComboHrTypes();
+		loadPaymentMethodsCombo();
+		loadHrTypesCombo();
 	}
 
 	/**
@@ -799,12 +831,12 @@ public class HrAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarComboHrTypes() throws Exception {
-		itemsHrTypes = new ArrayList<SelectItem>();
-		List<HrTypes> tiposHrVigentes = hrTypesDao.queryHrTypes();
-		if (tiposHrVigentes != null) {
-			for (HrTypes hrType : tiposHrVigentes) {
-				itemsHrTypes.add(new SelectItem(hrType.getIdHrType(), hrType
+	private void loadHrTypesCombo() throws Exception {
+		hrTypesItems = new ArrayList<SelectItem>();
+		List<HrTypes> currentHrTypes = hrTypesDao.queryHrTypes();
+		if (currentHrTypes != null) {
+			for (HrTypes hrType : currentHrTypes) {
+				hrTypesItems.add(new SelectItem(hrType.getIdHrType(), hrType
 						.getName()));
 			}
 		}
@@ -817,40 +849,38 @@ public class HrAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarComboPaymentMethods() throws Exception {
-		itemsPaymentMethods = new ArrayList<SelectItem>();
-		List<PaymentMethods> tiposPagoVigentes = paymentMethodsDao
+	private void loadPaymentMethodsCombo() throws Exception {
+		paymentMethodsItems = new ArrayList<SelectItem>();
+		List<PaymentMethods> currentPaymentTypes = paymentMethodsDao
 				.queryPaymentMethods();
-		if (tiposPagoVigentes != null) {
-			for (PaymentMethods paymentMethod : tiposPagoVigentes) {
-				itemsPaymentMethods.add(new SelectItem(paymentMethod
-						.getIdPaymentMethod(), paymentMethod.getName()));
+		if (currentPaymentTypes != null) {
+			for (PaymentMethods paymentType : currentPaymentTypes) {
+				paymentMethodsItems.add(new SelectItem(paymentType
+						.getIdPaymentMethod(), paymentType.getName()));
 			}
 		}
 	}
 
 	/**
 	 * This method makes the request of the departments registered in the
-	 * database, a country associated with selected birth
-	 * 
+	 * database, a country associated with selected birth.
 	 */
-	public void cargarDepartamentosNacimiento() {
-		itemDepartamentosNacimiento = new ArrayList<SelectItem>();
-		itemsMunicipiosNacimiento = new ArrayList<SelectItem>();
+	public void loadBirthStates() {
+		birthStateItems = new ArrayList<SelectItem>();
+		birthMunicipalityItems = new ArrayList<SelectItem>();
 		try {
-			Pais paisDeNacimiento = hr.getPaisNacimiento();
-			if (paisDeNacimiento != null && paisDeNacimiento.getId() > 0) {
-				short idPaisNacimiento = paisDeNacimiento.getId();
-				List<Departamento> departamentosNacimiento = departamentoDao
-						.consultarDepartamentosPaisVigentes(idPaisNacimiento);
-				if (departamentosNacimiento != null) {
-					for (Departamento depNacimiento : departamentosNacimiento) {
-						itemDepartamentosNacimiento.add(new SelectItem(
-								depNacimiento.getId(), depNacimiento
-										.getNombre()));
+			Pais birthCountry = hr.getPaisNacimiento();
+			if (birthCountry != null && birthCountry.getId() > 0) {
+				short idCountry = birthCountry.getId();
+				List<Departamento> birthDepartments = departamentoDao
+						.consultarDepartamentosPaisVigentes(idCountry);
+				if (birthDepartments != null) {
+					for (Departamento birthState : birthDepartments) {
+						birthStateItems.add(new SelectItem(birthState.getId(),
+								birthState.getNombre()));
 					}
 				}
-				cargarMunicipiosNacimiento();
+				loadBirthMunicipality();
 			} else {
 				hr.setDepartamentoNacimiento(new Departamento());
 				hr.setMunicipioNacimiento(new Municipio());
@@ -865,23 +895,22 @@ public class HrAction implements Serializable {
 	 * This method makes the request of the departments registered in the
 	 * database, associated with a selected country residence.
 	 */
-	public void cargarDepartamentosResidencia() {
-		itemDepartamentosResidencia = new ArrayList<SelectItem>();
-		itemsMunicipiosResidencia = new ArrayList<SelectItem>();
+	public void loadResidenceStates() {
+		residenceStateItems = new ArrayList<SelectItem>();
+		residenceMunicipalityItems = new ArrayList<SelectItem>();
 		try {
-			Pais paisDeResidencia = hr.getPaisResidencia();
-			if (paisDeResidencia != null && paisDeResidencia.getId() > 0) {
-				short idPaisResidencia = paisDeResidencia.getId();
-				List<Departamento> departamentosResidencia = departamentoDao
-						.consultarDepartamentosPaisVigentes(idPaisResidencia);
-				if (departamentosResidencia != null) {
-					for (Departamento depResidencia : departamentosResidencia) {
-						itemDepartamentosResidencia.add(new SelectItem(
-								depResidencia.getId(), depResidencia
-										.getNombre()));
+			Pais residenceCountry = hr.getPaisResidencia();
+			if (residenceCountry != null && residenceCountry.getId() > 0) {
+				short idCountry = residenceCountry.getId();
+				List<Departamento> residenceDepartment = departamentoDao
+						.consultarDepartamentosPaisVigentes(idCountry);
+				if (residenceDepartment != null) {
+					for (Departamento residenceState : residenceDepartment) {
+						residenceStateItems.add(new SelectItem(residenceState
+								.getId(), residenceState.getNombre()));
 					}
 				}
-				cargarMunicipiosResidencia();
+				loadResidenceMunicipality();
 			} else {
 				hr.setDepartamentoResidencia(new Departamento());
 				hr.setMunicipioResidencia(new Municipio());
@@ -896,26 +925,24 @@ public class HrAction implements Serializable {
 	 * This method makes the request of the municipalities registered to the
 	 * base data associated with the department of birth.
 	 */
-	public void cargarMunicipiosNacimiento() {
-		itemsMunicipiosNacimiento = new ArrayList<SelectItem>();
+	public void loadBirthMunicipality() {
+		birthMunicipalityItems = new ArrayList<SelectItem>();
 		try {
-			Departamento departamentoNacimiento = hr
-					.getDepartamentoNacimiento();
-			if (departamentoNacimiento != null
-					&& departamentoNacimiento.getId() > 0
-					&& this.itemDepartamentosNacimiento.size() > 0) {
-				int idDepartamentoNacimiento = departamentoNacimiento.getId();
-				List<Municipio> municipiosNacimiento = municipioDao
-						.consultarMunicipiosVigentes(idDepartamentoNacimiento);
-				if (municipiosNacimiento != null) {
-					for (Municipio munNacimiento : municipiosNacimiento) {
-						itemsMunicipiosNacimiento.add(new SelectItem(
-								munNacimiento.getId(), munNacimiento
+			Departamento birthDepartment = hr.getDepartamentoNacimiento();
+			if (birthDepartment != null && birthDepartment.getId() > 0
+					&& this.birthStateItems.size() > 0) {
+				int idDepartment = birthDepartment.getId();
+				List<Municipio> birthMunicipalities = municipioDao
+						.consultarMunicipiosVigentes(idDepartment);
+				if (birthMunicipalities != null) {
+					for (Municipio birthMunicipality : birthMunicipalities) {
+						birthMunicipalityItems.add(new SelectItem(
+								birthMunicipality.getId(), birthMunicipality
 										.getNombre()));
 					}
 				}
 			} else {
-				itemsMunicipiosNacimiento = new ArrayList<SelectItem>();
+				birthMunicipalityItems = new ArrayList<SelectItem>();
 				hr.setDepartamentoNacimiento(new Departamento());
 				hr.setMunicipioNacimiento(new Municipio());
 			}
@@ -928,26 +955,24 @@ public class HrAction implements Serializable {
 	 * This method makes the request of the municipalities registered to the
 	 * base data associated with the department of residence.
 	 */
-	public void cargarMunicipiosResidencia() {
-		itemsMunicipiosResidencia = new ArrayList<SelectItem>();
+	public void loadResidenceMunicipality() {
+		residenceMunicipalityItems = new ArrayList<SelectItem>();
 		try {
-			Departamento departamentoResidencia = hr
-					.getDepartamentoResidencia();
-			if (departamentoResidencia != null
-					&& departamentoResidencia.getId() > 0
-					&& this.itemDepartamentosResidencia.size() > 0) {
-				int idDepartamentoResidencia = departamentoResidencia.getId();
-				List<Municipio> municipiosResidencia = municipioDao
-						.consultarMunicipiosVigentes(idDepartamentoResidencia);
-				if (municipiosResidencia != null) {
-					for (Municipio munResidencia : municipiosResidencia) {
-						itemsMunicipiosResidencia.add(new SelectItem(
-								munResidencia.getId(), munResidencia
-										.getNombre()));
+			Departamento residenceDepartment = hr.getDepartamentoResidencia();
+			if (residenceDepartment != null && residenceDepartment.getId() > 0
+					&& this.residenceStateItems.size() > 0) {
+				int idDepartment = residenceDepartment.getId();
+				List<Municipio> recidenceMunicipalities = municipioDao
+						.consultarMunicipiosVigentes(idDepartment);
+				if (recidenceMunicipalities != null) {
+					for (Municipio municipality : recidenceMunicipalities) {
+						residenceMunicipalityItems
+								.add(new SelectItem(municipality.getId(),
+										municipality.getNombre()));
 					}
 				}
 			} else {
-				itemsMunicipiosResidencia = new ArrayList<SelectItem>();
+				residenceMunicipalityItems = new ArrayList<SelectItem>();
 				hr.setDepartamentoResidencia(new Departamento());
 				hr.setMunicipioResidencia(new Municipio());
 			}
@@ -961,13 +986,13 @@ public class HrAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarDetallesHr() throws Exception {
+	private void loadHrDetails() throws Exception {
 		List<Hr> humanResources = new ArrayList<Hr>();
-		humanResources.addAll(this.listaHr);
-		this.listaHr = new ArrayList<Hr>();
+		humanResources.addAll(this.hrList);
+		this.hrList = new ArrayList<Hr>();
 		for (Hr hr : humanResources) {
-			cargarDetallesUnHumanResource(hr);
-			this.listaHr.add(hr);
+			loadHrDetails(hr);
+			this.hrList.add(hr);
 		}
 	}
 
@@ -978,49 +1003,47 @@ public class HrAction implements Serializable {
 	 *            : human resources which will carry the details.
 	 * @throws Exception
 	 */
-	private void cargarDetallesUnHumanResource(Hr hr) throws Exception {
+	private void loadHrDetails(Hr hr) throws Exception {
 		int idHr = hr.getIdHr();
-		/* Se consultan los objetos */
-		HrTypes hrTypes = (HrTypes) this.hrDao.consultarObjetoHr("hrTypes",
-				idHr);
+		/* Look for the Human resources objects */
+		HrTypes hrTypes = (HrTypes) this.hrDao.queryHrObject("hrTypes", idHr);
 		PaymentMethods paymentMethods = (PaymentMethods) this.hrDao
-				.consultarObjetoHr("paymentMethods", idHr);
-		EstadoCivil estadoCivil = (EstadoCivil) this.hrDao.consultarObjetoHr(
+				.queryHrObject("paymentMethods", idHr);
+		EstadoCivil maritalStatus = (EstadoCivil) this.hrDao.queryHrObject(
 				"estadoCivil", idHr);
-		Pais paisNacimiento = (Pais) this.hrDao.consultarObjetoHr(
-				"paisNacimiento", idHr);
-		Departamento departamentoNacimiento = (Departamento) this.hrDao
-				.consultarObjetoHr("departamentoNacimiento", idHr);
-		Municipio municipioNacimiento = (Municipio) this.hrDao
-				.consultarObjetoHr("municipioNacimiento", idHr);
-		Pais paisResidencia = (Pais) this.hrDao.consultarObjetoHr(
+		Pais birthCountry = (Pais) this.hrDao.queryHrObject("paisNacimiento",
+				idHr);
+		Departamento birthState = (Departamento) this.hrDao.queryHrObject(
+				"departamentoNacimiento", idHr);
+		Municipio birthMunicipality = (Municipio) this.hrDao.queryHrObject(
+				"municipioNacimiento", idHr);
+		Pais residenceCountry = (Pais) this.hrDao.queryHrObject(
 				"paisResidencia", idHr);
-		Departamento departamentoResidencia = (Departamento) this.hrDao
-				.consultarObjetoHr("departamentoResidencia", idHr);
-		Municipio municipioResidencia = (Municipio) this.hrDao
-				.consultarObjetoHr("municipioResidencia", idHr);
-		/* Se asignan al human resource */
+		Departamento residenceState = (Departamento) this.hrDao.queryHrObject(
+				"departamentoResidencia", idHr);
+		Municipio residenceMunicipality = (Municipio) this.hrDao.queryHrObject(
+				"municipioResidencia", idHr);
+		/* Human resource properties will be filled up */
 		hr.setHrTypes(hrTypes);
 		hr.setPaymentMethods(paymentMethods);
-		hr.setEstadoCivil(estadoCivil);
-		hr.setPaisNacimiento(paisNacimiento);
-		hr.setDepartamentoNacimiento(departamentoNacimiento);
-		hr.setMunicipioNacimiento(municipioNacimiento);
-		hr.setPaisResidencia(paisResidencia);
-		hr.setDepartamentoResidencia(departamentoResidencia);
-		hr.setMunicipioResidencia(municipioResidencia);
+		hr.setEstadoCivil(maritalStatus);
+		hr.setPaisNacimiento(birthCountry);
+		hr.setDepartamentoNacimiento(birthState);
+		hr.setMunicipioNacimiento(birthMunicipality);
+		hr.setPaisResidencia(residenceCountry);
+		hr.setDepartamentoResidencia(residenceState);
+		hr.setMunicipioResidencia(residenceMunicipality);
 	}
 
 	/**
 	 * Delete the file name.
 	 */
-	public void borrarFilename() {
-		if (nombreFotoHr != null && !"".equals(nombreFotoHr)
-				&& !nombreFotoHr.equals(hr.getFoto())
-				&& this.cargarFotoTemporal) {
-			borrarArchivo(nombreFotoHr);
+	public void deleteFileName() {
+		if (hrPicName != null && !"".equals(hrPicName)
+				&& !hrPicName.equals(hr.getFoto()) && this.temporalPicLoaded) {
+			deleteFile(hrPicName);
 		}
-		nombreFotoHr = null;
+		hrPicName = null;
 		fileUploadBean.setFileName(null);
 	}
 
@@ -1031,10 +1054,10 @@ public class HrAction implements Serializable {
 	 *            : Name of the file to delete.
 	 * 
 	 */
-	public void borrarArchivo(String fileName) {
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
-		fileUploadBean.delete(ubicaciones, fileName);
+	public void deleteFile(String fileName) {
+		String path[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getTemporalFilesFolder() };
+		fileUploadBean.delete(path, fileName);
 	}
 
 	/**
@@ -1044,12 +1067,11 @@ public class HrAction implements Serializable {
 	 *            : Name of the file to delete.
 	 * 
 	 */
-	public void borrarArchivoReal(String fileName) {
-		String ubicaciones[] = {
-				Constantes.RUTA_UPLOADFILE_GLASFISH + this.getCarpetaArchivos(),
-				Constantes.RUTA_UPLOADFILE_WORKSPACE
-						+ this.getCarpetaArchivos() };
-		fileUploadBean.delete(ubicaciones, fileName);
+	public void deleteRealFile(String fileName) {
+		String paths[] = {
+				Constantes.RUTA_UPLOADFILE_GLASFISH + this.getFilesFolder(),
+				Constantes.RUTA_UPLOADFILE_WORKSPACE + this.getFilesFolder() };
+		fileUploadBean.delete(paths, fileName);
 	}
 
 	/**
@@ -1060,33 +1082,33 @@ public class HrAction implements Serializable {
 	 */
 	public void submit(FileUploadEvent e) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String extAceptadas[] = Constantes.EXT_IMG.split(", ");
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
+		String allowedExtns[] = Constantes.EXT_IMG.split(", ");
+		String paths[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getTemporalFilesFolder() };
 		fileUploadBean.setUploadedFile(e.getFile());
-		long tamanyoMaxArchivos = Constantes.TAMANYO_MAX_ARCHIVOS;
-		String resultUpload = fileUploadBean.uploadValTamanyo(extAceptadas,
-				ubicaciones, tamanyoMaxArchivos);
-		String mensaje = "";
+		long maxFileSize = Constantes.TAMANYO_MAX_ARCHIVOS;
+		String resultUpload = fileUploadBean.uploadValTamanyo(allowedExtns,
+				paths, maxFileSize);
+		String message = "";
 		if (Constantes.UPLOAD_EXT_INVALIDA.equals(resultUpload)) {
-			mensaje = "error_ext_invalida";
+			message = "error_ext_invalida";
 		} else if (Constantes.UPLOAD_TAMANO_INVALIDA.equals(resultUpload)) {
 			String format = MessageFormat.format(
-					bundle.getString("error_tamanyo_invalido"),
-					tamanyoMaxArchivos, "MB");
+					bundle.getString("error_tamanyo_invalido"), maxFileSize,
+					"MB");
 			ControladorContexto.mensajeError("formRegistrarHr:uploadFoto",
 					format);
 		} else if (Constantes.UPLOAD_NULL.equals(resultUpload)) {
-			mensaje = "error_carga_archivo";
+			message = "error_carga_archivo";
 		}
-		if (!"".equals(mensaje)) {
+		if (!"".equals(message)) {
 			ControladorContexto.mensajeError("formRegistrarHr:uploadFoto",
-					bundle.getString(mensaje));
+					bundle.getString(message));
 		}
 		if (hr.getIdHr() != 0) {
-			cargarFotoTemporal = true;
+			temporalPicLoaded = true;
 		}
-		nombreFotoHr = fileUploadBean.getFileName();
+		hrPicName = fileUploadBean.getFileName();
 	}
 
 	/**
@@ -1094,23 +1116,25 @@ public class HrAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void subirImagenUbicacionReal() throws Exception {
-		String origen = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivosTemporal();
-		String destino1 = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivos();
-		String destino2 = Constantes.RUTA_UPLOADFILE_WORKSPACE
-				+ this.getCarpetaArchivos();
+	private void loadImageRealFolder() throws Exception {
+		String origin = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ this.getTemporalFilesFolder();
+		String firstTarget = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ this.getFilesFolder();
+		String secondTarget = Constantes.RUTA_UPLOADFILE_WORKSPACE
+				+ this.getFilesFolder();
 
-		FileUploadBean.fileExist(destino1);
-		FileUploadBean.fileExist(destino2);
+		FileUploadBean.fileExist(firstTarget);
+		FileUploadBean.fileExist(secondTarget);
 
-		File fileOrigen = new File(origen, fileUploadBean.getFileName());
-		File fileDestino1 = new File(destino1, fileUploadBean.getFileName());
-		File fileDestino2 = new File(destino2, fileUploadBean.getFileName());
+		File filePath = new File(origin, fileUploadBean.getFileName());
+		File firstTargetFolder = new File(firstTarget,
+				fileUploadBean.getFileName());
+		File secondTargetFolder = new File(secondTarget,
+				fileUploadBean.getFileName());
 
-		FileUploadBean.copyFile(fileOrigen, fileDestino1);
-		FileUploadBean.copyFile(fileOrigen, fileDestino2);
+		FileUploadBean.copyFile(filePath, firstTargetFolder);
+		FileUploadBean.copyFile(filePath, secondTargetFolder);
 	}
 
 	/**
@@ -1121,17 +1145,17 @@ public class HrAction implements Serializable {
 	 * 
 	 * @return hourCost: cost per hour
 	 */
-	public double calcularCostoPorHora() {
+	public double calculateCostPerHour() {
 		double hourCost = 0;
 		double annualWage = 0;
 		double hoursPerDay = 0;
-		double totalNumbersDays = 0;
+		double totalDays = 0;
 		if (hr.getTotalNumbersDays() != null && hr.getTotalNumbersDays() != 0
 				&& hr.getHoursPerDay() != 0) {
 			annualWage = this.hr.getAnnualWage();
 			hoursPerDay = this.hr.getHoursPerDay();
-			totalNumbersDays = this.hr.getTotalNumbersDays();
-			hourCost = (annualWage / (hoursPerDay * totalNumbersDays));
+			totalDays = this.hr.getTotalNumbersDays();
+			hourCost = (annualWage / (hoursPerDay * totalDays));
 			hr.setHourCost(hourCost);
 		} else {
 			hourCost = 0;

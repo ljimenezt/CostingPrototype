@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml"
 	xmlns:p="http://primefaces.org/ui">
-	<ui:param name="action" value="hrAction.agregarEditarHr(null)" />
+	<ui:param name="action" value="hrAction.addEditHr(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeRecursosHumanos.recurso_humano_label" />
 	<ui:define name="body">
@@ -38,7 +38,7 @@
 									validator="#{encodeFilter.validarScripting}"
 									requiredMessage="#{mensaje.message_campo_requerido}">
 									<a:ajax event="valueChange" render="txtNombre" execute="@this"
-										listener="#{hrAction.agregarNombreValidacionXSS()}" />
+										listener="#{hrAction.validateAddNameXSS()}" />
 								</h:inputText>
 								<rich:message for="txtNombre" />
 
@@ -48,7 +48,7 @@
 								<h:inputText value="#{hrAction.hr.familyName}"
 									styleClass="colTextoCorto" id="txtApellido" required="true"
 									size="41" maxlength="100"
-									validator="#{hrAction.validarNombreCompletoXSS}"
+									validator="#{hrAction.validateFullNameXSS}"
 									requiredMessage="#{mensaje.message_campo_requerido}">
 									<f:attribute name="nombre" value="#{hrAction.hr.name}" />
 									<a:ajax event="valueChange" render="txtNombre" execute="@this" />
@@ -72,7 +72,7 @@
 								<h:outputText value="*" styleClass="required" />
 								<p:calendar value="#{hrAction.hr.birthDate}" styleClass="W130P"
 									id="calFechaNacimiento" showOn="button" navigator="true"
-									required="true" maxdate="#{hrAction.fechaActual}"
+									required="true" maxdate="#{hrAction.currentDate}"
 									readOnlyInputText="true" pattern="MM/dd/yyyy"
 									requiredMessage="#{mensaje.message_campo_requerido}"
 									validator="#{validacionesAction.validarMayoriaEdad}">
@@ -89,7 +89,7 @@
 									styleClass="MaxW175P W155P" id="comboEstadoCivil">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 										itemValue="0" />
-									<f:selectItems value="#{hrAction.itemsEstadosCivil}" />
+									<f:selectItems value="#{hrAction.maritalStatusItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboEstadoCivil" />
 
@@ -119,7 +119,7 @@
 									styleClass="MaxW175P W170P" id="comboTipoHr" required="true"
 									requiredMessage="#{mensaje.message_campo_requerido}">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
-									<f:selectItems value="#{hrAction.itemsHrTypes}" />
+									<f:selectItems value="#{hrAction.hrTypesItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboTipoHr" />
 
@@ -132,7 +132,7 @@
 									styleClass="MaxW175P W170P" id="comboTipoPago" required="true"
 									requiredMessage="#{mensaje.message_campo_requerido}">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
-									<f:selectItems value="#{hrAction.itemsPaymentMethods}" />
+									<f:selectItems value="#{hrAction.paymentMethodsItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboTipoPago" />
 
@@ -205,10 +205,10 @@
 									styleClass="MaxW175P W170P" id="comboPais" required="true"
 									requiredMessage="#{mensaje.message_campo_requerido}">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
-									<f:selectItems value="#{hrAction.itemsPaisesNacimiento}" />
+									<f:selectItems value="#{hrAction.birthCountryItems}" />
 									<a:ajax event="valueChange"
 										render="comboDepartamento, comboMunicipio" execute="@this"
-										listener="#{hrAction.cargarDepartamentosNacimiento()}" />
+										listener="#{hrAction.loadBirthStates()}" />
 								</h:selectOneMenu>
 								<rich:message for="comboPais" />
 
@@ -221,10 +221,9 @@
 									styleClass="MaxW175P W170P" id="comboDepartamento">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 										itemValue="0" />
-									<f:selectItems value="#{hrAction.itemDepartamentosNacimiento}" />
+									<f:selectItems value="#{hrAction.birthStateItems}" />
 									<a:ajax event="change" render="comboMunicipio"
-										listener="#{hrAction.cargarDepartamentosNacimiento()}"
-										execute="@this" />
+										listener="#{hrAction.loadBirthStates()}" execute="@this" />
 								</h:selectOneMenu>
 								<rich:message for="comboDepartamento" />
 
@@ -236,7 +235,7 @@
 									styleClass="MaxW175P W170P" id="comboMunicipio">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 										itemValue="0" />
-									<f:selectItems value="#{hrAction.itemsMunicipiosNacimiento}" />
+									<f:selectItems value="#{hrAction.birthMunicipalityItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboMunicipio" />
 
@@ -297,7 +296,7 @@
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
 									<h:inputText styleClass="colTextoMini" maxlength="25"
-										id="hourCost" value="#{hrAction.calcularCostoPorHora()}"
+										id="hourCost" value="#{hrAction.calculateCostPerHour()}"
 										required="true"
 										requiredMessage="#{mensaje.message_campo_requerido}"
 										readonly="true">
@@ -322,10 +321,10 @@
 											<legend class="etiquetaTitulo">#{mensaje.label_foto}</legend>
 											<h:panelGrid columns="1" cellpadding="0" id="panelFotoHr">
 												<a:outputPanel
-													rendered="#{hrAction.nombreFotoHr != null and !(empty hrAction.nombreFotoHr)}">
+													rendered="#{hrAction.hrPicName != null and !(empty hrAction.hrPicName)}">
 													<div class="uploadImg110P">
 														<div class="closeImg">
-															<a:commandLink action="#{hrAction.borrarFilename()}"
+															<a:commandLink action="#{hrAction.deleteFileName()}"
 																immediate="true" render=":formHr:panelFotoHr">
 																<h:graphicImage value="/img/close_14.png"
 																	onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
@@ -335,21 +334,21 @@
 															</a:commandLink>
 														</div>
 														<h:graphicImage
-															value="#{hrAction.carpetaArchivosTemporal}/#{hrAction.nombreFotoHr}"
-															title="#{hrAction.nombreFotoHr}" styleClass="H110P W150P"
-															rendered="#{hrAction.cargarFotoTemporal}" />
+															value="#{hrAction.temporalFilesFolder}/#{hrAction.hrPicName}"
+															title="#{hrAction.hrPicName}" styleClass="H110P W150P"
+															rendered="#{hrAction.temporalPicLoaded}" />
 														<h:graphicImage
-															value="#{hrAction.carpetaArchivos}/#{hrAction.nombreFotoHr}"
-															title="#{hrAction.nombreFotoHr}" styleClass="H110P W150P"
-															rendered="#{!hrAction.cargarFotoTemporal}" />
+															value="#{hrAction.filesFolder}/#{hrAction.hrPicName}"
+															title="#{hrAction.hrPicName}" styleClass="H110P W150P"
+															rendered="#{!hrAction.temporalPicLoaded}" />
 													</div>
 												</a:outputPanel>
 												<a:outputPanel>
 													<h:graphicImage value="/img/noImage_240X203.png"
-														rendered="#{hrAction.nombreFotoHr eq null or empty hrAction.nombreFotoHr}"
+														rendered="#{hrAction.hrPicName eq null or empty hrAction.hrPicName}"
 														styleClass="H110P W150P" />
 													<p:fileUpload id="uploadLogo" dragDropSupport="true"
-														rendered="#{hrAction.nombreFotoHr eq null or empty hrAction.nombreFotoHr}"
+														rendered="#{hrAction.hrPicName eq null or empty hrAction.hrPicName}"
 														label="#{mensaje.label_seleccione_archivo}"
 														mode="advanced" auto="true"
 														fileUploadListener="#{hrAction.submit}"
@@ -465,11 +464,10 @@
 									styleClass="MaxW175P W170P" id="comboPaisRes" required="true"
 									requiredMessage="#{mensaje.message_campo_requerido}">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
-									<f:selectItems value="#{hrAction.itemsPaisesResidencia}" />
+									<f:selectItems value="#{hrAction.residenceCountryItems}" />
 									<a:ajax event="valueChange"
 										render="comboDepartamentoRes, comboMunicipioRes"
-										execute="@this"
-										listener="#{hrAction.cargarDepartamentosResidencia()}" />
+										execute="@this" listener="#{hrAction.loadResidenceStates()}" />
 								</h:selectOneMenu>
 								<rich:message for="comboPaisRes" />
 
@@ -482,9 +480,9 @@
 									styleClass="MaxW175P W170P" id="comboDepartamentoRes">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 										itemValue="0" />
-									<f:selectItems value="#{hrAction.itemDepartamentosResidencia}" />
+									<f:selectItems value="#{hrAction.getResidenceStateItems()}" />
 									<a:ajax event="change" render="comboMunicipioRes"
-										listener="#{hrAction.cargarMunicipiosResidencia()}"
+										listener="#{hrAction.loadResidenceMunicipality()}"
 										execute="@this" />
 								</h:selectOneMenu>
 								<rich:message for="comboDepartamentoRes" />
@@ -497,7 +495,7 @@
 									styleClass="MaxW175P W170P" id="comboMunicipioRes">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 										itemValue="0" />
-									<f:selectItems value="#{hrAction.itemsMunicipiosResidencia}" />
+									<f:selectItems value="#{hrAction.residenceMunicipalityItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboMunicipioRes" />
 							</h:panelGrid>
@@ -558,7 +556,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{hrAction.guardarHr}"
+							action="#{hrAction.saveHr}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

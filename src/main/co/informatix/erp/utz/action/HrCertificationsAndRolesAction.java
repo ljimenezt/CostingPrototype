@@ -303,7 +303,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	private void loadComboHr() throws Exception {
 		hr = new Hr();
 		itemsHr = new ArrayList<SelectItem>();
-		List<Hr> listHr = hrDao.consultarHr();
+		List<Hr> listHr = hrDao.queryHr();
 		if (listHr != null) {
 			for (Hr hr : listHr) {
 				itemsHr.add(new SelectItem(hr.getIdHr(), hr.getName()));

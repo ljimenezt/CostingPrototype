@@ -153,7 +153,7 @@ public class MaintenanceLinesAction implements Serializable {
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of maintenance lines.
 	 * 
-	 * @return consultarMaintenanceLines: Look for maintenance lines, and it
+	 * @return searchMaintenanceLines: Look for maintenance lines, and it
 	 *         redirects to the template management
 	 */
 	public String initializeSearch() {
@@ -316,7 +316,7 @@ public class MaintenanceLinesAction implements Serializable {
 	/**
 	 * Method used to save or edit maintenance lines.
 	 * 
-	 * @return consultarMaintenanceLines: Redirects to manage maintenance lines
+	 * @return searchMaintenanceLines: Redirects to manage maintenance lines
 	 *         with the list of names updated.
 	 */
 	public String saveMaintenanceLines() {
