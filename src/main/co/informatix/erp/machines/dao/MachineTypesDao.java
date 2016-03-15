@@ -155,12 +155,15 @@ public class MachineTypesDao implements Serializable {
 	 * Method that I see all kinds MachineTypes object and stores it in a list
 	 * 
 	 * @author Sergio.Ortiz
+	 * @modify 15/03/2016 Wilhelm.Boada
+	 * 
 	 * @return MachineTypes: MachineTypes object type
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<MachineTypes> listMachineType() throws Exception {
-		Query q = em.createQuery("SELECT mt FROM MachineTypes mt ");
+		Query q = em
+				.createQuery("SELECT mt FROM MachineTypes mt ORDER BY mt.name ");
 		return q.getResultList();
 
 	}

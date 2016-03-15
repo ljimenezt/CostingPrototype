@@ -129,12 +129,14 @@ public class MachinesDao implements Serializable {
 	 * Machines method that queries the object and saves it to a lists.
 	 * 
 	 * @author Mabell.Boada
+	 * @modify 15/03/2016 Wilhelm.Boada
+	 * 
 	 * @return List<Machines>: List of machines.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Machines> listMachines() throws Exception {
-		Query q = em.createQuery("SELECT m FROM Machines m ");
+		Query q = em.createQuery("SELECT m FROM Machines m ORDER BY m.name");
 		return q.getResultList();
 	}
 
