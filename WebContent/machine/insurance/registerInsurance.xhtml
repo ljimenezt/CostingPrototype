@@ -111,7 +111,9 @@
 						<h:inputText
 							label="#{mensajeMachine.insurance_label_total_costo_presupuesto}"
 							value="#{insuranceAction.insurance.totalCostBudget}"
-							styleClass="colNumeroLargo" id="txtTotalCostBudget">
+							styleClass="colNumeroLargo" id="txtTotalCostBudget"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
 						<rich:message for="txtTotalCostBudget" />
 
@@ -121,7 +123,9 @@
 						<h:inputText
 							label="#{mensajeMachine.insurance_label_costo_total_actual}"
 							value="#{insuranceAction.insurance.totalCostActual}"
-							styleClass="colNumeroLargo" id="txtTotalCostActual">
+							styleClass="colNumeroLargo" id="txtTotalCostActual"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
 						<rich:message for="txtTotalCostActual" />
 					</h:panelGrid>
