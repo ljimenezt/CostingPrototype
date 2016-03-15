@@ -334,7 +334,7 @@
 									<h:outputText
 										value="#{mensajeMachine.lineas_mantenimiento_label}" />
 								</f:facet>
-								<rich:column width="300px">
+								<rich:column styleClass="colTextoLargo">
 									<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
 									<a:commandLink render="popupMaintenanceLine"
 										action="#{maintenanceAndCalibrationAction.addEditMaintenanceLines(maintenanceLines)}"
@@ -342,7 +342,7 @@
 										<h:outputText value="#{maintenanceLines.description}" />
 									</a:commandLink>
 								</rich:column>
-								<rich:column width="100px" styleClass="colValorLargo">
+								<rich:column styleClass="colValorLargo">
 									<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}</f:facet>
 									<h:outputText value="#{maintenanceLines.costBudget}">
 										<f:convertNumber locale="#{idioma.locale}"
@@ -350,7 +350,7 @@
 											currencySymbol="$" />
 									</h:outputText>
 								</rich:column>
-								<rich:column width="100px" styleClass="colValorLargo">
+								<rich:column styleClass="colValorLargo">
 									<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_actual}</f:facet>
 									<h:outputText value="#{maintenanceLines.costActual}">
 										<f:convertNumber locale="#{idioma.locale}"

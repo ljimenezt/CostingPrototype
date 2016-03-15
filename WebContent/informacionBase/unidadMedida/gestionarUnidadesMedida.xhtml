@@ -62,7 +62,7 @@
 											<f:setPropertyActionListener value=""
 												target="#{unidadMedidaAction.nombreBuscar}" />
 											<f:setPropertyActionListener value="0"
-												target="#{unidadMedidaAction.idTipoUnidadMedida}" />
+												target="#{unidadMedidaAction.idTipoUnidad}" />
 										</a:commandButton>
 										<h:outputText value="#{mensaje.button_buscar}" />
 									</h:panelGrid>
@@ -188,7 +188,7 @@
 										<f:setPropertyActionListener value=""
 											target="#{unidadMedidaAction.nombreBuscar}" />
 										<f:setPropertyActionListener value="0"
-											target="#{unidadMedidaAction.idTipoUnidadMedida}" />
+											target="#{unidadMedidaAction.idTipoUnidad}" />
 									</a:commandButton>
 									<h:outputText value="#{mensaje.button_buscar}" />
 								</h:panelGrid>
@@ -275,7 +275,7 @@
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
 					<h:outputText styleClass="etiquetaTitulo"
 						value="#{mensajeInformacionBase.tipo_unidad_medida_label}:" />
-					<h:selectOneMenu value="#{unidadMedidaAction.idTipoUnidadMedida}"
+					<h:selectOneMenu value="#{unidadMedidaAction.idTipoUnidad}"
 						id="cmbUnidadMedida">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 							itemValue="0" />

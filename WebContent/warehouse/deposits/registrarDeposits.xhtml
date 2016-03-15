@@ -351,18 +351,18 @@
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>
-								<rich:column width="100px">
+								<rich:column styleClass="colTextoXCorto">
 									<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_number}</f:facet>
 									<h:outputText value="#{invoice.invoiceNumber}" />
 								</rich:column>
-								<rich:column width="100px" styleClass="center">
+								<rich:column styleClass="colTextoXCorto center">
 									<f:facet name="header">#{mensaje.label_purchase_date}</f:facet>
 									<h:outputText value="#{invoice.dateTime}">
 										<f:convertDateTime pattern="MMM dd, yyyy"
 											locale="#{idioma.locale}" />
 									</h:outputText>
 								</rich:column>
-								<rich:column width="300px">
+								<rich:column styleClass="colTextoLargo">
 									<f:facet name="header">#{mensajeWarehouse.suppliers_label}</f:facet>
 									<h:outputText value="#{invoice.suppliers.name}" />
 								</rich:column>
