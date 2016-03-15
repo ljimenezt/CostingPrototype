@@ -85,7 +85,7 @@
 							actionListener="#{cycleStandardActivitiesAction.setEliminarLista(cycleStandardActivities)}">
 							<h:graphicImage value="/img/delete_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_eliminar}" />
+								<h:outputText value="#{mensaje.button_remove}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</rich:column>
@@ -218,7 +218,7 @@
 								actionListener="#{cycleStandardActivitiesAction.setNombreBuscar(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />
-									<h:outputText value="#{mensaje.button_listar_todos}" />
+									<h:outputText value="#{mensaje.button_list_all}" />
 								</h:panelGrid>
 								<f:param name="param2" value="si" />
 							</a:commandLink>
@@ -272,7 +272,7 @@
 							<br />
 							<br />
 							<div align="center">
-								<a:commandButton value="#{mensaje.button_agregar}"
+								<a:commandButton value="#{mensaje.button_add}"
 									id="btnSeleccionar" render=":formInicio"
 									actionListener="#{cycleStandardActivitiesAction.generarListaCycleStandardActivities(cycleStandardActivitiesAction.listaActivityNames)}"
 									execute="@form"

@@ -167,7 +167,7 @@
 									actionListener="#{cropActivitiesAction.setEliminarLista(activities)}">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.button_eliminar}" />
+										<h:outputText value="#{mensaje.button_remove}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -275,7 +275,7 @@
 									actionListener="#{cropActivitiesAction.setEliminarStandard(standardActivities)}">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.button_eliminar}" />
+										<h:outputText value="#{mensaje.button_remove}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -442,7 +442,7 @@
 								actionListener="#{cropActivitiesAction.setNombreBuscar(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />
-									<h:outputText value="#{mensaje.button_listar_todos}" />
+									<h:outputText value="#{mensaje.button_list_all}" />
 								</h:panelGrid>
 								<f:param name="param2" value="si" />
 							</a:commandLink>
