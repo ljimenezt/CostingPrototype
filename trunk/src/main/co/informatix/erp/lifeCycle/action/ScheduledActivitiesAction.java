@@ -435,7 +435,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	/**
 	 * Method to edit or create a new assignment of activities
 	 * 
-	 * @return activitiesAndMachine: Redirects view of machine activities
+	 * @return scheduledActivities: Redirects view of scheduled Activities
 	 */
 	public String initializeActivities() {
 		try {
