@@ -391,7 +391,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	/**
 	 * Method used to save or edit human resources and certifications.
 	 * 
-	 * @return inicializarBusqueda: Redirects to initialize variables and load
+	 * @return searchInitialization: Redirects to initialize variables and load
 	 *         the template HRM and certifications.
 	 * 
 	 */
