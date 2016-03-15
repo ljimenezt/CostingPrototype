@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="activitiesAndCertificationsAction.inicializarBusqueda" />
+		value="activitiesAndCertificationsAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeLifeCycle.activities_certifications_label" />
 
@@ -23,17 +23,17 @@
 		<ui:param name="actionLista"
 			value="#{activitiesAndCertificationsAction}" />
 		<ui:param name="renderLista" value="panelActAndCert vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarActividades" />
+		<ui:param name="metodoLista" value="consultActivities" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction"
 			value="activitiesAndCertificationsAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarActiAndCert" />
+		<ui:param name="metodoNuevo" value="addEditActiAndCert" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 		<h:form id="formActAndCert">
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listado_de} #{mensajeCosts.activities_label_s}"
@@ -52,7 +52,7 @@
 						<f:selectItems
 							value="#{activitiesAndCertificationsAction.itemsCertificationsAndRoles}" />
 						<f:ajax event="change"
-							listener="#{activitiesAndCertificationsAction.consultarActividades()}"
+							listener="#{activitiesAndCertificationsAction.consultActivities()}"
 							render="formActAndCert" execute="@this" />
 					</h:selectOneMenu>
 					<rich:message for="certifications" />
@@ -76,7 +76,7 @@
 									oncomplete="#{rich:component('popupEliminar')}.show()">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.button_remove}" />
+										<h:outputText value="#{mensaje.button_eliminar}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</a:outputPanel>
@@ -114,7 +114,7 @@
 								<ui:param name="valReder" value="panelActAndCert" />
 								<ui:param name="beanActionParam"
 									value="#{activitiesAndCertificationsAction}" />
-								<ui:param name="metodoActionParam" value="consultarActividades" />
+								<ui:param name="metodoActionParam" value="consultActivities" />
 							</ui:include>
 						</div>
 					</a:outputPanel>
@@ -123,7 +123,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeLifeCycle.activity_names_label_s}"
+				header="#{mensaje.button_buscar} #{mensajeLifeCycle.activity_names_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -139,13 +139,13 @@
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar"
-						value="#{activitiesAndCertificationsAction.nombreBuscar}"
+						value="#{activitiesAndCertificationsAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						actionListener="#{activitiesAndCertificationsAction.consultarActividades()}"
+					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+						actionListener="#{activitiesAndCertificationsAction.consultActivities()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelActCert, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -178,7 +178,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{activitiesAndCertificationsAction.eliminarActivitiesAndCert()}"
+							actionListener="#{activitiesAndCertificationsAction.removeActivitiesAndCert()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelActAndCert, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"

@@ -31,7 +31,7 @@ public class ActivitiesAndCertificationsDao implements Serializable {
 	 *            : activitiesAndCertifications to save.
 	 * @throws Exception
 	 */
-	public void guardarActivitiesAndCertifications(
+	public void saveActivitiesAndCertifications(
 			ActivitiesAndCertifications activitiesAndCertifications)
 			throws Exception {
 		em.persist(activitiesAndCertifications);
@@ -43,10 +43,10 @@ public class ActivitiesAndCertificationsDao implements Serializable {
 	 * @author Mabell.Boada
 	 * 
 	 * @param activitiesAndCertifications
-	 *            : Activity and certification to delete
+	 *            : Activity and certification to delete.
 	 * @throws Exception
 	 */
-	public void eliminarActivitiesAndCertifications(
+	public void removeActivitiesAndCertifications(
 			ActivitiesAndCertifications activitiesAndCertifications)
 			throws Exception {
 		em.remove(em.merge(activitiesAndCertifications));
