@@ -369,7 +369,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" width="330"
 				maxWidth="450" height="180"
-				header="#{mensaje.button_buscar}  #{mensajeWarehouse.deposits_label}"
+				header="#{mensaje.button_search}  #{mensajeWarehouse.deposits_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -410,7 +410,7 @@
 				</a:outputPanel>
 				<br />
 				<div class="W350P center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						actionListener="#{depositsAction.consultDeposits}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
 						render="panelDeposits, mensajes, mensajeBusqueda" />

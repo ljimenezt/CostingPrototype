@@ -100,7 +100,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_buscar} #{mensaje.label_nombre}"
+				header="#{mensaje.button_search} #{mensaje.label_nombre}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -123,7 +123,7 @@
 
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						actionListener="#{maintenanceLinesAction.searchMaintenanceLines}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelMaintenanceLines, mensajes, mensajeBusqueda" />

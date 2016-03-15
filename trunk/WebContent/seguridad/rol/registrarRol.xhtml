@@ -372,7 +372,7 @@
 				</a:outputPanel>
 				<br />
 				<div class="anchoDos center inBlock">
-					<a:commandButton value="#{mensaje.button_guardar}"
+					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,confirmacionPopUp"
 						actionListener="#{rolAction.setRol(rolAction.rol)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
@@ -405,7 +405,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						action="#{rolAction.cargarMetodosPermisos()}"
 						oncomplete="#{rich:component('popupBuscarMetodo')}.hide()"
 						render="rolForm:panelPermisos, mensajes">
@@ -414,7 +414,7 @@
 					</a:commandButton>
 					<a:commandButton
 						onclick="#{rich:component('popupBuscarMetodo')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 			<!-- PopUp Buscar Menu Seleccionado -->
@@ -440,7 +440,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscarSel"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscarSel"
 						action="#{rolAction.cargarMenusRelacionados()}"
 						oncomplete="#{rich:component('popupBuscarMenuRelacionado')}.hide()"
 						render="rolForm:panelMenus, mensajes">
@@ -449,7 +449,7 @@
 					</a:commandButton>
 					<a:commandButton
 						onclick="#{rich:component('popupBuscarMenuRelacionado')}.hide()"
-						value="#{mensaje.button_cancelar}" />
+						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 			<!-- PopUp Confirmacion -->
@@ -477,7 +477,7 @@
 						<h:outputText value="#{rolAction.rol.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_aceptar}"
+						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{rolAction.agregarRol()}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide();#{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"

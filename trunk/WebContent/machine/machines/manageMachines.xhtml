@@ -193,7 +193,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="410"
-				header="#{mensaje.button_buscar} #{mensajeMachine.machines_label_names}"
+				header="#{mensaje.button_search} #{mensajeMachine.machines_label_names}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -228,7 +228,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						actionListener="#{machinesAction.consultMachines}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelMachines, mensajes, mensajeBusqueda" />

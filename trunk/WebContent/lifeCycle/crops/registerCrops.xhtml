@@ -287,7 +287,7 @@
 								<h:inputText size="20" maxlength="100" id="txtNombreBuscar"
 									value="#{plotAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
-								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 									actionListener="#{plotAction.consultPlotForDate}"
 									render="tPlot, paginadorPlot, outPutSearchPlot, outPutPlotDate">
 									<f:param name="param2" value="si" />
@@ -365,7 +365,7 @@
 						<br />
 						<br />
 						<div align="center">
-							<a:commandButton value="#{mensaje.button_agregar}"
+							<a:commandButton value="#{mensaje.button_add}"
 								id="btnSeleccionar" render="formCrops"
 								actionListener="#{plotAction.addSelected()}"
 								action="#{cropsAction.groupListsPlot()}" execute="popupPlot"

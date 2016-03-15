@@ -411,7 +411,7 @@
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 									value="#{activityNamesAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
-								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 									actionListener="#{activityNamesAction.queryActivityNames}"
 									render="outputActivityNames">
 									<f:param name="param2" value="si" />

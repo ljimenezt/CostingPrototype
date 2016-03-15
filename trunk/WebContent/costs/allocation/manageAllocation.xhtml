@@ -92,7 +92,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_buscar} #{mensajeCosts.allocation_label_s}"
+				header="#{mensaje.button_search} #{mensajeCosts.allocation_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -112,7 +112,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						actionListener="#{allocationAction.consultAllocation}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelAllocation, mensajes, mensajeBusqueda" />

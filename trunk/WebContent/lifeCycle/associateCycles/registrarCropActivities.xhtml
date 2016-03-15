@@ -422,7 +422,7 @@
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 									value="#{cropActivitiesAction.nombreBuscar}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
-								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 									actionListener="#{cropActivitiesAction.consultarActivityNamesXCrops}"
 									render="outputActivityNames">
 									<f:param name="param2" value="si" />
@@ -732,7 +732,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" width="400" maxWidth="710"
 				height="205"
-				header="#{mensaje.button_buscar} #{mensajeCosts.activities_label_s}"
+				header="#{mensaje.button_search} #{mensajeCosts.activities_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -787,7 +787,7 @@
 				</a:outputPanel>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						execute="@form"
 						actionListener="#{cropActivitiesAction.consultarActivities}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"

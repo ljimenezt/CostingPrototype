@@ -84,7 +84,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_buscar} #{mensajeOrganizaciones.empresa_label_listado}"
+				header="#{mensaje.button_search} #{mensajeOrganizaciones.empresa_label_listado}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -103,7 +103,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						action="#{empresaAction.consultarEmpresas('n')}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelEmpresa, mensajes, mensajeBusqueda">

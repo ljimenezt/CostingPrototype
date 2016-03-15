@@ -279,7 +279,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_buscar} #{mensajeSeguridad.usuario_label_s}"
+				header="#{mensaje.button_search} #{mensajeSeguridad.usuario_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -298,7 +298,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						action="#{usuarioAction.consultarUsuarios()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelUsuario, mensajes, mensajeBusqueda">

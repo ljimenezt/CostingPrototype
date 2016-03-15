@@ -64,7 +64,7 @@
 											<f:setPropertyActionListener value="0"
 												target="#{unidadMedidaAction.idTipoUnidad}" />
 										</a:commandButton>
-										<h:outputText value="#{mensaje.button_buscar}" />
+										<h:outputText value="#{mensaje.button_search}" />
 									</h:panelGrid>
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 										onclick="document.getElementById('formUnidades:idButtonLisTodos').click()">
@@ -190,7 +190,7 @@
 										<f:setPropertyActionListener value="0"
 											target="#{unidadMedidaAction.idTipoUnidad}" />
 									</a:commandButton>
-									<h:outputText value="#{mensaje.button_buscar}" />
+									<h:outputText value="#{mensaje.button_search}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="document.getElementById('formUnidades:idButtonLisTodosInf').click()">
@@ -261,7 +261,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_buscar} #{mensajeInformacionBase.unidad_medida_label}"
+				header="#{mensaje.button_search} #{mensajeInformacionBase.unidad_medida_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -288,7 +288,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}"
+					<a:commandButton value="#{mensaje.button_search}"
 						actionListener="#{unidadMedidaAction.consultarUnidadesMedida()}"
 						oncomplete="if (#{facesContext.maximumSeverity.ordinal == 0} || #{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
 						render="pnlListadoUnidades, mensajes, mensajeBusqueda" />
