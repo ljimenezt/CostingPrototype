@@ -47,7 +47,7 @@
 								value="#{paymentsAction.payments.hr.name}"
 								validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkHr" render=":popupFormHr:popupHR"
-								actionListener="#{hrAction.inicializarBusqueda}" execute="@this"
+								actionListener="#{hrAction.initializeSearch}" execute="@this"
 								oncomplete="#{rich:component('popupHR')}.show(); setFocus('popupFormHr:txtHrBuscar');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />
@@ -314,7 +314,7 @@
 									value="#{hrAction.nombreBuscar}"
 									onkeypress="return submitByEnter(event,'popupFormHr:btnBuscarHr')" />
 								<a:commandButton value="#{mensaje.button_search}"
-									id="btnBuscarHr" actionListener="#{hrAction.consultarHrs}"
+									id="btnBuscarHr" actionListener="#{hrAction.searchHrs}"
 									render="outputHr, outPutBuscarHr">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
@@ -334,7 +334,7 @@
 						<div align="right" class="W560P">
 							<a:commandLink render="outPutBuscarHr"
 								styleClass="quitarDecoracionLink"
-								action="#{hrAction.consultarHrs}"
+								action="#{hrAction.searchHrs}"
 								actionListener="#{hrAction.setNombreBuscar(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />

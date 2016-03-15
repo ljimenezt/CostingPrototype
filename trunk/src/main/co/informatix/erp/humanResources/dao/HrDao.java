@@ -12,8 +12,8 @@ import javax.persistence.Query;
 import co.informatix.erp.humanResources.entities.Hr;
 
 /**
- * DAO class that establishes the connection between business logic and base
- * data. HrAction manages Human Resources.
+ * Class DAO that implements the connection between business logic and database.
+ * HrAction manages Human Resources.
  * 
  * @author Cristhian.Pico
  * 
@@ -26,93 +26,95 @@ public class HrDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Edit the track information for human resource.
+	 * Edit the track information for a human resource.
 	 * 
 	 * @param hr
-	 *            : human resource editing.
+	 *            : Human resource to edit.
 	 * @throws Exception
 	 */
-	public void editarHr(Hr hr) throws Exception {
+	public void editHr(Hr hr) throws Exception {
 		em.merge(hr);
 	}
 
 	/**
-	 * Save the human resource in the database
+	 * Save the human resource in the database.
 	 * 
 	 * @param hr
-	 *            : human resources to save
+	 *            : Human resources to save.
 	 * @throws Exception
 	 */
-	public void guardarHr(Hr hr) throws Exception {
+	public void saveHr(Hr hr) throws Exception {
 		em.persist(hr);
 	}
 
 	/**
-	 * Eliminates the human resource of the BD
+	 * Deletes the human resource of the DataBase.
 	 * 
 	 * @param hr
-	 *            : human resources to eliminate
+	 *            : Human resource to eliminate.
 	 * @throws Exception
 	 */
-	public void eliminarHr(Hr hr) throws Exception {
+	public void deleteHr(Hr hr) throws Exception {
+		// TODO Probar si no funciona eliminando el find, de lo contrario ubicar
+		// el find en un metodo aparte
 		Hr humanResource = em.find(Hr.class, hr.getIdHr());
 		em.remove(em.merge(humanResource));
 	}
 
 	/**
-	 * Returns the number of existing human resources in the database filtering
-	 * information search by the values sent.
+	 * Returns the number of existing human resources in the database, the query
+	 * has filters.
 	 * 
-	 * @param consulta
-	 *            : String containing the query why the filter human Resources.
-	 * @param parametros
-	 *            : query parameters.
-	 * @return Long: number of HR records found.
+	 * @param query
+	 *            : String containing the query with filters.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Amount of HR records found.
 	 * @throws Exception
 	 */
-	public Long cantidadHr(StringBuilder consulta, List<SelectItem> parametros)
+	public Long hrAmount(StringBuilder query, List<SelectItem> parameters)
 			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(h) FROM Hr h ");
-		query.append(consulta);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(h) FROM Hr h ");
+		queryBuilder.append(query);
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * This method human resources consulting with a certain range sent as a
-	 * parameter and filtering the information by the values of sent search.
+	 * It makes a query with a certain records and it filters them with search
+	 * values.
 	 * 
-	 * @param inicio
-	 *            : where he started the consultation record
-	 * @param rango
-	 *            : range of records
-	 * @param consulta
-	 *            : Consult records the parameters depending selected by the
-	 *            user.
-	 * @param parametros
-	 *            : query parameters.
+	 * @param start
+	 *            : First record of the query result that is retrieved.
+	 * @param range
+	 *            : Range of records.
+	 * @param query
+	 *            : Query records depending on the user selected parameter.
+	 * @param parameters
+	 *            : Query parameters.
 	 * @return List
 	 *         <Hr>
 	 *         : List of human resources.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Hr> consultarHr(int inicio, int rango, StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT h FROM Hr h ");
-		query.append(consulta);
-		query.append("ORDER BY h.name ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public List<Hr> queryHr(int start, int range, StringBuilder query,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT h FROM Hr h ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY h.name ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(inicio).setMaxResults(rango);
-		List<Hr> resultList = q.getResultList();
+		queryResult.setFirstResult(start).setMaxResults(range);
+		List<Hr> resultList = queryResult.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
@@ -120,37 +122,37 @@ public class HrDao implements Serializable {
 	}
 
 	/**
-	 * Consult if the full name exists in human resource base data when storing
-	 * or editing.
+	 * Query if the full human resource name exists in database when storing or
+	 * editing.
 	 * 
 	 * @modify 11/09/2015 Dario.Lopez
 	 * 
-	 * @param nombre
-	 *            : human resource name to verify
-	 * @param apellido
-	 *            : human resource last Name to verify
+	 * @param name
+	 *            : Human resource name to verify.
+	 * @param lastName
+	 *            : Human resource last Name to verify.
 	 * @param id
-	 *            : human resource id to verify
-	 * @return Hr: hr object found with the search parameters surname and id.
+	 *            : Human resource id to verify.
+	 * @return Hr: Hr object found with the search parameters surname and id.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Hr nombreCompletoExiste(String nombre, String apellido, int id)
+	public Hr fullNameExists(String name, String lastName, int id)
 			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT h FROM Hr h ");
-		query.append("WHERE UPPER(h.familyName)=UPPER(:apellido) ");
-		query.append("AND  UPPER(h.name)=UPPER(:nombre)   ");
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT h FROM Hr h ");
+		queryBuilder.append("WHERE UPPER(h.familyName)=UPPER(:apellido) ");
+		queryBuilder.append("AND  UPPER(h.name)=UPPER(:nombre)   ");
 		if (id != 0) {
-			query.append("AND h.idHr <>:idHr ");
+			queryBuilder.append("AND h.idHr <>:idHr ");
 		}
-		Query q = em.createQuery(query.toString());
-		q.setParameter("apellido", apellido);
-		q.setParameter("nombre", nombre);
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("apellido", lastName);
+		queryResult.setParameter("nombre", name);
 		if (id != 0) {
-			q.setParameter("idHr", id);
+			queryResult.setParameter("idHr", id);
 		}
-		List<Hr> results = q.getResultList();
+		List<Hr> results = queryResult.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -158,23 +160,22 @@ public class HrDao implements Serializable {
 	}
 
 	/**
-	 * Consult article assigned to a human resource, considering that are only
-	 * those that are not null in the table
+	 * Query article assigned to a human resource, it takes only those that are
+	 * not null in the table
 	 * 
-	 * @param nomObject
-	 *            : object to refer to human resources
+	 * @param objectName
+	 *            : Object name that is a human resources property.
 	 * @param idHr
-	 *            : Human Resource id being queried
-	 * @return Object information associated with human resource or null if not
-	 *         exists.
+	 *            : Human Resource id that is being queried.
+	 * @return Object information associated with human resource or null if it
+	 *         does not exist.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoHr(String nomObject, int idHr)
-			throws Exception {
+	public Object queryHrObject(String objectName, int idHr) throws Exception {
 		List<Object> results = em
 				.createQuery(
-						"SELECT h." + nomObject
+						"SELECT h." + objectName
 								+ " FROM Hr h WHERE h.idHr=:idHr")
 				.setParameter("idHr", idHr).getResultList();
 
@@ -195,12 +196,12 @@ public class HrDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Hr> consultarHr() throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT hr FROM Hr hr ");
-		query.append("ORDER BY hr.name ASC");
-		Query q = em.createQuery(query.toString());
-		List<Hr> resultList = q.getResultList();
+	public List<Hr> queryHr() throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT hr FROM Hr hr ");
+		queryBuilder.append("ORDER BY hr.name ASC");
+		Query query = em.createQuery(queryBuilder.toString());
+		List<Hr> resultList = query.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
@@ -208,16 +209,16 @@ public class HrDao implements Serializable {
 	}
 
 	/**
-	 * Consult if certified human resources that can be assigned to a specific
-	 * activity to have certain certifications.
+	 * Query the amount of certified human resources that can be assigned to a
+	 * specific activity to have certain certifications.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
 	 * @param idActivity
-	 *            : activity identifier.
+	 *            : Activity identifier.
 	 * @param idHrTypes
-	 *            : human resource type identifier
-	 * @return Long: amounts of activities with at least one certified.
+	 *            : Human resource type identifier
+	 * @return Long: Amounts of activities with at least one certified.
 	 * @throws Exception
 	 */
 	public Long consultarHrCertificados(int idActivity, int idHrTypes)
@@ -250,13 +251,13 @@ public class HrDao implements Serializable {
 	 * @author Gerardo.Herrera
 	 * 
 	 * @param idActivity
-	 *            : activity identifier.
+	 *            : Activity identifier.
 	 * @param idHrTypes
-	 *            : human resource type identifier
+	 *            : Human resource type identifier
 	 * @return Long: list of activities with at least one certified.
 	 * @throws Exception
 	 */
-	public Long amountHrCertifiedAndMaternity(int idActivity, int idHrTypes)
+	public Long hrCertifiedAndMaternityAmount(int idActivity, int idHrTypes)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(h) FROM Hr h ");

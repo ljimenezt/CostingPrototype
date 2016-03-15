@@ -9,28 +9,28 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="hrAction.inicializarBusqueda" />
+	<ui:param name="action" value="hrAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeRecursosHumanos.recurso_humano_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{hrAction}" />
 		<ui:param name="listaVacia"
-			value="#{hrAction.listaHr eq null or (empty hrAction.listaHr)}" />
+			value="#{hrAction.hrList eq null or (empty hrAction.hrList)}" />
 		<ui:param name="anchoTabla" value="anchoTres" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{hrAction}" />
 		<ui:param name="renderLista" value="panelHr vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarHrs" />
+		<ui:param name="metodoLista" value="searchHrs" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="hrAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarHr" />
+		<ui:param name="metodoNuevo" value="addEditHr" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 		<h:form id="formHr">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -43,11 +43,11 @@
 					<h:outputText
 						value="#{mensajeRecursosHumanos.tipo_recurso_humano_label}"
 						styleClass="etiquetaTitulo" />
-					<h:selectOneMenu id="typeHr" value="#{hrAction.hrTypeBuscar}"
+					<h:selectOneMenu id="typeHr" value="#{hrAction.hrTypeSearch}"
 						styleClass="colTextoMediano" required="true">
 						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
-						<f:selectItems value="#{hrAction.itemsHrTypes}" />
-						<f:ajax event="change" listener="#{hrAction.inicializarFiltro()}"
+						<f:selectItems value="#{hrAction.hrTypesItems}" />
+						<f:ajax event="change" listener="#{hrAction.initializeFilter()}"
 							render="formHr" execute="@this" />
 					</h:selectOneMenu>
 					<rich:message for="typeHr" />
@@ -55,7 +55,7 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{hrAction.listaHr}" var="hr"
+				<rich:dataTable value="#{hrAction.hrList}" var="hr"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoUno">
@@ -71,7 +71,7 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 						<h:commandLink value="#{hr.name} #{hr.familyName}"
-							action="#{hrAction.agregarEditarHr(hr)}"
+							action="#{hrAction.addEditHr(hr)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -128,7 +128,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelHr" />
 							<ui:param name="beanActionParam" value="#{hrAction}" />
-							<ui:param name="metodoActionParam" value="consultarHrs" />
+							<ui:param name="metodoActionParam" value="searchHrs" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -152,36 +152,36 @@
 					<h:outputText value="#{mensaje.label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoCorto" maxlength="100"
-						id="txtNombreBuscar" value="#{hrAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{hrAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 					<h:outputText
 						value="#{mensajeRecursosHumanos.tipo_recurso_humano_label}:"
 						styleClass="etiquetaTitulo" />
-					<h:selectOneMenu id="typeHr1" value="#{hrAction.hrTypeBuscar}"
+					<h:selectOneMenu id="typeHr1" value="#{hrAction.hrTypeSearch}"
 						styleClass="colTextoCorto" required="true">
 						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
-						<f:selectItems value="#{hrAction.itemsHrTypes}" />
+						<f:selectItems value="#{hrAction.hrTypesItems}" />
 					</h:selectOneMenu>
 
 					<h:outputText value="#{mensaje.label_apellido}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoCorto" maxlength="100"
-						id="txtNombreBuscar2" value="#{hrAction.apellidoBuscar}"
+						id="txtNombreBuscar2" value="#{hrAction.lastNameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 					<h:outputText
 						value="#{mensajeRecursosHumanos.recurso_humano_label_tipo_pago}:"
 						styleClass="etiquetaTitulo" />
-					<h:selectOneMenu value="#{hrAction.paymentTypeBuscar}"
+					<h:selectOneMenu value="#{hrAction.paymentTypeSearch}"
 						styleClass="MaxW175P colTextoCorto" id="comboTipoPago">
 						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 							itemValue="0" />
-						<f:selectItems value="#{hrAction.itemsPaymentMethods}" />
+						<f:selectItems value="#{hrAction.paymentMethodsItems}" />
 					</h:selectOneMenu>
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						actionListener="#{hrAction.consultarHrs}"
+						actionListener="#{hrAction.searchHrs}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelHr, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -214,7 +214,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{hrAction.eliminarHr()}"
+							actionListener="#{hrAction.deleteHr()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelHr, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"

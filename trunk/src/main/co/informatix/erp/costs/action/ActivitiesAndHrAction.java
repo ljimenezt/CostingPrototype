@@ -479,20 +479,20 @@ public class ActivitiesAndHrAction implements Serializable {
 			Long hrCertificados = hrDao.consultarHrCertificados(
 					actividadSeleccionada.getIdActivity(), this.idTrabajador);
 			Long searchHrCertifiedAndMaternity = hrDao
-					.amountHrCertifiedAndMaternity(
+					.hrCertifiedAndMaternityAmount(
 							actividadSeleccionada.getIdActivity(),
 							this.idTrabajador);
 			busquedaAvanzadaTrabajador(consulta, parametros,
 					actividadesCertificadas, hrCertificados,
 					searchHrCertifiedAndMaternity);
-			Long cantidad = hrDao.cantidadHr(consulta, parametros);
+			Long cantidad = hrDao.hrAmount(consulta, parametros);
 			if (cantidad != null) {
 				if (cantidad > 5) {
 					paginadorTrabajador.paginarRangoDefinido(cantidad, 5);
 				} else {
 					paginadorTrabajador.paginar(cantidad);
 				}
-				this.trabajadores = hrDao.consultarHr(
+				this.trabajadores = hrDao.queryHr(
 						paginadorTrabajador.getInicio(),
 						paginadorTrabajador.getRango(), consulta, parametros);
 			}
