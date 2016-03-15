@@ -45,13 +45,12 @@
 				styleClass="anchoUno MinH253P" id="panelScheduledActivities">
 				<t:fieldset styleClass="anchoDos BorderW2P">
 					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
-					<h:panelGrid columns="4"
+					<h:panelGrid columns="3"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,tdAlignTop">
+						columnClasses="tdAlignTop W82P,,">
 						<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu id="cropName"
 							value="#{scheduledActivitiesAction.idCropName}"
 							styleClass="colTextoMediano" required="true"
@@ -68,7 +67,6 @@
 
 						<h:outputText value="#{mensajeLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu id="crop"
 							value="#{scheduledActivitiesAction.idCrop}"
 							styleClass="colTextoMediano" required="true"
@@ -90,7 +88,7 @@
 					<h:panelGrid columns="3"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,,tdAlignTop"
+						columnClasses="tdAlignTop W82P,,tdAlignTop"
 						rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}">
 						<h:outputText value="#{mensajeLifeCycle.activity_names_label}"
 							styleClass="etiquetaTitulo" />

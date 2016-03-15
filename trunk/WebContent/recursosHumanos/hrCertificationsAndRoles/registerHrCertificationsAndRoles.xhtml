@@ -37,7 +37,8 @@
 				header="#{mensaje.label_registrar} #{mensajeRecursosHumanos.hr_certifications_roles_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarHrCert">
 				<a:outputPanel rendered="#{!hrCertificationsAndRolesAction.edit}">
-					<h:panelGrid columns="4" columnClasses="tdAlignTop,,,tdAlignTop">
+					<h:panelGrid columns="4"
+						columnClasses="tdAlignTop W130P,,,tdAlignTop">
 						<h:outputText
 							value="#{mensajeLifeCycle.activities_certifications_label_certifications}"
 							styleClass="etiquetaTitulo" />
@@ -66,7 +67,8 @@
 						<rich:message for="hr" />
 					</h:panelGrid>
 				</a:outputPanel>
-				<h:panelGrid columns="4" columnClasses="tdAlignTop,,,tdAlignTop">
+				<h:panelGrid columns="4"
+					columnClasses="tdAlignTop W135P,,,tdAlignTop">
 					<h:outputText value="#{mensaje.label_fecha_inicio}"
 						styleClass="etiquetaTitulo tdPaddingCR" />
 					<h:outputText value="" />
