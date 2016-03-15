@@ -73,7 +73,7 @@
 						<h:outputText value="#{mensaje.label_fecha }"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<p:calendar
+						<p:calendar readonly="true"
 							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}"
 							id="fechMaint" showOn="button" navigator="true"
 							pattern="MM/dd/yyyy" required="true"
