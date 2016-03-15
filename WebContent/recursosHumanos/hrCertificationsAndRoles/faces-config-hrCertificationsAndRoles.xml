@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesHrCertRoles</from-outcome>
-			<to-view-id>/recursosHumanos/hrCertificationsAndRoles/gestionarHrCertificationsAndRoles.xhtml</to-view-id>
+			<to-view-id>/recursosHumanos/hrCertificationsAndRoles/manageHrCertificationsAndRoles.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regHrCertRoles</from-outcome>
-			<to-view-id>/recursosHumanos/hrCertificationsAndRoles/registrarHrCertificationsAndRoles.xhtml</to-view-id>
+			<to-view-id>/recursosHumanos/hrCertificationsAndRoles/registerHrCertificationsAndRoles.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

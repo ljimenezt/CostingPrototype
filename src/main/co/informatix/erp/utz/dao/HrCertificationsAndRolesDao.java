@@ -33,7 +33,7 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 *            : Human resources and certified to save.
 	 * @throws Exception
 	 */
-	public void guardarHrCertRoles(
+	public void saveHrCertRoles(
 			HrCertificationsAndRoles hrCertificationsAndRoles) throws Exception {
 		em.persist(hrCertificationsAndRoles);
 	}
@@ -45,7 +45,7 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 *            : Human resources and certified to edit.
 	 * @throws Exception
 	 */
-	public void editarHrCertRoles(
+	public void editHrCertRoles(
 			HrCertificationsAndRoles hrCertificationsAndRoles) throws Exception {
 		em.merge(hrCertificationsAndRoles);
 	}
@@ -54,10 +54,10 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * Deletes a record of human resources and certificates the database.
 	 * 
 	 * @param hrCertificationsAndRoles
-	 *            : Human resources and eliminate certificate
+	 *            : Human resources and eliminate certificate.
 	 * @throws Exception
 	 */
-	public void eliminarHrCertRoles(
+	public void removeHrCertRoles(
 			HrCertificationsAndRoles hrCertificationsAndRoles) throws Exception {
 		em.remove(em.merge(hrCertificationsAndRoles));
 	}
@@ -69,9 +69,9 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * @param idCertAndRoles
 	 *            : ID certificates and roles.
 	 * @param start
-	 *            : Registry where consultation begins
+	 *            : Registry where consultation begins.
 	 * @param range
-	 *            : Range of records
+	 *            : Range of records.
 	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
@@ -84,8 +84,8 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<HrCertificationsAndRoles> consultarXIdCertRol(
-			int idCertAndRoles, int start, int range, StringBuilder consult,
+	public List<HrCertificationsAndRoles> consultXIdCertRol(int idCertAndRoles,
+			int start, int range, StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT hcr FROM HrCertificationsAndRoles hcr ");
@@ -96,8 +96,8 @@ public class HrCertificationsAndRolesDao implements Serializable {
 		query.append("ORDER BY hr.idHr ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCertAndRoles", idCertAndRoles);
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<HrCertificationsAndRoles> resultList = q.getResultList();
@@ -113,10 +113,10 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * 
 	 * @param idCertAndRoles
 	 *            : ID certificates and roles.
-	 * @param consulta
+	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
-	 * @param parametros
+	 * @param parameters
 	 *            : Parameters of the query.
 	 * 
 	 * @return Long : Number of human resources and certifications according to
@@ -124,21 +124,21 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public Long cantXIdCertRol(int idCertAndRoles, StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long quantXIdCertRol(int idCertAndRoles, StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(hcr) FROM HrCertificationsAndRoles hcr ");
 		query.append("JOIN hcr.hrCertificationsAndRolesPK.hr hr ");
 		query.append("JOIN hcr.hrCertificationsAndRolesPK.certificationsAndRoles cr ");
 		query.append("WHERE cr.idCertificactionsAndRoles=:idCertAndRoles ");
-		query.append(consulta);
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCertAndRoles", idCertAndRoles);
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -150,12 +150,11 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * @param idCertAndRoles
 	 *            : ID certificates and roles.
 	 * @param idHr
-	 *            : Human Resource Identifier
+	 *            : Human Resource Identifier.
 	 * @return Boolean: Returns true if the relationship exists otherwise false.
 	 * @throws Exception
 	 */
-	public Boolean relacionExiste(int idCertAndRoles, int idHr)
-			throws Exception {
+	public Boolean relationExist(int idCertAndRoles, int idHr) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT hcr FROM HrCertificationsAndRoles hcr ");
 		query.append("JOIN hcr.hrCertificationsAndRolesPK.hr hr ");

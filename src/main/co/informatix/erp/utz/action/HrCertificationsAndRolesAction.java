@@ -43,9 +43,9 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	private HrCertificationsAndRoles hrCertificationsAndRoles;
 	private HrCertificationsAndRolesPK hrCertificationsAndRolesPK;
 
-	private String nombreBuscar;
+	private String nameSearch;
 	private Paginador paginador = new Paginador();
-	private boolean editar = false;
+	private boolean edit = false;
 
 	@EJB
 	private HrDao hrDao;
@@ -184,19 +184,19 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Human resource name for.
+	 * @return nameSearch: Human resource name for.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : Human resource name for.
 	 * 
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
@@ -217,20 +217,20 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
-	 * @return editar: Boolean variable that allows to verify if the user is
+	 * @return edit: Boolean variable that allows to verify if the user is
 	 *         editing or saving.
 	 */
-	public boolean isEditar() {
-		return editar;
+	public boolean isEdit() {
+		return edit;
 	}
 
 	/**
-	 * @param editar
+	 * @param edit
 	 *            : Boolean variable that allows to verify if the user is
 	 *            editing or saving.
 	 */
-	public void setEditar(boolean editar) {
-		this.editar = editar;
+	public void setEdit(boolean edit) {
+		this.edit = edit;
 	}
 
 	/**
@@ -240,13 +240,13 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * @return gesActivAndCert: Returns to the template of human resource
 	 *         management and certifications.
 	 */
-	public String inicializarBusqueda() {
+	public String searchInitialization() {
 		try {
-			nombreBuscar = "";
+			nameSearch = "";
 			certificationsAndRoles = new CertificationsAndRoles();
 			hr = new Hr();
 			hrCertificationsAndRolesPK = new HrCertificationsAndRolesPK();
-			cargarComboCertAndRoles();
+			loadComboCertAndRoles();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -263,12 +263,12 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * @return regHrCertRoles: Template redirects to record activities and
 	 *         certifications.
 	 */
-	public String agregarEditarHrCertRoles(
+	public String addEditHrCertRoles(
 			HrCertificationsAndRoles hrCertificationsAndRoles) {
-		editar = false;
+		edit = false;
 		try {
-			cargarComboCertAndRoles();
-			cargarComboHr();
+			loadComboCertAndRoles();
+			loadComboHr();
 			if (hrCertificationsAndRoles != null) {
 				this.hrCertificationsAndRoles = hrCertificationsAndRoles;
 				setCertificationsAndRoles(hrCertificationsAndRoles
@@ -280,7 +280,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 				hrCertificationsAndRolesPK
 						.setCertificationsAndRoles(certificationsAndRoles);
 				hrCertificationsAndRolesPK.setHr(hr);
-				editar = true;
+				edit = true;
 			} else {
 				this.hrCertificationsAndRoles = new HrCertificationsAndRoles();
 				this.hrCertificationsAndRolesPK = new HrCertificationsAndRolesPK();
@@ -300,7 +300,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarComboHr() throws Exception {
+	private void loadComboHr() throws Exception {
 		hr = new Hr();
 		itemsHr = new ArrayList<SelectItem>();
 		List<Hr> listHr = hrDao.consultarHr();
@@ -317,7 +317,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarComboCertAndRoles() throws Exception {
+	private void loadComboCertAndRoles() throws Exception {
 		certificationsAndRoles = new CertificationsAndRoles();
 		itemsCertificationsAndRoles = new ArrayList<SelectItem>();
 		List<CertificationsAndRoles> listCertificationsAndRoles = certificationsAndRolesDao
@@ -339,51 +339,49 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * @return gesHrCertRoles: Redirects to the template to manage human
 	 *         resources and certifications.
 	 */
-	public String consultarHrCertRoles() {
+	public String consultHrCertRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listHrCertificationsAndRoles = new ArrayList<HrCertificationsAndRoles>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		int idCertAndRoles = this.certificationsAndRoles
 				.getIdCertificactionsAndRoles();
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = hrCertificationsAndRolesDao.cantXIdCertRol(
-					idCertAndRoles, consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = hrCertificationsAndRolesDao.quantXIdCertRol(
+					idCertAndRoles, query, parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
 			listHrCertificationsAndRoles = hrCertificationsAndRolesDao
-					.consultarXIdCertRol(idCertAndRoles, paginador.getInicio(),
-							paginador.getRango(), consulta, parametros);
+					.consultXIdCertRol(idCertAndRoles, paginador.getInicio(),
+							paginador.getRango(), query, parameters);
 
 			if ((listHrCertificationsAndRoles == null || listHrCertificationsAndRoles
-					.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			} else if (listHrCertificationsAndRoles == null
 					|| listHrCertificationsAndRoles.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleRecursosHumanos
 										.getString("hr_certifications_roles_label_s"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -397,9 +395,9 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 *         the template HRM and certifications.
 	 * 
 	 */
-	public String guardarHrCertRoles() {
+	public String saveHrCertRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro;
+		String messageLog;
 		try {
 			Object nameCert = ValidacionesAction.getLabel(
 					itemsCertificationsAndRoles,
@@ -407,41 +405,38 @@ public class HrCertificationsAndRolesAction implements Serializable {
 			if (hrCertificationsAndRolesPK.getCertificationsAndRoles()
 					.getIdCertificactionsAndRoles() != 0
 					&& hrCertificationsAndRolesPK.getHr().getIdHr() != 0) {
-				mensajeRegistro = "message_registro_modificar";
+				messageLog = "message_registro_modificar";
 				hrCertificationsAndRolesDao
-						.editarHrCertRoles(hrCertificationsAndRoles);
+						.editHrCertRoles(hrCertificationsAndRoles);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString(mensajeRegistro), nameCert));
+						.format(bundle.getString(messageLog), nameCert));
 			} else {
 				int idCertAndRoles = this.certificationsAndRoles
 						.getIdCertificactionsAndRoles();
 				int idHr = this.hr.getIdHr();
-				boolean existePK = hrCertificationsAndRolesDao.relacionExiste(
+				boolean existPK = hrCertificationsAndRolesDao.relationExist(
 						idCertAndRoles, idHr);
-				if (!existePK) {
-					mensajeRegistro = "message_registro_guardar";
+				if (!existPK) {
+					messageLog = "message_registro_guardar";
 					hrCertificationsAndRolesPK
 							.setCertificationsAndRoles(certificationsAndRoles);
 					hrCertificationsAndRolesPK.setHr(hr);
 					hrCertificationsAndRoles
 							.setHrCertificationsAndRolesPK(hrCertificationsAndRolesPK);
 					hrCertificationsAndRolesDao
-							.guardarHrCertRoles(hrCertificationsAndRoles);
-					ControladorContexto
-							.mensajeInformacion(null,
-									MessageFormat.format(
-											bundle.getString(mensajeRegistro),
-											nameCert));
+							.saveHrCertRoles(hrCertificationsAndRoles);
+					ControladorContexto.mensajeInformacion(null, MessageFormat
+							.format(bundle.getString(messageLog), nameCert));
 				} else {
-					mensajeRegistro = "message_ya_existe";
+					messageLog = "message_ya_existe";
 					ControladorContexto.mensajeInformacion(null,
-							bundle.getString(mensajeRegistro));
+							bundle.getString(messageLog));
 				}
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return inicializarBusqueda();
+		return searchInitialization();
 	}
 
 	/**
@@ -454,21 +449,21 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("AND UPPER(hr.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -477,14 +472,14 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * database.
 	 * 
 	 * 
-	 * @return inicializarBusqueda: Redirects to initialize variables and load
+	 * @return searchInitialization: Redirects to initialize variables and load
 	 *         the template human resources management and certifications.
 	 */
-	public String eliminarHrCertRoles() {
+	public String removeHrCertRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
 			hrCertificationsAndRolesDao
-					.eliminarHrCertRoles(hrCertificationsAndRoles);
+					.removeHrCertRoles(hrCertificationsAndRoles);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					hrCertificationsAndRoles.getHrCertificationsAndRolesPK()
@@ -499,7 +494,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return inicializarBusqueda();
+		return searchInitialization();
 	}
 
 }
