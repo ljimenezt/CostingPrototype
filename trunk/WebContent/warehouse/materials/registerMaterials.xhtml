@@ -87,8 +87,10 @@
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoCorto" maxlength="25"
 							id="quantifyHectarPlot"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							value="#{materialsAction.materials.quantityHectarPlot}">
 							<f:validateLength maximum="25" />
+							<f:validateLongRange minimum="0" />
 						</h:inputText>
 						<rich:message for="quantifyHectarPlot" />
 
@@ -142,9 +144,11 @@
 						<h:inputText
 							label="#{mensajeWarehouse.materials_label_time_harvest}"
 							value="#{materialsAction.materials.waitingTimeHarvest}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							maxlength="25" id="txtWaitingTimeHarvest"
 							styleClass="colTextoCorto">
 							<f:validateLength maximum="25" />
+							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
 						<rich:message for="txtWaitingTimeHarvest" />
 
@@ -154,10 +158,12 @@
 						<h:outputText value="" />
 						<h:inputText
 							label="#{mensajeWarehouse.materials_label_time_people}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							value="#{materialsAction.materials.waitingTimePeople}"
 							maxlength="25" id="txtWaitingTimePeople"
 							styleClass="colTextoCorto">
 							<f:validateLength maximum="25" />
+							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
 						<rich:message for="txtWaitingTimePeople" />
 
