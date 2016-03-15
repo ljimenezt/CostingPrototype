@@ -33,9 +33,9 @@ import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.utils.ValidacionesAction.DatosGuardar;
 
 /**
- * This class allows the logic of the crops that may be in the BD
+ * This class allows the logic of the crops that may be in the BD.
  * 
- * The logic is to consult, edit or add crops
+ * The logic is to consult, edit or add crops.
  * 
  * @author Johnatan.Naranjo
  * @modify 16/04/2015 Dario.Lopez
@@ -56,19 +56,19 @@ public class CropsAction implements Serializable {
 	private PlotDao plotsDao;
 
 	private CropNames cropNames;
-	private Plot plotEliminar;
+	private Plot plotRemove;
 	private Crops crops;
-	private List<Crops> listaCrops;
-	private List<Plot> listaPlotsAsociados;
-	private List<SelectItem> opciones;
-	private List<SelectItem> seleccionarAnyo;
+	private List<Crops> listCrops;
+	private List<Plot> listPlotsAsocciates;
+	private List<SelectItem> options;
+	private List<SelectItem> selectYear;
 	private Paginador paginador = new Paginador();
-	private String nombreBuscar;
-	private String anyo;
-	private int nombreCrop;
+	private String nameSearch;
+	private String year;
+	private int nameCrop;
 
 	/**
-	 * @return cropNames: crop names associated with the crop
+	 * @return cropNames: crop names associated with the crop.
 	 */
 	public CropNames getCropNames() {
 		return cropNames;
@@ -76,29 +76,29 @@ public class CropsAction implements Serializable {
 
 	/**
 	 * @param cropNames
-	 *            crop names associated with the crop
+	 *            crop names associated with the crop.
 	 */
 	public void setCropNames(CropNames cropNames) {
-		this.nombreCrop = cropNames.getIdCropName();
+		this.nameCrop = cropNames.getIdCropName();
 	}
 
 	/**
-	 * @return plotEliminar: plot to eliminate Plots Selected List
+	 * @return plotRemove: plot to eliminate Plots Selected List.
 	 */
-	public Plot getPlotEliminar() {
-		return plotEliminar;
+	public Plot getPlotRemove() {
+		return plotRemove;
 	}
 
 	/**
-	 * @param plotEliminar
-	 *            : plot to eliminate Plots Selected List
+	 * @param plotRemove
+	 *            : plot to eliminate Plots Selected List.
 	 */
-	public void setPlotEliminar(Plot plotEliminar) {
-		this.plotEliminar = plotEliminar;
+	public void setPlotRemove(Plot plotRemove) {
+		this.plotRemove = plotRemove;
 	}
 
 	/**
-	 * @return crops: get the record crop
+	 * @return crops: get the record crop.
 	 */
 	public Crops getCrops() {
 		return crops;
@@ -106,40 +106,40 @@ public class CropsAction implements Serializable {
 
 	/**
 	 * @param crops
-	 *            :set the record harvest
+	 *            :set the record harvest.
 	 */
 	public void setCrops(Crops crops) {
 		this.crops = crops;
 	}
 
 	/**
-	 * @return listaCrops: crops list
+	 * @return listCrops: crops list.
 	 */
-	public List<Crops> getListaCrops() {
-		return listaCrops;
+	public List<Crops> getListCrops() {
+		return listCrops;
 	}
 
 	/**
-	 * @param listaCrops
-	 *            :crops list
+	 * @param listCrops
+	 *            :crops list.
 	 */
-	public void setListaCrops(List<Crops> listaCrops) {
-		this.listaCrops = listaCrops;
+	public void setListCrops(List<Crops> listCrops) {
+		this.listCrops = listCrops;
 	}
 
 	/**
-	 * @return listaPlotsAsociados: Plots list Associates Crops
+	 * @return listPlotsAsocciates: Plots list Associates Crops.
 	 */
-	public List<Plot> getListaPlotsAsociados() {
-		return listaPlotsAsociados;
+	public List<Plot> getListPlotsAsocciates() {
+		return listPlotsAsocciates;
 	}
 
 	/**
-	 * @param listaPlotsAsociados
-	 *            : Plots list Associates Crops
+	 * @param listPlotsAsocciates
+	 *            : Plots list Associates Crops.
 	 */
-	public void setListaPlotsAsociados(List<Plot> listaPlotsAsociados) {
-		this.listaPlotsAsociados = listaPlotsAsociados;
+	public void setListPlotsAsocciates(List<Plot> listPlotsAsocciates) {
+		this.listPlotsAsocciates = listPlotsAsocciates;
 	}
 
 	/**
@@ -158,141 +158,140 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Name of the harvest to search
+	 * @return nameSearch: Name of the harvest to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : Name of the harvest to search
+	 * @param nameSearch
+	 *            : Name of the harvest to search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return anyo: year to validate the crop records
+	 * @return year: year to validate the crop records.
 	 */
-	public String getAnyo() {
-		return anyo;
+	public String getYear() {
+		return year;
 	}
 
 	/**
-	 * @param anyo
-	 *            : year to validate the crop records
+	 * @param year
+	 *            : year to validate the crop records.
 	 * 
 	 */
-	public void setAnyo(String anyo) {
-		this.anyo = anyo;
+	public void setYear(String year) {
+		this.year = year;
 	}
 
 	/**
-	 * @return opciones: Items of values that can take list cropNames
+	 * @return options: Items of values that can take list cropNames.
 	 * 
 	 */
-	public List<SelectItem> getOpciones() {
-		return opciones;
+	public List<SelectItem> getOptions() {
+		return options;
 	}
 
 	/**
-	 * @param opciones
-	 *            : Items of values that can take list cropNames
+	 * @param options
+	 *            : Items of values that can take list cropNames.
 	 */
-	public void setOpciones(List<SelectItem> opciones) {
-		this.opciones = opciones;
+	public void setOptions(List<SelectItem> options) {
+		this.options = options;
 	}
 
 	/**
-	 * @return seleccionarAnyo: list where you load the years from 2000
+	 * @return selectYear: list where you load the years from 2000.
 	 */
-	public List<SelectItem> getSeleccionarAnyo() {
-		return seleccionarAnyo;
+	public List<SelectItem> getSelectYear() {
+		return selectYear;
 	}
 
 	/**
-	 * @param seleccionarAnyo
-	 *            : list where you load the years from 2000
+	 * @param selectYear
+	 *            : list where you load the years from 2000.
 	 */
-	public void setSeleccionarAnyo(List<SelectItem> seleccionarAnyo) {
-		this.seleccionarAnyo = seleccionarAnyo;
+	public void setSelectYear(List<SelectItem> selectYear) {
+		this.selectYear = selectYear;
 	}
 
 	/**
-	 * @return nombreCrop: identifier crop name to search
+	 * @return nameCrop: identifier crop name to search.
 	 */
-	public int getNombreCrop() {
-		return nombreCrop;
+	public int getNameCrop() {
+		return nameCrop;
 	}
 
 	/**
-	 * @param nombreCrop
-	 *            : identifier crop name to search
+	 * @param nameCrop
+	 *            : identifier crop name to search.
 	 */
-	public void setNombreCrop(int nombreCrop) {
-		this.nombreCrop = nombreCrop;
+	public void setNameCrop(int nameCrop) {
+		this.nameCrop = nameCrop;
 	}
 
 	/**
-	 * Method to initialize the parameters of the search and load the initial
-	 * list of crops
+	 * Method to initialize the parameters of the search and load the initial.
+	 * list of crops.
 	 * 
 	 * @modify 19/06/2015 Gerardo.Herrera
 	 * 
-	 * @return consultarCrops: method that consult crops, returns management
+	 * @return consultCrops: method that consult crops, returns management
 	 *         template.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		nombreCrop = 0;
-		return consultarCrops();
+	public String searchInitialization() {
+		nameSearch = "";
+		nameCrop = 0;
+		return consultCrops();
 	}
 
 	/**
-	 * Consult the list of crops
+	 * Consult the list of crops.
 	 * 
-	 * @return "gesCrops": redirects to the template to manage crops
+	 * @return "gesCrops": redirects to the template to manage crops.
 	 */
-	public String consultarCrops() {
+	public String consultCrops() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeLifeCycle");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaCrops = new ArrayList<Crops>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listCrops = new ArrayList<Crops>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = cropsDao.cantidadCrops(consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = cropsDao.quantityCrops(query, parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaCrops = cropsDao.consultarCrops(paginador.getInicio(),
-					paginador.getRango(), consulta, parametros);
-			listaCropNames();
-			this.nombreBuscar = "";
-			if ((listaCrops == null || listaCrops.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listCrops = cropsDao.consultCrops(paginador.getInicio(),
+					paginador.getRango(), query, parameters);
+			listCropNames();
+			this.nameSearch = "";
+			if ((listCrops == null || listCrops.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaCrops == null || listaCrops.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listCrops == null || listCrops.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle.getString("crops_label_s"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -307,35 +306,35 @@ public class CropsAction implements Serializable {
 	 * @modify 08/03/2016 Mabell.Boada
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
+	 *            : message search.
 	 * 
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(c.description) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_descripcion")
-					+ ": " + '"' + this.nombreBuscar + '"');
+					+ ": " + '"' + this.nameSearch + '"');
 
-			if (this.nombreCrop != 0) {
+			if (this.nameCrop != 0) {
 				consult.append("AND c.cropNames.idCropName = :keyword3 ");
-				item = new SelectItem(this.nombreCrop, "keyword3");
+				item = new SelectItem(this.nameCrop, "keyword3");
 				parameters.add(item);
 			}
 		} else {
-			if (this.nombreCrop != 0) {
+			if (this.nameCrop != 0) {
 				consult.append("WHERE c.cropNames.idCropName = :keyword ");
-				SelectItem item = new SelectItem(this.nombreCrop, "keyword");
+				SelectItem item = new SelectItem(this.nameCrop, "keyword");
 				parameters.add(item);
 			}
 
@@ -348,32 +347,32 @@ public class CropsAction implements Serializable {
 	 * @modify 03/06/2015 Sergio.Ortiz
 	 * 
 	 * @param crops
-	 *            :crop to be add or edit
+	 *            :crop to be add or edit.
 	 * 
 	 * @return "regCrops":redirected to the template record crop.
 	 * 
 	 */
-	public String agregarEditarCrops(Crops crops) {
+	public String addEditCrops(Crops crops) {
 		try {
-			listaCropNames();
-			seleccionAnyo();
+			listCropNames();
+			selectYear();
 			if (crops != null) {
 				this.crops = crops;
-				plotsAsociados(this.crops);
+				plotsAssociates(this.crops);
 				Date date = crops.getRegistrationYear();
 				if (date != null) {
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(date);
 					int year = cal.get(Calendar.YEAR);
-					setAnyo(String.valueOf(year));
+					setYear(String.valueOf(year));
 				} else {
-					setAnyo("");
+					setYear("");
 				}
 			} else {
 				this.crops = new Crops();
 				this.crops.setCropNames(new CropNames());
-				this.listaPlotsAsociados = new ArrayList<Plot>();
-				setAnyo("");
+				this.listPlotsAsocciates = new ArrayList<Plot>();
+				setYear("");
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -382,79 +381,82 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit crops
+	 * Method used to save or edit crops.
 	 * 
 	 * @modify 25/05/2015 Sergio.Ortiz
 	 * 
-	 * @return consultarCrops: Redirects to manage crops with the list of crops
-	 *         updated
+	 * @return consultCrops: Redirects to manage crops with the list of crops
+	 *         updated.
 	 */
-	public String guardarCrops() {
+	public String saveCrops() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy");
-		String fechaString = getAnyo();
-		Date dateConvertida = null;
+		String dateString = getYear();
+		Date dateConverted = null;
 		try {
-			if ((fechaString != null) && (!"".equals(fechaString))) {
+			if ((dateString != null) && (!"".equals(dateString))) {
 				try {
-					dateConvertida = formatter.parse(fechaString);
+					dateConverted = formatter.parse(dateString);
 				} catch (ParseException ex) {
-					dateConvertida = null;
+					dateConverted = null;
 				}
-				crops.setRegistrationYear(dateConvertida);
+				crops.setRegistrationYear(dateConverted);
 			}
 			if (crops.getIdCrop() != 0) {
-				cropsDao.editarCrops(crops);
+				cropsDao.editCrops(crops);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				cropsDao.guardarCrops(crops);
+				messageLog = "message_registro_guardar";
+				cropsDao.saveCrops(crops);
 			}
-			guardarCropsPlots();
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), crops.getDescription()));
+			saveCropsPlots();
+			ControladorContexto.mensajeInformacion(
+					null,
+					MessageFormat.format(bundle.getString(messageLog),
+							crops.getDescription()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarCrops();
+		return consultCrops();
 	}
 
 	/**
-	 * Method to save the crop association to a list of selected plots
+	 * Method to save the crop association to a list of selected plots.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @throws Exception
 	 */
-	private void guardarCropsPlots() throws Exception {
-		List<Plot> listaCropsPlotsAsociados = new ArrayList<Plot>();
-		listaCropsPlotsAsociados = plotsDao.cropsPlotsAssociated(crops
+	private void saveCropsPlots() throws Exception {
+		List<Plot> listCropsPlotsAsocciates = new ArrayList<Plot>();
+		listCropsPlotsAsocciates = plotsDao.cropsPlotsAssociated(crops
 				.getIdCrop());
 
-		if (this.listaPlotsAsociados != null
-				&& listaCropsPlotsAsociados != null) {
+		if (this.listPlotsAsocciates != null
+				&& listCropsPlotsAsocciates != null) {
 			List<Integer> currentIds = new ArrayList<Integer>();
 			List<Integer> newsIds = new ArrayList<Integer>();
 			/* Lists are filled with only the ids */
-			for (Plot listaPlots : listaCropsPlotsAsociados) {
-				currentIds.add(listaPlots.getIdPlot());
+			for (Plot listPlots : listCropsPlotsAsocciates) {
+				currentIds.add(listPlots.getIdPlot());
 			}
-			for (Plot listaPlotTem : this.listaPlotsAsociados) {
-				newsIds.add(listaPlotTem.getIdPlot());
+			for (Plot listPlotTem : this.listPlotsAsocciates) {
+				newsIds.add(listPlotTem.getIdPlot());
 			}
 			/* Lists are validated */
 			List<DatosGuardar> dataList = ValidacionesAction.validarListas(
 					currentIds, newsIds);
 			for (DatosGuardar saveData : dataList) {
 				String action = saveData.getAccion();
-				Plot plotGuardar = new Plot();
-				plotGuardar.setIdPlot(saveData.getIdClase());
+				Plot plotSave = new Plot();
+				plotSave.setIdPlot(saveData.getIdClase());
 				if (Constantes.QUERY_DELETE.equals(action)) {
-					CropsPlots cropsPlotsGuardar = cropsPlotsDao
-							.consultarCropsPlots(crops, plotGuardar);
-					cropsPlotsDao.eliminarCropsPlots(cropsPlotsGuardar);
+					CropsPlots cropsPlotsSave = cropsPlotsDao
+							.consultarCropsPlots(crops, plotSave);
+					cropsPlotsDao.eliminarCropsPlots(cropsPlotsSave);
 				} else {
 					if (Constantes.QUERY_INSERT.equals(action)) {
-						guardarCropsPlot(plotGuardar);
+						saveCropsPlot(plotSave);
 					}
 				}
 			}
@@ -462,14 +464,15 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
-	 * Saves the related crop Plots
+	 * Saves the related crop Plots.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @param plot
-	 *            : Crop related plot
+	 *            : Crop related plot.
 	 * @throws Exception
 	 */
-	private void guardarCropsPlot(Plot plot) throws Exception {
+	private void saveCropsPlot(Plot plot) throws Exception {
 		CropsPlots cropsPlots = new CropsPlots();
 		CropsPlotsPK cropsPlotsPK = new CropsPlotsPK();
 		cropsPlotsPK.setCrops(crops);
@@ -480,17 +483,17 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
-	 * Method to remove a Crops of the database
+	 * Method to remove a Crops of the database.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
-	 * @return consultarCrops(): Consult the list of Crops and returns to manage
-	 *         Crops
+	 * @return consultCrops(): Consult the list of Crops and returns to manage
+	 *         Crops.
 	 */
-	public String eliminarCrops() {
+	public String removeCrops() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			cropsDao.eliminarCrops(crops);
+			cropsDao.removeCrops(crops);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					crops.getDescription()));
@@ -502,21 +505,21 @@ public class CropsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarCrops();
+		return consultCrops();
 	}
 
 	/**
-	 * Method that loads a CropNames list
+	 * Method that loads a CropNames list.
 	 * 
 	 * @throws Exception
 	 */
-	private void listaCropNames() throws Exception {
-		opciones = new ArrayList<SelectItem>();
+	private void listCropNames() throws Exception {
+		options = new ArrayList<SelectItem>();
 		List<CropNames> listCropsnames = cropNamesDao.listCropNames();
 		if (listCropsnames != null) {
 			for (CropNames cropNames : listCropsnames) {
-				opciones.add(new SelectItem(cropNames.getIdCropName(),
-						cropNames.getCropName()));
+				options.add(new SelectItem(cropNames.getIdCropName(), cropNames
+						.getCropName()));
 			}
 		}
 
@@ -530,7 +533,7 @@ public class CropsAction implements Serializable {
 	 * @modify 24/06/2015 Gerardo.Herrera
 	 * 
 	 */
-	public void requeridosOk() {
+	public void requiredOk() {
 		try {
 			if (crops.getCropNames().getIdCropName() == 0
 					|| "".equals(crops.getCropNames().getIdCropName())) {
@@ -544,7 +547,7 @@ public class CropsAction implements Serializable {
 				ControladorContexto.mensajeRequeridos("formCrops:fechFin");
 			}
 
-			if (this.anyo == null || "".equals(this.anyo)) {
+			if (this.year == null || "".equals(this.year)) {
 				ControladorContexto.mensajeRequeridos("formCrops:cropAnyo");
 			}
 
@@ -567,73 +570,74 @@ public class CropsAction implements Serializable {
 	 *            associated plot
 	 * @throws Exception
 	 */
-	private void plotsAsociados(Crops crops) throws Exception {
+	private void plotsAssociates(Crops crops) throws Exception {
 		if (crops != null) {
-			this.listaPlotsAsociados = new ArrayList<Plot>();
-			this.listaPlotsAsociados = plotsDao.cropsPlotsAssociated(crops
+			this.listPlotsAsocciates = new ArrayList<Plot>();
+			this.listPlotsAsocciates = plotsDao.cropsPlotsAssociated(crops
 					.getIdCrop());
 		}
 	}
 
 	/**
 	 * Method which brings me selected plot and those found in the database in a
-	 * single list
+	 * single list.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
 	 * @modify 17/11/2015 Cristhian.Pico
 	 * 
 	 */
-	public void agruparListasPlot() {
+	public void groupListsPlot() {
 		PlotAction plot = ControladorContexto.getContextBean(PlotAction.class);
 		for (Plot plotAsociados : plot.getListPlotsSelected()) {
-			this.listaPlotsAsociados.add(plotAsociados);
+			this.listPlotsAsocciates.add(plotAsociados);
 		}
 	}
 
 	/**
 	 * method that eliminates the plot selected by the user from the list
-	 * listaPlotsAsociados
+	 * listPlotsAsocciates.
 	 * 
 	 * @author Sergio.Ortiz
 	 * 
 	 * @modify 17/11/2015 Cristhian.Pico
 	 * 
 	 */
-	public void eliminarPlotLista() {
-		for (Plot listaPlot : this.listaPlotsAsociados) {
-			if (listaPlot.equals(plotEliminar)) {
-				this.listaPlotsAsociados.remove(plotEliminar);
+	public void removePlotList() {
+		for (Plot listPlot : this.listPlotsAsocciates) {
+			if (listPlot.equals(plotRemove)) {
+				this.listPlotsAsocciates.remove(plotRemove);
 				break;
 			}
 		}
 	}
 
 	/**
-	 * Method to load the years from 2000 through the current year
+	 * Method to load the years from 2000 through the current year.
 	 * 
 	 * @author Sergio.Ortiz
 	 */
-	private void seleccionAnyo() {
-		Calendar anio = new GregorianCalendar();
-		seleccionarAnyo = new ArrayList<SelectItem>();
-		int fechaAnyo = anio.get(Calendar.YEAR);
-		for (int i = 2000; i <= fechaAnyo; i++) {
+	private void selectYear() {
+		Calendar year = new GregorianCalendar();
+		selectYear = new ArrayList<SelectItem>();
+		int dateYear = year.get(Calendar.YEAR);
+		for (int i = 2000; i <= dateYear; i++) {
 			String fecha = "" + i;
-			seleccionarAnyo.add(new SelectItem(i, fecha));
+			selectYear.add(new SelectItem(i, fecha));
 		}
 	}
 
 	/**
 	 * Method verifies that the user selected crop the list of plots remain in
-	 * sight, otherwise clean selected
+	 * sight, otherwise clean selected.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @modify 10/12/2015 Andres.Gomez
 	 */
-	public void compararCrops() {
-		if (!this.opciones.get(0).getValue().equals(this.crops)) {
-			this.listaPlotsAsociados.removeAll(listaPlotsAsociados);
+	public void compareCrops() {
+		if (!this.options.get(0).getValue().equals(this.crops)) {
+			this.listPlotsAsocciates.removeAll(listPlotsAsocciates);
 		}
 	}
 }

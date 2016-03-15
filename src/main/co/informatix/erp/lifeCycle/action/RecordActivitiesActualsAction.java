@@ -454,7 +454,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 		try {
 			listCrops = new ArrayList<SelectItem>();
 			List<Crops> tiposCrop = cropDao
-					.consultarCropNamesCropsVigentes(idCropName);
+					.consultCropNamesCropsCurrent(idCropName);
 			if (tiposCrop != null) {
 				for (Crops crop : tiposCrop) {
 					listCrops.add(new SelectItem(crop.getIdCrop(), crop

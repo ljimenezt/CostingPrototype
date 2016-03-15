@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesCrops</from-outcome>
-			<to-view-id>/lifeCycle/crops/gestionarCrops.xhtml</to-view-id>
+			<to-view-id>/lifeCycle/crops/manageCrops.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regCrops</from-outcome>
-			<to-view-id>/lifeCycle/crops/registrarCrops.xhtml</to-view-id>
+			<to-view-id>/lifeCycle/crops/registerCrops.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

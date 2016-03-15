@@ -9,27 +9,27 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="cropsAction.inicializarBusqueda" />
+	<ui:param name="action" value="cropsAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeLifeCycle.crops_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{cropsAction}" />
 		<ui:param name="listaVacia"
-			value="#{cropsAction.listaCrops eq null or (empty cropsAction.listaCrops)}" />
+			value="#{cropsAction.listCrops eq null or (empty cropsAction.listCrops)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{cropsAction}" />
 		<ui:param name="renderLista" value="panelCrops vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarCrops" />
+		<ui:param name="metodoLista" value="consultCrops" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="cropsAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarCrops" />
+		<ui:param name="metodoNuevo" value="addEditCrops" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 		<h:form id="fromCrops">
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listado_de} #{mensajeLifeCycle.crops_label_s}"
@@ -41,11 +41,11 @@
 					columnClasses="tdAlignTop,,,tdAlignTop">
 					<h:outputText value="#{mensaje.label_nombre_cosecha}"
 						styleClass="etiquetaTitulo" />
-					<h:selectOneMenu id="cropName" value="#{cropsAction.nombreCrop}"
+					<h:selectOneMenu id="cropName" value="#{cropsAction.nameCrop}"
 						styleClass="colTextoMediano" required="true">
 						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
-						<f:selectItems value="#{cropsAction.opciones}" />
-						<f:ajax event="change" listener="#{cropsAction.consultarCrops()}"
+						<f:selectItems value="#{cropsAction.options}" />
+						<f:ajax event="change" listener="#{cropsAction.consultCrops()}"
 							render=":mensajes :fromCrops :mensajeBusqueda" />
 					</h:selectOneMenu>
 					<rich:message for="cropName" />
@@ -54,7 +54,7 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{cropsAction.listaCrops}" var="crops"
+				<rich:dataTable value="#{cropsAction.listCrops}" var="crops"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoUno">
@@ -73,7 +73,7 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensajeLifeCycle.crops_label}</f:facet>
 						<h:commandLink value="#{crops.description}"
-							action="#{cropsAction.agregarEditarCrops(crops)}"
+							action="#{cropsAction.addEditCrops(crops)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -120,7 +120,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelCrops" />
 							<ui:param name="beanActionParam" value="#{cropsAction}" />
-							<ui:param name="metodoActionParam" value="consultarCrops" />
+							<ui:param name="metodoActionParam" value="consultCrops" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -143,13 +143,13 @@
 					<h:outputText value="#{mensaje.label_descripcion}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{cropsAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{cropsAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{cropsAction.consultarCrops}"
+						actionListener="#{cropsAction.consultCrops}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelCrops, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -181,7 +181,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{cropsAction.eliminarCrops()}"
+							actionListener="#{cropsAction.removeCrops()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelCrops, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"
