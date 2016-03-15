@@ -237,7 +237,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * Method to initialize the search parameters and load the template to
 	 * manage human resources and certificacionesRoles.
 	 * 
-	 * @return gesActivAndCert: Returns to the template of human resource
+	 * @return gesHrCertRoles: Returns to the template of human resource
 	 *         management and certifications.
 	 */
 	public String searchInitialization() {
