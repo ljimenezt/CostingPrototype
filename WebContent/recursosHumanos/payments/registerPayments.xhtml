@@ -200,7 +200,7 @@
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 									value="#{contratoAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
-								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 									actionListener="#{contratoAction.searchContracts}"
 									render="outputContrato, outPutBuscarContrato">
 									<f:param name="param2" value="si" />
@@ -313,7 +313,7 @@
 								<h:inputText size="40" maxlength="100" id="txtHrBuscar"
 									value="#{hrAction.nombreBuscar}"
 									onkeypress="return submitByEnter(event,'popupFormHr:btnBuscarHr')" />
-								<a:commandButton value="#{mensaje.button_buscar}"
+								<a:commandButton value="#{mensaje.button_search}"
 									id="btnBuscarHr" actionListener="#{hrAction.consultarHrs}"
 									render="outputHr, outPutBuscarHr">
 									<f:param name="param2" value="si" />

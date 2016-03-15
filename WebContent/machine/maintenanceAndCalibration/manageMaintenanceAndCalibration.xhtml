@@ -94,7 +94,7 @@
 							columnClasses="center">
 
 							<a:commandButton id="btnSearchMachine"
-								value="#{mensaje.button_buscar}"
+								value="#{mensaje.button_search}"
 								actionListener="#{maintenanceAndCalibrationAction.searchByMachine}"
 								render=":formMaintenanceAndCalibration:panelMaintenanceAndCalibration, mensajes, mensajeBusqueda" />
 						</h:panelGrid>
@@ -254,7 +254,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						actionListener="#{maintenanceAndCalibrationAction.consultMaintenanceCalibration}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
 						render="panelMaintenanceAndCalibration, mensajes, mensajeBusqueda" />
@@ -289,7 +289,7 @@
 								<h:inputText size="40" maxlength="100" id="txtNameSearch"
 									value="#{maintenanceAndCalibrationAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
-								<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 									actionListener="#{maintenanceAndCalibrationAction.consultMaintenanceLines}"
 									render="outPutSearchMaintenanceLine">
 									<f:param name="param2" value="si" />

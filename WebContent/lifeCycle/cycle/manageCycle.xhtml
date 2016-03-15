@@ -241,7 +241,7 @@
 		<h:form id="formSearch">
 			<rich:popupPanel id="popupSearch" autosized="true"
 				styleClass="H210P W400P"
-				header="#{mensaje.button_buscar} #{mensajeLifeCycle.cycle_label_s}"
+				header="#{mensaje.button_search} #{mensajeLifeCycle.cycle_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -296,7 +296,7 @@
 				</a:outputPanel>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						execute="@form" actionListener="#{cycleAction.consultCycles}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupSearch')}.hide();}"
 						render="pnlCycles, mensajes, mensajeBusqueda" />

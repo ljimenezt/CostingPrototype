@@ -96,7 +96,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_buscar} #{estado_civil_label_nombre}"
+				header="#{mensaje.button_search} #{estado_civil_label_nombre}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -116,7 +116,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						actionListener="#{civilStatusAction.consultarEstadoCivil()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelCivilStatus, mensajes, mensajeBusqueda" />

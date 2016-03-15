@@ -48,7 +48,7 @@
 										<f:setPropertyActionListener value=""
 											target="#{fincaAction.nombreEmpresaBuscar}" />
 									</a:commandButton>
-									<h:outputText value="#{mensaje.button_buscar}" />
+									<h:outputText value="#{mensaje.button_search}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="document.getElementById('frmFinca:idButtonLisTodos').click()">
@@ -149,7 +149,7 @@
 										<f:setPropertyActionListener value=""
 											target="#{fincaAction.nombreEmpresaBuscar}" />
 									</a:commandButton>
-									<h:outputText value="#{mensaje.button_buscar}" />
+									<h:outputText value="#{mensaje.button_search}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="document.getElementById('frmFinca:idButtonLisTodosInf').click()">
@@ -301,7 +301,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscarEmpresa" autosized="true"
-				header="#{mensaje.button_buscar} #{mensajeOrganizaciones.finca_label_s}"
+				header="#{mensaje.button_search} #{mensajeOrganizaciones.finca_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -320,7 +320,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						actionListener="#{fincaAction.consultarFincas()}"
 						oncomplete="#{rich:component('popupBuscarEmpresa')}.hide();"
 						render="panelFinca, mensajes, mensajeBusqueda" />

@@ -56,7 +56,7 @@
 										<f:setPropertyActionListener value=""
 											target="#{tipoDocumentoAction.nombreBuscar}" />
 									</a:commandButton>
-									<h:outputText value="#{mensaje.button_buscar}" />
+									<h:outputText value="#{mensaje.button_search}" />
 								</h:panelGrid>
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="document.getElementById('frmTiposDocumento:idButtonLisTodos').click()">
@@ -162,7 +162,7 @@
 									<f:setPropertyActionListener value=""
 										target="#{tipoDocumentoAction.nombreBuscar}" />
 								</a:commandButton>
-								<h:outputText value="#{mensaje.button_buscar}" />
+								<h:outputText value="#{mensaje.button_search}" />
 							</h:panelGrid>
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 								onclick="document.getElementById('frmTiposDocumento:idButtonLisTodosInf').click()">
@@ -230,7 +230,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_buscar} #{mensajeInformacionBase.tipo_documento_label_s}"
+				header="#{mensaje.button_search} #{mensajeInformacionBase.tipo_documento_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -246,7 +246,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_buscar}"
+					<a:commandButton value="#{mensaje.button_search}"
 						action="#{tipoDocumentoAction.consultarTiposDocumento()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelTipoDocumento, mensajes, mensajeBusqueda">

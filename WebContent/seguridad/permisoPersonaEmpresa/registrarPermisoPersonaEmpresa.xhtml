@@ -41,7 +41,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensaje.button_buscar}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.button_search}</legend>
 					<a:outputPanel id="empresas">
 						<rich:message for="empresas" />
 						<h:panelGrid columns="4" id="pnlBuscar">
@@ -50,7 +50,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:inputText id="txtBuscarEmpresa"
 								value="#{permisoPersonaEmpresaAction.empresaBuscar}" />
-							<a:commandButton value="#{mensaje.button_buscar}"
+							<a:commandButton value="#{mensaje.button_search}"
 								execute="empresas" render="empresas, mensajes"
 								actionListener="#{permisoPersonaEmpresaAction.buscarEmpresas()}" />
 						</h:panelGrid>
