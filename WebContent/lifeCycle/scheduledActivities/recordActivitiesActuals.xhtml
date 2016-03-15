@@ -44,10 +44,10 @@
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,tdAlignTop">
+						columnClasses="tdAlignTop W82P,tdAlignTop">
 						<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" styleClass="required" />
+						<h:outputText value="" />
 						<h:selectOneMenu id="cropName"
 							value="#{recordActivitiesActualsAction.idCropName}"
 							styleClass="colTextoMediano" required="true"
@@ -63,7 +63,7 @@
 						<rich:message for="cropName" />
 						<h:outputText value="#{mensajeLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" styleClass="required" />
+						<h:outputText value="" />
 						<h:selectOneMenu id="crop"
 							value="#{recordActivitiesActualsAction.idCrop}"
 							styleClass="colTextoMediano" required="true"
@@ -85,7 +85,7 @@
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,tdAlignTop"
+						columnClasses="tdAlignTop W82P,tdAlignTop"
 						rendered="#{recordActivitiesActualsAction.listActivities eq null or (empty recordActivitiesActualsAction.listActivities)}">
 						<h:outputText value="#{mensajeLifeCycle.activity_names_label}"
 							styleClass="etiquetaTitulo" />
