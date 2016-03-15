@@ -21,7 +21,9 @@
 				<h:inputText label="#{mensaje.label_numero_secuencia}"
 					value="#{cropActivitiesAction.activities.sequenceNumber}"
 					styleClass="colNumero" id="txtSecNum"
+					converterMessage="#{mensaje.message_campo_positivo}"
 					requiredMessage="#{mensaje.message_campo_requerido}">
+					<f:validateLongRange minimum="0" />
 				</h:inputText>
 				<rich:message for="txtSecNum" />
 
@@ -33,7 +35,9 @@
 					label="#{mensajeCosts.activities_label_duracion_estimada}"
 					styleClass="colNumero" id="txtDuration"
 					validator="#{cropActivitiesAction.validateDate}"
+					converterMessage="#{mensaje.message_campo_positivo}"
 					requiredMessage="#{mensaje.message_campo_requerido}">
+					<f:validateDoubleRange minimum="0" />
 				</h:inputText>
 				<rich:message for="txtDuration" />
 
