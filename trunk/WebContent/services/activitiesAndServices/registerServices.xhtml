@@ -138,15 +138,17 @@
 								value="#{mensaje.label_duracion_activities} #{mensaje.label_presupuesto}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.durationBudget}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="colNumero" id="txtDurationBudget" maxlength="25">
 								<f:validateLength maximum="25" />
 							</h:inputText>
-							<rich:message for="#{rich:clientId('txtDurationBudget')}" />
+							<rich:message for="txtDurationBudget" />
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_duracion_activities} #{mensaje.label_actual}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.durationActual}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="colNumero" id="txtDurationActual" maxlength="25">
 								<f:validateLength maximum="25" />
 							</h:inputText>
@@ -156,6 +158,7 @@
 								value="#{mensajeRecursosHumanos.recurso_humano_label_costo_hora} #{mensaje.label_presupuesto}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.hourCostBudget}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="colNumero" id="txtCostHourBudget" maxlength="25">
 								<f:validateLength maximum="25" />
 							</h:inputText>
@@ -165,6 +168,7 @@
 								value="#{mensajeRecursosHumanos.recurso_humano_label_costo_hora} #{mensaje.label_actual}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.hourCostActual}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="colNumero" id="txtCostHourActual" maxlength="25">
 								<f:validateLength maximum="25" />
 							</h:inputText>
@@ -174,6 +178,7 @@
 								value="#{mensaje.label_total} #{mensaje.label_presupuesto}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.totalCostBudget}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="colNumero" id="txtTotalCostBudget" maxlength="25">
 								<f:validateLength maximum="25" />
 							</h:inputText>
@@ -183,6 +188,7 @@
 								value="#{mensaje.label_total} #{mensaje.label_actual}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.totalCostActual}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="colNumero" id="txtTotalCostActual" maxlength="25">
 								<f:validateLength maximum="25" />
 							</h:inputText>
