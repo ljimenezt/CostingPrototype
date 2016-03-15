@@ -567,7 +567,7 @@ public class CropActivitiesAction implements Serializable {
 			}
 			List<Crops> listaCropsVigentes;
 			listaCropsVigentes = cropsDao
-					.consultarCropNamesCropsVigentes(idCropsName);
+					.consultCropNamesCropsCurrent(idCropsName);
 			if (listaCropsVigentes != null) {
 				for (Crops crops : listaCropsVigentes) {
 					opcionesCrops.add(new SelectItem(crops.getIdCrop(), crops

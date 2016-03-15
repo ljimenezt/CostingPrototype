@@ -220,7 +220,7 @@ public class GeneralTrendAction implements Serializable {
 				idCropsName = this.crops.getCropNames().getIdCropName();
 			}
 			List<Crops> listaCrops = cropsDao
-					.consultarCropNamesCropsVigentes(idCropsName);
+					.consultCropNamesCropsCurrent(idCropsName);
 			if (listaCrops != null) {
 				for (Crops crops : listaCrops) {
 					itemsCrops.add(new SelectItem(crops.getIdCrop(), crops

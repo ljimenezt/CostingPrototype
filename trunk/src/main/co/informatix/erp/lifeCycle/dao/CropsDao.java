@@ -31,9 +31,9 @@ public class CropsDao implements Serializable {
 	 * 
 	 * @modify 14/05/2015 Sergio.Ortiz
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :where he started the consultation record.
 	 * @param range
-	 *            : range of records
+	 *            : range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
@@ -42,7 +42,7 @@ public class CropsDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Crops> consultarCrops(int start, int range,
+	public List<Crops> consultCrops(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -51,8 +51,8 @@ public class CropsDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY c.idCrop ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<Crops> resultList = q.getResultList();
@@ -63,47 +63,49 @@ public class CropsDao implements Serializable {
 	}
 
 	/**
-	 * Save a crop in BD
+	 * Save a crop in BD.
 	 * 
 	 * @param crops
 	 *            : crop saved.
 	 * @throws Exception
 	 */
-	public void guardarCrops(Crops crops) throws Exception {
+	public void saveCrops(Crops crops) throws Exception {
 		em.persist(crops);
 	}
 
 	/**
-	 * Edits a crop in BD
+	 * Edits a crop in BD.
 	 * 
 	 * @param crops
 	 *            : crop edited.
 	 * @throws Exception
 	 */
-	public void editarCrops(Crops crops) throws Exception {
+	public void editCrops(Crops crops) throws Exception {
 		em.merge(crops);
 	}
 
 	/**
-	 * Deletes the crops of the database
+	 * Deletes the crops of the database.
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @param crops
-	 *            : crops to eliminate
+	 *            : crops to eliminate.
 	 * @throws Exception
 	 */
-	public void eliminarCrops(Crops crops) throws Exception {
+	public void removeCrops(Crops crops) throws Exception {
 		em.remove(em.merge(crops));
 	}
 
 	/**
-	 * Crops method that queries the object by its ID
+	 * Crops method that queries the object by its ID.
 	 * 
 	 * @author Wilhelm.Boada
 	 * 
 	 * @param id
-	 *            : Harvest identifier to consult
-	 * @return: Crops object found with the search parameter identifier
+	 *            : Harvest identifier to consult.
+	 *            
+	 * @return: Crops object found with the search parameter identifier.
 	 * @throws Exception
 	 */
 	public Crops cropsById(int id) throws Exception {
@@ -119,27 +121,27 @@ public class CropsDao implements Serializable {
 	 *            filtered.
 	 * @param parameters
 	 *            : query parameters.
-	 * @return Long: amount of crop records found
+	 * @return Long: amount of crop records found.
 	 * @throws Exception
 	 */
-	public Long cantidadCrops(StringBuilder consult, List<SelectItem> parameters)
+	public Long quantityCrops(StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(c) FROM Crops c ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * Method allows us to obtain the identifier given harvest
+	 * Method allows us to obtain the identifier given harvest.
 	 * 
 	 * @param id
-	 *            : identifier crop we want to find
-	 * @return Crops: crop we found
+	 *            : identifier crop we want to find.
+	 * @return Crops: crop we found.
 	 * @throws Exception
 	 */
 	public Crops cropsXID(int id) throws Exception {
@@ -147,17 +149,17 @@ public class CropsDao implements Serializable {
 	}
 
 	/**
-	 * This method returns a list of all harvests name crops that are in place
+	 * This method returns a list of all harvests name crops that are in place.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param idCropsName
-	 *            : valid name identifier crop
-	 * @return List<Crops>: List of crops
+	 *            : valid name identifier crop.
+	 * @return List<Crops>: List of crops.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Crops> consultarCropNamesCropsVigentes(int idCropsName)
+	public List<Crops> consultCropNamesCropsCurrent(int idCropsName)
 			throws Exception {
 		return em
 				.createQuery(
@@ -169,19 +171,19 @@ public class CropsDao implements Serializable {
 
 	/**
 	 * See also article assigned to crops, considering that they are only those
-	 * that are not null in the table
+	 * that are not null in the table.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param nomObject
-	 *            : object found on the farm
+	 *            : object found on the farm.
 	 * @param idCrop
-	 *            : id crop being queried
+	 *            : id crop being queried.
 	 * @return Object information associated with the crop or null but there.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoCrop(String nomObject, int idCrop)
+	public Object consultObjectCrop(String nomObject, int idCrop)
 			throws Exception {
 		List<Object> results = em
 				.createQuery(
@@ -203,7 +205,7 @@ public class CropsDao implements Serializable {
 	 * @author Gerardo.Herrera
 	 * 
 	 * @param crop
-	 *            : description of the crop to search
+	 *            : description of the crop to search.
 	 * @return Crops: Crops object type.
 	 * @throws Exception
 	 */

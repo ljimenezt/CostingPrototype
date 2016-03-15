@@ -391,7 +391,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 			}
 			List<Crops> listCropsVigentes;
 			listCropsVigentes = cropsDao
-					.consultarCropNamesCropsVigentes(idCropsName);
+					.consultCropNamesCropsCurrent(idCropsName);
 			if (listCropsVigentes != null) {
 				for (Crops crops : listCropsVigentes) {
 					optionsCrops.add(new SelectItem(crops.getIdCrop(), crops
@@ -567,7 +567,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	 */
 	public void loadDetailsCrop(Crops crops) throws Exception {
 		int idCrop = crops.getIdCrop();
-		CropNames cropName = (CropNames) this.cropsDao.consultarObjetoCrop(
+		CropNames cropName = (CropNames) this.cropsDao.consultObjectCrop(
 				"cropNames", idCrop);
 		crops.setCropNames(cropName);
 	}

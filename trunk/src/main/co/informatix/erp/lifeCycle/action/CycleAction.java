@@ -686,7 +686,7 @@ public class CycleAction implements Serializable {
 			}
 			optionsCrops = new ArrayList<SelectItem>();
 			List<Crops> listCropsActive = cropsDao
-					.consultarCropNamesCropsVigentes(this.idCropsName);
+					.consultCropNamesCropsCurrent(this.idCropsName);
 			if (listCropsActive != null) {
 				for (Crops crops : listCropsActive) {
 					optionsCrops.add(new SelectItem(crops.getIdCrop(), crops

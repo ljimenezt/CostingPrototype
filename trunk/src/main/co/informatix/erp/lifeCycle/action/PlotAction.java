@@ -589,7 +589,7 @@ public class PlotAction implements Serializable {
 		try {
 			searchAdvancedPopup(consult, parameters, bundle, unionMessageSearch);
 			Long amount = plotDao.quantityPlotsFiltered(crops
-					.getListaPlotsAsociados(), crops.getCrops()
+					.getListPlotsAsocciates(), crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(),
 					consult, parameters);
 			if (pagerState) {
@@ -601,7 +601,7 @@ public class PlotAction implements Serializable {
 			}
 			listPlotDate = plotDao.searchCopsPlotsDate(crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(), crops
-					.getListaPlotsAsociados(), paginador.getInicio(), paginador
+					.getListPlotsAsocciates(), paginador.getInicio(), paginador
 					.getRango(), consult, parameters);
 			if ((listPlotDate == null || listPlotDate.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {

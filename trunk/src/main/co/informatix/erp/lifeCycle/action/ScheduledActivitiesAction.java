@@ -494,7 +494,7 @@ public class ScheduledActivitiesAction implements Serializable {
 		try {
 			opcionesCrops = new ArrayList<SelectItem>();
 			List<Crops> listaCropsVigentes = cropsDao
-					.consultarCropNamesCropsVigentes(idCropName);
+					.consultCropNamesCropsCurrent(idCropName);
 			if (listaCropsVigentes != null) {
 				for (Crops crops : listaCropsVigentes) {
 					opcionesCrops.add(new SelectItem(crops.getIdCrop(), crops
