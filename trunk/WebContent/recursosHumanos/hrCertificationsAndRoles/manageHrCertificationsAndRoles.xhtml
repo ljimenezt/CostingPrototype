@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="hrCertificationsAndRolesAction.inicializarBusqueda" />
+		value="hrCertificationsAndRolesAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeRecursosHumanos.hr_certifications_roles_label" />
 
@@ -22,16 +22,16 @@
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{hrCertificationsAndRolesAction}" />
 		<ui:param name="renderLista" value="panelHrCertRol vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarHrCertRoles" />
+		<ui:param name="metodoLista" value="consultHrCertRoles" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="hrCertificationsAndRolesAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarHrCertRoles" />
+		<ui:param name="metodoNuevo" value="addEditHrCertRoles" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formHrCertRol">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -54,7 +54,7 @@
 						<f:selectItems
 							value="#{hrCertificationsAndRolesAction.itemsCertificationsAndRoles}" />
 						<f:ajax event="change"
-							listener="#{hrCertificationsAndRolesAction.consultarHrCertRoles()}"
+							listener="#{hrCertificationsAndRolesAction.consultHrCertRoles()}"
 							render=":formHrCertRol:panelHrCerARol" execute="@this" />
 					</h:selectOneMenu>
 					<rich:message for="certifications" />
@@ -92,7 +92,7 @@
 								<f:facet name="header">#{mensajeRecursosHumanos.recurso_humano_label}</f:facet>
 								<h:commandLink
 									value="#{hrCertRol.hrCertificationsAndRolesPK.hr.name}"
-									action="#{hrCertificationsAndRolesAction.agregarEditarHrCertRoles(hrCertRol)}"
+									action="#{hrCertificationsAndRolesAction.addEditHrCertRoles(hrCertRol)}"
 									onclick="#{rich:component('statPane')}.show();">
 								</h:commandLink>
 							</rich:column>
@@ -132,7 +132,7 @@
 									<ui:param name="valReder" value="panelHrCertRol" />
 									<ui:param name="beanActionParam"
 										value="#{hrCertificationsAndRolesAction}" />
-									<ui:param name="metodoActionParam" value="consultarHrCertRoles" />
+									<ui:param name="metodoActionParam" value="consultHrCertRoles" />
 								</ui:include>
 							</div>
 						</a:outputPanel>
@@ -158,13 +158,13 @@
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar"
-						value="#{hrCertificationsAndRolesAction.nombreBuscar}"
+						value="#{hrCertificationsAndRolesAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_buscar}" id="btnBuscar"
-						actionListener="#{hrCertificationsAndRolesAction.consultarHrCertRoles()}"
+						actionListener="#{hrCertificationsAndRolesAction.consultHrCertRoles()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelHrCertRol, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -196,7 +196,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_aceptar}"
-							actionListener="#{hrCertificationsAndRolesAction.eliminarHrCertRoles()}"
+							actionListener="#{hrCertificationsAndRolesAction.removeHrCertRoles()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelHrCertRol, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancelar}"

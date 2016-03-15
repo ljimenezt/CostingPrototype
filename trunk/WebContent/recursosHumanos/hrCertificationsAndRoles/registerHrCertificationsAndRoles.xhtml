@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 	<ui:param name="action"
-		value="hrCertificationsAndRolesAction.agregarEditarHrCertRoles(null)" />
+		value="hrCertificationsAndRolesAction.addEditHrCertRoles(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeRecursosHumanos.hr_certifications_roles_label" />
 	<ui:define name="body">
@@ -36,7 +36,7 @@
 			<rich:panel
 				header="#{mensaje.label_registrar} #{mensajeRecursosHumanos.hr_certifications_roles_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarHrCert">
-				<a:outputPanel rendered="#{!hrCertificationsAndRolesAction.editar}">
+				<a:outputPanel rendered="#{!hrCertificationsAndRolesAction.edit}">
 					<h:panelGrid columns="4" columnClasses="tdAlignTop,,,tdAlignTop">
 						<h:outputText
 							value="#{mensajeLifeCycle.activities_certifications_label_certifications}"
@@ -147,7 +147,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_aceptar}"
-							action="#{hrCertificationsAndRolesAction.guardarHrCertRoles()}"
+							action="#{hrCertificationsAndRolesAction.saveHrCertRoles()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancelar}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
