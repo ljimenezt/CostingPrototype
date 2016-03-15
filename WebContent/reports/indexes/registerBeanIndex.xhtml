@@ -61,6 +61,7 @@
 						value="#{beanIndexAction.beanIndex.sampleWeight}"
 						styleClass="colTextoCorto" id="numSampleWeight" required="true"
 						maxlength="25"
+						converterMessage="#{mensaje.message_juego_caracter_numeros}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:validateLongRange minimum="1" />
 					</h:inputText>
@@ -72,6 +73,7 @@
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText
 						label="#{mensajeBeanIndex.bean_index_label_cycle_number}"
+						converterMessage="#{mensaje.message_juego_caracter_numeros}"
 						value="#{beanIndexAction.beanIndex.cycleNumber}" maxlength="25"
 						id="numCycleNumber" styleClass="colTextoCorto">
 						<f:validateDoubleRange maximum="24" minimum="1" />
