@@ -12,7 +12,7 @@ import javax.persistence.Query;
 import co.informatix.erp.kpi.entities.BeanIndex;
 
 /**
- * Class DAO that establishes the connection between the business logic and the
+ * DAO Class that establishes the connection between the business logic and the
  * database to manage the bean index records.
  * 
  * @author Cristhian.Pico
@@ -25,41 +25,41 @@ public class BeanIndexDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Save a bean index in BD
+	 * Save a bean index in the database.
 	 * 
 	 * @param beanIndex
 	 *            : bean index saved.
 	 * @throws Exception
 	 */
-	public void guardarBeanIndex(BeanIndex beanIndex) throws Exception {
+	public void saveBeanIndex(BeanIndex beanIndex) throws Exception {
 		em.persist(beanIndex);
 	}
 
 	/**
-	 * Edits a bean index in BD
+	 * Edits a bean index in the database.
 	 * 
 	 * @param beanIndex
 	 *            : bean index edited.
 	 * @throws Exception
 	 */
-	public void editarBeanIndex(BeanIndex beanIndex) throws Exception {
+	public void editBeanIndex(BeanIndex beanIndex) throws Exception {
 		em.merge(beanIndex);
 	}
 
 	/**
-	 * Deletes the bean index of the database
+	 * Deletes the bean index of the database.
 	 * 
 	 * @param beanIndex
-	 *            : beanIndex to eliminate
+	 *            : beanIndex to eliminate.
 	 * @throws Exception
 	 */
-	public void eliminarBeanIndex(BeanIndex beanIndex) throws Exception {
+	public void deleteBeanIndex(BeanIndex beanIndex) throws Exception {
 		em.remove(em.merge(beanIndex));
 	}
 
 	/**
-	 * This methods return the average of the bean index on all the sections
-	 * according to the filters sent as parameter.
+	 * This method returns the average of the bean index on all the sections
+	 * according to the filters sent as parameters.
 	 * 
 	 * @modify 2016/01/15 Andres.Gomez
 	 * 
@@ -68,31 +68,31 @@ public class BeanIndexDao implements Serializable {
 	 * @param params
 	 *            : Parameters required by the query for execution.
 	 * @param reportQuery
-	 *            : the query to build the report.
+	 *            : The query to build the report.
 	 * @param queryGroupBy
-	 *            : the query to group by the report.
-	 * @return List<Object[]>: Object List with information.
+	 *            : The query to group by the report.
+	 * @return List<Object[]>: Objects List with information.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Object[]> consultBeanIndexAverage(StringBuilder filters,
+	public List<Object[]> queryBeanIndexAverage(StringBuilder filters,
 			List<SelectItem> params, StringBuilder reportQuery,
 			StringBuilder queryGroupBy) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append(reportQuery);
-		query.append(filters);
-		query.append(queryGroupBy);
-		query.append("ORDER BY bi.cycle_number ");
-		Query q = em.createNativeQuery(query.toString());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append(reportQuery);
+		queryBuilder.append(filters);
+		queryBuilder.append(queryGroupBy);
+		queryBuilder.append("ORDER BY bi.cycle_number ");
+		Query queryResult = em.createNativeQuery(queryBuilder.toString());
 		for (SelectItem param : params) {
-			q.setParameter(param.getLabel(), param.getValue());
+			queryResult.setParameter(param.getLabel(), param.getValue());
 		}
-		return q.getResultList();
+		return queryResult.getResultList();
 	}
 
 	/**
-	 * This methods return the average of the bean index section according to
-	 * the filters sent as parameter.
+	 * This method returns the average of the bean index section according to
+	 * the filters sent as parameters.
 	 * 
 	 * @author Andres.Gomez
 	 * 
@@ -102,7 +102,7 @@ public class BeanIndexDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Object[]> consultBySectionAverage(List<SelectItem> params)
+	public List<Object[]> queryBySectionAverage(List<SelectItem> params)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT AVG(bi.sample_weight), bi.id_section ");
@@ -130,7 +130,7 @@ public class BeanIndexDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Object[]> consultCycleNumber(List<SelectItem> params)
+	public List<Object[]> queryCycleNumber(List<SelectItem> params)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT bi.cycle_number, MAX(bi.date_bean_index) ");
@@ -146,8 +146,8 @@ public class BeanIndexDao implements Serializable {
 	}
 
 	/**
-	 * This methods return the section of the bean index according to the crop
-	 * sent as parameter.
+	 * This method returns the section of the bean index according to the crop
+	 * sent as a parameter.
 	 * 
 	 * @author Andres.Gomez
 	 * 
@@ -157,26 +157,26 @@ public class BeanIndexDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Integer> consultBySection(List<SelectItem> params)
+	public List<Integer> queryBySection(List<SelectItem> params)
 			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT bi.id_section ");
-		query.append("FROM kpi.bean_index bi ");
-		query.append("WHERE bi.id_crop = :idCrop ");
-		query.append("GROUP BY bi.id_section ");
-		query.append("ORDER BY bi.id_section ");
-		Query q = em.createNativeQuery(query.toString());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT bi.id_section ");
+		queryBuilder.append("FROM kpi.bean_index bi ");
+		queryBuilder.append("WHERE bi.id_crop = :idCrop ");
+		queryBuilder.append("GROUP BY bi.id_section ");
+		queryBuilder.append("ORDER BY bi.id_section ");
+		Query query = em.createNativeQuery(queryBuilder.toString());
 		for (SelectItem param : params) {
-			q.setParameter(param.getLabel(), param.getValue());
+			query.setParameter(param.getLabel(), param.getValue());
 		}
-		return q.getResultList();
+		return query.getResultList();
 	}
 
 	/**
-	 * Returns the number of bean index in the database information by filtering
-	 * the search values sent.
+	 * Returns the number of bean index in the database information and it
+	 * filters with search values.
 	 * 
-	 * @param consult
+	 * @param query
 	 *            : String containing the query for which the properties are
 	 *            filtered.
 	 * @param parameters
@@ -184,27 +184,27 @@ public class BeanIndexDao implements Serializable {
 	 * @return Long: number of records found machine usage
 	 * @throws Exception
 	 */
-	public Long amountBeanIndex(StringBuilder consult,
-			List<SelectItem> parameters) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(bi) FROM BeanIndex bi ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public Long amountBeanIndex(StringBuilder query, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(bi) FROM BeanIndex bi ");
+		queryBuilder.append(query);
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * This method build the query to the advanced search also allows messages
-	 * to display build depending on the search criteria selected by the user.
+	 * This method builds the query with an advanced search; it also builds
+	 * display messages depending on the search criteria selected by the user.
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            : First record from the query result.
 	 * @param range
-	 *            : range of records
-	 * @param consult
+	 *            : Range of records to retrieve.
+	 * @param query
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : consult parameters.
@@ -212,16 +212,15 @@ public class BeanIndexDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<BeanIndex> consultBeanIndex(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT bi FROM BeanIndex bi ");
-		query.append(consult);
-		query.append("ORDER BY bi.cycleNumber ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public List<BeanIndex> queryBeanIndex(int start, int range,
+			StringBuilder query, List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT bi FROM BeanIndex bi ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY bi.cycleNumber ");
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<BeanIndex> resultList = q.getResultList();
@@ -232,24 +231,23 @@ public class BeanIndexDao implements Serializable {
 	}
 
 	/**
-	 * See also article assigned to bean index, considering that they are only
-	 * those that are not null in the table
+	 * Returns an article assigned to a bean index, it retrieves only those that
+	 * are not null in the table.
 	 * 
-	 * @param nomObject
-	 *            : object found on the bean index
+	 * @param objectName
+	 *            : Object found in the bean index.
 	 * @param idBeanIndex
-	 *            : id bean index being queried
-	 * @return Object information associated with the bean index or null but
-	 *         there.
+	 *            : Bean index identifier that is being queried.
+	 * @return Object information associated with the bean index or null.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultObjectBeanIndex(String nomObject, int idBeanIndex)
+	public Object queryObjectBeanIndex(String objectName, int idBeanIndex)
 			throws Exception {
 		List<Object> results = em
 				.createQuery(
 						"SELECT bi."
-								+ nomObject
+								+ objectName
 								+ " FROM BeanIndex bi WHERE bi.idBeanIndex=:idBeanIndex")
 				.setParameter("idBeanIndex", idBeanIndex).getResultList();
 		if (results.size() > 0) {

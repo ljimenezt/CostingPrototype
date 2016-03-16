@@ -23,7 +23,7 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class manage the reports of the bean index general trend.
+ * This class manages the reports of the bean index general trend.
  * 
  * @author Andres.Gomez
  * 
@@ -50,7 +50,8 @@ public class BeanIndexAction implements Serializable {
 	private int section;
 
 	/**
-	 * @return listBeanIndex: list of the bean index shown in the user interface
+	 * @return listBeanIndex: List of the bean index shown in the user
+	 *         interface.
 	 */
 	public List<BeanIndex> getListBeanIndex() {
 		return listBeanIndex;
@@ -58,14 +59,14 @@ public class BeanIndexAction implements Serializable {
 
 	/**
 	 * @param listBeanIndex
-	 *            :list of the bean index shown in the user interface
+	 *            : List of the bean index shown in the user interface.
 	 */
 	public void setListBeanIndex(List<BeanIndex> listBeanIndex) {
 		this.listBeanIndex = listBeanIndex;
 	}
 
 	/**
-	 * @return itemsCrops: list items of crops to reference a bean index
+	 * @return itemsCrops: List of crop items to reference a bean index.
 	 */
 	public ArrayList<SelectItem> getItemsCrops() {
 		return itemsCrops;
@@ -73,14 +74,14 @@ public class BeanIndexAction implements Serializable {
 
 	/**
 	 * @param itemsCrops
-	 *            :list items of crops to reference a bean index
+	 *            : List of crop items to reference a bean index.
 	 */
 	public void setItemsCrops(ArrayList<SelectItem> itemsCrops) {
 		this.itemsCrops = itemsCrops;
 	}
 
 	/**
-	 * @return itemsSection: list items of section to reference a bean index
+	 * @return itemsSection: List of section items to reference a bean index.
 	 */
 	public ArrayList<SelectItem> getItemsSection() {
 		return itemsSection;
@@ -88,14 +89,14 @@ public class BeanIndexAction implements Serializable {
 
 	/**
 	 * @param itemsSection
-	 *            : list items of section to reference a bean index
+	 *            : List of section items to reference a bean index.
 	 */
 	public void setItemsSection(ArrayList<SelectItem> itemsSection) {
 		this.itemsSection = itemsSection;
 	}
 
 	/**
-	 * @return beanIndex: object containing data on the bean index
+	 * @return beanIndex: Object containing data on the bean index.
 	 */
 	public BeanIndex getBeanIndex() {
 		return beanIndex;
@@ -103,14 +104,14 @@ public class BeanIndexAction implements Serializable {
 
 	/**
 	 * @param beanIndex
-	 *            : object containing data on the bean index
+	 *            : Object containing data on the bean index.
 	 */
 	public void setBeanIndex(BeanIndex beanIndex) {
 		this.beanIndex = beanIndex;
 	}
 
 	/**
-	 * @return paginador: Management paginated list of the bean index.
+	 * @return paginador: Paged list of the bean index.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -118,14 +119,14 @@ public class BeanIndexAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            :Management paginated list of the bean index.
+	 *            : Paged list of the bean index.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return crop: crops to search the bean index
+	 * @return crop: Crop to search the bean index.
 	 */
 	public int getCrop() {
 		return crop;
@@ -133,14 +134,14 @@ public class BeanIndexAction implements Serializable {
 
 	/**
 	 * @param crop
-	 *            :crops to search the bean index
+	 *            : Crop to search the bean index.
 	 */
 	public void setCrop(int crop) {
 		this.crop = crop;
 	}
 
 	/**
-	 * @return section: section to search the bean index
+	 * @return section: Section to search the bean index.
 	 */
 	public int getSection() {
 		return section;
@@ -148,7 +149,7 @@ public class BeanIndexAction implements Serializable {
 
 	/**
 	 * @param section
-	 *            :section to search the bean index
+	 *            : Section to search the bean index.
 	 */
 	public void setSection(int section) {
 		this.section = section;
@@ -157,63 +158,62 @@ public class BeanIndexAction implements Serializable {
 	/**
 	 * This method allow initialize the needles variables to create a report
 	 * 
-	 * @return rptGeneralTrend : display the view to manage the report
+	 * @return rptGeneralTrend : Display the view to manage the report.
 	 */
 	public String initializeSearch() {
 		this.section = 0;
 		this.crop = 0;
-		return consultBeanIndex();
+		return searchBeanIndex();
 	}
 
 	/**
 	 * Consult the beanIndex list usages to show in the view.
 	 * 
-	 * @return "manageBeanIndex": redirects to the template to manage the
+	 * @return "manageBeanIndex": Redirects to the template to manage the
 	 *         beanIndex usage.
 	 */
-	public String consultBeanIndex() {
+	public String searchBeanIndex() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleBeanIndex = ControladorContexto
 				.getBundle("mensajeBeanIndex");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listBeanIndex = new ArrayList<BeanIndex>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
-		StringBuilder unionMessagesSearch = new StringBuilder();
-		String mensajeBusqueda = "";
+		StringBuilder jointSearchMessages = new StringBuilder();
+		String searchMessage = "";
 		try {
 			advancedSearch(consult, parameters, bundleBeanIndex,
-					unionMessagesSearch);
+					jointSearchMessages);
 			Long amount = beanIndexDao.amountBeanIndex(consult, parameters);
 			if (amount > 0) {
 				paginador.paginar(amount);
 			}
-			listBeanIndex = beanIndexDao.consultBeanIndex(
-					paginador.getInicio(), paginador.getRango(), consult,
-					parameters);
+			listBeanIndex = beanIndexDao.queryBeanIndex(paginador.getInicio(),
+					paginador.getRango(), consult, parameters);
 			if ((listBeanIndex == null || listBeanIndex.size() <= 0)
-					&& !"".equals(unionMessagesSearch.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMessagesSearch);
+								jointSearchMessages);
 			} else if (listBeanIndex == null || listBeanIndex.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMessagesSearch.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleBeanIndex.getString("bean_index_label_s"),
-								unionMessagesSearch);
+								jointSearchMessages);
 			}
 			if (amount > 0) {
 				loadDetailsBeanIndex();
 			}
 			loadComboCrops();
 			loadComboSection();
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validation.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -221,36 +221,35 @@ public class BeanIndexAction implements Serializable {
 	}
 
 	/**
-	 * This method build consultation for advanced search build also allows
-	 * messages to be displayed depending on the search criteria selected by the
-	 * user.
+	 * This method builds a query with an advanced search< it also builds
+	 * display messages depending on the search criteria selected by the user.
 	 * 
-	 * @param consult
+	 * @param queryBuilder
 	 *            : query to concatenate
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
 	 *            :access language tags
-	 * @param unionMessagesSearch
+	 * @param jointSearchMessages
 	 *            : message search
 	 */
-	private void advancedSearch(StringBuilder consult,
+	private void advancedSearch(StringBuilder queryBuilder,
 			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
+			StringBuilder jointSearchMessages) {
 		ResourceBundle bundleCrop = ControladorContexto
 				.getBundle("mensajeLifeCycle");
 		if (this.crop != 0 && !"".equals(this.crop)) {
-			consult.append("WHERE bi.crops.idCrop = :keyword ");
+			queryBuilder.append("WHERE bi.crops.idCrop = :keyword ");
 			SelectItem item = new SelectItem(this.crop, "keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundleCrop.getString("crops_label")
+			jointSearchMessages.append(bundleCrop.getString("crops_label")
 					+ ": " + '"'
 					+ ValidacionesAction.getLabel(itemsCrops, this.crop) + '"');
 			if (this.section != 0 && !"".equals(this.section)) {
-				consult.append("AND bi.section.idSection = :keyword1 ");
+				queryBuilder.append("AND bi.section.idSection = :keyword1 ");
 				item = new SelectItem(this.section, "keyword1");
 				parameters.add(item);
-				unionMessagesSearch.append(", "
+				jointSearchMessages.append(", "
 						+ bundle.getString("bean_index_label_section")
 						+ ": "
 						+ '"'
@@ -259,10 +258,10 @@ public class BeanIndexAction implements Serializable {
 			}
 		} else {
 			if (this.section != 0 && !"".equals(this.section)) {
-				consult.append("WHERE bi.section.idSection = :keyword1 ");
+				queryBuilder.append("WHERE bi.section.idSection = :keyword1 ");
 				SelectItem item = new SelectItem(this.section, "keyword1");
 				parameters.add(item);
-				unionMessagesSearch.append(bundle
+				jointSearchMessages.append(bundle
 						.getString("bean_index_label_section")
 						+ ": "
 						+ '"'
@@ -273,7 +272,8 @@ public class BeanIndexAction implements Serializable {
 	}
 
 	/**
-	 * This method fills the various objects associated with a bean index
+	 * This method fills the different objects that are associated with a bean
+	 * index.
 	 * 
 	 * @throws Exception
 	 */
@@ -283,9 +283,9 @@ public class BeanIndexAction implements Serializable {
 		this.listBeanIndex = new ArrayList<BeanIndex>();
 		for (BeanIndex beanIndex : listBeanI) {
 			int idBeanIndex = beanIndex.getIdBeanIndex();
-			Crops crops = (Crops) beanIndexDao.consultObjectBeanIndex("crops",
+			Crops crops = (Crops) beanIndexDao.queryObjectBeanIndex("crops",
 					idBeanIndex);
-			Section section = (Section) beanIndexDao.consultObjectBeanIndex(
+			Section section = (Section) beanIndexDao.queryObjectBeanIndex(
 					"section", idBeanIndex);
 			beanIndex.setCrops(crops);
 			beanIndex.setSection(section);
@@ -294,12 +294,13 @@ public class BeanIndexAction implements Serializable {
 	}
 
 	/**
-	 * Method to edit or create new bean index.
+	 * Method to edit or create a new bean index.
 	 * 
 	 * @param beanIndex
-	 *            :bean index that you are adding or editing
+	 *            : Bean index that you are adding or editing.
 	 * 
-	 * @return "regBeanIndex": redirected to the template record machine usage.
+	 * @return "regBeanIndex": Redirects to the the register Bean Index
+	 *         template.
 	 */
 	public String addEditBeanIndex(BeanIndex beanIndex) {
 		try {
@@ -319,7 +320,7 @@ public class BeanIndexAction implements Serializable {
 	}
 
 	/**
-	 * Method that allows check the crops to fill the combo of the user
+	 * Method that checks the itemsCrops to fill the combo of the user
 	 * interface.
 	 * 
 	 * @throws Exception
@@ -336,7 +337,7 @@ public class BeanIndexAction implements Serializable {
 	}
 
 	/**
-	 * Method that allows check the section to fill the combo of the user
+	 * Method that checks the itemsSection to fill the combo of the user
 	 * interface.
 	 * 
 	 * @throws Exception
@@ -353,16 +354,15 @@ public class BeanIndexAction implements Serializable {
 	}
 
 	/**
-	 * Method to delete a bean index in the database
+	 * Method to delete a bean index in the database.
 	 * 
-	 * 
-	 * @return consultBeanIndex: Consult the list of the machine usages to show
-	 *         in the view
+	 * @return searchBeanIndex: Query the list of the machine usages to show in
+	 *         the view.
 	 */
 	public String deleteBeanIndex() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			beanIndexDao.eliminarBeanIndex(beanIndex);
+			beanIndexDao.deleteBeanIndex(beanIndex);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					beanIndex.getCycleNumber()));
@@ -374,33 +374,33 @@ public class BeanIndexAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultBeanIndex();
+		return searchBeanIndex();
 	}
 
 	/**
-	 * This Method allow save or edit one bean index in the DB
+	 * This Method saves or edits one bean index in the database.
 	 * 
-	 * @return consultBeanIndex: Redirects to manage bean index with the list of
+	 * @return searchBeanIndex: Redirects to manage bean index with the list of
 	 *         bean index
 	 */
 	public String saveBeanIndex() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String registerMessage = "message_registro_modificar";
 		try {
 
 			if (beanIndex.getIdBeanIndex() != 0) {
-				beanIndexDao.editarBeanIndex(beanIndex);
+				beanIndexDao.editBeanIndex(beanIndex);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				beanIndexDao.guardarBeanIndex(beanIndex);
+				registerMessage = "message_registro_guardar";
+				beanIndexDao.saveBeanIndex(beanIndex);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
+					bundle.getString(registerMessage),
 					beanIndex.getSampleWeight()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultBeanIndex();
+		return searchBeanIndex();
 	}
 
 }

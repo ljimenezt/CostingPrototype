@@ -21,7 +21,7 @@
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{beanIndexAction}" />
 		<ui:param name="renderLista" value="pnlBeanIndex vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultBeanIndex" />
+		<ui:param name="metodoLista" value="searchBeanIndex" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
@@ -103,7 +103,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="pnlBeanIndex" />
 							<ui:param name="beanActionParam" value="#{beanIndexAction}" />
-							<ui:param name="metodoActionParam" value="consultBeanIndex" />
+							<ui:param name="metodoActionParam" value="searchBeanIndex" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -146,7 +146,7 @@
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						actionListener="#{beanIndexAction.consultBeanIndex}"
+						actionListener="#{beanIndexAction.searchBeanIndex}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="pnlBeanIndex, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
