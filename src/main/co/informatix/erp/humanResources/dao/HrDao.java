@@ -55,10 +55,7 @@ public class HrDao implements Serializable {
 	 * @throws Exception
 	 */
 	public void deleteHr(Hr hr) throws Exception {
-		// TODO Probar si no funciona eliminando el find, de lo contrario ubicar
-		// el find en un metodo aparte
-		Hr humanResource = em.find(Hr.class, hr.getIdHr());
-		em.remove(em.merge(humanResource));
+		em.remove(em.merge(hr));
 	}
 
 	/**
