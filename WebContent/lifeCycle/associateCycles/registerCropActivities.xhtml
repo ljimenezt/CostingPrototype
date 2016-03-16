@@ -11,23 +11,23 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="cropActivitiesAction.agregarEditarCropActivities(null)" />
+		value="cropActivitiesAction.addEditCropActivities(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeMenu.associate_cycles_label_registrar" />
 	<ui:define name="body">
 		<ui:param name="listaVacia"
-			value="#{cropActivitiesAction.listaActivities eq null or (empty cropActivitiesAction.listaActivities)}" />
+			value="#{cropActivitiesAction.listActivities eq null or (empty cropActivitiesAction.listActivities)}" />
 		<ui:param name="anchoTabla" value="anchoNueve" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{cropActivitiesAction}" />
 		<ui:param name="renderLista"
 			value=":formBuscar:popupBuscar txActivities" />
-		<ui:param name="metodoLista" value="consultarActivities" />
+		<ui:param name="metodoLista" value="consultActivities" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="cropActivitiesAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarCropActivities" />
+		<ui:param name="metodoNuevo" value="addEditCropActivities" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
@@ -62,9 +62,9 @@
 							value="#{cropActivitiesAction.crops.cropNames.idCropName}"
 							id="cmbCropNames" styleClass="W250P">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
-							<f:selectItems value="#{cropActivitiesAction.opcionesCropNames}" />
+							<f:selectItems value="#{cropActivitiesAction.optionsCropNames}" />
 							<f:ajax event="change"
-								listener="#{cropActivitiesAction.llenarCropNamesCrop()}"
+								listener="#{cropActivitiesAction.fillCropNamesCrop()}"
 								render=":formAssignActivities:cmbCrops" />
 							<f:attribute name="tipo" value="Int" />
 						</h:selectOneMenu>
@@ -77,7 +77,7 @@
 							id="cmbCrops" required="true" styleClass="W250P"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
-							<f:selectItems value="#{cropActivitiesAction.opcionesCrops}" />
+							<f:selectItems value="#{cropActivitiesAction.optionsCrops}" />
 							<f:ajax event="change"
 								listener="#{cropActivitiesAction.initializeActivities()}"
 								render=":formAssignActivities :mensajes :mensajeBusqueda"
@@ -99,7 +99,7 @@
 								cellspacing="0">
 								<a:commandLink id="lnkActivityNames"
 									styleClass="quitarDecoracionLink"
-									action="#{cropActivitiesAction.consultarActivityNamesXCrops()}"
+									action="#{cropActivitiesAction.consultActivityNamesXCrops()}"
 									render=":popupForm:popupActivityNames" execute="@form"
 									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupActivityNames')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
@@ -114,14 +114,14 @@
 									</rich:tooltip>
 									<f:param name="param2" value="si" />
 									<f:setPropertyActionListener value=""
-										target="#{cropActivitiesAction.nombreBuscar}" />
+										target="#{cropActivitiesAction.nameSearch}" />
 									<f:setPropertyActionListener value="f"
 										target="#{cropActivitiesAction.paginador.opcion}" />
 								</a:commandLink>
 								<a:commandLink id="lnkActivityStandard"
 									styleClass="quitarDecoracionLink"
 									render="formStandardActivities, mensajes"
-									action="#{cropActivitiesAction.consultarStandardActivities}"
+									action="#{cropActivitiesAction.consultStandardActivities}"
 									actionListener="#{cropActivitiesAction.setIdCropName(cropActivitiesAction.crops.cropNames.idCropName)}"
 									execute="@form">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
@@ -145,7 +145,7 @@
 							</h:panelGrid>
 						</div>
 
-						<rich:dataTable value="#{cropActivitiesAction.listaActivities}"
+						<rich:dataTable value="#{cropActivitiesAction.listActivities}"
 							var="activities" id="txActivities" footerClass="H130P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W1000P"
 							rowClasses="odd-row, even-row">
@@ -164,7 +164,7 @@
 								</a:commandLink>
 								<a:commandLink
 									oncomplete="#{rich:component('popupEliminarLista')}.show()"
-									actionListener="#{cropActivitiesAction.setEliminarLista(activities)}">
+									actionListener="#{cropActivitiesAction.setRemoveList(activities)}">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.button_remove}" />
@@ -252,7 +252,7 @@
 										value="txActivities, paginadorActivities" />
 									<ui:param name="beanActionParam"
 										value="#{cropActivitiesAction}" />
-									<ui:param name="metodoActionParam" value="consultarActivities" />
+									<ui:param name="metodoActionParam" value="consultActivities" />
 								</ui:include>
 							</div>
 						</a:outputPanel>
@@ -261,7 +261,7 @@
 				<br />
 				<a:outputPanel id="formStandardActivities">
 					<t:fieldset styleClass="BorderW2P"
-						rendered="#{cropActivitiesAction.listaCycleStandardActivities ne null and (!empty cropActivitiesAction.listaCycleStandardActivities)}">
+						rendered="#{cropActivitiesAction.listCycleStandardActivities ne null and (!empty cropActivitiesAction.listCycleStandardActivities)}">
 						<legend class="etiquetaTitulo">#{mensajeCosts.cycle_standard_activities_label}</legend>
 						<rich:dataTable
 							value="#{cropActivitiesAction.subListCycleStandardActivities}"
@@ -272,7 +272,7 @@
 							<rich:column styleClass="colIconoUno">
 								<a:commandLink
 									oncomplete="#{rich:component('popupEliminarListaStandard')}.show()"
-									actionListener="#{cropActivitiesAction.setEliminarStandard(standardActivities)}">
+									actionListener="#{cropActivitiesAction.setRemoveStandard(standardActivities)}">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.button_remove}" />
@@ -386,11 +386,11 @@
 							render="formGenerico, formAssignActivities, mensajes"
 							rendered="#{cropActivitiesAction.crops.idCrop ne 0}"
 							id="btnRegresar" execute="@form"
-							actionListener="#{cropActivitiesAction.agregarEditarCropActivities(null)}"
+							actionListener="#{cropActivitiesAction.addEditCropActivities(null)}"
 							value="#{mensaje.button_back}" />
 						<a:commandButton render="formAssignActivities, mensajes"
 							id="btnSeleccionar"
-							actionListener="#{cropActivitiesAction.guardarCropActivities()}"
+							actionListener="#{cropActivitiesAction.saveCropActivities()}"
 							execute="@form"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 							value="#{mensaje.button_save}" />
@@ -420,10 +420,10 @@
 								<h:outputText value="#{mensaje.label_nombre}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-									value="#{cropActivitiesAction.nombreBuscar}"
+									value="#{cropActivitiesAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-									actionListener="#{cropActivitiesAction.consultarActivityNamesXCrops}"
+									actionListener="#{cropActivitiesAction.consultActivityNamesXCrops}"
 									render="outputActivityNames">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
@@ -434,12 +434,12 @@
 							styleClass="messageInfSpan W511P" />
 						<br />
 						<ui:param name="listaVacia"
-							value="#{cropActivitiesAction.listaActivityNames eq null or (empty cropActivitiesAction.listaActivityNames)}" />
+							value="#{cropActivitiesAction.listActivityNames eq null or (empty cropActivitiesAction.listActivityNames)}" />
 						<div align="right" class="W560P">
 							<a:commandLink render="outPutBuscarActivityNames"
 								styleClass="quitarDecoracionLink"
-								action="#{cropActivitiesAction.consultarActivityNamesXCrops}"
-								actionListener="#{cropActivitiesAction.setNombreBuscar(null)}">
+								action="#{cropActivitiesAction.consultActivityNamesXCrops}"
+								actionListener="#{cropActivitiesAction.setNameSearch(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />
 									<h:outputText value="#{mensaje.button_list_all}" />
@@ -449,7 +449,7 @@
 						</div>
 						<a:outputPanel id="outputActivityNames">
 							<rich:dataTable
-								value="#{cropActivitiesAction.listaActivityNames}"
+								value="#{cropActivitiesAction.listActivityNames}"
 								var="activityNames" id="tActivityNames" footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 								rowClasses="odd-row, even-row">
@@ -457,7 +457,7 @@
 									<f:facet name="header" />
 									<a:commandLink
 										render="formActivities, mensajes, popupFormReg:popupRegActivity "
-										action="#{cropActivitiesAction.generarListaActivities(cropActivitiesAction.listaActivityNames)}"
+										action="#{cropActivitiesAction.generateListActivities(cropActivitiesAction.listActivityNames)}"
 										oncomplete="#{rich:component('popupRegActivity')}.show(); #{rich:component('popupActivityNames')}.hide();"
 										actionListener="#{cropActivitiesAction.setActivityNames(activityNames)}">
 										<h:graphicImage value="/img/add_16.png" />
@@ -499,7 +499,7 @@
 										<ui:param name="beanActionParam"
 											value="#{cropActivitiesAction}" />
 										<ui:param name="metodoActionParam"
-											value="consultarActivityNamesXCrops" />
+											value="consultActivityNamesXCrops" />
 									</ui:include>
 								</div>
 							</a:outputPanel>
@@ -534,7 +534,7 @@
 			});		
 			</script>
 				<ui:include
-					src="/lifeCycle/associateCycles/plantillaRegistrarActividad.xhtml" />
+					src="/lifeCycle/associateCycles/templateRegisterActivity.xhtml" />
 			</rich:popupPanel>
 		</h:form>
 		<h:form id="popupFormRegStandard">
@@ -552,7 +552,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<ui:include
-					src="/lifeCycle/associateCycles/plantillaRegistrarCycleStandardActivities.xhtml" />
+					src="/lifeCycle/associateCycles/templateRegisterCycleStandardActivities.xhtml" />
 			</rich:popupPanel>
 		</h:form>
 		<h:form id="formConfirmar">
@@ -690,7 +690,7 @@
 
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{cropActivitiesAction.eliminarSeleccionados()}"
+							actionListener="#{cropActivitiesAction.removeSelected()}"
 							onclick="#{rich:component('popupEliminarLista')}.hide()"
 							render="pnlActivities, mensajes" />
 						<a:commandButton value="#{mensaje.button_cancel}"
@@ -720,7 +720,7 @@
 
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{cropActivitiesAction.eliminarSeleccionados()}"
+							actionListener="#{cropActivitiesAction.removeSelected()}"
 							onclick="#{rich:component('popupEliminarListaStandard')}.hide()"
 							render="formStandardActivities, mensajes " />
 						<a:commandButton value="#{mensaje.button_cancel}"
@@ -754,7 +754,7 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoMediano" maxlength="100"
-							id="txtNombreBuscar" value="#{cropActivitiesAction.nombreBuscar}"
+							id="txtNombreBuscar" value="#{cropActivitiesAction.nameSearch}"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 
 
@@ -789,7 +789,7 @@
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						execute="@form"
-						actionListener="#{cropActivitiesAction.consultarActivities}"
+						actionListener="#{cropActivitiesAction.consultActivities}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
 						render="pnlActivities, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
