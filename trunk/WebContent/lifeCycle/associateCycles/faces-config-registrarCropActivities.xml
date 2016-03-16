@@ -9,7 +9,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regCropActivities</from-outcome>
-			<to-view-id>/lifeCycle/associateCycles/registrarCropActivities.xhtml</to-view-id>
+			<to-view-id>/lifeCycle/associateCycles/registerCropActivities.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
