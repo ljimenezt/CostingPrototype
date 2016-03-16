@@ -46,6 +46,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	private String nameSearch;
 	private Paginador paginador = new Paginador();
 	private boolean edit = false;
+	private int idCertificationsAndRoles;
 
 	@EJB
 	private HrDao hrDao;
@@ -234,14 +235,32 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
+	 * @return idCertificationsAndRoles: certificationsAndRoles identifier.
+	 */
+	public int getIdCertificationsAndRoles() {
+		return idCertificationsAndRoles;
+	}
+
+	/**
+	 * @param idCertificationsAndRoles
+	 *            :certificationsAndRoles identifier.
+	 */
+	public void setIdCertificationsAndRoles(int idCertificationsAndRoles) {
+		this.idCertificationsAndRoles = idCertificationsAndRoles;
+	}
+
+	/**
 	 * Method to initialize the search parameters and load the template to
 	 * manage human resources and certificacionesRoles.
+	 * 
+	 * @modify 16/03/2016 Wilhelm.Boada
 	 * 
 	 * @return gesHrCertRoles: Returns to the template of human resource
 	 *         management and certifications.
 	 */
 	public String searchInitialization() {
 		try {
+			this.idCertificationsAndRoles = 0;
 			nameSearch = "";
 			certificationsAndRoles = new CertificationsAndRoles();
 			hr = new Hr();
@@ -250,12 +269,14 @@ public class HrCertificationsAndRolesAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesHrCertRoles";
+		return consultHrCertRoles();
 
 	}
 
 	/**
 	 * Method to edit or create human resources and certificacionesRoles.
+	 * 
+	 * @modify 16/03/2016 Wilhelm.Boada
 	 * 
 	 * @param hrCertificationsAndRoles
 	 *            :Activity and certification are adding or editing.
@@ -267,8 +288,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 			HrCertificationsAndRoles hrCertificationsAndRoles) {
 		edit = false;
 		try {
-			loadComboCertAndRoles();
-			loadComboHr();
 			if (hrCertificationsAndRoles != null) {
 				this.hrCertificationsAndRoles = hrCertificationsAndRoles;
 				setCertificationsAndRoles(hrCertificationsAndRoles
@@ -288,6 +307,8 @@ public class HrCertificationsAndRolesAction implements Serializable {
 						.setCertificationsAndRoles(new CertificationsAndRoles());
 				this.hrCertificationsAndRolesPK.setHr(new Hr());
 			}
+			loadComboCertAndRoles();
+			loadComboHr();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -298,6 +319,8 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	/**
 	 * Method that allows load the human resources in a list.
 	 * 
+	 * @modify 16/03/2016 Wilhelm.Boada
+	 * 
 	 * @throws Exception
 	 */
 	private void loadComboHr() throws Exception {
@@ -306,7 +329,8 @@ public class HrCertificationsAndRolesAction implements Serializable {
 		List<Hr> listHr = hrDao.queryHr();
 		if (listHr != null) {
 			for (Hr hr : listHr) {
-				itemsHr.add(new SelectItem(hr.getIdHr(), hr.getName()));
+				itemsHr.add(new SelectItem(hr.getIdHr(), hr.getName() + " "
+						+ hr.getFamilyName()));
 			}
 		}
 
@@ -336,6 +360,8 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * Consult the list of human resources and associated certifications
 	 * certifications and roles.
 	 * 
+	 * @modify 16/03/2016 Wilhelm.Boada
+	 * 
 	 * @return gesHrCertRoles: Redirects to the template to manage human
 	 *         resources and certifications.
 	 */
@@ -350,17 +376,15 @@ public class HrCertificationsAndRolesAction implements Serializable {
 		StringBuilder query = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
-		int idCertAndRoles = this.certificationsAndRoles
-				.getIdCertificactionsAndRoles();
 		try {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
-			Long quantity = hrCertificationsAndRolesDao.quantXIdCertRol(
-					idCertAndRoles, query, parameters);
+			Long quantity = hrCertificationsAndRolesDao.quantXIdCertRol(query,
+					parameters);
 			if (quantity != null) {
 				paginador.paginar(quantity);
 			}
 			listHrCertificationsAndRoles = hrCertificationsAndRolesDao
-					.consultXIdCertRol(idCertAndRoles, paginador.getInicio(),
+					.consultXIdCertRol(paginador.getInicio(),
 							paginador.getRango(), query, parameters);
 
 			if ((listHrCertificationsAndRoles == null || listHrCertificationsAndRoles
@@ -444,6 +468,8 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
 	 * 
+	 * @modify 16/03/2016 Wilhelm.Boada
+	 * 
 	 * @param consult
 	 *            : query to concatenate
 	 * @param parameters
@@ -458,12 +484,26 @@ public class HrCertificationsAndRolesAction implements Serializable {
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("AND UPPER(hr.name) LIKE UPPER(:keyword) ");
+			consult.append("WHERE UPPER(hr.name) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
 					+ '"' + this.nameSearch + '"');
+
+			if (this.idCertificationsAndRoles != 0) {
+				consult.append("AND cr.idCertificactionsAndRoles = :keyword3 ");
+				item = new SelectItem(this.idCertificationsAndRoles, "keyword3");
+				parameters.add(item);
+			}
+		} else {
+			if (this.idCertificationsAndRoles != 0) {
+				consult.append("WHERE cr.idCertificactionsAndRoles = :keyword ");
+				SelectItem item = new SelectItem(this.idCertificationsAndRoles,
+						"keyword");
+				parameters.add(item);
+			}
+
 		}
 	}
 
