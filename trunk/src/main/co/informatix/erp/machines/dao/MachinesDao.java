@@ -136,7 +136,8 @@ public class MachinesDao implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Machines> listMachines() throws Exception {
-		Query q = em.createQuery("SELECT m FROM Machines m ORDER BY m.name");
+		Query q = em.createQuery("SELECT m FROM Machines m "
+				+ " ORDER BY m.name");
 		return q.getResultList();
 	}
 
