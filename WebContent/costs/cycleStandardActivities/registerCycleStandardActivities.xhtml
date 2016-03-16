@@ -11,7 +11,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="cycleStandardActivitiesAction.agregarEditarCycleStandardActivities(null)" />
+		value="cycleStandardActivitiesAction.addEditCycleStandardActivities(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,mensajeCosts.cycle_standard_activities_label" />
 	<ui:define name="body">
@@ -40,7 +40,7 @@
 						<f:selectItems
 							value="#{cycleStandardActivitiesAction.itemsCropName}" />
 						<f:ajax event="change"
-							listener="#{cycleStandardActivitiesAction.consultarCycleStandardActivities}"
+							listener="#{cycleStandardActivitiesAction.searchCycleStandardActivities}"
 							render=":formInicio" execute="@this" />
 					</h:selectOneMenu>
 					<rich:message for="cropName" />
@@ -51,7 +51,7 @@
 						rendered="#{cycleStandardActivitiesAction.cropNames.idCropName ne 0}"
 						render=":popupForm:popupActivityNames"
 						actionListener="#{cycleStandardActivitiesAction.setIdCropNames(cycleStandardActivitiesAction.cropNames.idCropName)}"
-						action="#{cycleStandardActivitiesAction.consultarActivityNames()}"
+						action="#{cycleStandardActivitiesAction.searchActivityNames()}"
 						execute="@form"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupActivityNames')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
 						<h:panelGrid styleClass="tablaIconoTexto" columns="2">
@@ -65,24 +65,24 @@
 						</rich:tooltip>
 						<f:param name="param2" value="si" />
 						<f:setPropertyActionListener value=""
-							target="#{cycleStandardActivitiesAction.nombreBuscar}" />
+							target="#{cycleStandardActivitiesAction.nameSearch}" />
 						<f:setPropertyActionListener value="f"
 							target="#{cycleStandardActivitiesAction.paginador.opcion}" />
 					</a:commandLink>
 				</div>
 				<ui:param name="listaVacia"
-					value="#{cycleStandardActivitiesAction.listaCycleStandardActivities.size() eq 0 or (cycleStandardActivitiesAction.listaCycleStandardActivities eq null)}" />
+					value="#{cycleStandardActivitiesAction.cycleStandardActivitiesList.size() eq 0 or (cycleStandardActivitiesAction.cycleStandardActivitiesList eq null)}" />
 				<rich:dataTable
-					value="#{cycleStandardActivitiesAction.listaCycleStandard}"
+					value="#{cycleStandardActivitiesAction.cycleStandardsList}"
 					var="cycleStandardActivities" id="txtCycleStandardActivities"
 					footerClass="H130P"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 					rowClasses="odd-row, even-row"
-					rendered="#{cycleStandardActivitiesAction.listaCycleStandardActivities ne null and cycleStandardActivitiesAction.cropNames.idCropName ne 0}">
+					rendered="#{cycleStandardActivitiesAction.cycleStandardActivitiesList ne null and cycleStandardActivitiesAction.cropNames.idCropName ne 0}">
 					<rich:column styleClass="colIconoDos">
 						<a:commandLink
 							oncomplete="#{rich:component('popupEliminarLista')}.show()"
-							actionListener="#{cycleStandardActivitiesAction.setEliminarLista(cycleStandardActivities)}">
+							actionListener="#{cycleStandardActivitiesAction.setDeleteList(cycleStandardActivities)}">
 							<h:graphicImage value="/img/delete_16.png" />
 							<rich:tooltip layout="block">
 								<h:outputText value="#{mensaje.button_remove}" />
@@ -149,7 +149,7 @@
 				</rich:dataTable>
 				<br />
 				<a:outputPanel id="paginadorLifeCycle"
-					rendered="#{cycleStandardActivitiesAction.listaCycleStandardActivities ne null and cycleStandardActivitiesAction.cropNames.idCropName ne 0}">
+					rendered="#{cycleStandardActivitiesAction.cycleStandardActivitiesList ne null and cycleStandardActivitiesAction.cropNames.idCropName ne 0}">
 					<div class="anchoCuatro center inBlock">
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="conParam2" value="1" />
@@ -168,7 +168,7 @@
 					<a:commandButton value="#{mensaje.button_save}"
 						rendered="#{cycleStandardActivitiesAction.cropNames.idCropName ne 0}"
 						id="btnSeleccionar" render=":formInicio, mensajes"
-						actionListener="#{cycleStandardActivitiesAction.guardarCycleStandardActivities()}"
+						actionListener="#{cycleStandardActivitiesAction.saveCycleStandardActivities()}"
 						execute="@form"
 						oncomplete="#{rich:component('popupActivityNames')}.hide();" />
 				</div>
@@ -196,10 +196,10 @@
 								<h:outputText value="#{mensaje.label_nombre}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="20" maxlength="100" id="txtNombreBuscar"
-									value="#{cycleStandardActivitiesAction.nombreBuscar}"
+									value="#{cycleStandardActivitiesAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-									actionListener="#{cycleStandardActivitiesAction.consultarActivityNames()}"
+									actionListener="#{cycleStandardActivitiesAction.searchActivityNames()}"
 									render="outputActivityNames">
 
 								</a:commandButton>
@@ -210,12 +210,12 @@
 							styleClass="messageInfSpan W350P" />
 						<br />
 						<ui:param name="listaVacia"
-							value="#{cycleStandardActivitiesAction.listaActivityNames eq null or (empty cycleStandardActivitiesAction.listaActivityNames)}" />
+							value="#{cycleStandardActivitiesAction.activityNamesList eq null or (empty cycleStandardActivitiesAction.activityNamesList)}" />
 						<div align="right" class="W350P">
 							<a:commandLink render="outPutBuscarActivityNames"
 								styleClass="quitarDecoracionLink"
-								action="#{cycleStandardActivitiesAction.consultarActivityNames}"
-								actionListener="#{cycleStandardActivitiesAction.setNombreBuscar(null)}">
+								action="#{cycleStandardActivitiesAction.searchActivityNames}"
+								actionListener="#{cycleStandardActivitiesAction.setNameSearch(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />
 									<h:outputText value="#{mensaje.button_list_all}" />
@@ -225,7 +225,7 @@
 						</div>
 						<a:outputPanel id="outputActivityNames">
 							<rich:dataTable
-								value="#{cycleStandardActivitiesAction.listaActivityNames}"
+								value="#{cycleStandardActivitiesAction.activityNamesList}"
 								var="cycleStandardActivities" id="tActivityNames"
 								footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W350P"
@@ -264,8 +264,7 @@
 											value=":popupForm:outputActivityNames" />
 										<ui:param name="beanActionParam"
 											value="#{cycleStandardActivitiesAction}" />
-										<ui:param name="metodoActionParam"
-											value="consultarActivityNames" />
+										<ui:param name="metodoActionParam" value="searchActivityNames" />
 									</ui:include>
 								</div>
 							</a:outputPanel>
@@ -274,7 +273,7 @@
 							<div align="center">
 								<a:commandButton value="#{mensaje.button_add}"
 									id="btnSeleccionar" render=":formInicio"
-									actionListener="#{cycleStandardActivitiesAction.generarListaCycleStandardActivities(cycleStandardActivitiesAction.listaActivityNames)}"
+									actionListener="#{cycleStandardActivitiesAction.generateCycleStandardActivitiesList(cycleStandardActivitiesAction.activityNamesList)}"
 									execute="@form"
 									oncomplete="#{rich:component('popupActivityNames')}.hide();" />
 							</div>
@@ -466,7 +465,7 @@
 
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{cycleStandardActivitiesAction.eliminarSeleccionados()}"
+							actionListener="#{cycleStandardActivitiesAction.deleteSelectedOnes()}"
 							onclick="#{rich:component('popupEliminarLista')}.hide()"
 							render=":formInicio" />
 						<a:commandButton value="#{mensaje.button_cancel}"

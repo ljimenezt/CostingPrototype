@@ -22,8 +22,8 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class is all related to the creation and logic updating of the standard
- * cycle activities in the system
+ * This class implements the creating and updating logic of the cycle standard
+ * activities in the system.
  * 
  * @author Mabell.Boada
  * 
@@ -32,18 +32,18 @@ import co.informatix.erp.utils.ValidacionesAction;
 @ManagedBean
 @RequestScoped
 public class CycleStandardActivitiesAction implements Serializable {
-	private List<CycleStandardActivities> listaCycleStandardActivities;
-	private List<ActivityNames> listaActivityNames;
+	private List<CycleStandardActivities> cycleStandardActivitiesList;
+	private List<ActivityNames> activityNamesList;
 	private List<SelectItem> itemsCropName;
-	private List<CycleStandardActivities> listaCycleStandard = new ArrayList<CycleStandardActivities>();
+	private List<CycleStandardActivities> cycleStandardsList = new ArrayList<CycleStandardActivities>();
 
 	private CycleStandardActivities cycleStandardActivities;
-	private CycleStandardActivities eliminarLista;
+	private CycleStandardActivities deleteList;
 	private CropNames cropNames;
 	private ActivityNames activityNames;
 
 	private int idCropNames;
-	private String nombreBuscar;
+	private String nameSearch;
 
 	private Paginador paginador = new Paginador();
 	private Paginador paginadorCycleActivities = new Paginador();
@@ -58,40 +58,41 @@ public class CycleStandardActivitiesAction implements Serializable {
 	private ActivityNamesDao activityNamesDao;
 
 	/**
-	 * @return listaCycleStandardActivities: List of standard cycle activities
+	 * @return cycleStandardActivitiesList: List of cycle standard activities.
 	 */
-	public List<CycleStandardActivities> getListaCycleStandardActivities() {
-		return listaCycleStandardActivities;
+	public List<CycleStandardActivities> getCycleStandardActivitiesList() {
+		return cycleStandardActivitiesList;
 	}
 
 	/**
-	 * @param listaCycleStandardActivities
-	 *            : List of standard cycle activities
+	 * @param cycleStandardActivitiesList
+	 *            : List of cycle standard activities.
 	 * 
 	 */
-	public void setListaCycleStandardActivities(
-			List<CycleStandardActivities> listaCycleStandardActivities) {
-		this.listaCycleStandardActivities = listaCycleStandardActivities;
+	public void setCycleStandardActivitiesList(
+			List<CycleStandardActivities> cycleStandardActivitiesList) {
+		this.cycleStandardActivitiesList = cycleStandardActivitiesList;
 	}
 
 	/**
-	 * @return listaActivityNames: List name of the activity
+	 * @return activityNamesList: List of activity names.
 	 */
-	public List<ActivityNames> getListaActivityNames() {
-		return listaActivityNames;
+	public List<ActivityNames> getActivityNamesList() {
+		return activityNamesList;
 	}
 
 	/**
-	 * @param listaActivityNames
-	 *            : List name of the activity
+	 * @param activityNamesList
+	 *            : List of activity names.
 	 * 
 	 */
-	public void setListaActivityNames(List<ActivityNames> listaActivityNames) {
-		this.listaActivityNames = listaActivityNames;
+	public void setActivityNamesList(List<ActivityNames> activityNamesList) {
+		this.activityNamesList = activityNamesList;
 	}
 
 	/**
-	 * @return itemsCropName: List crops associated activities standard cycle
+	 * @return itemsCropName: List of crops associated to cycle standard
+	 *         activities.
 	 */
 	public List<SelectItem> getItemsCropName() {
 		return itemsCropName;
@@ -99,15 +100,14 @@ public class CycleStandardActivitiesAction implements Serializable {
 
 	/**
 	 * @param itemsCropName
-	 *            : List crops associated activities standard cycle
+	 *            : List of crops associated to cycle standard activities.
 	 */
 	public void setItemsCropName(List<SelectItem> itemsCropName) {
 		this.itemsCropName = itemsCropName;
 	}
 
 	/**
-	 * @return cycleStandardActivities: Object of standard class activities
-	 *         cycle
+	 * @return cycleStandardActivities: Object of cycle standard activities.
 	 */
 	public CycleStandardActivities getCycleStandardActivities() {
 		return cycleStandardActivities;
@@ -115,7 +115,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 
 	/**
 	 * @param cycleStandardActivities
-	 *            : Object of standard class activities cycle
+	 *            : Object of cycle standard activities.
 	 * 
 	 */
 	public void setCycleStandardActivities(
@@ -125,25 +125,25 @@ public class CycleStandardActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return eliminarLista: Object selected cycleStandardActivities to remove
+	 * @return deleteList: Object selected cycleStandardActivities to remove
 	 *         from the list
 	 */
-	public CycleStandardActivities getEliminarLista() {
-		return eliminarLista;
+	public CycleStandardActivities getDeleteList() {
+		return deleteList;
 	}
 
 	/**
-	 * @param eliminarLista
+	 * @param deleteList
 	 *            : Object selected cycleStandardActivities to remove from the
 	 *            list
 	 * 
 	 */
-	public void setEliminarLista(CycleStandardActivities eliminarLista) {
-		this.eliminarLista = eliminarLista;
+	public void setDeleteList(CycleStandardActivities deleteList) {
+		this.deleteList = deleteList;
 	}
 
 	/**
-	 * @return cropNames: Object of class name crops
+	 * @return cropNames: Object of the class named crops.
 	 */
 	public CropNames getCropNames() {
 		return cropNames;
@@ -151,14 +151,14 @@ public class CycleStandardActivitiesAction implements Serializable {
 
 	/**
 	 * @param cropNames
-	 *            : Object of class name crops
+	 *            : Object of the class named crops.
 	 */
 	public void setCropNames(CropNames cropNames) {
 		this.cropNames = cropNames;
 	}
 
 	/**
-	 * @return activityNames: Object of name kind of activities
+	 * @return activityNames: Object of activity name.
 	 */
 	public ActivityNames getActivityNames() {
 		return activityNames;
@@ -166,14 +166,14 @@ public class CycleStandardActivitiesAction implements Serializable {
 
 	/**
 	 * @param activityNames
-	 *            : Object of name kind of activities
+	 *            : Object of activity name.
 	 */
 	public void setActivityNames(ActivityNames activityNames) {
 		this.activityNames = activityNames;
 	}
 
 	/**
-	 * @return idCropNames: identifier crop Name
+	 * @return idCropNames: Crop Name identifier.
 	 */
 	public int getIdCropNames() {
 		return idCropNames;
@@ -181,7 +181,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 
 	/**
 	 * @param idCropNames
-	 *            : identifier crop Name
+	 *            : Crop Name identifier.
 	 * 
 	 */
 	public void setIdCropNames(int idCropNames) {
@@ -189,23 +189,23 @@ public class CycleStandardActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Name by which you want to query the name activity
+	 * @return nameSearch: Name of ActivityName you want to query.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : Name by which you want to query the name activity
+	 * @param nameSearch
+	 *            : Name of ActivityName you want to query.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return paginador: Paginated list of the names of the activities they may
-	 *         have in the popup
+	 * @return paginador: Paged list of the names of the activities they may
+	 *         have in the popup.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -213,16 +213,15 @@ public class CycleStandardActivitiesAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : Paginated list of the names of the activities they may have
-	 *            in the popup
+	 *            : Paged list of the names of the activities they may have in
+	 *            the popup.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return paginadorCycleActivities: Management paged list of cycle
-	 *         activities
+	 * @return paginadorCycleActivities: Paged list of cycle activities.
 	 */
 	public Paginador getPaginadorCycleActivities() {
 		return paginadorCycleActivities;
@@ -230,46 +229,46 @@ public class CycleStandardActivitiesAction implements Serializable {
 
 	/**
 	 * @param paginadorCycleActivities
-	 *            : Management paged list of cycle activities
+	 *            : Paged list of cycle activities.
 	 */
 	public void setPaginadorCycleActivities(Paginador paginadorCycleActivities) {
 		this.paginadorCycleActivities = paginadorCycleActivities;
 	}
 
 	/**
-	 * @return listaCycleStandard: list of standard cycles that stores a sublist
-	 *         for managing Pager
+	 * @return cycleStandardsList: List of standard cycles that stores a sublist
+	 *         for managing paging.
 	 */
-	public List<CycleStandardActivities> getListaCycleStandard() {
-		return listaCycleStandard;
+	public List<CycleStandardActivities> getCycleStandardsList() {
+		return cycleStandardsList;
 	}
 
 	/**
-	 * @param listaCycleStandard
-	 *            : list of standard cycles that stores a sublist for managing
-	 *            Pager
+	 * @param cycleStandardsList
+	 *            : List of CycleStandardActivities that stores a sublist for
+	 *            managing paging.
 	 */
-	public void setListaCycleStandard(
-			List<CycleStandardActivities> listaCycleStandard) {
-		this.listaCycleStandard = listaCycleStandard;
+	public void setCycleStandardsList(
+			List<CycleStandardActivities> cycleStandardsList) {
+		this.cycleStandardsList = cycleStandardsList;
 	}
 
 	/**
-	 * Method to create a new standard cycle activity
+	 * Method to create a new standard cycle activity.
 	 * 
 	 * @param cycleStandardActivities
-	 *            : Object standard cycle activities to be added
+	 *            : Object standard cycle activities to be added.
 	 * 
-	 * @return regCyclStandAct: Redirected to the template record Standard cycle
-	 *         activities
+	 * @return regCyclStandAct: Redirects to the register standard cycle
+	 *         activities template.
 	 * 
 	 */
-	public String agregarEditarCycleStandardActivities(
+	public String addEditCycleStandardActivities(
 			CycleStandardActivities cycleStandardActivities) {
 		itemsCropName = new ArrayList<SelectItem>();
 		try {
-			limpiarCycleStandardActivities();
-			cargarCropNames();
+			eraseCycleStandardActivities();
+			loadCropNames();
 			if (cycleStandardActivities != null) {
 				this.cycleStandardActivities = cycleStandardActivities;
 			} else {
@@ -286,111 +285,110 @@ public class CycleStandardActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * That loads method crops a list
+	 * It loads crop names in a list.
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarCropNames() throws Exception {
+	private void loadCropNames() throws Exception {
 		itemsCropName = new ArrayList<SelectItem>();
-		List<CropNames> listaCropName = cropNamesDao.listCropNames();
-		if (listaCropName != null) {
-			for (CropNames cropNames : listaCropName) {
-				itemsCropName.add(new SelectItem(cropNames.getIdCropName(),
-						cropNames.getCropName()));
+		List<CropNames> cropNamesList = cropNamesDao.listCropNames();
+		if (cropNamesList != null) {
+			for (CropNames cropName : cropNamesList) {
+				itemsCropName.add(new SelectItem(cropName.getIdCropName(),
+						cropName.getCropName()));
 			}
 		}
 
 	}
 
 	/**
-	 * Method used to save the cycle standard activities.
+	 * Save the cycle standard activities.
 	 * 
-	 * @return agregarEditarStandardActivities: Method That loads information
+	 * @return addEditStandardActivities: Method That loads information
 	 *         necessary and redirected to the template record Standard cycle
 	 *         activities.
 	 * 
 	 * @throws Exception
 	 */
-	public String guardarCycleStandardActivities() throws Exception {
+	public String saveCycleStandardActivities() throws Exception {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_guardar_actividades";
-		boolean existe;
+		String registerMessage = "message_registro_guardar_actividades";
+		boolean exists;
 		try {
-			Object nameCropNam = ValidacionesAction.getLabel(
+			Object cropNameString = ValidacionesAction.getLabel(
 					this.itemsCropName, this.cropNames.getIdCropName());
-			for (CycleStandardActivities cycleStandar : this.listaCycleStandardActivities) {
+			for (CycleStandardActivities cycleStandar : this.cycleStandardActivitiesList) {
 				int idCropName = cycleStandar.getCropNames().getIdCropName();
 				int idActivityName = cycleStandar.getActivityNames()
 						.getIdActivityName();
-				existe = cycleStandardActivitiesDao
-						.relacionCropNamesActivityNames(idCropName,
+				exists = cycleStandardActivitiesDao
+						.relateCropNamesActivityNames(idCropName,
 								idActivityName);
-				if (existe) {
+				if (exists) {
 					cycleStandardActivitiesDao
-							.editarCycleStandardActivities(cycleStandar);
+							.editCycleStandardActivities(cycleStandar);
 				} else {
 					cycleStandardActivitiesDao
-							.guardarCycleStandardActivities(cycleStandar);
+							.saveCycleStandardActivities(cycleStandar);
 				}
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), nameCropNam));
+					bundle.getString(registerMessage), cropNameString));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return agregarEditarStandardActivities();
+		return addEditStandardActivities();
 	}
 
 	/**
-	 * Method to edit or create a new assignment of standard cycle activities
+	 * Method to edit or create a new assignment of standard cycle activities.
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @return regCyclStandAct: Redirected to the template record Standard cycle
-	 *         activities
+	 * @return regCyclStandAct: Redirects to the register standard cycle
+	 *         activities template.
 	 * @throws Exception
 	 * 
 	 */
-	public String agregarEditarStandardActivities() throws Exception {
-		this.listaCycleStandardActivities = new ArrayList<CycleStandardActivities>();
-		cargarCropNames();
-		consultarCycleStandardActivities();
+	public String addEditStandardActivities() throws Exception {
+		this.cycleStandardActivitiesList = new ArrayList<CycleStandardActivities>();
+		loadCropNames();
+		searchCycleStandardActivities();
 		return "regCyclStandAct";
 	}
 
 	/**
-	 * Pager manages the cycle standard activities list
+	 * Load the paged list to manages the cycle standard activities list.
 	 */
 	public void initializeList() {
-		Long cantidadPaginador = (long) listaCycleStandardActivities.size();
+		Long paginadorAmount = (long) cycleStandardActivitiesList.size();
 		try {
-			this.paginadorCycleActivities.paginarRangoDefinido(
-					cantidadPaginador, 10);
-			int inicial = paginadorCycleActivities.getItemInicial() - 1;
-			int fin = paginadorCycleActivities.getItemFinal();
-			this.listaCycleStandard = listaCycleStandardActivities.subList(
-					inicial, fin);
+			this.paginadorCycleActivities.paginarRangoDefinido(paginadorAmount,
+					10);
+			int first = paginadorCycleActivities.getItemInicial() - 1;
+			int last = paginadorCycleActivities.getItemFinal();
+			this.cycleStandardsList = cycleStandardActivitiesList.subList(
+					first, last);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
 
 	/**
-	 * Method passing objects list type activityNames type to a
-	 * CycleStandardActivity
+	 * It loads a list of activityNames to a CycleStandardActivity.
 	 * 
 	 * @modify 15/07/2015 Andres.Gomez
 	 * 
-	 * @param listaActivityNames
-	 *            : Name list of activities
+	 * @param activityNamesList
+	 *            : List of activities names.
 	 */
-	public void generarListaCycleStandardActivities(
-			List<ActivityNames> listaActivityNames) {
-		for (ActivityNames activityNames : listaActivityNames) {
-			if (activityNames.isSeleccionado()) {
+	public void generateCycleStandardActivitiesList(
+			List<ActivityNames> activityNamesList) {
+		for (ActivityNames activityName : activityNamesList) {
+			if (activityName.isSeleccionado()) {
 				CycleStandardActivities cycleStandardActivities = new CycleStandardActivities();
-				cycleStandardActivities.setActivityNames(activityNames);
-				listaCycleStandardActivities.add(cycleStandardActivities);
+				cycleStandardActivities.setActivityNames(activityName);
+				cycleStandardActivitiesList.add(cycleStandardActivities);
 				cycleStandardActivities.setCropNames(getCropNames());
 			}
 		}
@@ -399,17 +397,17 @@ public class CycleStandardActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method to remove from the list the names of the activities user selected
-	 * in view RegistrarCycleStandardActivities
+	 * Method to remove from the list the names of the activities that an user
+	 * selected in the register view.
 	 * 
 	 */
-	public void eliminarSeleccionados() {
-		for (CycleStandardActivities cycleStandardActivities : this.listaCycleStandardActivities) {
-			if (cycleStandardActivities.equals(eliminarLista)) {
+	public void deleteSelectedOnes() {
+		for (CycleStandardActivities cycleStandardActivities : this.cycleStandardActivitiesList) {
+			if (cycleStandardActivities.equals(deleteList)) {
 				try {
 					cycleStandardActivitiesDao
-							.deleteCycleStandardActivities(eliminarLista);
-					listaCycleStandardActivities.remove(eliminarLista);
+							.deleteCycleStandardActivities(deleteList);
+					cycleStandardActivitiesList.remove(deleteList);
 					break;
 				} catch (Exception e) {
 					ControladorContexto.mensajeError(e);
@@ -421,22 +419,21 @@ public class CycleStandardActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method that allows the list of standard cleaning cycle activities and
-	 * Crop name
+	 * Method that cleans the list of standard cycle activities and Crop names.
 	 */
-	private void limpiarCycleStandardActivities() {
-		this.listaCycleStandardActivities = new ArrayList<CycleStandardActivities>();
+	private void eraseCycleStandardActivities() {
+		this.cycleStandardActivitiesList = new ArrayList<CycleStandardActivities>();
 		this.cropNames = new CropNames();
 	}
 
 	/**
-	 * Consult the list of existing standard cycle activities
+	 * Look for the list of existing standard cycle activities.
 	 * 
 	 */
-	public void consultarCycleStandardActivities() {
+	public void searchCycleStandardActivities() {
 		try {
-			this.listaCycleStandardActivities = cycleStandardActivitiesDao
-					.consultarCycleStandardActivities(this.cropNames
+			this.cycleStandardActivitiesList = cycleStandardActivitiesDao
+					.queryCycleStandardActivities(this.cropNames
 							.getIdCropName());
 			this.paginadorCycleActivities = new Paginador();
 			initializeList();
@@ -446,58 +443,57 @@ public class CycleStandardActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * 
-	 Consult the list of the names of the activities to show the popup
+	 * Consult the list of the activity names to show in the pop-up.
 	 * 
 	 * @modify 29/09/2015 Andres.Gomez
 	 * 
-	 * @return regCyclStandAct: Redirects to the template to record Standard
-	 *         cycle activities
+	 * @return regCyclStandAct: Redirects to the register Standard cycle
+	 *         activities template.
 	 */
-	public String consultarActivityNames() {
+	public String searchActivityNames() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("mensajeLifeCycle");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaActivityNames = new ArrayList<ActivityNames>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		activityNamesList = new ArrayList<ActivityNames>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder jointSearchMessages = new StringBuilder();
+		String searchMessage = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = activityNamesDao.amountActivityNames(consulta,
-					parametros);
-			if (cantidad != null) {
-				paginador.paginarRangoDefinido(cantidad, 5);
+			advancedSearch(queryBuilder, parameters, bundle,
+					jointSearchMessages);
+			Long amount = activityNamesDao.amountActivityNames(queryBuilder,
+					parameters);
+			if (amount != null) {
+				paginador.paginarRangoDefinido(amount, 5);
 			}
-			listaActivityNames = activityNamesDao
+			activityNamesList = activityNamesDao
 					.queryActivityNamesXIdCropNames(paginador.getInicio(),
-							paginador.getRango(), consulta, parametros);
-			if ((listaActivityNames == null || listaActivityNames.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+							paginador.getRango(), queryBuilder, parameters);
+			if ((activityNamesList == null || activityNamesList.size() <= 0)
+					&& !"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaActivityNames == null
-					|| listaActivityNames.size() <= 0) {
+								jointSearchMessages);
+			} else if (activityNamesList == null
+					|| activityNamesList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(jointSearchMessages.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle
 										.getString("activity_names_label_s"),
-								unionMensajesBusqueda);
+								jointSearchMessages);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
-			if (!"".equals(nombreBuscar)) {
+			validation.setMensajeBusqueda(searchMessage);
+			if (!"".equals(nameSearch)) {
 				ControladorContexto.mensajeInformacion(
-						"popupForm:tActivityNames", mensajeBusqueda);
+						"popupForm:tActivityNames", searchMessage);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -506,31 +502,31 @@ public class CycleStandardActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * This method constructs the query to the advanced search also allows build
-	 * messages to display depending on the search criteria selected by the user
+	 * This method builds the query with an advanced search; it also builds
+	 * display messages depending on the search criteria selected by the user.
 	 * 
 	 * @Mmodify 29/09/2015 Andres.Gomez
 	 * 
-	 * @param consulta
-	 *            : Consult concatenate
-	 * @param parametros
-	 *            : List of search parameters
+	 * @param query
+	 *            : Query to concatenate.
+	 * @param parameter
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            : Access language tags
+	 *            : Context to access language tags.
 	 * 
-	 * @param unionMensajesBusqueda
-	 *            : Message search
+	 * @param jointSearchMessages
+	 *            : Search message.
 	 */
-	private void busquedaAvanzada(StringBuilder consulta,
-			List<SelectItem> parametros, ResourceBundle bundle,
-			StringBuilder unionMensajesBusqueda) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consulta.append("WHERE UPPER(an.activityName) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+	private void advancedSearch(StringBuilder query,
+			List<SelectItem> parameter, ResourceBundle bundle,
+			StringBuilder jointSearchMessages) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			query.append("WHERE UPPER(an.activityName) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
-			parametros.add(item);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nombreBuscar + '"');
+			parameter.add(item);
+			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 

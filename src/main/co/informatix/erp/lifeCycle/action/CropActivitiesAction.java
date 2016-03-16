@@ -965,7 +965,7 @@ public class CropActivitiesAction implements Serializable {
 		try {
 			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 			this.listaCycleStandardActivities = cycleStandardActivitiesDao
-					.consultarCycleStandardActivities(idCropName);
+					.queryCycleStandardActivities(idCropName);
 			if (listaCycleStandardActivities == null
 					|| listaCycleStandardActivities.size() <= 0) {
 				ControladorContexto

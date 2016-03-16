@@ -11,8 +11,8 @@ import javax.persistence.Query;
 import co.informatix.erp.costs.entities.CycleStandardActivities;
 
 /**
- * DAO class that establishes the connection between business logic and base
- * data. CycleStandardActivitiesAction used for managing CycleStandardActivities
+ * DAO class that establishes the connection between business logic and
+ * database. CycleStandardActivitiesAction manages CycleStandardActivities.
  * 
  * @author Mabell.Boada
  * 
@@ -24,19 +24,19 @@ public class CycleStandardActivitiesDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Save the standard cycle activities in the database
+	 * Save a standard cycle activities in the database.
 	 * 
 	 * @param cycleStandardActivities
-	 *            : Standard cycle activities to save
+	 *            : Standard cycle activities to save.
 	 * @throws Exception
 	 */
-	public void guardarCycleStandardActivities(
+	public void saveCycleStandardActivities(
 			CycleStandardActivities cycleStandardActivities) throws Exception {
 		em.persist(cycleStandardActivities);
 	}
 
 	/**
-	 * Delete the standar cycle activities in the database
+	 * Delete a standard cycle activities in the database.
 	 * 
 	 * @param cycleStandardActivities
 	 *            : Standard cycle activities to delete
@@ -48,30 +48,31 @@ public class CycleStandardActivitiesDao implements Serializable {
 	}
 
 	/**
-	 * Edit the standard cycle activities in the database
+	 * Edit a standard cycle activities in the database.
 	 * 
 	 * @param cycleStandardActivities
 	 *            : Standard editing cycle activities
 	 * @throws Exception
 	 */
-	public void editarCycleStandardActivities(
+	public void editCycleStandardActivities(
 			CycleStandardActivities cycleStandardActivities) throws Exception {
 		em.merge(cycleStandardActivities);
 	}
 
 	/**
-	 * This method query standard cycle activities there related crop name.
+	 * This method query standard cycle activities that are related to crop
+	 * name.
 	 * 
 	 * @modify 24/07/2015 Andres.Gomez
 	 * 
 	 * @param idCropName
-	 *            : identifier cropName
+	 *            : CropName identifier.
 	 * 
-	 * @return List<CycleStandardActivities>:List of activities standard cycle
+	 * @return List<CycleStandardActivities>:List of cycle standard activities.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<CycleStandardActivities> consultarCycleStandardActivities(
+	public List<CycleStandardActivities> queryCycleStandardActivities(
 			int idCropName) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT csa FROM CycleStandardActivities csa ");
@@ -79,35 +80,36 @@ public class CycleStandardActivitiesDao implements Serializable {
 		query.append("JOIN FETCH csa.activityNames an ");
 		query.append("WHERE cn.idCropName=:idCropName ");
 		query.append("ORDER BY csa.idCycleActivity ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idCropName", idCropName);
-		return q.getResultList();
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("idCropName", idCropName);
+		return queryResult.getResultList();
 	}
 
 	/**
-	 * This method see also the standard cycle activities whose relationship
-	 * Harvest and name Activity name already exist on the basis of data
+	 * This method see also the cycle standard activities and its relations with
+	 * Crop name and Activity name that already exist in the data base.
 	 * 
 	 * @param idCropName
-	 *            : identifier cropName
+	 *            : CropName identifier.
 	 * @param idActivityName
-	 *            : Identifier name of the activity
-	 * @return boolean: Returns true if the relationship exists otherwise false
+	 *            : Identifier of the activity name.
+	 * @return boolean: Returns true if the relationship exists, false
+	 *         otherwise.
 	 * 
 	 * @throws Exception
 	 */
-	public boolean relacionCropNamesActivityNames(int idCropName,
+	public boolean relateCropNamesActivityNames(int idCropName,
 			int idActivityName) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT csa FROM CycleStandardActivities csa ");
-		query.append("JOIN FETCH csa.cropNames cn ");
-		query.append("JOIN FETCH csa.activityNames an ");
-		query.append("WHERE cn.idCropName=:idCropName ");
-		query.append("AND an.idActivityName=:idActivityName ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idCropName", idCropName).setParameter("idActivityName",
-				idActivityName);
-		if (q.getResultList().size() > 0) {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT csa FROM CycleStandardActivities csa ");
+		queryBuilder.append("JOIN FETCH csa.cropNames cn ");
+		queryBuilder.append("JOIN FETCH csa.activityNames an ");
+		queryBuilder.append("WHERE cn.idCropName=:idCropName ");
+		queryBuilder.append("AND an.idActivityName=:idActivityName ");
+		Query query = em.createQuery(queryBuilder.toString());
+		query.setParameter("idCropName", idCropName).setParameter(
+				"idActivityName", idActivityName);
+		if (query.getResultList().size() > 0) {
 			return true;
 		}
 		return false;
