@@ -541,7 +541,7 @@ public class DepositsAction implements Serializable {
 	private void loadMeasurementUnits() throws Exception {
 		itemsMeasurementUnits = new ArrayList<SelectItem>();
 		List<MeasurementUnits> measurementUnitsList = measurementUnitsDao
-				.consultarMeasurementsUnits();
+				.consultMeasurementsUnits();
 		if (measurementUnitsList != null) {
 			for (MeasurementUnits measurement : measurementUnitsList) {
 				itemsMeasurementUnits.add(new SelectItem(measurement

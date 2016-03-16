@@ -8,11 +8,16 @@ import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.MeasurementUnitsDao;
@@ -35,13 +40,13 @@ public class MeasurementUnitsAction implements Serializable {
 	private MeasurementUnits measurementUnits;
 
 	private Paginador paginador = new Paginador();
-	private String nombreBuscar;
+	private String nameSearch;
 
-	private List<MeasurementUnits> listaMeasurementUnits;
+	private List<MeasurementUnits> listMeasurementUnits;
 
 	/**
 	 * @return measurementUnits: object that contains the data of measurement
-	 *         Units
+	 *         Units.
 	 */
 	public MeasurementUnits getMeasurementUnits() {
 		return measurementUnits;
@@ -49,14 +54,14 @@ public class MeasurementUnitsAction implements Serializable {
 
 	/**
 	 * @param measurementUnits
-	 *            : object that contains the data of measurement Units
+	 *            : object that contains the data of measurement Units.
 	 */
 	public void setMeasurementUnits(MeasurementUnits measurementUnits) {
 		this.measurementUnits = measurementUnits;
 	}
 
 	/**
-	 * @return paginador: Management paged list names measurementUnits
+	 * @return paginador: Management paged list names measurementUnits.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -64,102 +69,101 @@ public class MeasurementUnitsAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : Management paged list names measurementUnits
+	 *            : Management paged list names measurementUnits.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return nombreBuscar: Units of measurement name to search
+	 * @return nameSearch: Units of measurement name to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : Units of measurement name to search
+	 * @param nameSearch
+	 *            : Units of measurement name to search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return listaMeasurementUnits: list of objects of type Measurement Units
+	 * @return listMeasurementUnits: list of objects of type Measurement Units.
 	 */
-	public List<MeasurementUnits> getListaMeasurementUnits() {
-		return listaMeasurementUnits;
+	public List<MeasurementUnits> getListMeasurementUnits() {
+		return listMeasurementUnits;
 	}
 
 	/**
-	 * @param listaMeasurementUnits
-	 *            : list of objects of type Measurement Units
+	 * @param listMeasurementUnits
+	 *            : list of objects of type Measurement Units.
 	 */
-	public void setListaMeasurementUnits(
-			List<MeasurementUnits> listaMeasurementUnits) {
-		this.listaMeasurementUnits = listaMeasurementUnits;
+	public void setListMeasurementUnits(
+			List<MeasurementUnits> listMeasurementUnits) {
+		this.listMeasurementUnits = listMeasurementUnits;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
-	 * list of measurementUnits
+	 * list of measurementUnits.
 	 * 
-	 * @return consultarMeasurementUnits: method that allows consulting the
+	 * @return consultMeasurementUnits: method that allows consulting the
 	 *         measurementUnits returns to the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarMeasurementUnits();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultMeasurementUnits();
 	}
 
 	/**
-	 * Consult the list of the Measurement Units
+	 * Consult the list of the Measurement Units.
 	 * 
 	 * @return "gesMeasurementUnits": redirects to the template to manage the
-	 *         Measurement Units
+	 *         Measurement Units.
 	 */
-	public String consultarMeasurementUnits() {
+	public String consultMeasurementUnits() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMeasurementUnits = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaMeasurementUnits = new ArrayList<MeasurementUnits>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listMeasurementUnits = new ArrayList<MeasurementUnits>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = measurementUnitsDao.cantidadMeasurementUnits(
-					consulta, parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = measurementUnitsDao.quantityMeasurementUnits(query,
+					parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaMeasurementUnits = measurementUnitsDao
-					.consultarMeasurementUnits(paginador.getInicio(),
-							paginador.getRango(), consulta, parametros);
-			if ((listaMeasurementUnits == null || listaMeasurementUnits.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listMeasurementUnits = measurementUnitsDao.consultMeasurementUnits(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
+			if ((listMeasurementUnits == null || listMeasurementUnits.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaMeasurementUnits == null
-					|| listaMeasurementUnits.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listMeasurementUnits == null
+					|| listMeasurementUnits.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleMeasurementUnits
 										.getString("measurement_units_label"),
-								unionMensajesBusqueda);
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -172,25 +176,24 @@ public class MeasurementUnitsAction implements Serializable {
 	 * by the user.
 	 * 
 	 * @param consult
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param unionMessagesSearch
-	 *            : message search
-	 * 
+	 *            : message search.
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(mu.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 
 		}
 
@@ -200,13 +203,13 @@ public class MeasurementUnitsAction implements Serializable {
 	 * Method to edit or create a new MeasurementUnits.
 	 * 
 	 * @param measurementUnits
-	 *            :Measurement Units to be add or edit
+	 *            :Measurement Units to be add or edit.
 	 * 
 	 * @return "regMeasurementUnits":redirected to the template record
 	 *         Measurement Units.
 	 */
-	public String agregarEditarMeasurementUnits(
-			MeasurementUnits measurementUnits) throws Exception {
+	public String addEditMeasurementUnits(MeasurementUnits measurementUnits)
+			throws Exception {
 
 		if (measurementUnits != null) {
 			this.measurementUnits = measurementUnits;
@@ -219,45 +222,44 @@ public class MeasurementUnitsAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit MeasurementUnits
+	 * Method used to save or edit MeasurementUnits.
 	 * 
 	 * @modify 13/05/2015 Cristhian.Pico
 	 * 
-	 * @return consultarMeasurementUnits: Measurement Units redirects to manage
-	 *         the list of updated Measurement Units
+	 * @return consultMeasurementUnits: Measurement Units redirects to manage
+	 *         the list of updated Measurement Units.
 	 */
-	public String guardarMeasurementUnits() {
+	public String saveMeasurementUnits() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 
 		try {
 
 			if (measurementUnits.getIdMeasurementUnits() != 0) {
-				measurementUnitsDao.editarMeasurementUnits(measurementUnits);
+				measurementUnitsDao.editMeasurementUnits(measurementUnits);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				measurementUnitsDao.guardarMeasurementUnits(measurementUnits);
+				messageLog = "message_registro_guardar";
+				measurementUnitsDao.saveMeasurementUnits(measurementUnits);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
-					measurementUnits.getName()));
+					bundle.getString(messageLog), measurementUnits.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMeasurementUnits();
+		return consultMeasurementUnits();
 	}
 
 	/**
 	 * Measurement Units redirects to manage the list of updated Measurement
-	 * Units
+	 * Units.
 	 * 
-	 * @return consultarMeasurementUnits(): Consult the list of measurement
-	 *         Units and returns to manage measurement Units
+	 * @return consultMeasurementUnits(): Consult the list of measurement Units
+	 *         and returns to manage measurement Units.
 	 */
-	public String eliminarMeasurementUnits() {
+	public String removeMeasurementUnits() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			measurementUnitsDao.eliminarMeasurementUnits(measurementUnits);
+			measurementUnitsDao.removeMeasurementUnits(measurementUnits);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					measurementUnits.getName()));
@@ -270,6 +272,46 @@ public class MeasurementUnitsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 
-		return consultarMeasurementUnits();
+		return consultMeasurementUnits();
+	}
+
+	/**
+	 * To validate the name of the measurement units, so it is not repeated in the database
+	 * and validates against XSS.
+	 * 
+	 * @author Jhair.Leal
+	 * 
+	 * @param context
+	 *            : application context.
+	 * 
+	 * @param toValidate
+	 *            : validate component.
+	 * @param value
+	 *            : field value to be valid.
+	 */
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			int id = measurementUnits.getIdMeasurementUnits();
+			MeasurementUnits measurementUnitsAux = new MeasurementUnits();
+			measurementUnitsAux = measurementUnitsDao.nameExists(name, id);
+			if (measurementUnitsAux != null) {
+				String messageExistence = "message_ya_existe_verifique";
+				context.addMessage(
+						clientId,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
+								.getString(messageExistence), null));
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 }

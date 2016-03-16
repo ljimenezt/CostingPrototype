@@ -347,7 +347,7 @@ public class MaterialsAction implements Serializable {
 			}
 		}
 		List<MeasurementUnits> measureUnits = measurementUnitsDao
-				.consultarMeasurementsUnits();
+				.consultMeasurementsUnits();
 		if (measureUnits != null) {
 			for (MeasurementUnits mUnit : measureUnits) {
 				measureUnitItems.add(new SelectItem(mUnit

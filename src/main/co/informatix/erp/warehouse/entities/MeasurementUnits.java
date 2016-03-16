@@ -22,7 +22,7 @@ public class MeasurementUnits implements Serializable {
 	private int idMeasurementUnits;
 
 	private String name;
-	private String descripcion;
+	private String description;
 
 	/**
 	 * @return idMeasurementUnits: Identifier Measurement Units
@@ -59,19 +59,19 @@ public class MeasurementUnits implements Serializable {
 	}
 
 	/**
-	 * @return descripcion: description MeasurementUnits
+	 * @return description: description MeasurementUnits
 	 */
 	@Column(name = "description")
-	public String getDescripcion() {
-		return descripcion;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
-	 * @param descripcion
+	 * @param description
 	 *            : description MeasurementUnits
 	 */
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class MeasurementUnits implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((descripcion == null) ? 0 : descripcion.hashCode());
+				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + idMeasurementUnits;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -94,10 +94,10 @@ public class MeasurementUnits implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		MeasurementUnits other = (MeasurementUnits) obj;
-		if (descripcion == null) {
-			if (other.descripcion != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!descripcion.equals(other.descripcion))
+		} else if (!description.equals(other.description))
 			return false;
 		if (idMeasurementUnits != other.idMeasurementUnits)
 			return false;
