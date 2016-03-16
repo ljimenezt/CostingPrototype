@@ -89,7 +89,9 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoCorto" maxlength="20"
-							id="telefono" value="#{farmAction.farm.telefono}">
+							validator="#{encodeFilter.validarScripting}" id="telefono"
+							value="#{farmAction.farm.telefono}">
+							<f:attribute name="nameRegEx" value="locate.regex.numeros.guion" />
 							<f:validateLength maximum="20" />
 						</h:inputText>
 						<rich:message for="telefono" />
@@ -108,7 +110,9 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoCorto" maxlength="20" id="fax"
+							validator="#{encodeFilter.validarScripting}"
 							value="#{farmAction.farm.fax}">
+							<f:attribute name="nameRegEx" value="locate.regex.numeros.guion" />
 							<f:validateLength maximum="20" />
 						</h:inputText>
 						<rich:message for="fax" />
@@ -117,8 +121,10 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoCorto" maxlength="20" id="movil"
+							validator="#{encodeFilter.validarScripting}"
 							value="#{farmAction.farm.movil}"
 							converterMessage="#{mensaje.message_validacion_decimal}">
+							<f:attribute name="nameRegEx" value="locate.regex.numeros.guion" />
 							<f:validateLength maximum="20" />
 						</h:inputText>
 						<rich:message for="movil" />
