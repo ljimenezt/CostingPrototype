@@ -301,6 +301,8 @@
 										requiredMessage="#{mensaje.message_campo_requerido}"
 										readonly="true">
 										<f:validateLength maximum="25" />
+										<f:convertNumber maxFractionDigits="2" type="currency"
+											currencySymbol="$" locale="#{idioma.locale}" />
 									</h:inputText>
 									<rich:message for="hourCost" />
 
