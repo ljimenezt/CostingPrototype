@@ -10,29 +10,29 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="measurementUnitsAction.inicializarBusqueda" />
+		value="measurementUnitsAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeWarehouse.measurement_units_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{measurementUnitsAction}" />
 		<ui:param name="listaVacia"
-			value="#{measurementUnitsAction.listaMeasurementUnits eq null or (empty measurementUnitsAction.listaMeasurementUnits )}" />
+			value="#{measurementUnitsAction.listMeasurementUnits eq null or (empty measurementUnitsAction.listMeasurementUnits )}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{measurementUnitsAction}" />
 		<ui:param name="renderLista"
 			value="panelMeasurementUnits vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarMeasurementUnits" />
+		<ui:param name="metodoLista" value="consultMeasurementUnits" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="measurementUnitsAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarMeasurementUnits" />
+		<ui:param name="metodoNuevo" value="addEditMeasurementUnits" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formMeasurementUnits">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -42,7 +42,7 @@
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
 				<rich:dataTable
-					value="#{measurementUnitsAction.listaMeasurementUnits}"
+					value="#{measurementUnitsAction.listMeasurementUnits}"
 					var="measurementUnits"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -62,14 +62,14 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 						<h:commandLink value="#{measurementUnits.name}"
-							action="#{measurementUnitsAction.agregarEditarMeasurementUnits(measurementUnits)}"
+							action="#{measurementUnitsAction.addEditMeasurementUnits(measurementUnits)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
 
 					<rich:column styleClass="colTextoExxtraLargo">
 						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
-						<h:outputText value="#{measurementUnits.descripcion}" />
+						<h:outputText value="#{measurementUnits.description}" />
 					</rich:column>
 
 					<f:facet name="footer">
@@ -93,7 +93,7 @@
 							<ui:param name="beanActionParam"
 								value="#{measurementUnitsAction}" />
 							<ui:param name="metodoActionParam"
-								value="consultarMeasurementUnits" />
+								value="consultMeasurementUnits" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -117,13 +117,13 @@
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar"
-						value="#{measurementUnitsAction.nombreBuscar}"
+						value="#{measurementUnitsAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						actionListener="#{measurementUnitsAction.consultarMeasurementUnits}"
+						actionListener="#{measurementUnitsAction.consultMeasurementUnits}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelMeasurementUnits, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -157,7 +157,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{measurementUnitsAction.eliminarMeasurementUnits()}"
+							actionListener="#{measurementUnitsAction.removeMeasurementUnits()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelMeasurementUnits, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"
