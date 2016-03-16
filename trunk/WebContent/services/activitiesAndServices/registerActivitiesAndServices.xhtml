@@ -44,7 +44,7 @@
 		<h:form id="formActivitiesAndServices">
 			<rich:panel header="#{mensajeMenu.associate_cycles_label_registrar}"
 				styleClass="anchoUno MinH253P" id="panelAssignActivities">
-				<t:fieldset id="cropInfo">
+				<t:fieldset id="cropInfo" styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
 					<h:panelGrid columns="3" columnClasses=",,top">
 
@@ -97,7 +97,7 @@
 				</t:fieldset>
 				<br />
 				<a:outputPanel id="formActivities">
-					<t:fieldset
+					<t:fieldset styleClass="BorderW2P anchoDos"
 						rendered="#{activitiesAndServicesAction.crops.cropNames.idCropName ne 0}">
 						<legend class="etiquetaTitulo">#{mensaje.label_listado_de}
 							#{mensajeCosts.activities_label_s}</legend>
