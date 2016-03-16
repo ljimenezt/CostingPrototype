@@ -261,7 +261,7 @@ public class GeneralTrendAction implements Serializable {
 			buildConsult(filters, params, reportQuery, queryGroupBy, 1);
 
 			List<Object[]> beanIndexList = beanIndexDao
-					.consultBeanIndexAverage(filters, params, reportQuery,
+					.queryBeanIndexAverage(filters, params, reportQuery,
 							queryGroupBy);
 			List<Object[]> resultConsultBeanIndex = getResultConsultBeanIndex(
 					beanIndexList, 1);
@@ -333,7 +333,7 @@ public class GeneralTrendAction implements Serializable {
 			String lblCycle = bundle.getString("cycle_label");
 			DataJson.addCol(colsBySection, cycleLabel, "string");
 			buildConsult(filters, params, reportQuery, queryGroupBy, 2);
-			List<Integer> sectionList = beanIndexDao.consultBySection(params);
+			List<Integer> sectionList = beanIndexDao.queryBySection(params);
 
 			if (sectionList != null && sectionList.size() > 0) {
 				for (Integer section : sectionList) {
@@ -342,7 +342,7 @@ public class GeneralTrendAction implements Serializable {
 							"number");
 				}
 				List<Object[]> listCycles = beanIndexDao
-						.consultCycleNumber(params);
+						.queryCycleNumber(params);
 				if (listCycles != null) {
 					for (Object[] cycle : listCycles) {
 						SimpleDateFormat ft = new SimpleDateFormat(
@@ -357,7 +357,7 @@ public class GeneralTrendAction implements Serializable {
 						SelectItem item = new SelectItem(cycle[0], "idCycle");
 						params.add(item);
 						List<Object[]> listBySection = beanIndexDao
-								.consultBySectionAverage(params);
+								.queryBySectionAverage(params);
 
 						if (listBySection != null) {
 							for (Integer idSection : sectionList) {
