@@ -46,24 +46,22 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" styleClass="required" />
 					<h:selectOneMenu id="certifications"
-						value="#{hrCertificationsAndRolesAction.certificationsAndRoles.idCertificactionsAndRoles}"
+						value="#{hrCertificationsAndRolesAction.idCertificationsAndRoles}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-							itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
 						<f:selectItems
 							value="#{hrCertificationsAndRolesAction.itemsCertificationsAndRoles}" />
 						<f:ajax event="change"
 							listener="#{hrCertificationsAndRolesAction.consultHrCertRoles()}"
-							render=":formHrCertRol:panelHrCerARol" execute="@this" />
+							render="formHrCertRol" execute="@this" />
 					</h:selectOneMenu>
 					<rich:message for="certifications" />
 				</h:panelGrid>
 				<br />
 
 				<a:outputPanel id="panelHrCerARol">
-					<a:outputPanel
-						rendered="#{hrCertificationsAndRolesAction.certificationsAndRoles.idCertificactionsAndRoles ne 0}">
+					<a:outputPanel>
 						<rich:message for="tablaHrCertRol" styleClass="messageInfSpanMsg" />
 						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 							<ui:param name="tieneVigencia" value="no" />
@@ -91,7 +89,7 @@
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensajeRecursosHumanos.recurso_humano_label}</f:facet>
 								<h:commandLink
-									value="#{hrCertRol.hrCertificationsAndRolesPK.hr.name}"
+									value="#{hrCertRol.hrCertificationsAndRolesPK.hr.name} #{hrCertRol.hrCertificationsAndRolesPK.hr.familyName}"
 									action="#{hrCertificationsAndRolesAction.addEditHrCertRoles(hrCertRol)}"
 									onclick="#{rich:component('statPane')}.show();">
 								</h:commandLink>

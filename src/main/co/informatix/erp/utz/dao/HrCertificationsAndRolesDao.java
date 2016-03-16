@@ -66,8 +66,8 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * Method that returns the list of human resources and related certificates
 	 * and certificates roles.
 	 * 
-	 * @param idCertAndRoles
-	 *            : ID certificates and roles.
+	 * @modify 16/03/2016 Wilhelm.Boada
+	 * 
 	 * @param start
 	 *            : Registry where consultation begins.
 	 * @param range
@@ -84,18 +84,16 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<HrCertificationsAndRoles> consultXIdCertRol(int idCertAndRoles,
-			int start, int range, StringBuilder consult,
-			List<SelectItem> parameters) throws Exception {
+	public List<HrCertificationsAndRoles> consultXIdCertRol(int start,
+			int range, StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT hcr FROM HrCertificationsAndRoles hcr ");
 		query.append("JOIN FETCH hcr.hrCertificationsAndRolesPK.hr hr ");
 		query.append("JOIN FETCH hcr.hrCertificationsAndRolesPK.certificationsAndRoles cr ");
-		query.append("WHERE cr.idCertificactionsAndRoles=:idCertAndRoles ");
 		query.append(consult);
 		query.append("ORDER BY hr.idHr ");
 		Query q = em.createQuery(query.toString());
-		q.setParameter("idCertAndRoles", idCertAndRoles);
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
@@ -111,8 +109,8 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * Method that returns the number of certified human resources and related
 	 * certificates and roles.
 	 * 
-	 * @param idCertAndRoles
-	 *            : ID certificates and roles.
+	 * @modify 16/03/2016 Wilhelm.Boada
+	 * 
 	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
@@ -124,16 +122,14 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public Long quantXIdCertRol(int idCertAndRoles, StringBuilder consult,
+	public Long quantXIdCertRol(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(hcr) FROM HrCertificationsAndRoles hcr ");
 		query.append("JOIN hcr.hrCertificationsAndRolesPK.hr hr ");
 		query.append("JOIN hcr.hrCertificationsAndRolesPK.certificationsAndRoles cr ");
-		query.append("WHERE cr.idCertificactionsAndRoles=:idCertAndRoles ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		q.setParameter("idCertAndRoles", idCertAndRoles);
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
