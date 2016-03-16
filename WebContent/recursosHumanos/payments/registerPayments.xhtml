@@ -53,7 +53,7 @@
 									styleClass="verticalAlignMiddle" />
 								<f:param name="param2" value="si" />
 								<f:setPropertyActionListener value=""
-									target="#{hrAction.nombreBuscar}" />
+									target="#{hrAction.nameSearch}" />
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.label_seleccionar}" />
 								</rich:tooltip>
@@ -311,7 +311,7 @@
 								<h:outputText value="#{mensaje.label_nombre}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtHrBuscar"
-									value="#{hrAction.nombreBuscar}"
+									value="#{hrAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupFormHr:btnBuscarHr')" />
 								<a:commandButton value="#{mensaje.button_search}"
 									id="btnBuscarHr" actionListener="#{hrAction.searchHrs}"
@@ -330,11 +330,11 @@
 						<br />
 
 						<ui:param name="listaVacia"
-							value="#{hrAction.listaHr eq null or (empty hrAction.listaHr)}" />
+							value="#{hrAction.hrList eq null or (empty hrAction.hrList)}" />
 						<div align="right" class="W560P">
 							<a:commandLink render="outPutBuscarHr"
 								styleClass="quitarDecoracionLink" action="#{hrAction.searchHrs}"
-								actionListener="#{hrAction.setNombreBuscar(null)}">
+								actionListener="#{hrAction.setNameSearch(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />
 									<h:outputText value="#{mensaje.button_list_all}" />
@@ -343,7 +343,7 @@
 							</a:commandLink>
 						</div>
 						<a:outputPanel id="outputHr">
-							<rich:dataTable value="#{hrAction.listaHr}" var="hr" id="thrs"
+							<rich:dataTable value="#{hrAction.hrList}" var="hr" id="thrs"
 								footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 								rowClasses="odd-row, even-row">
