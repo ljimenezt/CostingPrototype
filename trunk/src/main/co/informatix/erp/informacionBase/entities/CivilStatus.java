@@ -1,4 +1,4 @@
-package co.informatix.erp.general.entities;
+package co.informatix.erp.informacionBase.entities;
 
 import java.io.Serializable;
 
