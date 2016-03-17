@@ -20,8 +20,8 @@ import javax.persistence.Table;
 @Table(name = "civil_status", schema = "general")
 public class CivilStatus implements Serializable {
 	private int id;
-	private String nombre;
-	private String descripcion;
+	private String name;
+	private String description;
 
 	/**
 	 * @return id: Civil status identifier
@@ -42,35 +42,35 @@ public class CivilStatus implements Serializable {
 	}
 
 	/**
-	 * @return nombre: Name civil status
+	 * @return name: Name civil status
 	 */
-	@Column(name = "nombre", length = 100, nullable = false)
-	public String getNombre() {
-		return nombre;
+	@Column(name = "name", length = 100, nullable = false)
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * @param nombre
+	 * @param name
 	 *            : Name civil status
 	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
-	 * @return descripcion: Description of civil status
+	 * @return description: Description of civil status
 	 */
-	@Column(name = "descripcion", length = 200)
-	public String getDescripcion() {
-		return descripcion;
+	@Column(name = "description", length = 200)
+	public String getDescription() {
+		return description;
 	}
 
 	/**
-	 * @param descripcion
+	 * @param description
 	 *            : Description of civil status
 	 */
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -78,9 +78,9 @@ public class CivilStatus implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((descripcion == null) ? 0 : descripcion.hashCode());
+				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -93,17 +93,17 @@ public class CivilStatus implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		CivilStatus other = (CivilStatus) obj;
-		if (descripcion == null) {
-			if (other.descripcion != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!descripcion.equals(other.descripcion))
+		} else if (!description.equals(other.description))
 			return false;
 		if (id != other.id)
 			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!nombre.equals(other.nombre))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}

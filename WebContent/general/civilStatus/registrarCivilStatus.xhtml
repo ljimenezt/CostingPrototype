@@ -40,7 +40,7 @@
 					<h:outputText value="#{mensaje.label_nombre}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
-					<h:inputText value="#{civilStatusAction.civilStatus.nombre}"
+					<h:inputText value="#{civilStatusAction.civilStatus.name}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100"
 						validator="#{civilStatusAction.validarNombreXSS}"
@@ -51,7 +51,7 @@
 						value="#{mensaje.label_descripcion}" />
 					<h:outputText value="" />
 					<h:inputTextarea
-						value="#{civilStatusAction.civilStatus.descripcion}"
+						value="#{civilStatusAction.civilStatus.description}"
 						styleClass="colTextoMedianoTextArea" id="txaDescription"
 						validator="#{encodeFilter.validarScripting}">
 						<f:validateLength maximum="200" />
@@ -87,9 +87,9 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}:" />
-						<h:outputText value="#{civilStatusAction.civilStatus.nombre}" />
+						<h:outputText value="#{civilStatusAction.civilStatus.name}" />
 						<h:outputText value="#{mensaje.label_descripcion}:" />
-						<h:outputText value="#{civilStatusAction.civilStatus.descripcion}" />
+						<h:outputText value="#{civilStatusAction.civilStatus.description}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
