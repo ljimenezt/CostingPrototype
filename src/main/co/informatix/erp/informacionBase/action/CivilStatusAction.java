@@ -183,7 +183,7 @@ public class CivilStatusAction implements Serializable {
 			List<SelectItem> parametros, ResourceBundle bundle,
 			StringBuilder unionMensajesBusqueda) {
 		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consulta.append("WHERE UPPER(cs.nombre) LIKE UPPER(:keyword) ");
+			consulta.append("WHERE UPPER(cs.name) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
 					"keyword");
 			parametros.add(item);
