@@ -16,8 +16,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import co.informatix.erp.informacionBase.entities.CivilStatus;
 import co.informatix.erp.informacionBase.entities.Departamento;
-import co.informatix.erp.informacionBase.entities.EstadoCivil;
 import co.informatix.erp.informacionBase.entities.Municipio;
 import co.informatix.erp.informacionBase.entities.Pais;
 
@@ -59,7 +59,7 @@ public class Hr implements Serializable {
 
 	private HrTypes hrTypes;
 	private PaymentMethods paymentMethods;
-	private EstadoCivil estadoCivil;
+	private CivilStatus civilStatus;
 	private Pais paisNacimiento;
 	private Departamento departamentoNacimiento;
 	private Municipio municipioNacimiento;
@@ -76,7 +76,7 @@ public class Hr implements Serializable {
 	public Hr() {
 		this.hrTypes = new HrTypes();
 		this.paymentMethods = new PaymentMethods();
-		this.estadoCivil = new EstadoCivil();
+		this.civilStatus = new CivilStatus();
 		this.paisNacimiento = new Pais();
 		this.departamentoNacimiento = new Departamento();
 		this.municipioNacimiento = new Municipio();
@@ -486,20 +486,20 @@ public class Hr implements Serializable {
 	}
 
 	/**
-	 * @return estadoCivil: civil status of the person
+	 * @return civilStatus: civil status of the person
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_estado_civil", referencedColumnName = "id")
-	public EstadoCivil getEstadoCivil() {
-		return estadoCivil;
+	@JoinColumn(name = "id_civil_status", referencedColumnName = "id")
+	public CivilStatus getCivilStatus() {
+		return civilStatus;
 	}
 
 	/**
-	 * @param estadoCivil
+	 * @param civilStatus
 	 *            : Civil status of the person
 	 */
-	public void setEstadoCivil(EstadoCivil estadoCivil) {
-		this.estadoCivil = estadoCivil;
+	public void setCivilStatus(CivilStatus civilStatus) {
+		this.civilStatus = civilStatus;
 	}
 
 	/**

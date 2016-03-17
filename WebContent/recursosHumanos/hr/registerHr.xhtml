@@ -85,13 +85,13 @@
 									value="#{mensajeInformacionBase.estado_civil_label}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
-								<h:selectOneMenu value="#{hrAction.hr.estadoCivil.id}"
-									styleClass="MaxW175P W155P" id="comboEstadoCivil">
+								<h:selectOneMenu value="#{hrAction.hr.civilStatus.id}"
+									styleClass="MaxW175P W155P" id="comboCivilStatus">
 									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 										itemValue="0" />
 									<f:selectItems value="#{hrAction.maritalStatusItems}" />
 								</h:selectOneMenu>
-								<rich:message for="comboEstadoCivil" />
+								<rich:message for="comboCivilStatus" />
 
 								<h:outputText
 									value="#{mensajeRecursosHumanos.recurso_humano_label_nombre_usuario}"

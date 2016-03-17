@@ -52,7 +52,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu id="maquina"
 							value="#{maintenanceAndCalibrationAction.machines.idMachine}"
-							styleClass="colTextoMediano" required="true"
+							required="true"
 							validator="#{validacionesAction.validarComboRequerido}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
