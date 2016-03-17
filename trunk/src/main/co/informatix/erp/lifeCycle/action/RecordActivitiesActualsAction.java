@@ -36,9 +36,9 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
 
 /**
- * This class allows the logic of the relationship between the activities and
- * human resources of the database. The logic is update "CURRENT" in the
- * relationship and human resources activities. fields
+ * This class implements the logic of the relations between the activities and
+ * human resources of the database. The logic is to update "CURRENT" in the
+ * relations and human resources activities.
  * 
  * @author Gerardo.Herrera
  */
@@ -53,6 +53,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private CropNamesDao cropNamesDao;
 	@EJB
 	private ActivityNamesDao activityNamesDao;
+	// from the package named co.informatix.erp.general.dao
 	@EJB
 	private ActivitiesAndHrDao activitiesAndHrDao;
 	@EJB
@@ -610,7 +611,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 				OvertimePaymentRate overtimePaymentRate = overtimePaymentRateDao
 						.overtimePaymentRateXId(idOvertimePaymentsRate);
 				activitiesAndHr.setOvertimePaymentRate(overtimePaymentRate);
-				activitiesAndHrDao.editarActivitiesAndHr(activitiesAndHr);
+				activitiesAndHrDao.editActivitiesAndHr(activitiesAndHr);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle.getString(mensajeRegistro),
 								activitiesAndHr.getActivitiesAndHrPK().getHr()
@@ -683,7 +684,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 					bandera = true;
 				}
 				if (bandera == true) {
-					activitiesDao.editarActivities(this.selectedActivity);
+					activitiesDao.editActivities(this.selectedActivity);
 					ControladorContexto.mensajeInformacion(null, MessageFormat
 							.format(bundle.getString(mensajeRegistro),
 									selectedActivity.getActivityName()));

@@ -41,12 +41,11 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class allows you assign the logic of activities that can be related
- * machines and human resources in the database. The logic is: insert activities
- * one particular machine and one human resource.
+ * This class implements the logic of activities that can be related to machines
+ * and human resources in the database. The logic is: insert activities with one
+ * particular machine and one human resource.
  * 
  * @author Gerardo.Herrera
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
@@ -63,6 +62,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	private MachinesDao machinesDao;
 	@EJB
 	private ConsumableTypesDao consumableTypesDao;
+	// from the package named co.informatix.erp.general.dao
 	@EJB
 	private ActivitiesDao activitiesDao;
 	@EJB
@@ -79,10 +79,10 @@ public class ScheduledActivitiesAction implements Serializable {
 	private List<ActivityMachine> listActivityMachineTemp;
 	private List<Machines> listMachine;
 	private List<SelectItem> itemsMachineTypes;
-	private List<SelectItem> opcionesCropNames;
-	private List<SelectItem> opcionesCrops;
-	private List<SelectItem> opcionesActivityName;
-	private List<SelectItem> opcionesConsumables;
+	private List<SelectItem> optionsCropNames;
+	private List<SelectItem> optionsCrops;
+	private List<SelectItem> optionsActivityName;
+	private List<SelectItem> optionsConsumables;
 
 	private Activities activities;
 	private Crops crops;
@@ -126,8 +126,8 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return stateAddMachine: 'true' show register duration popup, 'false'
-	 *         delete machine of list.
+	 * @return stateAddMachine: 'true' shows register duration popup, 'false'
+	 *         deletes machine of list.
 	 */
 	public boolean isStateAddMachine() {
 		return stateAddMachine;
@@ -135,8 +135,8 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param stateAddMachine
-	 *            : 'true' show register duration popup, 'false' delete machine
-	 *            of list.
+	 *            : 'true' shows register duration popup, 'false' deletes
+	 *            machine of list.
 	 */
 	public void setStateAddMachine(boolean stateAddMachine) {
 		this.stateAddMachine = stateAddMachine;
@@ -158,7 +158,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return listActivityMachine: list object of ActivityMachine
+	 * @return listActivityMachine: list object of ActivityMachine.
 	 */
 	public List<ActivityMachine> getListActivityMachine() {
 		return listActivityMachine;
@@ -166,14 +166,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param listActivityMachine
-	 *            : list object of ActivityMachine
+	 *            : list object of ActivityMachine.
 	 */
 	public void setListActivityMachine(List<ActivityMachine> listActivityMachine) {
 		this.listActivityMachine = listActivityMachine;
 	}
 
 	/**
-	 * @return listActivityMachineTemp: list object of ActivityMachine
+	 * @return listActivityMachineTemp: list object of ActivityMachine.
 	 */
 	public List<ActivityMachine> getListActivityMachineTemp() {
 		return listActivityMachineTemp;
@@ -181,7 +181,7 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param listActivityMachineTemp
-	 *            : list object of ActivityMachine
+	 *            : list object of ActivityMachine.
 	 */
 	public void setListActivityMachineTemp(
 			List<ActivityMachine> listActivityMachineTemp) {
@@ -189,7 +189,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return listMachine: object machine list
+	 * @return listMachine: machines list.
 	 */
 	public List<Machines> getListMachine() {
 		return listMachine;
@@ -197,14 +197,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param listMachine
-	 *            : object machine list
+	 *            : machines list.
 	 */
 	public void setListMachine(List<Machines> listMachine) {
 		this.listMachine = listMachine;
 	}
 
 	/**
-	 * @return itemsMachineTypes: selectedItem list type machine types
+	 * @return itemsMachineTypes: selectedItem list with machine types.
 	 */
 	public List<SelectItem> getItemsMachineTypes() {
 		return itemsMachineTypes;
@@ -212,75 +212,74 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param itemsMachineTypes
-	 *            : selectedItem list type machine types
+	 *            : selectedItem list with machine types.
 	 */
 	public void setMachineTypes(List<SelectItem> itemsMachineTypes) {
 		this.itemsMachineTypes = itemsMachineTypes;
 	}
 
 	/**
-	 * @return opcionesCropNames: crop name associated with an activity.
+	 * @return optionsCropNames: crop name associated with an activity.
 	 */
-	public List<SelectItem> getOpcionesCropNames() {
-		return opcionesCropNames;
+	public List<SelectItem> getOptionsCropNames() {
+		return optionsCropNames;
 	}
 
 	/**
-	 * @param opcionesCropNames
+	 * @param optionsCropNames
 	 *            : crop name associated with an activity.
 	 */
-	public void setOpcionesCropNames(List<SelectItem> opcionesCropNames) {
-		this.opcionesCropNames = opcionesCropNames;
+	public void setOptionsCropNames(List<SelectItem> optionsCropNames) {
+		this.optionsCropNames = optionsCropNames;
 	}
 
 	/**
-	 * @return opcionesCrops: crop associated with an activity.
+	 * @return optionsCrops: crop associated with an activity.
 	 */
-	public List<SelectItem> getOpcionesCrops() {
-		return opcionesCrops;
+	public List<SelectItem> getOptionsCrops() {
+		return optionsCrops;
 	}
 
 	/**
-	 * @param opcionesCrops
+	 * @param optionsCrops
 	 *            : crop associated with an activity.
 	 */
-	public void setOpcionesCrops(List<SelectItem> opcionesCrops) {
-		this.opcionesCrops = opcionesCrops;
+	public void setOptionsCrops(List<SelectItem> optionsCrops) {
+		this.optionsCrops = optionsCrops;
 	}
 
 	/**
-	 * @return opcionesActivityName: name of the activity associated with a
-	 *         crop.
+	 * @return optionsActivityName: name of the activity associated with a crop.
 	 */
-	public List<SelectItem> getOpcionesActivityName() {
-		return opcionesActivityName;
+	public List<SelectItem> getOptionsActivityName() {
+		return optionsActivityName;
 	}
 
 	/**
-	 * @param opcionesActivityName
+	 * @param optionsActivityName
 	 *            : name of the activity associated with a crop.
 	 */
-	public void setOpcionesActivityName(List<SelectItem> opcionesActivityName) {
-		this.opcionesActivityName = opcionesActivityName;
+	public void setOptionsActivityName(List<SelectItem> optionsActivityName) {
+		this.optionsActivityName = optionsActivityName;
 	}
 
 	/**
-	 * @return opcionesConsumables: name consumable.
+	 * @return optionsConsumables: Names of consumables.
 	 */
-	public List<SelectItem> getOpcionesConsumables() {
-		return opcionesConsumables;
+	public List<SelectItem> getOptionsConsumables() {
+		return optionsConsumables;
 	}
 
 	/**
-	 * @param opcionesConsumables
-	 *            : name consumable.
+	 * @param optionsConsumables
+	 *            : Names of consumables.
 	 */
-	public void setOpcionesConsumables(List<SelectItem> opcionesConsumables) {
-		this.opcionesConsumables = opcionesConsumables;
+	public void setOptionsConsumables(List<SelectItem> optionsConsumables) {
+		this.optionsConsumables = optionsConsumables;
 	}
 
 	/**
-	 * @return activities: Object of class activities.
+	 * @return activities: Object of activities.
 	 */
 	public Activities getActivities() {
 		return activities;
@@ -288,14 +287,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param activities
-	 *            : Object of class activities.
+	 *            : Object of activities.
 	 */
 	public void setActivities(Activities activities) {
 		this.activities = activities;
 	}
 
 	/**
-	 * @return crops: Object of class crop.
+	 * @return crops: Object of crop.
 	 */
 	public Crops getCrops() {
 		return crops;
@@ -303,14 +302,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param crops
-	 *            : Object of class crop.
+	 *            : Object of crop.
 	 */
 	public void setCrops(Crops crops) {
 		this.crops = crops;
 	}
 
 	/**
-	 * @return cropNames: Object of the class name of the crop.
+	 * @return cropNames: Object of crop names.
 	 */
 	public CropNames getCropNames() {
 		return cropNames;
@@ -318,14 +317,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param cropNames
-	 *            : Object of the class name of the crop.
+	 *            : Object of crop names.
 	 */
 	public void setCropNames(CropNames cropNames) {
 		this.cropNames = cropNames;
 	}
 
 	/**
-	 * @return activityMachine: Object class machine activity.
+	 * @return activityMachine: Object of machine activity.
 	 */
 	public ActivityMachine getActivityMachine() {
 		return activityMachine;
@@ -333,14 +332,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param activityMachine
-	 *            : Object class machine activity.
+	 *            : Object of machine activity.
 	 */
 	public void setActivityMachine(ActivityMachine activityMachine) {
 		this.activityMachine = activityMachine;
 	}
 
 	/**
-	 * @return machine: Object of machine class.
+	 * @return machine: Object of machines.
 	 */
 	public Machines getMachine() {
 		return machine;
@@ -348,14 +347,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param machine
-	 *            : Object of machine class.
+	 *            : Object of machines.
 	 */
 	public void setMachine(Machines machine) {
 		this.machine = machine;
 	}
 
 	/**
-	 * @return selectedActivity: object activity selected
+	 * @return selectedActivity: Object of activity that is selected.
 	 */
 	public Activities getSelectedActivity() {
 		return selectedActivity;
@@ -363,14 +362,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param selectedActivity
-	 *            : object activity selected
+	 *            : Object of activity that is selected.
 	 */
 	public void setSelectedActivity(Activities selectedActivity) {
 		this.selectedActivity = selectedActivity;
 	}
 
 	/**
-	 * @return activitiesAction: object activitiesAction
+	 * @return activitiesAction: object of activitiesAction.
 	 */
 	public ActivitiesAction getActivitiesAction() {
 		return activitiesAction;
@@ -378,14 +377,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param activitiesAction
-	 *            : object activitiesAction
+	 *            : object of activitiesAction.
 	 */
 	public void setActivitiesAction(ActivitiesAction activitiesAction) {
 		this.activitiesAction = activitiesAction;
 	}
 
 	/**
-	 * @return machinesAction: object machinesAction
+	 * @return machinesAction: object of machinesAction.
 	 */
 	public MachinesAction getMachinesAction() {
 		return machinesAction;
@@ -393,15 +392,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param machinesAction
-	 *            : object machinesAction
+	 *            : object of machinesAction.
 	 */
 	public void setMachinesAction(MachinesAction machinesAction) {
 		this.machinesAction = machinesAction;
 	}
 
 	/**
-	 * @return paginadorActivitiesMachines: Management paged list of
-	 *         activityMachines.
+	 * @return paginadorActivitiesMachines: Paged list of activityMachines.
 	 */
 	public Paginador getPaginadorActivitiesMachines() {
 		return paginadorActivitiesMachines;
@@ -409,7 +407,7 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * @param paginadorActivitiesMachines
-	 *            : Management paged list of activityMachines.
+	 *            : Paged list of activityMachines.
 	 */
 	public void setPaginadorActivitiesMachines(
 			Paginador paginadorActivitiesMachines) {
@@ -433,9 +431,9 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method to edit or create a new assignment of activities
+	 * Method to edit or create a new assignment of activities.
 	 * 
-	 * @return scheduledActivities: Redirects view of scheduled Activities
+	 * @return scheduledActivities: Redirects to scheduled activities view.
 	 */
 	public String initializeActivities() {
 		try {
@@ -443,7 +441,7 @@ public class ScheduledActivitiesAction implements Serializable {
 				this.activitiesAction = ControladorContexto
 						.getContextBean(ActivitiesAction.class);
 			}
-			limpiarActivities();
+			eraseActivities();
 			this.crops = new Crops();
 			this.activities = new Activities();
 			this.cropNames = new CropNames();
@@ -461,8 +459,8 @@ public class ScheduledActivitiesAction implements Serializable {
 				idCrop = 0;
 				idCropName = 0;
 			}
-			llenarCropNames();
-			llenarCropNamesCrop();
+			loadCropNames();
+			loadCropNamesCrop();
 
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -471,33 +469,32 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method that loads a CropNames list
+	 * Method that loads a CropNames list.
 	 * 
 	 * @throws Exception
 	 */
-	private void llenarCropNames() throws Exception {
-		opcionesCropNames = new ArrayList<SelectItem>();
+	private void loadCropNames() throws Exception {
+		optionsCropNames = new ArrayList<SelectItem>();
 		List<CropNames> listCropNames = cropNamesDao.listCropNames();
 		if (listCropNames != null) {
 			for (CropNames cropNames : listCropNames) {
-				opcionesCropNames.add(new SelectItem(cropNames.getIdCropName(),
+				optionsCropNames.add(new SelectItem(cropNames.getIdCropName(),
 						cropNames.getCropName()));
 			}
 		}
 	}
 
 	/**
-	 * It allows complete the list of crops harvested according to the selected
-	 * name.
+	 * Complete the list of crops harvested according to the selected name.
 	 */
-	public void llenarCropNamesCrop() {
+	public void loadCropNamesCrop() {
 		try {
-			opcionesCrops = new ArrayList<SelectItem>();
-			List<Crops> listaCropsVigentes = cropsDao
+			optionsCrops = new ArrayList<SelectItem>();
+			List<Crops> listCropsVigentes = cropsDao
 					.consultCropNamesCropsCurrent(idCropName);
-			if (listaCropsVigentes != null) {
-				for (Crops crops : listaCropsVigentes) {
-					opcionesCrops.add(new SelectItem(crops.getIdCrop(), crops
+			if (listCropsVigentes != null) {
+				for (Crops crop : listCropsVigentes) {
+					optionsCrops.add(new SelectItem(crop.getIdCrop(), crop
 							.getDescription()));
 				}
 			}
@@ -507,8 +504,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method that loads a machinesType list
-	 * 
+	 * Method that loads a machinesType list.
 	 */
 	public void listMachineTypes() {
 		try {
@@ -528,16 +524,15 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method to clean up the list of activities and the name of the crop
+	 * Method to clean up the list of activities and the name of the crop.
 	 */
-	private void limpiarActivities() {
+	private void eraseActivities() {
 		this.listActivities = new ArrayList<Activities>();
 		this.cropNames = new CropNames();
 	}
 
 	/**
-	 * Assign selected activity
-	 * 
+	 * Assigned selected activity.
 	 */
 	public void assignSelectedActivity() {
 		this.activitiesAction = new ActivitiesAction();
@@ -550,8 +545,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * gets the list of machines machineAction
-	 * 
+	 * Sets the list of machines machineAction.
 	 */
 	public void initializeMachine() {
 		this.listActivities = new ArrayList<Activities>();
@@ -570,12 +564,12 @@ public class ScheduledActivitiesAction implements Serializable {
 	public void showActivities() {
 		try {
 			this.activities = new Activities();
-			opcionesActivityName = new ArrayList<SelectItem>();
-			List<ActivityNames> tiposActivityNames = activityNamesDao
+			optionsActivityName = new ArrayList<SelectItem>();
+			List<ActivityNames> activityNameTypes = activityNamesDao
 					.queryActivityNamesXCrop(idCrop);
-			if (tiposActivityNames != null) {
-				for (ActivityNames activities : tiposActivityNames) {
-					opcionesActivityName
+			if (activityNameTypes != null) {
+				for (ActivityNames activities : activityNameTypes) {
+					optionsActivityName
 							.add(new SelectItem(activities.getIdActivityName(),
 									activities.getActivityName()));
 				}
@@ -583,7 +577,7 @@ public class ScheduledActivitiesAction implements Serializable {
 					this.activitiesAction = ControladorContexto
 							.getContextBean(ActivitiesAction.class);
 					this.activitiesAction
-							.setItemsActivities(opcionesActivityName);
+							.setItemsActivities(optionsActivityName);
 				}
 			}
 		} catch (Exception e) {
@@ -592,15 +586,14 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Check the relationship between activities and human resources
-	 * 
+	 * Check the relations between activities and human resources.
 	 */
 	public void showActivitiesAndMachineForActivity() {
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listActivityMachine = new ArrayList<ActivityMachine>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
-		StringBuilder query = new StringBuilder();
+		StringBuilder queryBuilder = new StringBuilder();
 		String SearchMessage = "";
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
@@ -612,22 +605,21 @@ public class ScheduledActivitiesAction implements Serializable {
 				this.selectedActivity = recordActivitiesActualsAction
 						.getSelectedActivity();
 			}
-			busquedaAvanzadaActivitiesAndMachine(query, parameters);
-			Long cantidad = activitiesAndMachineDao
-					.quantityActivitiesAndMachine(query, parameters);
-			busquedaAvanzadaActivitiesAndMachine(query, parameters);
-			if (cantidad != null) {
-				if (cantidad > 5) {
-					paginadorActivitiesMachines.paginarRangoDefinido(cantidad,
-							5);
+			advancedSearchActivitiesAndMachine(queryBuilder, parameters);
+			Long amount = activitiesAndMachineDao.quantityActivitiesAndMachine(
+					queryBuilder, parameters);
+			advancedSearchActivitiesAndMachine(queryBuilder, parameters);
+			if (amount != null) {
+				if (amount > 5) {
+					paginadorActivitiesMachines.paginarRangoDefinido(amount, 5);
 				} else {
-					paginadorActivitiesMachines.paginar(cantidad);
+					paginadorActivitiesMachines.paginar(amount);
 				}
 				this.listActivityMachine = activitiesAndMachineDao
 						.consultingActivitiesAndMachine(
 								paginadorActivitiesMachines.getInicio(),
-								paginadorActivitiesMachines.getRango(), query,
-								parameters);
+								paginadorActivitiesMachines.getRango(),
+								queryBuilder, parameters);
 			}
 			if (!fromModal) {
 				if (ControladorContexto.getFacesContext() != null) {
@@ -641,24 +633,23 @@ public class ScheduledActivitiesAction implements Serializable {
 			} else {
 				recordActivitiesActualsAction.actualCost();
 			}
-			validaciones.setMensajeBusqueda(SearchMessage);
+			validation.setMensajeBusqueda(SearchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
 
 	/**
-	 * This method build the query to the advanced search for relationship
-	 * between activities and machines, also it allows messages to build show
-	 * depending on the search criteria selected by the user.
-	 * 
+	 * This method builds the query for an advanced search for relations between
+	 * activities and machines, it also builds display messages depending on the
+	 * search criteria selected by the user.
 	 * 
 	 * @param query
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of the search parameters.
 	 */
-	private void busquedaAvanzadaActivitiesAndMachine(StringBuilder query,
+	private void advancedSearchActivitiesAndMachine(StringBuilder query,
 			List<SelectItem> parameters) {
 		boolean selection = false;
 		if (query.length() > 0) {
@@ -676,7 +667,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Select and deselect the machines in a list
+	 * Select and deselect the machines in a list.
 	 * 
 	 * @param machine
 	 *            : Machine object.
@@ -732,7 +723,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	 * Calculate the cost of consumption of the machine.
 	 * 
 	 * @param activityMachine
-	 *            : activityMachine object.
+	 *            : ActivityMachine object.
 	 */
 	public void calculateConsumableCost(ActivityMachine activityMachine) {
 		Double fuelConsumption = activityMachine.getActivityMachinePK()
@@ -747,12 +738,11 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Save the relationship between activities and machines.
-	 * 
+	 * Save the relations between activities and machines.
 	 */
 	public void saveActivitiesAndMachine() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_guardar";
+		String registerMessage = "message_registro_guardar";
 		Double costConsumableMachine = 0.0;
 		try {
 			if (this.listActivityMachineTemp != null
@@ -765,7 +755,7 @@ public class ScheduledActivitiesAction implements Serializable {
 					costConsumableMachine += activityMachine
 							.getConsumablesCostBudget();
 					ControladorContexto.mensajeInformacion(null, MessageFormat
-							.format(bundle.getString(mensajeRegistro),
+							.format(bundle.getString(registerMessage),
 									activityMachine.getActivityMachinePK()
 											.getMachines().getName()));
 				}
@@ -775,7 +765,7 @@ public class ScheduledActivitiesAction implements Serializable {
 				costConsumableMachine += selectedActivity
 						.getCostMachinesEqBudget();
 				selectedActivity.setCostMachinesEqBudget(costConsumableMachine);
-				activitiesDao.editarActivities(this.selectedActivity);
+				activitiesDao.editActivities(this.selectedActivity);
 				setListActivityMachineTemp(null);
 				showActivitiesAndMachineForActivity();
 			}
@@ -785,16 +775,16 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Update the relationship between activities and machines.
+	 * Update the relations between activities and machines.
 	 */
 	public void updateActivityMachine() {
 		try {
 			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-			String mensajeRegistro = "message_registro_modificar";
+			String registerMessage = "message_registro_modificar";
 			activitiesAndMachineDao
 					.editActivitiesAndMachine(this.activityMachine);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), this.activityMachine
+					bundle.getString(registerMessage), this.activityMachine
 							.getActivityMachinePK().getMachines().getName()));
 			showActivitiesAndMachineForActivity();
 		} catch (Exception e) {
@@ -803,8 +793,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Delete the relationship between activities and machines.
-	 * 
+	 * Delete the relations between activities and machines.
 	 */
 	public void deleteActivitiesAndMachine() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -818,7 +807,7 @@ public class ScheduledActivitiesAction implements Serializable {
 					.getCostMachinesEqBudget()
 					- this.activityMachine.getConsumablesCostBudget();
 			this.selectedActivity.setCostMachinesEqBudget(costMachineBudget);
-			this.activitiesDao.editarActivities(this.selectedActivity);
+			this.activitiesDao.editActivities(this.selectedActivity);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(message), activityMachine
 							.getActivityMachinePK().getMachines().getName()));
@@ -839,7 +828,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	 * exceed the total time of the activity.
 	 * 
 	 * @param context
-	 *            : Context of sight.
+	 *            : Context for the view.
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -870,16 +859,16 @@ public class ScheduledActivitiesAction implements Serializable {
 				((UIInput) toValidate).setValid(false);
 			}
 		} else {
-			String mensaje = "message_duration_mayor_cero";
-			ControladorContexto.mensajeErrorEspecifico(clientId, mensaje,
+			String message = "message_duration_mayor_cero";
+			ControladorContexto.mensajeErrorEspecifico(clientId, message,
 					"mensaje");
 			((UIInput) toValidate).setValid(false);
 		}
 	}
 
 	/**
-	 * It will calculate the length considering the difference two dates for
-	 * activity machine
+	 * It will calculate the length considering the different two dates for an
+	 * activity machine.
 	 */
 	public void calculateDuration() {
 		try {

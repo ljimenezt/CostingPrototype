@@ -12,8 +12,8 @@ import javax.persistence.Query;
 import co.informatix.erp.costs.entities.Activities;
 
 /**
- * DAO class that establishes the connection between business logic and base
- * data management activities.
+ * DAO class that establishes the connection between business logic and data
+ * base for activities.
  * 
  * @author Johnatan.Naranjo
  * 
@@ -25,139 +25,96 @@ public class ActivitiesDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Save an activity in BD
+	 * Save an activity in the database.
 	 * 
 	 * @param activities
-	 *            : activity to save.
+	 *            : Activity to save.
 	 * @throws Exception
 	 */
-	public void guardarActivities(Activities activities) throws Exception {
+	public void saveActivities(Activities activities) throws Exception {
 		em.persist(activities);
 	}
 
 	/**
-	 * Edit an activity in BD
+	 * Edit an activity in database.
 	 * 
 	 * @param activities
-	 *            : activity to edit.
+	 *            : Activity to edit.
 	 * @throws Exception
 	 */
-	public void editarActivities(Activities activities) throws Exception {
+	public void editActivities(Activities activities) throws Exception {
 		em.merge(activities);
 	}
 
 	/**
-	 * Remove activity
+	 * Remove an activity.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param activities
-	 *            : activity to remove
+	 *            : Activity to remove.
 	 * @throws Exception
 	 */
-	public void eliminarActivities(Activities activities) throws Exception {
+	public void deleteActivities(Activities activities) throws Exception {
 		em.remove(em.merge(activities));
 	}
 
 	/**
-	 * Returns the number of existing activities in the BD filtering information
-	 * search by the values sent.
+	 * Returns the number of existing activities in the database, and it filters
+	 * the records with search values.
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @param consulta
+	 * @param query
 	 *            : String containing the query why the leak.
-	 * @param parametros
-	 *            :query parameters
-	 * @return Long: number of activity records found
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Number of activity records found.
 	 * @throws Exception
 	 */
-	public Long cantidadActivities(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(a) FROM Activities a ");
-		query.append(consulta);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public Long amountActivities(StringBuilder query,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(a) FROM Activities a ");
+		queryBuilder.append(query);
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * This method consultation activities with a certain range sent as a
-	 * parameter and filtering the information by the values of search sent.
-	 * 
-	 * @author Andres.Gomez
-	 * 
-	 * @param inicio
-	 *            : where it initiates the consultation record
-	 * @param rango
-	 *            : range of the records
-	 * @param consulta
-	 *            : Consultation records depending on the parameters selected by
-	 *            the user.
-	 * @param parametros
-	 *            : query parameters.
-	 * @return List<Activities>: List of activities.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Activities> consultarActivities(int inicio, int rango,
-			StringBuilder consulta, List<SelectItem> parametros)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT a FROM  Activities a ");
-		query.append(consulta);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
-		}
-		q.setFirstResult(inicio).setMaxResults(rango);
-		List<Activities> resultList = q.getResultList();
-		if (resultList.size() > 0) {
-			return resultList;
-		}
-		return null;
-	}
-
-	/**
-	 * This method consultation activities that are associated with a crop.
+	 * This method query activities with a certain range sent as a parameter and
+	 * it filters the records with search values.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param start
-	 *            : where it initiates the consultation record
+	 *            : The first record that is retrieved from the result.
 	 * @param range
-	 *            : range of the records
-	 * @param consult
-	 *            : Consultation records depending on the parameters selected by
-	 *            the user.
+	 *            : Range of the records to be retrieved.
+	 * @param query
+	 *            : Record filters depending on the parameters selected by the
+	 *            user.
 	 * @param parameters
-	 *            : query parameters.
-	 * @param idCrop
-	 *            : crop identifier.
+	 *            : Query parameters.
 	 * @return List<Activities>: List of activities.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Activities> consultarActivitiesXCrop(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters, int idCrop)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT a FROM  Activities a ");
-		query.append("JOIN FETCH a.activityName an ");
-		query.append("JOIN a.crop c ");
-		query.append("WHERE c.idCrop =:idCrop ");
-		query.append(consult);
-		query.append("ORDER BY a.initialDtBudget DESC ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idCrop", idCrop);
+	public List<Activities> queryActivities(int start, int range,
+			StringBuilder query, List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT a FROM  Activities a ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+			queryResult
+					.setParameter(parametro.getLabel(), parametro.getValue());
 		}
-		q.setFirstResult(start).setMaxResults(range);
-		List<Activities> resultList = q.getResultList();
+		queryResult.setFirstResult(start).setMaxResults(range);
+		List<Activities> resultList = queryResult.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
@@ -165,44 +122,89 @@ public class ActivitiesDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of existing activities in the BD filtering information
-	 * search by the values sent.
+	 * This method look for activities that are associated with a crop.
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @param consult
-	 *            : String containing the query for the amount of activities.
+	 * @param start
+	 *            : The first record that is retrieved from the result.
+	 * @param range
+	 *            : Range of the records to be retrieved.
+	 * @param query
+	 *            : Record filters depending on the parameters selected by the
+	 *            user.
 	 * @param parameters
-	 *            :query parameters
-	 * @param idCrop
-	 *            :identifier of the crop associated to the activities that are
-	 *            going to be searched
-	 * @return Long: number of activity records found
+	 *            : Query parameters.
+	 * @param cropId
+	 *            : Crop identifier.
+	 * @return List<Activities>: List of activities.
 	 * @throws Exception
 	 */
-	public Long amountActivitiesCrop(StringBuilder consult,
-			List<SelectItem> parameters, int idCrop) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(a) FROM Activities a ");
-		query.append("JOIN a.activityName an ");
-		query.append("JOIN a.crop c ");
-		query.append("WHERE c.idCrop =:idCrop ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idCrop", idCrop);
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	@SuppressWarnings("unchecked")
+	public List<Activities> queryActivitiesByCrop(int start, int range,
+			StringBuilder query, List<SelectItem> parameters, int cropId)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT a FROM  Activities a ");
+		queryBuilder.append("JOIN FETCH a.activityName an ");
+		queryBuilder.append("JOIN a.crop c ");
+		queryBuilder.append("WHERE c.idCrop =:idCrop ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY a.initialDtBudget DESC ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idCrop", cropId);
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		return (Long) q.getSingleResult();
+		queryResult.setFirstResult(start).setMaxResults(range);
+		List<Activities> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
 	}
 
 	/**
-	 * Consultation activity by its identifier
+	 * Returns the number of existing activities in the database, it is
+	 * filtering records with given search values.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param query
+	 *            : String containing the query for the amount of activities.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @param cropId
+	 *            : Identifier of the crop associated to the activities that are
+	 *            going to be searched.
+	 * @return Long: Amount of activity records found
+	 * @throws Exception
+	 */
+	public Long amountActivitiesCrop(StringBuilder query,
+			List<SelectItem> parameters, int cropId) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(a) FROM Activities a ");
+		queryBuilder.append("JOIN a.activityName an ");
+		queryBuilder.append("JOIN a.crop c ");
+		queryBuilder.append("WHERE c.idCrop =:idCrop ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idCrop", cropId);
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		return (Long) queryResult.getSingleResult();
+	}
+
+	/**
+	 * Query an activity by its identifier.
 	 * 
 	 * @author Andres.Gomez
 	 * 
 	 * @param idActivity
-	 *            : identifier of the activity
+	 *            : identifier of the activity.
 	 * 
 	 * @return Activities: Activity found according to the identifier sent as a
 	 *         parameter.
@@ -210,7 +212,7 @@ public class ActivitiesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Activities obtenerActivity(int idActivity) throws Exception {
+	public Activities activityById(int idActivity) throws Exception {
 		List<Activities> results = em
 				.createQuery(
 						"SELECT a FROM Activities a WHERE a.idActivity=:idActivity")
@@ -222,45 +224,48 @@ public class ActivitiesDao implements Serializable {
 	}
 
 	/**
-	 * This method consultation names related activities certifications; with a
-	 * certain range and sent as a parameter filtering the information by the
-	 * values sent search.
+	 * This method queries activities that are related to certifications; it
+	 * filters the information with search values and retrieves an amount
+	 * according to the specified range.
 	 * 
 	 * @author Mabell.Boada
 	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
-	 * @param inicio
-	 *            : Registry where consultation begins
-	 * @param rango
-	 *            : Range of records
-	 * @param consulta
-	 *            : Consultation records depending on the parameters selected by
-	 *            the user.
-	 * @param parametros
-	 *            : Parameters of the query.
+	 * @param start
+	 *            : The first record that is retrieved from the result.
+	 * @param range
+	 *            : Range of the records to be retrieved.
+	 * @param query
+	 *            : Record filters depending on the parameters selected by the
+	 *            user.
+	 * @param parameters
+	 *            : Query parameters.
 	 * @return List<Activities>: List of names of activities.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Activities> consultarActivityNamesXIdCert(int inicio,
-			int rango, StringBuilder consulta, List<SelectItem> parametros)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT a FROM Activities a ");
-		query.append("JOIN FETCH a.activityName an ");
-		query.append("JOIN FETCH a.crop c ");
-		query.append("JOIN FETCH c.cropNames cn ");
-		query.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
-		query.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
-		query.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
-		query.append(consulta);
-		query.append("ORDER BY a.idActivity ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public List<Activities> queryActivityNamesByIdCert(int start, int range,
+			StringBuilder query, List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT a FROM Activities a ");
+		queryBuilder.append("JOIN FETCH a.activityName an ");
+		queryBuilder.append("JOIN FETCH a.crop c ");
+		queryBuilder.append("JOIN FETCH c.cropNames cn ");
+		queryBuilder
+				.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
+		queryBuilder
+				.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
+		queryBuilder
+				.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY a.idActivity ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(inicio).setMaxResults(rango);
-		List<Activities> resultList = q.getResultList();
+		queryResult.setFirstResult(start).setMaxResults(range);
+		List<Activities> resultList = queryResult.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
@@ -268,48 +273,52 @@ public class ActivitiesDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of existing activities in the database by filtering
-	 * Sent search values.
+	 * Returns the number of existing activities in the database; it filters the
+	 * records with search values.
 	 * 
 	 * @author Mabell.Boada
 	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
-	 * @param consulta
-	 *            : String containing the query why the filter names activities.
-	 * @param parametros
+	 * @param query
+	 *            : String containing the query that filters activities.
+	 * @param parameters
 	 *            : Parameters of the query.
-	 * @return Long: Number of records found name activities.
+	 * @return Long: Number of activities records found.
 	 * @throws Exception
 	 */
-	public Long cantidadActivitiesXIdCert(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(a) FROM Activities a ");
-		query.append("JOIN a.activityName an ");
-		query.append("JOIN a.crop c ");
-		query.append("JOIN c.cropNames cn ");
-		query.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
-		query.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
-		query.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
-		query.append(consulta);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+
+	public Long queryActivitiesByIdCert(StringBuilder query,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(a) FROM Activities a ");
+		queryBuilder.append("JOIN a.activityName an ");
+		queryBuilder.append("JOIN a.crop c ");
+		queryBuilder.append("JOIN c.cropNames cn ");
+		queryBuilder
+				.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
+		queryBuilder
+				.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
+		queryBuilder
+				.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		return (Long) q.getSingleResult();
+		return (Long) queryResult.getSingleResult();
 	}
 
 	/**
-	 * Method charge return the list of activities
+	 * Return the list of activities.
 	 * 
 	 * @author Mabell.Boada
 	 * 
 	 * @return List<Activities>: List of all activities.
 	 * @throws Exception
-	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Activities> consultarActivities() throws Exception {
+	public List<Activities> queryAllActivities() throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT a FROM Activities a ");
 		query.append("JOIN FETCH a.activityName an ");
@@ -323,12 +332,12 @@ public class ActivitiesDao implements Serializable {
 	}
 
 	/**
-	 * Consult an activity that is related to an activity name
+	 * Query an activity that is related to an activity name.
 	 * 
 	 * @author Mabell.Boada
 	 * 
-	 * @param idActName
-	 *            : Identifier name of the activity
+	 * @param actNameId
+	 *            : Identifier of the activity name.
 	 * 
 	 * @return Activities: Activity found according to the identifier sent as a
 	 *         parameter.
@@ -336,14 +345,14 @@ public class ActivitiesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Activities activityXIdActNames(int idActName) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT a FROM Activities a ");
-		query.append("JOIN FETCH a.activityName an ");
-		query.append("WHERE an.idActivityName=:idActName ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idActName", idActName);
-		List<Activities> results = q.getResultList();
+	public Activities activityByActNameId(int actNameId) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT a FROM Activities a ");
+		queryBuilder.append("JOIN FETCH a.activityName an ");
+		queryBuilder.append("WHERE an.idActivityName=:idActName ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idActName", actNameId);
+		List<Activities> results = queryResult.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -351,97 +360,101 @@ public class ActivitiesDao implements Serializable {
 	}
 
 	/**
-	 * Consult the number of activities that require at least one certified.
+	 * Look for the amount of activities that require at least one
+	 * certification.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
-	 * @param idActivity
-	 *            : activity identifier.
-	 * @return List<Activities>: list of activities with at least one certified.
+	 * @param activityId
+	 *            : Activity identifier.
+	 * @return List<Activities>: List of activities with at least one
+	 *         certification.
 	 * @throws Exception
 	 */
-	public Long consultarActivitiesCertificadas(int idActivity)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(a) FROM  Activities a ");
-		query.append("WHERE a IN ");
-		query.append("(SELECT aca FROM ActivitiesAndCertifications ac ");
-		query.append("JOIN ac.activitiesAndCertificationsPK.activities aca ");
-		query.append("WHERE aca.idActivity = :idActividad) ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idActividad", idActivity);
-		return (Long) q.getSingleResult();
+	public Long queryCertifiedActivities(int activityId) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(a) FROM  Activities a ");
+		queryBuilder.append("WHERE a IN ");
+		queryBuilder.append("(SELECT aca FROM ActivitiesAndCertifications ac ");
+		queryBuilder
+				.append("JOIN ac.activitiesAndCertificationsPK.activities aca ");
+		queryBuilder.append("WHERE aca.idActivity = :idActividad) ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idActividad", activityId);
+		return (Long) queryResult.getSingleResult();
 	}
 
 	/**
-	 * This method return the amount of the activities associated a crop
+	 * This method returns the amount of activities associated to a crop.
 	 * 
-	 * @param consult
-	 *            : String containing the query for which the properties are
-	 *            filtered.
+	 * @param query
+	 *            : String containing the query that has filters according to
+	 *            some parameters.
 	 * @param parameters
-	 *            : query parameters.
-	 * @param idCrop
-	 *            :identifier of the crop associated to the activities that are
-	 *            going to be searched
-	 * @return Long: amount of activities records found
+	 *            : Query parameters.
+	 * @param cropId
+	 *            : Identifier of the crop associated to the activities that are
+	 *            going to be searched.
+	 * @return Long: Amount of activities records found.
 	 * @throws Exception
 	 */
-	public Long amountActivities(StringBuilder consult,
-			List<SelectItem> parameters, int idCrop) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(a) FROM Activities a ");
-		query.append("JOIN a.activityName an ");
-		query.append("JOIN a.crop c ");
-		query.append("WHERE c.idCrop =:idCrop ");
-		query.append("AND a.serviceRequired is true ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idCrop", idCrop);
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+	public Long amountActivities(StringBuilder query,
+			List<SelectItem> parameters, int cropId) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(a) FROM Activities a ");
+		queryBuilder.append("JOIN a.activityName an ");
+		queryBuilder.append("JOIN a.crop c ");
+		queryBuilder.append("WHERE c.idCrop =:idCrop ");
+		queryBuilder.append("AND a.serviceRequired is true ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idCrop", cropId);
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		return (Long) q.getSingleResult();
+		return (Long) queryResult.getSingleResult();
 	}
 
 	/**
-	 * This method consultation activities with determined sent as a parameter
-	 * range and filtering the information by the values sent search.
+	 * This method queries activities with a certain range and it filters the
+	 * information with search values.
 	 * 
 	 * @param start
-	 *            :record in which the consult started
+	 *            : The first record that is retrieved from the result.
 	 * @param range
-	 *            : range of records to be included in the consult
-	 * @param consult
-	 *            : Query to search the records depending on the user selected
-	 *            parameter.
+	 *            : Range of the records to be retrieved.
+	 * @param query
+	 *            : Record filters depending on the parameters selected by the
+	 *            user.
 	 * @param parameters
-	 *            : consult parameters.
-	 * @param idCrop
-	 *            :identifier of the crop associated to the activities that are
-	 *            going to be searched
-	 * @return List<Activities>: list of activities.
+	 *            : Query parameters.
+	 * @param cropId
+	 *            : Identifier of the crop associated to the activities that are
+	 *            going to be searched.
+	 * @return List<Activities>: List of activities.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Activities> consultActivities(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters, int idCrop)
+	public List<Activities> queryActivities(int start, int range,
+			StringBuilder query, List<SelectItem> parameters, int cropId)
 			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT a FROM Activities a ");
-		query.append("JOIN FETCH a.activityName an ");
-		query.append("JOIN FETCH a.crop c ");
-		query.append("WHERE c.idCrop =:idCrop ");
-		query.append("AND a.serviceRequired is true ");
-		query.append(consult);
-		query.append("ORDER BY an.activityName ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idCrop", idCrop);
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT a FROM Activities a ");
+		queryBuilder.append("JOIN FETCH a.activityName an ");
+		queryBuilder.append("JOIN FETCH a.crop c ");
+		queryBuilder.append("WHERE c.idCrop =:idCrop ");
+		queryBuilder.append("AND a.serviceRequired is true ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY an.activityName ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idCrop", cropId);
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(start).setMaxResults(range);
-		List<Activities> resultList = q.getResultList();
+		queryResult.setFirstResult(start).setMaxResults(range);
+		List<Activities> resultList = queryResult.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}

@@ -437,7 +437,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 			if (amount != null) {
 				paginador.paginar(amount);
 			}
-			this.listActivities = activitiesDao.consultActivities(
+			this.listActivities = activitiesDao.queryActivities(
 					paginador.getInicio(), paginador.getRango(), consult,
 					parameters, idCrops);
 			if (listActivities == null || listActivities.size() <= 0) {
@@ -627,7 +627,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 				} else {
 					outTxtSave += services.getDescription() + ", ";
 					Activities activity = activitiesDao
-							.obtenerActivity(this.activities.getIdActivity());
+							.activityById(this.activities.getIdActivity());
 					services.setActivities(activity);
 					activitiesAndServicesDao
 							.saveActivitiesAndServices(services);

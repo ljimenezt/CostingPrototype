@@ -596,11 +596,11 @@ public class CropActivitiesAction implements Serializable {
 				if (activities.getIdActivity() != 0) {
 					outTxtEdit += activities.getActivityName()
 							.getActivityName() + ", ";
-					activitiesDao.editarActivities(activities);
+					activitiesDao.editActivities(activities);
 				} else {
 					outTxtSave += activities.getActivityName()
 							.getActivityName() + ", ";
-					activitiesDao.guardarActivities(activities);
+					activitiesDao.saveActivities(activities);
 				}
 			}
 			if (this.listCycleStandardActivities.size() != 0) {
@@ -633,7 +633,7 @@ public class CropActivitiesAction implements Serializable {
 							.getGeneralCostHa());
 					activities.setDangerous(cycleStandardActivities
 							.getDangerous());
-					activitiesDao.guardarActivities(activities);
+					activitiesDao.saveActivities(activities);
 					outStandardSave += cycleStandardActivities
 							.getActivityNames().getActivityName() + ", ";
 				}
@@ -809,7 +809,7 @@ public class CropActivitiesAction implements Serializable {
 			}
 			for (Activities activities : this.listActivities) {
 				if (activities.equals(removeList)) {
-					activitiesDao.eliminarActivities(removeList);
+					activitiesDao.deleteActivities(removeList);
 					listActivities.remove(removeList);
 					break;
 				}
@@ -878,7 +878,7 @@ public class CropActivitiesAction implements Serializable {
 			if (amount != null) {
 				paginadorListActivities.paginar(amount);
 			}
-			this.listActivities = activitiesDao.consultarActivitiesXCrop(
+			this.listActivities = activitiesDao.queryActivitiesByCrop(
 					paginadorListActivities.getInicio(),
 					paginadorListActivities.getRango(), consult, parameters,
 					idCrops);
