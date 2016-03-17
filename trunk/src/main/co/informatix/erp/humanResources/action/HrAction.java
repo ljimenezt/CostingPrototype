@@ -26,7 +26,6 @@ import co.informatix.erp.humanResources.entities.HrTypes;
 import co.informatix.erp.humanResources.entities.PaymentMethods;
 import co.informatix.erp.informacionBase.dao.CivilStatusDao;
 import co.informatix.erp.informacionBase.dao.DepartamentoDao;
-import co.informatix.erp.informacionBase.dao.EstadoCivilDao;
 import co.informatix.erp.informacionBase.dao.MunicipioDao;
 import co.informatix.erp.informacionBase.dao.PaisDao;
 import co.informatix.erp.informacionBase.entities.CivilStatus;
@@ -61,8 +60,6 @@ public class HrAction implements Serializable {
 	private DepartamentoDao departamentoDao;
 	@EJB
 	private MunicipioDao municipioDao;
-	@EJB
-	private EstadoCivilDao estadoCivilDao;
 	@EJB
 	private CivilStatusDao civilStatusDao;
 	@EJB
