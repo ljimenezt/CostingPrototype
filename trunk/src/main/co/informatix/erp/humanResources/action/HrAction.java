@@ -24,12 +24,13 @@ import co.informatix.erp.humanResources.dao.PaymentMethodsDao;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.humanResources.entities.HrTypes;
 import co.informatix.erp.humanResources.entities.PaymentMethods;
+import co.informatix.erp.informacionBase.dao.CivilStatusDao;
 import co.informatix.erp.informacionBase.dao.DepartamentoDao;
 import co.informatix.erp.informacionBase.dao.EstadoCivilDao;
 import co.informatix.erp.informacionBase.dao.MunicipioDao;
 import co.informatix.erp.informacionBase.dao.PaisDao;
+import co.informatix.erp.informacionBase.entities.CivilStatus;
 import co.informatix.erp.informacionBase.entities.Departamento;
-import co.informatix.erp.informacionBase.entities.EstadoCivil;
 import co.informatix.erp.informacionBase.entities.Municipio;
 import co.informatix.erp.informacionBase.entities.Pais;
 import co.informatix.erp.utils.Constantes;
@@ -62,6 +63,8 @@ public class HrAction implements Serializable {
 	private MunicipioDao municipioDao;
 	@EJB
 	private EstadoCivilDao estadoCivilDao;
+	@EJB
+	private CivilStatusDao civilStatusDao;
 	@EJB
 	private PaymentMethodsDao paymentMethodsDao;
 	@EJB
@@ -718,6 +721,8 @@ public class HrAction implements Serializable {
 	/**
 	 * Save or edit human resources
 	 * 
+	 * @modify 17/03/2016 Wilhelm.Boada
+	 * 
 	 * @return searchHrs: Redirects to manage human resources in updated list
 	 */
 	public String saveHr() {
@@ -739,8 +744,8 @@ public class HrAction implements Serializable {
 			if (this.hr.getMunicipioResidencia().getId() == 0) {
 				this.hr.setMunicipioResidencia(null);
 			}
-			if (this.hr.getEstadoCivil().getId() == 0) {
-				this.hr.setEstadoCivil(null);
+			if (this.hr.getCivilStatus().getId() == 0) {
+				this.hr.setCivilStatus(null);
 			}
 
 			if (hr.getIdHr() != 0) {
@@ -787,6 +792,7 @@ public class HrAction implements Serializable {
 	 * municipality
 	 * 
 	 * @modify 14/07/2015 Gerardo.Herrera
+	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
 	 * @throws Exception
 	 * 
@@ -812,12 +818,12 @@ public class HrAction implements Serializable {
 		loadResidenceMunicipality();
 		/* Marital status */
 		maritalStatusItems = new ArrayList<SelectItem>();
-		List<EstadoCivil> currentMaritalStatus = estadoCivilDao
-				.consultarEstadosCivilesVigentes();
+		List<CivilStatus> currentMaritalStatus = civilStatusDao
+				.consultCivilStatus();
 		if (currentMaritalStatus != null) {
-			for (EstadoCivil maritalStatus : currentMaritalStatus) {
+			for (CivilStatus maritalStatus : currentMaritalStatus) {
 				maritalStatusItems.add(new SelectItem(maritalStatus.getId(),
-						maritalStatus.getNombre()));
+						maritalStatus.getName()));
 			}
 		}
 		loadPaymentMethodsCombo();
@@ -999,6 +1005,8 @@ public class HrAction implements Serializable {
 	/**
 	 * Method of uploading the details of a human resource.
 	 * 
+	 * @modify 17/03/2016 Wilhelm.Boada
+	 * 
 	 * @param hr
 	 *            : human resources which will carry the details.
 	 * @throws Exception
@@ -1009,8 +1017,8 @@ public class HrAction implements Serializable {
 		HrTypes hrTypes = (HrTypes) this.hrDao.queryHrObject("hrTypes", idHr);
 		PaymentMethods paymentMethods = (PaymentMethods) this.hrDao
 				.queryHrObject("paymentMethods", idHr);
-		EstadoCivil maritalStatus = (EstadoCivil) this.hrDao.queryHrObject(
-				"estadoCivil", idHr);
+		CivilStatus maritalStatus = (CivilStatus) this.hrDao.queryHrObject(
+				"civilStatus", idHr);
 		Pais birthCountry = (Pais) this.hrDao.queryHrObject("paisNacimiento",
 				idHr);
 		Departamento birthState = (Departamento) this.hrDao.queryHrObject(
@@ -1026,7 +1034,7 @@ public class HrAction implements Serializable {
 		/* Human resource properties will be filled up */
 		hr.setHrTypes(hrTypes);
 		hr.setPaymentMethods(paymentMethods);
-		hr.setEstadoCivil(maritalStatus);
+		hr.setCivilStatus(maritalStatus);
 		hr.setPaisNacimiento(birthCountry);
 		hr.setDepartamentoNacimiento(birthState);
 		hr.setMunicipioNacimiento(birthMunicipality);

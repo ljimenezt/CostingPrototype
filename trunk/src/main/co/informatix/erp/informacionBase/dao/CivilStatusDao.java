@@ -147,4 +147,18 @@ public class CivilStatusDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method allows consult the civil status list.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @return List<CivilStatus>: civil status list was found.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CivilStatus> consultCivilStatus() throws Exception {
+		return em.createQuery("SELECT cs FROM CivilStatus cs ORDER BY cs.name")
+				.getResultList();
+	}
 }
