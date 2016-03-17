@@ -227,9 +227,8 @@ public class ActivitiesDao implements Serializable {
 	 * values sent search.
 	 * 
 	 * @author Mabell.Boada
+	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
-	 * @param idCertAndRoles
-	 *            : : ID certification and consulting roles
 	 * @param inicio
 	 *            : Registry where consultation begins
 	 * @param rango
@@ -243,9 +242,9 @@ public class ActivitiesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Activities> consultarActivityNamesXIdCert(int idCertAndRoles,
-			int inicio, int rango, StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public List<Activities> consultarActivityNamesXIdCert(int inicio,
+			int rango, StringBuilder consulta, List<SelectItem> parametros)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT a FROM Activities a ");
 		query.append("JOIN FETCH a.activityName an ");
@@ -254,11 +253,9 @@ public class ActivitiesDao implements Serializable {
 		query.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
 		query.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
 		query.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
-		query.append("WHERE cr.idCertificactionsAndRoles=:idCertAndRoles ) ");
 		query.append(consulta);
 		query.append("ORDER BY a.idActivity ");
 		Query q = em.createQuery(query.toString());
-		q.setParameter("idCertAndRoles", idCertAndRoles);
 		for (SelectItem parametro : parametros) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
@@ -275,9 +272,8 @@ public class ActivitiesDao implements Serializable {
 	 * Sent search values.
 	 * 
 	 * @author Mabell.Boada
+	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
-	 * @param idCertAndRoles
-	 *            : Name identifier crop
 	 * @param consulta
 	 *            : String containing the query why the filter names activities.
 	 * @param parametros
@@ -285,9 +281,8 @@ public class ActivitiesDao implements Serializable {
 	 * @return Long: Number of records found name activities.
 	 * @throws Exception
 	 */
-	public Long cantidadActivitiesXIdCert(int idCertAndRoles,
-			StringBuilder consulta, List<SelectItem> parametros)
-			throws Exception {
+	public Long cantidadActivitiesXIdCert(StringBuilder consulta,
+			List<SelectItem> parametros) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(a) FROM Activities a ");
 		query.append("JOIN a.activityName an ");
@@ -296,10 +291,8 @@ public class ActivitiesDao implements Serializable {
 		query.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
 		query.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
 		query.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
-		query.append("WHERE cr.idCertificactionsAndRoles=:idCertAndRoles ) ");
 		query.append(consulta);
 		Query q = em.createQuery(query.toString());
-		q.setParameter("idCertAndRoles", idCertAndRoles);
 		for (SelectItem parametro : parametros) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
