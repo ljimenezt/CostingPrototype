@@ -13,7 +13,7 @@ import co.informatix.erp.informacionBase.entities.CivilStatus;
 
 /**
  * DAO class that establishes the connection between business logic and base
- * data. EstadoCivilAction used for managing civil status
+ * data. CivilStatusAction used for managing civil status.
  * 
  * @author Mabell.Boada
  * 
@@ -25,91 +25,91 @@ public class CivilStatusDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Edit the track information for a civil state
+	 * Edit the track information for a civil state.
 	 * 
 	 * @param civilStatus
-	 *            : Civil status to edit
+	 *            : Civil status to edit.
 	 * @throws Exception
 	 */
-	public void editarEstadoCivil(CivilStatus civilStatus) throws Exception {
+	public void editCivilStatus(CivilStatus civilStatus) throws Exception {
 		em.merge(civilStatus);
 	}
 
 	/**
-	 * Save civil status in the database
+	 * Save civil status in the database.
 	 * 
 	 * @param civilStatus
-	 *            : Civil status to save
+	 *            : Civil status to save.
 	 * @throws Exception
 	 */
-	public void guardarEstadoCivil(CivilStatus civilStatus) throws Exception {
+	public void saveCivilStatus(CivilStatus civilStatus) throws Exception {
 		em.persist(civilStatus);
 	}
 
 	/**
-	 * Removes a civil state of the BD
+	 * Removes a civil state of the BD.
 	 * 
 	 * @param civilStatus
-	 *            : Civil status to delete
+	 *            : Civil status to delete.
 	 * @throws Exception
 	 */
-	public void eliminarEstadoCivil(CivilStatus civilStatus) throws Exception {
+	public void removeCivilStatus(CivilStatus civilStatus) throws Exception {
 		em.remove(em.merge(civilStatus));
 	}
 
 	/**
 	 * Returns the number of existing civil states in the BD filtering
-	 * information search by the values sent
+	 * information search by the values sent.
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : String containing the query why the filter names of civil
-	 *            states
-	 * @param parametros
-	 *            : Query parameters
-	 * @return Long: Number of civil status records found
+	 *            states.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Number of civil status records found.
 	 * @throws Exception
 	 */
-	public Long cantidadEstadoCivil(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long quantityCivilStatus(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(cs) FROM CivilStatus cs ");
-		query.append(consulta);
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
 	 * This method consultation with civil states sent a certain range as a
-	 * parameter and filtering the information by the values of search sent
+	 * parameter and filtering the information by the values of search sent.
 	 * 
-	 * @param inicio
-	 *            : Registry where consultation begins
-	 * @param rango
-	 *            : Range of records
-	 * @param consulta
+	 * @param start
+	 *            : Registry where consultation begins.
+	 * @param range
+	 *            : Range of records.
+	 * @param consult
 	 *            : Consultation records the parameters depending selected by
-	 *            the user
-	 * @param parametros
-	 *            : Query parameters
-	 * @return List<CivilStatus>: List of civil status
+	 *            the user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<CivilStatus>: List of civil status.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<CivilStatus> consultarEstadoCivil(int inicio, int rango,
-			StringBuilder consulta, List<SelectItem> parametros)
+	public List<CivilStatus> consultCivilStatus(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT cs FROM CivilStatus cs ");
-		query.append(consulta);
+		query.append(consult);
 		query.append("ORDER BY cs.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(inicio).setMaxResults(rango);
+		q.setFirstResult(start).setMaxResults(range);
 		List<CivilStatus> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
@@ -119,17 +119,17 @@ public class CivilStatusDao implements Serializable {
 
 	/**
 	 * Consultation if the name of civil states exist in database when saving or
-	 * editing
+	 * editing.
 	 * 
-	 * @param nombre
-	 *            : Name of civil status to check
+	 * @param name
+	 *            : Name of civil status to check.
 	 * @param id
-	 *            : id to verify the civil status
-	 * @return CivilStatus: Object found with the search parameters id and name
+	 *            : id to verify the civil status.
+	 * @return CivilStatus: Object found with the search parameters id and name.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public CivilStatus nombreExiste(String nombre, int id) throws Exception {
+	public CivilStatus nameExist(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT cs FROM CivilStatus cs ");
 		query.append("WHERE UPPER(cs.name)=UPPER(:name) ");
@@ -137,7 +137,7 @@ public class CivilStatusDao implements Serializable {
 			query.append("AND cs.id <>:id ");
 		}
 		Query q = em.createQuery(query.toString());
-		q.setParameter("name", nombre);
+		q.setParameter("name", name);
 		if (id != 0) {
 			q.setParameter("id", id);
 		}
@@ -151,7 +151,7 @@ public class CivilStatusDao implements Serializable {
 	/**
 	 * This method allows consult the civil status list.
 	 * 
-	 * @author Wilhelm.Boada
+	 * @author Wilhelm.Boada.
 	 * 
 	 * @return List<CivilStatus>: civil status list was found.
 	 * @throws Exception

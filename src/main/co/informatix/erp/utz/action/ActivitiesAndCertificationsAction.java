@@ -249,7 +249,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * 
 	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
-	 * @return gesActivAndCert: Returns to the template management and
+	 * @return consultActivities: Returns to the template management and
 	 *         certification activities.
 	 */
 	public String searchInitialization() {

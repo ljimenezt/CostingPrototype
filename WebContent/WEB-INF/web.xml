@@ -56,6 +56,7 @@
 			/informacionBase/unidadMedida/conversion/faces-config-conversionUnidadMedida.xml,
 			/informacionBase/estadoCivil/faces-config-estadoCivil.xml,
 			/informacionBase/estado/faces-config-estado.xml,
+			/informacionBase/civilStatus/faces-config-civilStatus.xml,
 
             /organizaciones/empresas/faces-config-empresas.xml,
             /organizaciones/organizacion/faces-config-organizacion.xml,
@@ -118,7 +119,7 @@
             /warehouse/deposits/faces-config-deposits.xml,
             /warehouse/transactionType/faces-config-transactionType.xml,
             
-            /general/civilStatus/faces-config-civilStatus.xml,
+
 
 			/costs/activities/faces-config-activities.xml,
 			/costs/cycleStandardActivities/faces-config-cycleStandardActivities.xml,

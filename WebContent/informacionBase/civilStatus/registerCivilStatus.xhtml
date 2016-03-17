@@ -10,9 +10,9 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="civilStatusAction.agregarEditarEstadoCivil(null)" />
+		value="civilStatusAction.addEditCivilStatus(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeInformacionBase.estado_civil_label" />
+		value="mensaje.label_registrar,mensajeInformacionBase.civil_status_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -31,7 +31,7 @@
 		<t:saveState value="#{civilStatusAction}" />
 		<h:form id="formCivilStatus">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeInformacionBase.estado_civil_label}"
+				header="#{mensaje.label_registrar} #{mensajeInformacionBase.civil_status_label}"
 				styleClass="anchoUno MinH253P" id="panelCivilStatus">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -43,7 +43,7 @@
 					<h:inputText value="#{civilStatusAction.civilStatus.name}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100"
-						validator="#{civilStatusAction.validarNombreXSS}"
+						validator="#{civilStatusAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
@@ -93,7 +93,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{civilStatusAction.guardarEstadoCivil()}"
+							action="#{civilStatusAction.saveCivilStatus()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
