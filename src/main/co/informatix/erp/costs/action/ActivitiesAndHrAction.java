@@ -474,7 +474,7 @@ public class ActivitiesAndHrAction implements Serializable {
 		String mensajeBusqueda = "";
 		try {
 			Long actividadesCertificadas = activitiesDao
-					.consultarActivitiesCertificadas(actividadSeleccionada
+					.queryCertifiedActivities(actividadSeleccionada
 							.getIdActivity());
 			Long hrCertificados = hrDao.consultarHrCertificados(
 					actividadSeleccionada.getIdActivity(), this.idTrabajador);
@@ -750,14 +750,14 @@ public class ActivitiesAndHrAction implements Serializable {
 			if (this.listaActivitiesAndHr != null
 					&& this.listaActivitiesAndHr.size() > 0) {
 				for (ActivitiesAndHr actividadAndHr : listaActivitiesAndHr) {
-					activitiesAndHrDao.guardarActivitiesAndHr(actividadAndHr);
+					activitiesAndHrDao.saveActivitiesAndHr(actividadAndHr);
 					costHrBudget = costHrBudget
 							+ actividadAndHr.getTotalCostBudget();
 				}
 				costHrBudget = actividadSeleccionada.getCostHrBudget()
 						+ costHrBudget;
 				actividadSeleccionada.setCostHrBudget(costHrBudget);
-				activitiesDao.editarActivities(this.actividadSeleccionada);
+				activitiesDao.editActivities(this.actividadSeleccionada);
 				setListaActivitiesAndHr(null);
 				consultarActivitiesAndHrXActividad();
 			} else {
@@ -772,7 +772,7 @@ public class ActivitiesAndHrAction implements Serializable {
 						* overtimePaymentRate.getOvertimeRateRatio();
 				Double totalCostBudget = costNormalHours + costOvertimeHours;
 				ActivitiesAndHr activitiesAndHrAnterior = activitiesAndHrDao
-						.activitiesAndHrXId(activitiesAndHr
+						.activitiesAndHrById(activitiesAndHr
 								.getActivitiesAndHrPK());
 				activitiesAndHr.setTotalCostBudget(Math
 						.round(totalCostBudget * 10.0) / 10.0);
@@ -781,8 +781,8 @@ public class ActivitiesAndHrAction implements Serializable {
 						.getTotalCostBudget())
 						+ activitiesAndHr.getTotalCostBudget();
 				actividadSeleccionada.setCostHrBudget(costHr);
-				activitiesAndHrDao.editarActivitiesAndHr(activitiesAndHr);
-				activitiesDao.editarActivities(actividadSeleccionada);
+				activitiesAndHrDao.editActivitiesAndHr(activitiesAndHr);
+				activitiesDao.editActivities(actividadSeleccionada);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle.getString(mensajeRegistro),
 								activitiesAndHr.getActivitiesAndHrPK().getHr()
@@ -818,7 +818,7 @@ public class ActivitiesAndHrAction implements Serializable {
 						.getSelectedActivity();
 			}
 			busquedaAvanzadaActivitiesAndHr(consulta, parametros);
-			Long cantidad = activitiesAndHrDao.cantidadActivitiesAndHr(
+			Long cantidad = activitiesAndHrDao.amountActivitiesAndHr(
 					consulta, parametros);
 			busquedaAvanzadaActivitiesAndHr(consulta, parametros);
 			if (cantidad != null) {
@@ -828,7 +828,7 @@ public class ActivitiesAndHrAction implements Serializable {
 					paginadorActivitiesAndHr.paginar(cantidad);
 				}
 				this.listaActivitiesAndHrTemp = activitiesAndHrDao
-						.consultarActivitiesAndHr(
+						.queryActivitiesAndHr(
 								paginadorActivitiesAndHr.getInicio(),
 								paginadorActivitiesAndHr.getRango(), consulta,
 								parametros);
@@ -964,10 +964,10 @@ public class ActivitiesAndHrAction implements Serializable {
 		Date mindDateTime = ControladorFechas.diaInicialSemana(activityDate);
 		Date maxDateTime = ControladorFechas.diaFinalSemana(activityDate);
 		try {
-			Double overtimeWeek = activitiesAndHrDao.calcularOverTimeHours(
+			Double overtimeWeek = activitiesAndHrDao.calculateOverTimeHours(
 					humanReosurceId, mindDateTime, maxDateTime,
 					this.actividadSeleccionada.getIdActivity());
-			Double workedHoursDay = activitiesAndHrDao.calcularNormalHours(
+			Double workedHoursDay = activitiesAndHrDao.calculateNormalHours(
 					humanReosurceId, activityDate,
 					this.actividadSeleccionada.getIdActivity());
 			if (duracionHrActividad <= (8 - workedHoursDay)) {
@@ -1012,7 +1012,7 @@ public class ActivitiesAndHrAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String message = "message_registro_eliminar";
 		try {
-			activitiesAndHrDao.eliminarActivitiesAndHr(activitiesAndHr);
+			activitiesAndHrDao.deleteActivitiesAndHr(activitiesAndHr);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(message), activitiesAndHr
 							.getActivitiesAndHrPK().getHr().getName()));
@@ -1020,7 +1020,7 @@ public class ActivitiesAndHrAction implements Serializable {
 					.setCostHrBudget(this.actividadSeleccionada
 							.getCostHrBudget()
 							- activitiesAndHr.getTotalCostBudget());
-			activitiesDao.editarActivities(this.actividadSeleccionada);
+			activitiesDao.editActivities(this.actividadSeleccionada);
 			consultarActivitiesAndHrXActividad();
 		} catch (EJBException e) {
 			String format = MessageFormat.format(

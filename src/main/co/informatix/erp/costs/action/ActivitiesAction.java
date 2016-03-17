@@ -280,7 +280,7 @@ public class ActivitiesAction implements Serializable {
 		try {
 			advancedSearch(query, parameters, bundle, bundleCostos,
 					unionMessagesSearch, fromModal, order);
-			Long quantity = activitiesDao.cantidadActivities(query, parameters);
+			Long quantity = activitiesDao.amountActivities(query, parameters);
 			order.setLength(0);
 			sort = true;
 			advancedSearch(query, parameters, bundle, bundleCostos,
@@ -292,7 +292,7 @@ public class ActivitiesAction implements Serializable {
 				} else {
 					pager.paginar(quantity);
 				}
-				this.listActivities = activitiesDao.consultarActivities(
+				this.listActivities = activitiesDao.queryActivities(
 						pager.getInicio(), pager.getRango(), query, parameters);
 
 				if (fromModal) {
@@ -547,10 +547,10 @@ public class ActivitiesAction implements Serializable {
 		try {
 
 			if (activities.getIdActivity() != 0) {
-				activitiesDao.editarActivities(activities);
+				activitiesDao.editActivities(activities);
 			} else {
 				mensajeRegistro = "message_registro_guardar";
-				activitiesDao.guardarActivities(activities);
+				activitiesDao.saveActivities(activities);
 				activitiesAndCertificationsDao
 						.saveActivitiesAndCertifications(activitiesAndCertifications);
 			}

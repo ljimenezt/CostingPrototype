@@ -326,7 +326,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 */
 	private void loadComboActivityNames() throws Exception {
 		itemsActivities = new ArrayList<SelectItem>();
-		List<Activities> listActivities = activitiesDao.consultarActivities();
+		List<Activities> listActivities = activitiesDao.queryAllActivities();
 		if (listActivities != null) {
 			for (Activities activities : listActivities) {
 				itemsActivities.add(new SelectItem(activities.getActivityName()
@@ -357,13 +357,15 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
 		try {
+
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
-			Long quantity = activitiesDao.cantidadActivitiesXIdCert(query,
+			Long quantity = activitiesDao.queryActivitiesByIdCert(query,
 					parameters);
+
 			if (quantity != null) {
 				paginador.paginar(quantity);
 			}
-			listActivities = activitiesDao.consultarActivityNamesXIdCert(
+			listActivities = activitiesDao.queryActivityNamesByIdCert(
 					paginador.getInicio(), paginador.getRango(), query,
 					parameters);
 
@@ -405,7 +407,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 		try {
 			nameCert = ValidacionesAction.getLabel(itemsCertificationsAndRoles,
 					this.certificationsAndRoles.getIdCertificactionsAndRoles());
-			activities = activitiesDao.activityXIdActNames(idActName);
+			activities = activitiesDao.activityByActNameId(idActName);
 			String messageLog = "message_registro_guardar";
 			activitiesAndCertificationsPK.setActivities(activities);
 			activitiesAndCertificationsPK
