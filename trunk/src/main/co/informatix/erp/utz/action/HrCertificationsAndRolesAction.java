@@ -300,6 +300,8 @@ public class HrCertificationsAndRolesAction implements Serializable {
 						.setCertificationsAndRoles(certificationsAndRoles);
 				hrCertificationsAndRolesPK.setHr(hr);
 				edit = true;
+				this.idCertificationsAndRoles = this.certificationsAndRoles
+						.getIdCertificactionsAndRoles();
 			} else {
 				this.hrCertificationsAndRoles = new HrCertificationsAndRoles();
 				this.hrCertificationsAndRolesPK = new HrCertificationsAndRolesPK();
@@ -415,31 +417,30 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	/**
 	 * Method used to save or edit human resources and certifications.
 	 * 
+	 * @modify 17/03/2016 Wilhelm.Boada
+	 * 
 	 * @return searchInitialization: Redirects to initialize variables and load
 	 *         the template HRM and certifications.
 	 * 
 	 */
 	public String saveHrCertRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String messageLog;
+		String messageLog = "";
+		boolean flag = false;
 		try {
-			Object nameCert = ValidacionesAction.getLabel(
-					itemsCertificationsAndRoles,
-					this.certificationsAndRoles.getIdCertificactionsAndRoles());
 			if (hrCertificationsAndRolesPK.getCertificationsAndRoles()
 					.getIdCertificactionsAndRoles() != 0
 					&& hrCertificationsAndRolesPK.getHr().getIdHr() != 0) {
 				messageLog = "message_registro_modificar";
 				hrCertificationsAndRolesDao
 						.editHrCertRoles(hrCertificationsAndRoles);
-				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString(messageLog), nameCert));
+				flag = true;
 			} else {
-				int idCertAndRoles = this.certificationsAndRoles
+				this.idCertificationsAndRoles = this.certificationsAndRoles
 						.getIdCertificactionsAndRoles();
 				int idHr = this.hr.getIdHr();
 				boolean existPK = hrCertificationsAndRolesDao.relationExist(
-						idCertAndRoles, idHr);
+						this.idCertificationsAndRoles, idHr);
 				if (!existPK) {
 					messageLog = "message_registro_guardar";
 					hrCertificationsAndRolesPK
@@ -449,14 +450,19 @@ public class HrCertificationsAndRolesAction implements Serializable {
 							.setHrCertificationsAndRolesPK(hrCertificationsAndRolesPK);
 					hrCertificationsAndRolesDao
 							.saveHrCertRoles(hrCertificationsAndRoles);
-					ControladorContexto.mensajeInformacion(null, MessageFormat
-							.format(bundle.getString(messageLog), nameCert));
-				} else {
-					messageLog = "message_ya_existe";
-					ControladorContexto.mensajeInformacion(null,
-							bundle.getString(messageLog));
+					flag = true;
 				}
 			}
+			Object nameCert = ValidacionesAction.getLabel(
+					itemsCertificationsAndRoles, this.idCertificationsAndRoles);
+			if (flag) {
+				ControladorContexto.mensajeInformacion(null, MessageFormat
+						.format(bundle.getString(messageLog), nameCert));
+			} else {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_ya_existe"));
+			}
+
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

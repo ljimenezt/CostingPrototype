@@ -23,13 +23,13 @@ import javax.transaction.UserTransaction;
 import org.apache.commons.lang3.text.WordUtils;
 import org.primefaces.event.FileUploadEvent;
 
+import co.informatix.erp.informacionBase.dao.CivilStatusDao;
 import co.informatix.erp.informacionBase.dao.DepartamentoDao;
-import co.informatix.erp.informacionBase.dao.EstadoCivilDao;
 import co.informatix.erp.informacionBase.dao.MunicipioDao;
 import co.informatix.erp.informacionBase.dao.PaisDao;
 import co.informatix.erp.informacionBase.dao.TipoDocumentoDao;
+import co.informatix.erp.informacionBase.entities.CivilStatus;
 import co.informatix.erp.informacionBase.entities.Departamento;
-import co.informatix.erp.informacionBase.entities.EstadoCivil;
 import co.informatix.erp.informacionBase.entities.Municipio;
 import co.informatix.erp.informacionBase.entities.Pais;
 import co.informatix.erp.informacionBase.entities.TipoDocumento;
@@ -73,7 +73,7 @@ public class PersonaAction implements Serializable {
 	@EJB
 	private FileUploadBean fileUploadBean;
 	@EJB
-	private EstadoCivilDao estadoCivilDao;
+	private CivilStatusDao civilStatusDao;
 
 	@Resource
 	private UserTransaction userTransaction;
@@ -431,6 +431,7 @@ public class PersonaAction implements Serializable {
 	 * and type of document
 	 * 
 	 * @author marisol.calderon
+	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
 	 * @throws Exception
 	 */
@@ -457,12 +458,11 @@ public class PersonaAction implements Serializable {
 			}
 		}
 		itemsEstadosCivil = new ArrayList<SelectItem>();
-		List<EstadoCivil> estadosCivilesVigentes = estadoCivilDao
-				.consultarEstadosCivilesVigentes();
-		if (estadosCivilesVigentes != null) {
-			for (EstadoCivil estadoCivil : estadosCivilesVigentes) {
-				itemsEstadosCivil.add(new SelectItem(estadoCivil.getId(),
-						estadoCivil.getNombre()));
+		List<CivilStatus> civilStatusList = civilStatusDao.consultCivilStatus();
+		if (civilStatusList != null) {
+			for (CivilStatus civilStatus : civilStatusList) {
+				itemsEstadosCivil.add(new SelectItem(civilStatus.getId(),
+						civilStatus.getName()));
 			}
 		}
 	}
@@ -735,12 +735,14 @@ public class PersonaAction implements Serializable {
 	/**
 	 * Method to validate objects before save person in the database, to which
 	 * an instance of the class was created but there is no record.
+	 * 
+	 * @modify 17/03/2016 Wilhelm.Boada
 	 */
 	private void validarObjetos() {
 		if (this.persona != null) {
-			EstadoCivil estadoCivil = this.persona.getEstadoCivil();
-			if (estadoCivil != null && estadoCivil.getId() == 0) {
-				this.persona.setEstadoCivil(null);
+			CivilStatus civilStatus = this.persona.getCivilStatus();
+			if (civilStatus != null && civilStatus.getId() == 0) {
+				this.persona.setCivilStatus(null);
 			}
 		}
 	}
@@ -881,6 +883,8 @@ public class PersonaAction implements Serializable {
 	/**
 	 * Allows load the details of the person sent as a parameter.
 	 * 
+	 * @modify 17/03/2016 Wilhelm.Boada
+	 * 
 	 * @param persona
 	 *            : person in charge details
 	 * @throws Exception
@@ -901,8 +905,8 @@ public class PersonaAction implements Serializable {
 				.consultarObjetoPersona("departamentoRes", idPersona);
 		Municipio municipioRes = (Municipio) this.personaDao
 				.consultarObjetoPersona("municipioRes", idPersona);
-		EstadoCivil estadoCivil = (EstadoCivil) this.personaDao
-				.consultarObjetoPersona("estadoCivil", idPersona);
+		CivilStatus civilStatus = (CivilStatus) this.personaDao
+				.consultarObjetoPersona("civilStatus", idPersona);
 
 		persona.setTipoDocumento(tipoDocumento);
 		persona.setPaisNac(paisNac);
@@ -911,8 +915,8 @@ public class PersonaAction implements Serializable {
 		persona.setPaisRes(paisRes);
 		persona.setDepartamentoRes(departamentoRes);
 		persona.setMunicipioRes(municipioRes);
-		persona.setEstadoCivil(estadoCivil != null ? estadoCivil
-				: new EstadoCivil());
+		persona.setCivilStatus(civilStatus != null ? civilStatus
+				: new CivilStatus());
 	}
 
 	/**
