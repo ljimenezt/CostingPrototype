@@ -1,4 +1,4 @@
-package co.informatix.erp.general.dao;
+package co.informatix.erp.informacionBase.dao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import co.informatix.erp.general.entities.CivilStatus;
+import co.informatix.erp.informacionBase.entities.CivilStatus;
 
 /**
  * DAO class that establishes the connection between business logic and base

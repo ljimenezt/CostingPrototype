@@ -1,4 +1,4 @@
-package co.informatix.erp.general.action;
+package co.informatix.erp.informacionBase.action;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
@@ -15,8 +15,8 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
-import co.informatix.erp.general.dao.CivilStatusDao;
-import co.informatix.erp.general.entities.CivilStatus;
+import co.informatix.erp.informacionBase.dao.CivilStatusDao;
+import co.informatix.erp.informacionBase.entities.CivilStatus;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
