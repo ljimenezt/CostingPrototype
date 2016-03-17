@@ -62,7 +62,6 @@ public class ScheduledActivitiesAction implements Serializable {
 	private MachinesDao machinesDao;
 	@EJB
 	private ConsumableTypesDao consumableTypesDao;
-	// from the package named co.informatix.erp.general.dao
 	@EJB
 	private ActivitiesDao activitiesDao;
 	@EJB
@@ -631,7 +630,7 @@ public class ScheduledActivitiesAction implements Serializable {
 							.consultarActivitiesAndHrXActividad();
 				}
 			} else {
-				recordActivitiesActualsAction.actualCost();
+				recordActivitiesActualsAction.currentCost();
 			}
 			validation.setMensajeBusqueda(SearchMessage);
 		} catch (Exception e) {

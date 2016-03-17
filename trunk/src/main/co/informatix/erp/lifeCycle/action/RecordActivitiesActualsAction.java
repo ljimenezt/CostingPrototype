@@ -53,7 +53,6 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private CropNamesDao cropNamesDao;
 	@EJB
 	private ActivityNamesDao activityNamesDao;
-	// from the package named co.informatix.erp.general.dao
 	@EJB
 	private ActivitiesAndHrDao activitiesAndHrDao;
 	@EJB
@@ -66,7 +65,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private int idCrop;
 	private int idCropName;
 	private int idOvertimePaymentsRate;
-	private boolean estadoBotonCalcularCosto;
+	private boolean calculateCostsButtonActivated;
 
 	private List<SelectItem> listCropNames;
 	private List<SelectItem> listCrops;
@@ -87,7 +86,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private ActivityMachine activityMachine;
 
 	/**
-	 * @return idCrop: Identifier crop.
+	 * @return idCrop: crop identifier.
 	 */
 	public int getIdCrop() {
 		return idCrop;
@@ -95,14 +94,14 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * @param idCrop
-	 *            : Identifier crop.
+	 *            : crop identifier.
 	 */
 	public void setIdCrop(int idCrop) {
 		this.idCrop = idCrop;
 	}
 
 	/**
-	 * @return idCropName: identifier CropName
+	 * @return idCropName: CropName identifier.
 	 */
 	public int getIdCropName() {
 		return idCropName;
@@ -110,7 +109,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * @param idCropName
-	 *            : identifier CropName
+	 *            : CropName identifier.
 	 */
 	public void setIdCropName(int idCropName) {
 		this.idCropName = idCropName;
@@ -132,19 +131,21 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * @return estadoBotonCalcularCosto: It sets a value for determining whether
-	 *         a button is shown
+	 * @return calculateCostsButtonActivated: It sets a value for determining
+	 *         whether a button is shown or not. setEstadoBotonCalcularCosto
 	 */
-	public boolean isEstadoBotonCalcularCosto() {
-		return estadoBotonCalcularCosto;
+	public boolean isCalculateCostsButtonActivated() {
+		return calculateCostsButtonActivated;
 	}
 
 	/**
-	 * @param estadoBotonCalcularCosto
-	 *            : It sets a value for determining whether a button is shown
+	 * @param calculateCostsButtonActivated
+	 *            : It sets a value for determining whether a button is shown or
+	 *            not.
 	 */
-	public void setEstadoBotonCalcularCosto(boolean estadoBotonCalcularCosto) {
-		this.estadoBotonCalcularCosto = estadoBotonCalcularCosto;
+	public void setCalculateCostsButtonActivated(
+			boolean calculateCostsButtonActivated) {
+		this.calculateCostsButtonActivated = calculateCostsButtonActivated;
 	}
 
 	/**
@@ -394,8 +395,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * Initializes the necessary variables for the current management reporting
-	 * hr.
+	 * Initializes the necessary variables for the current Human resources
+	 * management report.
 	 * 
 	 * @return regHrReportingActuals: redirected to the template record
 	 *         activities and human resources (actuals)
@@ -419,13 +420,13 @@ public class RecordActivitiesActualsAction implements Serializable {
 			if (crops != null) {
 				idCropName = crops.getCropNames().getIdCropName();
 				idCrop = crops.getIdCrop();
-				mostrarActivities();
+				showActivities();
 			} else {
 				idCrop = 0;
 				idCropName = 0;
 			}
-			cargarComboCrops();
-			cargarComboCropName();
+			loadComboCrops();
+			loadComboCropName();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -433,15 +434,15 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * To load the names of the crops listed.
+	 * Load the names of the crops that are listed.
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarComboCropName() throws Exception {
+	private void loadComboCropName() throws Exception {
 		this.listCropNames = new ArrayList<SelectItem>();
-		List<CropNames> tiposCropNames = cropNamesDao.listCropNames();
-		if (tiposCropNames != null) {
-			for (CropNames cropName : tiposCropNames) {
+		List<CropNames> cropNamesTypes = cropNamesDao.listCropNames();
+		if (cropNamesTypes != null) {
+			for (CropNames cropName : cropNamesTypes) {
 				listCropNames.add(new SelectItem(cropName.getIdCropName(),
 						cropName.getCropName()));
 			}
@@ -449,15 +450,15 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * To load the associated crops to cropname listed.
+	 * To load the associated crops to a CropName.
 	 */
-	public void cargarComboCrops() {
+	public void loadComboCrops() {
 		try {
 			listCrops = new ArrayList<SelectItem>();
-			List<Crops> tiposCrop = cropDao
+			List<Crops> cropTypes = cropDao
 					.consultCropNamesCropsCurrent(idCropName);
-			if (tiposCrop != null) {
-				for (Crops crop : tiposCrop) {
+			if (cropTypes != null) {
+				for (Crops crop : cropTypes) {
 					listCrops.add(new SelectItem(crop.getIdCrop(), crop
 							.getDescription()));
 				}
@@ -468,18 +469,17 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * To load the names of available activities associated with a crop listed.
+	 * Load the names of available activities associated with a crop listed.
 	 */
-	public void mostrarActivities() {
+	public void showActivities() {
 		try {
 			listActivityNames = new ArrayList<SelectItem>();
-			List<ActivityNames> tiposActivityNames = activityNamesDao
+			List<ActivityNames> activityNameTypes = activityNamesDao
 					.queryActivityNamesXCrop(idCrop);
-			if (tiposActivityNames != null) {
-				for (ActivityNames activities : tiposActivityNames) {
-					listActivityNames
-							.add(new SelectItem(activities.getIdActivityName(),
-									activities.getActivityName()));
+			if (activityNameTypes != null) {
+				for (ActivityNames activity : activityNameTypes) {
+					listActivityNames.add(new SelectItem(activity
+							.getIdActivityName(), activity.getActivityName()));
 				}
 			}
 		} catch (Exception e) {
@@ -488,7 +488,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * Consultation activities that were already assigned to a human resource.
+	 * Query activities that were already assigned to a human resource.
 	 */
 	public void assignActivities() {
 		this.listActivities = new ArrayList<Activities>();
@@ -505,7 +505,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @param activity
 	 *            : Object type activities
 	 */
-	public void asignarActividad(Activities activity) {
+	public void assignActivity(Activities activity) {
 		if (ControladorContexto.getFacesContext() != null) {
 			this.activitiesAndHrAction = ControladorContexto
 					.getContextBean(ActivitiesAndHrAction.class);
@@ -530,22 +530,21 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * It is responsible for verifying that all records from the list of
-	 * activities and human resources have a value in the field of total cost
-	 * current.
+	 * It verifies that all records from the list of activities and human
+	 * resources have a value in the field of current total cost.
 	 * 
 	 * @modify 12/01/2016 Wilhelm.Boada
 	 */
-	public void actualCost() {
+	public void currentCost() {
 		if (ControladorContexto.getFacesContext() != null) {
 			this.scheduledActivitiesAction = ControladorContexto
 					.getContextBean(ScheduledActivitiesAction.class);
 		}
-		this.estadoBotonCalcularCosto = false;
+		this.calculateCostsButtonActivated = false;
 		if (this.listActivitiesAndHr != null) {
 			for (ActivitiesAndHr activitiesAndHr : this.listActivitiesAndHr) {
 				if (activitiesAndHr.getTotalCostActual() == null) {
-					this.estadoBotonCalcularCosto = true;
+					this.calculateCostsButtonActivated = true;
 				}
 			}
 		}
@@ -553,18 +552,18 @@ public class RecordActivitiesActualsAction implements Serializable {
 			for (ActivityMachine activityMachine : this.scheduledActivitiesAction
 					.getListActivityMachine()) {
 				if (activityMachine.getConsumablesCostActual() == null) {
-					this.estadoBotonCalcularCosto = true;
+					this.calculateCostsButtonActivated = true;
 				}
 			}
 		}
 		if (this.listActivitiesAndHr == null
 				&& this.scheduledActivitiesAction.getListActivityMachine() == null) {
-			this.estadoBotonCalcularCosto = true;
+			this.calculateCostsButtonActivated = true;
 		}
 	}
 
 	/**
-	 * It is responsible for copying the fields budget to actuals fields.
+	 * It copies the fields budget to current fields.
 	 */
 	public void budgetCopy() {
 		String param2 = ControladorContexto.getParam("param2");
@@ -595,14 +594,13 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * It is responsible for updating the relationship and human resources
-	 * activities.
+	 * It updates the human resources activities and its relations.
 	 * 
 	 * @modify 12/01/2016 Wilhelm.Boada
 	 */
-	public void actualizarActivitiesAndHr() {
+	public void updateActivitiesAndHr() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String registerMessage = "message_registro_modificar";
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
 				: false;
@@ -613,7 +611,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 				activitiesAndHr.setOvertimePaymentRate(overtimePaymentRate);
 				activitiesAndHrDao.editActivitiesAndHr(activitiesAndHr);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString(mensajeRegistro),
+						.format(bundle.getString(registerMessage),
 								activitiesAndHr.getActivitiesAndHrPK().getHr()
 										.getName()));
 				activitiesAndHrAction.consultarActivitiesAndHrXActividad();
@@ -623,27 +621,27 @@ public class RecordActivitiesActualsAction implements Serializable {
 				activitiesAndMachineDao
 						.editActivitiesAndMachine(this.activityMachine);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString(mensajeRegistro),
+						.format(bundle.getString(registerMessage),
 								activityMachine.getActivityMachinePK()
 										.getMachines().getName()));
 				scheduledActivitiesAction.showActivitiesAndMachineForActivity();
 			}
-			actualCost();
+			currentCost();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
 
 	/**
-	 * Registra el costo total de la actividad
+	 * Register the total cost of an activity.
 	 * 
 	 * @modify 25/01/2016 Wilhelm.Boada
 	 * 
 	 */
 	public void endActivity() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_calculate_labor_cost";
-		boolean bandera = false;
+		String registerMessage = "message_calculate_labor_cost";
+		boolean flag = false;
 		try {
 			if (ControladorContexto.getFacesContext() != null) {
 				this.scheduledActivitiesAction = ControladorContexto
@@ -658,7 +656,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 					Double totalCostHr = activitiesAndHrDao
 							.totalCost(selectedActivity.getIdActivity());
 					this.selectedActivity.setCostHrActual(totalCostHr);
-					bandera = true;
+					flag = true;
 				}
 				if (this.scheduledActivitiesAction.getListActivityMachine() != null
 						&& selectedActivity.getMachineRequired() == true
@@ -668,7 +666,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 									.getIdActivity());
 					this.selectedActivity
 							.setCostMachinesEqActual(totalCostMachine);
-					bandera = true;
+					flag = true;
 				}
 				if (this.listActivitiesAndHr != null
 						&& this.scheduledActivitiesAction
@@ -681,12 +679,12 @@ public class RecordActivitiesActualsAction implements Serializable {
 									.getIdActivity());
 					this.selectedActivity
 							.setCostMachinesEqActual(totalCostMachine);
-					bandera = true;
+					flag = true;
 				}
-				if (bandera == true) {
+				if (flag == true) {
 					activitiesDao.editActivities(this.selectedActivity);
 					ControladorContexto.mensajeInformacion(null, MessageFormat
-							.format(bundle.getString(mensajeRegistro),
+							.format(bundle.getString(registerMessage),
 									selectedActivity.getActivityName()));
 					initializeRecordActual();
 				}
@@ -706,25 +704,25 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @param value
 	 *            : component value.
 	 */
-	public void validarActualDuration(FacesContext context,
+	public void validateCurrentDuration(FacesContext context,
 			UIComponent toValidate, Object value) {
 		String clientId = toValidate.getClientId(context);
 		String modal = (String) toValidate.getAttributes().get("temp");
-		boolean desdeModal = (modal != null && "si".equals(modal)) ? true
+		boolean fromModal = (modal != null && "si".equals(modal)) ? true
 				: false;
-		Double duracion = (Double) value;
+		Double duration = (Double) value;
 		try {
 			if (this.activitiesAndHr.getInitialDateTimeActual() != null
 					&& this.activitiesAndHr.getFinalDateTimeActual() != null) {
-				Double duracionActividad = (Double) ControladorFechas
+				Double activityDuration = (Double) ControladorFechas
 						.restarFechas(
 								this.activitiesAndHr.getInitialDateTimeActual(),
 								this.activitiesAndHr.getFinalDateTimeActual());
-				if (duracion >= 0) {
-					if (duracion.compareTo(duracionActividad) > 0) {
-						String mensaje = "message_duracion_actividad";
+				if (duration >= 0) {
+					if (duration.compareTo(activityDuration) > 0) {
+						String message = "message_duracion_actividad";
 						ControladorContexto.mensajeErrorEspecifico(clientId,
-								mensaje, "mensaje");
+								message, "mensaje");
 						((UIInput) toValidate).setValid(false);
 					} else {
 						int idHr = this.activitiesAndHr.getActivitiesAndHrPK()
@@ -732,24 +730,24 @@ public class RecordActivitiesActualsAction implements Serializable {
 						activitiesAndHrAction
 								.setActivitiesAndHr(activitiesAndHr);
 						activitiesAndHrAction.setWorkHoursValid(true);
-						activitiesAndHrAction.validarWorkLoad(duracion, idHr,
-								desdeModal);
+						activitiesAndHrAction.validarWorkLoad(duration, idHr,
+								fromModal);
 						if (!activitiesAndHrAction.isWorkHoursValid()) {
-							String mensaje = "message_overtime_week";
+							String message = "message_overtime_week";
 							ControladorContexto.mensajeErrorEspecifico(
-									clientId, mensaje, "mensaje");
+									clientId, message, "mensaje");
 							((UIInput) toValidate).setValid(false);
 						}
 					}
 				} else {
-					String mensaje = "message_campo_mayor_igual_cero";
+					String message = "message_campo_mayor_igual_cero";
 					ControladorContexto.mensajeErrorEspecifico(clientId,
-							mensaje, "mensaje");
+							message, "mensaje");
 					((UIInput) toValidate).setValid(false);
 				}
 			} else {
-				String mensaje = "message_duration_date";
-				ControladorContexto.mensajeErrorEspecifico(clientId, mensaje,
+				String message = "message_duration_date";
+				ControladorContexto.mensajeErrorEspecifico(clientId, message,
 						"mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
@@ -768,27 +766,27 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @param value
 	 *            : component value.
 	 */
-	public void validarActualActivityAndMachine(FacesContext context,
+	public void validateCurrentActivityAndMachine(FacesContext context,
 			UIComponent toValidate, Object value) {
 		String clientId = toValidate.getClientId(context);
 		Double duration = (Double) value;
-		Date fechaInicial = this.activityMachine.getInitialDateTime();
-		Date fechaFin = this.activityMachine.getFinalDateTime();
+		Date startDate = this.activityMachine.getInitialDateTime();
+		Date endFate = this.activityMachine.getFinalDateTime();
 		try {
-			if (fechaInicial != null && fechaFin != null) {
+			if (startDate != null && endFate != null) {
 				Double durationActivity = (Double) ControladorFechas
-						.restarFechas(fechaInicial, fechaFin);
+						.restarFechas(startDate, endFate);
 				if (durationActivity >= 0) {
 					if (duration.compareTo(durationActivity) > 0) {
-						String mensaje = "message_duracion_actividad";
+						String message = "message_duracion_actividad";
 						ControladorContexto.mensajeErrorEspecifico(clientId,
-								mensaje, "mensaje");
+								message, "mensaje");
 						((UIInput) toValidate).setValid(false);
 					}
 				} else {
-					String mensaje = "message_campo_mayor_igual_cero";
+					String message = "message_campo_mayor_igual_cero";
 					ControladorContexto.mensajeErrorEspecifico(clientId,
-							mensaje, "mensaje");
+							message, "mensaje");
 					((UIInput) toValidate).setValid(false);
 				}
 			}
@@ -798,9 +796,9 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * It will calculate the length considering the difference two dates
+	 * It will calculate the length according to the two different dates.
 	 */
-	public void calculateDurationActuals() {
+	public void calculateCurrentDuration() {
 		Date inicial = activitiesAndHr.getInitialDateTimeActual();
 		Date fin = activitiesAndHr.getFinalDateTimeActual();
 
@@ -820,18 +818,18 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * Calculates the cost of HR Given the overtimePaymentRate
+	 * Calculates the cost of HR given the overtimePaymentRate.
 	 */
-	public void updateTotalCostXOvertimePaymentRate() {
+	public void updateTotalCostByOvertimePaymentRate() {
 		try {
 			this.overtimePaymentRate = overtimePaymentRateDao
 					.overtimePaymentRateXId(idOvertimePaymentsRate);
-			double durationActual = activitiesAndHr.getDurationActual();
+			double currentDuration = activitiesAndHr.getDurationActual();
 			double hourCost = activitiesAndHr.getActivitiesAndHrPK().getHr()
 					.getHourCost();
-			double totalCost = durationActual * hourCost;
-			if (durationActual > 8) {
-				totalCost = calculateCostOvertime(durationActual);
+			double totalCost = currentDuration * hourCost;
+			if (currentDuration > 8) {
+				totalCost = calculateCostOvertime(currentDuration);
 			}
 			activitiesAndHr
 					.setTotalCostActual(Math.round(totalCost * 10.0) / 10.0);
@@ -841,13 +839,13 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * the hr cost is calculated taking into account overtime
+	 * the Hr cost is calculated taking into account overtime.
 	 * 
-	 * @param durationActual
-	 *            : activity duration
-	 * @return total: hr total cost
+	 * @param currentDuration
+	 *            : Activity duration.
+	 * @return total: Hr total cost.
 	 */
-	private double calculateCostOvertime(double durationActual) {
+	private double calculateCostOvertime(double currentDuration) {
 		double normalHours = activitiesAndHr.getActivitiesAndHrPK().getHr()
 				.getHourCost();
 		double costNormal = activitiesAndHr.getNormalHours() * normalHours;
@@ -860,7 +858,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * Add the max hour and min hour in the end date and initial date
+	 * Add the max hour and min hour in the end date and initial date.
 	 */
 	public void validateMaxDate() {
 		this.maxDate = activitiesAndHr.getFinalDateTimeBudget();

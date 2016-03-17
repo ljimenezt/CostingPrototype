@@ -41,7 +41,7 @@
 							value="#{recordActivitiesActualsAction.activityMachine.durationBudget}"
 							styleClass="W108P" />
 						<h:inputText id="duration"
-							validator="#{recordActivitiesActualsAction.validarActualActivityAndMachine}"
+							validator="#{recordActivitiesActualsAction.validateCurrentActivityAndMachine}"
 							required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
@@ -114,7 +114,7 @@
 				</ui:define>
 				<ui:define name="botones">
 					<h:commandButton value="#{mensaje.button_accept}"
-						action="#{recordActivitiesActualsAction.actualizarActivitiesAndHr()}"
+						action="#{recordActivitiesActualsAction.updateActivitiesAndHr()}"
 						onclick="#{rich:component('popUpConfirmActual')}.hide(); #{rich:component('statPane')}.show();">
 						<f:param name="param2" value="si" />
 					</h:commandButton>

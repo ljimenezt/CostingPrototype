@@ -65,7 +65,7 @@
 							converterMessage="#{mensaje.message_validar_formato_fecha}">
 							<p:ajax event="dateSelect"
 								update="fechaFinalTimeActual, formAgregarActivitiesAndHr:outPutAgregarActivitiesAndHr"
-								listener="#{recordActivitiesActualsAction.calculateDurationActuals()}" />
+								listener="#{recordActivitiesActualsAction.calculateCurrentDuration()}" />
 						</p:calendar>
 						<rich:message for="fechaInicioTimeActual" />
 						<h:outputText value="#{mensaje.label_fecha_fin}"
@@ -86,7 +86,7 @@
 							converterMessage="#{mensaje.message_validar_formato_fecha}">
 							<p:ajax event="dateSelect"
 								update="fechaInicioTimeActual, formAgregarActivitiesAndHr:outPutAgregarActivitiesAndHr "
-								listener="#{recordActivitiesActualsAction.calculateDurationActuals()}" />
+								listener="#{recordActivitiesActualsAction.calculateCurrentDuration()}" />
 						</p:calendar>
 						<rich:message for="fechaFinalTimeActual" />
 						<h:outputText
@@ -96,7 +96,7 @@
 							value="#{recordActivitiesActualsAction.activitiesAndHr.durationBudget}"
 							styleClass="W108P" />
 						<h:inputText id="duration"
-							validator="#{recordActivitiesActualsAction.validarActualDuration}"
+							validator="#{recordActivitiesActualsAction.validateCurrentDuration}"
 							required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
@@ -104,7 +104,7 @@
 							styleClass="W103P">
 							<f:attribute name="temp" value="si" />
 							<f:ajax event="blur"
-								listener="#{recordActivitiesActualsAction.updateTotalCostXOvertimePaymentRate()}"
+								listener="#{recordActivitiesActualsAction.updateTotalCostByOvertimePaymentRate()}"
 								render="formAgregarActivitiesAndHr:outPutAgregarActivitiesAndHr" />
 						</h:inputText>
 						<rich:message for="duration" />
@@ -138,7 +138,7 @@
 							<f:selectItems
 								value="#{activitiesAndHrAction.listOvertimePaymentRate}" />
 							<f:ajax event="change"
-								listener="#{recordActivitiesActualsAction.updateTotalCostXOvertimePaymentRate()}"
+								listener="#{recordActivitiesActualsAction.updateTotalCostByOvertimePaymentRate()}"
 								render="costActual" />
 						</h:selectOneMenu>
 					</h:panelGrid>
@@ -183,7 +183,7 @@
 				<ui:define name="botones">
 					<a:commandButton value="#{mensaje.button_accept}"
 						render="formHrReporting, mensajes, mensajeBusqueda"
-						actionListener="#{recordActivitiesActualsAction.actualizarActivitiesAndHr()}"
+						actionListener="#{recordActivitiesActualsAction.updateActivitiesAndHr()}"
 						onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popUpAgregarActualsActivitiesAndHr')}.hide();">
 						<f:param name="param2" value="mostrar" />
 					</a:commandButton>

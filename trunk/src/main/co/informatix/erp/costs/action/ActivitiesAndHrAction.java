@@ -836,7 +836,7 @@ public class ActivitiesAndHrAction implements Serializable {
 					recordActivitiesActualsAction
 							.setListActivitiesAndHr(listaActivitiesAndHrTemp);
 					recordActivitiesActualsAction
-							.setEstadoBotonCalcularCosto(false);
+							.setCalculateCostsButtonActivated(false);
 				}
 			}
 			loadOvertimePaymentRate();
