@@ -56,7 +56,7 @@
 							<f:selectItems
 								value="#{recordActivitiesActualsAction.listCropNames}" />
 							<a:ajax event="change"
-								listener="#{recordActivitiesActualsAction.cargarComboCrops()}"
+								listener="#{recordActivitiesActualsAction.loadComboCrops()}"
 								render=":formHrReporting" />
 						</h:selectOneMenu>
 						<rich:message for="cropName" />
@@ -71,7 +71,7 @@
 								itemValue="0" />
 							<f:selectItems value="#{recordActivitiesActualsAction.listCrops}" />
 							<a:ajax event="change"
-								listener="#{recordActivitiesActualsAction.mostrarActivities()}"
+								listener="#{recordActivitiesActualsAction.showActivities()}"
 								render=":formHrReporting" />
 						</h:selectOneMenu>
 						<rich:message for="crop" />
@@ -171,7 +171,7 @@
 											rendered="#{activity.seleccionado eq false}" />
 									</h:panelGrid>
 									<a:ajax event="click"
-										listener="#{recordActivitiesActualsAction.asignarActividad(activity)}"
+										listener="#{recordActivitiesActualsAction.assignActivity(activity)}"
 										render="formHrReporting seleccionadas" />
 									<f:param name="param2" value="si" />
 									<f:setPropertyActionListener
@@ -231,7 +231,7 @@
 								<f:facet name="header">#{mensaje.label_cost_activity}</f:facet>
 								<a:commandLink
 									rendered="#{activity.seleccionado ne false 
-										and recordActivitiesActualsAction.estadoBotonCalcularCosto eq false 
+										and recordActivitiesActualsAction.calculateCostsButtonActivated eq false 
 										and activity.costHrActual eq null 
 										and activity.costMachinesEqActual eq null}"
 									oncomplete="if (#{facesContext.maximumSeverity==null})

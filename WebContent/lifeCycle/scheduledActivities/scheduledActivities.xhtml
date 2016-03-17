@@ -58,9 +58,9 @@
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 								itemValue="0" />
 							<f:selectItems
-								value="#{scheduledActivitiesAction.opcionesCropNames}" />
+								value="#{scheduledActivitiesAction.optionsCropNames}" />
 							<f:ajax event="change"
-								listener="#{scheduledActivitiesAction.llenarCropNamesCrop}"
+								listener="#{scheduledActivitiesAction.loadCropNamesCrop}"
 								render="@form" />
 						</h:selectOneMenu>
 						<rich:message for="cropName" />
@@ -73,7 +73,7 @@
 							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null }">
 							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
 								itemValue="0" />
-							<f:selectItems value="#{scheduledActivitiesAction.opcionesCrops}" />
+							<f:selectItems value="#{scheduledActivitiesAction.optionsCrops}" />
 							<f:ajax event="change"
 								listener="#{scheduledActivitiesAction.showActivities()}"
 								render="formScheduledActivities" />
@@ -97,7 +97,7 @@
 							styleClass="colTextoCorto" required="true">
 							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
 							<f:selectItems
-								value="#{scheduledActivitiesAction.opcionesActivityName}" />
+								value="#{scheduledActivitiesAction.optionsActivityName}" />
 						</h:selectOneMenu>
 						<rich:message for="activities" />
 						<h:outputText value="#{mensaje.label_fecha_inicio}"
