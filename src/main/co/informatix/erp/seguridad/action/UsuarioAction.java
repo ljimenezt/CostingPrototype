@@ -21,7 +21,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
-import co.informatix.erp.informacionBase.entities.EstadoCivil;
+import co.informatix.erp.informacionBase.entities.CivilStatus;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.dao.RolDao;
@@ -739,12 +739,13 @@ public class UsuarioAction implements Serializable {
 	 * there is no registration.
 	 * 
 	 * @author marisol.calderon
+	 * @modify 17/03/2016 Wilhelm.Boada
 	 */
 	private void validarObjetoEdoCivilPersona() {
 		if (this.persona != null) {
-			EstadoCivil estadoCivil = this.persona.getEstadoCivil();
-			if (estadoCivil != null && estadoCivil.getId() == 0) {
-				this.persona.setEstadoCivil(null);
+			CivilStatus civilStatus = this.persona.getCivilStatus();
+			if (civilStatus != null && civilStatus.getId() == 0) {
+				this.persona.setCivilStatus(null);
 			}
 		}
 	}
