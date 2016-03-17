@@ -260,10 +260,8 @@ public class CivilStatusAction implements Serializable {
 				mensajeRegistro = "message_registro_guardar";
 				civilStatusDao.guardarEstadoCivil(civilStatus);
 			}
-			ControladorContexto
-					.mensajeInformacion(null, MessageFormat.format(
-							bundle.getString(mensajeRegistro),
-							civilStatus.getNombre()));
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString(mensajeRegistro), civilStatus.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -282,11 +280,11 @@ public class CivilStatusAction implements Serializable {
 			civilStatusDao.eliminarEstadoCivil(civilStatus);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
-					civilStatus.getNombre()));
+					civilStatus.getName()));
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),
-					civilStatus.getNombre());
+					civilStatus.getName());
 			ControladorContexto.mensajeError(e, null, format);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

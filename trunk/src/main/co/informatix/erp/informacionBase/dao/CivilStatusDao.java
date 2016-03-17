@@ -104,7 +104,7 @@ public class CivilStatusDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT cs FROM CivilStatus cs ");
 		query.append(consulta);
-		query.append("ORDER BY cs.nombre ");
+		query.append("ORDER BY cs.name ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parametro : parametros) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
@@ -132,7 +132,7 @@ public class CivilStatusDao implements Serializable {
 	public CivilStatus nombreExiste(String nombre, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT cs FROM CivilStatus cs ");
-		query.append("WHERE UPPER(cs.nombre)=UPPER(:name) ");
+		query.append("WHERE UPPER(cs.name)=UPPER(:name) ");
 		if (id != 0) {
 			query.append("AND cs.id <>:id ");
 		}

@@ -58,7 +58,7 @@
 
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
-						<h:commandLink value="#{civilStatus.nombre}"
+						<h:commandLink value="#{civilStatus.name}"
 							action="#{civilStatusAction.agregarEditarEstadoCivil(civilStatus)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
@@ -66,7 +66,7 @@
 
 					<rich:column styleClass="colTextoExxtraLargo">
 						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
-						<h:outputText value="#{civilStatus.descripcion}" />
+						<h:outputText value="#{civilStatus.description}" />
 					</rich:column>
 
 					<f:facet name="footer">
@@ -146,7 +146,7 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}:" />
-						<h:outputText value="#{civilStatusAction.civilStatus.nombre}" />
+						<h:outputText value="#{civilStatusAction.civilStatus.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
