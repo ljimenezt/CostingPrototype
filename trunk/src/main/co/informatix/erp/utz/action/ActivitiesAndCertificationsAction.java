@@ -247,11 +247,14 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * Method to initialize the search parameters and load the template to
 	 * manage activities and certifications.
 	 * 
+	 * @modify 17/03/2016 Wilhelm.Boada
+	 * 
 	 * @return gesActivAndCert: Returns to the template management and
 	 *         certification activities.
 	 */
 	public String searchInitialization() {
 		try {
+			this.idCertAndRoles = 0;
 			nameSearch = "";
 			certificationsAndRoles = new CertificationsAndRoles();
 			activityNames = new ActivityNames();
@@ -259,7 +262,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesActivAndCert";
+		return consultActivities();
 
 	}
 
@@ -337,6 +340,8 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * Consult the list of activities and associated certifications
 	 * certifications.
 	 * 
+	 * @modify 17/03/2016 Wilhelm.Boada
+	 * 
 	 * @return "gesActivAndCert": Redirects to the template to manage activities
 	 *         and certifications.
 	 */
@@ -351,19 +356,16 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 		StringBuilder query = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
-		this.idCertAndRoles = this.certificationsAndRoles
-				.getIdCertificactionsAndRoles();
 		try {
-			advancedSearch(query, parameters, bundle,
-					unionMessagesSearch);
-			Long quantity = activitiesDao.cantidadActivitiesXIdCert(
-					idCertAndRoles, query, parameters);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = activitiesDao.cantidadActivitiesXIdCert(query,
+					parameters);
 			if (quantity != null) {
 				paginador.paginar(quantity);
 			}
 			listActivities = activitiesDao.consultarActivityNamesXIdCert(
-					idCertAndRoles, paginador.getInicio(),
-					paginador.getRango(), query, parameters);
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
 
 			if ((listActivities == null || listActivities.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
@@ -380,7 +382,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle
 										.getString("activities_certifications_label_s"),
-										unionMessagesSearch);
+								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
@@ -413,8 +415,8 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 			activitiesAndCertificationsDao
 					.saveActivitiesAndCertifications(activitiesAndCertifications);
 
-			String format = MessageFormat.format(
-					bundle.getString(messageLog), nameCert);
+			String format = MessageFormat.format(bundle.getString(messageLog),
+					nameCert);
 			ControladorContexto.mensajeInformacion(null, format);
 			activityNames = new ActivityNames();
 			certificationsAndRoles = new CertificationsAndRoles();
@@ -438,6 +440,8 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
 	 * 
+	 * @modify 17/03/2016 Wilhelm.Boada
+	 * 
 	 * @param consult
 	 *            : query to concatenate
 	 * @param parameters
@@ -451,13 +455,28 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
+		SelectItem item = new SelectItem();
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+
+			if (this.idCertAndRoles != 0) {
+				consult.append("WHERE cr.idCertificactionsAndRoles = :keyword3 )");
+				item = new SelectItem(this.idCertAndRoles, "keyword3");
+				parameters.add(item);
+			} else {
+				consult.append(") ");
+			}
+
 			consult.append("AND UPPER(an.activityName) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
-					"keyword");
+			item = new SelectItem("%" + this.nameSearch + "%", "keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
 					+ '"' + this.nameSearch + '"');
+		} else if (this.idCertAndRoles != 0) {
+			consult.append("WHERE cr.idCertificactionsAndRoles = :keyword ) ");
+			item = new SelectItem(this.idCertAndRoles, "keyword");
+			parameters.add(item);
+		} else {
+			consult.append(") ");
 		}
 	}
 
