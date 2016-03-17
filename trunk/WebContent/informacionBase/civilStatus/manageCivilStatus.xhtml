@@ -9,37 +9,37 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="civilStatusAction.inicializarBusqueda" />
+	<ui:param name="action" value="civilStatusAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeInformacionBase.estado_civil_label" />
+		value="mensaje.label_gestionar,mensajeInformacionBase.civil_status_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{civilStatusAction}" />
 		<ui:param name="listaVacia"
-			value="#{civilStatusAction.listaEstadoCivil eq null or (empty civilStatusAction.listaEstadoCivil)}" />
+			value="#{civilStatusAction.listCivilStatus eq null or (empty civilStatusAction.listCivilStatus)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{civilStatusAction}" />
 		<ui:param name="renderLista" value="panelCivilStatus vigenciaPopup" />
-		<ui:param name="metodoLista" value="consultarEstadoCivil" />
+		<ui:param name="metodoLista" value="consultCivilStatus" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="civilStatusAction" />
-		<ui:param name="metodoNuevo" value="agregarEditarEstadoCivil" />
+		<ui:param name="metodoNuevo" value="addEditCivilStatus" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formEstadoCivil">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeInformacionBase.estado_civil_label}"
+				header="#{mensaje.label_listado_de} #{mensajeInformacionBase.civil_status_label}"
 				id="panelCivilStatus">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{civilStatusAction.listaEstadoCivil}"
+				<rich:dataTable value="#{civilStatusAction.listCivilStatus}"
 					var="civilStatus"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -59,7 +59,7 @@
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
 						<h:commandLink value="#{civilStatus.name}"
-							action="#{civilStatusAction.agregarEditarEstadoCivil(civilStatus)}"
+							action="#{civilStatusAction.addEditCivilStatus(civilStatus)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -88,7 +88,7 @@
 						<ui:include src="/plantillas/plantillaPaginador.xhtml">
 							<ui:param name="valReder" value="panelCivilStatus" />
 							<ui:param name="beanActionParam" value="#{civilStatusAction}" />
-							<ui:param name="metodoActionParam" value="consultarEstadoCivil" />
+							<ui:param name="metodoActionParam" value="consultCivilStatus" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -96,7 +96,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{estado_civil_label_nombre}"
+				header="#{mensaje.button_search} #{civil_status_label_nombre}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -111,13 +111,13 @@
 					<h:outputText value="#{mensaje.label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{civilStatusAction.nombreBuscar}"
+						id="txtNombreBuscar" value="#{civilStatusAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						actionListener="#{civilStatusAction.consultarEstadoCivil()}"
+						actionListener="#{civilStatusAction.consultCivilStatus()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelCivilStatus, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -150,7 +150,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{civilStatusAction.eliminarEstadoCivil()}"
+							actionListener="#{civilStatusAction.removeCivilStatus()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelCivilStatus, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"

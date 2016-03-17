@@ -24,7 +24,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 
 /**
  * This class is all the logic related to the creation, updating or removal of
- * civil States in the system
+ * civil States in the system.
  * 
  * @author Mabell.Boada
  * 
@@ -33,31 +33,31 @@ import co.informatix.erp.utils.ValidacionesAction;
 @ManagedBean
 @RequestScoped
 public class CivilStatusAction implements Serializable {
-	private List<CivilStatus> listaEstadoCivil;
+	private List<CivilStatus> listCivilStatus;
 	private Paginador paginador = new Paginador();
 	private CivilStatus civilStatus;
-	private String nombreBuscar;
+	private String nameSearch;
 
 	@EJB
 	private CivilStatusDao civilStatusDao;
 
 	/**
-	 * @return listaEstadoCivil: List of civil status
+	 * @return listCivilStatus: List of civil status.
 	 */
-	public List<CivilStatus> getListaEstadoCivil() {
-		return listaEstadoCivil;
+	public List<CivilStatus> getListCivilStatus() {
+		return listCivilStatus;
 	}
 
 	/**
-	 * @param listaEstadoCivil
-	 *            : List of civil status
+	 * @param listCivilStatus
+	 *            : List of civil status.
 	 */
-	public void setListaEstadoCivil(List<CivilStatus> listaEstadoCivil) {
-		this.listaEstadoCivil = listaEstadoCivil;
+	public void setListCivilStatus(List<CivilStatus> listCivilStatus) {
+		this.listCivilStatus = listCivilStatus;
 	}
 
 	/**
-	 * @return paginador: Paginated list of civil states can be in view
+	 * @return paginador: Paginated list of civil states can be in view.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -65,14 +65,14 @@ public class CivilStatusAction implements Serializable {
 
 	/**
 	 * @param paginador
-	 *            : Paginated list of civil states can be in view
+	 *            : Paginated list of civil states can be in view.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return civilStatus: Object civil status
+	 * @return civilStatus: Object civil status.
 	 */
 	public CivilStatus getCivilStatus() {
 		return civilStatus;
@@ -80,162 +80,161 @@ public class CivilStatusAction implements Serializable {
 
 	/**
 	 * @param civilStatus
-	 *            : Object civil status
+	 *            : Object civil status.
 	 */
 	public void setCivilStatus(CivilStatus civilStatus) {
 		this.civilStatus = civilStatus;
 	}
 
 	/**
-	 * @return nombreBuscar: Name by which you want to view the status civil
+	 * @return nameSearch: Name by which you want to view the status civil.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : Name by which you want to view the status civil
+	 * @param nameSearch
+	 *            : Name by which you want to view the status civil.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load initial list
-	 * of civil states
+	 * of civil states.
 	 * 
-	 * @return consultarEstadoCivil: Method consulting civil states, returns to
-	 *         the template management
+	 * @return consultCivilStatus: Method consulting civil states, returns to
+	 *         the template management.
 	 */
-	public String inicializarBusqueda() {
-		nombreBuscar = "";
-		return consultarEstadoCivil();
+	public String searchInitialization() {
+		nameSearch = "";
+		return consultCivilStatus();
 	}
 
 	/**
-	 * Consult the list of existing civil status
+	 * Consult the list of existing civil status.
 	 * 
-	 * @return gesEstCivil: Navigation rule that redirects manage civil status
+	 * @return gesCivilEst: Navigation rule that redirects manage civil status.
 	 */
-	public String consultarEstadoCivil() {
+	public String consultCivilStatus() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleGeneral = ControladorContexto
-				.getBundle("mensajeGeneral");
-		ValidacionesAction validaciones = ControladorContexto
+				.getBundle("mensajeInformacionBase");
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listaEstadoCivil = new ArrayList<CivilStatus>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		listCivilStatus = new ArrayList<CivilStatus>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		try {
-			busquedaAvanzada(consulta, parametros, bundle,
-					unionMensajesBusqueda);
-			Long cantidad = civilStatusDao.cantidadEstadoCivil(consulta,
-					parametros);
-			if (cantidad != null) {
-				paginador.paginar(cantidad);
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = civilStatusDao.quantityCivilStatus(query,
+					parameters);
+			if (quantity != null) {
+				paginador.paginar(quantity);
 			}
-			listaEstadoCivil = civilStatusDao.consultarEstadoCivil(
-					paginador.getInicio(), paginador.getRango(), consulta,
-					parametros);
-			if ((listaEstadoCivil == null || listaEstadoCivil.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			listCivilStatus = civilStatusDao.consultCivilStatus(
+					paginador.getInicio(), paginador.getRango(), query,
+					parameters);
+			if ((listCivilStatus == null || listCivilStatus.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (listaEstadoCivil == null || listaEstadoCivil.size() <= 0) {
+								unionMessagesSearch);
+			} else if (listCivilStatus == null || listCivilStatus.size() <= 0) {
 				ControladorContexto
 						.mensajeInformacion(null, MessageFormat.format(bundle
 								.getString("message_no_existen_registros"), ""));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleGeneral.getString("estado_civil_label"),
-								unionMensajesBusqueda);
+								bundleGeneral.getString("civil_status_label"),
+								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesEstCivil";
+		return "gesCivilEst";
 	}
 
 	/**
 	 * This method constructs the query to the advanced search also allows build
-	 * messages to display depending on the search criteria selected by the user
+	 * messages to display depending on the search criteria selected by the
+	 * user.
 	 * 
-	 * @param consulta
-	 *            : Consult concatenate
-	 * @param parametros
-	 *            : List of search parameters
+	 * @param consult
+	 *            : Consult concatenate.
+	 * @param parameters
+	 *            : List of search parameters.
 	 * @param bundle
-	 *            : Access language tags
+	 *            : Access language tags.
 	 * 
-	 * @param unionMensajesBusqueda
-	 *            : Message Word Search
-	 * 
+	 * @param unionMessagesSearch
+	 *            : Message Word Search.
 	 */
-	private void busquedaAvanzada(StringBuilder consulta,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parametros, ResourceBundle bundle,
-			StringBuilder unionMensajesBusqueda) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			consulta.append("WHERE UPPER(cs.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
+			StringBuilder unionMessagesSearch) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("WHERE UPPER(cs.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parametros.add(item);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nombreBuscar + '"');
+			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
 	/**
-	 * Method to edit or create a new civil status
+	 * Method to edit or create a new civil status.
 	 * 
 	 * @param civilStatus
-	 *            : Marital status to be add or edit
+	 *            : Marital status to be add or edit.
 	 * 
-	 * @return regEstCivil: Redirects the state record template civil
+	 * @return regCivilEst: Redirects the state record template civil.
 	 */
-	public String agregarEditarEstadoCivil(CivilStatus civilStatus) {
+	public String addEditCivilStatus(CivilStatus civilStatus) {
 		if (civilStatus != null) {
 			this.civilStatus = civilStatus;
 		} else {
 			this.civilStatus = new CivilStatus();
 		}
-		return "regEstCivil";
+		return "regCivilEst";
 	}
 
 	/**
 	 * To validate the name of civil states, so it is not repeated in the
 	 * database and validates against XSS.
 	 * 
-	 * @param contexto
-	 *            : Application context
+	 * @param context
+	 *            : Application context.
 	 * 
 	 * @param toValidate
-	 *            : Validate component
+	 *            : Validate component.
 	 * @param value
-	 *            : Field value is validated
+	 *            : Field value is validated.
 	 */
-	public void validarNombreXSS(FacesContext contexto, UIComponent toValidate,
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
-		String nombre = (String) value;
-		String clientId = toValidate.getClientId(contexto);
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
 		try {
 			int id = civilStatus.getId();
 			CivilStatus civilStatusAux = new CivilStatus();
-			civilStatusAux = civilStatusDao.nombreExiste(nombre, id);
+			civilStatusAux = civilStatusDao.nameExist(name, id);
 			if (civilStatusAux != null) {
-				String mensajeExistencia = "message_ya_existe_verifique";
+				String messageExistence = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,
-						mensajeExistencia, "mensaje");
+						messageExistence, "mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -245,39 +244,39 @@ public class CivilStatusAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the civil status
+	 * Method used to save or edit the civil status.
 	 * 
-	 * @return consultarEstadoCivil: Redirects to manage civil states with the
-	 *         list of names updated
+	 * @return consultCivilStatus: Redirects to manage civil states with the
+	 *         list of names updated.
 	 */
-	public String guardarEstadoCivil() {
+	public String saveCivilStatus() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageLog = "message_registro_modificar";
 		try {
 			if (civilStatus.getId() != 0) {
-				civilStatusDao.editarEstadoCivil(civilStatus);
+				civilStatusDao.editCivilStatus(civilStatus);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
-				civilStatusDao.guardarEstadoCivil(civilStatus);
+				messageLog = "message_registro_guardar";
+				civilStatusDao.saveCivilStatus(civilStatus);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), civilStatus.getName()));
+					bundle.getString(messageLog), civilStatus.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarEstadoCivil();
+		return consultCivilStatus();
 	}
 
 	/**
-	 * Method to delete a civil state of the database
+	 * Method to delete a civil state of the database.
 	 * 
-	 * @return consultarEstadoCivil: Redirects to manage the states civilians
-	 *         with the list of names updated
+	 * @return consultCivilStatus: Redirects to manage the states civilians with
+	 *         the list of names updated.
 	 */
-	public String eliminarEstadoCivil() {
+	public String removeCivilStatus() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			civilStatusDao.eliminarEstadoCivil(civilStatus);
+			civilStatusDao.removeCivilStatus(civilStatus);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
 					civilStatus.getName()));
@@ -289,6 +288,6 @@ public class CivilStatusAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarEstadoCivil();
+		return consultCivilStatus();
 	}
 }
