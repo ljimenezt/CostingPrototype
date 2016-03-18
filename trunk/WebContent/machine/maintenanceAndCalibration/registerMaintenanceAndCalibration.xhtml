@@ -13,13 +13,13 @@
 	<ui:param name="action"
 		value="maintenanceAndCalibrationAction.addEditMaintenanceAndCalibration(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeMachine.mantenimiento_calibracion_label" />
+		value="mensaje.label_registrar, mensajeMachine.maintenance_calibration_label" />
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceAndCalibrationAction}" />
 		<t:saveState value="#{machinesAction}" />
 		<h:form id="formMaintenanceAndCalibration">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeMachine.mantenimiento_calibracion_label}"
+				header="#{mensaje.label_registrar} #{mensajeMachine.maintenance_calibration_label}"
 				styleClass="anchoUno MinH253P" id="panelMaintenanceAndCalibration">
 				<t:fieldset styleClass="anchoDos BorderW2P">
 					<legend class="etiquetaTitulo">#{mensaje.label_informacion_maquina}</legend>
@@ -47,7 +47,7 @@
 						<rich:message for="cmbMachinesTypes" />
 
 						<h:outputText
-							value="#{mensajeMachine.mantenimiento_calibracion_label_maquina}"
+							value="#{mensajeMachine.maintenance_calibration_label_machine}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu id="maquina"
@@ -64,7 +64,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensajeMachine.mantenimiento_calibracion_label}</legend>
+					<legend class="etiquetaTitulo">#{mensajeMachine.maintenance_calibration_label}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
@@ -85,7 +85,7 @@
 						<rich:message for="fechMaint" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeMachine.mantenimiento_calibracion_label_maquina_buenas_condiciones}" />
+							value="#{mensajeMachine.maintenance_calibration_label_good_condition_machines}" />
 						<h:outputText value="" />
 						<h:selectOneRadio
 							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
@@ -135,7 +135,7 @@
 						<h:outputText
 							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}" />
 						<h:outputText
-							value="#{mensajeMachine.mantenimiento_calibracion_label_maquina_buenas_condiciones}:" />
+							value="#{mensajeMachine.maintenance_calibration_label_good_condition_machines}:" />
 						<h:outputText
 							rendered="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
 							value="#{mensaje.label_si}" />
