@@ -354,7 +354,7 @@
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
 						execute="formActivities"
-						actionListener="#{activitiesAction.requeridosOk}"
+						actionListener="#{activitiesAction.verifyRequirements}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>
@@ -379,7 +379,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{activitiesAction.guardarActivities}"
+							action="#{activitiesAction.saveActivities}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

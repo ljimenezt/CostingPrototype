@@ -29,8 +29,8 @@ import co.informatix.erp.utz.entities.ActivitiesAndCertifications;
 import co.informatix.erp.utz.entities.CertificationsAndRoles;
 
 /**
- * This class allows the logic of the activities that can be BD. The logic is:
- * insert activities
+ * This class implements the logic of the activities that can be stored in the
+ * database.
  * 
  * @author Johnatan.Naranjo
  * 
@@ -78,8 +78,7 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return reportingActuals: Bandera que permite modificar la consulta de
-	 *         las actividades.
+	 * @return reportingActuals: Flag to modify the activities query.
 	 */
 	public boolean isReportingActuals() {
 		return reportingActuals;
@@ -87,8 +86,7 @@ public class ActivitiesAction implements Serializable {
 
 	/**
 	 * @param reportingActuals
-	 *            : Bandera que permite modificar la consulta de las
-	 *            actividades.
+	 *            : Flag to modify the activities query.
 	 */
 	public void setReportingActuals(boolean reportingActuals) {
 		this.reportingActuals = reportingActuals;
@@ -110,7 +108,7 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return activities: object containing activities data
+	 * @return activities: object containing activity data.
 	 */
 	public Activities getActivities() {
 		return activities;
@@ -118,14 +116,14 @@ public class ActivitiesAction implements Serializable {
 
 	/**
 	 * @param activities
-	 *            : object containing activities data
+	 *            : object containing activity data
 	 */
 	public void setActivities(Activities activities) {
 		this.activities = activities;
 	}
 
 	/**
-	 * @return crops: object containing crops data
+	 * @return crops: object containing crop data.
 	 */
 	public Crops getCrops() {
 		return crops;
@@ -133,14 +131,14 @@ public class ActivitiesAction implements Serializable {
 
 	/**
 	 * @param crops
-	 *            : object containing crops data
+	 *            : object containing crop data.
 	 */
 	public void setCrops(Crops crops) {
 		this.crops = crops;
 	}
 
 	/**
-	 * @return selectedActivities: activity object selected
+	 * @return selectedActivities: Activity object that is selected.
 	 */
 	public Activities getSelectedActivities() {
 		return selectedActivities;
@@ -148,14 +146,14 @@ public class ActivitiesAction implements Serializable {
 
 	/**
 	 * @param selectedActivities
-	 *            : activity object selected
+	 *            : activity object that is selected.
 	 */
 	public void setSelectedActivities(Activities selectedActivities) {
 		this.selectedActivities = selectedActivities;
 	}
 
 	/**
-	 * @return pager: Management paged list of activities
+	 * @return pager: Paged list of activities.
 	 */
 	public Paginador getPager() {
 		return pager;
@@ -163,28 +161,27 @@ public class ActivitiesAction implements Serializable {
 
 	/**
 	 * @param pager
-	 *            : Management paged list of activities
+	 *            : Paged list of activities.
 	 */
 	public void setPager(Paginador pager) {
 		this.pager = pager;
 	}
 
 	/**
-	 * Method that gets the activitiesAndCertifications whose foreign to
-	 * activities
+	 * Method that gets the activitiesAndCertifications for activities.
 	 * 
-	 * @return activitiesAndCertifications:activitiesAndCertifications obtenida
+	 * @return activitiesAndCertifications:activitiesAndCertifications you want
+	 *         to get.
 	 */
 	public ActivitiesAndCertifications getActivitiesAndCertifications() {
 		return activitiesAndCertifications;
 	}
 
 	/**
-	 * Method that set the activitiesAndCertifications whose foreign to
-	 * activities
+	 * Method that sets the activitiesAndCertifications for activities.
 	 * 
 	 * @param activitiesAndCertifications
-	 *            :activitiesAndCertifications a setear
+	 *            :activitiesAndCertifications you want to set.
 	 * 
 	 */
 	public void setActivitiesAndCertifications(
@@ -193,8 +190,7 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return itemsCertificationsAndRoles: We obtain the item of the
-	 *         certificates
+	 * @return itemsCertificationsAndRoles: Obtain the items for certifications.
 	 */
 	public List<SelectItem> getItemsCertificationsAndRoles() {
 		return itemsCertificationsAndRoles;
@@ -202,7 +198,7 @@ public class ActivitiesAction implements Serializable {
 
 	/**
 	 * @param itemsCertificationsAndRoles
-	 *            : We obtain the item of the certificates
+	 *            : Set the items for certifications
 	 */
 	public void setItemsCertificationsAndRoles(
 			List<SelectItem> itemsCertificationsAndRoles) {
@@ -210,7 +206,7 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return itemsActivities: list of activities
+	 * @return itemsActivities: list of activities.
 	 */
 	public List<SelectItem> getItemsActivities() {
 		return itemsActivities;
@@ -218,14 +214,14 @@ public class ActivitiesAction implements Serializable {
 
 	/**
 	 * @param itemsActivities
-	 *            : list of activities
+	 *            : list of activities.
 	 */
 	public void setItemsActivities(List<SelectItem> itemsActivities) {
 		this.itemsActivities = itemsActivities;
 	}
 
 	/**
-	 * @return listActivities: list of activities object
+	 * @return listActivities: list of activity objects.
 	 */
 	public List<Activities> getListActivities() {
 		return listActivities;
@@ -233,7 +229,7 @@ public class ActivitiesAction implements Serializable {
 
 	/**
 	 * @param listActivities
-	 *            : list of activities object
+	 *            : list of activity objects.
 	 */
 	public void setListActivities(List<Activities> listActivities) {
 		this.listActivities = listActivities;
@@ -253,15 +249,15 @@ public class ActivitiesAction implements Serializable {
 		this.activities = activity;
 		this.idCrop = idCrop;
 		this.pager = new Paginador();
-		consultingActivities();
+		searchActivities();
 	}
 
 	/**
-	 * It allows consulting activities.
+	 * It queries activities.
 	 * 
 	 * @author Gerardo.Herrera
 	 */
-	public void consultingActivities() {
+	public void searchActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleCostos = ControladorContexto
 				.getBundle("mensajeCosts");
@@ -326,54 +322,53 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * This method build the query to the advanced search for activities
-	 * building also allows messages to be displayed depending on the criteria
-	 * search selected by the user.
+	 * This method builds the query with an advanced search; it also builds
+	 * display messages depending on the criteria search selected by the user.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
 	 * @modify 14/01/2016 Wilhelm.Boada
 	 * 
-	 * @param query
-	 *            : query to concatenate
+	 * @param queryBuilder
+	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            : access language tags
+	 *            : Context to access language tags.
 	 * @param bundleCosts
-	 *            : access language labels cost
-	 * @param unionMessagesSearch
-	 *            : Message search
+	 *            : Contexts to access costs language labels.
+	 * @param jointSearchMessages
+	 *            : Search message.
 	 * @param fromModal
 	 *            : boolean that indicates whether this method is called from a
-	 *            modal window or not
+	 *            modal window or not.
 	 * @param order
-	 *            : flag indicates if the query have a order to list
+	 *            : Flag that indicates if the query have an order to list
 	 */
-	private void advancedSearch(StringBuilder query,
+	private void advancedSearch(StringBuilder queryBuilder,
 			List<SelectItem> parameters, ResourceBundle bundle,
-			ResourceBundle bundleCosts, StringBuilder unionMessagesSearch,
+			ResourceBundle bundleCosts, StringBuilder jointSearchMessages,
 			boolean fromModal, StringBuilder order) {
 		boolean selection = false;
 		boolean showSearchMessage = false;
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE);
-		if (query.length() > 0) {
-			query.setLength(0);
-			query.append("JOIN FETCH ");
+		if (queryBuilder.length() > 0) {
+			queryBuilder.setLength(0);
+			queryBuilder.append("JOIN FETCH ");
 		} else {
-			query.append("JOIN ");
+			queryBuilder.append("JOIN ");
 			showSearchMessage = true;
 		}
-		query.append("a.activityName an ");
+		queryBuilder.append("a.activityName an ");
 		if (this.activities.getIdActivity() != 0 && this.activities != null) {
-			query.append(selection ? "AND " : "WHERE ");
-			query.append("an.idActivityName = :keywordActivity ");
+			queryBuilder.append(selection ? "AND " : "WHERE ");
+			queryBuilder.append("an.idActivityName = :keywordActivity ");
 			SelectItem item = new SelectItem(this.activities.getIdActivity(),
 					"keywordActivity");
 			parameters.add(item);
 			if (!showSearchMessage)
-				unionMessagesSearch.append(bundleCosts
+				jointSearchMessages.append(bundleCosts
 						.getString("activities_label")
 						+ ": "
 						+ '"'
@@ -386,14 +381,15 @@ public class ActivitiesAction implements Serializable {
 		}
 		if (this.activities.getDescription() != null
 				&& !"".equals(this.activities.getDescription())) {
-			query.append(selection ? "AND " : "WHERE ");
-			query.append("UPPER(a.description) LIKE UPPER(:keywordDescription) ");
+			queryBuilder.append(selection ? "AND " : "WHERE ");
+			queryBuilder
+					.append("UPPER(a.description) LIKE UPPER(:keywordDescription) ");
 			SelectItem item = new SelectItem("%"
 					+ this.activities.getDescription() + "%",
 					"keywordDescription");
 			parameters.add(item);
 			if (!showSearchMessage)
-				unionMessagesSearch.append(bundle
+				jointSearchMessages.append(bundle
 						.getString("label_descripcion")
 						+ ": "
 						+ '"'
@@ -407,9 +403,11 @@ public class ActivitiesAction implements Serializable {
 			cal.set(Calendar.HOUR_OF_DAY, 23);
 			cal.set(Calendar.MINUTE, 59);
 			this.activities.setFinalDtBudget(cal.getTime());
-			query.append(selection ? "AND " : "WHERE ");
-			query.append("a.initialDtBudget BETWEEN :keywordDateInitial AND :keywordDateFinal ");
-			query.append("AND a.finalDtBudget BETWEEN :keywordDateInitial AND :keywordDateFinal ");
+			queryBuilder.append(selection ? "AND " : "WHERE ");
+			queryBuilder
+					.append("a.initialDtBudget BETWEEN :keywordDateInitial AND :keywordDateFinal ");
+			queryBuilder
+					.append("AND a.finalDtBudget BETWEEN :keywordDateInitial AND :keywordDateFinal ");
 			SelectItem itemInitial = new SelectItem(
 					this.activities.getInitialDtBudget(), "keywordDateInitial");
 			SelectItem itemFinal = new SelectItem(
@@ -417,13 +415,13 @@ public class ActivitiesAction implements Serializable {
 			parameters.add(itemInitial);
 			parameters.add(itemFinal);
 			if (!showSearchMessage) {
-				unionMessagesSearch.append(bundle
+				jointSearchMessages.append(bundle
 						.getString("label_fecha_inicio")
 						+ ": "
 						+ '"'
 						+ dateFormat.format(this.activities
 								.getInitialDtBudget()) + '"' + " ");
-				unionMessagesSearch.append(bundle.getString("label_fecha_fin")
+				jointSearchMessages.append(bundle.getString("label_fecha_fin")
 						+ ": " + '"'
 						+ dateFormat.format(this.activities.getFinalDtBudget())
 						+ '"' + " ");
@@ -431,28 +429,28 @@ public class ActivitiesAction implements Serializable {
 			selection = true;
 		}
 		if (this.idCrop != 0) {
-			query.append(selection ? "AND " : "WHERE ");
-			query.append("a.crop.idCrop = :keywordIdCrop ");
+			queryBuilder.append(selection ? "AND " : "WHERE ");
+			queryBuilder.append("a.crop.idCrop = :keywordIdCrop ");
 			SelectItem item = new SelectItem(this.idCrop, "keywordIdCrop");
 			parameters.add(item);
 			selection = true;
 		}
 		if (fromModal) {
-			query.append(selection ? "AND " : "WHERE ");
-			query.append("(a IN ");
-			query.append("(SELECT a FROM ActivitiesAndHr ah ");
-			query.append("JOIN ah.activitiesAndHrPK.activities a) ");
-			query.append("OR a IN ");
-			query.append("(SELECT ac FROM ActivityMachine am ");
-			query.append("JOIN am.activityMachinePK.activities ac)) ");
+			queryBuilder.append(selection ? "AND " : "WHERE ");
+			queryBuilder.append("(a IN ");
+			queryBuilder.append("(SELECT a FROM ActivitiesAndHr ah ");
+			queryBuilder.append("JOIN ah.activitiesAndHrPK.activities a) ");
+			queryBuilder.append("OR a IN ");
+			queryBuilder.append("(SELECT ac FROM ActivityMachine am ");
+			queryBuilder.append("JOIN am.activityMachinePK.activities ac)) ");
 			selection = true;
 		}
 		if (!fromModal) {
-			query.append("AND a.generalCostActual IS NULL ");
+			queryBuilder.append("AND a.generalCostActual IS NULL ");
 		}
-		query.append(selection ? "AND " : "WHERE ");
-		query.append("(a.machineRequired = true ");
-		query.append("OR a.hrRequired = true ) ");
+		queryBuilder.append(selection ? "AND " : "WHERE ");
+		queryBuilder.append("(a.machineRequired = true ");
+		queryBuilder.append("OR a.hrRequired = true ) ");
 
 		if (sort) {
 			ControllerSortField controllerSortField = ControladorContexto
@@ -469,12 +467,12 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Assign the selected activity
+	 * Assign the selected activity.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
 	 * @param actualActivity
-	 *            : activities object.
+	 *            : Activities object.
 	 */
 	public void assignActivities(Activities actualActivity) {
 		this.selectedActivities = new Activities();
@@ -491,7 +489,7 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method of setting name selected activity in the popup
+	 * Method to set the selected activity name in the popup.
 	 * 
 	 * @param activityNames
 	 *            : Name of activity that is load from popup.
@@ -501,20 +499,20 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method to clear the name of activity
+	 * Method to clear the selected activity name of activity
 	 */
 	public void limpiarActivityNames() {
 		this.activities.setActivityName(new ActivityNames());
 	}
 
 	/**
-	 * Charge method to add or edit activities
+	 * Method to add or edit activities.
 	 * 
 	 * @param activities
-	 *            : activity to add or edit
-	 * @return "regActivities": log view activities
+	 *            : activity to add or edit.
+	 * @return "regActivities": register activities template.
 	 */
-	public String agregarEditarActivities(Activities activities) {
+	public String addEditActivities(Activities activities) {
 		try {
 			if (activities != null) {
 				this.activities = activities;
@@ -528,7 +526,7 @@ public class ActivitiesAction implements Serializable {
 						.getActivitiesAndCertificationsPK().setActivities(
 								this.activities);
 			}
-			cargarComboCertificationsAndRoles();
+			loadComboCertificationsAndRoles();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -536,37 +534,38 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit activities
+	 * Method to save or edit activities.
 	 * 
-	 * @return agregarEditarActivities: Redirects to record activities
+	 * @return agregarEditarActivities: Redirects to register activities
+	 *         template.
 	 * 
 	 */
-	public String guardarActivities() {
+	public String saveActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String registerMessage = "message_registro_modificar";
 		try {
 
 			if (activities.getIdActivity() != 0) {
 				activitiesDao.editActivities(activities);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
+				registerMessage = "message_registro_guardar";
 				activitiesDao.saveActivities(activities);
 				activitiesAndCertificationsDao
 						.saveActivitiesAndCertifications(activitiesAndCertifications);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro),
+					bundle.getString(registerMessage),
 					activities.getIdActivity()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return agregarEditarActivities(null);
+		return addEditActivities(null);
 	}
 
 	/**
-	 * Validates fields that are required at the hearing at saving time.
+	 * Validates fields that are required when saving occurs.
 	 */
-	public void requeridosOk() {
+	public void verifyRequirements() {
 		if (activities.getActivityName() == null
 				|| activities.getActivityName().getActivityName() == null) {
 			ControladorContexto
@@ -575,15 +574,15 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Charge method to load the select item types CertificationsAndRoles
+	 * Method to load the select item types CertificationsAndRoles.
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarComboCertificationsAndRoles() throws Exception {
-		List<CertificationsAndRoles> listaCertificationsAndRoles = certificationsAndRolesDao
+	private void loadComboCertificationsAndRoles() throws Exception {
+		List<CertificationsAndRoles> certificationsAndRolesList = certificationsAndRolesDao
 				.consultCertificationsAndRoles();
 		this.itemsCertificationsAndRoles = new ArrayList<SelectItem>();
-		for (CertificationsAndRoles certificationsAndRoles : listaCertificationsAndRoles) {
+		for (CertificationsAndRoles certificationsAndRoles : certificationsAndRolesList) {
 			this.itemsCertificationsAndRoles.add(new SelectItem(
 					certificationsAndRoles.getIdCertificactionsAndRoles(),
 					certificationsAndRoles.getName()));
