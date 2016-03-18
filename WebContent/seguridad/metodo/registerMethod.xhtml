@@ -230,7 +230,7 @@
 				<div class="anchoDos center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,confirmacionPopUp"
-						actionListener="#{metodoAction.method(metodoAction.method)}"
+						actionListener="#{metodoAction.setMethod(metodoAction.method)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 					           	else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						rendered="#{(metodoAction.method.id ne 0 and identity.autorizado('metodoAction','U')) or identity.autorizado('metodoAction','A') or identity.autorizado('metodoAction','I')}" />
