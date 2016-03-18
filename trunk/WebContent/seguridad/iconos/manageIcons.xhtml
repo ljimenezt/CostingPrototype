@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 
-	<ui:param name="action" value="iconoAction.inicializarBusqueda" />
+	<ui:param name="action" value="iconoAction.searchInitialization" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,messageSecurity.icon_label" />
 
@@ -19,21 +19,21 @@
 			<t:saveState value="#{iconoAction}" />
 
 			<ui:param name="listaVacia"
-				value="#{iconoAction.iconos eq null or (empty iconoAction.iconos)}" />
+				value="#{iconoAction.icons eq null or (empty iconoAction.icons)}" />
 			<ui:param name="anchoTabla" value="anchoCinco" />
 			<!-- parametros para botones y ordenamiento del listado -->
 			<ui:param name="actionLista" value="#{iconoAction}" />
 			<ui:param name="renderLista" value="panelIcono" />
-			<ui:param name="metodoLista" value="consultarIconos" />
+			<ui:param name="metodoLista" value="consultIcons" />
 			<!-- parametros solo para ordenamiento del listado -->
 			<ui:param name="ocultarOrden" value="#{listaVacia}" />
 			<!-- parametros solo para botones del listado -->
 			<ui:param name="nombreAction" value="iconoAction" />
-			<ui:param name="metodoNuevo" value="registrarIcono" />
+			<ui:param name="metodoNuevo" value="registerIcon" />
 			<ui:param name="parametroNuevo" value="#{null}" />
 			<ui:param name="renderBuscar" value="buscarForm:popupBuscar" />
 			<ui:param name="popupBuscar" value="popupBuscar" />
-			<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+			<ui:param name="metodoListarTodos" value="searchInitialization" />
 			<ui:param name="tieneVigencia" value="no" />
 
 			<rich:panel
@@ -42,12 +42,12 @@
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
 
-				<rich:dataTable value="#{iconoAction.iconos}" var="icono"
+				<rich:dataTable value="#{iconoAction.icons}" var="icono"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoUno">
 						<a:commandLink render="popupEliminar"
-							actionListener="#{iconoAction.setIcono(icono)}"
+							actionListener="#{iconoAction.setIcon(icono)}"
 							rendered="#{icono.menus.isEmpty()}"
 							oncomplete="#{rich:component('popupEliminar')}.show()">
 							<h:graphicImage value="/img/delete_16.png" />
@@ -59,7 +59,7 @@
 					<rich:column styleClass="colIconoUno">
 						<f:facet name="header">#{mensaje.label_icono}</f:facet>
 						<h:graphicImage rendered="#{icono.nombre ne null}"
-							value="#{iconoAction.carpetaArchivosReal}/#{icono.nombre}" />
+							value="#{iconoAction.folderFilesReal}/#{icono.nombre}" />
 					</rich:column>
 					<rich:column styleClass="colTextoLargo">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
@@ -68,7 +68,7 @@
 								test="#{(identity.autorizado('iconoAction','A') or identity.autorizado('iconoAction','U'))}">
 								<h:commandLink value="#{icono.nombre}"
 									onclick="#{rich:component('statPane')}.show();"
-									action="#{iconoAction.registrarIcono(icono)}">
+									action="#{iconoAction.registerIcon(icono)}">
 								</h:commandLink>
 							</c:when>
 							<c:otherwise>
@@ -102,7 +102,7 @@
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="panelIcono" />
 							<ui:param name="beanActionParam" value="#{iconoAction}" />
-							<ui:param name="metodoActionParam" value="consultarIconos" />
+							<ui:param name="metodoActionParam" value="consultIcons" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -128,11 +128,11 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}:" />
-						<h:outputText value="#{iconoAction.icono.nombre}" />
+						<h:outputText value="#{iconoAction.icon.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{iconoAction.eliminarIcono()}"
+							actionListener="#{iconoAction.deleteIcon()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelIcono, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"
@@ -157,13 +157,13 @@
 					<h:outputText value="#{mensaje.label_nombre}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-						value="#{iconoAction.nombreBuscar}"
+						value="#{iconoAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						action="#{iconoAction.consultarIconos()}"
+						action="#{iconoAction.consultIcons()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelIcono, mensajes, mensajeBusqueda">
 						<f:setPropertyActionListener value="f"

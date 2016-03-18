@@ -9,7 +9,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="iconoAction.registrarIcono(null)" />
+	<ui:param name="action" value="iconoAction.registerIcon(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,messageSecurity.icon_label" />
 	<ui:define name="body">
@@ -28,7 +28,7 @@
 					<h:outputText value="" />
 					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
 						<h:inputText id="nombre" styleClass="colTextoLargo"
-							maxlength="200" value="#{iconoAction.icono.nombre}"
+							maxlength="200" value="#{iconoAction.icon.nombre}"
 							validator="#{encodeFilter.validarScripting}">
 							<f:validateLength maximum="200" />
 						</h:inputText>
@@ -52,7 +52,7 @@
 							rendered="#{iconoAction.fileUploadBean.fileName != null and !empty iconoAction.fileUploadBean.fileName}">
 							<div class="uploadImg">
 								<div class="closeImg">
-									<a:commandLink action="#{iconoAction.borrarFilename}"
+									<a:commandLink action="#{iconoAction.deleteFileName}"
 										render=":iconoForm:panelFotoHacienda">
 										<h:graphicImage value="/img/close_14.png"
 											onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
@@ -64,15 +64,15 @@
 									</a:commandLink>
 								</div>
 								<h:graphicImage
-									value="#{iconoAction.carpetaArchivosTemporal}/#{iconoAction.fileUploadBean.fileName}"
+									value="#{iconoAction.folderFilesTemporal}/#{iconoAction.fileUploadBean.fileName}"
 									title="#{iconoAction.fileUploadBean.fileName}"
 									styleClass="H200P W290P"
-									rendered="#{iconoAction.cargarFotoTemporal}" />
+									rendered="#{iconoAction.loadPhotoTemporal}" />
 								<h:graphicImage
-									value="#{iconoAction.carpetaArchivosReal}/#{iconoAction.fileUploadBean.fileName}"
+									value="#{iconoAction.folderFilesReal}/#{iconoAction.fileUploadBean.fileName}"
 									title="#{iconoAction.fileUploadBean.fileName}"
 									styleClass="H200P W290P"
-									rendered="#{!iconoAction.cargarFotoTemporal}" />
+									rendered="#{!iconoAction.loadPhotoTemporal}" />
 							</div>
 						</a:outputPanel>
 						<a:outputPanel>
@@ -104,10 +104,10 @@
 					<br />
 					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,:formModificacion:confirmacionPopUp"
-						actionListener="#{iconoAction.requeridosOk()}"
+						actionListener="#{iconoAction.requiredOk()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						rendered="#{(iconoAction.icono.id ne 0 and identity.autorizado('iconoAction','U')) or identity.autorizado('iconoAction','A') or identity.autorizado('iconoAction','I')}" />
+						rendered="#{(iconoAction.icon.id ne 0 and identity.autorizado('iconoAction','U')) or identity.autorizado('iconoAction','A') or identity.autorizado('iconoAction','I')}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -131,11 +131,11 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}:" />
-						<h:outputText value="#{iconoAction.icono.nombre}" />
+						<h:outputText value="#{iconoAction.icon.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{iconoAction.guardarIcono}"
+							action="#{iconoAction.saveIcon}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide()" />
