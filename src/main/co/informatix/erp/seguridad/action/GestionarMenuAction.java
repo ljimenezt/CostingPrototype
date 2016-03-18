@@ -659,13 +659,13 @@ public class GestionarMenuAction implements Serializable {
 		try {
 			IconoAction iconoAction = ControladorContexto
 					.getContextBean(IconoAction.class);
-			iconoAction.validarIconosCarpeta();
+			iconoAction.validateIconsFolder();
 			Long cantidadIconosPorNombre = gesIconoDao
-					.cantidadIconosPorNombre(nombreIconoBuscar);
+					.quantityIconsByName(nombreIconoBuscar);
 			if (cantidadIconosPorNombre != null) {
 				paginador.paginarRangoDefinido(cantidadIconosPorNombre, 5);
 			}
-			listaIconos = gesIconoDao.buscarIconosXNombrePaginado(
+			listaIconos = gesIconoDao.searchIconsXNamePaginated(
 					paginador.getInicio(), paginador.getRango(),
 					nombreIconoBuscar);
 

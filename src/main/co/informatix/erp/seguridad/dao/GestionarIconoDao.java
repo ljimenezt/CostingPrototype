@@ -26,28 +26,28 @@ public class GestionarIconoDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Allows consult the icons in the database
+	 * Allows consult the icons in the database.
 	 * 
-	 * @param inicio
-	 *            : Start Registry
-	 * @param rango
-	 *            : end in the range of records to consult
+	 * @param start
+	 *            : Start Registry.
+	 * @param range
+	 *            : end in the range of records to consult.
 	 * @return List<Icono>: list of icons found in the database.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Icono> consultarIconos(int inicio, int rango) throws Exception {
+	public List<Icono> consultIcons(int start, int range) throws Exception {
 		return em.createQuery("SELECT i FROM Icono i ORDER BY i.nombre")
-				.setFirstResult(inicio).setMaxResults(rango).getResultList();
+				.setFirstResult(start).setMaxResults(range).getResultList();
 	}
 
 	/**
-	 * Allows consult the amount of icons on the database
+	 * Allows consult the amount of icons on the database.
 	 * 
 	 * @return Long: number of icons found in the database.
 	 * @throws Exception
 	 */
-	public Long cantidadIconos() throws Exception {
+	public Long quantityIcons() throws Exception {
 		return (Long) em.createQuery("SELECT COUNT(i) FROM Icono i ")
 				.getSingleResult();
 	}
@@ -55,38 +55,38 @@ public class GestionarIconoDao implements Serializable {
 	/**
 	 * Save an icon in the database.
 	 * 
-	 * @param icono
-	 *            : icon to save
+	 * @param icon
+	 *            : icon to save.
 	 * @throws Exception
 	 */
-	public void guardarIcono(Icono icono) throws Exception {
-		em.persist(icono);
+	public void saveIcon(Icono icon) throws Exception {
+		em.persist(icon);
 	}
 
 	/**
 	 * Modifies an icon in the database.
 	 * 
-	 * @param icono
-	 *            : icon to modify
+	 * @param icon
+	 *            : icon to modify.
 	 * @throws Exception
 	 */
-	public void editarIcono(Icono icono) throws Exception {
-		em.merge(icono);
+	public void editIcon(Icono icon) throws Exception {
+		em.merge(icon);
 	}
 
 	/**
-	 * Consultation If the icon name exists in the database when you save
+	 * Consultation If the icon name exists in the database when you save.
 	 * 
-	 * @param nombre
-	 *            : name to verify
+	 * @param name
+	 *            : name to verify.
 	 * @return Icono: Icon object found with the name or null but there
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Icono nombreExiste(String nombre) throws Exception {
+	public Icono nameExist(String name) throws Exception {
 		List<Icono> results = em
-				.createQuery("FROM Icono i WHERE UPPER(i.nombre)=:nombre ")
-				.setParameter("nombre", nombre).getResultList();
+				.createQuery("FROM Icono i WHERE UPPER(i.nombre)=:name ")
+				.setParameter("name", name).getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -96,12 +96,12 @@ public class GestionarIconoDao implements Serializable {
 	/**
 	 * Deletes an icon of the database.
 	 * 
-	 * @param icono
-	 *            : Object icon to delete
+	 * @param icon
+	 *            : Object icon to delete.
 	 * @throws Exception
 	 */
-	public void eliminarIcono(Icono icono) throws Exception {
-		Icono e = em.find(Icono.class, icono.getId());
+	public void removeIcon(Icono icon) throws Exception {
+		Icono e = em.find(Icono.class, icon.getId());
 		em.remove(e);
 	}
 
@@ -119,18 +119,18 @@ public class GestionarIconoDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Icono> buscarIconosXNombrePaginado(int start, int range,
-			String nombreBuscar) throws Exception {
+	public List<Icono> searchIconsXNamePaginated(int start, int range,
+			String nameSearch) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT i FROM Icono i ");
 		query.append("WHERE i.fechaFinVigencia IS NULL ");
-		if (nombreBuscar != null && !"".equals(nombreBuscar)) {
+		if (nameSearch != null && !"".equals(nameSearch)) {
 			query.append("AND UPPER(i.nombre) LIKE  UPPER(:keyword) ");
 		}
 		query.append("ORDER BY i.nombre ");
 		Query q = em.createQuery(query.toString());
-		if (nombreBuscar != null && !"".equals(nombreBuscar)) {
-			q.setParameter("keyword", "%" + nombreBuscar + "%");
+		if (nameSearch != null && !"".equals(nameSearch)) {
+			q.setParameter("keyword", "%" + nameSearch + "%");
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		return q.getResultList();
@@ -140,66 +140,66 @@ public class GestionarIconoDao implements Serializable {
 	 * Allows consult the amount of icons on the database, considering the name
 	 * submitted as a parameter.
 	 * 
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : name by which the icon is sought.
 	 * 
 	 * @return Long: number of icons found in the database.
 	 * @throws Exception
 	 */
-	public Long cantidadIconosPorNombre(String nombreBuscar) throws Exception {
+	public Long quantityIconsByName(String nameSearch) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(i) FROM Icono i ");
 		query.append("WHERE i.fechaFinVigencia IS NULL ");
-		if (nombreBuscar != null && !"".equals(nombreBuscar)) {
+		if (nameSearch != null && !"".equals(nameSearch)) {
 			query.append("AND UPPER(i.nombre) LIKE  UPPER(:keyword) ");
 		}
 		Query q = em.createQuery(query.toString());
-		if (nombreBuscar != null && !"".equals(nombreBuscar)) {
-			q.setParameter("keyword", "%" + nombreBuscar + "%");
+		if (nameSearch != null && !"".equals(nameSearch)) {
+			q.setParameter("keyword", "%" + nameSearch + "%");
 		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * Allows consult the amount of icons by name in the existing database
+	 * Allows consult the amount of icons by name in the existing database.
 	 * 
-	 * @param nombreBuscar
-	 *            : name by which the icon is sought
-	 * @return Long: number of icons found
+	 * @param nameSearch
+	 *            : name by which the icon is sought.
+	 * @return Long: number of icons found.
 	 * @throws Exception
 	 */
-	public Long cantidadIconosXNombre(String nombreBuscar) throws Exception {
+	public Long quantityIconsXName(String nameSearch) throws Exception {
 		return (Long) em
 				.createQuery(
 						"SELECT COUNT(i) FROM Icono i "
 								+ "WHERE UPPER(i.nombre) LIKE :keyword ")
-				.setParameter("keyword", "%" + nombreBuscar + "%")
+				.setParameter("keyword", "%" + nameSearch + "%")
 				.getSingleResult();
 	}
 
 	/**
-	 * Method for querying name icons considering a beginning and a range
+	 * Method for querying name icons considering a beginning and a range.
 	 * 
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : Method that allows consulting name icons considering a
-	 *            beginning and a range
-	 * @param inicio
-	 *            : Start the registration
-	 * @param rango
-	 *            : end in the range of records to consult
+	 *            beginning and a range.
+	 * @param start
+	 *            : Start the registration.
+	 * @param range
+	 *            : end in the range of records to consult.
 	 * @return List<Icono>: list of icons found.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Icono> consultarIconosXNombrePaginador(String nombreBuscar,
-			int inicio, int rango) throws Exception {
+	public List<Icono> consultIconsXNamePaginator(String nameSearch,
+			int start, int range) throws Exception {
 		return em
 				.createQuery(
 						"SELECT i FROM Icono i "
 								+ "WHERE UPPER(i.nombre) LIKE :keyword "
 								+ "ORDER BY i.nombre")
-				.setParameter("keyword", "%" + nombreBuscar + "%")
-				.setFirstResult(inicio).setMaxResults(rango).getResultList();
+				.setParameter("keyword", "%" + nameSearch + "%")
+				.setFirstResult(start).setMaxResults(range).getResultList();
 	}
 
 }

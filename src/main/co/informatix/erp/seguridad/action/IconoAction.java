@@ -28,9 +28,9 @@ import co.informatix.security.action.IdentityAction;
 import co.informatix.security.entities.Icono;
 
 /**
- * This class allows business logic of the icons used in the system menu
+ * This class allows business logic of the icons used in the system menu.
  * 
- * The logic is to see, edit, add or remove an icon
+ * The logic is to see, edit, add or remove an icon.
  * 
  * @author marisol.calderon
  * 
@@ -49,56 +49,56 @@ public class IconoAction implements Serializable {
 	@Inject
 	private IdentityAction identity;
 
-	private List<Icono> iconos;
+	private List<Icono> icons;
 
 	private Paginador paginador = new Paginador();
-	private Icono icono;
+	private Icono icon;
 
-	private String carpetaArchivosReal;
-	private String carpetaArchivosTemporal;
-	private String nombreAchivoAntesEdicion;
-	private String nombreIconoAntesEdicion;
-	private String nombreBuscar;
+	private String folderFilesReal;
+	private String folderFilesTemporal;
+	private String nameFileBeforeEdition;
+	private String nameIconBeforeEdition;
+	private String nameSearch;
 
-	private boolean cargarFotoTemporal;
+	private boolean loadPhotoTemporal;
 
 	/**
 	 * 
-	 * @return icono: Icon object that apply to permits
+	 * @return icon: Icon object that apply to permits.
 	 */
-	public Icono getIcono() {
-		return icono;
+	public Icono getIcon() {
+		return icon;
 	}
 
 	/**
 	 * 
-	 * @param icono
-	 *            : Icon object that apply to permits
+	 * @param icon
+	 *            : Icon object that apply to permits.
 	 */
-	public void setIcono(Icono icono) {
-		this.icono = icono;
+	public void setIcon(Icono icon) {
+		this.icon = icon;
 	}
 
 	/**
 	 * 
-	 * @return iconos: List of icons that are loaded into the user interface.
+	 * @return icons: List of icons that are loaded into the user interface.
 	 */
-	public List<Icono> getIconos() {
-		return iconos;
+	public List<Icono> getIcons() {
+		return icons;
 	}
 
 	/**
 	 * 
-	 * @param iconos
+	 * @param icons
 	 *            :List of icons that are loaded into the user interface.
 	 */
-	public void setIconos(List<Icono> iconos) {
-		this.iconos = iconos;
+	public void setIcons(List<Icono> icons) {
+		this.icons = icons;
 	}
 
 	/**
 	 * 
-	 * @return paginador: allows the handling of the pagination of table icons
+	 * @return paginador: allows the handling of the pagination of table icons.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -107,41 +107,41 @@ public class IconoAction implements Serializable {
 	/**
 	 * 
 	 * @param paginador
-	 *            : allows the handling of the pagination of table icons
+	 *            : allows the handling of the pagination of table icons.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
 	}
 
 	/**
-	 * @return carpetaArchivosReal: The actual folder path where the menu icons
+	 * @return folderFilesReal: The actual folder path where the menu icons.
 	 */
-	public String getCarpetaArchivosReal() {
-		this.carpetaArchivosReal = Constantes.RUTA_IMG
+	public String getFolderFilesReal() {
+		this.folderFilesReal = Constantes.RUTA_IMG
 				+ Constantes.CARPETA_ICONOS_MENU_CABECERA;
-		return carpetaArchivosReal;
+		return folderFilesReal;
 	}
 
 	/**
-	 * @param carpetaArchivosReal
-	 *            : The actual folder path where the menu icons
+	 * @param folderFilesReal
+	 *            : The actual folder path where the menu icons.
 	 */
-	public void setCarpetaArchivosReal(String carpetaArchivosReal) {
-		this.carpetaArchivosReal = carpetaArchivosReal;
+	public void setFolderFilesReal(String folderFilesReal) {
+		this.folderFilesReal = folderFilesReal;
 	}
 
 	/**
-	 * @return carpetaArchivosTemporal: path of the temporary folder where the
-	 *         photos are loaded farm
+	 * @return folderFilesTemporal: path of the temporary folder where the
+	 *         photos are loaded farm.
 	 */
-	public String getCarpetaArchivosTemporal() {
-		this.carpetaArchivosTemporal = Constantes.CARPETA_ARCHIVOS_TEMP;
-		return carpetaArchivosTemporal;
+	public String getFolderFilesTemporal() {
+		this.folderFilesTemporal = Constantes.CARPETA_ARCHIVOS_TEMP;
+		return folderFilesTemporal;
 	}
 
 	/**
 	 * 
-	 * @return fileUploadBean: variable that gets the object for file uploads
+	 * @return fileUploadBean: variable that gets the object for file uploads.
 	 */
 	public FileUploadBean getFileUploadBean() {
 		return fileUploadBean;
@@ -149,44 +149,44 @@ public class IconoAction implements Serializable {
 
 	/**
 	 * @param fileUploadBean
-	 *            : variable that gets the object for file uploads
+	 *            : variable that gets the object for file uploads.
 	 */
 	public void setFileUploadBean(FileUploadBean fileUploadBean) {
 		this.fileUploadBean = fileUploadBean;
 	}
 
 	/**
-	 * @return cargarFotoTemporal: Flag indicating whether the picture is loaded
-	 *         from the temporary location or not
+	 * @return loadPhotoTemporal: Flag indicating whether the picture is loaded
+	 *         from the temporary location or not.
 	 */
-	public boolean isCargarFotoTemporal() {
-		return cargarFotoTemporal;
+	public boolean isLoadPhotoTemporal() {
+		return loadPhotoTemporal;
 	}
 
 	/**
-	 * @param cargarFotoTemporal
+	 * @param loadPhotoTemporal
 	 *            : Flag indicating whether the picture is loaded from the
-	 *            temporary location or not
+	 *            temporary location or not.
 	 */
-	public void setCargarFotoTemporal(boolean cargarFotoTemporal) {
-		this.cargarFotoTemporal = cargarFotoTemporal;
+	public void setLoadPhotoTemporal(boolean loadPhotoTemporal) {
+		this.loadPhotoTemporal = loadPhotoTemporal;
 	}
 
 	/**
-	 * @return nombreBuscar: variable that gets the icon name is sought in the
-	 *         user interface
+	 * @return nameSearch: variable that gets the icon name is sought in the
+	 *         user interface.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : variable that Sets the icon name is sought in the user
-	 *            interface
+	 *            interface.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
@@ -194,69 +194,65 @@ public class IconoAction implements Serializable {
 	 * 
 	 * @author Adonay.Mantilla
 	 * 
-	 * @return consultarIconos: Consultation icons in the system and returns to
+	 * @return consultIconos: Consultation icons in the system and returns to
 	 *         the management template with search results.
 	 */
-	public String inicializarBusqueda() {
-		this.nombreBuscar = "";
-		return consultarIconos();
+	public String searchInitialization() {
+		this.nameSearch = "";
+		return consultIcons();
 	}
 
 	/**
-	 * Provides access existing icons in the database
+	 * Provides access existing icons in the database.
 	 * 
 	 * @modify 10/10/2012 Adonay.Mantilla
 	 * 
-	 * @return gesIcono: redirects to the Manage icon
+	 * @return gesIcono: redirects to the Manage icon.
 	 */
-	public String consultarIconos() {
+	public String consultIcons() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
 				.getBundle("messageSecurity");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		String mensajeBusqueda = "";
-		iconos = new ArrayList<Icono>();
+		String messageSearch = "";
+		icons = new ArrayList<Icono>();
 		try {
-			validarIconosCarpeta();
-			if (nombreBuscar != null && !"".equals(nombreBuscar)) {
-				String nombreupperCase = nombreBuscar.toUpperCase();
-				paginador.paginar(iconoDao
-						.cantidadIconosXNombre(nombreupperCase));
-				iconos = iconoDao.consultarIconosXNombrePaginador(
-						nombreupperCase, paginador.getInicio(),
-						paginador.getRango());
+			validateIconsFolder();
+			if (nameSearch != null && !"".equals(nameSearch)) {
+				String nameUpperCase = nameSearch.toUpperCase();
+				paginador.paginar(iconoDao.quantityIconsXName(nameUpperCase));
+				icons = iconoDao.consultIconsXNamePaginator(nameUpperCase,
+						paginador.getInicio(), paginador.getRango());
 			} else {
-				paginador.paginar(iconoDao.cantidadIconos());
-				iconos = iconoDao.consultarIconos(paginador.getInicio(),
+				paginador.paginar(iconoDao.quantityIcons());
+				icons = iconoDao.consultIcons(paginador.getInicio(),
 						paginador.getRango());
 			}
 
-			for (Icono i : iconos) {
+			for (Icono i : icons) {
 				i.setMenus(menuDao.consultarMenuXIdIcono(i.getId()));
 			}
-			if ((iconos == null || iconos.size() <= 0)
-					&& this.nombreBuscar != null
-					&& !"".equals(this.nombreBuscar)) {
-				mensajeBusqueda = MessageFormat
+			if ((icons == null || icons.size() <= 0) && this.nameSearch != null
+					&& !"".equals(this.nameSearch)) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								bundle.getString("label_nombre") + ": " + '"'
-										+ this.nombreBuscar + '"');
+										+ this.nameSearch + '"');
 
-			} else if (iconos == null || iconos.size() <= 0) {
+			} else if (icons == null || icons.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (this.nombreBuscar != null
-					&& !"".equals(this.nombreBuscar)) {
-				mensajeBusqueda = MessageFormat
+			} else if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleSeguridad.getString("icon_label_s"),
 								bundle.getString("label_nombre") + ": " + '"'
-										+ this.nombreBuscar + '"');
+										+ this.nameSearch + '"');
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -266,32 +262,32 @@ public class IconoAction implements Serializable {
 
 	/**
 	 * Method used to read files and folder icons, but icons are in the table
-	 * adds database records
+	 * adds database records.
 	 * 
 	 * @throws Exception
 	 */
-	public void validarIconosCarpeta() throws Exception {
-		String ruta = Constantes.RUTA_UPLOADFILE_WORKSPACE
-				+ getCarpetaArchivosReal();
-		String rutaServidor = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosReal();
-		File directorioIconos = new File(ruta);
-		File[] listIconos = directorioIconos.listFiles();
-		if (listIconos != null) {
-			for (File file : listIconos) {
-				String nombreIcono = file.getName();
-				String ext = FilenameUtils.getExtension(nombreIcono);
-				if (validarExtension(ext)) {
-					Icono iconoExiste = iconoDao.nombreExiste(nombreIcono
-							.toUpperCase());
-					if (iconoExiste == null) {
-						Icono nuevoIcono = new Icono();
-						nuevoIcono.setFechaCreacion(new Date());
-						nuevoIcono.setNombre(nombreIcono);
-						nuevoIcono.setUserName(identity.getUserName());
-						iconoDao.guardarIcono(nuevoIcono);
-						File fileDestino = new File(rutaServidor, nombreIcono);
-						FileUploadBean.copyFile(file, fileDestino);
+	public void validateIconsFolder() throws Exception {
+		String route = Constantes.RUTA_UPLOADFILE_WORKSPACE
+				+ getFolderFilesReal();
+		String routeServer = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFolderFilesReal();
+		File directoryIcons = new File(route);
+		File[] listIcons = directoryIcons.listFiles();
+		if (listIcons != null) {
+			for (File file : listIcons) {
+				String nameIcon = file.getName();
+				String ext = FilenameUtils.getExtension(nameIcon);
+				if (validateExtension(ext)) {
+					Icono iconExist = iconoDao
+							.nameExist(nameIcon.toUpperCase());
+					if (iconExist == null) {
+						Icono newIcon = new Icono();
+						newIcon.setFechaCreacion(new Date());
+						newIcon.setNombre(nameIcon);
+						newIcon.setUserName(identity.getUserName());
+						iconoDao.saveIcon(newIcon);
+						File fileDestiny = new File(routeServer, nameIcon);
+						FileUploadBean.copyFile(file, fileDestiny);
 					}
 				}
 			}
@@ -299,16 +295,16 @@ public class IconoAction implements Serializable {
 	}
 
 	/**
-	 * Method to validate the extension of the icons in the folder Icons
+	 * Method to validate the extension of the icons in the folder Icons.
 	 * 
 	 * @param ext
-	 *            : file extension to be validated
+	 *            : file extension to be validated.
 	 * @return boolean to true if it is valid and false otherwise.
 	 */
-	private boolean validarExtension(String ext) {
-		String extAceptadas[] = { "jpg", "jpeg", "bmp", "png", "gif" };
+	private boolean validateExtension(String ext) {
+		String extAccepted[] = { "jpg", "jpeg", "bmp", "png", "gif" };
 		boolean ban = false;
-		for (String extAcep : extAceptadas) {
+		for (String extAcep : extAccepted) {
 			if (extAcep.equals(ext)) {
 				ban = true;
 				break;
@@ -318,174 +314,171 @@ public class IconoAction implements Serializable {
 	}
 
 	/**
-	 * Method to load the template to add or edit an icon
+	 * Method to load the template to add or edit an icon.
 	 * 
-	 * @param icono
-	 *            : Object of the icon you want to register or edit
+	 * @param icon
+	 *            : Object of the icon you want to register or edit.
 	 * @return regIcono: page redirects to register the icon, which you can add
-	 *         or edit an icon
+	 *         or edit an icon.
 	 */
-	public String registrarIcono(Icono icono) {
+	public String registerIcon(Icono icon) {
 		fileUploadBean = new FileUploadBean();
-		if (icono != null) {
-			this.icono = icono;
-			fileUploadBean.setFileName(this.icono.getNombre());
-			this.cargarFotoTemporal = false;
-			nombreAchivoAntesEdicion = this.icono.getNombre();
-			nombreIconoAntesEdicion = fileUploadBean.getFileName();
+		if (icon != null) {
+			this.icon = icon;
+			fileUploadBean.setFileName(this.icon.getNombre());
+			this.loadPhotoTemporal = false;
+			nameFileBeforeEdition = this.icon.getNombre();
+			nameIconBeforeEdition = fileUploadBean.getFileName();
 		} else {
-			this.icono = new Icono();
-			this.cargarFotoTemporal = true;
+			this.icon = new Icono();
+			this.loadPhotoTemporal = true;
 		}
 		return "regIcono";
 	}
 
 	/**
-	 * Method Allows save or edit an icon
+	 * Method Allows save or edit an icon.
 	 * 
 	 * @return: return to a page to register or manage icons according to what
 	 *          happened.
 	 */
-	public String guardarIcono() {
+	public String saveIcon() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String nomArchivoActual = this.fileUploadBean.getFileName();
-		String nombreFotoBorrar = null;
-		boolean seBorroIcono = false;
-		boolean edicion = false;
+		String nameFileActual = this.fileUploadBean.getFileName();
+		String namePhotoDelete = null;
+		boolean erasedIcon = false;
+		boolean edition = false;
 		String key = "message_registro_guardar";
 		try {
-			icono.setUserName(identity.getUserName());
-			if (icono.getId() != 0) {
+			icon.setUserName(identity.getUserName());
+			if (icon.getId() != 0) {
 				key = "message_registro_modificar";
-				edicion = true;
-				if (nombreIconoAntesEdicion != null
-						&& !"".equals(nombreIconoAntesEdicion)
-						&& !nombreIconoAntesEdicion.equals(nomArchivoActual)) {
+				edition = true;
+				if (nameIconBeforeEdition != null
+						&& !"".equals(nameIconBeforeEdition)
+						&& !nameIconBeforeEdition.equals(nameFileActual)) {
 					/* changes image */
-					borrarArchivoReal(nombreIconoAntesEdicion);
-					nombreFotoBorrar = nombreIconoAntesEdicion;
-					seBorroIcono = true;
+					deleteFileReal(nameIconBeforeEdition);
+					namePhotoDelete = nameIconBeforeEdition;
+					erasedIcon = true;
 					/* renames the new image */
-					if (nomValido()) {
-						nomArchivoActual = renombrarArchivo(nomArchivoActual,
-								icono.getNombre(), false);
+					if (namValid()) {
+						nameFileActual = renameFile(nameFileActual,
+								icon.getNombre(), false);
 					}
-				} else if (nomValido()
-						&& !icono.getNombre().equals(nombreAchivoAntesEdicion)) {
+				} else if (namValid()
+						&& !icon.getNombre().equals(nameFileBeforeEdition)) {
 					/* changes the name, renames the icon */
-					nomArchivoActual = renombrarArchivo(nomArchivoActual,
-							icono.getNombre(), true);
+					nameFileActual = renameFile(nameFileActual,
+							icon.getNombre(), true);
 				}
-				icono.setNombre(nomArchivoActual);
-				if (icono.getNombre() != null && seBorroIcono) {
+				icon.setNombre(nameFileActual);
+				if (icon.getNombre() != null && erasedIcon) {
 					/* the image is load in a real path */
-					subirImagenUbicacionReal();
+					subirImageLocationReal();
 				}
-				iconoDao.editarIcono(icono);
+				iconoDao.editIcon(icon);
 			} else {
-				if (nomValido() && !icono.getNombre().equals(nomArchivoActual)) {
+				if (namValid() && !icon.getNombre().equals(nameFileActual)) {
 					/* changes the name, renames the icon */
-					nomArchivoActual = renombrarArchivo(nomArchivoActual,
-							icono.getNombre(), false);
+					nameFileActual = renameFile(nameFileActual,
+							icon.getNombre(), false);
 				}
-				if (nomArchivoActual != null
-						&& !"".equals(nomArchivoActual.trim())) {
-					nombreFotoBorrar = nomArchivoActual;
-					subirImagenUbicacionReal();
+				if (nameFileActual != null && !"".equals(nameFileActual.trim())) {
+					namePhotoDelete = nameFileActual;
+					subirImageLocationReal();
 				}
-				icono.setNombre(nomArchivoActual);
-				icono.setFechaCreacion(new Date());
-				iconoDao.guardarIcono(icono);
+				icon.setNombre(nameFileActual);
+				icon.setFechaCreacion(new Date());
+				iconoDao.saveIcon(icon);
 			}
 			ControladorContexto.mensajeInformacion(
 					null,
 					MessageFormat.format(bundle.getString(key),
-							icono.getNombre()));
+							icon.getNombre()));
 			/* eliminates the temporal file */
-			if (nombreFotoBorrar != null && !"".equals(nombreFotoBorrar)) {
-				this.borrarArchivo(nombreFotoBorrar);
+			if (namePhotoDelete != null && !"".equals(namePhotoDelete)) {
+				this.deleteFile(namePhotoDelete);
 			}
 		} catch (Exception e) {
-			if (nomArchivoActual != null && !"".equals(nomArchivoActual)
-					&& !edicion) {
-				this.borrarArchivoReal(nomArchivoActual);
+			if (nameFileActual != null && !"".equals(nameFileActual)
+					&& !edition) {
+				this.deleteFileReal(nameFileActual);
 			}
 			ControladorContexto.mensajeError(e);
 			return "regIcono";
 		}
-		return consultarIconos();
+		return consultIcons();
 	}
 
 	/**
-	 * Method to validate if the name is valid icon
+	 * Method to validate if the name is valid icon.
 	 * 
-	 * @return boolean to true if valid or false otherwise
+	 * @return boolean to true if valid or false otherwise.
 	 */
-	private boolean nomValido() {
-		return icono.getNombre() != null && !"".equals(icono.getNombre());
+	private boolean namValid() {
+		return icon.getNombre() != null && !"".equals(icon.getNombre());
 	}
 
 	/**
-	 * Method to rename the file in case of placing a name in the user interface
+	 * Method to rename the file in case of placing a name in the user interface.
 	 * 
 	 * @param nomArchivoActual
-	 *            :Name of the file to be loaded
+	 *            :Name of the file to be loaded.
 	 * @param nombreIconoNuevo
 	 *            : Name that is typed into the user interface and for which the
-	 *            file is renamed
+	 *            file is renamed.
 	 * @param edicion
 	 *            : flag to see if the file is renamed in the two destinations
-	 *            in case of editing
-	 * @return String renamed icon
+	 *            in case of editing.
+	 * @return String renamed icon.
 	 */
-	private String renombrarArchivo(String nomArchivoActual,
-			String nombreIconoNuevo, boolean edicion) {
-		String[] splitNombreActual = nomArchivoActual.split("_");
-		String[] splitNombreNuevo = nombreIconoNuevo.split("_");
-		int lengthActual = splitNombreActual.length;
+	private String renameFile(String namFileActual, String nameIconNew,
+			boolean edition) {
+		String[] splitNameActual = namFileActual.split("_");
+		String[] splitNameNew = nameIconNew.split("_");
+		int lengthActual = splitNameActual.length;
 		/* The last string of the current example take 1331211123291.png */
-		String splitActual = lengthActual > 1 ? splitNombreActual[lengthActual - 1]
-				: nomArchivoActual;
-		int lengthNuevo = splitNombreNuevo.length;
+		String splitActual = lengthActual > 1 ? splitNameActual[lengthActual - 1]
+				: namFileActual;
+		int lengthNew = splitNameNew.length;
 		/* Only the first word before _ */
-		String splitNuevo = lengthNuevo > 0 ? splitNombreNuevo[0]
-				: nombreIconoNuevo;
-		String tamanyo = lengthNuevo > 1 ? "_" + splitNombreNuevo[1] + "_"
-				: "_";
+		String splitNew = lengthNew > 0 ? splitNameNew[0] : nameIconNew;
+		String size = lengthNew > 1 ? "_" + splitNameNew[1] + "_" : "_";
 		/*
 		 * SplitNuevo is concatenated to the number generated example
 		 * 1331211123291.png
 		 */
-		String nombreReal = splitNuevo + tamanyo + splitActual;
+		String nameReal = splitNew + size + splitActual;
 
-		if (!nombreReal.equals(nomArchivoActual)) {
-			String ubicaciones[] = new String[2];
-			if (edicion) {
-				ubicaciones[0] = Constantes.RUTA_UPLOADFILE_GLASFISH
-						+ getCarpetaArchivosReal();
-				ubicaciones[1] = Constantes.RUTA_UPLOADFILE_WORKSPACE
-						+ getCarpetaArchivosReal();
+		if (!nameReal.equals(namFileActual)) {
+			String locations[] = new String[2];
+			if (edition) {
+				locations[0] = Constantes.RUTA_UPLOADFILE_GLASFISH
+						+ getFolderFilesReal();
+				locations[1] = Constantes.RUTA_UPLOADFILE_WORKSPACE
+						+ getFolderFilesReal();
 			} else {
-				ubicaciones[0] = Constantes.RUTA_UPLOADFILE_GLASFISH
-						+ getCarpetaArchivosTemporal();
+				locations[0] = Constantes.RUTA_UPLOADFILE_GLASFISH
+						+ getFolderFilesTemporal();
 			}
-			boolean exito = false;
-			for (String ubicacion : ubicaciones) {
-				if (!"".equals(ubicacion)) {
+			boolean success = false;
+			for (String location : locations) {
+				if (!"".equals(location)) {
 					/* the file is rename */
-					File fileNombreNuevo = new File(ubicacion, nombreReal);
-					File fileOrigen = new File(ubicacion, nomArchivoActual);
-					if (fileOrigen.exists()) {
-						exito = fileOrigen.renameTo(fileNombreNuevo);
+					File fileNameNew = new File(location, nameReal);
+					File fileOrigin = new File(location, namFileActual);
+					if (fileOrigin.exists()) {
+						success = fileOrigin.renameTo(fileNameNew);
 					}
 				}
 			}
-			if (exito) {
-				nomArchivoActual = nombreReal;
-				fileUploadBean.setFileName(nombreReal);
+			if (success) {
+				namFileActual = nameReal;
+				fileUploadBean.setFileName(nameReal);
 			}
 		}
-		return nomArchivoActual;
+		return namFileActual;
 	}
 
 	/**
@@ -498,11 +491,11 @@ public class IconoAction implements Serializable {
 	 */
 	public void submit(FileUploadEvent e) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String extAceptadas[] = { "jpg", "jpeg", "bmp", "png", "gif" };
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
+		String extAccepted[] = { "jpg", "jpeg", "bmp", "png", "gif" };
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFolderFilesTemporal() };
 		fileUploadBean.setUploadedFile(e.getFile());
-		String resultUpload = fileUploadBean.upload(extAceptadas, ubicaciones);
+		String resultUpload = fileUploadBean.upload(extAccepted, locations);
 		if (Constantes.UPLOAD_EXT_INVALIDA.equals(resultUpload)) {
 			ControladorContexto.mensajeError("iconoForm:uploadFile",
 					bundle.getString("error_ext_invalida"));
@@ -510,8 +503,8 @@ public class IconoAction implements Serializable {
 			ControladorContexto.mensajeError("iconoForm:uploadFile",
 					bundle.getString("error_carga_archivo"));
 		}
-		if (icono.getId() != 0) {
-			cargarFotoTemporal = true;
+		if (icon.getId() != 0) {
+			loadPhotoTemporal = true;
 		}
 	}
 
@@ -519,12 +512,12 @@ public class IconoAction implements Serializable {
 	 * Delete the file name.
 	 * 
 	 */
-	public void borrarFilename() {
+	public void deleteFileName() {
 		if (fileUploadBean.getFileName() != null
 				&& !"".equals(fileUploadBean.getFileName())
-				&& !fileUploadBean.getFileName().equals(icono.getNombre())
-				&& this.cargarFotoTemporal) {
-			borrarArchivo(fileUploadBean.getFileName());
+				&& !fileUploadBean.getFileName().equals(icon.getNombre())
+				&& this.loadPhotoTemporal) {
+			deleteFile(fileUploadBean.getFileName());
 		}
 		fileUploadBean.setFileName(null);
 	}
@@ -536,26 +529,25 @@ public class IconoAction implements Serializable {
 	 *            : Name of the file to delete.
 	 * 
 	 */
-	public void borrarArchivo(String fileName) {
+	public void deleteFile(String fileName) {
 		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
+				+ getFolderFilesTemporal() };
 		fileUploadBean.delete(ubicaciones, fileName);
 	}
 
 	/**
-	 * Delete files from the actual location
+	 * Delete files from the actual location.
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
 	 * 
 	 */
-	public void borrarArchivoReal(String fileName) {
-		String ubicaciones[] = {
-				Constantes.RUTA_UPLOADFILE_GLASFISH
-						+ this.getCarpetaArchivosReal(),
+	public void deleteFileReal(String fileName) {
+		String locations[] = {
+				Constantes.RUTA_UPLOADFILE_GLASFISH + this.getFolderFilesReal(),
 				Constantes.RUTA_UPLOADFILE_WORKSPACE
-						+ this.getCarpetaArchivosReal() };
-		fileUploadBean.delete(ubicaciones, fileName);
+						+ this.getFolderFilesReal() };
+		fileUploadBean.delete(locations, fileName);
 	}
 
 	/**
@@ -563,31 +555,31 @@ public class IconoAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void subirImagenUbicacionReal() throws Exception {
-		String origen = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivosTemporal();
-		String destino1 = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivosReal();
-		String destino2 = Constantes.RUTA_UPLOADFILE_WORKSPACE
-				+ this.getCarpetaArchivosReal();
+	private void subirImageLocationReal() throws Exception {
+		String origin = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ this.getFolderFilesTemporal();
+		String destiny1 = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ this.getFolderFilesReal();
+		String destiny2 = Constantes.RUTA_UPLOADFILE_WORKSPACE
+				+ this.getFolderFilesReal();
 
 		/* Checks whether the destinations are created there but */
-		FileUploadBean.fileExist(destino1);
-		FileUploadBean.fileExist(destino2);
+		FileUploadBean.fileExist(destiny1);
+		FileUploadBean.fileExist(destiny2);
 
-		File fileOrigen = new File(origen, fileUploadBean.getFileName());
-		File fileDestino1 = new File(destino1, fileUploadBean.getFileName());
-		File fileDestino2 = new File(destino2, fileUploadBean.getFileName());
+		File fileOrigin = new File(origin, fileUploadBean.getFileName());
+		File fileDestiny1 = new File(destiny1, fileUploadBean.getFileName());
+		File fileDestiny2 = new File(destiny2, fileUploadBean.getFileName());
 
 		/* Copies of temporal at 2 real destinations */
-		FileUploadBean.copyFile(fileOrigen, fileDestino1);
-		FileUploadBean.copyFile(fileOrigen, fileDestino2);
+		FileUploadBean.copyFile(fileOrigin, fileDestiny1);
+		FileUploadBean.copyFile(fileOrigin, fileDestiny2);
 	}
 
 	/**
 	 * Method that validates the required fields in the view
 	 */
-	public void requeridosOk() {
+	public void requiredOk() {
 		try {
 			if (fileUploadBean.getFileName() == null
 					|| "".equals(fileUploadBean.getFileName())) {
@@ -604,45 +596,45 @@ public class IconoAction implements Serializable {
 	/**
 	 * Method to remove the icons that are not associated with a menu
 	 * 
-	 * @return consultarIconos(): icons consulting method and returns to the
+	 * @return consultIcons(): icons consulting method and returns to the
 	 *         management of the icons
 	 */
-	public String eliminarIcono() {
+	public String deleteIcon() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
 				.getBundle("messageSecurity");
-		boolean existe = false;
+		boolean exist = false;
 		try {
-			if (this.icono != null) {
-				String ubicaciones[] = {
+			if (this.icon != null) {
+				String locations[] = {
 						Constantes.RUTA_UPLOADFILE_GLASFISH
-								+ this.getCarpetaArchivosReal(),
+								+ this.getFolderFilesReal(),
 						Constantes.RUTA_UPLOADFILE_WORKSPACE
-								+ this.getCarpetaArchivosReal() };
-				for (String ubicacion : ubicaciones) {
-					File fileExiste = new File(ubicacion, icono.getNombre());
-					if (fileExiste.exists()) {
-						existe = true;
+								+ this.getFolderFilesReal() };
+				for (String location : locations) {
+					File fileExist = new File(location, icon.getNombre());
+					if (fileExist.exists()) {
+						exist = true;
 					}
 				}
-				if (existe) {
-					borrarArchivoReal(icono.getNombre());
-					icono.setUserName(identity.getUserName());
-					iconoDao.eliminarIcono(icono);
+				if (exist) {
+					deleteFileReal(icon.getNombre());
+					icon.setUserName(identity.getUserName());
+					iconoDao.removeIcon(icon);
 					ControladorContexto.mensajeInformacion(null, MessageFormat
 							.format(bundle
 									.getString("message_registro_eliminar"),
-									icono.getNombre()));
+									icon.getNombre()));
 				} else {
-					ControladorContexto.mensajeError(MessageFormat.format(
-							bundleSeguridad
-									.getString("icon_message_not_exist"),
-							icono.getNombre()));
+					ControladorContexto
+							.mensajeError(MessageFormat.format(bundleSeguridad
+									.getString("icon_message_not_exist"), icon
+									.getNombre()));
 				}
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarIconos();
+		return consultIcons();
 	}
 }
