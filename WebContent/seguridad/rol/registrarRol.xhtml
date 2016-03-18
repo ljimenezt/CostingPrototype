@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="rolAction.agregarEditarRol(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeSeguridad.rol_label" />
+		value="mensaje.label_registrar,messageSecurity.role_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -33,7 +33,7 @@
 			<t:saveState value="#{encodeFilter}" />
 			<t:saveState value="#{menuAction}" />
 			<t:saveState value="#{metodoAction}" />
-			<rich:panel header="#{mensajeSeguridad.rol_label}"
+			<rich:panel header="#{messageSecurity.role_label}"
 				styleClass="anchoUno">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
@@ -43,7 +43,7 @@
 						<h:panelGrid columns="2">
 							<h:graphicImage value="/img/warnRojo_16.png" />
 							<h:outputText
-								value="#{mensajeSeguridad.rol_message_no_editable_nombre}"
+								value="#{messageSecurity.role_message_no_editable_name}"
 								styleClass="colorRojo etiquetaTitulo" />
 						</h:panelGrid>
 						<hr class="W60Per MarginL0P" />
@@ -87,7 +87,7 @@
 				<a:outputPanel id="panelMenuPermisos">
 					<t:fieldset styleClass="BorderW2P anchoDos MinH250P"
 						id="panelPermisos">
-						<legend class="etiquetaTitulo">#{mensajeSeguridad.permiso_label_asignar}</legend>
+						<legend class="etiquetaTitulo">#{messageSecurity.permission_label_assign}</legend>
 						<a:outputPanel>
 							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
 								<ui:param name="width" value="W870P" />
@@ -130,7 +130,7 @@
 								</a:outputPanel>
 							</rich:column>
 							<rich:column styleClass="colIconoUno">
-								<f:facet name="header">#{mensajeSeguridad.menu_label_permiso_a}</f:facet>
+								<f:facet name="header">#{messageSecurity.menu_label_permission_a}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
 									rendered="#{!rolAction.permisoSeleccionado(metodoPermisos.id,rolAction.getPermA())}"
@@ -151,7 +151,7 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colIconoUno">
-								<f:facet name="header">#{mensajeSeguridad.menu_label_permiso_s}</f:facet>
+								<f:facet name="header">#{messageSecurity.menu_label_permission_s}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
 									rendered="#{!rolAction.permisoSeleccionado(metodoPermisos.id,rolAction.getPermS())}"
@@ -172,7 +172,7 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colIconoUno">
-								<f:facet name="header">#{mensajeSeguridad.menu_label_permiso_u}</f:facet>
+								<f:facet name="header">#{messageSecurity.menu_label_permission_u}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
 									rendered="#{!rolAction.permisoSeleccionado(metodoPermisos.id,rolAction.getPermU())}"
@@ -193,7 +193,7 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colIconoUno">
-								<f:facet name="header">#{mensajeSeguridad.menu_label_permiso_d}</f:facet>
+								<f:facet name="header">#{messageSecurity.menu_label_permission_d}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
 									rendered="#{!rolAction.permisoSeleccionado(metodoPermisos.id,rolAction.getPermD())}"
@@ -214,7 +214,7 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colIconoUno">
-								<f:facet name="header">#{mensajeSeguridad.menu_label_permiso_i}</f:facet>
+								<f:facet name="header">#{messageSecurity.menu_label_permission_i}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
 									rendered="#{!rolAction.permisoSeleccionado(metodoPermisos.id,rolAction.getPermI())}"
@@ -235,7 +235,7 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colIconoUno">
-								<f:facet name="header">#{mensajeSeguridad.menu_label_permiso_l}</f:facet>
+								<f:facet name="header">#{messageSecurity.menu_label_permission_l}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
 									rendered="#{!rolAction.permisoSeleccionado(metodoPermisos.id,rolAction.getPermL())}"
@@ -280,7 +280,7 @@
 					<br />
 					<t:fieldset styleClass="BorderW2P anchoDos MinH250P"
 						id="panelMenus">
-						<legend class="etiquetaTitulo">#{mensajeSeguridad.menu_label_relacion_permiso}</legend>
+						<legend class="etiquetaTitulo">#{messageSecurity.menu_label_related_permission}</legend>
 						<a:outputPanel>
 							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
 								<ui:param name="width" value="W870P" />
@@ -339,7 +339,7 @@
 									<h:outputText value="#{menu.nombre}" />
 								</rich:column>
 								<rich:column styleClass="colTextoCorto">
-									<f:facet name="header">#{mensajeSeguridad.menu_label_padre}</f:facet>
+									<f:facet name="header">#{messageSecurity.menu_label_parent}</f:facet>
 									<h:outputText value="#{menu.menuPadre.nombre}" />
 								</rich:column>
 								<rich:column styleClass="colTextoLargo">
@@ -384,7 +384,7 @@
 		<h:form id="popUpForm">
 			<!-- PopUp Buscar Menu -->
 			<rich:popupPanel id="popupBuscarMetodo" autosized="true"
-				header="#{mensaje.label_buscar} #{mensajeSeguridad.permiso_label_s}"
+				header="#{mensaje.label_buscar} #{messageSecurity.permission_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -419,7 +419,7 @@
 			</rich:popupPanel>
 			<!-- PopUp Buscar Menu Seleccionado -->
 			<rich:popupPanel id="popupBuscarMenuRelacionado" autosized="true"
-				header="#{mensaje.label_buscar} #{mensajeSeguridad.rol_label_menus_asignados}"
+				header="#{mensaje.label_buscar} #{messageSecurity.role_label_menus_assigned}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"

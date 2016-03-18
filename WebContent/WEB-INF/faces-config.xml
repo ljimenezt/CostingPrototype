@@ -66,8 +66,8 @@
 			<var>mensajeRecursosHumanos</var>
 		</resource-bundle>
 		<resource-bundle>
-			<base-name>idiomaSeguridad/idioma</base-name>
-			<var>mensajeSeguridad</var>
+			<base-name>languageSecurity/idioma</base-name>
+			<var>messageSecurity</var>
 		</resource-bundle>
 		<resource-bundle>
 			<base-name>idiomaCertificaciones/idioma</base-name>

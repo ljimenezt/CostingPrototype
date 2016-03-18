@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="metodoAction.registrarMetodo(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeSeguridad.metodo_label" />
+		value="mensaje.label_registrar,messageSecurity.method_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -35,10 +35,10 @@
 				value="#{metodoAction.menus eq null or empty metodoAction.menus}" />
 			<ui:param name="listaVacia2"
 				value="#{metodoAction.menusSelected eq null or empty metodoAction.menusSelected}" />
-			<rich:panel header="#{mensajeSeguridad.metodo_label}"
+			<rich:panel header="#{messageSecurity.method_label}"
 				styleClass="anchoUno">
 				<t:fieldset styleClass="MinH208P BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensajeSeguridad.metodo_datos_label}</legend>
+					<legend class="etiquetaTitulo">#{messageSecurity.method_data_label}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
 						cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
@@ -56,7 +56,7 @@
 						</h:inputText>
 						<rich:message for="txtnombre" />
 
-						<h:outputText value="#{mensajeSeguridad.metodo_label_nombre}"
+						<h:outputText value="#{messageSecurity.method_label_name}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="txtnombremetodo" maxlength="50" required="true"
@@ -87,7 +87,7 @@
 				</div>
 				<t:fieldset styleClass="MinH208P BorderW2P anchoDos" id="menusPanel">
 					<legend class="etiquetaTitulo">
-						#{mensajeSeguridad.menu_label_s}
+						#{messageSecurity.menu_label_s}
 						<h:outputText value="*" styleClass="required" />
 					</legend>
 
@@ -125,7 +125,7 @@
 								rowClasses="odd-row, even-row" footerClass="H126P">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensajeSeguridad.menu_label_disponibles}" />
+										value="#{messageSecurity.menu_label_availables}" />
 								</f:facet>
 								<rich:column styleClass="colTextoMediano">
 									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
@@ -188,7 +188,7 @@
 								styleClass="H172P W450P">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensajeSeguridad.menu_label_seleccionados}" />
+										value="#{messageSecurity.menu_label_availables}" />
 								</f:facet>
 								<rich:column width="35px" styleClass="colIconoUno">
 									<f:facet name="header">
@@ -275,7 +275,7 @@
 		</h:form>
 		<h:form id="popupFormSearch">
 			<rich:popupPanel id="popupSearch" autosized="true"
-				header="#{mensaje.label_criterios_busqueda_label} #{mensajeSeguridad.menu_label_s}"
+				header="#{mensaje.label_criterios_busqueda_label} #{messageSecurity.menu_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

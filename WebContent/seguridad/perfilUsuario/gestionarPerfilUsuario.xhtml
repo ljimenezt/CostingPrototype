@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
 		value="perfilUsuarioAction.cargarPerfilDeUsuario('n')" />
-	<ui:param name="titulo" value="mensajeSeguridad.perfil_usuario_label" />
+	<ui:param name="titulo" value="messageSecurity.user_profile_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/validacion.js"></script>
@@ -23,7 +23,7 @@
 			<t:saveState value="#{validacionesAction}" />
 
 			<rich:panel id="pnlPerfilUsuario" styleClass="anchoUno MinH230P"
-				header="#{mensajeSeguridad.perfil_usuario_label}">
+				header="#{messageSecurity.user_profile_label}">
 				<rich:tabPanel switchType="ajax" id="tabsPerfil"
 					activeItem="#{perfilUsuarioAction.tabSelect}"
 					itemChangeListener="#{perfilUsuarioAction.cambioPestana}">
@@ -32,7 +32,7 @@
 						<f:facet name="header">
 							<h:panelGrid columns="2">
 								<h:outputText
-									value="#{mensajeSeguridad.perfil_usuario_label_personales}" />
+									value="#{messageSecurity.user_profile_label_personals}" />
 								<h:graphicImage value="/img/users_16.png" />
 							</h:panelGrid>
 						</f:facet>
@@ -56,7 +56,7 @@
 						<f:facet name="header">
 							<h:panelGrid columns="2">
 								<h:outputText
-									value="#{mensajeSeguridad.permiso_persona_empresa_label}" />
+									value="#{messageSecurity.person_permission_company_label}" />
 								<h:graphicImage value="/img/permisoPersonaEmpresa_16.png" />
 							</h:panelGrid>
 						</f:facet>
@@ -83,7 +83,7 @@
 									<h:graphicImage value="/img/seleccionarPredeterminado_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText
-											value="#{mensajeSeguridad.perfil_usuario_label_empresa_predeterminada}" />
+											value="#{messageSecurity.user_profile_label_company_default}" />
 									</rich:tooltip>
 								</a:commandLink>
 								<a:outputPanel rendered="#{permisoEmpresa.predeterminado}">
@@ -150,7 +150,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeSeguridad.perfil_usuario_message_registro_predeterminada}"
+							value="#{messageSecurity.user_profile_message_register_default}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">

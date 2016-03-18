@@ -9,13 +9,13 @@
 	<ui:param name="action"
 		value="permisoPersonaEmpresaAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensajeSeguridad.permiso_persona_empresa_label_asociar" />
+		value="messageSecurity.person_permission_company_label_associate" />
 	<ui:define name="body">
 		<h:form id="frmAsociarPermisos">
 			<t:saveState value="#{permisoPersonaEmpresaAction}" />
 			<t:saveState value="#{validacionesAction}" />
 			<rich:panel styleClass="anchoUno"
-				header="#{mensajeSeguridad.permiso_persona_empresa_label_asociar}">
+				header="#{messageSecurity.person_permission_company_label_associate}">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.persona_label}</legend>
 					<h:panelGrid columns="2" rowClasses="alignTop"
@@ -70,7 +70,7 @@
 									<h:graphicImage value="/img/add_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText
-											value="#{mensajeSeguridad.permiso_persona_empresa_label_asignar_por_empresa}" />
+											value="#{messageSecurity.person_permission_company_label_assign_by_company}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -95,7 +95,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensajeSeguridad.permiso_persona_empresa_label_asociar}</legend>
+					<legend class="etiquetaTitulo">#{messageSecurity.person_permission_company_label_associate}</legend>
 
 					<a:outputPanel id="extDTPermisoPersonaEmpresa">
 						<rich:message for="extDTPermisoPersonaEmpresa" />
@@ -105,7 +105,7 @@
 							styleClass="H190P W900P">
 							<f:facet name="header">
 								<h:outputText
-									value="#{mensajeSeguridad.permiso_persona_empresa_label}" />
+									value="#{messageSecurity.person_permission_company_label}" />
 							</f:facet>
 							<rich:column styleClass="top center" width="30px">
 								<f:facet name="header"></f:facet>
@@ -160,7 +160,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popUpPermisosAEmpresa" autosized="true"
 				domElementAttachment="form">
-				<f:facet name="header">#{mensajeSeguridad.permiso_persona_empresa_label_asignar_por_empresa}</f:facet>
+				<f:facet name="header">#{messageSecurity.person_permission_company_label_assign_by_company}</f:facet>
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -274,7 +274,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeSeguridad.permiso_persona_empresa_message_popup_confirmacion}"
+							value="#{messageSecurity.person_permission_company_message_popup_confirmation}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="tabla">

@@ -10,18 +10,18 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="usuarioAction.nuevaContrasena" />
 	<ui:param name="titulo"
-		value="mensajeSeguridad.usuario_label_cambiar_contrasena" />
+		value="messageSecurity.user_label_change_password" />
 	<ui:define name="body">
 		<h:form id="usuarioForm" styleClass="edit">
 			<t:saveState value="#{usuarioAction}" />
 			<t:saveState value="#{encodeFilter}" />
-			<rich:panel header="#{mensajeSeguridad.usuario_label}"
+			<rich:panel header="#{messageSecurity.user_label}"
 				styleClass="anchoUno">
 				<h:panelGrid columns="4"
 					cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
 					cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}">
 
-					<h:outputText value="#{mensajeSeguridad.usuario_label_nombre}:"
+					<h:outputText value="#{messageSecurity.user_label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:outputText styleClass="etiquetaTitulo etiquetaValor"
@@ -29,7 +29,7 @@
 					<h:outputText value="" />
 
 					<h:outputText
-						value="#{mensajeSeguridad.usuario_label_contrasena_anterior}:"
+						value="#{messageSecurity.user_label_previous_password}:"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret maxlength="100" id="txtPasswordAnterior"
@@ -42,7 +42,7 @@
 					<rich:message for="txtPasswordAnterior" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeSeguridad.usuario_label_contrasena_nueva}:" />
+						value="#{messageSecurity.user_label_new_password}:" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret id="txtPasswordNuevo" styleClass="colTextoMediano"
 						maxlength="100"
@@ -55,7 +55,7 @@
 					<rich:message for="txtPasswordNuevo" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeSeguridad.usuario_label_confirmar_contrasena}:" />
+						value="#{messageSecurity.user_label_confirm_password}:" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret id="txtPasswordConfirmar"
 						styleClass="colTextoMediano" maxlength="100"
@@ -93,7 +93,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeSeguridad.usuario_label_nombre}: " />
+						<h:outputText value="#{messageSecurity.user_label_name}: " />
 						<h:outputText value="#{usuarioAction.usuario.nombreUsuario}" />
 					</ui:define>
 					<ui:define name="botones">
