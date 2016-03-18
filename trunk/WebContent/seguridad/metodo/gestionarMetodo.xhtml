@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="metodoAction.inicializarBusqueda" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeSeguridad.metodo_label" />
+		value="mensaje.label_gestionar,messageSecurity.method_label" />
 	<ui:define name="body">
 		<h:form id="frmMetodo">
 			<t:saveState value="#{metodoAction}" />
@@ -35,7 +35,7 @@
 			<ui:param name="tieneVigencia" value="no" />
 
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{mensajeSeguridad.metodo_label_s}"
+				header="#{mensaje.label_listado_de} #{messageSecurity.method_label_s}"
 				id="panelMetodo" styleClass="anchoUno MinH208P">
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
@@ -69,7 +69,7 @@
 						</c:choose>
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensajeSeguridad.metodo_label_nombre}</f:facet>
+						<f:facet name="header">#{messageSecurity.method_label_name}</f:facet>
 						<h:outputText value="#{metodoList.nombreMetodo}" />
 					</rich:column>
 					<rich:column styleClass="colTextoLargo">
@@ -103,7 +103,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeSeguridad.metodo_label}"
+				header="#{mensaje.button_search} #{messageSecurity.method_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -157,7 +157,7 @@
 						<h:outputText value="#{mensaje.label_proceso}:" />
 						<h:outputText value="#{metodoAction.metodo.nombre}" />
 
-						<h:outputText value="#{mensajeSeguridad.metodo_label_nombre}:" />
+						<h:outputText value="#{messageSecurity.method_label_name}:" />
 						<h:outputText value="#{metodoAction.metodo.nombreMetodo}" />
 
 					</ui:define>

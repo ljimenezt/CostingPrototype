@@ -259,7 +259,7 @@ public class PerfilUsuarioAction implements Serializable {
 	 */
 	public String predeterminarEmpresa() {
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		PermisoPersonaEmpresaAction permisoPersonaEmpresaAction = ControladorContexto
 				.getContextBean(PermisoPersonaEmpresaAction.class);
 		try {
@@ -280,7 +280,7 @@ public class PerfilUsuarioAction implements Serializable {
 						.modificarPermisoPersonaEmpresa(permisoPersonaEmpresa);
 				this.userTransaction.commit();
 				String message = bundleSeguridad
-						.getString("perfil_usuario_message_modificar_predeterminada");
+						.getString("user_profile_message_modify_default");
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(message, permisoPersonaEmpresa.getEmpresa()
 								.getNombre()));

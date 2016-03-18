@@ -464,7 +464,7 @@ public class UsuarioAction implements Serializable {
 	public String consultarUsuarios() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeg = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		String mensajeBusqueda = "";
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
@@ -497,7 +497,7 @@ public class UsuarioAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeg.getString("usuario_label_s"),
+								bundleSeg.getString("user_label_s"),
 								bundle.getString("label_nombre") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			}
@@ -834,7 +834,7 @@ public class UsuarioAction implements Serializable {
 	public void validarContrasena(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		String txtPassword = (String) value;
 		String idAsociado = (String) toValidate.getAttributes().get(
 				"idAsociado");
@@ -846,8 +846,8 @@ public class UsuarioAction implements Serializable {
 					clientId,
 					new FacesMessage(
 							FacesMessage.SEVERITY_ERROR,
-							bundle.getString("usuario_message_contrasenas_diferentes"),
-							bundle.getString("usuario_message_contrasenas_diferentes")));
+							bundle.getString("user_message_password_diferents"),
+							bundle.getString("user_message_password_diferents")));
 		}
 	}
 
@@ -868,7 +868,7 @@ public class UsuarioAction implements Serializable {
 	public void validarLogin(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		try {
 			String clientId = toValidate.getClientId(context);
 			String contrasenaAnterior = (String) value;
@@ -889,9 +889,9 @@ public class UsuarioAction implements Serializable {
 						new FacesMessage(
 								FacesMessage.SEVERITY_ERROR,
 								bundleSeguridad
-										.getString("usuario_message_contrasena_invalida"),
+										.getString("user_message_password_invalid"),
 								bundleSeguridad
-										.getString("usuario_message_contrasena_invalida")));
+										.getString("user_message_password_invalid")));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -1059,7 +1059,7 @@ public class UsuarioAction implements Serializable {
 	 */
 	public String cambiarContrasena() {
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		try {
 			String newPassword = SecureIdentityLoginModule
 					.doSign(cambioContrasena.getContrasenaNueva()
@@ -1072,7 +1072,7 @@ public class UsuarioAction implements Serializable {
 			empresaHaciendaSesion.limpiarEmpresaSesion();
 			identity.logout(true);
 			String format = MessageFormat.format(bundleSeguridad
-					.getString("usuario_message_exito_cambio_contrasena"),
+					.getString("user_message_password_change_successful"),
 					usuario.getNombreUsuario());
 			ControladorContexto.mensajeInformacion(null, format);
 		} catch (Exception e) {

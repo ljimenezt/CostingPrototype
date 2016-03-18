@@ -10,13 +10,13 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="usuarioAction.registrarUsuario(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeSeguridad.usuario_label" />
+		value="mensaje.label_registrar,messageSecurity.user_label" />
 	<ui:define name="body">
 		<h:form id="usuarioForm" styleClass="edit">
 			<t:saveState value="#{usuarioAction}" />
 			<t:saveState value="#{personaAction}" />
 
-			<rich:panel header="#{mensajeSeguridad.usuario_label}"
+			<rich:panel header="#{messageSecurity.user_label}"
 				styleClass="anchoUno">
 				<h:inputHidden styleClass="colTextoMediano" id="txtPersonaHidden"
 					value="#{usuarioAction.persona.nombreCompleto}" required="true"
@@ -61,7 +61,7 @@
 							rendered="#{usuarioAction.editar}" />
 						<rich:message for="txtPersonaHidden" />
 
-						<h:outputText value="#{mensajeSeguridad.usuario_label_nombre}"
+						<h:outputText value="#{messageSecurity.user_label_name}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText maxlength="50" id="txtNombreUsuario"
@@ -94,7 +94,7 @@
 							rendered="#{!usuarioAction.editar}" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeSeguridad.usuario_label_confirmar_contrasena}"
+							value="#{messageSecurity.user_label_confirm_password}"
 							rendered="#{!usuarioAction.editar}" />
 						<h:outputText value="*" styleClass="required"
 							rendered="#{!usuarioAction.editar}" />
@@ -130,7 +130,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensajeSeguridad.usuario_label_rol}</legend>
+					<legend class="etiquetaTitulo">#{messageSecurity.user_label_role}</legend>
 					<a:region>
 						<a:outputPanel id="outputRoles">
 							<rich:message for="tRoles" />
@@ -139,7 +139,7 @@
 								var="objRol" id="tRoles" styleClass="H190P anchoCinco">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensaje.label_listado_de} #{mensajeSeguridad.rol_label_s}" />
+										value="#{mensaje.label_listado_de} #{messageSecurity.role_label_s}" />
 								</f:facet>
 								<rich:column width="30px" styleClass="center">
 									<f:facet name="header" />
@@ -186,7 +186,7 @@
 									styleClass="H190P anchoCinco">
 									<f:facet name="header">
 										<h:outputText
-											value="#{mensajeSeguridad.usuario_label_rol_asignados}" />
+											value="#{messageSecurity.user_label_role_assigned}" />
 									</f:facet>
 									<rich:column width="30px" styleClass="center">
 										<f:facet name="header" />
@@ -307,7 +307,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeSeguridad.usuario_message_renovar_contrasena}"
+							value="#{messageSecurity.user_message_renew_password}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="botones">
@@ -341,7 +341,7 @@
 						<h:outputText value="#{mensajeRecursosHumanos.persona_label}: " />
 						<h:outputText
 							value="#{usuarioAction.persona.nombres} #{usuarioAction.persona.apellidos}" />
-						<h:outputText value="#{mensajeSeguridad.usuario_label_nombre}: " />
+						<h:outputText value="#{messageSecurity.user_label_name}: " />
 						<h:outputText value="#{usuarioAction.usuario.nombreUsuario}" />
 					</ui:define>
 					<ui:define name="botones">

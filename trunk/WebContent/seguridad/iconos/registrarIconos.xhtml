@@ -11,12 +11,12 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="iconoAction.registrarIcono(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeSeguridad.icono_label" />
+		value="mensaje.label_registrar,messageSecurity.icon_label" />
 	<ui:define name="body">
 		<h:form id="iconoForm">
 			<t:saveState value="#{iconoAction}" />
 			<t:saveState value="#{encodeFilter}" />
-			<rich:panel header="#{mensajeSeguridad.icono_label}"
+			<rich:panel header="#{messageSecurity.icon_label}"
 				styleClass="anchoUno MinH230P">
 				<h:panelGrid columns="4"
 					cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
@@ -37,14 +37,14 @@
 								styleClass="verticalAlignMiddle" />
 							<rich:tooltip layout="block">
 								<h:outputText
-									value="#{mensajeSeguridad.icono_message_nombre_vacio}" />
+									value="#{messageSecurity.icon_message_name_empty}" />
 							</rich:tooltip>
 						</a:outputPanel>
 					</h:panelGrid>
 					<rich:message for="nombreResponsable" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeSeguridad.icono_label}" />
+						value="#{messageSecurity.icon_label}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:panelGrid columns="1" cellpadding="7" id="panelFotoHacienda"
 						columnClasses="W290P">

@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="permisoPersonaEmpresaAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeSeguridad.permiso_persona_empresa_label" />
+		value="mensaje.label_gestionar,messageSecurity.person_permission_company_label" />
 	<ui:define name="body">
 		<h:form id="frmGestionarPermisosEmpresa">
 			<ui:param name="listaVacia"
@@ -20,7 +20,7 @@
 			<t:saveState value="#{permisoPersonaEmpresaAction}" />
 			<t:saveState value="#{empresaAction}" />
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_gestionar} #{mensajeSeguridad.permiso_persona_empresa_label}">
+				header="#{mensaje.label_gestionar} #{messageSecurity.person_permission_company_label}">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.persona_label}</legend>
 					<h:panelGrid columns="2" rowClasses="alignTop"
@@ -43,7 +43,7 @@
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos MinH253P">
 					<legend class="etiquetaTitulo">#{mensaje.label_listado_de}
-						#{mensajeSeguridad.permiso_persona_empresa_label}</legend>
+						#{messageSecurity.person_permission_company_label}</legend>
 					<a:outputPanel id="panelEmpresaPermiso">
 						<rich:message for="panelEmpresaPermiso" />
 						<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
@@ -70,7 +70,7 @@
 												image="/img/new_16.png" id="idButtonNuevo"
 												onclick="#{rich:component('statPane')}.show();" />
 											<h:outputText
-												value="#{mensajeSeguridad.permiso_persona_empresa_label_asociar}" />
+												value="#{messageSecurity.person_permission_company_label_associate}" />
 										</h:panelGrid>
 										<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 											onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarPermisosEmpresa:idButtonBuscar').click();}">
@@ -184,7 +184,7 @@
 											image="/img/new_16.png" id="idButtonNuevoInf"
 											onclick="#{rich:component('statPane')}.show();" />
 										<h:outputText
-											value="#{mensajeSeguridad.permiso_persona_empresa_label_asociar}" />
+											value="#{messageSecurity.person_permission_company_label_associate}" />
 									</h:panelGrid>
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 										onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarPermisosEmpresa:idButtonBuscarInf').click();}">
@@ -228,7 +228,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeSeguridad.permiso_persona_empresa_label}"
+				header="#{mensaje.button_search} #{messageSecurity.person_permission_company_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

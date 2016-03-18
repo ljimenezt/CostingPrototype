@@ -195,7 +195,7 @@ public class MetodoAction implements Serializable {
 	public String consultarMetodos() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		String mensajeBusqueda = "";
@@ -220,7 +220,7 @@ public class MetodoAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("metodo_label_s"),
+								bundleSeguridad.getString("method_label_s"),
 								bundle.getString("label_proceso") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			}
@@ -370,7 +370,7 @@ public class MetodoAction implements Serializable {
 	public void consultarMenusDisponibles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		GestionarMenuAction menuAction = ControladorContexto
@@ -500,7 +500,7 @@ public class MetodoAction implements Serializable {
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSecurity = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		String clientId = toValidate.getClientId(context);
 		String name = (String) value;
 		try {
@@ -519,7 +519,7 @@ public class MetodoAction implements Serializable {
 						new FacesMessage(
 								FacesMessage.SEVERITY_ERROR,
 								bundleSecurity
-										.getString("menu_message_menu_requerido"),
+										.getString("menu_message_menu_required"),
 								null));
 			}
 
@@ -575,7 +575,7 @@ public class MetodoAction implements Serializable {
 	public String eliminarMetodo() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		try {
 			if (this.metodo != null) {
 				boolean result1 = rolMetodoDao.relacionRolMetodo(this.metodo
@@ -584,7 +584,7 @@ public class MetodoAction implements Serializable {
 					ControladorContexto
 							.mensajeError(MessageFormat.format(
 									bundleSeguridad
-											.getString("metodo_message_no_eliminar_rol"),
+											.getString("method_message_not_delete_rol"),
 									this.metodo.getNombre()));
 				} else {
 					userTransaction.begin();

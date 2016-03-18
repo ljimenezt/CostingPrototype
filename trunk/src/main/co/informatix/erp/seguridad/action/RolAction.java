@@ -373,7 +373,7 @@ public class RolAction implements Serializable {
 	public String consultarRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeg = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		String mensajeBusqueda = "";
 		listaRoles = new ArrayList<Rol>();
 		ValidacionesAction validaciones = ControladorContexto
@@ -407,7 +407,7 @@ public class RolAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeg.getString("rol_label_s"),
+								bundleSeg.getString("role_label_s"),
 								bundle.getString("label_nombre") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			}
@@ -563,7 +563,7 @@ public class RolAction implements Serializable {
 	public String vigenciaRoles(boolean vigente) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		StringBuilder regVigUsados = new StringBuilder();
 		StringBuilder regExito = new StringBuilder();
 		StringBuilder regRolesNoEdit = new StringBuilder();
@@ -593,7 +593,7 @@ public class RolAction implements Serializable {
 			}
 			if (regRolesNoEdit.length() > 0) {
 				ControladorContexto.mensajeError(bundleSeguridad
-						.getString("rol_message_no_editable_vigencia")
+						.getString("rol_message_no_editable_validity")
 						+ ": "
 						+ regRolesNoEdit.substring(0,
 								regRolesNoEdit.length() - 2));

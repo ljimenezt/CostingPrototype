@@ -374,7 +374,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	public String consultarPermisoPersonaEmpresa() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		listaPermisoPersonaEmpresa = new ArrayList<PermisoPersonaEmpresa>();
 		List<PermisoPersonaEmpresa> listPermisoPersonaEmpresaTemp = new ArrayList<PermisoPersonaEmpresa>();
 		List<SelectItem> parametros = new ArrayList<SelectItem>();
@@ -407,7 +407,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 							.format(bundle
 									.getString("message_existen_registros_criterio_busqueda"),
 									bundleSeguridad
-											.getString("permiso_persona_empresa_label"),
+											.getString("person_permission_company_label"),
 									unionMensajesBusqueda);
 				}
 				if (!"".equals(mensajeBusqueda)) {
@@ -419,7 +419,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 			} else {
 				ControladorContexto
 						.mensajeError(bundleSeguridad
-								.getString("permiso_persona_empresa_message_validar_seleccion_usuario"));
+								.getString("person_permission_company_message_validate_select_user"));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -630,14 +630,14 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 */
 	public String guardarPermisoPersonaEmpresa() {
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		try {
 			if (listaPermisoPersonaEmpresaTemp != null) {
 				this.userTransaction.begin();
 				String nombrePersona = persona.getNombres() + " "
 						+ persona.getApellidos();
 				StringBuilder msgEmpresasHaciendas = new StringBuilder();
-				String mensajeHaciendaEmpresa = "permiso_persona_empresa_message_asociar_empresa_hacienda";
+				String mensajeHaciendaEmpresa = "person_permission_company_message_associate_company_farm";
 				for (PermisoPersonaEmpresa permisoPersonaEmpresaAdd : listaPermisoPersonaEmpresaTemp) {
 					boolean predeterminado = permisoPersonaEmpresaAdd
 							.isPredeterminado();
@@ -670,7 +670,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 				this.userTransaction.commit();
 				String format = MessageFormat
 						.format(bundleSeguridad
-								.getString("permiso_persona_empresa_message_asociar_empresa"),
+								.getString("person_permission_company_message_associate_company"),
 								nombrePersona, msgEmpresasHaciendas);
 				ControladorContexto.mensajeInformacion(null, format);
 			}
@@ -725,7 +725,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	public void controladorListaPermisos(String opcion,
 			PermisoPersonaEmpresa objPermisoPersonaEmpresa) {
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		try {
 			if (Constantes.NEW_PERMISO.equals(opcion)) {
 				this.permisoPersonaEmpresa = new PermisoPersonaEmpresa();
@@ -737,14 +737,14 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 				idSucursal = 0;
 				idHacienda = 0;
 			} else if (Constantes.ADD_PERMISO.equals(opcion)) {
-				String mensaje = "permiso_persona_empresa_label_asociada";
+				String mensaje = "person_permission_company_label_associated";
 				if (idSucursal != 0) {
-					mensaje = "permiso_persona_empresa_label_asociada_sucursal";
+					mensaje = "person_permission_company_label_associated_branch";
 					Sucursal sucursal = sucursalDao
 							.consultarSucursal(idSucursal);
 					permisoPersonaEmpresa.setSucursal(sucursal);
 				} else if (idHacienda != 0) {
-					mensaje = "permiso_persona_empresa_label_asociada_hacienda";
+					mensaje = "person_permission_company_label_associated_farm";
 					Hacienda hacienda = haciendaDao
 							.consultarHaciendaPorId(idHacienda);
 					permisoPersonaEmpresa.setHacienda(hacienda);
@@ -881,14 +881,14 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 */
 	public void validarPermisosEmpresasSeleccionado() {
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		if (listaPermisoPersonaEmpresaTemp == null
 				|| listaPermisoPersonaEmpresaTemp.size() <= 0) {
 			ControladorContexto
 					.mensajeError(
 							"frmAsociarPermisos:extDTPermisoPersonaEmpresa",
 							bundleSeguridad
-									.getString("permiso_persona_empresa_message_validar_seleccion_empresa"));
+									.getString("person_permission_company_message_validate_select_company"));
 		}
 	}
 }

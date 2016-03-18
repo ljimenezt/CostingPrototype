@@ -12,7 +12,7 @@
 
 	<ui:param name="action" value="iconoAction.inicializarBusqueda" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeSeguridad.icono_label" />
+		value="mensaje.label_gestionar,messageSecurity.icon_label" />
 
 	<ui:define name="body">
 		<h:form id="frmIconos">
@@ -37,7 +37,7 @@
 			<ui:param name="tieneVigencia" value="no" />
 
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{mensajeSeguridad.icono_label_s}"
+				header="#{mensaje.label_listado_de} #{messageSecurity.icon_label_s}"
 				id="panelIcono" styleClass="anchoUno MinH230P">
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
@@ -143,7 +143,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeSeguridad.icono_label_s}"
+				header="#{mensaje.button_search} #{messageSecurity.icon_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"

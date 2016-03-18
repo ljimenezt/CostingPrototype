@@ -212,7 +212,7 @@ public class IconoAction implements Serializable {
 	public String consultarIconos() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		String mensajeBusqueda = "";
@@ -252,7 +252,7 @@ public class IconoAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("icono_label_s"),
+								bundleSeguridad.getString("icon_label_s"),
 								bundle.getString("label_nombre") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			}
@@ -610,7 +610,7 @@ public class IconoAction implements Serializable {
 	public String eliminarIcono() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		boolean existe = false;
 		try {
 			if (this.icono != null) {
@@ -636,7 +636,7 @@ public class IconoAction implements Serializable {
 				} else {
 					ControladorContexto.mensajeError(MessageFormat.format(
 							bundleSeguridad
-									.getString("icono_message_no_existe"),
+									.getString("icon_message_not_exist"),
 							icono.getNombre()));
 				}
 			}

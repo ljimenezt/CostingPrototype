@@ -260,7 +260,7 @@ public class GestionarMenuAction implements Serializable {
 	public String consultarMenus() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		String messageSearch = "";
@@ -568,7 +568,7 @@ public class GestionarMenuAction implements Serializable {
 	public String eliminarMenu() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		try {
 			if (this.menuAction != null) {
 				boolean menuPadre2 = menuDao.hijosMenu(this.menuAction.getId());
@@ -577,7 +577,7 @@ public class GestionarMenuAction implements Serializable {
 					ControladorContexto
 							.mensajeError(MessageFormat.format(
 									bundleSeguridad
-											.getString("menu_message_no_eliminar_padre"),
+											.getString("menu_message_not_delete_parent"),
 									menuAction.getNombre()));
 				} else if (!"".equals(validarRelaciones)) {
 					ControladorContexto.mensajeError(MessageFormat.format(
@@ -616,12 +616,12 @@ public class GestionarMenuAction implements Serializable {
 		result1 = rolMenuDao.relacionesRolMenu(idMenu);
 		result2 = metodoMenuDao.relacionesMetodoMenu(idMenu);
 		if (result1 && result2) {
-			mensajeResult = "menu_message_no_eliminar_rol_metodo";
+			mensajeResult = "menu_message_not_delete_rol_method";
 		} else {
 			if (result1) {
-				mensajeResult = "menu_message_no_eliminar_rol";
+				mensajeResult = "menu_message_not_delete_rol";
 			} else if (result2) {
-				mensajeResult = "menu_message_no_eliminar_metodo";
+				mensajeResult = "menu_message_not_delete_method";
 			}
 		}
 		return mensajeResult;
@@ -653,7 +653,7 @@ public class GestionarMenuAction implements Serializable {
 	public void consultarIconos() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeSeguridad");
+				.getBundle("messageSecurity");
 		String mensajeBusqueda = "";
 		listaIconos = new ArrayList<Icono>();
 		try {
@@ -674,7 +674,7 @@ public class GestionarMenuAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("icono_label") + ": "
+								bundleSeguridad.getString("icon_label") + ": "
 										+ '"' + this.nombreIconoBuscar + '"');
 			} else if (this.listaIconos == null || this.listaIconos.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
@@ -683,8 +683,8 @@ public class GestionarMenuAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("icono_label_s"),
-								bundleSeguridad.getString("icono_label") + ": "
+								bundleSeguridad.getString("icon_label_s"),
+								bundleSeguridad.getString("icon_label") + ": "
 										+ '"' + this.nombreIconoBuscar + '"');
 
 			}

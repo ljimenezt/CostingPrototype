@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="menuAction.registrarMenu(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeSeguridad.menu_label" />
+		value="mensaje.label_registrar,messageSecurity.menu_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -35,7 +35,7 @@
 			<ui:param name="listaVacia1"
 				value="#{menuAction.listaIconos eq null or (empty menuAction.listaIconos)}" />
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeSeguridad.menu_label}"
+				header="#{mensaje.label_registrar} #{messageSecurity.menu_label}"
 				styleClass="anchoUno">
 				<h:panelGrid columns="4"
 					cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
@@ -64,7 +64,7 @@
 					</h:inputTextarea>
 					<rich:message for="txaDescripcion" />
 
-					<h:outputText value="#{mensajeSeguridad.menu_label_padre}"
+					<h:outputText value="#{messageSecurity.menu_label_parent}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText styleClass="colTextoMediano" id="txtMenuPadre"
@@ -93,7 +93,7 @@
 						</a:commandLink>
 					</h:panelGrid>
 
-					<h:outputText value="#{mensajeSeguridad.icono_label}"
+					<h:outputText value="#{messageSecurity.icon_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText styleClass="colTextoMediano" id="txtIcono"
@@ -132,7 +132,7 @@
 					<rich:message for="urlMenu" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeSeguridad.menu_label_visible}" />
+						value="#{messageSecurity.menu_label_visible}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneRadio id="rbnVisible" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}"
@@ -152,7 +152,7 @@
 						converterMessage="#{mensaje.message_validar_formato_fecha}" />
 					<rich:message for="calFechaInicio" />
 
-					<h:outputText value="#{mensajeSeguridad.menu_label_orden}"
+					<h:outputText value="#{messageSecurity.menu_label_order}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText styleClass="colNumero" id="txtOrdenMenu"
@@ -162,7 +162,7 @@
 					<rich:message for="txtOrdenMenu" />
 
 					<h:outputText
-						value="#{mensajeSeguridad.menu_label_numero_columnas_izquierda}"
+						value="#{messageSecurity.menu_label_number_left_columns}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText styleClass="colNumero" id="txtNumColumnIzq"
@@ -170,14 +170,14 @@
 					<rich:message for="txtNumColumnIzq" />
 
 					<h:outputText
-						value="#{mensajeSeguridad.menu_label_numero_columnas_derecha}"
+						value="#{messageSecurity.menu_label_number_right_columns}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText styleClass="colNumero" id="txtNumColumnDer"
 						value="#{menuAction.menuAction.numeroColumnasDerecha}" />
 					<rich:message for="txtNumColumnDer" />
 
-					<h:outputText value="#{mensajeSeguridad.menu_label_posicion}"
+					<h:outputText value="#{messageSecurity.menu_label_position}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:selectOneRadio id="rbnPosicion"
@@ -189,19 +189,19 @@
 					</h:selectOneRadio>
 					<rich:message for="rbnPosicion" />
 
-					<h:outputText value="#{mensajeSeguridad.menu_label_ultimo_nivel}"
+					<h:outputText value="#{messageSecurity.menu_label_last_level}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:selectOneRadio id="rbnUltimoNivel"
 						value="#{menuAction.menuAction.mostrarUltimoNivel}">
 						<f:selectItem itemValue="true"
-							itemLabel="#{mensajeSeguridad.icono_label}" />
+							itemLabel="#{messageSecurity.icon_label}" />
 						<f:selectItem itemValue="false"
-							itemLabel="#{mensajeSeguridad.menu_label}" />
+							itemLabel="#{messageSecurity.menu_label}" />
 					</h:selectOneRadio>
 					<rich:message for="rbnUltimoNivel" />
 
-					<h:outputText value="#{mensajeSeguridad.menu_label_posicion_marco}"
+					<h:outputText value="#{messageSecurity.menu_label_position_under}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:selectOneRadio id="rbnPosicionMarco"
@@ -226,7 +226,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupMenu" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{mensajeSeguridad.menu_label_s}">
+				header="#{mensaje.label_listado_de} #{messageSecurity.menu_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -262,7 +262,7 @@
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_nombre}: " />
 						<h:outputText value="#{menuAction.menuAction.nombre}" />
-						<h:outputText value="#{mensajeSeguridad.menu_label_padre}: " />
+						<h:outputText value="#{messageSecurity.menu_label_parent}: " />
 						<h:outputText value="#{menuAction.menuPadre.nombre}" />
 						<h:outputText value="#{mensaje.label_nombre_url}: " />
 						<h:outputText value="#{menuAction.menuAction.url}" />
@@ -279,7 +279,7 @@
 
 			<rich:popupPanel id="popupIconos" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{mensajeSeguridad.icono_label_s}">
+				header="#{mensaje.label_listado_de} #{messageSecurity.icon_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -295,7 +295,7 @@
 					<a:outputPanel id="outPutBuscarIconos">
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
-								#{mensajeSeguridad.icono_label_s}</legend>
+								#{messageSecurity.icon_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
 								<h:outputText value="#{mensaje.label_nombre}"
 									styleClass="etiquetaTitulo" />
@@ -328,7 +328,7 @@
 								footerClass="H130P" rowClasses="odd-row, even-row">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensaje.label_listado_de} #{mensajeSeguridad.icono_label_s}" />
+										value="#{mensaje.label_listado_de} #{messageSecurity.icon_label_s}" />
 								</f:facet>
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header" />
