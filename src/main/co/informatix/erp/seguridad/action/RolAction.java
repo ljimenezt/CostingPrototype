@@ -714,7 +714,7 @@ public class RolAction implements Serializable {
 	public void inicializarMetodosPermisos() {
 		MetodoAction metodoAction = ControladorContexto
 				.getContextBean(MetodoAction.class);
-		metodoAction.inicializarBusqueda();
+		metodoAction.initializeSearch();
 		ajustarMetodosPermisos(metodoAction);
 	}
 
@@ -724,7 +724,7 @@ public class RolAction implements Serializable {
 	public void cargarMetodosPermisos() {
 		MetodoAction metodoAction = ControladorContexto
 				.getContextBean(MetodoAction.class);
-		metodoAction.consultarMetodos();
+		metodoAction.searchMethods();
 		ajustarMetodosPermisos(metodoAction);
 	}
 

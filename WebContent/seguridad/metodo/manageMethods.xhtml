@@ -9,7 +9,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="metodoAction.inicializarBusqueda" />
+	<ui:param name="action" value="metodoAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,messageSecurity.method_label" />
 	<ui:define name="body">
@@ -17,21 +17,21 @@
 			<t:saveState value="#{metodoAction}" />
 
 			<ui:param name="listaVacia"
-				value="#{metodoAction.metodos eq null or (empty metodoAction.metodos)}" />
+				value="#{metodoAction.methods eq null or (empty metodoAction.methods)}" />
 			<ui:param name="anchoTabla" value="anchoCuatro" />
 			<!-- parametros para botones y ordenamiento del listado -->
 			<ui:param name="actionLista" value="#{metodoAction}" />
 			<ui:param name="renderLista" value="panelMetodo" />
-			<ui:param name="metodoLista" value="consultarMetodos" />
+			<ui:param name="metodoLista" value="searchMethods" />
 			<!-- parametros solo para ordenamiento del listado -->
 			<ui:param name="ocultarOrden" value="#{listaVacia}" />
 			<!-- parametros solo para botones del listado -->
 			<ui:param name="nombreAction" value="metodoAction" />
-			<ui:param name="metodoNuevo" value="registrarMetodo" />
+			<ui:param name="metodoNuevo" value="registerMethod" />
 			<ui:param name="parametroNuevo" value="#{null}" />
 			<ui:param name="renderBuscar" value="buscarForm:popupBuscar" />
 			<ui:param name="popupBuscar" value="popupBuscar" />
-			<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+			<ui:param name="metodoListarTodos" value="initializeSearch" />
 			<ui:param name="tieneVigencia" value="no" />
 
 			<rich:panel
@@ -40,12 +40,12 @@
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
 
-				<rich:dataTable value="#{metodoAction.metodos}" var="metodoList"
+				<rich:dataTable value="#{metodoAction.methods}" var="metodoList"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoUno">
 						<a:commandLink render="popupEliminar"
-							actionListener="#{metodoAction.setMetodo(metodoList)}"
+							actionListener="#{metodoAction.method(metodoList)}"
 							oncomplete="#{rich:component('popupEliminar')}.show()">
 							<h:graphicImage value="/img/delete_16.png" />
 							<rich:tooltip layout="block">
@@ -60,7 +60,7 @@
 								test="#{identity.autorizado('metodoAction','A') or identity.autorizado('metodoAction','U')}">
 								<h:commandLink value="#{metodoList.nombre}"
 									onclick="#{rich:component('statPane')}.show();"
-									action="#{metodoAction.registrarMetodo(metodoList)}">
+									action="#{metodoAction.registerMethod(metodoList)}">
 								</h:commandLink>
 							</c:when>
 							<c:otherwise>
@@ -95,7 +95,7 @@
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="panelMetodo" />
 							<ui:param name="beanActionParam" value="#{metodoAction}" />
-							<ui:param name="metodoActionParam" value="consultarMetodos" />
+							<ui:param name="metodoActionParam" value="searchMethods" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -120,13 +120,13 @@
 					<h:outputText value="#{mensaje.label_proceso}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-						value="#{metodoAction.nombreBuscar}"
+						value="#{metodoAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						actionListener="#{metodoAction.consultarMetodos()}"
+						actionListener="#{metodoAction.searchMethods()}"
 						oncomplete="if (#{facesContext.maximumSeverity.ordinal == 0} || #{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
 						render="panelMetodo, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -155,15 +155,15 @@
 					<ui:define name="campos">
 
 						<h:outputText value="#{mensaje.label_proceso}:" />
-						<h:outputText value="#{metodoAction.metodo.nombre}" />
+						<h:outputText value="#{metodoAction.method.nombre}" />
 
 						<h:outputText value="#{messageSecurity.method_label_name}:" />
-						<h:outputText value="#{metodoAction.metodo.nombreMetodo}" />
+						<h:outputText value="#{metodoAction.method.nombreMetodo}" />
 
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{metodoAction.eliminarMetodo()}"
+							actionListener="#{metodoAction.deleteMethod()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelMetodo, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"

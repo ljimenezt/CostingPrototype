@@ -34,8 +34,8 @@ import co.informatix.security.entities.Metodo;
 import co.informatix.security.entities.MetodoMenu;
 
 /**
- * This class allows business logic methods that apply specific permissions on
- * the system
+ * This class implements business logic methods that apply specific permissions
+ * on the system.
  * 
  * The logic is to consult, edit or add a method
  * 
@@ -61,53 +61,51 @@ public class MetodoAction implements Serializable {
 	@Resource
 	private UserTransaction userTransaction;
 
-	private List<Metodo> metodos;
+	private List<Metodo> methods;
 	private List<Menu> menus;
 	private List<Menu> menusSelected = new ArrayList<Menu>();
 
 	private Paginador paginador = new Paginador();
 	private Paginador paginadorMenus = new Paginador();
-	private Metodo metodo;
-	private String nombreBuscar;
+	private Metodo method;
+	private String nameSearch;
 
 	/**
-	 * 
-	 * @return metodo: Method object that apply to permits
+	 * @return method: Method object and its permissions.
 	 */
-	public Metodo getMetodo() {
-		return metodo;
+	public Metodo getMethod() {
+		return method;
+	}
+
+	/**
+	 * @param method
+	 *            : Method object and its permissions.
+	 */
+	public void setMethod(Metodo method) {
+		this.method = method;
 	}
 
 	/**
 	 * 
-	 * @param metodo
-	 *            : Method object that apply to permits
+	 * @return methods: List of methods that are loaded into the user interface.
 	 */
-	public void setMetodo(Metodo metodo) {
-		this.metodo = metodo;
+	public List<Metodo> getMethods() {
+		return methods;
 	}
 
 	/**
 	 * 
-	 * @return metodos: List of methods that are loaded into the user interface.
-	 */
-	public List<Metodo> getMetodos() {
-		return metodos;
-	}
-
-	/**
-	 * 
-	 * @param metodos
+	 * @param methods
 	 *            : List of methods that are loaded into the user interface.
 	 */
-	public void setMetodos(List<Metodo> metodos) {
-		this.metodos = metodos;
+	public void setMethods(List<Metodo> methods) {
+		this.methods = methods;
 	}
 
 	/**
 	 * 
-	 * @return paginador: Allows management of the pagination of the list of
-	 *         menus in record method.
+	 * @return paginador: Management of the pagination of the list of menus in
+	 *         record method.
 	 */
 	public Paginador getPaginador() {
 		return paginador;
@@ -116,8 +114,8 @@ public class MetodoAction implements Serializable {
 	/**
 	 * 
 	 * @param paginador
-	 *            : Allows management of the pagination of the list of menus in
-	 *            record method.
+	 *            : Management of the pagination of the list of menus in record
+	 *            method.
 	 */
 	public void setPaginador(Paginador paginador) {
 		this.paginador = paginador;
@@ -125,8 +123,8 @@ public class MetodoAction implements Serializable {
 
 	/**
 	 * 
-	 * @return paginadorMenus: Allows management of the pagination of the list
-	 *         of menus in record method.
+	 * @return paginadorMenus: Mmanagement of the pagination of the list of
+	 *         menus in record method.
 	 */
 	public Paginador getPaginadorMenus() {
 		return paginadorMenus;
@@ -135,8 +133,8 @@ public class MetodoAction implements Serializable {
 	/**
 	 * 
 	 * @param paginadorMenus
-	 *            : Allows management of the pagination of the list of menus in
-	 *            record method.
+	 *            : Management of the pagination of the list of menus in record
+	 *            method.
 	 */
 	public void setPaginadorMenus(Paginador paginadorMenus) {
 		this.paginadorMenus = paginadorMenus;
@@ -157,18 +155,18 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: method name to search.
+	 * @return nameSearch: Get the name to search.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
-	 *            : method name to search.
+	 * @param nameSearch
+	 *            : Set the name to search.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
@@ -176,55 +174,52 @@ public class MetodoAction implements Serializable {
 	 * 
 	 * @author Adonay.Mantilla
 	 * 
-	 * @return consultarMetodos: method that consultation methods and load the
+	 * @return searchMethods: method that consultation methods and load the
 	 *         template with the information found.
-	 * 
 	 */
-	public String inicializarBusqueda() {
-		this.nombreBuscar = "";
-		return consultarMetodos();
+	public String initializeSearch() {
+		this.nameSearch = "";
+		return searchMethods();
 	}
 
 	/**
-	 * Provides access existing methods in the database.
+	 * Access to the existing methods in the database.
 	 * 
 	 * @modify 10/10/2012 Adonay.Mantilla
 	 * 
 	 * @return gesMetodo: redirects to the Manage method
 	 */
-	public String consultarMetodos() {
+	public String searchMethods() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeguridad = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		String mensajeBusqueda = "";
-		metodos = new ArrayList<Metodo>();
+		String searchMessage = "";
+		methods = new ArrayList<Metodo>();
 		try {
-			paginador.paginar(metodoDao.cantidadMetodos(this.nombreBuscar));
-			this.metodos = metodoDao.consultarMetodos(paginador.getInicio(),
-					paginador.getRango(), this.nombreBuscar);
-			if ((metodos == null || metodos.size() <= 0)
-					&& (this.nombreBuscar != null && !""
-							.equals(this.nombreBuscar))) {
-				mensajeBusqueda = MessageFormat
+			paginador.paginar(metodoDao.methodsAmount(this.nameSearch));
+			this.methods = metodoDao.queryMethods(paginador.getInicio(),
+					paginador.getRango(), this.nameSearch);
+			if ((methods == null || methods.size() <= 0)
+					&& (this.nameSearch != null && !"".equals(this.nameSearch))) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								bundle.getString("label_nombre") + ": " + '"'
-										+ this.nombreBuscar + '"');
-			} else if (metodos == null || metodos.size() <= 0) {
+										+ this.nameSearch + '"');
+			} else if (methods == null || methods.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (this.nombreBuscar != null
-					&& !"".equals(this.nombreBuscar)) {
-				mensajeBusqueda = MessageFormat
+			} else if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("method_label_s"),
+								bundleSecurity.getString("method_label_s"),
 								bundle.getString("label_proceso") + ": " + '"'
-										+ this.nombreBuscar + '"');
+										+ this.nameSearch + '"');
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -232,29 +227,29 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * Method to load the template to add or edit a method
+	 * Method to load the template to add or edit a method.
 	 * 
-	 * @param metodo
-	 *            : Object of method you want to register or edit
-	 * @return regMetodo: page redirects to record the method, in which you can
-	 *         add or edit a method
+	 * @param method
+	 *            : Object of method you want to register or edit.
+	 * @return regMetodo: It redirects to register a method, there you can add
+	 *         or edit a method.
 	 */
-	public String registrarMetodo(Metodo metodo) {
+	public String registerMethod(Metodo method) {
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
 		try {
 			this.menusSelected = new ArrayList<Menu>();
-			if (metodo != null) {
-				this.menusSelected = menuDao.consultarMenusMetodo(metodo
+			if (method != null) {
+				this.menusSelected = menuDao.consultarMenusMetodo(method
 						.getId());
 				for (Menu menu : this.menusSelected) {
 					menuAction.convertirNombreMenuDescript(menu);
 				}
-				this.metodo = metodo;
+				this.method = method;
 			} else {
-				this.metodo = new Metodo();
+				this.method = new Metodo();
 			}
-			limpiarMenusDisponibles();
+			eraseAvailableMenus();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -262,24 +257,24 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * Allows save or edit a method.
+	 * Save or edit a method.
 	 * 
-	 * @return: return to a page to register or manage methods, as it happened.
+	 * @return: It redirects to a page to register or manage methods.
 	 */
-	public String guardarMetodo() {
+	public String saveMethods() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageKey = "message_registro_modificar";
 		try {
 			userTransaction.begin();
-			metodo.setUserName(identity.getUserName());
-			if (metodo.getId() != 0) {
-				metodoDao.editarMetodo(metodo);
-				guardarEditarMetodoMenu();
+			method.setUserName(identity.getUserName());
+			if (method.getId() != 0) {
+				metodoDao.editMethod(method);
+				addEditMethodMenu();
 			} else {
-				metodo.setFechaCreacion(new Date());
-				metodoDao.guardarMetodo(metodo);
+				method.setFechaCreacion(new Date());
+				metodoDao.saveMethod(method);
 				for (Menu menu : this.menusSelected) {
-					guardarMetodoMenu(menu);
+					saveMethodMenu(menu);
 				}
 				messageKey = "message_registro_guardar";
 			}
@@ -287,7 +282,7 @@ public class MetodoAction implements Serializable {
 			ControladorContexto.mensajeInformacion(
 					null,
 					MessageFormat.format(bundle.getString(messageKey),
-							metodo.getNombre()));
+							method.getNombre()));
 		} catch (Exception e) {
 			try {
 				this.userTransaction.rollback();
@@ -297,7 +292,7 @@ public class MetodoAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 			return "regMetodo";
 		}
-		return consultarMetodos();
+		return searchMethods();
 	}
 
 	/**
@@ -305,14 +300,14 @@ public class MetodoAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void guardarEditarMetodoMenu() throws Exception {
-		List<Menu> menusSelectedTemp = menuDao.consultarMenusMetodo(metodo
+	private void addEditMethodMenu() throws Exception {
+		List<Menu> tempoSelectedMenu = menuDao.consultarMenusMetodo(method
 				.getId());
-		if (menusSelectedTemp != null && this.menusSelected != null) {
+		if (tempoSelectedMenu != null && this.menusSelected != null) {
 			List<Integer> currentIds = new ArrayList<Integer>();
 			List<Integer> newsIds = new ArrayList<Integer>();
 			/* Lists are filled with only the ids */
-			for (Menu menu : menusSelectedTemp) {
+			for (Menu menu : tempoSelectedMenu) {
 				currentIds.add(menu.getId());
 			}
 			for (Menu menu : this.menusSelected) {
@@ -327,79 +322,79 @@ public class MetodoAction implements Serializable {
 				menu.setId(saveData.getIdClase());
 				if (Constantes.QUERY_DELETE.equals(action)) {
 					MetodoMenu metodoMenu = metodoMenuDao.consultarMetodoMenu(
-							this.metodo, menu);
+							this.method, menu);
 					metodoMenuDao.eliminarMetodoMenu(metodoMenu);
 				} else if (Constantes.QUERY_INSERT.equals(action)) {
-					guardarMetodoMenu(menu);
+					saveMethodMenu(menu);
 				}
 			}
 		}
 	}
 
 	/**
-	 * Allows save the menus related to the method.
+	 * Save the menus related to the method.
 	 * 
 	 * @param menu
 	 *            : Menu related to the method.
 	 * 
 	 * @throws Exception
 	 */
-	private void guardarMetodoMenu(Menu menu) throws Exception {
-		MetodoMenu metodoMenu = new MetodoMenu();
-		metodoMenu.setMetodo(metodo);
-		metodoMenu.setMenu(menu);
-		metodoMenu.setFechaCreacion(new Date());
-		metodoMenu.setUserName(identity.getUserName());
-		metodoMenuDao.guardarMetodoMenu(metodoMenu);
+	private void saveMethodMenu(Menu menu) throws Exception {
+		MetodoMenu menuMethod = new MetodoMenu();
+		menuMethod.setMetodo(method);
+		menuMethod.setMenu(menu);
+		menuMethod.setFechaCreacion(new Date());
+		menuMethod.setUserName(identity.getUserName());
+		metodoMenuDao.guardarMetodoMenu(menuMethod);
 	}
 
 	/**
 	 * Method that cleans the list of available menus.
 	 */
-	public void limpiarMenusDisponibles() {
+	public void eraseAvailableMenus() {
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
 		paginadorMenus = new Paginador();
 		menuAction.setNombreBuscar(null);
-		consultarMenusDisponibles();
+		searchAvailableMenus();
 	}
 
 	/**
-	 * Provides access menus available.
+	 * Provides access to the menus available.
 	 */
-	public void consultarMenusDisponibles() {
+	public void searchAvailableMenus() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeguridad = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
-		String mensajeBusqueda = "";
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
+		String searchMessage = "";
+		StringBuilder jointSearchMessage = new StringBuilder();
 		this.menus = new ArrayList<Menu>();
 		try {
 			if (menuAction.getNombreBuscar() != null
 					&& !"".equals(menuAction.getNombreBuscar())) {
-				unionMensajesBusqueda.append(bundle.getString("label_nombre")
+				jointSearchMessage.append(bundle.getString("label_nombre")
 						+ ": " + '"' + menuAction.getNombreBuscar() + '"');
-				List<Menu> listaTdosMenus = menuDao
+				List<Menu> allMenus = menuDao
 						.consultarTodosMenusAction(this.menusSelected);
-				List<Menu> listaMenusDatos = menuAction
-						.filtrarMenusPorNombre(listaTdosMenus);
-				long cantidadMenus = (long) listaMenusDatos.size();
-				paginadorMenus.paginarRangoDefinido(cantidadMenus, 5);
+				List<Menu> menusData = menuAction
+						.filtrarMenusPorNombre(allMenus);
+				long menusAmount = (long) menusData.size();
+				paginadorMenus.paginarRangoDefinido(menusAmount, 5);
 				int totalReg = paginadorMenus.getRango();
-				int inicio = paginadorMenus.getInicio();
-				int rango = inicio + totalReg;
-				if (listaMenusDatos.size() < rango) {
-					rango = listaMenusDatos.size();
+				int start = paginadorMenus.getInicio();
+				int range = start + totalReg;
+				if (menusData.size() < range) {
+					range = menusData.size();
 				}
-				this.menus = listaMenusDatos.subList(inicio, rango);
+				this.menus = menusData.subList(start, range);
 			} else {
-				Long cantidadMenus = menuDao
+				Long menusAmount = menuDao
 						.cantidadMenusAction(this.menusSelected);
-				paginadorMenus.paginarRangoDefinido(cantidadMenus, 5);
+				paginadorMenus.paginarRangoDefinido(menusAmount, 5);
 				this.menus = menuDao.consultarMenusAction(
 						paginadorMenus.getInicio(), paginadorMenus.getRango(),
 						this.menusSelected);
@@ -408,30 +403,30 @@ public class MetodoAction implements Serializable {
 				menuAction.convertirNombreMenuDescript(menu);
 			}
 			if ((this.menus == null || this.menus.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+					&& !"".equals(jointSearchMessage.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
+								jointSearchMessage);
 
 			} else if (this.menus == null || this.menus.size() <= 0) {
-				mensajeBusqueda = bundle
+				searchMessage = bundle
 						.getString("message_no_existen_registros");
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(jointSearchMessage.toString())) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("menu_label_s"),
-								unionMensajesBusqueda);
+								bundleSecurity.getString("menu_label_s"),
+								jointSearchMessage);
 			}
-			validaciones.setMensajeBusquedaPopUp(mensajeBusqueda);
+			validations.setMensajeBusquedaPopUp(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
 
 	/**
-	 * Added or removed from the list of selected menus.
+	 * It Adds or removes from the list of selected menus.
 	 * 
 	 * @param flag
 	 *            : Whether the item is being added or removed from the list of
@@ -442,28 +437,28 @@ public class MetodoAction implements Serializable {
 				.getContextBean(GestionarMenuAction.class);
 		try {
 			if (flag.equals(Constantes.ADD)) {
-				List<Menu> menusSelectedTemp = menuDao
+				List<Menu> tempSelectedMenu = menuDao
 						.consultarTodosMenusAction(this.menusSelected);
 				if (menuAction.getNombreBuscar() != null
 						&& !"".equals(menuAction.getNombreBuscar())) {
-					menusSelectedTemp = menuAction
-							.filtrarMenusPorNombre(menusSelectedTemp);
+					tempSelectedMenu = menuAction
+							.filtrarMenusPorNombre(tempSelectedMenu);
 				}
-				this.menusSelected.addAll(menusSelectedTemp);
+				this.menusSelected.addAll(tempSelectedMenu);
 				for (Menu menu : this.menusSelected) {
 					menuAction.convertirNombreMenuDescript(menu);
 				}
 			} else {
 				this.menusSelected = new ArrayList<Menu>();
 			}
-			consultarMenusDisponibles();
+			searchAvailableMenus();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
 
 	/**
-	 * Adds or removes a menu from the list of selected menus.
+	 * It adds or removes a menu from the list of selected menus.
 	 * 
 	 * @param flag
 	 *            : Whether the item is being added or removed from the list of
@@ -475,14 +470,14 @@ public class MetodoAction implements Serializable {
 		if (flag.equals(Constantes.ADD)) {
 			menusSelected.add(menuAva);
 		} else {
-			for (Menu menuSel : this.menusSelected) {
-				if (menuAva.getId() == menuSel.getId()) {
-					this.menusSelected.remove(menuSel);
+			for (Menu selMenu : this.menusSelected) {
+				if (menuAva.getId() == selMenu.getId()) {
+					this.menusSelected.remove(selMenu);
 					break;
 				}
 			}
 		}
-		consultarMenusDisponibles();
+		searchAvailableMenus();
 	}
 
 	/**
@@ -490,13 +485,13 @@ public class MetodoAction implements Serializable {
 	 * menus.
 	 * 
 	 * @param context
-	 *            : FacesContext variable type for message handling.
+	 *            : FacesContext variable for handling message type.
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
 	 *            : Validate component value.
 	 */
-	public void validarMetodo(FacesContext context, UIComponent toValidate,
+	public void validateMethods(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSecurity = ControladorContexto
@@ -504,9 +499,9 @@ public class MetodoAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		String name = (String) value;
 		try {
-			Metodo metodoAux = metodoDao.nombreMetodoExiste(name,
-					this.metodo.getId());
-			if (metodoAux != null) {
+			Metodo auxMethod = metodoDao.nombreMetodoExiste(name,
+					this.method.getId());
+			if (auxMethod != null) {
 				context.addMessage(
 						toValidate.getClientId(context),
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
@@ -535,28 +530,28 @@ public class MetodoAction implements Serializable {
 	 * Valid if the name of action exists in the database.
 	 * 
 	 * @param context
-	 *            : FacesContext variable type for message handling.
+	 *            : FacesContext variable for handling message type.
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
 	 *            : Validate component value.
 	 */
-	public void validarNombreMetodo(FacesContext context,
+	public void validateMethodName(FacesContext context,
 			UIComponent toValidate, Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String clientId = toValidate.getClientId(context);
-		String nombreMetodo = (String) value;
+		String methodName = (String) value;
 		try {
-			Metodo metodoAux = metodoDao.nombreActionExiste(nombreMetodo,
-					this.metodo.getId());
-			if (metodoAux != null) {
+			Metodo auxMethod = metodoDao.actionNameExists(methodName,
+					this.method.getId());
+			if (auxMethod != null) {
 				context.addMessage(
 						toValidate.getClientId(context),
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
 								.getString("message_ya_existe_verifique"), null));
 			}
 
-			if (!EncodeFilter.validarXSS(nombreMetodo, clientId, null)) {
+			if (!EncodeFilter.validarXSS(methodName, clientId, null)) {
 				((UIInput) toValidate).setValid(false);
 			}
 		} catch (Exception e) {
@@ -565,41 +560,41 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * Deletes a method from the database, which is not associated with a role.
+	 * Deletes a method from the database that is not associated with a role.
 	 * 
 	 * @modify 22/12/2014 Cristhian.Pico
 	 * 
-	 * @return consultarMetodos(): Consult the methods of the database and
-	 *         return to the management methods.
+	 * @return searchMethods(): Consult the methods of the database and return
+	 *         to the management methods.
 	 */
-	public String eliminarMetodo() {
+	public String deleteMethod() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeguridad = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
 		try {
-			if (this.metodo != null) {
-				boolean result1 = rolMetodoDao.relacionRolMetodo(this.metodo
+			if (this.method != null) {
+				boolean result1 = rolMetodoDao.relacionRolMetodo(this.method
 						.getId());
 				if (result1) {
 					ControladorContexto
 							.mensajeError(MessageFormat.format(
-									bundleSeguridad
+									bundleSecurity
 											.getString("method_message_not_delete_rol"),
-									this.metodo.getNombre()));
+									this.method.getNombre()));
 				} else {
 					userTransaction.begin();
-					List<MetodoMenu> metodosMenu = metodoMenuDao
-							.consultarTodosMetodoMenu(this.metodo);
-					for (MetodoMenu metodoMenu : metodosMenu) {
-						metodoMenuDao.eliminarMetodoMenu(metodoMenu);
+					List<MetodoMenu> menuMethods = metodoMenuDao
+							.consultarTodosMetodoMenu(this.method);
+					for (MetodoMenu menuMethod : menuMethods) {
+						metodoMenuDao.eliminarMetodoMenu(menuMethod);
 					}
-					this.metodo.setFechaFinVigencia(new Date());
-					metodoDao.editarMetodo(this.metodo);
+					this.method.setFechaFinVigencia(new Date());
+					metodoDao.editMethod(this.method);
 					userTransaction.commit();
 					ControladorContexto.mensajeInformacion(null, MessageFormat
 							.format(bundle
 									.getString("message_registro_eliminar"),
-									metodo.getNombre()));
+									method.getNombre()));
 				}
 			}
 		} catch (Exception e) {
@@ -610,6 +605,6 @@ public class MetodoAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMetodos();
+		return searchMethods();
 	}
 }

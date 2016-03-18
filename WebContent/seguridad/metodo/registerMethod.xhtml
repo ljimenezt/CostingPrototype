@@ -9,7 +9,7 @@
 	xmlns:a="http://richfaces.org/a4j"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="metodoAction.registrarMetodo(null)" />
+	<ui:param name="action" value="metodoAction.registerMethod(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,messageSecurity.method_label" />
 	<ui:define name="body">
@@ -48,9 +48,9 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="txtnombre" maxlength="50" required="true"
-							validator="#{metodoAction.validarMetodo}"
+							validator="#{metodoAction.validateMethods}"
 							styleClass="colTextoMediano"
-							value="#{metodoAction.metodo.nombre}"
+							value="#{metodoAction.method.nombre}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateLength maximum="50" />
 						</h:inputText>
@@ -60,9 +60,9 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="txtnombremetodo" maxlength="50" required="true"
-							validator="#{metodoAction.validarNombreMetodo}"
+							validator="#{metodoAction.validateMethodName}"
 							styleClass="colTextoMediano"
-							value="#{metodoAction.metodo.nombreMetodo}"
+							value="#{metodoAction.method.nombreMetodo}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateLength maximum="50" />
 						</h:inputText>
@@ -71,7 +71,7 @@
 						<h:outputText value="#{mensaje.label_descripcion}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputTextarea value="#{metodoAction.metodo.descripcion}"
+						<h:inputTextarea value="#{metodoAction.method.descripcion}"
 							id="txaDescripcion" required="true"
 							styleClass="colTextoMedianoTextArea"
 							validator="#{encodeFilter.validarScripting}"
@@ -110,7 +110,7 @@
 									</a:commandLink>
 									<a:commandLink
 										render=":popupFormSearch:popupSearch, menusPanel, mensajes"
-										action="#{metodoAction.limpiarMenusDisponibles()}"
+										action="#{metodoAction.eraseAvailableMenus()}"
 										styleClass="quitarDecoracionLink" execute="@this">
 										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 											<h:graphicImage value="/img/listarTodos_16.png" />
@@ -124,8 +124,7 @@
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W440P"
 								rowClasses="odd-row, even-row" footerClass="H126P">
 								<f:facet name="header">
-									<h:outputText
-										value="#{messageSecurity.menu_label_availables}" />
+									<h:outputText value="#{messageSecurity.menu_label_availables}" />
 								</f:facet>
 								<rich:column styleClass="colTextoMediano">
 									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
@@ -175,7 +174,7 @@
 										<ui:param name="valReder" value="menusPanel" />
 										<ui:param name="beanActionParam" value="#{metodoAction}" />
 										<ui:param name="metodoActionParam"
-											value="consultarMenusDisponibles" />
+											value="searchAvailableMenus" />
 										<ui:param name="pager" value="paginadorMenus" />
 									</ui:include>
 								</div>
@@ -187,8 +186,7 @@
 								value="#{metodoAction.menusSelected}" var="selectedMenu"
 								styleClass="H172P W450P">
 								<f:facet name="header">
-									<h:outputText
-										value="#{messageSecurity.menu_label_availables}" />
+									<h:outputText value="#{messageSecurity.menu_label_availables}" />
 								</f:facet>
 								<rich:column width="35px" styleClass="colIconoUno">
 									<f:facet name="header">
@@ -232,10 +230,10 @@
 				<div class="anchoDos center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,confirmacionPopUp"
-						actionListener="#{metodoAction.setMetodo(metodoAction.metodo)}"
+						actionListener="#{metodoAction.method(metodoAction.method)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 					           	else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						rendered="#{(metodoAction.metodo.id ne 0 and identity.autorizado('metodoAction','U')) or identity.autorizado('metodoAction','A') or identity.autorizado('metodoAction','I')}" />
+						rendered="#{(metodoAction.method.id ne 0 and identity.autorizado('metodoAction','U')) or identity.autorizado('metodoAction','A') or identity.autorizado('metodoAction','I')}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -258,12 +256,12 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_proceso}:" />
-						<h:outputText value="#{metodoAction.metodo.nombre}" />
+						<h:outputText value="#{metodoAction.method.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_save}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide();#{rich:component('statPane')}.show();"
-							action="#{metodoAction.guardarMetodo}">
+							action="#{metodoAction.saveMethods}">
 							<f:setPropertyActionListener value="true"
 								target="#{validacionesAction.conservarMsg}" />
 						</h:commandButton>
@@ -300,7 +298,7 @@
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.label_buscar}"
 						id="btnBuscarMenus"
-						action="#{metodoAction.consultarMenusDisponibles()}"
+						action="#{metodoAction.searchAvailableMenus()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null} || #{facesContext.maximumSeverity.ordinal == 0}) {#{rich:component('popupSearch')}.hide();}"
 						render=":metodoForm:menusPanel, mensajes">
 						<f:setPropertyActionListener value="f"
