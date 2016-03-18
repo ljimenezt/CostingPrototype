@@ -432,7 +432,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleMachineType
-										.getString("mantenimiento_calibracion_label"),
+										.getString("maintenance_calibration_label"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
@@ -746,7 +746,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleMachine
-										.getString("lineas_mantenimiento_label"),
+										.getString("maintenance_lines_label"),
 								unionMessageSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);

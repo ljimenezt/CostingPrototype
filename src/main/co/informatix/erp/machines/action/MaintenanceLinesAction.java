@@ -206,7 +206,7 @@ public class MaintenanceLinesAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleMachineType
-										.getString("lineas_mantenimiento_label"),
+										.getString("maintenance_lines_label"),
 								jointSearchMessages);
 			}
 			validation.setMensajeBusqueda(searchMessage);

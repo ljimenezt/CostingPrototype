@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="maintenanceAndCalibrationAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeMachine.mantenimiento_calibracion_label" />
+		value="mensaje.label_gestionar,mensajeMachine.maintenance_calibration_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceAndCalibrationAction}" />
@@ -40,7 +40,7 @@
 
 		<h:form id="formMaintenanceAndCalibration">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeMachine.mantenimiento_calibracion_label}"
+				header="#{mensaje.label_listado_de} #{mensajeMachine.maintenance_calibration_label}"
 				id="panelMaintenanceAndCalibration">
 
 				<t:fieldset>
@@ -102,7 +102,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset>
-					<legend class="etiquetaTitulo">#{mensajeMachine.mantenimiento_calibracion_label_s}</legend>
+					<legend class="etiquetaTitulo">#{mensajeMachine.maintenance_calibration_label}</legend>
 					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 						<ui:param name="tieneVigencia" value="no" />
 					</ui:include>
@@ -121,13 +121,13 @@
 									<h:graphicImage value="/img/maintenance_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText
-											value="#{mensajeMachine.lineas_mantenimiento_label}" />
+											value="#{mensajeMachine.maintenance_lines_label}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</a:outputPanel>
 						</rich:column>
 						<rich:column styleClass="colFecha">
-							<f:facet name="header">#{mensajeMachine.mantenimiento_calibracion_label_fecha_mantenimiento}</f:facet>
+							<f:facet name="header">#{mensajeMachine.maintenance_calibration_label_maintenance_date}</f:facet>
 							<h:commandLink
 								action="#{maintenanceAndCalibrationAction.addEditMaintenanceAndCalibration(maintenanceAndCalibration)}"
 								onclick="#{rich:component('statPane')}.show();">
@@ -159,7 +159,7 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorTextoMediano">
-							<f:facet name="header">#{mensajeMachine.mantenimiento_calibracion_label_total_costo_presupuesto}</f:facet>
+							<f:facet name="header">#{mensajeMachine.maintenance_calibration_label_total_budget_cost}</f:facet>
 							<h:outputText
 								value="#{maintenanceAndCalibration.totalCostBudget}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
@@ -167,7 +167,7 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorTextoMediano">
-							<f:facet name="header">#{mensajeMachine.mantenimiento_calibracion_label_costo_total_actual}</f:facet>
+							<f:facet name="header">#{mensajeMachine.maintenance_calibration_label_current_total_cost}</f:facet>
 							<h:outputText
 								value="#{maintenanceAndCalibration.totalCostActual}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
@@ -175,7 +175,7 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colIconoUno">
-							<f:facet name="header">#{mensajeMachine.mantenimiento_calibracion_label_maquina_buenas_condiciones}</f:facet>
+							<f:facet name="header">#{mensajeMachine.maintenance_calibration_label_good_condition_machines}</f:facet>
 							<h:outputText
 								rendered="#{maintenanceAndCalibration.machineEquipementInGoodCondition}"
 								value="#{mensaje.label_si}" />
@@ -216,7 +216,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" width="330" maxWidth="450"
 				height="180"
-				header="#{mensaje.label_listado_de} #{mensajeMachine.lineas_mantenimiento_label}"
+				header="#{mensaje.label_listado_de} #{mensajeMachine.maintenance_lines_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -265,7 +265,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupMaintenance" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{mensajeMachine.lineas_mantenimiento_label}">
+				header="#{mensaje.label_listado_de} #{mensajeMachine.maintenance_lines_label}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<a:commandLink action="consultarMaintenanceAndCalibration"
@@ -330,8 +330,7 @@
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 								rowClasses="odd-row, even-row">
 								<f:facet name="header">
-									<h:outputText
-										value="#{mensajeMachine.lineas_mantenimiento_label}" />
+									<h:outputText value="#{mensajeMachine.maintenance_lines_label}" />
 								</f:facet>
 								<rich:column styleClass="colTextoLargo">
 									<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
@@ -342,7 +341,7 @@
 									</a:commandLink>
 								</rich:column>
 								<rich:column styleClass="colValorLargo">
-									<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}</f:facet>
+									<f:facet name="header">#{mensajeMachine.maintenance_lines_label_budget_cost}</f:facet>
 									<h:outputText value="#{maintenanceLines.costBudget}">
 										<f:convertNumber locale="#{idioma.locale}"
 											maxFractionDigits="2" minFractionDigits="2" type="currency"
@@ -350,7 +349,7 @@
 									</h:outputText>
 								</rich:column>
 								<rich:column styleClass="colValorLargo">
-									<f:facet name="header">#{mensajeMachine.lineas_mantenimiento_label_costo_actual}</f:facet>
+									<f:facet name="header">#{mensajeMachine.maintenance_lines_label_current_cost}</f:facet>
 									<h:outputText value="#{maintenanceLines.costActual}">
 										<f:convertNumber locale="#{idioma.locale}"
 											maxFractionDigits="2" minFractionDigits="2" type="currency"

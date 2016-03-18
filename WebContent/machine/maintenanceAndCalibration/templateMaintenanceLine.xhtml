@@ -11,7 +11,7 @@
 	<h:form id="registerMaintenanceLine">
 		<rich:popupPanel id="popupMaintenanceLine" autosized="true"
 			maxWidth="700" domElementAttachment="form" modal="true"
-			header="#{mensaje.label_registrar} #{mensajeMachine.lineas_mantenimiento_label}">
+			header="#{mensaje.label_registrar} #{mensajeMachine.maintenance_lines_label}">
 			<f:facet name="controls">
 				<h:panelGroup>
 					<h:graphicImage value="/img/close_14.png"
@@ -24,14 +24,14 @@
 			<rich:panel styleClass="H383P fondoAnchoUno W500P">
 				<a:outputPanel id="outPutMaintenanceLines">
 					<t:fieldset styleClass="BorderW2P">
-						<legend class="etiquetaTitulo">#{mensajeMachine.lineas_mantenimiento_label}</legend>
+						<legend class="etiquetaTitulo">#{mensajeMachine.maintenance_lines_label}</legend>
 						<h:panelGrid columns="4"
 							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 							columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 
 							<h:outputText
-								value="#{mensajeMachine.lineas_mantenimiento_label_nombre_maquina}"
+								value="#{mensajeMachine.maintenance_lines_label_machine_name}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="" />
 							<h:outputText
@@ -40,7 +40,7 @@
 							<h:outputText value="" />
 
 							<h:outputText
-								value="#{mensajeMachine.mantenimiento_calibracion_label}"
+								value="#{mensajeMachine.maintenance_calibration_label}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="" />
 							<h:outputText
@@ -60,7 +60,7 @@
 							<rich:message for="txaDescription" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}" />
+								value="#{mensajeMachine.maintenance_lines_label_budget_cost}" />
 							<h:outputText value="" />
 							<h:inputText
 								value="#{maintenanceAndCalibrationAction.maintenanceLines.costBudget}"
@@ -69,7 +69,7 @@
 							<rich:message for="txtTotalCostBudget" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}" />
+								value="#{mensajeMachine.maintenance_lines_label_current_cost}" />
 							<h:outputText value="" />
 							<h:inputText
 								value="#{maintenanceAndCalibrationAction.maintenanceLines.costActual}"
@@ -110,12 +110,12 @@
 				</ui:define>
 				<ui:define name="campos">
 					<h:outputText
-						value="#{mensajeMachine.lineas_mantenimiento_label_nombre_maquina}: " />
+						value="#{mensajeMachine.maintenance_lines_label_machine_name}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.machines.name}" />
 
 					<h:outputText
-						value="#{mensajeMachine.mantenimiento_calibracion_label}: " />
+						value="#{mensajeMachine.maintenance_calibration_label}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.maintenanceAndCalibration.dateTime}" />
 
@@ -124,7 +124,7 @@
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.description}" />
 
 					<h:outputText
-						value="#{mensajeMachine.lineas_mantenimiento_label_costo_presupuesto}: " />
+						value="#{mensajeMachine.maintenance_lines_label_budget_cost}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.costBudget}">
 						<f:convertNumber maxFractionDigits="2" type="currency"
@@ -132,7 +132,7 @@
 					</h:outputText>
 
 					<h:outputText
-						value="#{mensajeMachine.lineas_mantenimiento_label_costo_actual}: " />
+						value="#{mensajeMachine.maintenance_lines_label_current_cost}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.costActual}">
 						<f:convertNumber maxFractionDigits="2" type="currency"
