@@ -423,12 +423,12 @@ public class IconoAction implements Serializable {
 	/**
 	 * Method to rename the file in case of placing a name in the user interface.
 	 * 
-	 * @param nomArchivoActual
+	 * @param namFileActual
 	 *            :Name of the file to be loaded.
-	 * @param nombreIconoNuevo
+	 * @param nameIconNew
 	 *            : Name that is typed into the user interface and for which the
 	 *            file is renamed.
-	 * @param edicion
+	 * @param edition
 	 *            : flag to see if the file is renamed in the two destinations
 	 *            in case of editing.
 	 * @return String renamed icon.
