@@ -113,7 +113,7 @@ public class GestionarIconoDao implements Serializable {
 	 *            : where he started the consultation record.
 	 * @param range
 	 *            : range of records.
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : name by which the icon is sought.
 	 * @return List of icons found with that name.
 	 * @throws Exception
