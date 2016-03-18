@@ -12,8 +12,8 @@ import co.informatix.security.entities.Metodo;
 
 /**
  * DAO class that establishes the connection between business logic and
- * database. MetodoAction used for management methods that have specific
- * permissions on the system
+ * database. MetodoAction manages methods that have specific permissions on the
+ * system
  * 
  * @author marisol.calderon
  * @modify 19/06/2014 Gabriel.Moreno
@@ -27,106 +27,106 @@ public class MetodoDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Allows to consult methods in the database
+	 * Allows to query methods in the database
 	 * 
 	 * @modify 10/10/2012 Adonay.Mantilla
 	 * @modify 22/12/2014 Cristhian.Pico
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            : The first record that is retrieve of the query result.
 	 * @param range
-	 *            : range of records
+	 *            : Range of records.
 	 * @param nameSearch
-	 *            : Which name by the method is to consult.
-	 * @return List<Metodo>: list of methods found in the database.
+	 *            : Name that the method is going to query.
+	 * @return List<Metodo>: List of methods that were found in the database.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Metodo> consultarMetodos(int start, int range, String nameSearch)
+	public List<Metodo> queryMethods(int start, int range, String nameSearch)
 			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT m FROM Metodo m ");
-		query.append("WHERE m.fechaFinVigencia IS NULL ");
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT m FROM Metodo m ");
+		queryBuilder.append("WHERE m.fechaFinVigencia IS NULL ");
 		if (nameSearch != null && !"".equals(nameSearch)) {
-			query.append(" AND UPPER(m.nombre) LIKE UPPER(:keyword) ");
+			queryBuilder.append(" AND UPPER(m.nombre) LIKE UPPER(:keyword) ");
 		}
-		query.append(" ORDER BY m.nombre");
+		queryBuilder.append(" ORDER BY m.nombre");
 
-		Query q = em.createQuery(query.toString());
+		Query queryResult = em.createQuery(queryBuilder.toString());
 		if (nameSearch != null && !"".equals(nameSearch)) {
-			q.setParameter("keyword", "%" + nameSearch + "%");
+			queryResult.setParameter("keyword", "%" + nameSearch + "%");
 		}
-		q.setFirstResult(start).setMaxResults(range);
-		return q.getResultList();
+		queryResult.setFirstResult(start).setMaxResults(range);
+		return queryResult.getResultList();
 
 	}
 
 	/**
-	 * Allows consult the amount of existing methods in the database
+	 * Query the amount of existing methods in the database.
 	 * 
 	 * @modify 10/10/2012 Adonay.Mantilla
 	 * @modify 22/12/2014 Cristhian.Pico
 	 * 
-	 * @param nombreBuscar
-	 *            : name by which the method is to consult.
+	 * @param name
+	 *            : Name that the method is going to query.
 	 * 
-	 * @return Long: number of methods found in the database.
+	 * @return Long: Number of methods that were found in the database.
 	 * @throws Exception
 	 */
-	public Long cantidadMetodos(String nombreBuscar) throws Exception {
+	public Long methodsAmount(String name) throws Exception {
 		StringBuilder query = new StringBuilder();
 
 		query.append("SELECT COUNT(m) FROM Metodo m");
 		query.append(" WHERE m.fechaFinVigencia IS NULL ");
-		if (nombreBuscar != null && !"".equals(nombreBuscar)) {
+		if (name != null && !"".equals(name)) {
 			query.append(" AND UPPER(m.nombre) LIKE UPPER(:keyword) ");
 		}
 
-		Query q = em.createQuery(query.toString());
-		if (nombreBuscar != null && !"".equals(nombreBuscar)) {
-			q.setParameter("keyword", "%" + nombreBuscar + "%");
+		Query queryResult = em.createQuery(query.toString());
+		if (name != null && !"".equals(name)) {
+			queryResult.setParameter("keyword", "%" + name + "%");
 		}
-		return (Long) q.getSingleResult();
+		return (Long) queryResult.getSingleResult();
 
 	}
 
 	/**
 	 * Save a method in the database.
 	 * 
-	 * @param metodo
-	 *            : method to save
+	 * @param method
+	 *            : method to save.
 	 * @throws Exception
 	 */
-	public void guardarMetodo(Metodo metodo) throws Exception {
-		em.persist(metodo);
+	public void saveMethod(Metodo method) throws Exception {
+		em.persist(method);
 	}
 
 	/**
 	 * Modifies a method in the database.
 	 * 
-	 * @param metodo
+	 * @param method
 	 *            : method to modify
 	 * @throws Exception
 	 */
-	public void editarMetodo(Metodo metodo) throws Exception {
-		em.merge(metodo);
+	public void editMethod(Metodo method) throws Exception {
+		em.merge(method);
 	}
 
 	/**
-	 * Check if the method name exists in the database when saved.
+	 * Check if the method name exists in the database when it is being saved.
 	 * 
 	 * @modify 22/12/2014 Cristhian.Pico
 	 * 
-	 * @param nombre
+	 * @param name
 	 *            : Name of the method to find.
 	 * @param id
 	 *            : Method identifier edition.
 	 * 
-	 * @return Metodo: method found with the name method, otherwise null.
+	 * @return Method: Method object that was found, otherwise null.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Metodo nombreMetodoExiste(String nombre, int id) throws Exception {
+	public Metodo nombreMetodoExiste(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Metodo m ");
 		query.append("WHERE UPPER(m.nombre)=UPPER(:nombre) ");
@@ -134,12 +134,12 @@ public class MetodoDao implements Serializable {
 		if (id != 0) {
 			query.append("AND m.id <>:id ");
 		}
-		Query q = em.createQuery(query.toString());
-		q.setParameter("nombre", nombre);
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("nombre", name);
 		if (id != 0) {
-			q.setParameter("id", id);
+			queryResult.setParameter("id", id);
 		}
-		List<Metodo> results = q.getResultList();
+		List<Metodo> results = queryResult.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -148,21 +148,21 @@ public class MetodoDao implements Serializable {
 
 	/**
 	 * Check if the name of the action in the method exists in the database when
-	 * you save it.
+	 * it is being saved.
 	 * 
 	 * @modify 22/12/2014 Cristhian.Pico
 	 * 
-	 * @param nombreMetodo
+	 * @param methodName
 	 *            : Action name of the method to find.
 	 * @param id
-	 *            : ID of the method at issue.
+	 *            : ID of the method.
 	 * 
-	 * @return Metodo: method method met the action name, null otherwise.
+	 * @return Method: Method object that matches<s the action name, null
+	 *         otherwise.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Metodo nombreActionExiste(String nombreMetodo, int id)
-			throws Exception {
+	public Metodo actionNameExists(String methodName, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Metodo m ");
 		query.append("WHERE UPPER(m.nombreMetodo)=UPPER(:nombreMetodo) ");
@@ -170,12 +170,12 @@ public class MetodoDao implements Serializable {
 		if (id != 0) {
 			query.append("AND m.id <>:id ");
 		}
-		Query q = em.createQuery(query.toString());
-		q.setParameter("nombreMetodo", nombreMetodo);
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("nombreMetodo", methodName);
 		if (id != 0) {
-			q.setParameter("id", id);
+			queryResult.setParameter("id", id);
 		}
-		List<Metodo> results = q.getResultList();
+		List<Metodo> results = queryResult.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
