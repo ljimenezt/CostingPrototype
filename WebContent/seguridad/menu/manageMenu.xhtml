@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 
-	<ui:param name="action" value="menuAction.consultarMenus()" />
+	<ui:param name="action" value="menuAction.consultMenus()" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,messageSecurity.menu_label_s" />
 	<ui:define name="body">
@@ -18,21 +18,21 @@
 			<t:saveState value="#{menuAction}" />
 
 			<ui:param name="listaVacia"
-				value="#{menuAction.listaMenus eq null or (empty menuAction.listaMenus)}" />
+				value="#{menuAction.listMenus eq null or (empty menuAction.listMenus)}" />
 			<ui:param name="anchoTabla" value="anchoDos" />
 			<!-- parametros para botones y ordenamiento del listado -->
 			<ui:param name="actionLista" value="#{menuAction}" />
 			<ui:param name="renderLista" value="panelMenu" />
-			<ui:param name="metodoLista" value="consultarMenus" />
+			<ui:param name="metodoLista" value="consultMenus" />
 			<!-- parametros solo para ordenamiento del listado -->
 			<ui:param name="ocultarOrden" value="#{listaVacia}" />
 			<!-- parametros solo para botones del listado -->
 			<ui:param name="nombreAction" value="menuAction" />
-			<ui:param name="metodoNuevo" value="registrarMenu" />
+			<ui:param name="metodoNuevo" value="registerMenu" />
 			<ui:param name="parametroNuevo" value="#{null}" />
 			<ui:param name="renderBuscar" value="buscarForm:popupBuscarMenu" />
 			<ui:param name="popupBuscar" value="popupBuscarMenu" />
-			<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+			<ui:param name="metodoListarTodos" value="searchInitialization" />
 			<ui:param name="tieneVigencia" value="no" />
 
 			<rich:panel
@@ -41,7 +41,7 @@
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
 
-				<rich:dataTable value="#{menuAction.listaMenus}" var="menuList"
+				<rich:dataTable value="#{menuAction.listMenus}" var="menuList"
 					row="20"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -59,7 +59,7 @@
 						<f:facet name="header">#{mensaje.label_icono}</f:facet>
 						<h:graphicImage
 							rendered="#{menuList.icono ne null and menuList.icono.nombre ne null}"
-							value="#{menuAction.carpetaArchivosIconos}/#{menuList.icono.nombre}" />
+							value="#{menuAction.folderFilesIcons}/#{menuList.icono.nombre}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
@@ -68,7 +68,7 @@
 								test="#{identity.autorizado('menuAction','A') or identity.autorizado('menuAction','U')}">
 								<h:commandLink value="#{menuList.nombre}"
 									onclick="#{rich:component('statPane')}.show();"
-									action="#{menuAction.registrarMenu(menuList)}">
+									action="#{menuAction.registerMenu(menuList)}">
 								</h:commandLink>
 							</c:when>
 							<c:otherwise>
@@ -119,7 +119,7 @@
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="panelMenu" />
 							<ui:param name="beanActionParam" value="#{menuAction}" />
-							<ui:param name="metodoActionParam" value="consultarMenus" />
+							<ui:param name="metodoActionParam" value="consultMenus" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -141,14 +141,14 @@
 					<h:outputText value="#{mensaje.label_nombre}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-						value="#{menuAction.nombreBuscar}"
+						value="#{menuAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
 					<h:outputText value="" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						action="#{menuAction.consultarMenus()}"
+						action="#{menuAction.consultMenus()}"
 						oncomplete="#{rich:component('popupBuscarMenu')}.hide();"
 						render="panelMenu, mensajes, mensajeBusqueda">
 						<f:setPropertyActionListener value="f"
@@ -184,7 +184,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{menuAction.eliminarMenu()}"
+							actionListener="#{menuAction.deleteMenu()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelMenu, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"

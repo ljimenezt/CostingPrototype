@@ -14,7 +14,7 @@ import co.informatix.security.entities.Rol;
 
 /**
  * DAO class that establishes the connection between business logic and
- * database. GestionarMenuAction used for managing the application menus
+ * database. GestionarMenuAction used for managing the application menus.
  * 
  * 
  * @author marisol.calderon
@@ -40,14 +40,14 @@ public class GestionarMenuDao implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public Long cantidadMenus(StringBuilder consult, List<SelectItem> parameters)
+	public Long quantityMenus(StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(m) FROM Menu m ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -59,9 +59,9 @@ public class GestionarMenuDao implements Serializable {
 	 * @modify 03/03/2014 Marcela.Chaparro
 	 * 
 	 * @param start
-	 *            :where he started the consultation record
+	 *            :where he started the consultation record.
 	 * @param range
-	 *            : range of records
+	 *            : range of records.
 	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param order
@@ -72,7 +72,7 @@ public class GestionarMenuDao implements Serializable {
 	 *         the search.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Menu> consultarMenus(Integer start, Integer range,
+	public List<Menu> consultMenus(Integer start, Integer range,
 			StringBuilder consult, StringBuilder order,
 			List<SelectItem> parameters) {
 		StringBuilder query = new StringBuilder();
@@ -80,8 +80,8 @@ public class GestionarMenuDao implements Serializable {
 		query.append(consult);
 		query.append(order);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		if (start != null && range != null) {
 			q.setFirstResult(start).setMaxResults(range);
@@ -94,11 +94,11 @@ public class GestionarMenuDao implements Serializable {
 	 * 
 	 * @param idMenu
 	 *            : Menu ID to consult.
-	 * @return Menu: Menu parent information menu.S
+	 * @return Menu: Menu parent information menu.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Menu consultarMenuPadre(int idMenu) throws Exception {
+	public Menu consultMenuFather(int idMenu) throws Exception {
 		List<Menu> results = em
 				.createQuery(
 						"SELECT m.menuPadre FROM Menu m "
@@ -111,13 +111,13 @@ public class GestionarMenuDao implements Serializable {
 	}
 
 	/**
-	 * Saves a menu in the database
+	 * Saves a menu in the database.
 	 * 
 	 * @param menu
-	 *            : menu to save
+	 *            : menu to save.
 	 * @throws Exception
 	 */
-	public void guardarMenu(Menu menu) throws Exception {
+	public void saveMenu(Menu menu) throws Exception {
 		em.persist(menu);
 	}
 
@@ -128,7 +128,7 @@ public class GestionarMenuDao implements Serializable {
 	 *            : menu to modify
 	 * @throws Exception
 	 */
-	public void editarMenu(Menu menu) throws Exception {
+	public void editMenu(Menu menu) throws Exception {
 		em.merge(menu);
 	}
 
@@ -140,12 +140,12 @@ public class GestionarMenuDao implements Serializable {
 	 * @param idIcono
 	 *            : Icon identifier by which the menus are queried.
 	 * 
-	 * @return List<Menu>: Menus list objects associated with the icon.S
+	 * @return List<Menu>: Menus list objects associated with the icon.
 	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Menu> consultarMenuXIdIcono(int idIcono) throws Exception {
+	public List<Menu> consultMenuXIdIcon(int idIcono) throws Exception {
 		return this.em
 				.createQuery(
 						"FROM Menu m WHERE m.icono.id = :idIcono "
@@ -162,7 +162,7 @@ public class GestionarMenuDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Menu> consultarMenusRol(Rol rol) throws Exception {
+	public List<Menu> consultMenusRol(Rol rol) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT DISTINCT rm.rolMenuPK.menu FROM RolMenu rm ");
 		query.append("WHERE rm.rolMenuPK.rol=:rol ");
@@ -178,10 +178,10 @@ public class GestionarMenuDao implements Serializable {
 	 * 
 	 * @param id
 	 *            : Menu identifier.
-	 * @return Menu item
+	 * @return Menu item.
 	 * @throws Exception
 	 */
-	public Menu consultarMenuXId(int id) throws Exception {
+	public Menu consultMenuXId(int id) throws Exception {
 		return em.find(Menu.class, id);
 	}
 
@@ -198,7 +198,7 @@ public class GestionarMenuDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Menu> consultarTodosMenusAction(List<Menu> menusSelected)
+	public List<Menu> consultAllMenusAction(List<Menu> menusSelected)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Menu m ");
@@ -233,7 +233,7 @@ public class GestionarMenuDao implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public Long cantidadMenusAction(List<Menu> menusSelected) throws Exception {
+	public Long quantityMenusAction(List<Menu> menusSelected) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(m) FROM Menu m ");
 		query.append("WHERE m.fechaFinVigencia IS NULL ");
@@ -271,7 +271,7 @@ public class GestionarMenuDao implements Serializable {
 	 *         the search criteria.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Menu> consultarMenusAction(int start, int range,
+	public List<Menu> consultMenusAction(int start, int range,
 			List<Menu> menusSelected) {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Menu m ");
@@ -306,7 +306,7 @@ public class GestionarMenuDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Menu> consultarMenusMetodo(int idMetodo) throws Exception {
+	public List<Menu> consultMenusMethod(int idMetodo) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT mm.menu FROM MetodoMenu mm ");
 		query.append("WHERE mm.metodo.id=:idMetodo ");
@@ -317,17 +317,17 @@ public class GestionarMenuDao implements Serializable {
 
 	/**
 	 * Method that you are looking menus children associated with a menu to be
-	 * deleted
+	 * deleted.
 	 * 
 	 * @author Cristhian.Pico
 	 * 
 	 * @param idMenu
-	 *            : id of the menu you want to remove
+	 *            : id of the menu you want to remove.
 	 * @return: Boolean that indicates whether the menu to delete or not
 	 *          associated menus.
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean hijosMenu(int idMenu) throws Exception {
+	public boolean sonsMenu(int idMenu) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Menu m ");
 		query.append("WHERE m.menuPadre.id=:idMenu ");

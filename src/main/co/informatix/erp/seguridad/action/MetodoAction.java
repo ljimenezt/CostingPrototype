@@ -240,10 +240,10 @@ public class MetodoAction implements Serializable {
 		try {
 			this.menusSelected = new ArrayList<Menu>();
 			if (method != null) {
-				this.menusSelected = menuDao.consultarMenusMetodo(method
+				this.menusSelected = menuDao.consultMenusMethod(method
 						.getId());
 				for (Menu menu : this.menusSelected) {
-					menuAction.convertirNombreMenuDescript(menu);
+					menuAction.convertNameMenuDescript(menu);
 				}
 				this.method = method;
 			} else {
@@ -301,7 +301,7 @@ public class MetodoAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void addEditMethodMenu() throws Exception {
-		List<Menu> tempoSelectedMenu = menuDao.consultarMenusMetodo(method
+		List<Menu> tempoSelectedMenu = menuDao.consultMenusMethod(method
 				.getId());
 		if (tempoSelectedMenu != null && this.menusSelected != null) {
 			List<Integer> currentIds = new ArrayList<Integer>();
@@ -355,7 +355,7 @@ public class MetodoAction implements Serializable {
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
 		paginadorMenus = new Paginador();
-		menuAction.setNombreBuscar(null);
+		menuAction.setNameSearch(null);
 		searchAvailableMenus();
 	}
 
@@ -374,14 +374,14 @@ public class MetodoAction implements Serializable {
 		StringBuilder jointSearchMessage = new StringBuilder();
 		this.menus = new ArrayList<Menu>();
 		try {
-			if (menuAction.getNombreBuscar() != null
-					&& !"".equals(menuAction.getNombreBuscar())) {
+			if (menuAction.getNameSearch() != null
+					&& !"".equals(menuAction.getNameSearch())) {
 				jointSearchMessage.append(bundle.getString("label_nombre")
-						+ ": " + '"' + menuAction.getNombreBuscar() + '"');
+						+ ": " + '"' + menuAction.getNameSearch() + '"');
 				List<Menu> allMenus = menuDao
-						.consultarTodosMenusAction(this.menusSelected);
+						.consultAllMenusAction(this.menusSelected);
 				List<Menu> menusData = menuAction
-						.filtrarMenusPorNombre(allMenus);
+						.filterMenusByName(allMenus);
 				long menusAmount = (long) menusData.size();
 				paginadorMenus.paginarRangoDefinido(menusAmount, 5);
 				int totalReg = paginadorMenus.getRango();
@@ -393,14 +393,14 @@ public class MetodoAction implements Serializable {
 				this.menus = menusData.subList(start, range);
 			} else {
 				Long menusAmount = menuDao
-						.cantidadMenusAction(this.menusSelected);
+						.quantityMenusAction(this.menusSelected);
 				paginadorMenus.paginarRangoDefinido(menusAmount, 5);
-				this.menus = menuDao.consultarMenusAction(
+				this.menus = menuDao.consultMenusAction(
 						paginadorMenus.getInicio(), paginadorMenus.getRango(),
 						this.menusSelected);
 			}
 			for (Menu menu : this.menus) {
-				menuAction.convertirNombreMenuDescript(menu);
+				menuAction.convertNameMenuDescript(menu);
 			}
 			if ((this.menus == null || this.menus.size() <= 0)
 					&& !"".equals(jointSearchMessage.toString())) {
@@ -438,15 +438,15 @@ public class MetodoAction implements Serializable {
 		try {
 			if (flag.equals(Constantes.ADD)) {
 				List<Menu> tempSelectedMenu = menuDao
-						.consultarTodosMenusAction(this.menusSelected);
-				if (menuAction.getNombreBuscar() != null
-						&& !"".equals(menuAction.getNombreBuscar())) {
+						.consultAllMenusAction(this.menusSelected);
+				if (menuAction.getNameSearch() != null
+						&& !"".equals(menuAction.getNameSearch())) {
 					tempSelectedMenu = menuAction
-							.filtrarMenusPorNombre(tempSelectedMenu);
+							.filterMenusByName(tempSelectedMenu);
 				}
 				this.menusSelected.addAll(tempSelectedMenu);
 				for (Menu menu : this.menusSelected) {
-					menuAction.convertirNombreMenuDescript(menu);
+					menuAction.convertNameMenuDescript(menu);
 				}
 			} else {
 				this.menusSelected = new ArrayList<Menu>();

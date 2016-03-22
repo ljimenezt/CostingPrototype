@@ -299,10 +299,10 @@ public class RolAction implements Serializable {
 	private void cargarMenuViewNoSelected() throws Exception {
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
-		List<Menu> listaTodosMenus = menuAction.getListaTodosMenus();
+		List<Menu> listaTodosMenus = menuAction.getListAllMenus();
 		if (listaTodosMenus != null && listaTodosMenus.size() > 0
 				&& this.rol != null && this.rol.getId() > 0) {
-			List<Menu> listMenusRol = menuDao.consultarMenusRol(this.rol);
+			List<Menu> listMenusRol = menuDao.consultMenusRol(this.rol);
 			menu: for (Menu menu : listaTodosMenus) {
 				for (Menu menuRol : listMenusRol) {
 					if (menu.getId() == menuRol.getId()) {
@@ -498,7 +498,7 @@ public class RolAction implements Serializable {
 
 		this.listaMenus = new ArrayList<Menu>();
 		this.rolMenus = rolMenuDao.consultarTodosRolMenu(this.rol);
-		List<Menu> listaTodosMenus = menuAction.getListaTodosMenus();
+		List<Menu> listaTodosMenus = menuAction.getListAllMenus();
 		if (listaTodosMenus != null) {
 			for (Menu menu : listaTodosMenus) {
 				if (!this.menuViewNoSelected.contains(menu.getId())) {
@@ -542,7 +542,7 @@ public class RolAction implements Serializable {
 			rolMenu.setFechaCreacion(new Date());
 			rolMenuDao.guardarRolMenu(rolMenu);
 		}
-		Menu menuPadre = menuDao.consultarMenuPadre(menu.getId());
+		Menu menuPadre = menuDao.consultMenuFather(menu.getId());
 		if (menuPadre != null) {
 			for (Menu listaMenu : this.listaMenus) {
 				if (listaMenu.getId() == menuPadre.getId()) {
@@ -885,8 +885,8 @@ public class RolAction implements Serializable {
 		try {
 			GestionarMenuAction menuAction = ControladorContexto
 					.getContextBean(GestionarMenuAction.class);
-			menuAction.datosIniciales();
-			menuAction.setDesdeRol(true);
+			menuAction.initialData();
+			menuAction.setFromRol(true);
 			cargarMenusRelacionados();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -901,7 +901,7 @@ public class RolAction implements Serializable {
 				.getContextBean(ValidacionesAction.class);
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
-		menuAction.consultarMenus();
+		menuAction.consultMenus();
 		this.paginadorMenu = menuAction.getPaginador();
 		String mensajeBusquedaPopUp = validaciones.getMensajeBusqueda();
 		validaciones.setMensajeBusquedaPopUp(mensajeBusquedaPopUp);
@@ -916,7 +916,7 @@ public class RolAction implements Serializable {
 		List<Integer> menuViewNoSelectedTemp = new ArrayList<Integer>();
 		menuViewNoSelectedTemp.addAll(this.menuViewNoSelected);
 		this.menuViewNoSelected = new ArrayList<Integer>();
-		for (Menu menu : menuAction.getListaTodosMenus()) {
+		for (Menu menu : menuAction.getListAllMenus()) {
 			for (Integer integer : menuViewNoSelectedTemp) {
 				if (menu.getId() == integer) {
 					this.menuViewNoSelected.add(menu.getId());

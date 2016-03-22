@@ -29,9 +29,9 @@ import co.informatix.security.entities.Menu;
 import co.informatix.security.utils.Parametros;
 
 /**
- * This class allows business logic of the menu system
+ * This class allows business logic of the menu system.
  * 
- * The logic is to consult, edit or add a menu
+ * The logic is to consult, edit or add a menu.
  * 
  * @author marisol.calderon
  * @modify 19/06/2014 Gabriel.Moreno
@@ -54,19 +54,19 @@ public class GestionarMenuAction implements Serializable {
 	@EJB
 	private GestionarIconoDao gesIconoDao;
 
-	private List<Menu> listaMenus;
-	private List<Menu> listaTodosMenus;
-	private List<Icono> listaIconos;
+	private List<Menu> listMenus;
+	private List<Menu> listAllMenus;
+	private List<Icono> listIcons;
 
 	private Paginador paginador = new Paginador();
 	private Menu menuAction;
 	private Menu menuPadre;
 
-	private String nombreBuscar;
-	private String nombreIconoBuscar;
-	private String carpetaArchivosIconos;
+	private String nameSearch;
+	private String nameIconSearch;
+	private String folderFilesIcons;
 
-	private boolean desdeRol = false;
+	private boolean fromRol = false;
 
 	/**
 	 * @return menuAction: Variable that gets the object menu of the user
@@ -86,28 +86,28 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * @return listaMenus: Variable that gets the list of menus that are loaded
+	 * @return listMenus: Variable that gets the list of menus that are loaded
 	 *         into the user interface.
 	 */
-	public List<Menu> getListaMenus() {
-		return listaMenus;
+	public List<Menu> getListMenus() {
+		return listMenus;
 	}
 
 	/**
-	 * @param listaMenus
+	 * @param listMenus
 	 *            : Variable that gets the list of menus that are loaded into
 	 *            the user interface.
 	 */
-	public void setListaMenus(List<Menu> listaMenus) {
-		this.listaMenus = listaMenus;
+	public void setListMenus(List<Menu> listMenus) {
+		this.listMenus = listMenus;
 	}
 
 	/**
-	 * @return listaTodosMenus: Variable you set a list of all menus that are
+	 * @return listAllMenus: Variable you set a list of all menus that are
 	 *         loaded into the user interface.
 	 */
-	public List<Menu> getListaTodosMenus() {
-		return listaTodosMenus;
+	public List<Menu> getListAllMenus() {
+		return listAllMenus;
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class GestionarMenuAction implements Serializable {
 
 	/**
 	 * 
-	 * @return menuPadre: Variable that gets the parent menu item
+	 * @return menuPadre: Variable that gets the parent menu item.
 	 */
 	public Menu getMenuPadre() {
 		return menuPadre;
@@ -138,7 +138,7 @@ public class GestionarMenuAction implements Serializable {
 	/**
 	 * 
 	 * @param menuPadre
-	 *            : Variable that gets the parent menu item
+	 *            : Variable that gets the parent menu item.
 	 */
 	public void setMenuPadre(Menu menuPadre) {
 		this.menuPadre = menuPadre;
@@ -146,81 +146,80 @@ public class GestionarMenuAction implements Serializable {
 
 	/**
 	 * 
-	 * @return nombreBuscar: Variable that gets the name of the menu that search
-	 *         the user interface
+	 * @return nameSearch: Variable that gets the name of the menu that search
+	 *         the user interface.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
 	 * 
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : Variable sets the name of the menu that will search the user
-	 *            interface
+	 *            interface.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return listaIconos: Gets the list of icons.
+	 * @return listIcons: Gets the list of icons.
 	 */
-	public List<Icono> getListaIconos() {
-		return listaIconos;
+	public List<Icono> getListIcons() {
+		return listIcons;
 	}
 
 	/**
-	 * @param listaIconos
+	 * @param listIcons
 	 *            : Returns the list of icons.
 	 */
-	public void setListaIconos(List<Icono> listaIconos) {
-		this.listaIconos = listaIconos;
+	public void setListIcons(List<Icono> listIcons) {
+		this.listIcons = listIcons;
 	}
 
 	/**
-	 * @return carpetaArchivosIconos: The actual folder path where the menu
-	 *         icons
+	 * @return folderFilesIcons: The actual folder path where the menu icons.
 	 */
-	public String getCarpetaArchivosIconos() {
-		this.carpetaArchivosIconos = Constantes.RUTA_IMG
+	public String getFolderFilesIcons() {
+		this.folderFilesIcons = Constantes.RUTA_IMG
 				+ Constantes.CARPETA_ICONOS_MENU_CABECERA;
-		return carpetaArchivosIconos;
+		return folderFilesIcons;
 	}
 
 	/**
-	 * @return nombreIconoBuscar: variable that gets the icon name is sought in
-	 *         the user interface
+	 * @return nameIconSearch: variable that gets the icon name is sought in the
+	 *         user interface.
 	 */
-	public String getNombreIconoBuscar() {
-		return nombreIconoBuscar;
+	public String getNameIconSearch() {
+		return nameIconSearch;
 	}
 
 	/**
 	 * 
-	 * @param nombreIconoBuscar
+	 * @param nameIconSearch
 	 *            : variable that gets the icon name is sought in the user
-	 *            interface
+	 *            interface.
 	 */
-	public void setNombreIconoBuscar(String nombreIconoBuscar) {
-		this.nombreIconoBuscar = nombreIconoBuscar;
+	public void setNameIconSearch(String nameIconSearch) {
+		this.nameIconSearch = nameIconSearch;
 	}
 
 	/**
-	 * @return desdeRol: Indicates whether the action is executed from
-	 *         RolAction, to perform special actions.
+	 * @return fromRol: Indicates whether the action is executed from RolAction,
+	 *         to perform special actions.
 	 */
-	public boolean isDesdeRol() {
-		return desdeRol;
+	public boolean isFromRol() {
+		return fromRol;
 	}
 
 	/**
-	 * @param desdeRol
+	 * @param fromRol
 	 *            : Indicates whether the action is executed from RolAction, to
 	 *            perform special actions.
 	 */
-	public void setDesdeRol(boolean desdeRol) {
-		this.desdeRol = desdeRol;
+	public void setFromRol(boolean fromRol) {
+		this.fromRol = fromRol;
 	}
 
 	/**
@@ -228,16 +227,16 @@ public class GestionarMenuAction implements Serializable {
 	 * 
 	 * @author Adonay.Mantilla
 	 * 
-	 * @return consultarMenus(): Consult the menus in the system and returns to
+	 * @return consultMenus(): Consult the menus in the system and returns to
 	 *         the management template with search results.
 	 */
-	public String inicializarBusqueda() {
+	public String searchInitialization() {
 		try {
-			datosIniciales();
+			initialData();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMenus();
+		return consultMenus();
 	}
 
 	/**
@@ -245,21 +244,21 @@ public class GestionarMenuAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void datosIniciales() throws Exception {
-		this.nombreBuscar = "";
-		this.desdeRol = false;
+	public void initialData() throws Exception {
+		this.nameSearch = "";
+		this.fromRol = false;
 		paginador = new Paginador();
 	}
 
 	/**
 	 * ListaMenus provides access existing in the database
 	 * 
-	 * @return retorno: depending to a flag desdeModal redirects to the Manage
+	 * @return back: depending to a flag desdeModal redirects to the Manage
 	 *         menus or not redirect.
 	 */
-	public String consultarMenus() {
+	public String consultMenus() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeguridad = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
@@ -268,56 +267,54 @@ public class GestionarMenuAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
 		StringBuilder order = new StringBuilder();
-		listaMenus = new ArrayList<Menu>();
-		List<Menu> listaMenusTemporal = new ArrayList<Menu>();
+		listMenus = new ArrayList<Menu>();
+		List<Menu> listMenusTemporal = new ArrayList<Menu>();
 		String isPopup = ControladorContexto.getParam("param2");
 		boolean fromModal = (isPopup != null && "si".equals(isPopup)) ? true
 				: false;
-		String retorno = fromModal ? "" : "gesMenus";
+		String back = fromModal ? "" : "gesMenus";
 		try {
-			busquedaAvanzada(consult, order, parameters, bundle,
+			advancedSearch(consult, order, parameters, bundle,
 					unionMessageSearch);
-			if (desdeRol
-					|| (this.nombreBuscar != null && !""
-							.equals(this.nombreBuscar))) {
-				this.listaTodosMenus = menuDao.consultarMenus(null, null,
-						consult, order, parameters);
-				List<Menu> listaMenusDatos = filtrarMenusPorNombre(this.listaTodosMenus);
-				int inicio = 0;
+			if (fromRol
+					|| (this.nameSearch != null && !"".equals(this.nameSearch))) {
+				this.listAllMenus = menuDao.consultMenus(null, null, consult,
+						order, parameters);
+				List<Menu> listMenusData = filterMenusByName(this.listAllMenus);
+				int start = 0;
 				int totalReg = paginador.getRango();
-				long cantidadMenus = (long) listaMenusDatos.size();
+				long quantityMenus = (long) listMenusData.size();
 				if (fromModal) {
-					paginador.paginarRangoDefinido(cantidadMenus, 5);
+					paginador.paginarRangoDefinido(quantityMenus, 5);
 					totalReg = 5;
 				} else {
-					paginador.paginar(cantidadMenus);
+					paginador.paginar(quantityMenus);
 				}
-				inicio = paginador.getInicio();
-				int rango = inicio + totalReg;
-				if (listaMenusDatos.size() < rango) {
-					rango = listaMenusDatos.size();
+				start = paginador.getInicio();
+				int range = start + totalReg;
+				if (listMenusData.size() < range) {
+					range = listMenusData.size();
 				}
-				listaMenusTemporal = listaMenusDatos.subList(inicio, rango);
+				listMenusTemporal = listMenusData.subList(start, range);
 			} else {
-				Long cantidadMenus = menuDao.cantidadMenus(consult, parameters);
+				Long quantityMenus = menuDao.quantityMenus(consult, parameters);
 				if (fromModal) {
-					paginador.paginarRangoDefinido(cantidadMenus, 5);
+					paginador.paginarRangoDefinido(quantityMenus, 5);
 				} else {
-					paginador.paginar(cantidadMenus);
+					paginador.paginar(quantityMenus);
 				}
-				listaMenusTemporal = menuDao.consultarMenus(
-						paginador.getInicio(), paginador.getRango(), consult,
-						order, parameters);
+				listMenusTemporal = menuDao.consultMenus(paginador.getInicio(),
+						paginador.getRango(), consult, order, parameters);
 			}
-			this.listaMenus = cargarInformacionMenus(listaMenusTemporal);
-			if ((listaMenus == null || listaMenus.size() <= 0)
+			this.listMenus = loadInformationMenus(listMenusTemporal);
+			if ((listMenus == null || listMenus.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionMessageSearch);
 
-			} else if (listaMenus == null || listaMenus.size() <= 0) {
+			} else if (listMenus == null || listMenus.size() <= 0) {
 				messageSearch = bundle
 						.getString("message_no_existen_registros");
 				if (!fromModal) {
@@ -328,7 +325,7 @@ public class GestionarMenuAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("menu_label_s"),
+								bundleSecurity.getString("menu_label_s"),
 								unionMessageSearch);
 			}
 			if (fromModal) {
@@ -339,30 +336,30 @@ public class GestionarMenuAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return retorno;
+		return back;
 	}
 
 	/**
 	 * Allows you to filter the list of menus for the selected name in the
 	 * search criteria.
 	 * 
-	 * @param listaTdosMenus
+	 * @param listTdosMenus
 	 *            : List of all existing menus.
 	 * 
-	 * @return listaMenusDatos: List of menus filtered by name.
+	 * @return listMenusData: List of menus filtered by name.
 	 */
-	public List<Menu> filtrarMenusPorNombre(List<Menu> listaTdosMenus) {
-		List<Menu> listaMenusDatos = new ArrayList<Menu>();
-		if (listaTdosMenus != null) {
-			for (Menu menu : listaTdosMenus) {
-				convertirNombreMenuDescript(menu);
-				String nombreMenu = menu.getNombre().toUpperCase();
-				if (nombreMenu.indexOf(this.nombreBuscar.toUpperCase()) != -1) {
-					listaMenusDatos.add(0, menu);
+	public List<Menu> filterMenusByName(List<Menu> listTdosMenus) {
+		List<Menu> listMenusData = new ArrayList<Menu>();
+		if (listTdosMenus != null) {
+			for (Menu menu : listTdosMenus) {
+				convertNameMenuDescript(menu);
+				String nameMenu = menu.getNombre().toUpperCase();
+				if (nameMenu.indexOf(this.nameSearch.toUpperCase()) != -1) {
+					listMenusData.add(0, menu);
 				}
 			}
 		}
-		return listaMenusDatos;
+		return listMenusData;
 	}
 
 	/**
@@ -383,16 +380,16 @@ public class GestionarMenuAction implements Serializable {
 	 * @param unionMessagesSearch
 	 *            : message search
 	 */
-	private void busquedaAvanzada(StringBuilder consult, StringBuilder order,
+	private void advancedSearch(StringBuilder consult, StringBuilder order,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		consult.append(" WHERE m.fechaFinVigencia IS NULL ");
 
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
-		if (desdeRol) {
+		if (fromRol) {
 			RolAction rolAction = ControladorContexto
 					.getContextBean(RolAction.class);
 			consult.append("AND m IN(SELECT DISTINCT mm.menu FROM MetodoMenu mm ");
@@ -410,23 +407,23 @@ public class GestionarMenuAction implements Serializable {
 
 	/**
 	 * Allows you to load the list of menus with information from parents, this
-	 * allows do Join in the main query
+	 * allows do Join in the main query.
 	 * 
-	 * @param listaMenusInfo
-	 *            : temporary list with the initial information to be loaded
+	 * @param listMenusInfo
+	 *            : temporary list with the initial information to be loaded.
 	 * @return List<Menu> : list of the information menus to load in the view.
 	 * @throws Exception
 	 */
-	private List<Menu> cargarInformacionMenus(List<Menu> listaMenusTemporal)
+	private List<Menu> loadInformationMenus(List<Menu> listMenusTemporal)
 			throws Exception {
-		List<Menu> listaMenusInfo = new ArrayList<Menu>();
-		if (listaMenusTemporal != null && listaMenusTemporal.size() > 0) {
-			for (Menu menu : listaMenusTemporal) {
-				menu = cargarDetallesMenu(menu);
-				listaMenusInfo.add(menu);
+		List<Menu> listMenusInfo = new ArrayList<Menu>();
+		if (listMenusTemporal != null && listMenusTemporal.size() > 0) {
+			for (Menu menu : listMenusTemporal) {
+				menu = loadDetailsMenu(menu);
+				listMenusInfo.add(menu);
 			}
 		}
-		return listaMenusInfo;
+		return listMenusInfo;
 	}
 
 	/**
@@ -438,68 +435,68 @@ public class GestionarMenuAction implements Serializable {
 	 * @return Menu item loaded with details.
 	 * @throws Exception
 	 */
-	public Menu cargarDetallesMenu(Menu menu) throws Exception {
-		convertirNombreMenuDescript(menu);
-		Icono icono = menu.getIcono();
-		if (icono != null) {
-			icono = iconoDao.iconoXId(icono.getId());
-			menu.setIcono(icono);
+	public Menu loadDetailsMenu(Menu menu) throws Exception {
+		convertNameMenuDescript(menu);
+		Icono icon = menu.getIcono();
+		if (icon != null) {
+			icon = iconoDao.iconoXId(icon.getId());
+			menu.setIcono(icon);
 		}
-		Menu menuPadreInfo = menuDao.consultarMenuPadre(menu.getId());
-		if (menuPadreInfo != null) {
-			convertirNombreMenuDescript(menuPadreInfo);
-			menu.setMenuPadre(menuPadreInfo);
+		Menu menuFatherInfo = menuDao.consultMenuFather(menu.getId());
+		if (menuFatherInfo != null) {
+			convertNameMenuDescript(menuFatherInfo);
+			menu.setMenuPadre(menuFatherInfo);
 		}
 		return menu;
 	}
 
 	/**
 	 * Method for converting the name of the menu depending on the example
-	 * internationalization: mensajeMenu.causa_label: Cause or Cause
+	 * internationalization: mensajeMenu.causa_label: Cause or Cause.
 	 * 
 	 * @param menu
-	 *            : Menu to be converted
+	 *            : Menu to be converted.
 	 */
-	protected void convertirNombreMenuDescript(Menu menu) {
+	protected void convertNameMenuDescript(Menu menu) {
 		if (menu.getNombre().contains("label_")
 				|| menu.getNombre().contains("_label")) {
-			String nombreMenu = menu.getNombre();
-			HtmlOutputText nombreMenuMostrar = new HtmlOutputText();
-			nombreMenuMostrar.setValueExpression("value",
-					Parametros.getValueExpression(nombreMenu));
-			if (nombreMenuMostrar != null) {
-				menu.setNombre((String) nombreMenuMostrar.getValue());
+			String nameMenu = menu.getNombre();
+			HtmlOutputText nameMenuShow = new HtmlOutputText();
+			nameMenuShow.setValueExpression("value",
+					Parametros.getValueExpression(nameMenu));
+			if (nameMenuShow != null) {
+				menu.setNombre((String) nameMenuShow.getValue());
 			}
 		}
 		if (menu.getDescripcion().contains("label_")
 				|| menu.getDescripcion().contains("_label")) {
 			String descriptMenu = menu.getDescripcion();
-			HtmlOutputText decriptMenuMostrar = new HtmlOutputText();
-			decriptMenuMostrar.setValueExpression("value",
+			HtmlOutputText decriptMenuShow = new HtmlOutputText();
+			decriptMenuShow.setValueExpression("value",
 					Parametros.getValueExpression(descriptMenu));
-			if (decriptMenuMostrar != null) {
-				menu.setDescripcion((String) decriptMenuMostrar.getValue());
+			if (decriptMenuShow != null) {
+				menu.setDescripcion((String) decriptMenuShow.getValue());
 			}
 		}
 	}
 
 	/**
-	 * Method to record or edit a menu system
+	 * Method to record or edit a menu system.
 	 * 
 	 * @param menu
-	 *            : Object menu to record or edit
-	 * @return regMenu: redirected to the registration page menu
+	 *            : Object menu to record or edit.
+	 * @return regMenu: redirected to the registration page menu.
 	 * 
 	 */
-	public String registrarMenu(Menu menu) {
-		listaMenus = new ArrayList<Menu>();
+	public String registerMenu(Menu menu) {
+		listMenus = new ArrayList<Menu>();
 		this.menuPadre = new Menu();
-		nombreBuscar = "";
+		nameSearch = "";
 		try {
 			if (menu != null) {
-				Menu menuActualizado = menuDao.consultarMenuXId(menu.getId());
-				menu.setNombre(menuActualizado.getNombre());
-				menu.setDescripcion(menuActualizado.getDescripcion());
+				Menu menuUpdated = menuDao.consultMenuXId(menu.getId());
+				menu.setNombre(menuUpdated.getNombre());
+				menu.setDescripcion(menuUpdated.getDescripcion());
 				this.menuAction = menu;
 				if (this.menuAction.getMenuPadre() != null) {
 					this.menuPadre = this.menuAction.getMenuPadre();
@@ -519,9 +516,9 @@ public class GestionarMenuAction implements Serializable {
 	 * Allows save or edit a menu, validating that the name is not repeated in
 	 * the database.
 	 * 
-	 * @return consultarMenus: returns to a page based on what happened.
+	 * @return consultMenus: returns to a page based on what happened.
 	 */
-	public String guardarMenu() {
+	public String saveMenu() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String key = "message_registro_modificar";
 		try {
@@ -539,10 +536,10 @@ public class GestionarMenuAction implements Serializable {
 			}
 			menuAction.setUserName(identity.getUserName());
 			if (menuAction.getId() != 0) {
-				menuDao.editarMenu(menuAction);
+				menuDao.editMenu(menuAction);
 			} else {
 				menuAction.setFechaCreacion(new Date());
-				menuDao.guardarMenu(menuAction);
+				menuDao.saveMenu(menuAction);
 				key = "message_registro_guardar";
 			}
 			ControladorContexto.mensajeInformacion(
@@ -553,40 +550,40 @@ public class GestionarMenuAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 			return "regMenu";
 		}
-		return consultarMenus();
+		return consultMenus();
 	}
 
 	/**
 	 * Method to delete a menu of the database, which has no parent menu or be
-	 * associated with a role or method
+	 * associated with a role or method.
 	 * 
 	 * @modify Cristhian.Pico 23/12/2014
 	 * 
-	 * @return consultarMenus(): check out the menus of the database and returns
-	 *         to manage menus
+	 * @return consultMenus(): check out the menus of the database and returns
+	 *         to manage menus.
 	 */
-	public String eliminarMenu() {
+	public String deleteMenu() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeguridad = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
 		try {
 			if (this.menuAction != null) {
-				boolean menuPadre2 = menuDao.hijosMenu(this.menuAction.getId());
-				String validarRelaciones = validarRelaciones(menuAction.getId());
-				if (menuPadre2) {
+				boolean menuFather2 = menuDao.sonsMenu(this.menuAction.getId());
+				String validateRelations = validateRelations(menuAction.getId());
+				if (menuFather2) {
 					ControladorContexto
 							.mensajeError(MessageFormat.format(
-									bundleSeguridad
+									bundleSecurity
 											.getString("menu_message_not_delete_parent"),
 									menuAction.getNombre()));
-				} else if (!"".equals(validarRelaciones)) {
+				} else if (!"".equals(validateRelations)) {
 					ControladorContexto.mensajeError(MessageFormat.format(
-							bundleSeguridad.getString(validarRelaciones),
+							bundleSecurity.getString(validateRelations),
 							menuAction.getNombre()));
 				} else {
 					menuAction.setUserName(identity.getUserName());
 					menuAction.setFechaFinVigencia(new Date());
-					menuDao.editarMenu(menuAction);
+					menuDao.editMenu(menuAction);
 					ControladorContexto.mensajeInformacion(null, MessageFormat
 							.format(bundle
 									.getString("message_registro_eliminar"),
@@ -596,101 +593,101 @@ public class GestionarMenuAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarMenus();
+		return consultMenus();
 	}
 
 	/**
 	 * Method to validate the relationships you have the menu, the name of the
-	 * entity or entities to which this partner is sent to DAO
+	 * entity or entities to which this partner is sent to DAO.
 	 * 
 	 * @param idMenu
-	 *            : id of the menu that you want to validate
+	 *            : id of the menu that you want to validate.
 	 * @return: String returns the string with the message of the entities which
-	 *          have relation with the menu
+	 *          have relation with the menu.
 	 * @throws Exception
 	 */
-	private String validarRelaciones(int idMenu) throws Exception {
-		String mensajeResult = "";
+	private String validateRelations(int idMenu) throws Exception {
+		String messageResult = "";
 		boolean result1 = false;
 		boolean result2 = false;
 		result1 = rolMenuDao.relacionesRolMenu(idMenu);
 		result2 = metodoMenuDao.relacionesMetodoMenu(idMenu);
 		if (result1 && result2) {
-			mensajeResult = "menu_message_not_delete_rol_method";
+			messageResult = "menu_message_not_delete_rol_method";
 		} else {
 			if (result1) {
-				mensajeResult = "menu_message_not_delete_rol";
+				messageResult = "menu_message_not_delete_rol";
 			} else if (result2) {
-				mensajeResult = "menu_message_not_delete_method";
+				messageResult = "menu_message_not_delete_method";
 			}
 		}
-		return mensajeResult;
+		return messageResult;
 	}
 
 	/**
-	 * Removes the menu icon
+	 * Removes the menu icon.
 	 */
-	public void quitarIcono() {
+	public void deleteIcon() {
 		this.menuAction.setIcono(null);
 	}
 
 	/**
-	 * Method for associating the icon menu
+	 * Method for associating the icon menu.
 	 * 
-	 * @param icono
-	 *            : associated icon
+	 * @param icon
+	 *            : associated icon.
 	 */
-	public void cargarIconoMenu(Icono icono) {
-		this.menuAction.setIcono(icono);
+	public void loadIconMenu(Icono icon) {
+		this.menuAction.setIcono(icon);
 	}
 
 	/**
 	 * Method to consult the list of all existing icons in the database to be
-	 * assigned to the menu
+	 * assigned to the menu.
 	 * 
 	 * @modify Luz.Jaimes 24/02/2014
 	 */
-	public void consultarIconos() {
+	public void consultIcons() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeguridad = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
-		String mensajeBusqueda = "";
-		listaIconos = new ArrayList<Icono>();
+		String messageSearch = "";
+		listIcons = new ArrayList<Icono>();
 		try {
-			IconoAction iconoAction = ControladorContexto
+			IconoAction iconAction = ControladorContexto
 					.getContextBean(IconoAction.class);
-			iconoAction.validateIconsFolder();
-			Long cantidadIconosPorNombre = gesIconoDao
-					.quantityIconsByName(nombreIconoBuscar);
-			if (cantidadIconosPorNombre != null) {
-				paginador.paginarRangoDefinido(cantidadIconosPorNombre, 5);
+			iconAction.validateIconsFolder();
+			Long quantityIconsByName = gesIconoDao
+					.quantityIconsByName(nameIconSearch);
+			if (quantityIconsByName != null) {
+				paginador.paginarRangoDefinido(quantityIconsByName, 5);
 			}
-			listaIconos = gesIconoDao.searchIconsXNamePaginated(
-					paginador.getInicio(), paginador.getRango(),
-					nombreIconoBuscar);
+			listIcons = gesIconoDao
+					.searchIconsXNamePaginated(paginador.getInicio(),
+							paginador.getRango(), nameIconSearch);
 
-			if ((this.listaIconos == null || this.listaIconos.size() <= 0)
-					&& !"".equals(nombreIconoBuscar)) {
-				mensajeBusqueda = MessageFormat
+			if ((this.listIcons == null || this.listIcons.size() <= 0)
+					&& !"".equals(nameIconSearch)) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("icon_label") + ": "
-										+ '"' + this.nombreIconoBuscar + '"');
-			} else if (this.listaIconos == null || this.listaIconos.size() <= 0) {
+								bundleSecurity.getString("icon_label") + ": "
+										+ '"' + this.nameIconSearch + '"');
+			} else if (this.listIcons == null || this.listIcons.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(this.nombreIconoBuscar)) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(this.nameIconSearch)) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("icon_label_s"),
-								bundleSeguridad.getString("icon_label") + ": "
-										+ '"' + this.nombreIconoBuscar + '"');
+								bundleSecurity.getString("icon_label_s"),
+								bundleSecurity.getString("icon_label") + ": "
+										+ '"' + this.nameIconSearch + '"');
 
 			}
-			if (!"".equals(mensajeBusqueda)) {
+			if (!"".equals(messageSearch)) {
 				ControladorContexto.mensajeInformacion(
-						"popupForm:mensajesPopupIconos", mensajeBusqueda);
+						"popupForm:mensajesPopupIconos", messageSearch);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -703,8 +700,8 @@ public class GestionarMenuAction implements Serializable {
 	 * @author Luz.Jaimes
 	 * 
 	 */
-	public void inicializarBusquedaIcono() {
-		this.nombreIconoBuscar = "";
-		consultarIconos();
+	public void searchInitializationIcon() {
+		this.nameIconSearch = "";
+		consultIcons();
 	}
 }
