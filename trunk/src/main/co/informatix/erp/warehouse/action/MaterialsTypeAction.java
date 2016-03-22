@@ -40,7 +40,7 @@ public class MaterialsTypeAction implements Serializable {
 
 	private MaterialsType materialsType;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
 	private List<MaterialsType> listMaterialsType;
@@ -62,18 +62,18 @@ public class MaterialsTypeAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list names materialsType
+	 * @return pagination: Management paged list names materialsType
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paged list names materialsType
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -155,10 +155,10 @@ public class MaterialsTypeAction implements Serializable {
 			Long quantity = materialsTypeDao.quantityMaterialsType(query,
 					parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listMaterialsType = materialsTypeDao.consultMaterialsType(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((listMaterialsType == null || listMaterialsType.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {

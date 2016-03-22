@@ -37,7 +37,7 @@ public class TransactionTypeAction implements Serializable {
 	@EJB
 	private TransactionTypeDao transactionTypeDao;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private TransactionType transactionType;
 
@@ -46,18 +46,18 @@ public class TransactionTypeAction implements Serializable {
 	private String nameSearch;
 
 	/**
-	 * @return paginador: The paging controller object.
+	 * @return pagination: The paging controller object.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : The paging controller object.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -146,12 +146,12 @@ public class TransactionTypeAction implements Serializable {
 			Long quantity = transactionTypeDao.quantityTransactionType(query,
 					parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			if (quantity != null && quantity > 0) {
 				transactionTypeList = transactionTypeDao
-						.consultTransactionType(paginador.getInicio(),
-								paginador.getRango(), query, parameters);
+						.consultTransactionType(pagination.getInicio(),
+								pagination.getRango(), query, parameters);
 			}
 			if ((transactionTypeList == null || transactionTypeList.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {

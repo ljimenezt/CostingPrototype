@@ -37,7 +37,7 @@ import co.informatix.erp.warehouse.entities.Suppliers;
 public class SuppliersAction implements Serializable {
 
 	private List<Suppliers> suppliersList;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Suppliers suppliers;
 	private String nameSearch;
 
@@ -60,19 +60,19 @@ public class SuppliersAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paging from the list of providers who may be in the
+	 * @return pagination: Paging from the list of providers who may be in the
 	 *         view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paging from the list of providers who may be in the view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -139,10 +139,10 @@ public class SuppliersAction implements Serializable {
 			Long amount = suppliersDao
 					.suppliersAmount(queryBuilder, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			suppliersList = suppliersDao.suppliersFilteredSearch(
-					paginador.getInicio(), paginador.getRango(), queryBuilder,
+					pagination.getInicio(), pagination.getRango(), queryBuilder,
 					parameters);
 			if ((suppliersList == null || suppliersList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {

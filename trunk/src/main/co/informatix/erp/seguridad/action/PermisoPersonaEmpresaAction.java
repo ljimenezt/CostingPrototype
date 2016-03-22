@@ -60,7 +60,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	@Resource
 	private UserTransaction userTransaction;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private PermisoPersonaEmpresa permisoPersonaEmpresa;
 	private Persona persona;
 	private Empresa empresaSeleccionada;
@@ -83,20 +83,20 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	private int idHaciendaBuscar;
 
 	/**
-	 * @return paginador: Object pager functions from the list of companies with
+	 * @return pagination: Object pager functions from the list of companies with
 	 *         permissions to the person.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :Object pager functions from the list of companies with
 	 *            permissions to the person.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -386,11 +386,11 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 			if (persona != null) {
 				busquedaAvanzada(consulta, parametros, bundle,
 						unionMensajesBusqueda);
-				paginador.paginar(permisoPersonaEmpresaDao
+				pagination.paginar(permisoPersonaEmpresaDao
 						.cantidadEmpresasAccesoPersona(consulta, parametros));
 				listPermisoPersonaEmpresaTemp = permisoPersonaEmpresaDao
 						.consultarEmpresasAccesoPersona(consulta, parametros,
-								paginador.getInicio(), paginador.getRango());
+								pagination.getInicio(), pagination.getRango());
 				if ((listPermisoPersonaEmpresaTemp == null || listPermisoPersonaEmpresaTemp
 						.size() <= 0)
 						&& !"".equals(unionMensajesBusqueda.toString())) {

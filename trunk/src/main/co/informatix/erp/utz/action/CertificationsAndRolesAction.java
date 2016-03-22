@@ -40,7 +40,7 @@ public class CertificationsAndRolesAction implements Serializable {
 	private CertificationsAndRoles certificationsAndRoles;
 	private String nameSearch;
 	private List<CertificationsAndRoles> listCertificationsAndRoles;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	/**
 	 * @return certificationsAndRoles: object containing data type
@@ -92,18 +92,18 @@ public class CertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: management paginated list of certifications and role.
+	 * @return pagination: management paginated list of certifications and role.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : management paginated list of certifications and role.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -139,11 +139,11 @@ public class CertificationsAndRolesAction implements Serializable {
 			Long quantity = certificationsAndRolesDao
 					.quantityCertificationsAndRoles(query, parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listCertificationsAndRoles = certificationsAndRolesDao
-					.consultCertificationsAndRolesAction(paginador.getInicio(),
-							paginador.getRango(), query, parameters);
+					.consultCertificationsAndRolesAction(pagination.getInicio(),
+							pagination.getRango(), query, parameters);
 			if ((listCertificationsAndRoles == null || listCertificationsAndRoles
 					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat

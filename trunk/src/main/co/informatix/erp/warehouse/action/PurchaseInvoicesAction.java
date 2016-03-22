@@ -37,7 +37,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	private List<PurchaseInvoices> listInovoices;
 
 	private Paginador pagerForm = new Paginador();
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	/**
 	 * @return searchNumber: gets the number the invoices by which you want to
@@ -88,19 +88,19 @@ public class PurchaseInvoicesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador : Paginated list of purchase invoices which can be in
+	 * @return pagination : Paginated list of purchase invoices which can be in
 	 *         view
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paginated list of purchase invoices which can be in view
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -147,10 +147,10 @@ public class PurchaseInvoicesAction implements Serializable {
 							.listPurchaseInvoices(pagerForm.getInicio(),
 									pagerForm.getRango(), consult, parameters);
 				} else {
-					paginador.paginar(count);
+					pagination.paginar(count);
 					this.listInovoices = purchaseInvoicesDao
-							.listPurchaseInvoices(paginador.getInicio(),
-									paginador.getRango(), consult, parameters);
+							.listPurchaseInvoices(pagination.getInicio(),
+									pagination.getRango(), consult, parameters);
 				}
 			}
 

@@ -55,8 +55,8 @@ public class RolAction implements Serializable {
 
 	private HashMap<Integer, HashMap<String, Boolean>> selChecksPermisos;
 
-	private Paginador paginador = new Paginador();
-	private Paginador paginadorMetodo = new Paginador();
+	private Paginador pagination = new Paginador();
+	private Paginador paginationMetodo = new Paginador();
 	private Paginador paginadorMenu = new Paginador();
 
 	private Rol rol;
@@ -137,33 +137,33 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador : to manage the paging of the roles table
+	 * @return pagination : to manage the paging of the roles table
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : to manage the paging of the roles table
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
-	 * @return paginadorMetodo: page manages the allocation of permits.
+	 * @return paginationMetodo: page manages the allocation of permits.
 	 */
-	public Paginador getPaginadorMetodo() {
-		return paginadorMetodo;
+	public Paginador getPaginationMetodo() {
+		return paginationMetodo;
 	}
 
 	/**
 	 * @param pagerMethod
 	 *            : page manages the allocation of permits.
 	 */
-	public void setPaginadorMetodo(Paginador pagerMethod) {
-		this.paginadorMetodo = pagerMethod;
+	public void setPaginationMetodo(Paginador pagerMethod) {
+		this.paginationMetodo = pagerMethod;
 	}
 
 	/**
@@ -387,10 +387,12 @@ public class RolAction implements Serializable {
 			Long cantidadRoles = rolDao.cantidadRoles(condicionVigencia,
 					this.nombreBuscar);
 			if (cantidadRoles != null) {
-				paginador.paginar(cantidadRoles);
+				pagination.paginar(cantidadRoles);
 			}
-			listaRoles = rolDao.consultarRoles(paginador.getInicio(),
-					paginador.getRango(), condicionVigencia, this.nombreBuscar);
+			listaRoles = rolDao
+					.consultarRoles(pagination.getInicio(),
+							pagination.getRango(), condicionVigencia,
+							this.nombreBuscar);
 			if ((listaRoles == null || listaRoles.size() <= 0)
 					&& (this.nombreBuscar != null && !""
 							.equals(this.nombreBuscar))) {
@@ -738,7 +740,7 @@ public class RolAction implements Serializable {
 	private void ajustarMetodosPermisos(MetodoAction metodoAction) {
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		this.paginadorMetodo = metodoAction.getPaginador();
+		this.paginationMetodo = metodoAction.getPagination();
 		String mensajeBusquedaPopUp = validaciones.getMensajeBusqueda();
 		validaciones.setMensajeBusquedaPopUp(mensajeBusquedaPopUp);
 	}
@@ -902,7 +904,7 @@ public class RolAction implements Serializable {
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
 		menuAction.consultMenus();
-		this.paginadorMenu = menuAction.getPaginador();
+		this.paginadorMenu = menuAction.getPagination();
 		String mensajeBusquedaPopUp = validaciones.getMensajeBusqueda();
 		validaciones.setMensajeBusquedaPopUp(mensajeBusquedaPopUp);
 	}

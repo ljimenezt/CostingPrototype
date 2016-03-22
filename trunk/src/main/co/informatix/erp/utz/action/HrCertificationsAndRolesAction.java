@@ -44,7 +44,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	private HrCertificationsAndRolesPK hrCertificationsAndRolesPK;
 
 	private String nameSearch;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private boolean edit = false;
 	private int idCertificationsAndRoles;
 
@@ -201,20 +201,20 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paginated list of human resources and certifications
+	 * @return pagination: Paginated list of human resources and certifications
 	 *         may be in the view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paginated list of human resources and certifications may be
 	 *            in the view
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -383,11 +383,11 @@ public class HrCertificationsAndRolesAction implements Serializable {
 			Long quantity = hrCertificationsAndRolesDao.quantXIdCertRol(query,
 					parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listHrCertificationsAndRoles = hrCertificationsAndRolesDao
-					.consultXIdCertRol(paginador.getInicio(),
-							paginador.getRango(), query, parameters);
+					.consultXIdCertRol(pagination.getInicio(),
+							pagination.getRango(), query, parameters);
 
 			if ((listHrCertificationsAndRoles == null || listHrCertificationsAndRoles
 					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {

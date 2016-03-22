@@ -35,7 +35,7 @@ import co.informatix.erp.warehouse.entities.TypeOfManagement;
 @RequestScoped
 public class TypeOfManagementAction implements Serializable {
 	private List<TypeOfManagement> typeOfManagementList;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private TypeOfManagement typeOfManagement;
 	private String nameSearch;
 
@@ -59,19 +59,19 @@ public class TypeOfManagementAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Page list of the types of management that a view may
+	 * @return pagination: Page list of the types of management that a view may
 	 *         have.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Page list of the types of management that a view may have.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -140,10 +140,10 @@ public class TypeOfManagementAction implements Serializable {
 			Long amount = typeOfManagementDao.amountTypeOfManagement(
 					queryBuilder, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			typeOfManagementList = typeOfManagementDao.searchTypeOfManagement(
-					paginador.getInicio(), paginador.getRango(), queryBuilder,
+					pagination.getInicio(), pagination.getRango(), queryBuilder,
 					parameters);
 			if ((typeOfManagementList == null || typeOfManagementList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {

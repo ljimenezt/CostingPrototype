@@ -33,7 +33,7 @@ public class TransactionsAction implements Serializable {
 	private TransactionsDao transactionsDao;
 
 	private List<Transactions> listTransactions;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Deposits depositSelected;
 
 	/**
@@ -51,17 +51,17 @@ public class TransactionsAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Pager for the transactions list
+	 * @return pagination: Pager for the transactions list
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador: Pager for the transactions list
+	 * @param pagination: Pager for the transactions list
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -98,11 +98,11 @@ public class TransactionsAction implements Serializable {
 			Long quantity = transactionsDao.quantityTransactions(consult,
 					parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			if (quantity != null && quantity > 0) {
 				this.listTransactions = transactionsDao.consultTransactions(
-						paginador.getInicio(), paginador.getRango(), consult,
+						pagination.getInicio(), pagination.getRango(), consult,
 						parameters);
 			}
 			if ((listTransactions == null || listTransactions.size() <= 0)
