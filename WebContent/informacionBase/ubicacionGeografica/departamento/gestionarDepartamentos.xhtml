@@ -183,8 +183,9 @@
 				</a:outputPanel>
 				<a:outputPanel rendered="#{!listaVacia}">
 					<div class="anchoCinco center inBlock">
-						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valId" value="1" />
+							<ui:param name="pager" value="paginador" />
 							<ui:param name="valReder" value="panelDepartamento" />
 							<ui:param name="beanActionParam" value="#{departamentoAction}" />
 							<ui:param name="metodoActionParam" value="consultarDepartamentos" />
