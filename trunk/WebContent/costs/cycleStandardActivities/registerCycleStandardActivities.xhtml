@@ -67,7 +67,7 @@
 						<f:setPropertyActionListener value=""
 							target="#{cycleStandardActivitiesAction.nameSearch}" />
 						<f:setPropertyActionListener value="f"
-							target="#{cycleStandardActivitiesAction.paginador.opcion}" />
+							target="#{cycleStandardActivitiesAction.pagination.opcion}" />
 					</a:commandLink>
 				</div>
 				<ui:param name="listaVacia"
@@ -151,9 +151,9 @@
 				<a:outputPanel id="paginadorLifeCycle"
 					rendered="#{cycleStandardActivitiesAction.cycleStandardActivitiesList ne null and cycleStandardActivitiesAction.cropNames.idCropName ne 0}">
 					<div class="anchoCuatro center inBlock">
-						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="conParam2" value="1" />
-							<ui:param name="pager" value="paginadorCycleActivities" />
+							<ui:param name="pager" value="paginationCycleActivities" />
 							<ui:param name="valReder"
 								value="paginadorLifeCycle, txtCycleStandardActivities" />
 							<ui:param name="beanActionParam"
@@ -256,10 +256,10 @@
 							</rich:dataTable>
 							<a:outputPanel rendered="#{!listaVacia}">
 								<div class="W370P center inBlock">
-									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:include src="/plantillas/templatePagination.xhtml">
 										<ui:param name="valParam2" value="si" />
 										<ui:param name="conParam2" value="1" />
-										<ui:param name="pager" value="paginador" />
+										<ui:param name="pager" value="pagination" />
 										<ui:param name="valReder"
 											value=":popupForm:outputActivityNames" />
 										<ui:param name="beanActionParam"

@@ -116,7 +116,7 @@
 									<f:setPropertyActionListener value=""
 										target="#{cropActivitiesAction.nameSearch}" />
 									<f:setPropertyActionListener value="f"
-										target="#{cropActivitiesAction.paginador.opcion}" />
+										target="#{cropActivitiesAction.pagination.opcion}" />
 								</a:commandLink>
 								<a:commandLink id="lnkActivityStandard"
 									styleClass="quitarDecoracionLink"
@@ -140,7 +140,7 @@
 								<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 									<ui:param name="tieneVigencia" value="no" />
 									<ui:param name="ocultarNuevo" value="si" />
-									<ui:param name="pager" value="paginadorListActivities" />
+									<ui:param name="pager" value="paginationListActivities" />
 								</ui:include>
 							</h:panelGrid>
 						</div>
@@ -244,12 +244,12 @@
 							</f:facet>
 						</rich:dataTable>
 
-						<a:outputPanel id="paginadorActivities">
+						<a:outputPanel id="paginationActivities">
 							<div class="anchoDos center inBlock">
-								<ui:include src="/plantillas/plantillaPaginador.xhtml">
-									<ui:param name="pager" value="paginadorListActivities" />
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="pager" value="paginationListActivities" />
 									<ui:param name="valReder"
-										value="txActivities, paginadorActivities" />
+										value="txActivities, paginationActivities" />
 									<ui:param name="beanActionParam"
 										value="#{cropActivitiesAction}" />
 									<ui:param name="metodoActionParam" value="consultActivities" />
@@ -362,13 +362,14 @@
 								</rich:tooltip>
 							</rich:column>
 						</rich:dataTable>
-						<a:outputPanel id="paginadorActivitiesStandarCycle">
+						<a:outputPanel id="paginationActivitiesStandarCycle">
 							<div class="anchoDos center inBlock">
-								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valId" value="2" />
-									<ui:param name="pager" value="paginadorActivitiesStandardCycle" />
+									<ui:param name="pager"
+										value="paginationActivitiesStandardCycle" />
 									<ui:param name="valReder"
-										value="txStandardActivities, paginadorActivitiesStandarCycle" />
+										value="txStandardActivities, paginationActivitiesStandarCycle" />
 									<ui:param name="beanActionParam"
 										value="#{cropActivitiesAction}" />
 									<ui:param name="metodoActionParam"
@@ -448,8 +449,7 @@
 							</a:commandLink>
 						</div>
 						<a:outputPanel id="outputActivityNames">
-							<rich:dataTable
-								value="#{cropActivitiesAction.listActivityNames}"
+							<rich:dataTable value="#{cropActivitiesAction.listActivityNames}"
 								var="activityNames" id="tActivityNames" footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 								rowClasses="odd-row, even-row">
@@ -490,10 +490,10 @@
 							<!-- fin boton -->
 							<a:outputPanel rendered="#{!listaVacia}">
 								<div class="W560P center inBlock">
-									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:include src="/plantillas/templatePagination.xhtml">
 										<ui:param name="valParam2" value="si" />
 										<ui:param name="conParam2" value="1" />
-										<ui:param name="pager" value="paginador" />
+										<ui:param name="pager" value="pagination" />
 										<ui:param name="valReder"
 											value=":popupForm:outputActivityNames" />
 										<ui:param name="beanActionParam"

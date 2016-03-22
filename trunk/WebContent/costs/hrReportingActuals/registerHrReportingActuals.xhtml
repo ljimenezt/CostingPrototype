@@ -233,7 +233,7 @@
 						<a:outputPanel
 							rendered="#{activitiesAction.listActivities.size() gt 0}">
 							<div class="anchoDos center inBlock">
-								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valParam2" value="si" />
 									<ui:param name="conParam2" value="1" />
 									<ui:param name="pager" value="pager" />
@@ -352,11 +352,11 @@
 						<a:outputPanel id="paginadoActivities"
 							rendered="#{activitiesAndHrAction.listaActivitiesAndHrTemp.size() gt 0}">
 							<div class="anchoDos center inBlock">
-								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valParam2" value="si" />
 									<ui:param name="conParam2" value="1" />
 									<ui:param name="valId" value="2" />
-									<ui:param name="pager" value="paginadorActivitiesAndHr" />
+									<ui:param name="pager" value="paginationActivitiesAndHr" />
 									<ui:param name="valReder"
 										value="listaEmpleados paginadoActivities" />
 									<ui:param name="beanActionParam"
