@@ -11,7 +11,7 @@
 	<a:outputPanel
 		rendered="#{(botonesAbajo eq null or botonesAbajo eq 'no') or propErp['locate.mostrar.botones.inferiores'] eq 'si'}">
 		<c:if test="#{pager eq null or empty(pager)}">
-			<ui:param name="pager" value="paginador" />
+			<ui:param name="pager" value="pagination" />
 		</c:if>
 		<c:if test="#{actionConsultar eq null or empty(actionConsultar)}">
 			<ui:param name="actionConsultar" value="#{actionLista}" />
