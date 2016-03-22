@@ -199,7 +199,7 @@
 					<a:outputPanel rendered="#{!listaVacia}">
 						<br />
 						<div class="#{anchoTabla} center inBlock">
-							<ui:include src="/plantillas/plantillaPaginador.xhtml">
+							<ui:include src="/plantillas/templatePagination.xhtml">
 								<ui:param name="valReder" value="panelMaintenanceAndCalibration" />
 								<ui:param name="valParam2" value="si" />
 								<ui:param name="conParam2" value="1" />
@@ -367,8 +367,8 @@
 							</rich:dataTable>
 							<a:outputPanel rendered="#{!listaVacia}">
 								<div class="W560P center inBlock">
-									<ui:include src="/plantillas/plantillaPaginador.xhtml">
-										<ui:param name="pager" value="paginadorMaintenance" />
+									<ui:include src="/plantillas/templatePagination.xhtml">
+										<ui:param name="pager" value="paginationMaintenance" />
 										<ui:param name="valReder"
 											value=":popupForm:outputMaintenanceLine" />
 										<ui:param name="beanActionParam"
