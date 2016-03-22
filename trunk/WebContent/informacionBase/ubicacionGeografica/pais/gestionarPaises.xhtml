@@ -176,8 +176,9 @@
 
 				<a:outputPanel rendered="#{!listaVacia}">
 					<div class="anchoSeis center inBlock">
-						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valId" value="1" />
+							<ui:param name="pager" value="paginador" />
 							<ui:param name="valReder" value="panelPais" />
 							<ui:param name="beanActionParam" value="#{paisAction}" />
 							<ui:param name="metodoActionParam" value="consultarPaises" />

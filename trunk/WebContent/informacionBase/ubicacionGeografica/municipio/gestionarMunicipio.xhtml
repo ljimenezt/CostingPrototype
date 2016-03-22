@@ -186,9 +186,10 @@
 				</a:outputPanel>
 				<a:outputPanel rendered="#{!listaVacia}">
 					<div class="anchoCuatro center inBlock">
-						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="panelTablaMunicipio" />
+							<ui:param name="pager" value="paginador" />
 							<ui:param name="beanActionParam" value="#{municipioAction}" />
 							<ui:param name="metodoActionParam" value="consultarMunicipios" />
 						</ui:include>
