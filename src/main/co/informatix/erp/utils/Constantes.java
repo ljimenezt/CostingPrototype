@@ -254,7 +254,7 @@ public class Constantes implements Serializable {
 			.getProperty("locate.img.seleccionar.arbol.asterisco");
 
 	/* Activities and human resources */
-	public static final String COSECHA = "CCN-51";
+	public static final int ID_CROP_DEFAULT = 2;
 	public static final int EDAD_MINIMA_ACTIVIDAD_PELIGROSA = 18;
 	public static final String STATE_CERTIFIED = PropertiesManager
 			.getProperty("locate.activitiesandhr.certified");

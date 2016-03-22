@@ -522,7 +522,7 @@ public class CropActivitiesAction implements Serializable {
 				this.activities = activities;
 				messageCrumb = "mensajeInformacionBase.municipio_label_modificar";
 			}
-			crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+			crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 			if (crops != null) {
 				initializeActivities();
 			}

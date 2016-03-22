@@ -179,7 +179,7 @@ public class GeneralTrendAction implements Serializable {
 	public void initializeCropDefault() throws Exception {
 		crops = new Crops();
 		crops.setCropNames(new CropNames());
-		crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+		crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 		fillCropNames();
 	}
 
@@ -260,9 +260,8 @@ public class GeneralTrendAction implements Serializable {
 
 			buildConsult(filters, params, reportQuery, queryGroupBy, 1);
 
-			List<Object[]> beanIndexList = beanIndexDao
-					.queryBeanIndexAverage(filters, params, reportQuery,
-							queryGroupBy);
+			List<Object[]> beanIndexList = beanIndexDao.queryBeanIndexAverage(
+					filters, params, reportQuery, queryGroupBy);
 			List<Object[]> resultConsultBeanIndex = getResultConsultBeanIndex(
 					beanIndexList, 1);
 			int sizeList = resultConsultBeanIndex.size();
