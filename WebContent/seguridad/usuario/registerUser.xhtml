@@ -240,7 +240,7 @@
 				<div class="anchoDos center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,confirmacionPopUp"
-						actionListener="#{usuarioAction.user(usuarioAction.user)}"
+						actionListener="#{usuarioAction.setUser(usuarioAction.user)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						rendered="#{(usuarioAction.edited and identity.autorizado('usuarioAction','U')) or identity.autorizado('usuarioAction','A') or identity.autorizado('usuarioAction','I')}" />

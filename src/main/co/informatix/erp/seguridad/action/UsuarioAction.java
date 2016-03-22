@@ -87,7 +87,7 @@ public class UsuarioAction implements Serializable {
 
 	private Date selectStartDate;
 	private Date selectEndDate;
-	private String validity = Constantes.SI;
+	private String vigencia = Constantes.SI;
 	private String userRoleValidity = Constantes.SI;
 	private String nameSearch;
 	private String password2;
@@ -205,20 +205,20 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * @return validity: Obtain selected value 'yes' if existing and 'no' for
+	 * @return vigencia: Obtain selected value 'yes' if existing and 'no' for
 	 *         not applicable.
 	 */
-	public String getValidity() {
-		return validity;
+	public String getVigencia() {
+		return vigencia;
 	}
 
 	/**
-	 * @param validity
+	 * @param vigencia
 	 *            : Obtain selected value 'yes' if existing and 'no' for not
 	 *            applicable.
 	 */
-	public void setValidity(String validity) {
-		this.validity = validity;
+	public void setVigencia(String vigencia) {
+		this.vigencia = vigencia;
 	}
 
 	/**
@@ -444,7 +444,7 @@ public class UsuarioAction implements Serializable {
 	 */
 	public String initializeSearch() {
 		this.nameSearch = "";
-		return this.searchUser();
+		return this.searchUsers();
 	}
 
 	/**
@@ -454,7 +454,7 @@ public class UsuarioAction implements Serializable {
 	 * @return gesUsuario: Navigation rule that redirects to the Manage user
 	 *         template.
 	 */
-	public String searchUser() {
+	public String searchUsers() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
@@ -464,7 +464,7 @@ public class UsuarioAction implements Serializable {
 		try {
 			user = new Usuario();
 			String validityCondition = Constantes.IS_NULL;
-			if (Constantes.NOT.equals(validity)) {
+			if (Constantes.NOT.equals(vigencia)) {
 				validityCondition = Constantes.IS_NOT_NULL;
 			}
 
@@ -914,7 +914,7 @@ public class UsuarioAction implements Serializable {
 	 *            : boolean that allows to know if the term is ended with 'true'
 	 *            or start with 'false', the selected record in the user
 	 *            interface.
-	 * @return searchUser: Navigation rule that redirects to the manage users
+	 * @return searchUsers: Navigation rule that redirects to the manage users
 	 *         template.
 	 */
 	public String usersValidity(boolean valid) {
@@ -946,7 +946,7 @@ public class UsuarioAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return searchUser();
+		return searchUsers();
 	}
 
 	/**
