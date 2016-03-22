@@ -86,12 +86,12 @@
 								</rich:dataTable>
 								<a:outputPanel rendered="#{!listaVacia}" id="paginadorMachines">
 									<div class="W350P center inBlock">
-										<ui:include src="/plantillas/plantillaPaginador.xhtml">
+										<ui:include src="/plantillas/templatePagination.xhtml">
 											<ui:param name="conParam2" value="1" />
-											<ui:param name="pager" value="paginador" />
+											<ui:param name="pager" value="pagination" />
 											<ui:param name="valReder" value="paginadorMachines machines" />
 											<ui:param name="beanActionParam" value="#{machinesAction}" />
-											<ui:param name="metodoActionParam" value="consultarMachines" />
+											<ui:param name="metodoActionParam" value="consultMachines" />
 										</ui:include>
 									</div>
 								</a:outputPanel>

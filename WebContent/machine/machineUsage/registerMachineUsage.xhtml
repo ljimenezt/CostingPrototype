@@ -102,12 +102,12 @@
 							</rich:column>
 						</rich:dataTable>
 
-						<a:outputPanel id="paginadorActivities">
+						<a:outputPanel id="paginationActivities">
 							<div class="anchoDos center inBlock">
-								<ui:include src="/plantillas/plantillaPaginador.xhtml">
-									<ui:param name="pager" value="paginadorActivity" />
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="pager" value="paginationActivity" />
 									<ui:param name="valReder"
-										value="outListNonDuration, paginadorActivities" />
+										value="outListNonDuration, paginationActivities" />
 									<ui:param name="beanActionParam" value="#{machineUsageAction}" />
 									<ui:param name="metodoActionParam"
 										value="machineActivityNonDuration" />
