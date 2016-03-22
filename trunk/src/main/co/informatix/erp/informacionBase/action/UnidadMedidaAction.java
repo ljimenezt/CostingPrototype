@@ -62,7 +62,7 @@ public class UnidadMedidaAction implements Serializable {
 	private List<ConversionUnidad> listaConversionUnidades;
 	private List<TipoUnidad> tiposUnidades;
 	private List<SelectItem> itemsTipoUnidades;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private UnidadMedida unidadMedida;
 	private TipoUnidad tipoUnidad;
 	private ConversionUnidad conversionUnidad;
@@ -253,20 +253,20 @@ public class UnidadMedidaAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: paging management from the list of units of measure
+	 * @return pagination: paging management from the list of units of measure
 	 *         they may be in view
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : paging management from the list of units of measure they may
 	 *            be in view
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -456,10 +456,10 @@ public class UnidadMedidaAction implements Serializable {
 							this.nombreBuscar, this.idTipoUnidad);
 
 			if (cantidadUnidadesMedida != null) {
-				paginador.paginar(cantidadUnidadesMedida);
+				pagination.paginar(cantidadUnidadesMedida);
 			}
 			this.listaUnidadesMedida = unidadMedidaDao.consultarUnidadesMedida(
-					paginador.getInicio(), paginador.getRango(),
+					pagination.getInicio(), pagination.getRango(),
 					condicionVigencia, this.tipoUnidad, this.nombreBuscar,
 					this.idTipoUnidad);
 			if ((listaUnidadesMedida == null || listaUnidadesMedida.size() <= 0)
@@ -783,10 +783,10 @@ public class UnidadMedidaAction implements Serializable {
 			Long cantidadtipoUnidad = tipoUnidadDao.cantidadTipoUnidad(
 					this.tipoVigenteSelect, consulta, parametros);
 			if (cantidadtipoUnidad != null) {
-				paginador.paginar(cantidadtipoUnidad);
+				pagination.paginar(cantidadtipoUnidad);
 			}
 			tiposUnidades = tipoUnidadDao.consultarTipoUnidades(
-					paginador.getInicio(), paginador.getRango(),
+					pagination.getInicio(), pagination.getRango(),
 					this.tipoVigenteSelect, consulta, parametros);
 			if ((tiposUnidades == null || tiposUnidades.size() <= 0)
 					&& (this.nombreBuscar != null && !""
@@ -976,11 +976,11 @@ public class UnidadMedidaAction implements Serializable {
 			String mensajeBusqueda = "";
 			ValidacionesAction validaciones = ControladorContexto
 					.getContextBean(ValidacionesAction.class);
-			paginador.paginar(conversionUnidadMedidaDao
+			pagination.paginar(conversionUnidadMedidaDao
 					.cantidadConversionUnidades(this.filtroBusqueda));
 			this.listaConversionUnidades = conversionUnidadMedidaDao
-					.consultarConversionUnidades(paginador.getInicio(),
-							paginador.getRango(), this.filtroBusqueda);
+					.consultarConversionUnidades(pagination.getInicio(),
+							pagination.getRango(), this.filtroBusqueda);
 			for (ConversionUnidad conversion : listaConversionUnidades) {
 				conversion.getLlavePrimaria()
 						.setUnidadInicial(

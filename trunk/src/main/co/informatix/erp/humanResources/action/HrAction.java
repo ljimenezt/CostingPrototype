@@ -68,8 +68,8 @@ public class HrAction implements Serializable {
 	private HrTypesDao hrTypesDao;
 
 	private Hr hr;
-	private Paginador paginador = new Paginador();
-	private Paginador paginadorForm = new Paginador();
+	private Paginador pagination = new Paginador();
+	private Paginador paginationForm = new Paginador();
 	private String nameSearch;
 	private String lastNameSearch;
 	private String filesFolder;
@@ -109,34 +109,35 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: paginated list of human resources which can be in view
+	 * @return pagination: paginated list of human resources which can be in
+	 *         view
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : paginated list of human resources which can be in view
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
-	 * @return paginadorForm : management responsible paged list from search
+	 * @return paginationForm : management responsible paged list from search
 	 *         engine.
 	 */
-	public Paginador getPaginadorForm() {
-		return paginadorForm;
+	public Paginador getPaginationForm() {
+		return paginationForm;
 	}
 
 	/**
-	 * @param paginadorForm
+	 * @param paginationForm
 	 *            : management responsible paged list from search engine.
 	 */
-	public void setPaginadorForm(Paginador paginadorForm) {
-		this.paginadorForm = paginadorForm;
+	public void setPaginationForm(Paginador paginationForm) {
+		this.paginationForm = paginationForm;
 	}
 
 	/**
@@ -439,14 +440,16 @@ public class HrAction implements Serializable {
 			Long amount = hrDao.hrAmount(queryBuilder, parameters);
 			if (amount != null) {
 				if (fromModal) {
-					paginadorForm.paginarRangoDefinido(amount, 5);
-					this.hrList = hrDao.queryHr(paginadorForm.getInicio(),
-							paginadorForm.getRango(), queryBuilder, parameters);
+					paginationForm.paginarRangoDefinido(amount, 5);
+					this.hrList = hrDao
+							.queryHr(paginationForm.getInicio(),
+									paginationForm.getRango(), queryBuilder,
+									parameters);
 
 				} else {
-					paginador.paginar(amount);
-					this.hrList = hrDao.queryHr(paginador.getInicio(),
-							paginador.getRango(), queryBuilder, parameters);
+					pagination.paginar(amount);
+					this.hrList = hrDao.queryHr(pagination.getInicio(),
+							pagination.getRango(), queryBuilder, parameters);
 				}
 			}
 			if ((hrList == null || hrList.size() <= 0)

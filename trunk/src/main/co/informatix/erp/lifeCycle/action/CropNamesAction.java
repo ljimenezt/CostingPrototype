@@ -41,7 +41,7 @@ public class CropNamesAction implements Serializable {
 	private List<CropNames> listCropNames;
 
 	private CropNames cropNames;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String nameSearch;
 
@@ -83,16 +83,16 @@ public class CropNamesAction implements Serializable {
 	 * @return Paginador: Management paginated list of the names of crops.
 	 * 
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paginated list of the names of crops.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -143,10 +143,10 @@ public class CropNamesAction implements Serializable {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long quantity = cropNamesDao.quantityCropNames(query, parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listCropNames = cropNamesDao.consultCropNames(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((listCropNames == null || listCropNames.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {

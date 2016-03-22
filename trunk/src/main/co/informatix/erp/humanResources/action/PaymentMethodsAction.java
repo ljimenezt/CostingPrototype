@@ -37,7 +37,7 @@ public class PaymentMethodsAction implements Serializable {
 	private PaymentMethodsDao paymentMethodsDao;
 	private List<PaymentMethods> paymentMethodsList;
 	private String nameSearch;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private PaymentMethods paymentMethods;
 
 	/**
@@ -72,18 +72,18 @@ public class PaymentMethodsAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list types PaymentMethods.
+	 * @return pagination: Management paged list types PaymentMethods.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paged list types PaymentMethods
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -135,10 +135,10 @@ public class PaymentMethodsAction implements Serializable {
 			Long cantidad = paymentMethodsDao.amountPaymentMethods(query,
 					parameters);
 			if (cantidad != null) {
-				paginador.paginar(cantidad);
+				pagination.paginar(cantidad);
 			}
 			paymentMethodsList = paymentMethodsDao.searchPaymentMethods(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((paymentMethodsList == null || paymentMethodsList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {

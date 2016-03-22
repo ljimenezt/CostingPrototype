@@ -57,7 +57,7 @@ public class PlotAction implements Serializable {
 	private List<Plot> listPlotDate;
 	private Plot plot;
 	private Farm farm;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
 	/**
@@ -121,18 +121,18 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list estates.
+	 * @return pagination: Management paged list estates.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :Management paged list estates.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -294,13 +294,13 @@ public class PlotAction implements Serializable {
 			Long quantity = plotDao.quantityPlots(consult, parameters);
 			if (quantity != null) {
 				if (fromModal) {
-					paginador.paginarRangoDefinido(quantity, 5);
+					pagination.paginarRangoDefinido(quantity, 5);
 				} else {
-					paginador.paginar(quantity);
+					pagination.paginar(quantity);
 				}
 			}
-			listPlots = plotDao.consultPlots(paginador.getInicio(),
-					paginador.getRango(), consult, parameters);
+			listPlots = plotDao.consultPlots(pagination.getInicio(),
+					pagination.getRango(), consult, parameters);
 			listFarms();
 			if ((listPlots == null || listPlots.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
@@ -593,15 +593,15 @@ public class PlotAction implements Serializable {
 					.getInitialDate(), crops.getCrops().getFinalDate(),
 					consult, parameters);
 			if (pagerState) {
-				paginador = new Paginador();
+				pagination = new Paginador();
 				pagerState = false;
 			}
 			if (amount != null) {
-				paginador.paginarRangoDefinido(amount, 5);
+				pagination.paginarRangoDefinido(amount, 5);
 			}
 			listPlotDate = plotDao.searchCopsPlotsDate(crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(), crops
-					.getListPlotsAsocciates(), paginador.getInicio(), paginador
+					.getListPlotsAsocciates(), pagination.getInicio(), pagination
 					.getRango(), consult, parameters);
 			if ((listPlotDate == null || listPlotDate.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {

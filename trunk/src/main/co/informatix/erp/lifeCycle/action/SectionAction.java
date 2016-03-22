@@ -40,7 +40,7 @@ public class SectionAction implements Serializable {
 
 	private List<Section> listSection;
 	private Section section;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
 	/**
@@ -74,18 +74,18 @@ public class SectionAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list section.
+	 * @return pagination: Management paged list section.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :Management paged list section.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -134,10 +134,10 @@ public class SectionAction implements Serializable {
 			searchAdvance(consult, parameters, bundle, unionMenssageSearch);
 			Long amount = sectionDao.amountSection(consult, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
-			listSection = sectionDao.consultSections(paginador.getInicio(),
-					paginador.getRango(), consult, parameters);
+			listSection = sectionDao.consultSections(pagination.getInicio(),
+					pagination.getRango(), consult, parameters);
 			if ((listSection == null || listSection.size() <= 0)
 					&& !"".equals(unionMenssageSearch.toString())) {
 				messageSearch = MessageFormat

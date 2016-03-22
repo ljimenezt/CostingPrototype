@@ -41,7 +41,7 @@ public class OvertimePaymentRateAction implements Serializable {
 
 	private OvertimePaymentRate overtimePaymentRate;
 	private OvertimePaymentRate overtimePaymentDefault;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
 	/**
@@ -92,18 +92,18 @@ public class OvertimePaymentRateAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list of overtime payment rate.
+	 * @return pagination: Management paged list of overtime payment rate.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :Management paged list of overtime payment rate.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -158,11 +158,11 @@ public class OvertimePaymentRateAction implements Serializable {
 			Long amount = overtimePaymentRateDao.amountOvertimePaymentRate(
 					consult, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			List<OvertimePaymentRate> overtimePaymentsTemp = overtimePaymentRateDao
-					.consultOvertimePaymentRate(paginador.getInicio(),
-							paginador.getRango(), consult, parameters);
+					.consultOvertimePaymentRate(pagination.getInicio(),
+							pagination.getRango(), consult, parameters);
 			if (overtimePaymentsTemp != null) {
 				for (OvertimePaymentRate otPayment : overtimePaymentsTemp) {
 					if (otPayment.getOvertimeRateRatio() != null) {

@@ -91,7 +91,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	private Activities selectedActivity;
 	private ActivitiesAction activitiesAction;
 	private MachinesAction machinesAction;
-	private Paginador paginadorActivitiesMachines = new Paginador();
+	private Paginador paginationActivitiesMachines = new Paginador();
 	private ActivitiesAndHrAction activitiesAndHrAction;
 
 	/**
@@ -398,19 +398,19 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginadorActivitiesMachines: Paged list of activityMachines.
+	 * @return paginationActivitiesMachines: Paged list of activityMachines.
 	 */
-	public Paginador getPaginadorActivitiesMachines() {
-		return paginadorActivitiesMachines;
+	public Paginador getPaginationActivitiesMachines() {
+		return paginationActivitiesMachines;
 	}
 
 	/**
-	 * @param paginadorActivitiesMachines
+	 * @param paginationActivitiesMachines
 	 *            : Paged list of activityMachines.
 	 */
-	public void setPaginadorActivitiesMachines(
-			Paginador paginadorActivitiesMachines) {
-		this.paginadorActivitiesMachines = paginadorActivitiesMachines;
+	public void setPaginationActivitiesMachines(
+			Paginador paginationActivitiesMachines) {
+		this.paginationActivitiesMachines = paginationActivitiesMachines;
 	}
 
 	/**
@@ -612,14 +612,15 @@ public class ScheduledActivitiesAction implements Serializable {
 			advancedSearchActivitiesAndMachine(queryBuilder, parameters);
 			if (amount != null) {
 				if (amount > 5) {
-					paginadorActivitiesMachines.paginarRangoDefinido(amount, 5);
+					paginationActivitiesMachines
+							.paginarRangoDefinido(amount, 5);
 				} else {
-					paginadorActivitiesMachines.paginar(amount);
+					paginationActivitiesMachines.paginar(amount);
 				}
 				this.listActivityMachine = activitiesAndMachineDao
 						.consultingActivitiesAndMachine(
-								paginadorActivitiesMachines.getInicio(),
-								paginadorActivitiesMachines.getRango(),
+								paginationActivitiesMachines.getInicio(),
+								paginationActivitiesMachines.getRango(),
 								queryBuilder, parameters);
 			}
 			if (!fromModal) {

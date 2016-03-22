@@ -45,7 +45,7 @@ public class BeanIndexAction implements Serializable {
 	private ArrayList<SelectItem> itemsSection;
 
 	private BeanIndex beanIndex;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private int crop;
 	private int section;
 
@@ -111,18 +111,18 @@ public class BeanIndexAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paged list of the bean index.
+	 * @return pagination: Paged list of the bean index.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paged list of the bean index.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -188,10 +188,10 @@ public class BeanIndexAction implements Serializable {
 					jointSearchMessages);
 			Long amount = beanIndexDao.amountBeanIndex(consult, parameters);
 			if (amount > 0) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
-			listBeanIndex = beanIndexDao.queryBeanIndex(paginador.getInicio(),
-					paginador.getRango(), consult, parameters);
+			listBeanIndex = beanIndexDao.queryBeanIndex(pagination.getInicio(),
+					pagination.getRango(), consult, parameters);
 			if ((listBeanIndex == null || listBeanIndex.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {
 				searchMessage = MessageFormat
