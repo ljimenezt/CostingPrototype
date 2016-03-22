@@ -11,8 +11,7 @@ import co.informatix.security.entities.Usuario;
 
 /**
  * DAO class that establishes the connection between business logic and
- * database. UsuarioAction used for managing users and roles in the application
- * users.
+ * database. UsuarioActionmanages users and roles in the application users.
  * 
  * @author Gabriel.Moreno
  * 
@@ -25,75 +24,74 @@ public class UsuarioDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Allows users consult the database.
+	 * Query users in the database.
 	 * 
 	 * @modify Liseth Jimenez 19/06/2012
 	 * 
 	 * @param start
-	 *            : Start of registration.
+	 *            : The first record that is retrieve of the query result.
 	 * @param range
-	 *            : End in the range of records to consult.
-	 * @param condicionVigencia
-	 *            : To select existing or not existing registrations.
-	 * @param nombreBuscar
-	 *            Parameter name
+	 *            : Range of records.
+	 * @param validity
+	 *            : To select existing or not existing records.
+	 * @param nameSearch
+	 *            : Name that the method is going to query.
 	 * 
-	 * @return User list found in the database.
+	 * @return List<Usuario>: Users list found in the database.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Usuario> consultarUsuarios(int start, int range,
-			String condicionVigencia, String nombreBuscar) throws Exception {
+	public List<Usuario> queryUsers(int start, int range, String validity,
+			String nameSearch) throws Exception {
 		return em
 				.createQuery(
 						"SELECT u FROM Usuario u "
 								+ "WHERE UPPER(u.nombreUsuario) LIKE UPPER(:keyword) "
-								+ "AND u.fechaFinVigencia " + condicionVigencia
+								+ "AND u.fechaFinVigencia " + validity
 								+ " ORDER BY u.nombreUsuario")
-				.setParameter("keyword", "%" + nombreBuscar + "%")
+				.setParameter("keyword", "%" + nameSearch + "%")
 				.setFirstResult(start).setMaxResults(range).getResultList();
 	}
 
 	/**
-	 * Allows consult the amount of existing users in the database.
+	 * Query the amount of existing users in the database.
 	 * 
 	 * @modify Liseth.Jimenez 19/06/2012
 	 * 
-	 * @param condicionVigencia
-	 *            :to select existing or not existing registrations.
-	 * @param nombreBuscar
-	 *            User name to search
+	 * @param validity
+	 *            : To select existing or not existing registrations.
+	 * @param nameSearch
+	 *            : User name to search.
 	 * 
-	 * @return Long: number of users.
+	 * @return Long: Amount of users.
 	 * @throws Exception
 	 */
-	public Long cantidadUsuarios(String condicionVigencia, String nombreBuscar)
+	public Long usersAmount(String validity, String nameSearch)
 			throws Exception {
 		return (Long) em
 				.createQuery(
 						"SELECT COUNT(u) FROM Usuario u "
 								+ "WHERE UPPER(u.nombreUsuario) LIKE UPPER(:keyword)"
-								+ " AND  u.fechaFinVigencia "
-								+ condicionVigencia)
-				.setParameter("keyword", "%" + nombreBuscar + "%")
+								+ " AND  u.fechaFinVigencia " + validity)
+				.setParameter("keyword", "%" + nameSearch + "%")
 				.getSingleResult();
 	}
 
+	// TODO verify this method utility.
 	/**
-	 * Consultation If the user name exists in the database.
+	 * Query a user name in the database, then it retrieves the corresponding
+	 * user record.
 	 * 
-	 * @param nombreUsuario
+	 * @param userName
 	 *            : User name to query.
-	 * @return: List<Usuario>: Null if no user name in the database or the user
-	 *          having the user name.
+	 * @return: It is only null if there is no such user name in the database.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Usuario nombreUsuarioExiste(String nombreUsuario) throws Exception {
+	public Usuario userNameExists(String userName) throws Exception {
 		List<Usuario> results = em
-				.createQuery(
-						"FROM Usuario u WHERE u.nombreUsuario=:nombreUsuario")
-				.setParameter("nombreUsuario", nombreUsuario).getResultList();
+				.createQuery("FROM Usuario u WHERE u.nombreUsuario=:userName")
+				.setParameter("userName", userName).getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -101,25 +99,24 @@ public class UsuarioDao implements Serializable {
 	}
 
 	/**
-	 * Consultation If the user name of a specific user exists in the database.
+	 * Query if the user name and id of a specific user exists in the database,
+	 * then it retrieves the corresponding user record.
 	 * 
-	 * @param nombreUsuario
+	 * @param username
 	 *            : User name to query.
 	 * @param id
-	 *            : user identifier.
-	 * @return: null if there is no such user name in the database or the user
-	 *          having the user name.
+	 *            : User identifier.
+	 * @return: It is only null if there is no such user name in the database.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Usuario nombreUsuarioExiste(String nombreUsuario, Integer id)
-			throws Exception {
+	public Usuario userNameExists(String username, Integer id) throws Exception {
 		List<Usuario> results = em
 				.createQuery(
 						"FROM Usuario u WHERE u.nombreUsuario=:nombreUsuario "
 								+ "AND u.id <>:id")
-				.setParameter("nombreUsuario", nombreUsuario)
-				.setParameter("id", id).getResultList();
+				.setParameter("nombreUsuario", username).setParameter("id", id)
+				.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -129,37 +126,37 @@ public class UsuarioDao implements Serializable {
 	/**
 	 * Save a user in the database.
 	 * 
-	 * @param usuario
+	 * @param user
 	 *            : user to save.
 	 * @throws Exception
 	 */
-	public void guardarUsuario(Usuario usuario) throws Exception {
-		em.persist(usuario);
+	public void saveUser(Usuario user) throws Exception {
+		em.persist(user);
 	}
 
 	/**
 	 * Modify a user in the database.
 	 * 
-	 * @param usuario
+	 * @param user
 	 *            : user change.
 	 * @throws Exception
 	 */
-	public void editarUsuario(Usuario usuario) throws Exception {
-		em.merge(usuario);
+	public void editUser(Usuario user) throws Exception {
+		em.merge(user);
 	}
 
 	/**
-	 * Allows check the user associated with a user name
+	 * Checks if the user name is associated to a user.
 	 * 
 	 * @param userName
-	 *            : User name to be consulted.
+	 *            : User name to be queried.
 	 * 
 	 * @return Usuario: User object that casts the query.
 	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Usuario consultarUsuario(String userName) throws Exception {
+	public Usuario searchUsuario(String userName) throws Exception {
 		List<Usuario> usuarios = em
 				.createQuery(
 						"SELECT u FROM Usuario u "
@@ -173,17 +170,17 @@ public class UsuarioDao implements Serializable {
 	}
 
 	/**
-	 * Allows the user to consult related to the person in the database.
+	 * Query the user that is related to the person in the database.
 	 * 
 	 * @author Gabriel.Moreno
 	 * 
 	 * @param idPersona
-	 *            : Person identifier related to the user.
-	 * @return Usuario: user object found whether or null otherwise.
+	 *            : Person identifier that is related to the user.
+	 * @return Usuario: User object found or null otherwise.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Usuario consultarUsuarioPersona(int idPersona) throws Exception {
+	public Usuario searchPersonUser(int idPersona) throws Exception {
 		List<Usuario> results = em
 				.createQuery(
 						"SELECT p.usuario FROM Persona p "

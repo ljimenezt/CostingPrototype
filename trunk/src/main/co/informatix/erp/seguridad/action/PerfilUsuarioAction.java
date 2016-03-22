@@ -169,7 +169,7 @@ public class PerfilUsuarioAction implements Serializable {
 	 */
 	public String cargarPerfilDeUsuario(String pestana) {
 		try {
-			Usuario usuarioSesion = usuarioDao.consultarUsuario(identity
+			Usuario usuarioSesion = usuarioDao.searchUsuario(identity
 					.getUserName());
 			Integer idUsuario = usuarioSesion.getId();
 			Persona personaSesionTemp = personaDao.consultarPersona(idUsuario);
