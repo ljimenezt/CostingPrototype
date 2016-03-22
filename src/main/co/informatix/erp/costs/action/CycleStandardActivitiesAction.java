@@ -45,8 +45,8 @@ public class CycleStandardActivitiesAction implements Serializable {
 	private int idCropNames;
 	private String nameSearch;
 
-	private Paginador paginador = new Paginador();
-	private Paginador paginadorCycleActivities = new Paginador();
+	private Paginador pagination = new Paginador();
+	private Paginador paginationCycleActivities = new Paginador();
 
 	@EJB
 	private CropNamesDao cropNamesDao;
@@ -204,35 +204,35 @@ public class CycleStandardActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paged list of the names of the activities they may
+	 * @return pagination: Paged list of the names of the activities they may
 	 *         have in the popup.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paged list of the names of the activities they may have in
 	 *            the popup.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
-	 * @return paginadorCycleActivities: Paged list of cycle activities.
+	 * @return paginationCycleActivities: Paged list of cycle activities.
 	 */
-	public Paginador getPaginadorCycleActivities() {
-		return paginadorCycleActivities;
+	public Paginador getPaginationCycleActivities() {
+		return paginationCycleActivities;
 	}
 
 	/**
-	 * @param paginadorCycleActivities
+	 * @param paginationCycleActivities
 	 *            : Paged list of cycle activities.
 	 */
-	public void setPaginadorCycleActivities(Paginador paginadorCycleActivities) {
-		this.paginadorCycleActivities = paginadorCycleActivities;
+	public void setPaginationCycleActivities(Paginador paginationCycleActivities) {
+		this.paginationCycleActivities = paginationCycleActivities;
 	}
 
 	/**
@@ -363,10 +363,10 @@ public class CycleStandardActivitiesAction implements Serializable {
 	public void initializeList() {
 		Long paginadorAmount = (long) cycleStandardActivitiesList.size();
 		try {
-			this.paginadorCycleActivities.paginarRangoDefinido(paginadorAmount,
+			this.paginationCycleActivities.paginarRangoDefinido(paginadorAmount,
 					10);
-			int first = paginadorCycleActivities.getItemInicial() - 1;
-			int last = paginadorCycleActivities.getItemFinal();
+			int first = paginationCycleActivities.getItemInicial() - 1;
+			int last = paginationCycleActivities.getItemFinal();
 			this.cycleStandardsList = cycleStandardActivitiesList.subList(
 					first, last);
 		} catch (Exception e) {
@@ -392,7 +392,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 				cycleStandardActivities.setCropNames(getCropNames());
 			}
 		}
-		this.paginador = new Paginador();
+		this.pagination = new Paginador();
 		initializeList();
 	}
 
@@ -435,7 +435,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 			this.cycleStandardActivitiesList = cycleStandardActivitiesDao
 					.queryCycleStandardActivities(this.cropNames
 							.getIdCropName());
-			this.paginadorCycleActivities = new Paginador();
+			this.paginationCycleActivities = new Paginador();
 			initializeList();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -467,11 +467,11 @@ public class CycleStandardActivitiesAction implements Serializable {
 			Long amount = activityNamesDao.amountActivityNames(queryBuilder,
 					parameters);
 			if (amount != null) {
-				paginador.paginarRangoDefinido(amount, 5);
+				pagination.paginarRangoDefinido(amount, 5);
 			}
 			activityNamesList = activityNamesDao
-					.queryActivityNamesXIdCropNames(paginador.getInicio(),
-							paginador.getRango(), queryBuilder, parameters);
+					.queryActivityNamesXIdCropNames(pagination.getInicio(),
+							pagination.getRango(), queryBuilder, parameters);
 			if ((activityNamesList == null || activityNamesList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {
 				searchMessage = MessageFormat

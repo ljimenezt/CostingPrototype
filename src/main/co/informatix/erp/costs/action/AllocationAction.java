@@ -38,7 +38,7 @@ public class AllocationAction implements Serializable {
 
 	private Allocation allocation;
 	private List<Allocation> listAllocation;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
 	/**
@@ -72,18 +72,18 @@ public class AllocationAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list of assignments.
+	 * @return pagination: Management paged list of assignments.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paged list of assignments.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -133,10 +133,10 @@ public class AllocationAction implements Serializable {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long quantity = allocationDao.quantityAllocation(query, parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listAllocation = allocationDao.consultAllocation(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((listAllocation == null || listAllocation.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
