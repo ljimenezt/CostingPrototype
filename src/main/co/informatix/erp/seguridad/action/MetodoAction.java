@@ -65,8 +65,8 @@ public class MetodoAction implements Serializable {
 	private List<Menu> menus;
 	private List<Menu> menusSelected = new ArrayList<Menu>();
 
-	private Paginador paginador = new Paginador();
-	private Paginador paginadorMenus = new Paginador();
+	private Paginador pagination = new Paginador();
+	private Paginador paginationMenus = new Paginador();
 	private Metodo method;
 	private String nameSearch;
 
@@ -104,40 +104,40 @@ public class MetodoAction implements Serializable {
 
 	/**
 	 * 
-	 * @return paginador: Management of the pagination of the list of menus in
+	 * @return pagination: Management of the pagination of the list of menus in
 	 *         record method.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
 	 * 
-	 * @param paginador
+	 * @param pagination
 	 *            : Management of the pagination of the list of menus in record
 	 *            method.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
 	 * 
-	 * @return paginadorMenus: Mmanagement of the pagination of the list of
+	 * @return paginationMenus: Mmanagement of the pagination of the list of
 	 *         menus in record method.
 	 */
-	public Paginador getPaginadorMenus() {
-		return paginadorMenus;
+	public Paginador getPaginationMenus() {
+		return paginationMenus;
 	}
 
 	/**
 	 * 
-	 * @param paginadorMenus
+	 * @param paginationMenus
 	 *            : Management of the pagination of the list of menus in record
 	 *            method.
 	 */
-	public void setPaginadorMenus(Paginador paginadorMenus) {
-		this.paginadorMenus = paginadorMenus;
+	public void setPaginationMenus(Paginador paginationMenus) {
+		this.paginationMenus = paginationMenus;
 	}
 
 	/**
@@ -198,9 +198,9 @@ public class MetodoAction implements Serializable {
 		String searchMessage = "";
 		methods = new ArrayList<Metodo>();
 		try {
-			paginador.paginar(metodoDao.methodsAmount(this.nameSearch));
-			this.methods = metodoDao.queryMethods(paginador.getInicio(),
-					paginador.getRango(), this.nameSearch);
+			pagination.paginar(metodoDao.methodsAmount(this.nameSearch));
+			this.methods = metodoDao.queryMethods(pagination.getInicio(),
+					pagination.getRango(), this.nameSearch);
 			if ((methods == null || methods.size() <= 0)
 					&& (this.nameSearch != null && !"".equals(this.nameSearch))) {
 				searchMessage = MessageFormat
@@ -240,8 +240,7 @@ public class MetodoAction implements Serializable {
 		try {
 			this.menusSelected = new ArrayList<Menu>();
 			if (method != null) {
-				this.menusSelected = menuDao.consultMenusMethod(method
-						.getId());
+				this.menusSelected = menuDao.consultMenusMethod(method.getId());
 				for (Menu menu : this.menusSelected) {
 					menuAction.convertNameMenuDescript(menu);
 				}
@@ -354,7 +353,7 @@ public class MetodoAction implements Serializable {
 	public void eraseAvailableMenus() {
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
-		paginadorMenus = new Paginador();
+		paginationMenus = new Paginador();
 		menuAction.setNameSearch(null);
 		searchAvailableMenus();
 	}
@@ -380,12 +379,11 @@ public class MetodoAction implements Serializable {
 						+ ": " + '"' + menuAction.getNameSearch() + '"');
 				List<Menu> allMenus = menuDao
 						.consultAllMenusAction(this.menusSelected);
-				List<Menu> menusData = menuAction
-						.filterMenusByName(allMenus);
+				List<Menu> menusData = menuAction.filterMenusByName(allMenus);
 				long menusAmount = (long) menusData.size();
-				paginadorMenus.paginarRangoDefinido(menusAmount, 5);
-				int totalReg = paginadorMenus.getRango();
-				int start = paginadorMenus.getInicio();
+				paginationMenus.paginarRangoDefinido(menusAmount, 5);
+				int totalReg = paginationMenus.getRango();
+				int start = paginationMenus.getInicio();
 				int range = start + totalReg;
 				if (menusData.size() < range) {
 					range = menusData.size();
@@ -394,10 +392,10 @@ public class MetodoAction implements Serializable {
 			} else {
 				Long menusAmount = menuDao
 						.quantityMenusAction(this.menusSelected);
-				paginadorMenus.paginarRangoDefinido(menusAmount, 5);
+				paginationMenus.paginarRangoDefinido(menusAmount, 5);
 				this.menus = menuDao.consultMenusAction(
-						paginadorMenus.getInicio(), paginadorMenus.getRango(),
-						this.menusSelected);
+						paginationMenus.getInicio(),
+						paginationMenus.getRango(), this.menusSelected);
 			}
 			for (Menu menu : this.menus) {
 				menuAction.convertNameMenuDescript(menu);

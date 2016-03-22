@@ -39,7 +39,7 @@ public class MeasurementUnitsAction implements Serializable {
 
 	private MeasurementUnits measurementUnits;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
 	private List<MeasurementUnits> listMeasurementUnits;
@@ -61,18 +61,18 @@ public class MeasurementUnitsAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list names measurementUnits.
+	 * @return pagination: Management paged list names measurementUnits.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paged list names measurementUnits.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -140,10 +140,10 @@ public class MeasurementUnitsAction implements Serializable {
 			Long quantity = measurementUnitsDao.quantityMeasurementUnits(query,
 					parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listMeasurementUnits = measurementUnitsDao.consultMeasurementUnits(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((listMeasurementUnits == null || listMeasurementUnits.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {

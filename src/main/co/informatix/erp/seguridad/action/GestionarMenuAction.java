@@ -58,7 +58,7 @@ public class GestionarMenuAction implements Serializable {
 	private List<Menu> listAllMenus;
 	private List<Icono> listIcons;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Menu menuAction;
 	private Menu menuPadre;
 
@@ -112,19 +112,19 @@ public class GestionarMenuAction implements Serializable {
 
 	/**
 	 * 
-	 * @return paginador: pagination controls menu list.
+	 * @return pagination: pagination controls menu list.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
 	 * 
-	 * @param paginador
+	 * @param pagination
 	 *            : pagination controls menu list.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class GestionarMenuAction implements Serializable {
 	public void initialData() throws Exception {
 		this.nameSearch = "";
 		this.fromRol = false;
-		paginador = new Paginador();
+		pagination = new Paginador();
 	}
 
 	/**
@@ -282,15 +282,15 @@ public class GestionarMenuAction implements Serializable {
 						order, parameters);
 				List<Menu> listMenusData = filterMenusByName(this.listAllMenus);
 				int start = 0;
-				int totalReg = paginador.getRango();
+				int totalReg = pagination.getRango();
 				long quantityMenus = (long) listMenusData.size();
 				if (fromModal) {
-					paginador.paginarRangoDefinido(quantityMenus, 5);
+					pagination.paginarRangoDefinido(quantityMenus, 5);
 					totalReg = 5;
 				} else {
-					paginador.paginar(quantityMenus);
+					pagination.paginar(quantityMenus);
 				}
-				start = paginador.getInicio();
+				start = pagination.getInicio();
 				int range = start + totalReg;
 				if (listMenusData.size() < range) {
 					range = listMenusData.size();
@@ -299,12 +299,12 @@ public class GestionarMenuAction implements Serializable {
 			} else {
 				Long quantityMenus = menuDao.quantityMenus(consult, parameters);
 				if (fromModal) {
-					paginador.paginarRangoDefinido(quantityMenus, 5);
+					pagination.paginarRangoDefinido(quantityMenus, 5);
 				} else {
-					paginador.paginar(quantityMenus);
+					pagination.paginar(quantityMenus);
 				}
-				listMenusTemporal = menuDao.consultMenus(paginador.getInicio(),
-						paginador.getRango(), consult, order, parameters);
+				listMenusTemporal = menuDao.consultMenus(pagination.getInicio(),
+						pagination.getRango(), consult, order, parameters);
 			}
 			this.listMenus = loadInformationMenus(listMenusTemporal);
 			if ((listMenus == null || listMenus.size() <= 0)
@@ -660,11 +660,11 @@ public class GestionarMenuAction implements Serializable {
 			Long quantityIconsByName = gesIconoDao
 					.quantityIconsByName(nameIconSearch);
 			if (quantityIconsByName != null) {
-				paginador.paginarRangoDefinido(quantityIconsByName, 5);
+				pagination.paginarRangoDefinido(quantityIconsByName, 5);
 			}
 			listIcons = gesIconoDao
-					.searchIconsXNamePaginated(paginador.getInicio(),
-							paginador.getRango(), nameIconSearch);
+					.searchIconsXNamePaginated(pagination.getInicio(),
+							pagination.getRango(), nameIconSearch);
 
 			if ((this.listIcons == null || this.listIcons.size() <= 0)
 					&& !"".equals(nameIconSearch)) {

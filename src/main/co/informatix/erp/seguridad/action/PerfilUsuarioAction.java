@@ -59,27 +59,27 @@ public class PerfilUsuarioAction implements Serializable {
 
 	private List<PermisoPersonaEmpresa> listaEmpresasConPermisoAcceso;
 	private List<SelectItem> itemsValores;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private PermisoPersonaEmpresa permisoPersonaEmpresa;
 	private Persona personaSesion;
 	private String tabSelect = Constantes.N_TAB;
 	private boolean guardarPersonaDesdePerfil;
 
 	/**
-	 * @return paginador: Object pager functions from the list of companies with
+	 * @return pagination: Object pager functions from the list of companies with
 	 *         permissions to the person.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :Object pager functions from the list of companies with
 	 *            permissions to the person.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**

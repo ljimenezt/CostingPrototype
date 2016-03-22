@@ -66,7 +66,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	private ActivityNames activityNames;
 	private Crops crops;
 	private CropNames cropNames;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String crumbMessage;
 	private String nameSearch;
@@ -242,18 +242,18 @@ public class ActivitiesAndServicesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paged list of activities.
+	 * @return pagination: Paged list of activities.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paged list of activities.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -435,10 +435,10 @@ public class ActivitiesAndServicesAction implements Serializable {
 			Long amount = activitiesDao.amountActivities(consult, parameters,
 					idCrops);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			this.listActivities = activitiesDao.queryActivities(
-					paginador.getInicio(), paginador.getRango(), consult,
+					pagination.getInicio(), pagination.getRango(), consult,
 					parameters, idCrops);
 			if (listActivities == null || listActivities.size() <= 0) {
 				ControladorContexto

@@ -51,7 +51,7 @@ public class IconoAction implements Serializable {
 
 	private List<Icono> icons;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Icono icon;
 
 	private String folderFilesReal;
@@ -98,19 +98,19 @@ public class IconoAction implements Serializable {
 
 	/**
 	 * 
-	 * @return paginador: allows the handling of the pagination of table icons.
+	 * @return pagination: allows the handling of the pagination of table icons.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
 	 * 
-	 * @param paginador
+	 * @param pagination
 	 *            : allows the handling of the pagination of table icons.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -221,13 +221,13 @@ public class IconoAction implements Serializable {
 			validateIconsFolder();
 			if (nameSearch != null && !"".equals(nameSearch)) {
 				String nameUpperCase = nameSearch.toUpperCase();
-				paginador.paginar(iconoDao.quantityIconsXName(nameUpperCase));
+				pagination.paginar(iconoDao.quantityIconsXName(nameUpperCase));
 				icons = iconoDao.consultIconsXNamePaginator(nameUpperCase,
-						paginador.getInicio(), paginador.getRango());
+						pagination.getInicio(), pagination.getRango());
 			} else {
-				paginador.paginar(iconoDao.quantityIcons());
-				icons = iconoDao.consultIcons(paginador.getInicio(),
-						paginador.getRango());
+				pagination.paginar(iconoDao.quantityIcons());
+				icons = iconoDao.consultIcons(pagination.getInicio(),
+						pagination.getRango());
 			}
 
 			for (Icono i : icons) {

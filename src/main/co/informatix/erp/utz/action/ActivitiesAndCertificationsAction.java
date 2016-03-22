@@ -49,7 +49,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 
 	private String nameSearch;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	@EJB
 	private CertificationsAndRolesDao certificationsAndRolesDao;
@@ -227,20 +227,20 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paginated list of human resources and certifications
+	 * @return pagination: Paginated list of human resources and certifications
 	 *         may be in the view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paginated list of human resources and certifications may be
 	 *            in the view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -363,10 +363,10 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 					parameters);
 
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listActivities = activitiesDao.queryActivityNamesByIdCert(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 
 			if ((listActivities == null || listActivities.size() <= 0)

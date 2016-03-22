@@ -65,7 +65,7 @@ public class DepositsAction implements Serializable {
 	@EJB
 	private TransactionsDao transactionsDao;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private Deposits deposits;
 	private Deposits depositActualSelected;
@@ -89,18 +89,18 @@ public class DepositsAction implements Serializable {
 	private int idMaterial;
 
 	/**
-	 * @return paginador: The paging controller object.
+	 * @return pagination: The paging controller object.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :The paging controller object.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -387,11 +387,11 @@ public class DepositsAction implements Serializable {
 			advanceSearch(consult, parameters, bundle, allMessageSearch);
 			Long quantity = depositsDao.amountDeposits(consult, parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			if (quantity != null && quantity > 0) {
 				listDeposits = depositsDao.consultDeposits(
-						paginador.getInicio(), paginador.getRango(), consult,
+						pagination.getInicio(), pagination.getRango(), consult,
 						parameters);
 			}
 			if ((listDeposits == null || listDeposits.size() <= 0)

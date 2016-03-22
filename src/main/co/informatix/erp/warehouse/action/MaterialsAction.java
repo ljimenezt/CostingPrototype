@@ -48,7 +48,7 @@ public class MaterialsAction implements Serializable {
 
 	private String nameSearch;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private Materials materials;
 
@@ -73,18 +73,18 @@ public class MaterialsAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: The paging controller object.
+	 * @return pagination: The paging controller object.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :The paging controller object.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -203,11 +203,11 @@ public class MaterialsAction implements Serializable {
 			Long amount = materialsDao
 					.materialsAmount(queryBuilder, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			if (amount != null && amount > 0) {
 				materialsList = materialsDao.queryMaterials(
-						paginador.getInicio(), paginador.getRango(),
+						pagination.getInicio(), pagination.getRango(),
 						queryBuilder, parameters);
 			}
 			if ((materialsList == null || materialsList.size() <= 0)

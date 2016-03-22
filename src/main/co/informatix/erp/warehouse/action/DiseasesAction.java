@@ -35,7 +35,7 @@ import co.informatix.erp.warehouse.entities.Diseases;
 @RequestScoped
 public class DiseasesAction implements Serializable {
 	private List<Diseases> listDiseases;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Diseases diseases;
 	private String nameSearch;
 
@@ -58,18 +58,18 @@ public class DiseasesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paging from the list of diseases that can be in view.
+	 * @return pagination: Paging from the list of diseases that can be in view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paging from the list of diseases that can be in view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -136,10 +136,10 @@ public class DiseasesAction implements Serializable {
 			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
 			Long quantity = diseasesDao.quantityDiseases(consult, parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
-			listDiseases = diseasesDao.consultDiseases(paginador.getInicio(),
-					paginador.getRango(), consult, parameters);
+			listDiseases = diseasesDao.consultDiseases(pagination.getInicio(),
+					pagination.getRango(), consult, parameters);
 			if ((listDiseases == null || listDiseases.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat

@@ -78,7 +78,7 @@ public class UsuarioAction implements Serializable {
 	private List<Usuario> users;
 	private List<Rol> roles;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private RolUsuario userRole;
 	private Usuario user;
 	private Persona person;
@@ -131,19 +131,19 @@ public class UsuarioAction implements Serializable {
 
 	/**
 	 * 
-	 * @return paginador: management paged list of users in the view.
+	 * @return pagination: management paged list of users in the view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
 	 * 
-	 * @param paginador
+	 * @param pagination
 	 *            : management paged list of users in the view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -467,13 +467,15 @@ public class UsuarioAction implements Serializable {
 			if (Constantes.NOT.equals(validity)) {
 				validityCondition = Constantes.IS_NOT_NULL;
 			}
+
 			Long usersAmount = usuarioDao.usersAmount(validityCondition,
 					this.nameSearch);
 			if (usersAmount != null) {
-				paginador.paginar(usersAmount);
+				pagination.paginar(usersAmount);
 			}
-			users = usuarioDao.queryUsers(paginador.getInicio(),
-					paginador.getRango(), validityCondition, this.nameSearch);
+
+			users = usuarioDao.queryUsers(pagination.getInicio(),
+					pagination.getRango(), validityCondition, this.nameSearch);
 			if ((this.users == null || this.users.size() <= 0)
 					&& (this.nameSearch != null && !"".equals(this.nameSearch))) {
 				searchMessage = MessageFormat

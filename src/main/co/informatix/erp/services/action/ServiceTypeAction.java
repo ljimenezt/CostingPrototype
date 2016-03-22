@@ -34,7 +34,7 @@ public class ServiceTypeAction implements Serializable {
 
 	private List<ServiceType> listServiceType;
 	private ServiceType serviceType;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
 	/**
@@ -68,18 +68,18 @@ public class ServiceTypeAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paginated list of the types of service.
+	 * @return pagination: Management paginated list of the types of service.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paginated list of the types of service.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -131,10 +131,10 @@ public class ServiceTypeAction implements Serializable {
 			Long quantity = serviceTypeDao.quantityServiceType(query,
 					parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listServiceType = serviceTypeDao.consultServiceType(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((listServiceType == null || listServiceType.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
