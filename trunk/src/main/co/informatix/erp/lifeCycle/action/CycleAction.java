@@ -576,6 +576,8 @@ public class CycleAction implements Serializable {
 	/**
 	 * Method to initialize cycles.
 	 * 
+	 * @modify 22/03/2016 Andres.Gomez
+	 * 
 	 * @param cycle
 	 *            :Object of cycle are adding or editing.
 	 * 
@@ -587,7 +589,7 @@ public class CycleAction implements Serializable {
 			if (cycle != null) {
 				crops = cropsDao.cropsById(cycle.getCrops().getIdCrop());
 			} else {
-				crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+				crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 			}
 			this.idCrops = crops.getIdCrop();
 			this.idCropsName = crops.getCropNames().getIdCropName();
@@ -604,6 +606,8 @@ public class CycleAction implements Serializable {
 
 	/**
 	 * Method to edit or create a new assignment of cycle.
+	 * 
+	 * @modify 22/03/2016 Andres.Gomez
 	 * 
 	 * @param cycle
 	 *            :Object of cycle are adding or editing.
@@ -623,7 +627,7 @@ public class CycleAction implements Serializable {
 				loadCombos();
 			} else {
 				if (this.idCrops == 0 && this.idCropsName == 0) {
-					this.crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+					this.crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 					this.idCrops = this.getCrops().getIdCrop();
 					this.idCropsName = this.getCrops().getCropNames()
 							.getIdCropName();

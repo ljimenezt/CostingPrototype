@@ -199,23 +199,23 @@ public class CropsDao implements Serializable {
 	}
 
 	/**
-	 * Consult a specific crops by passing the description of this as a
-	 * parameter.
+	 * Consult a specific crops by passing the id of the crop as a parameter.
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 22/03/2016 Andres.Gomez
 	 * 
-	 * @param crop
-	 *            : description of the crop to search.
+	 * @param idCropcrop
+	 *            : identifier of the crop to search.
 	 * @return Crops: Crops object type.
 	 * @throws Exception
 	 */
-	public Crops descriptionSearch(String crop) throws Exception {
+	public Crops defaultSearchCrop(int idCrop) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT c FROM Crops c ");
 		query.append("JOIN FETCH c.cropNames cn ");
-		query.append("WHERE c.description LIKE :crop ");
+		query.append("WHERE c.idCrop =:idCrop ");
 		Query q = em.createQuery(query.toString());
-		q.setParameter("crop", crop);
+		q.setParameter("idCrop", idCrop);
 		return (Crops) q.getSingleResult();
 	}
 

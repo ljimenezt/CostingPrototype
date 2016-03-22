@@ -398,6 +398,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * Initializes the necessary variables for the current Human resources
 	 * management report.
 	 * 
+	 * @modify 22/03/2016 Andres.Gomez
+	 * 
 	 * @return regHrReportingActuals: redirected to the template record
 	 *         activities and human resources (actuals)
 	 */
@@ -416,7 +418,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 			if (this.activitiesAction != null
 					&& this.activitiesAction.getListActivities() != null)
 				this.activitiesAction.getListActivities().clear();
-			crops = cropDao.descriptionSearch(Constantes.COSECHA);
+			crops = cropDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 			if (crops != null) {
 				idCropName = crops.getCropNames().getIdCropName();
 				idCrop = crops.getIdCrop();

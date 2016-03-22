@@ -432,6 +432,8 @@ public class ScheduledActivitiesAction implements Serializable {
 	/**
 	 * Method to edit or create a new assignment of activities.
 	 * 
+	 * @modify 22/03/2016 Andres.Gomez
+	 * 
 	 * @return scheduledActivities: Redirects to scheduled activities view.
 	 */
 	public String initializeActivities() {
@@ -449,7 +451,7 @@ public class ScheduledActivitiesAction implements Serializable {
 				this.activitiesAction.setListActivities(null);
 			this.machinesAction = new MachinesAction();
 			this.setSelectedActivity(null);
-			crops = cropsDao.descriptionSearch(Constantes.COSECHA);
+			crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 			if (crops != null) {
 				idCropName = crops.getCropNames().getIdCropName();
 				idCrop = crops.getIdCrop();
