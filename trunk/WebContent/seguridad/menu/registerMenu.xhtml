@@ -9,7 +9,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="menuAction.registrarMenu(null)" />
+	<ui:param name="action" value="menuAction.registerMenu(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_registrar,messageSecurity.menu_label" />
 	<ui:define name="body">
@@ -33,7 +33,7 @@
 		<t:saveState value="#{validacionesAction}" />
 		<h:form id="menuForm">
 			<ui:param name="listaVacia1"
-				value="#{menuAction.listaIconos eq null or (empty menuAction.listaIconos)}" />
+				value="#{menuAction.listIcons eq null or (empty menuAction.listIcons)}" />
 			<rich:panel
 				header="#{mensaje.label_registrar} #{messageSecurity.menu_label}"
 				styleClass="anchoUno">
@@ -72,13 +72,13 @@
 						validator="#{encodeFilter.validarScripting}" />
 					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
 						<a:commandLink id="lnkMenuPadre" render=":popupForm:popupMenu"
-							actionListener="#{menuAction.inicializarBusqueda()}"
+							actionListener="#{menuAction.searchInitialization()}"
 							execute="@this"
 							oncomplete="#{rich:component('popupMenu')}.show();">
 							<h:graphicImage value="/img/add_22.png"
 								styleClass="verticalAlignMiddle" />
 							<f:setPropertyActionListener value=""
-								target="#{menuAction.nombreBuscar}" />
+								target="#{menuAction.nameSearch}" />
 							<rich:tooltip layout="block">
 								<h:outputText value="#{mensaje.label_seleccionar}" />
 							</rich:tooltip>
@@ -101,18 +101,18 @@
 						validator="#{encodeFilter.validarScripting}" />
 					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
 						<a:commandLink render=":popupForm:popupIconos"
-							actionListener="#{menuAction.inicializarBusquedaIcono}"
+							actionListener="#{menuAction.searchInitializationIcon}"
 							execute="@this"
 							oncomplete="#{rich:component('popupIconos')}.show(); setFocus('popupForm:txtNombreBuscarIcono');">
 							<h:graphicImage value="/img/add_22.png"
 								styleClass="verticalAlignMiddle" />
 							<f:setPropertyActionListener value=""
-								target="#{menuAction.nombreIconoBuscar}" />
+								target="#{menuAction.nameIconSearch}" />
 							<rich:tooltip layout="block">
 								<h:outputText value="#{mensaje.label_seleccionar}" />
 							</rich:tooltip>
 						</a:commandLink>
-						<a:commandLink actionListener="#{menuAction.quitarIcono()}"
+						<a:commandLink actionListener="#{menuAction.deleteIcon()}"
 							render=":menuForm:txtIcono" execute="@this">
 							<h:graphicImage value="/img/editRemove_16.png" />
 							<rich:tooltip layout="block">
@@ -237,7 +237,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<br />
-				<ui:include src="plantillaBuscarMenus.xhtml">
+				<ui:include src="templateSearchMenus.xhtml">
 					<ui:param name="valReder1" value=":menuForm:txtMenuPadre" />
 					<ui:param name="beanActionParam" value="#{menuAction}" />
 					<ui:param name="metodoActionParam" value="menuPadre" />
@@ -269,7 +269,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{menuAction.guardarMenu}"
+							action="#{menuAction.saveMenu}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide()" />
@@ -300,11 +300,11 @@
 								<h:outputText value="#{mensaje.label_nombre}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscarIcono"
-									value="#{menuAction.nombreIconoBuscar}"
+									value="#{menuAction.nameIconSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscarI')" />
 								<a:commandButton value="#{mensaje.button_search}"
 									id="btnBuscarI"
-									actionListener="#{menuAction.consultarIconos()}"
+									actionListener="#{menuAction.consultIcons()}"
 									render="outPutBuscarIconos" />
 							</h:panelGrid>
 						</t:fieldset>
@@ -316,14 +316,14 @@
 								<a:commandLink
 									render="outPutBuscarIconos,mensaje,mensajeBusqueda"
 									styleClass="quitarDecoracionLink"
-									actionListener="#{menuAction.inicializarBusquedaIcono}">
+									actionListener="#{menuAction.searchInitializationIcon}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/listarTodos_16.png" />
 										<h:outputText value="#{mensaje.button_list_all}" />
 									</h:panelGrid>
 								</a:commandLink>
 							</div>
-							<rich:dataTable value="#{menuAction.listaIconos}" var="iconoList"
+							<rich:dataTable value="#{menuAction.listIcons}" var="iconoList"
 								styleClass="#{listaVacia1 ? 'BCTransparente' : 'dataTable'} W470P"
 								footerClass="H130P" rowClasses="odd-row, even-row">
 								<f:facet name="header">
@@ -333,7 +333,7 @@
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header" />
 									<a:commandLink render=":menuForm:txtIcono"
-										actionListener="#{menuAction.cargarIconoMenu(iconoList)}"
+										actionListener="#{menuAction.loadIconMenu(iconoList)}"
 										oncomplete="#{rich:component('popupIconos')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">
@@ -344,7 +344,7 @@
 								<rich:column styleClass="colTextoCorto">
 									<f:facet name="header">#{mensaje.label_icono}</f:facet>
 									<h:graphicImage rendered="#{iconoList.nombre ne null}"
-										value="#{menuAction.carpetaArchivosIconos}/#{iconoList.nombre}" />
+										value="#{menuAction.folderFilesIcons}/#{iconoList.nombre}" />
 								</rich:column>
 								<rich:column styleClass="colTextoLargo">
 									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
@@ -366,7 +366,7 @@
 										<ui:param name="valId" value="1" />
 										<ui:param name="valReder" value=":popupForm:outputIconos" />
 										<ui:param name="beanActionParam" value="#{menuAction}" />
-										<ui:param name="metodoActionParam" value="consultarIconos" />
+										<ui:param name="metodoActionParam" value="consultIcons" />
 									</ui:include>
 								</div>
 							</a:outputPanel>

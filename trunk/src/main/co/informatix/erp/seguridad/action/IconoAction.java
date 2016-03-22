@@ -231,7 +231,7 @@ public class IconoAction implements Serializable {
 			}
 
 			for (Icono i : icons) {
-				i.setMenus(menuDao.consultarMenuXIdIcono(i.getId()));
+				i.setMenus(menuDao.consultMenuXIdIcon(i.getId()));
 			}
 			if ((icons == null || icons.size() <= 0) && this.nameSearch != null
 					&& !"".equals(this.nameSearch)) {
