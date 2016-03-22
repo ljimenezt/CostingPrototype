@@ -98,7 +98,7 @@
 				<a:outputPanel rendered="#{!listaVacia}">
 					<br />
 					<div class="#{anchoTabla} center inBlock">
-						<ui:include src="/plantillas/plantillaPaginador.xhtml">
+						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="panelIcono" />
 							<ui:param name="beanActionParam" value="#{iconoAction}" />
@@ -167,7 +167,7 @@
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelIcono, mensajes, mensajeBusqueda">
 						<f:setPropertyActionListener value="f"
-							target="#{iconoAction.paginador.opcion}" />
+							target="#{iconoAction.pagination.opcion}" />
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
 						value="#{mensaje.button_cancel}" />
