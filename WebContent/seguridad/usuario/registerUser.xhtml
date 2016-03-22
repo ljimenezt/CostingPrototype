@@ -119,7 +119,7 @@
 								rendered="#{usuarioAction.edited and !usuarioAction.renovatePass}">
 							</a:commandButton>
 							<a:commandButton value="#{mensaje.button_cancel_renewal}"
-								actionListener="#{usuarioAction.renovatePass('false')}"
+								actionListener="#{usuarioAction.setRenovatePass('false')}"
 								render=":usuarioForm:outChangePassword"
 								rendered="#{usuarioAction.edited and usuarioAction.renovatePass}">
 							</a:commandButton>
@@ -312,7 +312,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{usuarioAction.renovatePass('true')}"
+							actionListener="#{usuarioAction.setRenovatePass('true')}"
 							oncomplete="#{rich:component('popupContrasena')}.hide()"
 							render=":usuarioForm:outChangePassword">
 						</a:commandButton>
