@@ -42,7 +42,7 @@ public class MachineTypesAction implements Serializable {
 	private List<MachineTypes> listMachineTypes;
 
 	private MachineTypes machineTypes;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String nameSearch;
 
@@ -85,16 +85,16 @@ public class MachineTypesAction implements Serializable {
 	 * @return Paginador: Management paginated list of the types of machines.
 	 * 
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paginated list of the types of machines.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -146,10 +146,10 @@ public class MachineTypesAction implements Serializable {
 			Long quantity = machineTypesDao.quantityMachineTypes(query,
 					parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listMachineTypes = machineTypesDao.consultMachineTypes(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((listMachineTypes == null || listMachineTypes.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {

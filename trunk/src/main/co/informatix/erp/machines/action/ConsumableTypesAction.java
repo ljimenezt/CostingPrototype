@@ -41,7 +41,7 @@ public class ConsumableTypesAction implements Serializable {
 	private List<ConsumableTypes> listaConsumableTypes;
 
 	private ConsumableTypes consumableTypes;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String nombreBuscar;
 
@@ -87,16 +87,16 @@ public class ConsumableTypesAction implements Serializable {
 	 * @return Paginador: Management paginated list of the types of consumables.
 	 * 
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paginated list of the types of consumables.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -149,10 +149,10 @@ public class ConsumableTypesAction implements Serializable {
 			Long cantidad = consumableTypesDao.cantidadConsumableTypes(
 					consulta, parametros);
 			if (cantidad != null) {
-				paginador.paginar(cantidad);
+				pagination.paginar(cantidad);
 			}
 			listaConsumableTypes = consumableTypesDao.consultarConsumableTypes(
-					paginador.getInicio(), paginador.getRango(), consulta,
+					pagination.getInicio(), pagination.getRango(), consulta,
 					parametros);
 			if ((listaConsumableTypes == null || listaConsumableTypes.size() <= 0)
 					&& !"".equals(unionMensajesBusqueda.toString())) {

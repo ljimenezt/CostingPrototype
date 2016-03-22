@@ -45,7 +45,7 @@ public class ContratoAction implements Serializable {
 	private List<Contrato> contractList;
 
 	private Contrato contract;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String nameSearch = "";
 	private String valid = Constantes.SI;
@@ -81,18 +81,18 @@ public class ContratoAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list of contracts and historical.
+	 * @return pagination: Management paged list of contracts and historical.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :Management paged list of contracts and historical.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -166,13 +166,13 @@ public class ContratoAction implements Serializable {
 			Long amount = contratoDao.amountContracts(queryBuilder, parameters);
 			if (amount != null) {
 				if (fromModal) {
-					paginador.paginarRangoDefinido(amount, 5);
+					pagination.paginarRangoDefinido(amount, 5);
 				} else {
-					paginador.paginar(amount);
+					pagination.paginar(amount);
 				}
 			}
-			contractList = contratoDao.searchContracts(paginador.getInicio(),
-					paginador.getRango(), queryBuilder, parameters);
+			contractList = contratoDao.searchContracts(pagination.getInicio(),
+					pagination.getRango(), queryBuilder, parameters);
 			if ((contractList == null || contractList.size() <= 0)
 					&& !"".equals(jointSearchMessage.toString())) {
 				searchMessage = MessageFormat

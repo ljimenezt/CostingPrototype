@@ -68,7 +68,7 @@ public class OrganizacionAction implements Serializable {
 	private List<Organizacion> organizaciones;
 	private List<Persona> personas;
 	private HashMap<String, Short> itemsTiposDocumentos;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Organizacion organizacionAModificarVigencia;
 	private Organizacion organizacion;
 	private Persona persona;
@@ -219,19 +219,19 @@ public class OrganizacionAction implements Serializable {
 
 	/**
 	 * 
-	 * @return paginador: Pager object list of Organizations
+	 * @return pagination: Pager object list of Organizations
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
 	 * 
-	 * @param paginador
+	 * @param pagination
 	 *            :Pager object list of Organizations
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -363,10 +363,10 @@ public class OrganizacionAction implements Serializable {
 					.cantidadOrganizaciones(condicionVigencia,
 							this.filtroBusqueda);
 			if (cantidadOrganizaciones != null) {
-				paginador.paginar(cantidadOrganizaciones);
+				pagination.paginar(cantidadOrganizaciones);
 			}
 			organizaciones = organizacionDao.consultarOrganizaciones(
-					paginador.getInicio(), paginador.getRango(),
+					pagination.getInicio(), pagination.getRango(),
 					condicionVigencia, this.filtroBusqueda);
 
 			if ((this.organizaciones == null || this.organizaciones.size() <= 0)

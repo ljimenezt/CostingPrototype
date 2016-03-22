@@ -37,7 +37,7 @@ public class MaintenanceLinesAction implements Serializable {
 	private List<SelectItem> machineOptions;
 	private List<SelectItem> maintenanceOptions;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private MaintenanceLines maintenanceLines;
 
@@ -103,20 +103,20 @@ public class MaintenanceLinesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Gets the paged list of maintenance lines that may be
+	 * @return pagination: Gets the paged list of maintenance lines that may be
 	 *         in the view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Sets the paged list of maintenance lines that may be in the
 	 *            view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -185,10 +185,10 @@ public class MaintenanceLinesAction implements Serializable {
 			Long amount = maintenanceLinesDao.maintenanceLinesAmount(
 					queryBuilder, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			maintenanceLinesList = maintenanceLinesDao.queryMaintenanceLines(
-					paginador.getInicio(), paginador.getRango(), queryBuilder,
+					pagination.getInicio(), pagination.getRango(), queryBuilder,
 					parameters);
 
 			if ((maintenanceLinesList == null || maintenanceLinesList.size() <= 0)

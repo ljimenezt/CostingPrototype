@@ -63,7 +63,7 @@ public class ZonaAction implements Serializable {
 	private List<SelectItem> itemsUnidadesMedida;
 
 	private Color colorControl = new Color(255, 255, 255);
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Zona zona;
 
 	private String vigencia = Constantes.SI;
@@ -128,19 +128,19 @@ public class ZonaAction implements Serializable {
 
 	/**
 	 * 
-	 * @return paginador: paging management of the list of areas in the view.
+	 * @return pagination: paging management of the list of areas in the view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
 	 * 
-	 * @param paginador
+	 * @param pagination
 	 *            : paging management of the list of areas in the view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -334,12 +334,12 @@ public class ZonaAction implements Serializable {
 			Long cantidadZonas = zonaDao.cantidadZonas(consulta, parametros);
 			if (cantidadZonas != null) {
 				if (desdeModal)
-					paginador.paginarRangoDefinido(cantidadZonas, 5);
+					pagination.paginarRangoDefinido(cantidadZonas, 5);
 				else
-					paginador.paginar(cantidadZonas);
+					pagination.paginar(cantidadZonas);
 			}
-			listaZonasTemp = zonaDao.consultarZonas(paginador.getInicio(),
-					paginador.getRango(), consulta, parametros);
+			listaZonasTemp = zonaDao.consultarZonas(pagination.getInicio(),
+					pagination.getRango(), consulta, parametros);
 			if ((listaZonasTemp == null || listaZonasTemp.size() <= 0)
 					&& !"".equals(unionMensajesBusqueda.toString())) {
 				mensajeBusqueda = MessageFormat

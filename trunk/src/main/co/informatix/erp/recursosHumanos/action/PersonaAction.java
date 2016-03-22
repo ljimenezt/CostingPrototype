@@ -89,7 +89,7 @@ public class PersonaAction implements Serializable {
 	private List<SelectItem> itemsMunicipiosRes;
 	private List<Persona> personas;
 	private Persona persona;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Date fechaActual = new Date();
 	private String carpetaArchivos;
 	private String carpetaArchivosTemporal;
@@ -197,18 +197,18 @@ public class PersonaAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: pagination object that allows listing of people.
+	 * @return pagination: pagination object that allows listing of people.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : pagination object that allows listing of people.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -782,12 +782,12 @@ public class PersonaAction implements Serializable {
 					parameters);
 			if (cantidadRegistros != null) {
 				if (fromModal)
-					paginador.paginarRangoDefinido(cantidadRegistros, 5);
+					pagination.paginarRangoDefinido(cantidadRegistros, 5);
 				else
-					this.paginador.paginar(cantidadRegistros);
+					this.pagination.paginar(cantidadRegistros);
 			}
-			personasTemp = personaDao.consultarPersonas(paginador.getInicio(),
-					paginador.getRango(), consult, parameters);
+			personasTemp = personaDao.consultarPersonas(pagination.getInicio(),
+					pagination.getRango(), consult, parameters);
 			cargarInformacionDetallePersona(personasTemp);
 			if ((this.personas == null || this.personas.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {

@@ -40,7 +40,7 @@ public class FuelTypesAction implements Serializable {
 
 	private List<FuelTypes> listFuelTypes;
 	private FuelTypes fuelTypes;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String nameSearch;
 
@@ -76,18 +76,18 @@ public class FuelTypesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paginated list of the types of fuel.
+	 * @return pagination: Management paginated list of the types of fuel.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paginated list of the types of fuel.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -138,10 +138,10 @@ public class FuelTypesAction implements Serializable {
 			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
 			Long amount = fuelTypesDao.amountFuelTypes(consult, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			listFuelTypes = fuelTypesDao.consultFuelTypes(
-					paginador.getInicio(), paginador.getRango(), consult,
+					pagination.getInicio(), pagination.getRango(), consult,
 					parameters);
 			if ((listFuelTypes == null || listFuelTypes.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {

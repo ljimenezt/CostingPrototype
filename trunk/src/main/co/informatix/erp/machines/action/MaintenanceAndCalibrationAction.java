@@ -44,8 +44,8 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	private List<SelectItem> machinesTypeItems;
 	private List<MaintenanceLines> listMaintenanceLines;
 
-	private Paginador paginador = new Paginador();
-	private Paginador paginadorMaintenance = new Paginador();
+	private Paginador pagination = new Paginador();
+	private Paginador paginationMaintenance = new Paginador();
 
 	private MaintenanceAndCalibration maintenanceAndCalibration;
 	private Machines machines;
@@ -136,35 +136,35 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: gets the paged list of maintenance and calibration
+	 * @return pagination: gets the paged list of maintenance and calibration
 	 *         that may be in view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : sets the paged list of maintenance and calibration that may
 	 *            be in view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
-	 * @return paginadorMaintenance: gets the paged list of maintenance lines.
+	 * @return paginationMaintenance: gets the paged list of maintenance lines.
 	 */
-	public Paginador getPaginadorMaintenance() {
-		return paginadorMaintenance;
+	public Paginador getPaginationMaintenance() {
+		return paginationMaintenance;
 	}
 
 	/**
-	 * @param paginadorMaintenance
+	 * @param paginationMaintenance
 	 *            :sets the paged list of maintenance lines.
 	 */
-	public void setPaginadorMaintenance(Paginador paginadorMaintenance) {
-		this.paginadorMaintenance = paginadorMaintenance;
+	public void setPaginationMaintenance(Paginador paginationMaintenance) {
+		this.paginationMaintenance = paginationMaintenance;
 	}
 
 	/**
@@ -367,7 +367,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 *         maintenance and calibration.
 	 */
 	public String consultMaintenanceCalibration() {
-		paginador = new Paginador();
+		pagination = new Paginador();
 		return consultMaintenanceAndCalibration();
 	}
 
@@ -396,11 +396,11 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			Long quantity = maintenanceAndCalibrationDao
 					.quantityMaintenanceAndCalibration(query, parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			maintenanceAndCalibrationsAuxList = maintenanceAndCalibrationDao
-					.consultMaintenanceAndCalibration(paginador.getInicio(),
-							paginador.getRango(), query, parameters);
+					.consultMaintenanceAndCalibration(pagination.getInicio(),
+							pagination.getRango(), query, parameters);
 
 			if (maintenanceAndCalibrationsAuxList != null) {
 				for (MaintenanceAndCalibration maintenanceItemAux : maintenanceAndCalibrationsAuxList) {
@@ -724,12 +724,12 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			Long amount = maintenanceLinesDao.amountMaintenanceLines(consult,
 					parameters, idMaintenance);
 			if (amount != null) {
-				paginadorMaintenance.paginarRangoDefinido(amount, 5);
+				paginationMaintenance.paginarRangoDefinido(amount, 5);
 			}
 			listMaintenanceLines = maintenanceLinesDao
 					.listMaintenanceLinesXCalibration(
-							paginadorMaintenance.getInicio(),
-							paginadorMaintenance.getRango(), consult,
+							paginationMaintenance.getInicio(),
+							paginationMaintenance.getRango(), consult,
 							parameters, idMaintenance);
 			if ((listMaintenanceLines == null || listMaintenanceLines.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {

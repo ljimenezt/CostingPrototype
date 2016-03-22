@@ -54,7 +54,7 @@ public class LoteAction implements Serializable {
 	private List<SelectItem> itemsUnidadMedidaLongitud;
 	private List<SelectItem> itemsUnidadMedidaDensidad;
 	private Color colorControl = new Color(255, 255, 255);
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Lote lote;
 	private Zona zona;
 	private String vigencia = Constantes.SI;
@@ -93,18 +93,18 @@ public class LoteAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Object pager functions lots
+	 * @return pagination: Object pager functions lots
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Object pager functions lots
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -224,12 +224,12 @@ public class LoteAction implements Serializable {
 						.cantidadLotes(consulta, parametros);
 				if (cantidadLotes != null) {
 					if (desdeModal)
-						paginador.paginarRangoDefinido(cantidadLotes, 5);
+						pagination.paginarRangoDefinido(cantidadLotes, 5);
 					else
-						paginador.paginar(cantidadLotes);
+						pagination.paginar(cantidadLotes);
 				}
-				this.lotes = loteDao.consultarLotes(paginador.getInicio(),
-						paginador.getRango(), consulta, parametros);
+				this.lotes = loteDao.consultarLotes(pagination.getInicio(),
+						pagination.getRango(), consulta, parametros);
 				if ((lotes == null || lotes.size() <= 0)
 						&& !"".equals(unionMensajesBusqueda.toString())) {
 					mensajeBusqueda = MessageFormat
