@@ -78,7 +78,7 @@
 								actionListener="#{recordActivitiesActualsAction.budgetCopy()}"
 								execute="@this" value="#{mensaje.button_as_budgeted}">
 								<f:ajax resetValues="true"
-									render="fechaInicioTimeActual costActual fechaFinalTimeActual duration overtimeRate" />
+									render=":formAgregarActivitiesAndHr:fechaInicioTimeActual costActual :formAgregarActivitiesAndHr:fechaFinalTimeActual duration :formAgregarActivitiesAndHr:overtimeRate" />
 								<f:param name="param2" value="si" />
 							</a:commandButton>
 							<a:commandButton value="#{mensaje.button_save}"
