@@ -99,10 +99,10 @@
 								<br />
 								<a:outputPanel rendered="#{!listaVacia}">
 									<div class="W350P center inBlock">
-										<ui:include src="/plantillas/plantillaPaginador.xhtml">
+										<ui:include src="/plantillas/templatePagination.xhtml">
 											<ui:param name="valParam2" value="si" />
 											<ui:param name="conParam2" value="1" />
-											<ui:param name="pager" value="paginadorTrabajador" />
+											<ui:param name="pager" value="paginationTrabajador" />
 											<ui:param name="valReder"
 												value=":seleccionarTrabajador:outputBuscar" />
 											<ui:param name="beanActionParam"
