@@ -80,30 +80,30 @@ public class PersonaAction implements Serializable {
 	@Inject
 	private IdentityAction identity;
 
-	private List<SelectItem> itemsPaises;
-	private List<SelectItem> itemDepartamentos;
-	private List<SelectItem> itemsMunicipios;
-	private List<SelectItem> itemsTiposDocumentos;
-	private List<SelectItem> itemsEstadosCivil;
-	private List<SelectItem> itemDepartamentosRes;
-	private List<SelectItem> itemsMunicipiosRes;
-	private List<Persona> personas;
-	private Persona persona;
+	private List<SelectItem> itemsCountries;
+	private List<SelectItem> itemDepartments;
+	private List<SelectItem> itemsMunicipalities;
+	private List<SelectItem> itemsDocumentsTypes;
+	private List<SelectItem> itemsMaritalStatus;
+	private List<SelectItem> itemDepartmentsRes;
+	private List<SelectItem> itemsMunicipalitiesRes;
+	private List<Persona> persons;
+	private Persona person;
 	private Paginador pagination = new Paginador();
-	private Date fechaActual = new Date();
-	private String carpetaArchivos;
-	private String carpetaArchivosTemporal;
-	private String mensajeMiga;
+	private Date actualDate = new Date();
+	private String filesFolder;
+	private String filesFolderTemporal;
+	private String messageMiga;
 	private String labelRichPanel;
-	private String filtroBusqueda;
+	private String searchFilter;
 	private String vigencia = Constantes.SI;
 	private boolean esEdicion;
-	private boolean cargarFotoTemporal;
-	private boolean personasSinUsuario = false;
+	private boolean uploadPhotoTemporal;
+	private boolean personsWithoutUser = false;
 
 	/**
 	 * @return vigencia: allows gets the selected value 'yes' of existing and
-	 *         'no' for not applicable
+	 *         'no' for not applicable.
 	 */
 	public String getVigencia() {
 		return vigencia;
@@ -112,73 +112,73 @@ public class PersonaAction implements Serializable {
 	/**
 	 * @param vigencia
 	 *            : allows sets the selected value 'yes' of existing and 'no'
-	 *            for not applicable
+	 *            for not applicable.
 	 */
 	public void setVigencia(String vigencia) {
 		this.vigencia = vigencia;
 	}
 
 	/**
-	 * @return fechaActual: variable that gets the current system date.
+	 * @return actualDate: variable that gets the current system date.
 	 */
-	public Date getFechaActual() {
-		return fechaActual;
+	public Date getActualDate() {
+		return actualDate;
 	}
 
 	/**
-	 * @param fechaActual
+	 * @param actualDate
 	 *            : variable that sets the current system date.
 	 */
-	public void setFechaActual(Date fechaActual) {
-		this.fechaActual = fechaActual;
+	public void setActualDate(Date actualDate) {
+		this.actualDate = actualDate;
 	}
 
 	/**
-	 * @return carpetaArchivos: Variable that gets the path to the folder where
-	 *         the pictures are saved person.
+	 * @return filesFolder: Variable that gets the path to the folder where the
+	 *         pictures are saved person.
 	 */
-	public String getCarpetaArchivos() {
-		this.carpetaArchivos = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
+	public String getFilesFolder() {
+		this.filesFolder = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
 				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_PERSONAS;
-		return carpetaArchivos;
+		return filesFolder;
 	}
 
 	/**
-	 * @param carpetaArchivos
+	 * @param filesFolder
 	 *            : Variable that gets the path to the folder where the pictures
 	 *            are saved person.
 	 */
-	public void setCarpetaArchivos(String carpetaArchivos) {
-		this.carpetaArchivos = carpetaArchivos;
+	public void setFilesFolder(String filesFolder) {
+		this.filesFolder = filesFolder;
 	}
 
 	/**
-	 * @return carpeta Archivos: path of the temporary folder where photos of
-	 *         people loaded
+	 * @return filesFolderTemporal: path of the temporary folder where photos of
+	 *         people loaded.
 	 */
-	public String getCarpetaArchivosTemporal() {
-		this.carpetaArchivosTemporal = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
+	public String getFilesFolderTemporal() {
+		this.filesFolderTemporal = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
 				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
-		return carpetaArchivosTemporal;
+		return filesFolderTemporal;
 	}
 
 	/**
-	 * @return cargarFotoTemporal: Flag indicating whether the picture is loaded
-	 *         from the temporary location or not
+	 * @return uploadPhotoTemporal: Flag indicating whether the picture is
+	 *         loaded from the temporary location or not.
 	 */
-	public boolean isCargarFotoTemporal() {
-		return cargarFotoTemporal;
+	public boolean isUploadPhotoTemporal() {
+		return uploadPhotoTemporal;
 	}
 
 	/**
-	 * @param cargarFotoTemporal
+	 * @param uploadPhotoTemporal
 	 *            : Flag indicating whether the picture is loaded from the
-	 *            temporary location or not
+	 *            temporary location or not.
 	 */
-	public void setCargarFotoTemporal(boolean cargarFotoTemporal) {
-		this.cargarFotoTemporal = cargarFotoTemporal;
+	public void setUploadPhotoTemporal(boolean uploadPhotoTemporal) {
+		this.uploadPhotoTemporal = uploadPhotoTemporal;
 	}
 
 	/**
@@ -212,129 +212,129 @@ public class PersonaAction implements Serializable {
 	}
 
 	/**
-	 * @return persona: Object of the person for registration or implementation
+	 * @return person: Object of the person for registration or implementation
 	 *         edition.
 	 */
-	public Persona getPersona() {
-		return persona;
+	public Persona getPerson() {
+		return person;
 	}
 
 	/**
-	 * @param persona
+	 * @param person
 	 *            : Object of the person for registration or implementation
 	 *            edition.
 	 */
-	public void setPersona(Persona persona) {
-		this.persona = persona;
+	public void setPerson(Persona person) {
+		this.person = person;
 	}
 
 	/**
-	 * @return itemsPaises: List of items from the countries that are loaded
+	 * @return itemsCountries: List of items from the countries that are loaded
 	 *         into the combo in the user interface.
 	 */
-	public List<SelectItem> getItemsPaises() {
-		return itemsPaises;
+	public List<SelectItem> getItemsCountries() {
+		return itemsCountries;
 	}
 
 	/**
-	 * @return itemDepartamentos: List of items from the departments that are
+	 * @return itemDepartments: List of items from the departments that are
 	 *         loaded into the combo in the user interface.
 	 */
-	public List<SelectItem> getItemDepartamentos() {
-		return itemDepartamentos;
+	public List<SelectItem> getItemDepartments() {
+		return itemDepartments;
 	}
 
 	/**
-	 * @return itemsMunicipios :List of items of the municipalities that are
+	 * @return itemsMunicipalities :List of items of the municipalities that are
 	 *         loaded into the combo in the user interface.
 	 */
-	public List<SelectItem> getItemsMunicipios() {
-		return itemsMunicipios;
+	public List<SelectItem> getItemsMunicipalities() {
+		return itemsMunicipalities;
 	}
 
 	/**
-	 * @return itemsTiposDocumentos: List of items for document types that are
+	 * @return itemsDocumentsTypes: List of items for document types that are
 	 *         loaded into the combo in the user interface.
 	 */
-	public List<SelectItem> getItemsTiposDocumentos() {
-		return itemsTiposDocumentos;
+	public List<SelectItem> getItemsDocumentsTypes() {
+		return itemsDocumentsTypes;
 	}
 
 	/**
-	 * @return itemsEstadosCivil: marital status items that are loaded into the
+	 * @return itemsMaritalStatus: marital status items that are loaded into the
 	 *         combo in the user interface.
 	 */
-	public List<SelectItem> getItemsEstadosCivil() {
-		return itemsEstadosCivil;
+	public List<SelectItem> getItemsMaritalStatus() {
+		return itemsMaritalStatus;
 	}
 
 	/**
-	 * @return itemDepartamentosRes: Items departments residence of the person.s
+	 * @return itemDepartmentsRes: Items departments residence of the person.s
 	 */
-	public List<SelectItem> getItemDepartamentosRes() {
-		return itemDepartamentosRes;
+	public List<SelectItem> getItemDepartmentsRes() {
+		return itemDepartmentsRes;
 	}
 
 	/**
-	 * @return itemsMunicipiosRes: items in the municipalities of residence of
-	 *         the person.
+	 * @return itemsMunicipalitiesRes: items in the municipalities of residence
+	 *         of the person.
 	 */
-	public List<SelectItem> getItemsMunicipiosRes() {
-		return itemsMunicipiosRes;
+	public List<SelectItem> getItemsMunicipalitiesRes() {
+		return itemsMunicipalitiesRes;
 	}
 
 	/**
-	 * @return personas: List of people that are uploaded to the management.
+	 * @return persons: List of people that are uploaded to the management.
 	 */
-	public List<Persona> getPersonas() {
-		return personas;
+	public List<Persona> getPersons() {
+		return persons;
 	}
 
 	/**
-	 * @param personas
+	 * @param persons
 	 *            :List of people that are uploaded to the management.
 	 */
-	public void setPersonas(List<Persona> personas) {
-		this.personas = personas;
+	public void setPersons(List<Persona> persons) {
+		this.persons = persons;
 	}
 
 	/**
 	 * Variable that gets the value of the message to display in the bread
 	 * crumbs, depending on whether you create or modify a record
 	 * 
-	 * @return mensajeMiga: message crumb of bread in the register or person
+	 * @return messageMiga: message crumb of bread in the register or person
 	 *         managing staff.
 	 */
-	public String getMensajeMiga() {
-		return mensajeMiga;
+	public String getMessageMiga() {
+		return messageMiga;
 	}
 
 	/**
 	 * Variable that sets the value of the message to display in the
 	 * breadcrumbs, depending on whether you create or modify a record
 	 * 
-	 * @param mensajeMiga
+	 * @param messageMiga
 	 *            : message crumb of bread in the register or person managing
 	 *            staff.
 	 */
-	public void setMensajeMiga(String mensajeMiga) {
-		this.mensajeMiga = mensajeMiga;
+	public void setMessageMiga(String messageMiga) {
+		this.messageMiga = messageMiga;
 	}
 
 	/**
-	 * You gets a Boolean variable to see if the page is loaded or not editing
+	 * You gets a Boolean variable to see if the page is loaded or not editing.
 	 * 
-	 * @return esEdicion: true if the load in editing, page false otherwise
+	 * @return esEdicion: true if the load in editing, page false otherwise.
 	 */
 	public boolean isEsEdicion() {
 		return esEdicion;
 	}
 
 	/**
-	 * sets a boolean variable to see if the page is loaded or not editing
+	 * sets a boolean variable to see if the page is loaded or not editing.
 	 * 
 	 * @param esEdicion
-	 *            : true if the load in editing, page false otherwise
+	 *            : true if the load in editing, page false otherwise.
 	 */
 	public void setEsEdicion(boolean esEdicion) {
 		this.esEdicion = esEdicion;
@@ -358,35 +358,35 @@ public class PersonaAction implements Serializable {
 	}
 
 	/**
-	 * @return filtroBusqueda: Search filter records of the person.
+	 * @return searchFilter: Search filter records of the person.
 	 */
-	public String getFiltroBusqueda() {
-		return filtroBusqueda;
+	public String getSearchFilter() {
+		return searchFilter;
 	}
 
 	/**
-	 * @param filtroBusqueda
+	 * @param searchFilter
 	 *            : Search filter records of the person.
 	 */
-	public void setFiltroBusqueda(String filtroBusqueda) {
-		this.filtroBusqueda = filtroBusqueda;
+	public void setSearchFilter(String searchFilter) {
+		this.searchFilter = searchFilter;
 	}
 
 	/**
-	 * @return personasSinUsuario: allows to validate that the consultation is
+	 * @return personsWithoutUser: allows to validate that the consultation is
 	 *         made for those people who do not have user.
 	 */
-	public boolean isPersonasSinUsuario() {
-		return personasSinUsuario;
+	public boolean isPersonsWithoutUser() {
+		return personsWithoutUser;
 	}
 
 	/**
-	 * @param personasSinUsuario
+	 * @param personsWithoutUser
 	 *            : allows to validate that the consultation is made for those
 	 *            people who do not have user.
 	 */
-	public void setPersonasSinUsuario(boolean personasSinUsuario) {
-		this.personasSinUsuario = personasSinUsuario;
+	public void setPersonsWithoutUser(boolean personsWithoutUser) {
+		this.personsWithoutUser = personsWithoutUser;
 	}
 
 	/**
@@ -394,32 +394,32 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @modify Adonay.Mantilla 25/01/2013
 	 * 
-	 * @param persona
+	 * @param person
 	 *            : Person edited in edit mode.
 	 * @return regPersona: Navigation rule that directs the person form.
 	 */
-	public String registrarPersona(Persona persona) {
+	public String registerPerson(Persona person) {
 		ResourceBundle bundleRecHum = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		this.personasSinUsuario = false;
+		this.personsWithoutUser = false;
 		try {
 			fileUploadBean = new FileUploadBean();
-			if (persona == null) {
+			if (person == null) {
 				labelRichPanel = bundleRecHum.getString("persona_label_crear");
-				mensajeMiga = "mensajeRecursosHumanos.persona_label_crear";
+				messageMiga = "mensajeRecursosHumanos.persona_label_crear";
 				this.esEdicion = false;
-				this.persona = new Persona();
-				this.cargarFotoTemporal = true;
+				this.person = new Persona();
+				this.uploadPhotoTemporal = true;
 			} else {
 				this.esEdicion = true;
-				this.persona = persona;
+				this.person = person;
 				labelRichPanel = bundleRecHum
 						.getString("persona_label_modificar");
-				mensajeMiga = "mensajeRecursosHumanos.persona_label_modificar";
-				fileUploadBean.setFileName(persona.getFoto());
-				this.cargarFotoTemporal = false;
+				messageMiga = "mensajeRecursosHumanos.persona_label_modificar";
+				fileUploadBean.setFileName(person.getFoto());
+				this.uploadPhotoTemporal = false;
 			}
-			cargarCombos();
+			loadCombos();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -428,40 +428,41 @@ public class PersonaAction implements Serializable {
 
 	/**
 	 * This method allows you to load combos country, department, municipality
-	 * and type of document
+	 * and type of document.
 	 * 
 	 * @author marisol.calderon
 	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarCombos() throws Exception {
-		itemsPaises = new ArrayList<SelectItem>();
-		List<Pais> paises = paisDao.consultarPaisesVigentes();
-		if (paises != null) {
-			for (Pais pais : paises) {
-				itemsPaises.add(new SelectItem(pais.getId(), pais.getNombre()));
-			}
-		}
-		cargarComboDepartamento();
-		cargarComboMunicipio();
-		cargarComboDepartamentoRes();
-		cargarComboMunicipioRes();
-
-		itemsTiposDocumentos = new ArrayList<SelectItem>();
-		List<TipoDocumento> tiposDocumentos = tipoDocumentoDao
-				.consultarTiposDocumentoVigentes();
-		if (tiposDocumentos != null) {
-			for (TipoDocumento td : tiposDocumentos) {
-				itemsTiposDocumentos.add(new SelectItem(td.getId(), td
+	private void loadCombos() throws Exception {
+		itemsCountries = new ArrayList<SelectItem>();
+		List<Pais> countries = paisDao.consultarPaisesVigentes();
+		if (countries != null) {
+			for (Pais pais : countries) {
+				itemsCountries.add(new SelectItem(pais.getId(), pais
 						.getNombre()));
 			}
 		}
-		itemsEstadosCivil = new ArrayList<SelectItem>();
+		loadComboDepartment();
+		loadComboMunicipality();
+		loadComboDepartmentRes();
+		loadComboMunicipalityRes();
+
+		itemsDocumentsTypes = new ArrayList<SelectItem>();
+		List<TipoDocumento> documentsType = tipoDocumentoDao
+				.consultarTiposDocumentoVigentes();
+		if (documentsType != null) {
+			for (TipoDocumento td : documentsType) {
+				itemsDocumentsTypes.add(new SelectItem(td.getId(), td
+						.getNombre()));
+			}
+		}
+		itemsMaritalStatus = new ArrayList<SelectItem>();
 		List<CivilStatus> civilStatusList = civilStatusDao.consultCivilStatus();
 		if (civilStatusList != null) {
 			for (CivilStatus civilStatus : civilStatusList) {
-				itemsEstadosCivil.add(new SelectItem(civilStatus.getId(),
+				itemsMaritalStatus.add(new SelectItem(civilStatus.getId(),
 						civilStatus.getName()));
 			}
 		}
@@ -473,17 +474,17 @@ public class PersonaAction implements Serializable {
 	 * department name itemDepartamentos list for display in the user interface.
 	 * 
 	 */
-	public void cargarComboDepartamento() {
-		itemDepartamentos = new ArrayList<SelectItem>();
-		itemsMunicipios = new ArrayList<SelectItem>();
+	public void loadComboDepartment() {
+		itemDepartments = new ArrayList<SelectItem>();
+		itemsMunicipalities = new ArrayList<SelectItem>();
 		try {
-			Pais pais = persona.getPaisNac();
-			if (pais != null && pais.getId() > 0) {
-				llenarDepartamentos(pais, itemDepartamentos);
-				cargarComboMunicipio();
+			Pais country = person.getPaisNac();
+			if (country != null && country.getId() > 0) {
+				fillDepartments(country, itemDepartments);
+				loadComboMunicipality();
 			} else {
-				persona.setDepartamentoNac(new Departamento());
-				persona.setMunicipioNac(new Municipio());
+				person.setDepartamentoNac(new Departamento());
+				person.setMunicipioNac(new Municipio());
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -493,19 +494,19 @@ public class PersonaAction implements Serializable {
 	/**
 	 * This method makes the query associated municipalities given department,
 	 * the insertion flag and the name of the municipalities in the list of
-	 * itemsMunicipios is made to be shown in the user interface
+	 * itemsMunicipios is made to be shown in the user interface.
 	 * 
 	 */
-	public void cargarComboMunicipio() {
-		itemsMunicipios = new ArrayList<SelectItem>();
+	public void loadComboMunicipality() {
+		itemsMunicipalities = new ArrayList<SelectItem>();
 		try {
-			Departamento departamento = persona.getDepartamentoNac();
-			if (departamento != null && departamento.getId() > 0
-					&& this.itemDepartamentos.size() > 0) {
-				llenarMunicipios(departamento, itemsMunicipios);
+			Departamento department = person.getDepartamentoNac();
+			if (department != null && department.getId() > 0
+					&& this.itemDepartments.size() > 0) {
+				fillMunicipalities(department, itemsMunicipalities);
 			} else {
-				persona.setDepartamentoNac(new Departamento());
-				persona.setMunicipioNac(new Municipio());
+				person.setDepartamentoNac(new Departamento());
+				person.setMunicipioNac(new Municipio());
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -515,7 +516,7 @@ public class PersonaAction implements Serializable {
 	/**
 	 * Method to fill in the items of municipalities.
 	 * 
-	 * @param departamento
+	 * @param department
 	 *            : selected by the department which municipalities are
 	 *            filtered.
 	 * @param itemsMunicipios
@@ -523,14 +524,15 @@ public class PersonaAction implements Serializable {
 	 *            user interface.
 	 * @throws Exception
 	 */
-	private void llenarMunicipios(Departamento departamento,
-			List<SelectItem> itemsMunicipios) throws Exception {
-		int idDepartamento = departamento.getId();
-		List<Municipio> municipios = municipioDao
-				.consultarMunicipiosVigentes(idDepartamento);
-		if (municipios != null) {
-			for (Municipio m : municipios) {
-				itemsMunicipios.add(new SelectItem(m.getId(), m.getNombre()));
+	private void fillMunicipalities(Departamento department,
+			List<SelectItem> itemsMunicipalities) throws Exception {
+		int idDepartment = department.getId();
+		List<Municipio> Municipalities = municipioDao
+				.consultarMunicipiosVigentes(idDepartment);
+		if (Municipalities != null) {
+			for (Municipio m : Municipalities) {
+				itemsMunicipalities
+						.add(new SelectItem(m.getId(), m.getNombre()));
 			}
 		}
 	}
@@ -542,17 +544,17 @@ public class PersonaAction implements Serializable {
 	 * for display in the user interface.
 	 * 
 	 */
-	public void cargarComboDepartamentoRes() {
-		itemDepartamentosRes = new ArrayList<SelectItem>();
-		itemsMunicipiosRes = new ArrayList<SelectItem>();
+	public void loadComboDepartmentRes() {
+		itemDepartmentsRes = new ArrayList<SelectItem>();
+		itemsMunicipalitiesRes = new ArrayList<SelectItem>();
 		try {
-			Pais pais = persona.getPaisRes();
-			if (pais != null && pais.getId() > 0) {
-				llenarDepartamentos(pais, itemDepartamentosRes);
-				cargarComboMunicipioRes();
+			Pais country = person.getPaisRes();
+			if (country != null && country.getId() > 0) {
+				fillDepartments(country, itemDepartmentsRes);
+				loadComboMunicipalityRes();
 			} else {
-				persona.setDepartamentoRes(new Departamento());
-				persona.setMunicipioRes(new Municipio());
+				person.setDepartamentoRes(new Departamento());
+				person.setMunicipioRes(new Municipio());
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -562,21 +564,21 @@ public class PersonaAction implements Serializable {
 	/**
 	 * Method to fill in the items of the departments.
 	 * 
-	 * @param pais
+	 * @param country
 	 *            : country selected the which departments are filtered.
-	 * @param itemDepartamentos
+	 * @param itemDepartments
 	 *            : list of items of departments to fill displayed in the user
 	 *            interface.
 	 * @throws Exception
 	 */
-	private void llenarDepartamentos(Pais pais,
-			List<SelectItem> itemDepartamentos) throws Exception {
-		short idPais = pais.getId();
-		List<Departamento> departamentos = departamentoDao
-				.consultarDepartamentosPaisVigentes(idPais);
-		if (departamentos != null) {
-			for (Departamento d : departamentos) {
-				itemDepartamentos.add(new SelectItem(d.getId(), d.getNombre()));
+	private void fillDepartments(Pais country, List<SelectItem> itemDepartments)
+			throws Exception {
+		short idCountry = country.getId();
+		List<Departamento> departments = departamentoDao
+				.consultarDepartamentosPaisVigentes(idCountry);
+		if (departments != null) {
+			for (Departamento d : departments) {
+				itemDepartments.add(new SelectItem(d.getId(), d.getNombre()));
 			}
 		}
 	}
@@ -588,16 +590,16 @@ public class PersonaAction implements Serializable {
 	 * user interface
 	 * 
 	 */
-	public void cargarComboMunicipioRes() {
-		itemsMunicipiosRes = new ArrayList<SelectItem>();
+	public void loadComboMunicipalityRes() {
+		itemsMunicipalitiesRes = new ArrayList<SelectItem>();
 		try {
-			Departamento departamento = persona.getDepartamentoRes();
-			if (departamento != null && departamento.getId() > 0
-					&& this.itemDepartamentosRes.size() > 0) {
-				llenarMunicipios(departamento, itemsMunicipiosRes);
+			Departamento department = person.getDepartamentoRes();
+			if (department != null && department.getId() > 0
+					&& this.itemDepartmentsRes.size() > 0) {
+				fillMunicipalities(department, itemsMunicipalitiesRes);
 			} else {
-				persona.setDepartamentoRes(new Departamento());
-				persona.setMunicipioRes(new Municipio());
+				person.setDepartamentoRes(new Departamento());
+				person.setMunicipioRes(new Municipio());
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -609,82 +611,79 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @author marisol.calderon
 	 * 
-	 * @return salida: Navigation rule that addresses the management of people
-	 *         if no validation errors, otherwise it returns to form person.
+	 * @return exit: Navigation rule that addresses the management of people if
+	 *         no validation errors, otherwise it returns to form person.
 	 */
-	public String agregarEditarPersona() {
+	public String addEditPerson() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		PerfilUsuarioAction perfilUsuarioAction = ControladorContexto
+		PerfilUsuarioAction userProfileAction = ControladorContexto
 				.getContextBean(PerfilUsuarioAction.class);
-		String salida = "regPersona";
-		String mensajeInfo = "message_registro_modificar";
-		String nombreFotoBorrar = null;
-		String nombreMostrar = "";
-		boolean seCambioFoto = false;
+		String exit = "regPersona";
+		String messageInfo = "message_registro_modificar";
+		String namePhotoRemove = null;
+		String nameShow = "";
+		boolean changePhoto = false;
 		try {
 			userTransaction.begin();
-			validarObjetos();
-			persona.setNombres(WordUtils.capitalizeFully(persona.getNombres()));
-			persona.setApellidos(WordUtils.capitalizeFully(persona
-					.getApellidos()));
-			persona.setUserName(identity.getUserName());
+			validateObjects();
+			person.setNombres(WordUtils.capitalizeFully(person.getNombres()));
+			person.setApellidos(WordUtils.capitalizeFully(person.getApellidos()));
+			person.setUserName(identity.getUserName());
 			if (esEdicion) {
-				if (persona.getFoto() != null
-						&& !"".equals(persona.getFoto())
-						&& !persona.getFoto().equals(
+				if (person.getFoto() != null
+						&& !"".equals(person.getFoto())
+						&& !person.getFoto().equals(
 								fileUploadBean.getFileName())) {
-					seCambioFoto = true;
-					this.borrarArchivoReal(persona.getFoto());
-				} else if (persona.getFoto() == null
+					changePhoto = true;
+					this.deleteFileReal(person.getFoto());
+				} else if (person.getFoto() == null
 						&& fileUploadBean.getFileName() != null
 						&& !"".equals(fileUploadBean.getFileName())) {
-					seCambioFoto = true;
+					changePhoto = true;
 				}
-				persona.setFoto(fileUploadBean.getFileName());
-				if (persona.getFoto() != null && seCambioFoto) {
-					nombreFotoBorrar = fileUploadBean.getFileName();
-					subirImagenUbicacionReal();
+				person.setFoto(fileUploadBean.getFileName());
+				if (person.getFoto() != null && changePhoto) {
+					namePhotoRemove = fileUploadBean.getFileName();
+					uploadImageLocationReal();
 				}
-				personaDao.editarPersona(persona);
-				Usuario usuario = usuarioDao.searchPersonUser(persona
-						.getId());
-				if (usuario != null) {
-					usuario.setNombre(persona.getNombres());
-					usuario.setApellido(persona.getApellidos());
-					usuario.setCorreoElectronico(persona.getCorreo());
-					usuario.setUserName(identity.getUserName());
-					usuarioDao.editUser(usuario);
+				personaDao.editPerson(person);
+				Usuario user = usuarioDao.searchPersonUser(person.getId());
+				if (user != null) {
+					user.setNombre(person.getNombres());
+					user.setApellido(person.getApellidos());
+					user.setCorreoElectronico(person.getCorreo());
+					user.setUserName(identity.getUserName());
+					usuarioDao.editUser(user);
 				}
 			} else {
-				mensajeInfo = "message_registro_guardar";
+				messageInfo = "message_registro_guardar";
 				if (fileUploadBean.getFileName() != null
 						&& !"".equals(fileUploadBean.getFileName().trim())) {
-					nombreFotoBorrar = fileUploadBean.getFileName();
-					subirImagenUbicacionReal();
+					namePhotoRemove = fileUploadBean.getFileName();
+					uploadImageLocationReal();
 				}
-				persona.setFoto(fileUploadBean.getFileName());
-				this.persona.setFechaCreacion(new Date());
-				personaDao.crearPersona(persona);
+				person.setFoto(fileUploadBean.getFileName());
+				this.person.setFechaCreacion(new Date());
+				personaDao.createPerson(person);
 			}
-			nombreMostrar = persona.getDocumento();
+			nameShow = person.getDocumento();
 			userTransaction.commit();
-			if (nombreFotoBorrar != null && !"".equals(nombreFotoBorrar)) {
-				this.borrarArchivo(nombreFotoBorrar);
+			if (namePhotoRemove != null && !"".equals(namePhotoRemove)) {
+				this.deleteFile(namePhotoRemove);
 			}
-			if (perfilUsuarioAction.isGuardarPersonaDesdePerfil()) {
-				nombreMostrar = persona.getNombres() + " "
-						+ persona.getApellidos();
-				salida = perfilUsuarioAction
+			if (userProfileAction.isGuardarPersonaDesdePerfil()) {
+				nameShow = person.getNombres() + " " + person.getApellidos();
+				exit = userProfileAction
 						.cargarPerfilDeUsuario(Constantes.N_TAB);
 			} else {
-				salida = inicializarConsulta();
+				exit = initializeConsultation();
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeInfo), nombreMostrar));
+					bundle.getString(messageInfo), nameShow));
 		} catch (Exception e) {
 			if (!esEdicion && fileUploadBean.getFileName() != null
 					&& !"".equals(fileUploadBean.getFileName())) {
-				this.borrarArchivoReal(fileUploadBean.getFileName());
+				this.deleteFileReal(fileUploadBean.getFileName());
 			}
 			try {
 				userTransaction.rollback();
@@ -693,43 +692,44 @@ public class PersonaAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
-		return salida;
+		return exit;
 	}
 
 	/**
 	 * This method starts or ends the validity of a particular user, it is
 	 * called the method editarPersona to save the update to the database and
-	 * then query the current user is done with the method consultarPersonas
+	 * then query the current user is done with the method consultarPersonas.
 	 * 
-	 * @param vigente
+	 * @param validity
 	 *            : boolean that allows to know if the term ends with 'true' or
 	 *            INICA with 'false', the selected record in the user interface.
-	 * @return consultarPersonas. Page redirect to people query
+	 * @return consultPersons. Page redirect to people query.
 	 */
-	public String cambioVigenciaPersonas(boolean vigente) {
+	public String changeValidityPersons(boolean validity) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeCambioVigencia = "message_inicio_vigencia_satisfactorio";
+		String messageChangeValidity = "message_inicio_vigencia_satisfactorio";
 		try {
-			validarObjetos();
-			if (vigente) {
-				mensajeCambioVigencia = "message_fin_vigencia_satisfactorio";
-				this.persona.setFechaFinVigencia(new Date());
-				this.persona.setUserName(identity.getUserName());
-				personaDao.editarPersona(this.persona);
+			validateObjects();
+			if (validity) {
+				messageChangeValidity = "message_fin_vigencia_satisfactorio";
+				this.person.setFechaFinVigencia(new Date());
+				this.person.setUserName(identity.getUserName());
+				personaDao.editPerson(this.person);
 
 			} else {
-				this.persona.setFechaFinVigencia(null);
-				this.persona.setUserName(identity.getUserName());
-				personaDao.editarPersona(this.persona);
+				this.person.setFechaFinVigencia(null);
+				this.person.setUserName(identity.getUserName());
+				personaDao.editPerson(this.person);
 			}
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeCambioVigencia) + ": {0}",
-					this.persona.getNombres() + " "
-							+ this.persona.getApellidos()));
+			ControladorContexto.mensajeInformacion(null,
+					MessageFormat.format(
+							bundle.getString(messageChangeValidity) + ": {0}",
+							this.person.getNombres() + " "
+									+ this.person.getApellidos()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarPersonas();
+		return consultPersons();
 	}
 
 	/**
@@ -738,11 +738,11 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @modify 17/03/2016 Wilhelm.Boada
 	 */
-	private void validarObjetos() {
-		if (this.persona != null) {
-			CivilStatus civilStatus = this.persona.getCivilStatus();
+	private void validateObjects() {
+		if (this.person != null) {
+			CivilStatus civilStatus = this.person.getCivilStatus();
 			if (civilStatus != null && civilStatus.getId() == 0) {
-				this.persona.setCivilStatus(null);
+				this.person.setCivilStatus(null);
 			}
 		}
 	}
@@ -755,16 +755,16 @@ public class PersonaAction implements Serializable {
 	 * @modify 04/06/2013 Luz.Jaimes
 	 * @modify 08/03/2016 Mabell.Boada
 	 * 
-	 * @return retorno: Redirects output page listarPersonas
+	 * @return back: Redirects output page listarPersonas
 	 */
-	public String consultarPersonas() {
+	public String consultPersons() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
+		ResourceBundle bundleHumanResources = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		String inModal = ControladorContexto.getParam("param2");
-		this.personas = new ArrayList<Persona>();
+		this.persons = new ArrayList<Persona>();
 		List<Persona> personasTemp = new ArrayList<Persona>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
@@ -772,30 +772,30 @@ public class PersonaAction implements Serializable {
 		String messageSearch = "";
 		boolean fromModal = (inModal != null && Constantes.SI.equals(inModal)) ? true
 				: false;
-		String retorno = fromModal ? "" : "gesPersonas";
+		String back = fromModal ? "" : "gesPersonas";
 		try {
 			if (!fromModal)
-				personasSinUsuario = false;
-			busquedaAvanzada(consult, parameters, bundleRecursosHumanos,
+				personsWithoutUser = false;
+			advancedSearch(consult, parameters, bundleHumanResources,
 					unionMessageSearch);
-			Long cantidadRegistros = this.personaDao.cantidadPersonas(consult,
+			Long quantityRegisters = this.personaDao.quantityPersons(consult,
 					parameters);
-			if (cantidadRegistros != null) {
+			if (quantityRegisters != null) {
 				if (fromModal)
-					pagination.paginarRangoDefinido(cantidadRegistros, 5);
+					pagination.paginarRangoDefinido(quantityRegisters, 5);
 				else
-					this.pagination.paginar(cantidadRegistros);
+					this.pagination.paginar(quantityRegisters);
 			}
-			personasTemp = personaDao.consultarPersonas(pagination.getInicio(),
+			personasTemp = personaDao.consultPersons(pagination.getInicio(),
 					pagination.getRango(), consult, parameters);
-			cargarInformacionDetallePersona(personasTemp);
-			if ((this.personas == null || this.personas.size() <= 0)
+			loadInformationDetailPerson(personasTemp);
+			if ((this.persons == null || this.persons.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionMessageSearch);
-			} else if (this.personas == null || this.personas.size() <= 0) {
+			} else if (this.persons == null || this.persons.size() <= 0) {
 				messageSearch = bundle
 						.getString("message_no_existen_registros");
 				if (!fromModal) {
@@ -806,7 +806,7 @@ public class PersonaAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleRecursosHumanos
+								bundleHumanResources
 										.getString("persona_label_s"),
 								unionMessageSearch);
 			}
@@ -818,7 +818,7 @@ public class PersonaAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return retorno;
+		return back;
 	}
 
 	/**
@@ -835,7 +835,7 @@ public class PersonaAction implements Serializable {
 	 * @param unionMessagesSearch
 	 *            : message search
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		consult.append("WHERE p.fechaFinVigencia ");
@@ -844,19 +844,19 @@ public class PersonaAction implements Serializable {
 		} else {
 			consult.append(Constantes.IS_NULL + " ");
 		}
-		if (this.filtroBusqueda != null && !"".equals(this.filtroBusqueda)) {
+		if (this.searchFilter != null && !"".equals(this.searchFilter)) {
 			consult.append("AND (UPPER(p.nombres) LIKE UPPER(:parametro) ");
 			consult.append("OR UPPER(p.apellidos) LIKE UPPER(:parametro) ");
 			consult.append("OR UPPER(p.documento) LIKE UPPER(:parametro)) ");
-			SelectItem item = new SelectItem("%" + this.filtroBusqueda + "%",
+			SelectItem item = new SelectItem("%" + this.searchFilter + "%",
 					"parametro");
 			parameters.add(item);
 			unionMessagesSearch
 					.append(bundle
 							.getString("persona_message_consulta_nombre_apellido_identificacion")
-							+ ": " + '"' + this.filtroBusqueda + '"');
+							+ ": " + '"' + this.searchFilter + '"');
 		}
-		if (personasSinUsuario) {
+		if (personsWithoutUser) {
 			consult.append("AND p.usuario IS NULL ");
 		}
 	}
@@ -866,16 +866,16 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @author marisol.calderon
 	 * 
-	 * @param personasTemp
-	 *            : initial list of people
+	 * @param personsTemp
+	 *            : initial list of people.
 	 * @throws Exception
 	 */
-	public void cargarInformacionDetallePersona(List<Persona> personasTemp)
+	public void loadInformationDetailPerson(List<Persona> personsTemp)
 			throws Exception {
-		if (personasTemp != null) {
-			for (Persona persona : personasTemp) {
-				cargarDetallesUnaPersona(persona);
-				this.personas.add(persona);
+		if (personsTemp != null) {
+			for (Persona person : personsTemp) {
+				loadDetailsOnePerson(person);
+				this.persons.add(person);
 			}
 		}
 	}
@@ -885,37 +885,37 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
-	 * @param persona
-	 *            : person in charge details
+	 * @param person
+	 *            : person in charge details.
 	 * @throws Exception
 	 */
-	public void cargarDetallesUnaPersona(Persona persona) throws Exception {
-		int idPersona = persona.getId();
-		TipoDocumento tipoDocumento = (TipoDocumento) this.personaDao
-				.consultarObjetoPersona("tipoDocumento", idPersona);
-		Pais paisNac = (Pais) this.personaDao.consultarObjetoPersona("paisNac",
-				idPersona);
-		Departamento departamentoNac = (Departamento) this.personaDao
-				.consultarObjetoPersona("departamentoNac", idPersona);
-		Municipio municipioNac = (Municipio) this.personaDao
-				.consultarObjetoPersona("municipioNac", idPersona);
-		Pais paisRes = (Pais) this.personaDao.consultarObjetoPersona("paisRes",
-				idPersona);
-		Departamento departamentoRes = (Departamento) this.personaDao
-				.consultarObjetoPersona("departamentoRes", idPersona);
-		Municipio municipioRes = (Municipio) this.personaDao
-				.consultarObjetoPersona("municipioRes", idPersona);
+	public void loadDetailsOnePerson(Persona person) throws Exception {
+		int idPerson = person.getId();
+		TipoDocumento documentType = (TipoDocumento) this.personaDao
+				.consultObjectPerson("tipoDocumento", idPerson);
+		Pais countryBirth = (Pais) this.personaDao.consultObjectPerson(
+				"paisNac", idPerson);
+		Departamento departmentBirth = (Departamento) this.personaDao
+				.consultObjectPerson("departamentoNac", idPerson);
+		Municipio municipalityBirth = (Municipio) this.personaDao
+				.consultObjectPerson("municipioNac", idPerson);
+		Pais countryRes = (Pais) this.personaDao.consultObjectPerson("paisRes",
+				idPerson);
+		Departamento departmentRes = (Departamento) this.personaDao
+				.consultObjectPerson("departamentoRes", idPerson);
+		Municipio municipalityRes = (Municipio) this.personaDao
+				.consultObjectPerson("municipioRes", idPerson);
 		CivilStatus civilStatus = (CivilStatus) this.personaDao
-				.consultarObjetoPersona("civilStatus", idPersona);
+				.consultObjectPerson("civilStatus", idPerson);
 
-		persona.setTipoDocumento(tipoDocumento);
-		persona.setPaisNac(paisNac);
-		persona.setDepartamentoNac(departamentoNac);
-		persona.setMunicipioNac(municipioNac);
-		persona.setPaisRes(paisRes);
-		persona.setDepartamentoRes(departamentoRes);
-		persona.setMunicipioRes(municipioRes);
-		persona.setCivilStatus(civilStatus != null ? civilStatus
+		person.setTipoDocumento(documentType);
+		person.setPaisNac(countryBirth);
+		person.setDepartamentoNac(departmentBirth);
+		person.setMunicipioNac(municipalityBirth);
+		person.setPaisRes(countryRes);
+		person.setDepartamentoRes(departmentRes);
+		person.setMunicipioRes(municipalityRes);
+		person.setCivilStatus(civilStatus != null ? civilStatus
 				: new CivilStatus());
 	}
 
@@ -923,12 +923,12 @@ public class PersonaAction implements Serializable {
 	 * Allows erase the default filename.
 	 * 
 	 */
-	public void borrarFilename() {
+	public void deleteFilename() {
 		if (fileUploadBean.getFileName() != null
 				&& !"".equals(fileUploadBean.getFileName())
-				&& !fileUploadBean.getFileName().equals(persona.getFoto())
-				&& this.cargarFotoTemporal) {
-			borrarArchivo(fileUploadBean.getFileName());
+				&& !fileUploadBean.getFileName().equals(person.getFoto())
+				&& this.uploadPhotoTemporal) {
+			deleteFile(fileUploadBean.getFileName());
 		}
 		fileUploadBean.setFileName(null);
 	}
@@ -940,14 +940,14 @@ public class PersonaAction implements Serializable {
 	 *            : Name of the file to delete.
 	 * 
 	 */
-	public void borrarArchivo(String fileName) {
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
-		fileUploadBean.delete(ubicaciones, fileName);
+	public void deleteFile(String fileName) {
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFilesFolderTemporal() };
+		fileUploadBean.delete(locations, fileName);
 	}
 
 	/**
-	 * Delete files from the actual location
+	 * Delete files from the actual location.
 	 * 
 	 * @author marisol.calderon
 	 * 
@@ -955,12 +955,11 @@ public class PersonaAction implements Serializable {
 	 *            : Name of the file to delete.
 	 * 
 	 */
-	public void borrarArchivoReal(String fileName) {
-		String ubicaciones[] = {
-				Constantes.RUTA_UPLOADFILE_GLASFISH + this.getCarpetaArchivos(),
-				Constantes.RUTA_UPLOADFILE_WORKSPACE
-						+ this.getCarpetaArchivos() };
-		fileUploadBean.delete(ubicaciones, fileName);
+	public void deleteFileReal(String fileName) {
+		String locations[] = {
+				Constantes.RUTA_UPLOADFILE_GLASFISH + this.getFilesFolder(),
+				Constantes.RUTA_UPLOADFILE_WORKSPACE + this.getFilesFolder() };
+		fileUploadBean.delete(locations, fileName);
 	}
 
 	/**
@@ -970,39 +969,40 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void subirImagenUbicacionReal() throws Exception {
-		String origen = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivosTemporal();
-		String destino1 = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivos();
-		String destino2 = Constantes.RUTA_UPLOADFILE_WORKSPACE
-				+ this.getCarpetaArchivos();
+	private void uploadImageLocationReal() throws Exception {
+		String origin = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ this.getFilesFolderTemporal();
+		String destiny1 = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ this.getFilesFolder();
+		String destiny2 = Constantes.RUTA_UPLOADFILE_WORKSPACE
+				+ this.getFilesFolder();
 
-		FileUploadBean.fileExist(destino1);
-		FileUploadBean.fileExist(destino2);
+		FileUploadBean.fileExist(destiny1);
+		FileUploadBean.fileExist(destiny2);
 
-		File fileOrigen = new File(origen, fileUploadBean.getFileName());
-		File fileDestino1 = new File(destino1, fileUploadBean.getFileName());
-		File fileDestino2 = new File(destino2, fileUploadBean.getFileName());
+		File fileOrigin = new File(origin, fileUploadBean.getFileName());
+		File fileDestiny1 = new File(destiny1, fileUploadBean.getFileName());
+		File fileDestiny2 = new File(destiny2, fileUploadBean.getFileName());
 
-		FileUploadBean.copyFile(fileOrigen, fileDestino1);
-		FileUploadBean.copyFile(fileOrigen, fileDestino2);
+		FileUploadBean.copyFile(fileOrigin, fileDestiny1);
+		FileUploadBean.copyFile(fileOrigin, fileDestiny2);
 	}
 
 	/**
-	 * Allows to load the photo image of the person
+	 * Allows to load the photo image of the person.
 	 * 
 	 * @modify 03/02/2015 Marcela.Chaparro
+	 * 
 	 * @param e
 	 *            : File upload event for the file to be uploaded to the server.
 	 */
 	public void submit(FileUploadEvent e) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String extAceptadas[] = Constantes.EXT_IMG.split(", ");
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
+		String extAccepted[] = Constantes.EXT_IMG.split(", ");
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFilesFolderTemporal() };
 		fileUploadBean.setUploadedFile(e.getFile());
-		String resultUpload = fileUploadBean.upload(extAceptadas, ubicaciones);
+		String resultUpload = fileUploadBean.upload(extAccepted, locations);
 		if (Constantes.UPLOAD_EXT_INVALIDA.equals(resultUpload)) {
 			ControladorContexto.mensajeError("frmRegistrarPersona:uploadFile",
 					bundle.getString("error_ext_invalida"));
@@ -1011,75 +1011,74 @@ public class PersonaAction implements Serializable {
 					bundle.getString("error_carga_archivo"));
 		}
 		if (esEdicion) {
-			cargarFotoTemporal = true;
+			uploadPhotoTemporal = true;
 		}
 	}
 
 	/**
 	 * Validates fields that are required in the view so that you can load
-	 * regardless picture that are not filled out these fields
+	 * regardless picture that are not filled out these fields.
 	 * 
 	 * @author marisol.calderon
-	 * @modify Gabriel.Moreno 08/Marzo/2012
+	 * @modify 08/03/2012 Gabriel.Moreno
 	 * 
-	 * @param nombreForm
-	 *            :template id where is valid people
-	 * @return salida: boolean to true if the required fields are filled out or
+	 * @param nameForm
+	 *            :template id where is valid people.
+	 * @return exit: boolean to true if the required fields are filled out or
 	 *         false otherwise
 	 */
-	public boolean requeridosOk(String nombreForm) {
-		boolean salida = true;
-		if (persona.getTipoDocumento() == null
-				|| persona.getTipoDocumento().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm
+	public boolean requiredOk(String nameForm) {
+		boolean exit = true;
+		if (person.getTipoDocumento() == null
+				|| person.getTipoDocumento().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm
 					+ ":cmbTipoDocumento");
-			salida = false;
+			exit = false;
 		}
-		if (persona.getDocumento() == null || "".equals(persona.getDocumento())) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":txtId");
-			salida = false;
+		if (person.getDocumento() == null || "".equals(person.getDocumento())) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":txtId");
+			exit = false;
 		}
-		if (persona.getNombres() == null || "".equals(persona.getNombres())) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":txtNombre");
-			salida = false;
+		if (person.getNombres() == null || "".equals(person.getNombres())) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":txtNombre");
+			exit = false;
 		}
-		if (persona.getGenero() == null || "".equals(persona.getGenero())) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":radGenero");
-			salida = false;
+		if (person.getGenero() == null || "".equals(person.getGenero())) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":radGenero");
+			exit = false;
 		}
-		if (persona.getPaisNac().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":comboPais");
-			salida = false;
+		if (person.getPaisNac().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":comboPais");
+			exit = false;
 		}
-		if (persona.getDepartamentoNac().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm
+		if (person.getDepartamentoNac().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm
 					+ ":comboDepartamento");
-			salida = false;
+			exit = false;
 		}
-		if (persona.getMunicipioNac().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm
-					+ ":comboMunicipio");
-			salida = false;
+		if (person.getMunicipioNac().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":comboMunicipio");
+			exit = false;
 		}
-		if (persona.getTelefono() == null || "".equals(persona.getTelefono())) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":txtTelefono");
-			salida = false;
+		if (person.getTelefono() == null || "".equals(person.getTelefono())) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":txtTelefono");
+			exit = false;
 		}
-		if (persona.getPaisRes().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":comboPaisRes");
-			salida = false;
+		if (person.getPaisRes().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":comboPaisRes");
+			exit = false;
 		}
-		if (persona.getDepartamentoRes().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm
+		if (person.getDepartamentoRes().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm
 					+ ":comboDepartamentoRes");
-			salida = false;
+			exit = false;
 		}
-		if (persona.getMunicipioRes().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm
+		if (person.getMunicipioRes().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm
 					+ ":comboMunicipioRes");
-			salida = false;
+			exit = false;
 		}
-		return salida;
+		return exit;
 	}
 
 	/**
@@ -1089,26 +1088,26 @@ public class PersonaAction implements Serializable {
 	 * @author marisol.calderon
 	 * 
 	 * @param context
-	 *            : application context
+	 *            : application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : validate component.
 	 * @param value
-	 *            : field value to be valid
+	 *            : field value to be valid.
 	 */
-	public void validarDocumentoXSS(FacesContext context,
+	public void validateDocumentXSS(FacesContext context,
 			UIComponent toValidate, Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String documento = (String) value;
+		String document = (String) value;
 		String clientId = toValidate.getClientId(context);
 		UIInput findComponent = (UIInput) toValidate
 				.findComponent("cmbTipoDocumento");
-		short idTipoDocumento = (Short) findComponent.getValue();
+		short idDocumentType = (Short) findComponent.getValue();
 		try {
-			Persona personaBD = personaDao.validarPersonaXDocumento(
-					documento.toUpperCase(), idTipoDocumento);
-			if (personaBD != null) {
-				if (personaBD.getFechaFinVigencia() == null) {
+			Persona personBD = personaDao.validatePersonByDocument(
+					document.toUpperCase(), idDocumentType);
+			if (personBD != null) {
+				if (personBD.getFechaFinVigencia() == null) {
 					context.addMessage(
 							clientId,
 							new FacesMessage(
@@ -1126,7 +1125,7 @@ public class PersonaAction implements Serializable {
 					((UIInput) toValidate).setValid(false);
 				}
 			}
-			if (!EncodeFilter.validarXSS(documento, clientId,
+			if (!EncodeFilter.validarXSS(document, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -1139,12 +1138,12 @@ public class PersonaAction implements Serializable {
 	 * This method is used to initialize the consultation of the people
 	 * registered in the information system.
 	 * 
-	 * @return consultarPersonas: method that queries the information of the
-	 *         people and returns to the template management.
+	 * @return consultPersons: method that queries the information of the people
+	 *         and returns to the template management.
 	 */
-	public String inicializarConsulta() {
-		this.filtroBusqueda = "";
-		return consultarPersonas();
+	public String initializeConsultation() {
+		this.searchFilter = "";
+		return consultPersons();
 	}
 
 }

@@ -27,58 +27,58 @@
 				<ui:define name="campos">
 					<h:outputText value="#{mensaje.label_document_type}" />
 					<h:outputText
-						value="#{validacionesAction.getLabel(personaAction.itemsTiposDocumentos,personaAction.persona.tipoDocumento.id)}" />
+						value="#{validacionesAction.getLabel(personaAction.itemsDocumentsTypes,personaAction.person.tipoDocumento.id)}" />
 
 					<h:outputText value="#{mensaje.label_numero_identificacion}" />
-					<h:outputText value="#{personaAction.persona.documento}" />
+					<h:outputText value="#{personaAction.person.documento}" />
 
 					<h:outputText value="#{mensaje.label_nombre} :" />
-					<h:outputText value="#{personaAction.persona.nombres}" />
+					<h:outputText value="#{personaAction.person.nombres}" />
 
 					<h:outputText value="#{mensaje.label_apellido} :" />
-					<h:outputText value="#{personaAction.persona.apellidos}" />
+					<h:outputText value="#{personaAction.person.apellidos}" />
 
 					<h:outputText value="#{mensaje.label_genero} :" />
 					<h:outputText value="#{mensaje.label_f}"
-						rendered="#{personaAction.persona.genero eq 'f'}" />
+						rendered="#{personaAction.person.genero eq 'f'}" />
 					<h:outputText value="#{mensaje.label_m}"
-						rendered="#{personaAction.persona.genero eq 'm'}" />
+						rendered="#{personaAction.person.genero eq 'm'}" />
 
 					<h:outputText
 						value="#{mensajeRecursosHumanos.persona_label_fecha_nacimiento} :" />
-					<h:outputText value="#{personaAction.persona.fechaNacimiento}">
+					<h:outputText value="#{personaAction.person.fechaNacimiento}">
 						<f:convertDateTime pattern="MMM dd, yyyy"
 							locale="#{idioma.locale}" />
 					</h:outputText>
 
 					<h:outputText value="#{mensaje.label_telefono} :" />
-					<h:outputText value="#{personaAction.persona.telefono}" />
+					<h:outputText value="#{personaAction.person.telefono}" />
 
 					<h:outputLabel value="#{mensaje.label_movil} :" />
-					<h:outputText value="#{personaAction.persona.movil}" />
+					<h:outputText value="#{personaAction.person.movil}" />
 
 					<h:outputText value="#{mensaje.label_fax} :" />
-					<h:outputText value="#{personaAction.persona.fax}" />
+					<h:outputText value="#{personaAction.person.fax}" />
 
 					<h:outputText value="#{mensaje.label_direccion}:" />
-					<h:outputText value="#{personaAction.persona.direccion}" />
+					<h:outputText value="#{personaAction.person.direccion}" />
 
 					<h:outputText value="#{mensaje.label_email}:" />
-					<h:outputText value="#{personaAction.persona.correo}" />
+					<h:outputText value="#{personaAction.person.correo}" />
 
 					<h:outputText value="#{mensajeInformacionBase.pais_label}:" />
 					<h:outputText
-						value="#{validacionesAction.getLabel(personaAction.itemsPaises,personaAction.persona.paisNac.id)}" />
+						value="#{validacionesAction.getLabel(personaAction.itemsCountries,personaAction.person.paisNac.id)}" />
 					<h:outputText value="#{mensajeInformacionBase.departamento_label}:" />
 					<h:outputText
-						value="#{validacionesAction.getLabel(personaAction.itemDepartamentos,personaAction.persona.departamentoNac.id)}" />
+						value="#{validacionesAction.getLabel(personaAction.itemDepartments,personaAction.person.departamentoNac.id)}" />
 					<h:outputText value="#{mensajeInformacionBase.municipio_label}:" />
 					<h:outputText
-						value="#{validacionesAction.getLabel(personaAction.itemsMunicipios,personaAction.persona.municipioNac.id)}" />
+						value="#{validacionesAction.getLabel(personaAction.itemsMunicipalities,personaAction.person.municipioNac.id)}" />
 				</ui:define>
 				<ui:define name="botones">
 					<h:commandButton value="#{mensaje.button_accept}"
-						action="#{personaAction.agregarEditarPersona()}"
+						action="#{personaAction.addEditPerson()}"
 						onclick="#{rich:component('confirmacionPopUp')}.hide(); #{rich:component('statPane')}.show();" />
 
 					<a:commandButton value="#{mensaje.button_cancel}"

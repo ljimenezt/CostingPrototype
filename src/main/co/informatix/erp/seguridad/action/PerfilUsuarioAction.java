@@ -172,7 +172,7 @@ public class PerfilUsuarioAction implements Serializable {
 			Usuario usuarioSesion = usuarioDao.searchUsuario(identity
 					.getUserName());
 			Integer idUsuario = usuarioSesion.getId();
-			Persona personaSesionTemp = personaDao.consultarPersona(idUsuario);
+			Persona personaSesionTemp = personaDao.consultPerson(idUsuario);
 			personaSesion = personaSesionTemp;
 			if (Constantes.N_TAB.equals(pestana)) {
 				cargarDatosPersonales();
@@ -195,8 +195,8 @@ public class PerfilUsuarioAction implements Serializable {
 		PersonaAction personaAction = ControladorContexto
 				.getContextBean(PersonaAction.class);
 		if (personaSesion != null) {
-			personaAction.cargarDetallesUnaPersona(personaSesion);
-			personaAction.registrarPersona(personaSesion);
+			personaAction.loadDetailsOnePerson(personaSesion);
+			personaAction.registerPerson(personaSesion);
 		}
 	}
 
