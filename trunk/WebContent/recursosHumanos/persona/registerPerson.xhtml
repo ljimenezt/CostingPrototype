@@ -6,8 +6,8 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="personaAction.registrarPersona(null)" />
-	<ui:param name="titulo" value="#{personaAction.mensajeMiga}" />
+	<ui:param name="action" value="personaAction.registerPerson(null)" />
+	<ui:param name="titulo" value="#{personaAction.messageMiga}" />
 	<ui:define name="body">
 		<t:saveState value="#{personaAction}" />
 		<t:saveState value="#{validacionesAction}" />
@@ -17,13 +17,13 @@
 			<rich:panel
 				header="#{personaAction.esEdicion eq false ? mensajeRecursosHumanos.persona_label_crear : mensajeRecursosHumanos.persona_label_modificar}"
 				id="panelPersona" styleClass="anchoUno">
-				<ui:include src="plantillaCrearPersona.xhtml">
+				<ui:include src="templateCreatePerson.xhtml">
 					<ui:param name="idFormulario" value="frmRegistrarPersona" />
 				</ui:include>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
-						actionListener="#{personaAction.requeridosOk('frmRegistrarPersona')}"
+						actionListener="#{personaAction.requiredOk('frmRegistrarPersona')}"
 						render="formGenerico, confirmacionPopUp"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) { #{rich:component('confirmacionPopUp')}.show() }
 									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
@@ -31,6 +31,6 @@
 				</div>
 			</rich:panel>
 		</h:form>
-		<ui:include src="plantillaMensajeConfirmPersona.xhtml" />
+		<ui:include src="templateMessageConfirmPerson.xhtml" />
 	</ui:define>
 </ui:composition>

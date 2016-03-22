@@ -44,8 +44,8 @@
 							</a:outputPanel>
 							<a:commandLink execute="@this"
 								render=":formModalBusPersonas:popupPersonas"
-								actionListener="#{personaAction.setPersonasSinUsuario(true)}"
-								action="#{personaAction.inicializarConsulta()}"
+								actionListener="#{personaAction.setPersonsWithoutUser(true)}"
+								action="#{personaAction.initializeConsultation()}"
 								oncomplete="#{rich:component('popupPersonas')}.show();">
 								<f:param name="param2" value="si" />
 								<h:graphicImage value="/img/add_22.png"
@@ -366,7 +366,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<ui:include
-					src="/recursosHumanos/persona/plantillaBuscarPersona.xhtml">
+					src="/recursosHumanos/persona/templateSearchPerson.xhtml">
 					<ui:param name="selectedObject" value="#{usuarioAction.person}" />
 					<ui:param name="valRender"
 						value="usuarioForm:txtPersonaHidden, usuarioForm:txtPersonaHidden2" />

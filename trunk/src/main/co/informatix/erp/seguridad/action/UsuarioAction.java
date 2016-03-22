@@ -541,7 +541,7 @@ public class UsuarioAction implements Serializable {
 	 */
 	public void searchUserPerson(Usuario user) {
 		try {
-			person = personaDao.consultarPersonaUsuario(user);
+			person = personaDao.consultPersonUser(user);
 			if (person == null) {
 				person = new Persona();
 			}
@@ -679,16 +679,16 @@ public class UsuarioAction implements Serializable {
 				}
 				user.setUserName(identity.getUserName());
 				usuarioDao.editUser(user);
-				Persona lastPerson = personaDao.consultarPersonaUsuario(user);
+				Persona lastPerson = personaDao.consultPersonUser(user);
 				if (!person.equals(lastPerson)) {
 					if (lastPerson != null) {
 						lastPerson.setUsuario(null);
 						lastPerson.setUserName(identity.getUserName());
-						personaDao.editarPersona(lastPerson);
+						personaDao.editPerson(lastPerson);
 					}
 					person.setUsuario(user);
 					person.setUserName(identity.getUserName());
-					personaDao.editarPersona(person);
+					personaDao.editPerson(person);
 				}
 			} else {
 				key = "message_registro_guardar";
@@ -702,7 +702,7 @@ public class UsuarioAction implements Serializable {
 				usuarioDao.saveUser(user);
 				person.setUsuario(user);
 				person.setUserName(identity.getUserName());
-				personaDao.editarPersona(person);
+				personaDao.editPerson(person);
 			}
 			saveUserRole();
 			userTransaction.commit();

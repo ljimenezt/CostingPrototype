@@ -37,14 +37,14 @@
 							</h:panelGrid>
 						</f:facet>
 						<ui:include
-							src="/recursosHumanos/persona/plantillaCrearPersona.xhtml">
+							src="/recursosHumanos/persona/templateCreatePerson.xhtml">
 							<ui:param name="idFormulario" value="formPerfilUsuario" />
 						</ui:include>
 						<br />
 						<div class="inBlock W100Per center">
 							<a:commandButton value="#{mensaje.button_save}"
 								actionListener="#{perfilUsuarioAction.setGuardarPersonaDesdePerfil('true')}"
-								action="#{personaAction.requeridosOk('formPerfilUsuario')}"
+								action="#{personaAction.requiredOk('formPerfilUsuario')}"
 								render="formGenerico,confirmacionPopUp"
 								oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 					           	else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
@@ -128,7 +128,7 @@
 			</rich:panel>
 		</h:form>
 		<ui:include
-			src="/recursosHumanos/persona/plantillaMensajeConfirmPersona.xhtml" />
+			src="/recursosHumanos/persona/templateMessageConfirmPerson.xhtml" />
 		<ui:include
 			src="/organizaciones/empresas/plantillaDetallesEmpresa.xhtml">
 			<ui:param name="conAlto" value="1" />
