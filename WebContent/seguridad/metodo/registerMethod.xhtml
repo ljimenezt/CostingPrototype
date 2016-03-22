@@ -169,13 +169,13 @@
 							</rich:dataTable>
 							<a:outputPanel rendered="#{!listaVacia}">
 								<div class="W440P center">
-									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:include src="/plantillas/templatePagination.xhtml">
 										<ui:param name="valId" value="1" />
 										<ui:param name="valReder" value="menusPanel" />
 										<ui:param name="beanActionParam" value="#{metodoAction}" />
 										<ui:param name="metodoActionParam"
 											value="searchAvailableMenus" />
-										<ui:param name="pager" value="paginadorMenus" />
+										<ui:param name="pager" value="paginationMenus" />
 									</ui:include>
 								</div>
 							</a:outputPanel>
@@ -302,7 +302,7 @@
 						oncomplete="if (#{facesContext.maximumSeverity==null} || #{facesContext.maximumSeverity.ordinal == 0}) {#{rich:component('popupSearch')}.hide();}"
 						render=":metodoForm:menusPanel, mensajes">
 						<f:setPropertyActionListener value="f"
-							target="#{metodoAction.paginadorMenus.opcion}" />
+							target="#{metodoAction.paginationMenus.opcion}" />
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
 						value="#{mensaje.button_cancel}" />

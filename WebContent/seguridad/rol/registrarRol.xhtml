@@ -266,11 +266,11 @@
 						</rich:dataTable>
 						<a:outputPanel rendered="#{!listaVaciaPermisos}">
 							<div class="anchoDos center inBlock">
-								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valId" value="12" />
 									<ui:param name="valReder" value=":rolForm:panelPermisos" />
 									<ui:param name="beanActionParam" value="#{rolAction}" />
-									<ui:param name="pager" value="paginadorMetodo" />
+									<ui:param name="pager" value="paginationMetodo" />
 									<ui:param name="metodoActionParam"
 										value="cargarMetodosPermisos" />
 								</ui:include>
@@ -357,7 +357,7 @@
 							</rich:dataTable>
 							<a:outputPanel rendered="#{!listaVaciaMenus}">
 								<div class="anchoDos center inBlock">
-									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:include src="/plantillas/templatePagination.xhtml">
 										<ui:param name="valId" value="13" />
 										<ui:param name="valReder" value=":rolForm:panelMenus" />
 										<ui:param name="beanActionParam" value="#{rolAction}" />
@@ -410,7 +410,7 @@
 						oncomplete="#{rich:component('popupBuscarMetodo')}.hide()"
 						render="rolForm:panelPermisos, mensajes">
 						<f:setPropertyActionListener value="f"
-							target="#{metodoAction.paginador.opcion}" />
+							target="#{metodoAction.pagination.opcion}" />
 					</a:commandButton>
 					<a:commandButton
 						onclick="#{rich:component('popupBuscarMetodo')}.hide()"
@@ -445,7 +445,7 @@
 						oncomplete="#{rich:component('popupBuscarMenuRelacionado')}.hide()"
 						render="rolForm:panelMenus, mensajes">
 						<f:setPropertyActionListener value="f"
-							target="#{metodoAction.paginador.opcion}" />
+							target="#{metodoAction.pagination.opcion}" />
 					</a:commandButton>
 					<a:commandButton
 						onclick="#{rich:component('popupBuscarMenuRelacionado')}.hide()"

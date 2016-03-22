@@ -275,10 +275,10 @@
 							</rich:dataTable>
 							<a:outputPanel rendered="#{!listaVacia}">
 								<div class="W560P center inBlock">
-									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:include src="/plantillas/templatePagination.xhtml">
 										<ui:param name="valParam2" value="si" />
 										<ui:param name="conParam2" value="1" />
-										<ui:param name="pager" value="paginador" />
+										<ui:param name="pager" value="pagination" />
 										<ui:param name="valReder" value=":popupForm:outputContrato" />
 										<ui:param name="beanActionParam" value="#{contratoAction}" />
 										<ui:param name="metodoActionParam" value="searchContracts" />
@@ -387,13 +387,13 @@
 							</rich:dataTable>
 							<a:outputPanel rendered="#{!listaVacia}">
 								<div class="W560P center inBlock">
-									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:include src="/plantillas/templatePagination.xhtml">
 										<ui:param name="valParam2" value="si" />
 										<ui:param name="conParam2" value="1" />
-										<ui:param name="pager" value="paginadorForm" />
+										<ui:param name="pager" value="paginationForm" />
 										<ui:param name="valReder" value=":popupFormHr:outputHr" />
 										<ui:param name="beanActionParam" value="#{hrAction}" />
-										<ui:param name="metodoActionParam" value="consultarHrs" />
+										<ui:param name="metodoActionParam" value="searchHrs" />
 									</ui:include>
 								</div>
 							</a:outputPanel>

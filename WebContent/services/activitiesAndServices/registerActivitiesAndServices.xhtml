@@ -180,9 +180,9 @@
 						<br />
 						<a:outputPanel rendered="#{!listaVacia}">
 							<div class="#{anchoTabla} center inBlock">
-								<ui:include src="/plantillas/plantillaPaginador.xhtml">
+								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="conParam2" value="1" />
-									<ui:param name="pager" value="paginador" />
+									<ui:param name="pager" value="pagination" />
 									<ui:param name="valReder" value="formActivities" />
 									<ui:param name="beanActionParam"
 										value="#{activitiesAndServicesAction}" />
