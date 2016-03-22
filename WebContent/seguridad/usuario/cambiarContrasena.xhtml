@@ -8,7 +8,7 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="usuarioAction.nuevaContrasena" />
+	<ui:param name="action" value="usuarioAction.newPassword" />
 	<ui:param name="titulo"
 		value="messageSecurity.user_label_change_password" />
 	<ui:define name="body">
@@ -25,7 +25,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:outputText styleClass="etiquetaTitulo etiquetaValor"
-						value="#{usuarioAction.usuario.nombreUsuario}" />
+						value="#{usuarioAction.user.nombreUsuario}" />
 					<h:outputText value="" />
 
 					<h:outputText
@@ -34,8 +34,8 @@
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret maxlength="100" id="txtPasswordAnterior"
 						styleClass="colTextoMediano" required="true"
-						validator="#{usuarioAction.validarLogin}"
-						value="#{usuarioAction.cambioContrasena.contrasenaAnterior}"
+						validator="#{usuarioAction.validateLogin}"
+						value="#{usuarioAction.changePass.previousPassword}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:validateLength minimum="6" maximum="100" />
 					</h:inputSecret>
@@ -45,9 +45,8 @@
 						value="#{messageSecurity.user_label_new_password}:" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret id="txtPasswordNuevo" styleClass="colTextoMediano"
-						maxlength="100"
-						value="#{usuarioAction.cambioContrasena.contrasenaNueva}"
-						required="true" validator="#{usuarioAction.validarContrasena}"
+						maxlength="100" value="#{usuarioAction.changePass.newPassword}"
+						required="true" validator="#{usuarioAction.validatePassword}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:validateLength minimum="6" maximum="100" />
 						<f:attribute name="idAsociado" value="txtPasswordConfirmar" />
@@ -59,7 +58,7 @@
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret id="txtPasswordConfirmar"
 						styleClass="colTextoMediano" maxlength="100"
-						value="#{usuarioAction.cambioContrasena.contrasenaConfirmada}"
+						value="#{usuarioAction.changePass.checkedPassword}"
 						required="true" validator="#{encodeFilter.validarScripting}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:validateLength minimum="6" maximum="100" />
@@ -71,7 +70,7 @@
 				<div class="anchoDos center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico, confirmacionPopUp"
-						actionListener="#{usuarioAction.setUsuario(usuarioAction.usuario)}"
+						actionListener="#{usuarioAction.user(usuarioAction.user)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) { #{rich:component('confirmacionPopUp')}.show() }
 							else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						rendered="#{identity.autorizado('cambiarPassword','U') or identity.autorizado('cambiarPassword','A') or identity.autorizado('cambiarPassword','I')}" />
@@ -94,11 +93,11 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{messageSecurity.user_label_name}: " />
-						<h:outputText value="#{usuarioAction.usuario.nombreUsuario}" />
+						<h:outputText value="#{usuarioAction.user.nombreUsuario}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{usuarioAction.cambiarContrasena}"
+							action="#{usuarioAction.changePassword}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide();#{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide()" />

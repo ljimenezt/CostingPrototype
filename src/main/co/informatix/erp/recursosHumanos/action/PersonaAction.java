@@ -646,14 +646,14 @@ public class PersonaAction implements Serializable {
 					subirImagenUbicacionReal();
 				}
 				personaDao.editarPersona(persona);
-				Usuario usuario = usuarioDao.consultarUsuarioPersona(persona
+				Usuario usuario = usuarioDao.searchPersonUser(persona
 						.getId());
 				if (usuario != null) {
 					usuario.setNombre(persona.getNombres());
 					usuario.setApellido(persona.getApellidos());
 					usuario.setCorreoElectronico(persona.getCorreo());
 					usuario.setUserName(identity.getUserName());
-					usuarioDao.editarUsuario(usuario);
+					usuarioDao.editUser(usuario);
 				}
 			} else {
 				mensajeInfo = "message_registro_guardar";

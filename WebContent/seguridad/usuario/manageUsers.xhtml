@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 
-	<ui:param name="action" value="usuarioAction.inicializarBusqueda" />
+	<ui:param name="action" value="usuarioAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,messageSecurity.user_label" />
 	<ui:define name="body">
@@ -19,21 +19,21 @@
 			<t:saveState value="#{permisoPersonaEmpresaAction}" />
 
 			<ui:param name="listaVacia"
-				value="#{usuarioAction.usuarios eq null or (empty usuarioAction.usuarios)}" />
+				value="#{usuarioAction.users eq null or (empty usuarioAction.users)}" />
 			<ui:param name="anchoTabla" value="anchoCuatro" />
 			<!-- parametros para botones y ordenamiento del listado -->
 			<ui:param name="actionLista" value="#{usuarioAction}" />
 			<ui:param name="renderLista" value="panelUsuario" />
-			<ui:param name="metodoLista" value="consultarUsuarios" />
+			<ui:param name="metodoLista" value="searchUsers" />
 			<!-- parametros solo para ordenamiento del listado -->
 			<ui:param name="ocultarOrden" value="#{listaVacia}" />
 			<!-- parametros solo para botones del listado -->
 			<ui:param name="nombreAction" value="usuarioAction" />
-			<ui:param name="metodoNuevo" value="registrarUsuario" />
+			<ui:param name="metodoNuevo" value="registerUser" />
 			<ui:param name="parametroNuevo" value="#{null}" />
 			<ui:param name="renderBuscar" value="buscarForm:popupBuscar" />
 			<ui:param name="popupBuscar" value="popupBuscar" />
-			<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+			<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 			<rich:panel
 				header="#{mensaje.label_listado_de} #{messageSecurity.usuario_label_s}"
@@ -41,14 +41,14 @@
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
 
-				<rich:dataTable value="#{usuarioAction.usuarios}" var="usuarioList"
+				<rich:dataTable value="#{usuarioAction.users}" var="usuarioList"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoTres">
 						<f:facet name="header" />
 						<a:commandLink id="details" render="popupDetalles"
 							oncomplete="#{rich:component('popupDetalles')}.show();"
-							actionListener="#{usuarioAction.verDetallesUsuario(usuarioList)}">
+							actionListener="#{usuarioAction.seeUserDetails(usuarioList)}">
 							<h:graphicImage value="/img/details_16.png" />
 							<rich:tooltip layout="block">
 								<h:outputText value="#{mensaje.label_detalles}" />
@@ -57,12 +57,12 @@
 						<h:outputText value="&#32;&#32;&#32;" />
 						<a:outputPanel
 							rendered="#{identity.autorizado('permisoPersonaEmpresaAction','A') or identity.autorizado('permisoPersonaEmpresaAction','I')}">
-							<h:commandLink rendered="#{usuarioAction.vigencia eq 'si'}"
+							<h:commandLink rendered="#{usuarioAction.validity eq 'si'}"
 								onclick="#{rich:component('statPane')}.show();"
-								actionListener="#{usuarioAction.consultarPersonaUsuario(usuarioList)}"
+								actionListener="#{usuarioAction.searchUserPerson(usuarioList)}"
 								action="#{permisoPersonaEmpresaAction.consultarPermisoPersonaEmpresa()}">
 								<h:graphicImage value="/img/permisoPersonaEmpresa_16.png" />
-								<f:setPropertyActionListener value="#{usuarioAction.persona}"
+								<f:setPropertyActionListener value="#{usuarioAction.person}"
 									target="#{permisoPersonaEmpresaAction.persona}" />
 								<f:setPropertyActionListener value="si"
 									target="#{permisoPersonaEmpresaAction.vigencia}" />
@@ -74,8 +74,8 @@
 						</a:outputPanel>
 						<h:outputText value="&#32;&#32;&#32;" />
 						<a:commandLink render="popupVigencia"
-							rendered="#{usuarioAction.vigencia eq 'si' and (identity.autorizado('usuarioAction','A') or identity.autorizado('usuarioAction','U'))}"
-							actionListener="#{usuarioAction.setUsuario(usuarioList)}"
+							rendered="#{usuarioAction.validity eq 'si' and (identity.autorizado('usuarioAction','A') or identity.autorizado('usuarioAction','U'))}"
+							actionListener="#{usuarioAction.user(usuarioList)}"
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateDelete_16.png" />
 							<rich:tooltip layout="block">
@@ -84,8 +84,8 @@
 						</a:commandLink>
 						<h:outputText value="&#32;&#32;&#32;" />
 						<a:commandLink render="popupVigencia"
-							rendered="#{usuarioAction.vigencia eq 'no' and (identity.autorizado('usuarioAction','A') or identity.autorizado('usuarioAction','U'))}"
-							actionListener="#{usuarioAction.setUsuario(usuarioList)}"
+							rendered="#{usuarioAction.validity eq 'no' and (identity.autorizado('usuarioAction','A') or identity.autorizado('usuarioAction','U'))}"
+							actionListener="#{usuarioAction.user(usuarioList)}"
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateAdd_16.png" />
 							<rich:tooltip layout="block">
@@ -97,9 +97,9 @@
 						<f:facet name="header">#{messageSecurity.user_label_name}</f:facet>
 						<c:choose>
 							<c:when
-								test="#{usuarioAction.vigencia eq 'si' and (identity.autorizado('usuarioAction','A') or identity.autorizado('usuarioAction','U'))}">
+								test="#{usuarioAction.validity eq 'si' and (identity.autorizado('usuarioAction','A') or identity.autorizado('usuarioAction','U'))}">
 								<h:commandLink value="#{usuarioList.nombreUsuario}"
-									action="#{usuarioAction.registrarUsuario(usuarioList)}"
+									action="#{usuarioAction.registerUser(usuarioList)}"
 									onclick="#{rich:component('statPane')}.show();" />
 							</c:when>
 							<c:otherwise>
@@ -120,7 +120,7 @@
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colFecha"
-						rendered="#{usuarioAction.vigencia eq 'no'}">
+						rendered="#{usuarioAction.validity eq 'no'}">
 						<f:facet name="header">#{mensaje.label_fecha_fin_vigencia}</f:facet>
 						<h:outputText value="#{usuarioList.fechaFinVigencia}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
@@ -146,15 +146,14 @@
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value=":usuarioForm:tablaUsuarios" />
 							<ui:param name="beanActionParam" value="#{usuarioAction}" />
-							<ui:param name="metodoActionParam" value="consultarUsuarios" />
+							<ui:param name="metodoActionParam" value="searchUsers" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
 			</rich:panel>
 
 			<rich:popupPanel id="popupDetalles" autosized="true"
-				domElementAttachment="form"
-				header="#{messageSecurity.user_label}">
+				domElementAttachment="form" header="#{messageSecurity.user_label}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -169,14 +168,14 @@
 					<h:panelGrid columns="2" cellpadding="5" cellspacing="7"
 						columnClasses="columnaIzquierda, columnaDerecha">
 						<h:outputText value="#{messageSecurity.user_label_name}" />
-						<h:outputText value="#{usuarioAction.usuario.nombreUsuario}" />
+						<h:outputText value="#{usuarioAction.user.nombreUsuario}" />
 						<h:outputText value="#{mensajeRecursosHumanos.persona_label}" />
 						<h:outputText
-							value="#{usuarioAction.usuario.nombre} #{usuarioAction.usuario.apellido}" />
+							value="#{usuarioAction.user.nombre} #{usuarioAction.user.apellido}" />
 						<h:outputText value="#{mensaje.label_email}" />
-						<h:outputText value="#{usuarioAction.usuario.correoElectronico}" />
+						<h:outputText value="#{usuarioAction.user.correoElectronico}" />
 						<h:outputText value="#{mensaje.label_fecha_creacion}" />
-						<h:outputText value="#{usuarioAction.usuario.fechaCreacion}">
+						<h:outputText value="#{usuarioAction.user.fechaCreacion}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
 						</h:outputText>
@@ -187,12 +186,12 @@
 					<legend class="etiquetaTitulo">#{mensaje.label_listado_de}
 						#{messageSecurity.role_label_s}</legend>
 					<h:selectOneRadio id="selVigencia"
-						value="#{usuarioAction.vigenciaRolUsuario}">
+						value="#{usuarioAction.userRoleValidity}">
 						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
 						<f:selectItem itemValue="no"
 							itemLabel="#{mensaje.label_no_vigentes}" />
 						<a:ajax event="click"
-							listener="#{usuarioAction.controladorRolUsuario()}"
+							listener="#{usuarioAction.userRoleControler()}"
 							render=":usuarioForm:tablaRolUsuario, mensajes">
 						</a:ajax>
 					</h:selectOneRadio>
@@ -200,7 +199,7 @@
 					<rich:message for="selVigencia" />
 					<br />
 					<a:outputPanel id="tablaRolUsuario">
-						<rich:extendedDataTable value="#{usuarioAction.rolesUsuario}"
+						<rich:extendedDataTable value="#{usuarioAction.userRoles}"
 							var="rolesUsuarioList" id="usuarioPersonasSelect"
 							styleClass="H190P anchoCinco">
 							<f:facet name="header">
@@ -250,24 +249,24 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{messageSecurity.user_label_name}:" />
-						<h:outputText value="#{usuarioAction.usuario.nombreUsuario}" />
+						<h:outputText value="#{usuarioAction.user.nombreUsuario}" />
 						<h:outputText value="#{mensajeRecursosHumanos.persona_label}:" />
 						<h:outputText
-							value="#{usuarioAction.usuario.nombre} #{usuarioAction.usuario.apellido}" />
+							value="#{usuarioAction.user.nombre} #{usuarioAction.user.apellido}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
 							<a:commandButton value="#{mensaje.button_accept}"
-								actionListener="#{usuarioAction.vigenciaUsuarios('true')}"
+								actionListener="#{usuarioAction.usersValidity('true')}"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								render="panelUsuario, mensajes, mensajeBusqueda"
-								rendered="#{usuarioAction.vigencia eq 'si'}">
+								rendered="#{usuarioAction.validity eq 'si'}">
 							</a:commandButton>
 							<a:commandButton value="#{mensaje.button_accept}"
-								actionListener="#{usuarioAction.vigenciaUsuarios('false')}"
+								actionListener="#{usuarioAction.usersValidity('false')}"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								render="panelUsuario, mensajes, mensajeBusqueda"
-								rendered="#{usuarioAction.vigencia eq 'no'}">
+								rendered="#{usuarioAction.validity eq 'no'}">
 							</a:commandButton>
 						</a:outputPanel>
 						<a:commandButton value="#{mensaje.button_cancel}"
@@ -293,13 +292,13 @@
 					<h:outputText value="#{mensaje.label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
-						value="#{usuarioAction.nombreBuscar}"
+						value="#{usuarioAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						action="#{usuarioAction.consultarUsuarios()}"
+						action="#{usuarioAction.searchUser()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelUsuario, mensajes, mensajeBusqueda">
 					</a:commandButton>
