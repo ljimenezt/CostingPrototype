@@ -350,10 +350,10 @@
 							</rich:dataTable>
 							<a:outputPanel rendered="#{!listaVacia}" id="paginadorPlot">
 								<div class="W370P center inBlock">
-									<ui:include src="/plantillas/plantillaPaginador.xhtml">
+									<ui:include src="/plantillas/templatePagination.xhtml">
 										<ui:param name="valParam2" value="si" />
 										<ui:param name="conParam2" value="1" />
-										<ui:param name="pager" value="paginador" />
+										<ui:param name="pager" value="pagination" />
 										<ui:param name="valReder"
 											value=":popupForm:paginadorPlot, :popupForm:tPlot :popupForm:outPutPlotDate" />
 										<ui:param name="beanActionParam" value="#{plotAction}" />
