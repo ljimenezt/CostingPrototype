@@ -77,9 +77,9 @@ public class ActivitiesAndHrAction implements Serializable {
 	private Activities activities;
 	private Activities actividadSeleccionada;
 	private Hr trabajador;
-	private Paginador paginador = new Paginador();
-	private Paginador paginadorTrabajador = new Paginador();
-	private Paginador paginadorActivitiesAndHr = new Paginador();
+	private Paginador pagination = new Paginador();
+	private Paginador paginationTrabajador = new Paginador();
+	private Paginador paginationActivitiesAndHr = new Paginador();
 	private String mensaje;
 	private String messageWorkersAvailability;
 
@@ -288,18 +288,18 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list of activities.
+	 * @return pagination: Management paged list of activities.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paged list of activities.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -335,34 +335,34 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * @return paginadorTrabajador: Management paged list of workerd.
+	 * @return paginationTrabajador: Management paged list of workerd.
 	 */
-	public Paginador getPaginadorTrabajador() {
-		return paginadorTrabajador;
+	public Paginador getPaginationTrabajador() {
+		return paginationTrabajador;
 	}
 
 	/**
-	 * @param paginadorTrabajador
+	 * @param paginationTrabajador
 	 *            : Management paged list of workerd.
 	 */
-	public void setPaginadorTrabajador(Paginador paginadorTrabajador) {
-		this.paginadorTrabajador = paginadorTrabajador;
+	public void setPaginationTrabajador(Paginador paginationTrabajador) {
+		this.paginationTrabajador = paginationTrabajador;
 	}
 
 	/**
-	 * @return paginadorActivitiesAndHr: Pager relationship and human resources
+	 * @return paginationActivitiesAndHr: Pager relationship and human resources
 	 *         activities.
 	 */
-	public Paginador getPaginadorActivitiesAndHr() {
-		return paginadorActivitiesAndHr;
+	public Paginador getPaginationActivitiesAndHr() {
+		return paginationActivitiesAndHr;
 	}
 
 	/**
-	 * @param paginadorActivitiesAndHr
+	 * @param paginationActivitiesAndHr
 	 *            : Pager relationship and human resources activities.
 	 */
-	public void setPaginadorActivitiesAndHr(Paginador paginadorActivitiesAndHr) {
-		this.paginadorActivitiesAndHr = paginadorActivitiesAndHr;
+	public void setPaginationActivitiesAndHr(Paginador paginationActivitiesAndHr) {
+		this.paginationActivitiesAndHr = paginationActivitiesAndHr;
 	}
 
 	/**
@@ -452,7 +452,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * workers.
 	 */
 	public void inicializarTrabajadores() {
-		paginadorTrabajador = new Paginador();
+		paginationTrabajador = new Paginador();
 		consultarTrabajador();
 	}
 
@@ -488,13 +488,13 @@ public class ActivitiesAndHrAction implements Serializable {
 			Long cantidad = hrDao.hrAmount(consulta, parametros);
 			if (cantidad != null) {
 				if (cantidad > 5) {
-					paginadorTrabajador.paginarRangoDefinido(cantidad, 5);
+					paginationTrabajador.paginarRangoDefinido(cantidad, 5);
 				} else {
-					paginadorTrabajador.paginar(cantidad);
+					paginationTrabajador.paginar(cantidad);
 				}
 				this.trabajadores = hrDao.queryHr(
-						paginadorTrabajador.getInicio(),
-						paginadorTrabajador.getRango(), consulta, parametros);
+						paginationTrabajador.getInicio(),
+						paginationTrabajador.getRango(), consulta, parametros);
 			}
 			if ((trabajadores == null || trabajadores.size() <= 0)
 					&& !"".equals(unionMensajesBusqueda.toString())) {
@@ -818,19 +818,19 @@ public class ActivitiesAndHrAction implements Serializable {
 						.getSelectedActivity();
 			}
 			busquedaAvanzadaActivitiesAndHr(consulta, parametros);
-			Long cantidad = activitiesAndHrDao.amountActivitiesAndHr(
-					consulta, parametros);
+			Long cantidad = activitiesAndHrDao.amountActivitiesAndHr(consulta,
+					parametros);
 			busquedaAvanzadaActivitiesAndHr(consulta, parametros);
 			if (cantidad != null) {
 				if (cantidad > 5) {
-					paginadorActivitiesAndHr.paginarRangoDefinido(cantidad, 5);
+					paginationActivitiesAndHr.paginarRangoDefinido(cantidad, 5);
 				} else {
-					paginadorActivitiesAndHr.paginar(cantidad);
+					paginationActivitiesAndHr.paginar(cantidad);
 				}
 				this.listaActivitiesAndHrTemp = activitiesAndHrDao
 						.queryActivitiesAndHr(
-								paginadorActivitiesAndHr.getInicio(),
-								paginadorActivitiesAndHr.getRango(), consulta,
+								paginationActivitiesAndHr.getInicio(),
+								paginationActivitiesAndHr.getRango(), consulta,
 								parametros);
 				if (param2 != null && (desdeModal || param2.equals("mostrar"))) {
 					recordActivitiesActualsAction
