@@ -48,7 +48,7 @@ public class MachinesAction implements Serializable {
 	private Machines machines;
 	private ScheduledActivitiesAction scheduledActivitiesAction;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private String nameSearch;
 	private String serialSearch;
 
@@ -106,18 +106,18 @@ public class MachinesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list of names of machines.
+	 * @return pagination: Management paged list of names of machines.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paged list of names of machines.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class MachinesAction implements Serializable {
 		nameSearch = "";
 		serialSearch = "";
 		setState(false);
-		this.paginador = new Paginador();
+		this.pagination = new Paginador();
 		this.nameMachines = 0;
 		return consultMachines();
 
@@ -273,7 +273,7 @@ public class MachinesAction implements Serializable {
 	 */
 	public void initializeMachines() {
 		setState(true);
-		this.paginador.setOpcion('f');
+		this.pagination.setOpcion('f');
 		consultMachines();
 	}
 
@@ -307,13 +307,13 @@ public class MachinesAction implements Serializable {
 			Long quantity = machinesDao.quantityMachines(query, parameters);
 			if (quantity != null) {
 				if (this.state) {
-					paginador.paginarRangoDefinido(quantity, 5);
+					pagination.paginarRangoDefinido(quantity, 5);
 				} else {
-					paginador.paginar(quantity);
+					pagination.paginar(quantity);
 				}
 			}
 			this.listMachines = machinesDao.consultMachines(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if (!this.state) {
 				loadMachineTypes();

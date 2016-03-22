@@ -40,7 +40,7 @@ public class CustomerAction implements Serializable {
 	private List<Customer> customersList;
 
 	private Customer customer;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String nameSearch;
 
@@ -75,18 +75,18 @@ public class CustomerAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list of customers.
+	 * @return pagination: Management paged list of customers.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :Management paged list of customers.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -136,10 +136,10 @@ public class CustomerAction implements Serializable {
 			advancedQuery(queryBuilder, parameters, bundle, jointQueryMessages);
 			Long amount = customerDao.customersAmount(queryBuilder, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
-			customersList = customerDao.searchCustomers(paginador.getInicio(),
-					paginador.getRango(), queryBuilder, parameters);
+			customersList = customerDao.searchCustomers(pagination.getInicio(),
+					pagination.getRango(), queryBuilder, parameters);
 
 			if ((customersList == null || customersList.size() <= 0)
 					&& !"".equals(jointQueryMessages.toString())) {

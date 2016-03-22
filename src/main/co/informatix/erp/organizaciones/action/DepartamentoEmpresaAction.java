@@ -62,7 +62,7 @@ public class DepartamentoEmpresaAction implements Serializable {
 	@Resource
 	private UserTransaction userTransaction;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private DepartamentoEmpresa departamentoEmpresa;
 
 	private List<DepartamentoEmpresa> listaDepartamentoEmpresas;
@@ -101,20 +101,20 @@ public class DepartamentoEmpresaAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: gets the instance of the pager to the list of
+	 * @return pagination: gets the instance of the pager to the list of
 	 *         departments within the company on the interface.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : sets the instance of the pager to the list of departments
 	 *            within the company on the interface.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -541,10 +541,10 @@ public class DepartamentoEmpresaAction implements Serializable {
 			cantidadRegistros = this.departamentoEmpresaDao
 					.cantidadDepartamentosEmpresa(condicionVigencia,
 							this.nombreBuscar);
-			this.paginador.paginar(cantidadRegistros);
+			this.pagination.paginar(cantidadRegistros);
 			this.listaDepartamentoEmpresas = this.departamentoEmpresaDao
-					.consultarDepartamentosEmpresa(this.paginador.getInicio(),
-							this.paginador.getRango(), condicionVigencia,
+					.consultarDepartamentosEmpresa(this.pagination.getInicio(),
+							this.pagination.getRango(), condicionVigencia,
 							this.nombreBuscar);
 			for (DepartamentoEmpresa departamentoEmpresa : listaDepartamentoEmpresas) {
 				List<TipoCargo> tipoCargos = tipoCargoDao

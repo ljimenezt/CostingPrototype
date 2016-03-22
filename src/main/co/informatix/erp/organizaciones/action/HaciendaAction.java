@@ -58,7 +58,7 @@ import co.informatix.security.action.IdentityAction;
 @RequestScoped
 public class HaciendaAction implements Serializable {
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Hacienda hacienda;
 
 	private List<Hacienda> listaHaciendas;
@@ -234,19 +234,19 @@ public class HaciendaAction implements Serializable {
 
 	/**
 	 * 
-	 * @return paginador: management paged list estates in sight
+	 * @return pagination: management paged list estates in sight
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
 	 * 
-	 * @param paginador
+	 * @param pagination
 	 *            : management paged list estates in sights
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -464,15 +464,15 @@ public class HaciendaAction implements Serializable {
 				Long cantidadHaciendasPorNombreEmpresa = haciendaDao
 						.cantidadHaciendasPorNombreEmpresa(nombreEmpresaBuscar);
 				if (cantidadHaciendasPorNombreEmpresa != null) {
-					paginador.paginar(cantidadHaciendasPorNombreEmpresa);
+					pagination.paginar(cantidadHaciendasPorNombreEmpresa);
 				}
 				listaHaciendas = haciendaDao.buscarHaciendasPorNombreEmpresa(
-						nombreEmpresaBuscar, paginador.getInicio(),
-						paginador.getRango());
+						nombreEmpresaBuscar, pagination.getInicio(),
+						pagination.getRango());
 			} else {
-				paginador.paginar(haciendaDao.cantidadHaciendas());
+				pagination.paginar(haciendaDao.cantidadHaciendas());
 				listaHaciendas = haciendaDao.consultarHaciendas(
-						paginador.getInicio(), paginador.getRango());
+						pagination.getInicio(), pagination.getRango());
 			}
 			/* builds the messages Search */
 			if ((listaHaciendas == null || listaHaciendas.size() <= 0)

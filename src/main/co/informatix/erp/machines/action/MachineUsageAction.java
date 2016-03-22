@@ -59,8 +59,8 @@ public class MachineUsageAction implements Serializable {
 	private HashMap<Integer, Machines> machineUnique;
 
 	private MachineUsage machineUsage;
-	private Paginador paginador = new Paginador();
-	private Paginador paginadorActivity = new Paginador();
+	private Paginador pagination = new Paginador();
+	private Paginador paginationActivity = new Paginador();
 
 	private String nameSearch;
 	private int nameMachine;
@@ -195,34 +195,34 @@ public class MachineUsageAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paged list of the machine usage.
+	 * @return pagination: Paged list of the machine usage.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paged list of the machine usage.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
-	 * @return paginadorActivity: Paged list of the activities with unreported
+	 * @return paginationActivity: Paged list of the activities with unreported
 	 *         duration.
 	 */
-	public Paginador getPaginadorActivity() {
-		return paginadorActivity;
+	public Paginador getPaginationActivity() {
+		return paginationActivity;
 	}
 
 	/**
-	 * @param paginadorActivity
+	 * @param paginationActivity
 	 *            : Paged list of the activities with unreported duration.
 	 */
-	public void setPaginadorActivity(Paginador paginadorActivity) {
-		this.paginadorActivity = paginadorActivity;
+	public void setPaginationActivity(Paginador paginationActivity) {
+		this.paginationActivity = paginationActivity;
 	}
 
 	/**
@@ -340,10 +340,10 @@ public class MachineUsageAction implements Serializable {
 			Long amount = machineUsageDao.machineUsageAmount(consult,
 					parameters);
 			if (amount > 0) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			listMachineUsage = machineUsageDao.searchMachineUsage(
-					paginador.getInicio(), paginador.getRango(), consult,
+					pagination.getInicio(), pagination.getRango(), consult,
 					parameters);
 			if ((listMachineUsage == null || listMachineUsage.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {
@@ -705,9 +705,9 @@ public class MachineUsageAction implements Serializable {
 	public void managePagedList() {
 		Long amountPagedList = (long) this.listActivityMachines.size();
 		try {
-			this.paginadorActivity.paginarRangoDefinido(amountPagedList, 10);
-			int start = paginadorActivity.getItemInicial() - 1;
-			int end = paginadorActivity.getItemFinal();
+			this.paginationActivity.paginarRangoDefinido(amountPagedList, 10);
+			int start = paginationActivity.getItemInicial() - 1;
+			int end = paginationActivity.getItemFinal();
 			this.subListActivityMachines = this.listActivityMachines.subList(
 					start, end);
 		} catch (Exception e) {

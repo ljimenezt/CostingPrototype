@@ -52,7 +52,7 @@ public class InsuranceAction implements Serializable {
 	private Date initDaySearch;
 	private Date lastDaySearch;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Insurance insurance;
 	private Machines machines;
 	private MachineTypes machineTypes;
@@ -185,18 +185,18 @@ public class InsuranceAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paged list of insurance that may be in view.
+	 * @return pagination: Paged list of insurance that may be in view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paged list of insurance that may be in view
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -261,10 +261,10 @@ public class InsuranceAction implements Serializable {
 			Long amount = insuranceDao.insurancesAmount(queryBuilder,
 					parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			insurancesList = insuranceDao.searchInsurances(
-					paginador.getInicio(), paginador.getRango(), queryBuilder,
+					pagination.getInicio(), pagination.getRango(), queryBuilder,
 					parameters);
 			if ((insurancesList == null || insurancesList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {

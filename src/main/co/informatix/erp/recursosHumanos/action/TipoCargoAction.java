@@ -45,7 +45,7 @@ public class TipoCargoAction implements Serializable {
 	private IdentityAction identity;
 
 	private List<TipoCargo> listaTiposCargo;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private TipoCargo tipoCargoVigencia;
 	private TipoCargo tipoCargo;
 	private String vigencia = Constantes.SI;
@@ -67,20 +67,20 @@ public class TipoCargoAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: management paginated list of types of jobs that may be
+	 * @return pagination: management paginated list of types of jobs that may be
 	 *         in view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : management paginated list of types of jobs that may be in
 	 *            view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -207,9 +207,9 @@ public class TipoCargoAction implements Serializable {
 			this.listaTiposCargo = new ArrayList<TipoCargo>();
 			long cantidadRegistros = this.tipoCargoDao.contarTiposCargo(
 					condicionVigencia, this.nombreBuscar);
-			paginador.paginar(cantidadRegistros);
+			pagination.paginar(cantidadRegistros);
 			this.listaTiposCargo = tipoCargoDao.buscarTiposCargo(
-					paginador.getInicio(), paginador.getRango(),
+					pagination.getInicio(), pagination.getRango(),
 					condicionVigencia, this.nombreBuscar);
 			if ((this.listaTiposCargo == null || this.listaTiposCargo.size() <= 0)
 					&& (this.nombreBuscar != null && !""

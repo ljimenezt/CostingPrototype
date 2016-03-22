@@ -72,7 +72,7 @@ public class EmpresaAction implements Serializable {
 	@Resource
 	private UserTransaction userTransaction;
 
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Empresa empresaVigencia;
 	private Empresa empresa;
 	private List<Empresa> listaEmpresas;
@@ -241,18 +241,18 @@ public class EmpresaAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Object to the functions of the pager companies
+	 * @return pagination: Object to the functions of the pager companies
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Object to the functions of the pager companies
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -497,19 +497,19 @@ public class EmpresaAction implements Serializable {
 					unionMensajesBusqueda);
 			if (Constantes.N_TAB.equals(rol)) {
 				/* All companies are queried */
-				this.paginador.paginar(this.empresaDao.cantidadEmpresas(
+				this.pagination.paginar(this.empresaDao.cantidadEmpresas(
 						condicionVigencia, consulta, parametros));
 				this.listaEmpresas = this.empresaDao.consultarEmpresas(
-						this.paginador.getInicio(), this.paginador.getRango(),
+						this.pagination.getInicio(), this.pagination.getRango(),
 						condicionVigencia, consulta, parametros);
 			} else if (Constantes.F_TAB.equals(rol)) {
 				/* Businesses are consulted with estates */
-				this.paginador.paginar(this.empresaDao
+				this.pagination.paginar(this.empresaDao
 						.cantidadEmpresasConHaciendas(condicionVigencia));
 				this.listaEmpresas = this.empresaDao
 						.consultarEmpresasConHaciendas(
-								this.paginador.getInicio(),
-								this.paginador.getRango(), condicionVigencia);
+								this.pagination.getInicio(),
+								this.pagination.getRango(), condicionVigencia);
 			}
 			this.empresaVigencia = new Empresa();
 			cargarDetallesEmpresas();
