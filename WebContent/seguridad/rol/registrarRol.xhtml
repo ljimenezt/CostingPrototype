@@ -310,8 +310,8 @@
 						</div>
 						<a:outputPanel id="panelTablaMenu">
 							<ui:param name="listaVaciaMenus"
-								value="#{menuAction.listaMenus eq null or empty (menuAction.listaMenus)}" />
-							<rich:dataTable value="#{menuAction.listaMenus}" var="menu"
+								value="#{menuAction.listMenus eq null or empty (menuAction.listMenus)}" />
+							<rich:dataTable value="#{menuAction.listMenus}" var="menu"
 								id="tablaMenus"
 								styleClass="#{listaVaciaMenus ? 'BCTransparente' : 'dataTable'} anchoTres"
 								rowClasses="odd-row, even-row" footerClass="H130P">
@@ -435,7 +435,7 @@
 					<h:outputText value="#{mensaje.label_nombre}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100"
-						value="#{menuAction.nombreBuscar}" id="txtNombreMenuBuscar"
+						value="#{menuAction.nameSearch}" id="txtNombreMenuBuscar"
 						onkeypress="return submitByEnter(event,'popUpForm:btnBuscarSel')" />
 				</h:panelGrid>
 				<br />
