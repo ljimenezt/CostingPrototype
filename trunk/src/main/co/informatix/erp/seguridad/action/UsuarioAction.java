@@ -696,7 +696,7 @@ public class UsuarioAction implements Serializable {
 				user.setFechaInicioVigencia(new Date());
 				user.setUserName(identity.getUserName());
 				user.setPassword(SecureIdentityLoginModule.doSign(user
-						.getNombreUsuario()
+						.getPassword()
 						+ ControladorFechas.formatDate(user.getFechaCreacion(),
 								Constantes.DATE_FORMAT_CREATION)));
 				usuarioDao.saveUser(user);
