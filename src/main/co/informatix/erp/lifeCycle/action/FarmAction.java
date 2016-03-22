@@ -60,7 +60,7 @@ public class FarmAction implements Serializable {
 	private List<Farm> farmsList;
 
 	private Farm farm;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String nameSearch;
 	private String filesFolder;
@@ -111,16 +111,16 @@ public class FarmAction implements Serializable {
 	 * @return Paginador: Management paged list for estates.
 	 * 
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paged list for estates.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -268,10 +268,10 @@ public class FarmAction implements Serializable {
 			advancedSearch(queryBuilder, parameters, bundle, jointQueryMessage);
 			Long amount = farmDao.amountFarms(queryBuilder, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
-			farmsList = farmDao.searchFarms(paginador.getInicio(),
-					paginador.getRango(), queryBuilder, parameters);
+			farmsList = farmDao.searchFarms(pagination.getInicio(),
+					pagination.getRango(), queryBuilder, parameters);
 			if ((farmsList == null || farmsList.size() <= 0)
 					&& !"".equals(jointQueryMessage.toString())) {
 				searchMessage = MessageFormat

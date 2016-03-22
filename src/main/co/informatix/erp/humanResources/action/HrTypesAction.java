@@ -35,7 +35,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 public class HrTypesAction implements Serializable {
 
 	private List<HrTypes> hrTypesList;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private HrTypes hrTypes;
 	private String nameSearch;
 
@@ -58,20 +58,20 @@ public class HrTypesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paged list of human resources types which may be in
+	 * @return pagination: Paged list of human resources types which may be in
 	 *         the view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paged list of human resources types which may be in the
 	 *            view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -139,10 +139,10 @@ public class HrTypesAction implements Serializable {
 			advancedQuery(queryBuilder, parameters, bundle, jointSearchMessages);
 			Long amount = hrTypesDao.amountHrTypes(queryBuilder, parameters);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
-			hrTypesList = hrTypesDao.searchHrTypes(paginador.getInicio(),
-					paginador.getRango(), queryBuilder, parameters);
+			hrTypesList = hrTypesDao.searchHrTypes(pagination.getInicio(),
+					pagination.getRango(), queryBuilder, parameters);
 			if ((hrTypesList == null || hrTypesList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {
 				searchMessage = MessageFormat

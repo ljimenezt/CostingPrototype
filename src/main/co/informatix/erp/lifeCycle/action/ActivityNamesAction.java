@@ -42,7 +42,7 @@ public class ActivityNamesAction implements Serializable {
 	private List<ActivityNames> activityNamesList;
 
 	private ActivityNames activityNames;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String nameSearch;
 
@@ -82,19 +82,19 @@ public class ActivityNamesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Page list to manage the names of activities.
+	 * @return pagination: Page list to manage the names of activities.
 	 * 
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Page list to manage the names of activities.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -155,14 +155,14 @@ public class ActivityNamesAction implements Serializable {
 					parameters);
 			if (amount != null) {
 				if (fromWindow) {
-					paginador.paginarRangoDefinido(amount, 5);
+					pagination.paginarRangoDefinido(amount, 5);
 				} else {
-					paginador.paginar(amount);
+					pagination.paginar(amount);
 				}
 
 			}
 			activityNamesList = activityNamesDao.queryActivityNames(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((activityNamesList == null || activityNamesList.size() <= 0)
 					&& !"".equals(queryJointMessages.toString())) {

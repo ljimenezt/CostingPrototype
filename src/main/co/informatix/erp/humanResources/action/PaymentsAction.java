@@ -41,7 +41,7 @@ public class PaymentsAction implements Serializable {
 
 	private List<Payments> listPayments;
 	private Payments payments;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 
 	private String nameSearch = "";
 
@@ -76,18 +76,18 @@ public class PaymentsAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paginated list of payments which may have in the view.
+	 * @return pagination: Paginated list of payments which may have in the view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paginated list of payments which may have in the view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -138,10 +138,10 @@ public class PaymentsAction implements Serializable {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long quantity = paymentsDao.quantityPayments(query, parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
-			listPayments = paymentsDao.consultPayments(paginador.getInicio(),
-					paginador.getRango(), query, parameters);
+			listPayments = paymentsDao.consultPayments(pagination.getInicio(),
+					pagination.getRango(), query, parameters);
 			if ((listPayments == null || listPayments.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat

@@ -62,7 +62,7 @@ public class CropsAction implements Serializable {
 	private List<Plot> listPlotsAsocciates;
 	private List<SelectItem> options;
 	private List<SelectItem> selectYear;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private String nameSearch;
 	private String year;
 	private int nameCrop;
@@ -143,18 +143,18 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paginated list of the names of crops.
+	 * @return pagination: Management paginated list of the names of crops.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            :Management paginated list of the names of crops.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -269,10 +269,10 @@ public class CropsAction implements Serializable {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long quantity = cropsDao.quantityCrops(query, parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
-			listCrops = cropsDao.consultCrops(paginador.getInicio(),
-					paginador.getRango(), query, parameters);
+			listCrops = cropsDao.consultCrops(pagination.getInicio(),
+					pagination.getRango(), query, parameters);
 			listCropNames();
 			this.nameSearch = "";
 			if ((listCrops == null || listCrops.size() <= 0)

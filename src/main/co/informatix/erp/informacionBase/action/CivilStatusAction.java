@@ -34,7 +34,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 @RequestScoped
 public class CivilStatusAction implements Serializable {
 	private List<CivilStatus> listCivilStatus;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private CivilStatus civilStatus;
 	private String nameSearch;
 
@@ -57,18 +57,18 @@ public class CivilStatusAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paginated list of civil states can be in view.
+	 * @return pagination: Paginated list of civil states can be in view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paginated list of civil states can be in view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -134,10 +134,10 @@ public class CivilStatusAction implements Serializable {
 			Long quantity = civilStatusDao.quantityCivilStatus(query,
 					parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listCivilStatus = civilStatusDao.consultCivilStatus(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((listCivilStatus == null || listCivilStatus.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {

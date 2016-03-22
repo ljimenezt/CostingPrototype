@@ -61,7 +61,7 @@ public class CycleAction implements Serializable {
 	private List<SelectItem> itemsMaterials;
 	private List<SelectItem> itemsMachinesType;
 	private List<SelectItem> itemsServicesType;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private Cycle cycle;
 	private Crops crops;
 	private String nameSearch;
@@ -234,18 +234,18 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list of cycles.
+	 * @return pagination: Management paged list of cycles.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paged list of cycles.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -841,12 +841,12 @@ public class CycleAction implements Serializable {
 			Long amount = cycleDao.amountCycleCrop(consult, parameters,
 					this.idCrops);
 			if (amount != null) {
-				paginador.paginar(amount);
+				pagination.paginar(amount);
 			}
 			if (amount != null && amount > 0) {
 				listCycles = cycleDao
-						.consultCycleByCrop(paginador.getInicio(),
-								paginador.getRango(), consult, parameters,
+						.consultCycleByCrop(pagination.getInicio(),
+								pagination.getRango(), consult, parameters,
 								this.idCrops);
 			}
 			if ((listCycles == null || listCycles.size() <= 0)

@@ -35,7 +35,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 public class ContractTypeAction implements Serializable {
 
 	private List<ContractType> listContractType;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private ContractType contractType;
 
 	private String nameSearch;
@@ -59,19 +59,19 @@ public class ContractTypeAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paginated list of the types of contract may be in
+	 * @return pagination: Paginated list of the types of contract may be in
 	 *         view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Paginated list of the types of contract may be in view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -138,10 +138,10 @@ public class ContractTypeAction implements Serializable {
 			Long quantity = contractTypeDao.quantityContractType(query,
 					parameters);
 			if (quantity != null) {
-				paginador.paginar(quantity);
+				pagination.paginar(quantity);
 			}
 			listContractType = contractTypeDao.consultContractType(
-					paginador.getInicio(), paginador.getRango(), query,
+					pagination.getInicio(), pagination.getRango(), query,
 					parameters);
 			if ((listContractType == null || listContractType.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {

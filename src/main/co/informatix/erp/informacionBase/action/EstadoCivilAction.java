@@ -39,7 +39,7 @@ import co.informatix.security.action.IdentityAction;
 public class EstadoCivilAction implements Serializable {
 
 	private List<EstadoCivil> listaEstadosCiviles;
-	private Paginador paginador = new Paginador();
+	private Paginador pagination = new Paginador();
 	private EstadoCivil estadoCivil;
 	private String vigencia = "si";
 	private String nombreBuscar;
@@ -122,20 +122,20 @@ public class EstadoCivilAction implements Serializable {
 
 	/**
 	 * 
-	 * @return paginador: paging management of the list of civil States May Have
+	 * @return pagination: paging management of the list of civil States May Have
 	 *         the view.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : mapaging management of the list of civil States May Have the
 	 *            view.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
@@ -193,10 +193,10 @@ public class EstadoCivilAction implements Serializable {
 					.cantidadEstadosCiviles(condicionVigencia,
 							this.nombreBuscar);
 			if (cantidadEstadosCiviles != null) {
-				paginador.paginar(cantidadEstadosCiviles);
+				pagination.paginar(cantidadEstadosCiviles);
 			}
 			this.listaEstadosCiviles = estadoCivilDao.consultarEstadosCiviles(
-					paginador.getInicio(), paginador.getRango(),
+					pagination.getInicio(), pagination.getRango(),
 					condicionVigencia, this.nombreBuscar);
 			if (listaEstadosCiviles == null || listaEstadosCiviles.size() <= 0
 					&& this.nombreBuscar != null

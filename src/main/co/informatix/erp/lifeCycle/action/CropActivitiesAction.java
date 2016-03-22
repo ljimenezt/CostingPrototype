@@ -66,10 +66,10 @@ public class CropActivitiesAction implements Serializable {
 	private List<Activities> subListActivities;
 	private List<CycleStandardActivities> subListCycleStandardActivities;
 
-	private Paginador paginador = new Paginador();
-	private Paginador paginadorActivities = new Paginador();
-	private Paginador paginadorActivitiesStandardCycle = new Paginador();
-	private Paginador paginadorListActivities = new Paginador();
+	private Paginador pagination = new Paginador();
+	private Paginador paginationActivities = new Paginador();
+	private Paginador paginationActivitiesStandardCycle = new Paginador();
+	private Paginador paginationListActivities = new Paginador();
 
 	private Activities activities;
 	private Activities removeList;
@@ -202,66 +202,66 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Management paged list of activity names.
+	 * @return pagination: Management paged list of activity names.
 	 */
-	public Paginador getPaginador() {
-		return paginador;
+	public Paginador getPagination() {
+		return pagination;
 	}
 
 	/**
-	 * @param paginador
+	 * @param pagination
 	 *            : Management paged list of activity names.
 	 */
-	public void setPaginador(Paginador paginador) {
-		this.paginador = paginador;
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
 	}
 
 	/**
-	 * @return paginadorActivities: Management paged list of activities.
+	 * @return paginationActivities: Management paged list of activities.
 	 */
-	public Paginador getPaginadorActivities() {
-		return paginadorActivities;
+	public Paginador getPaginationActivities() {
+		return paginationActivities;
 	}
 
 	/**
-	 * @param paginadorActivities
+	 * @param paginationActivities
 	 *            : Management paged list of activities.
 	 */
-	public void setPaginadorActivities(Paginador paginadorActivities) {
-		this.paginadorActivities = paginadorActivities;
+	public void setPaginationActivities(Paginador paginationActivities) {
+		this.paginationActivities = paginationActivities;
 	}
 
 	/**
-	 * @return paginadorActivitiesStandardCycle: Management paged list of
+	 * @return paginationActivitiesStandardCycle: Management paged list of
 	 *         activities standard cycle.
 	 */
-	public Paginador getPaginadorActivitiesStandardCycle() {
-		return paginadorActivitiesStandardCycle;
+	public Paginador getpaginationActivitiesStandardCycle() {
+		return paginationActivitiesStandardCycle;
 	}
 
 	/**
-	 * @param paginadorActivitiesStandardCycle
+	 * @param paginationActivitiesStandardCycle
 	 *            : Management paged list of activities standard cycle.
 	 */
-	public void setPaginadorActivitiesStandardCycle(
-			Paginador paginadorActivitiesStandardCycle) {
-		this.paginadorActivitiesStandardCycle = paginadorActivitiesStandardCycle;
+	public void setpaginationActivitiesStandardCycle(
+			Paginador paginationActivitiesStandardCycle) {
+		this.paginationActivitiesStandardCycle = paginationActivitiesStandardCycle;
 	}
 
 	/**
-	 * @return paginadorListActivities: Management paged list of activities.
+	 * @return paginationListActivities: Management paged list of activities.
 	 * 
 	 */
-	public Paginador getPaginadorListActivities() {
-		return paginadorListActivities;
+	public Paginador getPaginationListActivities() {
+		return paginationListActivities;
 	}
 
 	/**
-	 * @param paginadorListActivities
+	 * @param paginationListActivities
 	 *            :Management paged list of activities.
 	 */
-	public void setPaginadorListActivities(Paginador paginadorListActivities) {
-		this.paginadorListActivities = paginadorListActivities;
+	public void setPaginationListActivities(Paginador paginationListActivities) {
+		this.paginationListActivities = paginationListActivities;
 	}
 
 	/**
@@ -696,10 +696,10 @@ public class CropActivitiesAction implements Serializable {
 			Long amount = activityNamesDao.amountActivityNameCrops(consult,
 					parameters);
 			if (amount != null) {
-				paginador.paginarRangoDefinido(amount, 5);
+				pagination.paginarRangoDefinido(amount, 5);
 			}
 			listActivityNames = activityNamesDao.queryActivityNamesXIdCrop(
-					paginador.getInicio(), paginador.getRango(), consult,
+					pagination.getInicio(), pagination.getRango(), consult,
 					parameters);
 			if (this.listActivityNames != null
 					&& this.listActivityNames.size() > 0) {
@@ -789,7 +789,7 @@ public class CropActivitiesAction implements Serializable {
 			this.listActivities = new ArrayList<Activities>();
 		}
 		this.listActivities.add(this.activities);
-		this.paginador = new Paginador();
+		this.pagination = new Paginador();
 		initializeList();
 	}
 
@@ -876,11 +876,11 @@ public class CropActivitiesAction implements Serializable {
 			Long amount = activitiesDao.amountActivitiesCrop(consult,
 					parameters, idCrops);
 			if (amount != null) {
-				paginadorListActivities.paginar(amount);
+				paginationListActivities.paginar(amount);
 			}
 			this.listActivities = activitiesDao.queryActivitiesByCrop(
-					paginadorListActivities.getInicio(),
-					paginadorListActivities.getRango(), consult, parameters,
+					paginationListActivities.getInicio(),
+					paginationListActivities.getRango(), consult, parameters,
 					idCrops);
 			if (!clean) {
 				this.listCycleStandardActivities = new ArrayList<CycleStandardActivities>();
@@ -1067,9 +1067,10 @@ public class CropActivitiesAction implements Serializable {
 	public void initializeList() {
 		Long cantidadPaginador = (long) listActivities.size();
 		try {
-			this.paginadorActivities.paginarRangoDefinido(cantidadPaginador, 5);
-			int inicial = paginadorActivities.getItemInicial() - 1;
-			int fin = paginadorActivities.getItemFinal();
+			this.paginationActivities
+					.paginarRangoDefinido(cantidadPaginador, 5);
+			int inicial = paginationActivities.getItemInicial() - 1;
+			int fin = paginationActivities.getItemFinal();
 			this.subListActivities = listActivities.subList(inicial, fin);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -1084,10 +1085,10 @@ public class CropActivitiesAction implements Serializable {
 	public void initializeListStandardCycle() {
 		Long cantidadPaginador = (long) listCycleStandardActivities.size();
 		try {
-			this.paginadorActivitiesStandardCycle.paginarRangoDefinido(
+			this.paginationActivitiesStandardCycle.paginarRangoDefinido(
 					cantidadPaginador, 5);
-			int inicial = paginadorActivitiesStandardCycle.getItemInicial() - 1;
-			int fin = paginadorActivitiesStandardCycle.getItemFinal();
+			int inicial = paginationActivitiesStandardCycle.getItemInicial() - 1;
+			int fin = paginationActivitiesStandardCycle.getItemFinal();
 			this.subListCycleStandardActivities = listCycleStandardActivities
 					.subList(inicial, fin);
 		} catch (Exception e) {
