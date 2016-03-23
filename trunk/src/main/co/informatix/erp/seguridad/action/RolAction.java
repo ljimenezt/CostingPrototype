@@ -955,8 +955,7 @@ public class RolAction implements Serializable {
 	 *            : Menu identifier to see if it has permission to be displayed
 	 *            or not.
 	 * 
-	 * @return boolean: True if it has permissions for viewing, otherwise
-	 *         false.
+	 * @return boolean: True if it has permissions for viewing, otherwise false.
 	 */
 	public boolean notSelectedMenu(Integer id) {
 		return this.menuViewNoSelected.contains(id);
