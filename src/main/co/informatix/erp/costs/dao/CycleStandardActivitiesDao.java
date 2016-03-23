@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -113,7 +114,72 @@ public class CycleStandardActivitiesDao implements Serializable {
 			return true;
 		}
 		return false;
+	}
+	/**
+	 * Returns the amount of cycle standars - activities
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param consulta
+	 *            : String containing the query why the filter assignments.
+	 * @param parameters
+	 *            : query parameters.
+	 * @return
+	 * @throws Exception
+	 */
+	public Long quantityCycleStandard(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(csa) FROM CycleStandardActivities csa ");
+		query.append("JOIN csa.cropNames cn ");
+		query.append("JOIN csa.activityNames an ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parametro : parameters) {
+			q.setParameter(parametro.getLabel(), parametro.getValue());
+		}
+		return (Long) q.getSingleResult();
+	}
 
+	/**
+	 * This method consulting CycleStandardActivities with a certain range sent
+	 * as a parameter and filtering the information by the values of search
+	 * sent.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param start
+	 *            : where it initiates the consultation record
+	 * @param range
+	 *            : range of records
+	 * @param consult
+	 *            : Consultation records depending on the parameters selected by
+	 *            the user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<CycleStandardActivities> : list of cycle standar activities
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CycleStandardActivities> queryCycleStandarActivities(int start,
+			int range, StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT csa FROM CycleStandardActivities csa ");
+		query.append("JOIN FETCH csa.cropNames cn ");
+		query.append("JOIN FETCH csa.activityNames an ");
+		query.append(consult);
+		query.append("ORDER BY csa.id");
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parametro : parameters) {
+			q.setParameter(parametro.getLabel(), parametro.getValue());
+		}
+		q.setFirstResult(start).setMaxResults(range);
+		List<CycleStandardActivities> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
 	}
 
 }
