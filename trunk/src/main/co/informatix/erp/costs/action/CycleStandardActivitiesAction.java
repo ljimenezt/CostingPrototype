@@ -363,8 +363,8 @@ public class CycleStandardActivitiesAction implements Serializable {
 	public void initializeList() {
 		Long paginadorAmount = (long) cycleStandardActivitiesList.size();
 		try {
-			this.paginationCycleActivities.paginarRangoDefinido(paginadorAmount,
-					10);
+			this.paginationCycleActivities.paginarRangoDefinido(
+					paginadorAmount, 10);
 			int first = paginationCycleActivities.getItemInicial() - 1;
 			int last = paginationCycleActivities.getItemFinal();
 			this.cycleStandardsList = cycleStandardActivitiesList.subList(

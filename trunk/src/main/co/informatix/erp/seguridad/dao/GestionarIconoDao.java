@@ -191,8 +191,8 @@ public class GestionarIconoDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Icono> consultIconsXNamePaginator(String nameSearch,
-			int start, int range) throws Exception {
+	public List<Icono> consultIconsXNamePaginator(String nameSearch, int start,
+			int range) throws Exception {
 		return em
 				.createQuery(
 						"SELECT i FROM Icono i "

@@ -421,7 +421,8 @@ public class IconoAction implements Serializable {
 	}
 
 	/**
-	 * Method to rename the file in case of placing a name in the user interface.
+	 * Method to rename the file in case of placing a name in the user
+	 * interface.
 	 * 
 	 * @param namFileActual
 	 *            :Name of the file to be loaded.

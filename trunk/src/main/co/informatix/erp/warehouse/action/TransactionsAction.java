@@ -44,7 +44,8 @@ public class TransactionsAction implements Serializable {
 	}
 
 	/**
-	 * @param listTransactions: list of transactions objects
+	 * @param listTransactions
+	 *            : list of transactions objects
 	 */
 	public void setListTransactions(List<Transactions> listTransactions) {
 		this.listTransactions = listTransactions;
@@ -58,7 +59,8 @@ public class TransactionsAction implements Serializable {
 	}
 
 	/**
-	 * @param pagination: Pager for the transactions list
+	 * @param pagination
+	 *            : Pager for the transactions list
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
@@ -72,7 +74,8 @@ public class TransactionsAction implements Serializable {
 	}
 
 	/**
-	 * @param depositSelected: deposit object
+	 * @param depositSelected
+	 *            : deposit object
 	 */
 	public void setDepositSelected(Deposits depositSelected) {
 		this.depositSelected = depositSelected;
@@ -118,9 +121,8 @@ public class TransactionsAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleWarehouse
-										.getString("deposits_label"),
-										allMessageSearch);
+								bundleWarehouse.getString("deposits_label"),
+								allMessageSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {

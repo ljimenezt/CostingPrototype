@@ -627,7 +627,8 @@ public class CycleAction implements Serializable {
 				loadCombos();
 			} else {
 				if (this.idCrops == 0 && this.idCropsName == 0) {
-					this.crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
+					this.crops = cropsDao
+							.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 					this.idCrops = this.getCrops().getIdCrop();
 					this.idCropsName = this.getCrops().getCropNames()
 							.getIdCropName();
@@ -844,10 +845,9 @@ public class CycleAction implements Serializable {
 				pagination.paginar(amount);
 			}
 			if (amount != null && amount > 0) {
-				listCycles = cycleDao
-						.consultCycleByCrop(pagination.getInicio(),
-								pagination.getRango(), consult, parameters,
-								this.idCrops);
+				listCycles = cycleDao.consultCycleByCrop(
+						pagination.getInicio(), pagination.getRango(), consult,
+						parameters, this.idCrops);
 			}
 			if ((listCycles == null || listCycles.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {

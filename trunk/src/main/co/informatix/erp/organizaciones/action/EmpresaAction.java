@@ -500,8 +500,9 @@ public class EmpresaAction implements Serializable {
 				this.pagination.paginar(this.empresaDao.cantidadEmpresas(
 						condicionVigencia, consulta, parametros));
 				this.listaEmpresas = this.empresaDao.consultarEmpresas(
-						this.pagination.getInicio(), this.pagination.getRango(),
-						condicionVigencia, consulta, parametros);
+						this.pagination.getInicio(),
+						this.pagination.getRango(), condicionVigencia,
+						consulta, parametros);
 			} else if (Constantes.F_TAB.equals(rol)) {
 				/* Businesses are consulted with estates */
 				this.pagination.paginar(this.empresaDao

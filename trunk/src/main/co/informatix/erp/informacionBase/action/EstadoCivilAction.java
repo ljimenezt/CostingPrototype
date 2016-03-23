@@ -122,8 +122,8 @@ public class EstadoCivilAction implements Serializable {
 
 	/**
 	 * 
-	 * @return pagination: paging management of the list of civil States May Have
-	 *         the view.
+	 * @return pagination: paging management of the list of civil States May
+	 *         Have the view.
 	 */
 	public Paginador getPagination() {
 		return pagination;

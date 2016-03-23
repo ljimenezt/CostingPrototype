@@ -142,8 +142,9 @@ public class CertificationsAndRolesAction implements Serializable {
 				pagination.paginar(quantity);
 			}
 			listCertificationsAndRoles = certificationsAndRolesDao
-					.consultCertificationsAndRolesAction(pagination.getInicio(),
-							pagination.getRango(), query, parameters);
+					.consultCertificationsAndRolesAction(
+							pagination.getInicio(), pagination.getRango(),
+							query, parameters);
 			if ((listCertificationsAndRoles == null || listCertificationsAndRoles
 					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat

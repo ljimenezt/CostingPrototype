@@ -66,8 +66,8 @@ public class PerfilUsuarioAction implements Serializable {
 	private boolean guardarPersonaDesdePerfil;
 
 	/**
-	 * @return pagination: Object pager functions from the list of companies with
-	 *         permissions to the person.
+	 * @return pagination: Object pager functions from the list of companies
+	 *         with permissions to the person.
 	 */
 	public Paginador getPagination() {
 		return pagination;

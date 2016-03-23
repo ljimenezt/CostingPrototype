@@ -135,10 +135,10 @@ public class MeasurementUnitsDao implements Serializable {
 				"SELECT mu FROM MeasurementUnits mu " + "ORDER BY mu.name ")
 				.getResultList();
 	}
-	
+
 	/**
-	 * Consultation if the name of the measurent units there in the database when storing
-	 * or editing.
+	 * Consultation if the name of the measurent units there in the database
+	 * when storing or editing.
 	 * 
 	 * @author Jhair.Leal
 	 * 
@@ -146,8 +146,8 @@ public class MeasurementUnitsDao implements Serializable {
 	 *            : measurent units name to verify.
 	 * @param id
 	 *            : identifier harvest to verify.
-	 * @return MeasurementUnits: MeasurementUnits object found with the search parameters name
-	 *         and identifier.
+	 * @return MeasurementUnits: MeasurementUnits object found with the search
+	 *         parameters name and identifier.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
