@@ -218,7 +218,7 @@ public class HrDao implements Serializable {
 	 * @return Long: Amounts of activities with at least one certified.
 	 * @throws Exception
 	 */
-	public Long consultarHrCertificados(int idActivity, int idHrTypes)
+	public Long queryHrCertifications(int idActivity, int idHrTypes)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(h) FROM Hr h ");
