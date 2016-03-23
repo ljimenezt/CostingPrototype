@@ -439,8 +439,8 @@ public class PersonaAction implements Serializable {
 		itemsCountries = new ArrayList<SelectItem>();
 		List<Pais> countries = paisDao.consultarPaisesVigentes();
 		if (countries != null) {
-			for (Pais pais : countries) {
-				itemsCountries.add(new SelectItem(pais.getId(), pais
+			for (Pais country : countries) {
+				itemsCountries.add(new SelectItem(country.getId(), country
 						.getNombre()));
 			}
 		}
