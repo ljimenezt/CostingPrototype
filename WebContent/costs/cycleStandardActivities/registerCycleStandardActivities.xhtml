@@ -33,145 +33,134 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" styleClass="required" />
 					<h:selectOneMenu id="cropName"
-						value="#{cycleStandardActivitiesAction.cropNames.idCropName}"
-						styleClass="colTextoMediano" required="true"
-						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						value="#{cycleStandardActivitiesAction.idCropNames}"
+						styleClass="colTextoMediano">
+						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
 						<f:selectItems
 							value="#{cycleStandardActivitiesAction.itemsCropName}" />
 						<f:ajax event="change"
-							listener="#{cycleStandardActivitiesAction.searchCycleStandardActivities}"
-							render=":formInicio" execute="@this" />
+							listener="#{cycleStandardActivitiesAction.consultCycleStandarActivities}"
+							render=":formInicio mensajes" execute="@this" />
 					</h:selectOneMenu>
 					<rich:message for="cropName" />
 				</h:panelGrid>
-				<div class="anchoCuatro">
-					<a:commandLink id="lnkActivityNames"
-						styleClass="iconsDataTable quitarDecoracionLink"
-						rendered="#{cycleStandardActivitiesAction.cropNames.idCropName ne 0}"
-						render=":popupForm:popupActivityNames"
-						actionListener="#{cycleStandardActivitiesAction.setIdCropNames(cycleStandardActivitiesAction.cropNames.idCropName)}"
-						action="#{cycleStandardActivitiesAction.searchActivityNames()}"
-						execute="@form"
-						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupActivityNames')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
-						<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-							<h:graphicImage value="/img/add_16.png"
-								styleClass="verticalAlignMiddle" />
-							<h:outputText
-								value="#{mensajeCosts.cycle_standard_activities_label_agregar_actividad}" />
-						</h:panelGrid>
-						<rich:tooltip layout="block">
-							<h:outputText value="#{mensaje.label_seleccionar}" />
-						</rich:tooltip>
-						<f:param name="param2" value="si" />
-						<f:setPropertyActionListener value=""
-							target="#{cycleStandardActivitiesAction.nameSearch}" />
-						<f:setPropertyActionListener value="f"
-							target="#{cycleStandardActivitiesAction.pagination.opcion}" />
-					</a:commandLink>
-				</div>
-				<ui:param name="listaVacia"
-					value="#{cycleStandardActivitiesAction.cycleStandardActivitiesList.size() eq 0 or (cycleStandardActivitiesAction.cycleStandardActivitiesList eq null)}" />
-				<rich:dataTable
-					value="#{cycleStandardActivitiesAction.cycleStandardsList}"
-					var="cycleStandardActivities" id="txtCycleStandardActivities"
-					footerClass="H130P"
-					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCuatro"
-					rowClasses="odd-row, even-row"
-					rendered="#{cycleStandardActivitiesAction.cycleStandardActivitiesList ne null and cycleStandardActivitiesAction.cropNames.idCropName ne 0}">
-					<rich:column styleClass="colIconoDos">
-						<a:commandLink
-							oncomplete="#{rich:component('popupEliminarLista')}.show()"
-							actionListener="#{cycleStandardActivitiesAction.setDeleteList(cycleStandardActivities)}">
-							<h:graphicImage value="/img/delete_16.png" />
-							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.button_remove}" />
-							</rich:tooltip>
-						</a:commandLink>
-					</rich:column>
-					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
-						<a:commandLink id="linkReg" render="popupFormReg:popupRegCycle"
-							value="" execute="@form"
-							actionListener="#{cycleStandardActivitiesAction.setCycleStandardActivities(cycleStandardActivities)}"
-							oncomplete="#{rich:component('popupRegCycle')}.show(); setFocus('popupFormReg');">
-							<h:outputText
-								value="#{cycleStandardActivities.activityNames.activityName}" />
-						</a:commandLink>
-					</rich:column>
-					<rich:column styleClass="colTextoCorto center">
-						<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_hr}</f:facet>
-						<h:graphicImage value="/img/okPermiso_16.png"
-							rendered="#{cycleStandardActivities.hrRequired eq true}" />
-					</rich:column>
-
-					<rich:column styleClass="colTextoCorto center">
-						<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_maquina}</f:facet>
-						<h:graphicImage value="/img/okPermiso_16.png"
-							rendered="#{cycleStandardActivities.machineRequired eq true}" />
-					</rich:column>
-
-					<rich:column styleClass="colTextoCorto center">
-						<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_servicio}</f:facet>
-						<h:graphicImage value="/img/okPermiso_16.png"
-							rendered="#{cycleStandardActivities.serviceRequired eq true}" />
-					</rich:column>
-
-					<rich:column styleClass="colTextoCorto center">
-						<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_materiales}</f:facet>
-						<h:graphicImage value="/img/okPermiso_16.png"
-							rendered="#{cycleStandardActivities.materialsRequired eq true}" />
-					</rich:column>
-
-					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_num_secuencia}</f:facet>
-						<h:outputText value="#{cycleStandardActivities.sequenceNumber}" />
-					</rich:column>
-
-					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_duracion}</f:facet>
-						<h:outputText value="#{cycleStandardActivities.duration}" />
-					</rich:column>
-
-					<rich:column styleClass="colTextoCorto center">
-						<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_peligroso}</f:facet>
-						<h:graphicImage value="/img/peligroso_19.png"
-							rendered="#{cycleStandardActivities.dangerous eq true}" />
-					</rich:column>
-					<f:facet name="footer">
-						<rich:columnGroup rendered="#{listaVacia}">
-							<rich:column colspan="9" styleClass="footTabla">
+				<a:outputPanel
+					rendered="#{cycleStandardActivitiesAction.idCropNames ne 0}">
+					<div class="anchoCuatro">
+						<a:commandLink id="lnkActivityNames"
+							styleClass="iconsDataTable quitarDecoracionLink"
+							render=":popupForm:popupActivityNames"
+							action="#{cycleStandardActivitiesAction.searchActivityNames()}"
+							execute="@form"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupActivityNames')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/add_16.png"
+									styleClass="verticalAlignMiddle" />
 								<h:outputText
-									value="#{mensaje.message_no_existen_registros_tabla}" />
-							</rich:column>
-						</rich:columnGroup>
-					</f:facet>
-				</rich:dataTable>
-				<br />
-				<a:outputPanel id="paginadorLifeCycle"
-					rendered="#{cycleStandardActivitiesAction.cycleStandardActivitiesList ne null and cycleStandardActivitiesAction.cropNames.idCropName ne 0}">
-					<div class="anchoCuatro center inBlock">
-						<ui:include src="/plantillas/templatePagination.xhtml">
-							<ui:param name="conParam2" value="1" />
-							<ui:param name="pager" value="paginationCycleActivities" />
-							<ui:param name="valReder"
-								value="paginadorLifeCycle, txtCycleStandardActivities" />
-							<ui:param name="beanActionParam"
-								value="#{cycleStandardActivitiesAction}" />
-							<ui:param name="metodoActionParam" value="initializeList" />
-						</ui:include>
+									value="#{mensajeCosts.cycle_standard_activities_label_agregar_actividad}" />
+							</h:panelGrid>
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_seleccionar}" />
+							</rich:tooltip>
+							<f:param name="param2" value="si" />
+							<f:setPropertyActionListener value=""
+								target="#{cycleStandardActivitiesAction.nameSearch}" />
+							<f:setPropertyActionListener value="f"
+								target="#{cycleStandardActivitiesAction.pagination.opcion}" />
+						</a:commandLink>
 					</div>
+					<ui:param name="listaVacia"
+						value="#{cycleStandardActivitiesAction.cycleStandardsList.size() eq 0 or (cycleStandardActivitiesAction.cycleStandardsList eq null)}" />
+					<rich:dataTable
+						value="#{cycleStandardActivitiesAction.cycleStandardsList}"
+						var="cycleStandardActivities" id="txtCycleStandardActivities"
+						footerClass="H130P"
+						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCuatro"
+						rowClasses="odd-row, even-row">
+						<rich:column styleClass="colIconoDos">
+							<a:commandLink
+								oncomplete="#{rich:component('popupEliminarLista')}.show()"
+								actionListener="#{cycleStandardActivitiesAction.setDeleteList(cycleStandardActivities)}">
+								<h:graphicImage value="/img/delete_16.png" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.button_remove}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</rich:column>
+						<rich:column styleClass="colTextoMediano">
+							<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+							<a:commandLink id="linkReg" render="popupFormReg:popupRegCycle"
+								value="" execute="@form"
+								actionListener="#{cycleStandardActivitiesAction.setCycleStandardActivities(cycleStandardActivities)}"
+								oncomplete="#{rich:component('popupRegCycle')}.show(); setFocus('popupFormReg');">
+								<h:outputText
+									value="#{cycleStandardActivities.activityNames.activityName}" />
+							</a:commandLink>
+						</rich:column>
+						<rich:column styleClass="colTextoCorto center">
+							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_hr}</f:facet>
+							<h:graphicImage value="/img/okPermiso_16.png"
+								rendered="#{cycleStandardActivities.hrRequired eq true}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto center">
+							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_maquina}</f:facet>
+							<h:graphicImage value="/img/okPermiso_16.png"
+								rendered="#{cycleStandardActivities.machineRequired eq true}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto center">
+							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_servicio}</f:facet>
+							<h:graphicImage value="/img/okPermiso_16.png"
+								rendered="#{cycleStandardActivities.serviceRequired eq true}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto center">
+							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_materiales}</f:facet>
+							<h:graphicImage value="/img/okPermiso_16.png"
+								rendered="#{cycleStandardActivities.materialsRequired eq true}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_num_secuencia}</f:facet>
+							<h:outputText value="#{cycleStandardActivities.sequenceNumber}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_duracion}</f:facet>
+							<h:outputText value="#{cycleStandardActivities.duration}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto center">
+							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_peligroso}</f:facet>
+							<h:graphicImage value="/img/peligroso_19.png"
+								rendered="#{cycleStandardActivities.dangerous eq true}" />
+						</rich:column>
+						<f:facet name="footer">
+							<rich:columnGroup rendered="#{listaVacia}">
+								<rich:column colspan="9" styleClass="footTabla">
+									<h:outputText
+										value="#{mensaje.message_no_existen_registros_tabla}" />
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+					</rich:dataTable>
+					<br />
+					<a:outputPanel rendered="#{!listaVacia}">
+						<div class="anchoCuatro center inBlock">
+							<ui:include src="/plantillas/templatePagination.xhtml">
+								<ui:param name="conParam2" value="1" />
+								<ui:param name="pager" value="paginationCycleActivities" />
+								<ui:param name="valReder" value="panelCycleStandardActivities" />
+								<ui:param name="beanActionParam"
+									value="#{cycleStandardActivitiesAction}" />
+								<ui:param name="metodoActionParam"
+									value="consultCycleStandarActivities" />
+							</ui:include>
+						</div>
+					</a:outputPanel>
 				</a:outputPanel>
-				<br />
-				<br />
-				<div class="anchoCuatro center">
-					<a:commandButton value="#{mensaje.button_save}"
-						rendered="#{cycleStandardActivitiesAction.cropNames.idCropName ne 0}"
-						id="btnSeleccionar" render=":formInicio, mensajes"
-						actionListener="#{cycleStandardActivitiesAction.saveCycleStandardActivities()}"
-						execute="@form"
-						oncomplete="#{rich:component('popupActivityNames')}.hide();" />
-				</div>
+
 			</rich:panel>
 		</h:form>
 		<h:form id="popupForm">
@@ -272,10 +261,8 @@
 							<br />
 							<div align="center">
 								<a:commandButton value="#{mensaje.button_add}"
-									id="btnSeleccionar" render=":formInicio"
-									actionListener="#{cycleStandardActivitiesAction.generateCycleStandardActivitiesList(cycleStandardActivitiesAction.activityNamesList)}"
-									execute="@form"
-									oncomplete="#{rich:component('popupActivityNames')}.hide();" />
+									id="btnSeleccionar" execute="@form"
+									oncomplete="#{rich:component('popUpConfirmActivityNames')}.show();" />
 							</div>
 						</a:outputPanel>
 					</a:outputPanel>
@@ -385,6 +372,40 @@
 			</rich:popupPanel>
 		</h:form>
 
+		<h:form id="formConfirmActivityNames">
+			<rich:popupPanel id="popUpConfirmActivityNames" modal="true"
+				autosized="true" maxWidth="500"
+				header="#{mensaje.label_confirmacion}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmActivityNames')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							actionListener="#{cycleStandardActivitiesAction.generateCycleStandardActivitiesList(cycleStandardActivitiesAction.activityNamesList)}"
+							action="#{cycleStandardActivitiesAction.saveCycleStandardActivities()}"
+							execute="@form" render=":formInicio, mensajes"
+							onclick="#{rich:component('popUpConfirmActivityNames')}.hide(); #{rich:component('popupActivityNames')}.hide();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmActivityNames')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
 				maxWidth="500" header="#{mensaje.label_confirmacion}">
@@ -434,7 +455,8 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}" execute="@form"
-							render=":formInicio"
+							actionListener="#{cycleStandardActivitiesAction.saveCycleStandardActivities()}"
+							render=":formInicio, mensajes"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupRegCycle')}.hide();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
