@@ -52,7 +52,6 @@
 								value="#{hrCertificationsAndRolesAction.itemsCertificationsAndRoles}" />
 						</h:selectOneMenu>
 						<rich:message for="certificacion" />
-
 						<h:outputText
 							value="#{mensajeRecursosHumanos.recurso_humano_label_nombre}"
 							styleClass="etiquetaTitulo" />
@@ -69,6 +68,18 @@
 				</a:outputPanel>
 				<h:panelGrid columns="4"
 					columnClasses="tdAlignTop W135P,,,tdAlignTop">
+
+					<h:outputText styleClass="etiquetaTitulo tdPaddingCR"
+						value="#{mensaje.label_nombre} "
+						rendered="#{hrCertificationsAndRolesAction.edit}" />
+					<h:outputText value=""
+						rendered="#{hrCertificationsAndRolesAction.edit}" />
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{hrCertificationsAndRolesAction.hrCertificationsAndRoles.hrCertificationsAndRolesPK.hr.name} #{hrCertificationsAndRolesAction.hrCertificationsAndRoles.hrCertificationsAndRolesPK.hr.familyName}"
+						rendered="#{hrCertificationsAndRolesAction.edit}" />
+					<h:outputText value=""
+						rendered="#{hrCertificationsAndRolesAction.edit}" />
+
 					<h:outputText value="#{mensaje.label_fecha_inicio}"
 						styleClass="etiquetaTitulo tdPaddingCR" />
 					<h:outputText value="" />
