@@ -13,8 +13,8 @@ import co.informatix.security.entities.Rol;
 import co.informatix.security.entities.RolMetodo;
 
 /**
- * This class manages access to data to record, view, edit and complete
- * observance of rolesMetodos
+ * This class manages the access to data to record, view, edit and complete
+ * observance of rolesMethods.
  * 
  * @author marisol.calderon
  * 
@@ -27,25 +27,25 @@ public class RolMetodoDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * This method saves a rolMetodo
+	 * This method saves a rolMethod.
 	 * 
-	 * @param rolMetodo
-	 *            : rolMethod to save
+	 * @param rolMethod
+	 *            : rolMethod to save.
 	 * @throws Exception
 	 */
-	public void guardarRolMetodo(RolMetodo rolMetodo) throws Exception {
-		em.persist(rolMetodo);
+	public void saveRolMethod(RolMetodo rolMethod) throws Exception {
+		em.persist(rolMethod);
 	}
 
 	/**
-	 * This method edits the roles method
+	 * This method edits the rolMethods.
 	 * 
-	 * @param rolMetodo
-	 *            : rolMetodo to edit
+	 * @param rolMethod
+	 *            : rolMethod to edit.
 	 * @throws Exception
 	 */
-	public void editarRolMetodo(RolMetodo rolMetodo) throws Exception {
-		em.merge(rolMetodo);
+	public void editRolMethod(RolMetodo rolMethod) throws Exception {
+		em.merge(rolMethod);
 	}
 
 	/**
@@ -54,58 +54,57 @@ public class RolMetodoDao implements Serializable {
 	 * @author Gabriel.Moreno
 	 * 
 	 * @param rol
-	 *            : Role to seek permits.
+	 *            : Role to seek its permitions.
 	 * @return: RolMetodo list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<RolMetodo> consultarRolMetodos(Rol rol) throws Exception {
+	public List<RolMetodo> queryRolMethods(Rol rol) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT rm FROM RolMetodo rm ");
 		query.append("WHERE rm.rolMetodoPK.rol=:rol ");
 		query.append("AND rm.fechaFinVigencia IS NULL");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("rol", rol);
-		return q.getResultList();
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("rol", rol);
+		return queryResult.getResultList();
 	}
 
 	/**
-	 * Method to consult every method that has permissions associated with a
+	 * Method to look for every method that has permissions associated with a
 	 * role, regardless of its validity.
 	 * 
 	 * @author Gabriel.Moreno
 	 * 
 	 * @param rol
-	 *            : Role permissions to find method.
+	 *            : Role permissions to find the corresponding method.
 	 * 
-	 * @return List<RolMetodo>: List method role permissions, regardless of the
+	 * @return List<RolMetodo>: List of rolMethod permissions, regardless of the
 	 *         term.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<RolMetodo> consultarTodosRolMetodos(Rol rol) throws Exception {
+	public List<RolMetodo> queryAllRolMethods(Rol rol) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT rm FROM RolMetodo rm ");
 		query.append("WHERE rm.rolMetodoPK.rol=:rol ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("rol", rol);
-		return q.getResultList();
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("rol", rol);
+		return queryResult.getResultList();
 	}
 
 	/**
-	 * This method allows you to check whether the method has a relationship
-	 * with some role.
+	 * This method checks if a method has any relations with the roles.
 	 * 
 	 * @author Marcela.Chaparro
 	 * 
 	 * @param idMetodo
-	 *            : Identifier of the method to query the relationship.
-	 * @return boolean: true if the method has an associated role, otherwise
-	 *         false.
+	 *            : Identifier of the method to query the relations.
+	 * @return boolean: true if the method has an associated role, false
+	 *         otherwise.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean relacionRolMetodo(int idMetodo) throws Exception {
+	public boolean rolMethodRelation(int idMetodo) throws Exception {
 		List<Metodo> results = em
 				.createQuery(
 						"SELECT rm FROM RolMetodo rm "

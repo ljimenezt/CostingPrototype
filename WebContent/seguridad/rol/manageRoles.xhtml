@@ -20,21 +20,21 @@
 			<t:saveState value="#{rolAction}" />
 
 			<ui:param name="listaVacia"
-				value="#{rolAction.listaRoles eq null or (empty rolAction.listaRoles)}" />
+				value="#{rolAction.rolesList eq null or (empty rolAction.rolesList)}" />
 			<ui:param name="anchoTabla" value="anchoCuatro" />
 			<!-- parametros para botones y ordenamiento del listado -->
 			<ui:param name="actionLista" value="#{rolAction}" />
 			<ui:param name="renderLista" value="panelTablaRol" />
-			<ui:param name="metodoLista" value="consultarRoles" />
+			<ui:param name="metodoLista" value="searchRoles" />
 			<!-- parametros solo para ordenamiento del listado -->
 			<ui:param name="ocultarOrden" value="#{listaVacia}" />
 			<!-- parametros solo para botones del listado -->
 			<ui:param name="nombreAction" value="rolAction" />
-			<ui:param name="metodoNuevo" value="agregarEditarRol" />
+			<ui:param name="metodoNuevo" value="addEditRol" />
 			<ui:param name="parametroNuevo" value="#{null}" />
 			<ui:param name="renderBuscar" value="buscarForm:popupBuscar" />
 			<ui:param name="popupBuscar" value="popupBuscar" />
-			<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
+			<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 			<rich:panel
 				header="#{mensaje.label_listado_de} #{messageSecurity.role_label_s}"
@@ -42,7 +42,7 @@
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
 
-				<rich:dataTable value="#{rolAction.listaRoles}" var="objRol"
+				<rich:dataTable value="#{rolAction.rolesList}" var="objRol"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoUno"
@@ -72,7 +72,7 @@
 						<c:choose>
 							<c:when
 								test="#{rolAction.vigencia eq 'si' and (identity.autorizado('rolAction','A') or identity.autorizado('rolAction','U'))}">
-								<h:commandLink action="#{rolAction.agregarEditarRol(objRol)}"
+								<h:commandLink action="#{rolAction.addEditRol(objRol)}"
 									value="#{objRol.nombre}"
 									onclick="#{rich:component('statPane')}.show();" />
 							</c:when>
@@ -119,7 +119,7 @@
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="panelTablaRol" />
 							<ui:param name="beanActionParam" value="#{rolAction}" />
-							<ui:param name="metodoActionParam" value="consultarRoles" />
+							<ui:param name="metodoActionParam" value="searchRoles" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -150,12 +150,12 @@
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
 							<a:commandButton value="#{mensaje.button_accept}"
-								actionListener="#{rolAction.vigenciaRoles('true')}"
+								actionListener="#{rolAction.rolesValidity('true')}"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								render="panelTablaRol, mensajes, mensajeBusqueda"
 								rendered="#{rolAction.vigencia eq 'si'}" />
 							<a:commandButton value="#{mensaje.button_accept}"
-								actionListener="#{rolAction.vigenciaRoles('false')}"
+								actionListener="#{rolAction.rolesValidity('false')}"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								render="panelTablaRol, mensajes, mensajeBusqueda"
 								rendered="#{rolAction.vigencia eq 'no'}" />
@@ -182,13 +182,13 @@
 					<h:outputText value="#{mensaje.label_nombre}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
-						value="#{rolAction.nombreBuscar}"
+						value="#{rolAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						action="#{rolAction.consultarRoles()}"
+						action="#{rolAction.searchRoles()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelTablaRol, mensajes, mensajeBusqueda">
 					</a:commandButton>

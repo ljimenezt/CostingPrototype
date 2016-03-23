@@ -558,7 +558,7 @@ public class UsuarioAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void notAssignedUserRoles(Usuario user) throws Exception {
-		roles = rolDao.consultarRolesNoAsignados(user);
+		roles = rolDao.queryNotAssignedRoles(user);
 	}
 
 	/**
@@ -1008,7 +1008,7 @@ public class UsuarioAction implements Serializable {
 	 * @param value
 	 *            : field value to be valid.
 	 */
-	public void validarFechas(FacesContext context, UIComponent component,
+	public void validateDates(FacesContext context, UIComponent component,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		Date endDate = (Date) value;

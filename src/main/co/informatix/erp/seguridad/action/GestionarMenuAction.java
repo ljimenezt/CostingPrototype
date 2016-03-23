@@ -303,8 +303,9 @@ public class GestionarMenuAction implements Serializable {
 				} else {
 					pagination.paginar(quantityMenus);
 				}
-				listMenusTemporal = menuDao.consultMenus(pagination.getInicio(),
-						pagination.getRango(), consult, order, parameters);
+				listMenusTemporal = menuDao.consultMenus(
+						pagination.getInicio(), pagination.getRango(), consult,
+						order, parameters);
 			}
 			this.listMenus = loadInformationMenus(listMenusTemporal);
 			if ((listMenus == null || listMenus.size() <= 0)
@@ -395,7 +396,7 @@ public class GestionarMenuAction implements Serializable {
 			consult.append("AND m IN(SELECT DISTINCT mm.menu FROM MetodoMenu mm ");
 			consult.append("WHERE mm.metodo.id IN (:idsMetodo)) ");
 			List<Integer> idsMetodo = new ArrayList<Integer>(rolAction
-					.getSelChecksPermisos().keySet());
+					.getMethodsPermissions().keySet());
 			if (idsMetodo.size() <= 0) {
 				idsMetodo.add(-1);
 			}
@@ -610,7 +611,7 @@ public class GestionarMenuAction implements Serializable {
 		String messageResult = "";
 		boolean result1 = false;
 		boolean result2 = false;
-		result1 = rolMenuDao.relacionesRolMenu(idMenu);
+		result1 = rolMenuDao.rolMenuRelations(idMenu);
 		result2 = metodoMenuDao.relacionesMetodoMenu(idMenu);
 		if (result1 && result2) {
 			messageResult = "menu_message_not_delete_rol_method";
@@ -662,9 +663,9 @@ public class GestionarMenuAction implements Serializable {
 			if (quantityIconsByName != null) {
 				pagination.paginarRangoDefinido(quantityIconsByName, 5);
 			}
-			listIcons = gesIconoDao
-					.searchIconsXNamePaginated(pagination.getInicio(),
-							pagination.getRango(), nameIconSearch);
+			listIcons = gesIconoDao.searchIconsXNamePaginated(
+					pagination.getInicio(), pagination.getRango(),
+					nameIconSearch);
 
 			if ((this.listIcons == null || this.listIcons.size() <= 0)
 					&& !"".equals(nameIconSearch)) {
