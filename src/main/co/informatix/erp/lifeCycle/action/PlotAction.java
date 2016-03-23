@@ -601,8 +601,8 @@ public class PlotAction implements Serializable {
 			}
 			listPlotDate = plotDao.searchCopsPlotsDate(crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(), crops
-					.getListPlotsAsocciates(), pagination.getInicio(), pagination
-					.getRango(), consult, parameters);
+					.getListPlotsAsocciates(), pagination.getInicio(),
+					pagination.getRango(), consult, parameters);
 			if ((listPlotDate == null || listPlotDate.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {
 				messageSearch = MessageFormat

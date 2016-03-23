@@ -143,8 +143,8 @@ public class TypeOfManagementAction implements Serializable {
 				pagination.paginar(amount);
 			}
 			typeOfManagementList = typeOfManagementDao.searchTypeOfManagement(
-					pagination.getInicio(), pagination.getRango(), queryBuilder,
-					parameters);
+					pagination.getInicio(), pagination.getRango(),
+					queryBuilder, parameters);
 			if ((typeOfManagementList == null || typeOfManagementList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {
 				searchMessage = MessageFormat

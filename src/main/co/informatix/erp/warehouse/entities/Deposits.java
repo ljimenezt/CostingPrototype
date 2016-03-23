@@ -51,8 +51,8 @@ public class Deposits implements Serializable {
 	public Deposits() {
 		this.materials = new Materials();
 		this.purchaseInvoices = new PurchaseInvoices();
-		this.farm=new Farm();
-		this.measurementUnits=new MeasurementUnits();
+		this.farm = new Farm();
+		this.measurementUnits = new MeasurementUnits();
 	}
 
 	/**

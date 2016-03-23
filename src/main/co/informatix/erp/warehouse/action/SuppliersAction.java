@@ -142,8 +142,8 @@ public class SuppliersAction implements Serializable {
 				pagination.paginar(amount);
 			}
 			suppliersList = suppliersDao.suppliersFilteredSearch(
-					pagination.getInicio(), pagination.getRango(), queryBuilder,
-					parameters);
+					pagination.getInicio(), pagination.getRango(),
+					queryBuilder, parameters);
 			if ((suppliersList == null || suppliersList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {
 				searchMessage = MessageFormat

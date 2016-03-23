@@ -76,7 +76,8 @@ public class PaymentsAction implements Serializable {
 	}
 
 	/**
-	 * @return pagination: Paginated list of payments which may have in the view.
+	 * @return pagination: Paginated list of payments which may have in the
+	 *         view.
 	 */
 	public Paginador getPagination() {
 		return pagination;

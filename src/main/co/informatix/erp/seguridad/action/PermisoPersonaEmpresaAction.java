@@ -83,8 +83,8 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	private int idHaciendaBuscar;
 
 	/**
-	 * @return pagination: Object pager functions from the list of companies with
-	 *         permissions to the person.
+	 * @return pagination: Object pager functions from the list of companies
+	 *         with permissions to the person.
 	 */
 	public Paginador getPagination() {
 		return pagination;

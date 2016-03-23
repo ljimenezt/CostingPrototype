@@ -276,8 +276,8 @@ public class MeasurementUnitsAction implements Serializable {
 	}
 
 	/**
-	 * To validate the name of the measurement units, so it is not repeated in the database
-	 * and validates against XSS.
+	 * To validate the name of the measurement units, so it is not repeated in
+	 * the database and validates against XSS.
 	 * 
 	 * @author Jhair.Leal
 	 * 

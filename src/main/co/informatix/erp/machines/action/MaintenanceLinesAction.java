@@ -188,8 +188,8 @@ public class MaintenanceLinesAction implements Serializable {
 				pagination.paginar(amount);
 			}
 			maintenanceLinesList = maintenanceLinesDao.queryMaintenanceLines(
-					pagination.getInicio(), pagination.getRango(), queryBuilder,
-					parameters);
+					pagination.getInicio(), pagination.getRango(),
+					queryBuilder, parameters);
 
 			if ((maintenanceLinesList == null || maintenanceLinesList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {

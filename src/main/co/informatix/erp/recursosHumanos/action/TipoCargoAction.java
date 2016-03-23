@@ -67,8 +67,8 @@ public class TipoCargoAction implements Serializable {
 	}
 
 	/**
-	 * @return pagination: management paginated list of types of jobs that may be
-	 *         in view.
+	 * @return pagination: management paginated list of types of jobs that may
+	 *         be in view.
 	 */
 	public Paginador getPagination() {
 		return pagination;
