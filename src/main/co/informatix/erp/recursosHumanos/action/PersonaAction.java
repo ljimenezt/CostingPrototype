@@ -300,7 +300,7 @@ public class PersonaAction implements Serializable {
 
 	/**
 	 * Variable that gets the value of the message to display in the bread
-	 * crumbs, depending on whether you create or modify a record
+	 * crumbs, depending on whether you create or modify a record.
 	 * 
 	 * @return messageMiga: message crumb of bread in the register or person
 	 *         managing staff.
@@ -311,7 +311,7 @@ public class PersonaAction implements Serializable {
 
 	/**
 	 * Variable that sets the value of the message to display in the
-	 * breadcrumbs, depending on whether you create or modify a record
+	 * breadcrumbs, depending on whether you create or modify a record.
 	 * 
 	 * @param messageMiga
 	 *            : message crumb of bread in the register or person managing
@@ -519,7 +519,7 @@ public class PersonaAction implements Serializable {
 	 * @param department
 	 *            : selected by the department which municipalities are
 	 *            filtered.
-	 * @param itemsMunicipios
+	 * @param itemsMunicipalities
 	 *            : list of items of municipalities to fill displayed in the
 	 *            user interface.
 	 * @throws Exception
@@ -1025,7 +1025,7 @@ public class PersonaAction implements Serializable {
 	 * @param nameForm
 	 *            :template id where is valid people.
 	 * @return exit: boolean to true if the required fields are filled out or
-	 *         false otherwise
+	 *         false otherwise.
 	 */
 	public boolean requiredOk(String nameForm) {
 		boolean exit = true;
