@@ -77,7 +77,6 @@ public class UsuarioDao implements Serializable {
 				.getSingleResult();
 	}
 
-	// TODO verify this method utility.
 	/**
 	 * Query a user name in the database, then it retrieves the corresponding
 	 * user record.

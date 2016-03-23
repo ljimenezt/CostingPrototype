@@ -476,7 +476,7 @@ public class ActivitiesAndHrAction implements Serializable {
 			Long actividadesCertificadas = activitiesDao
 					.queryCertifiedActivities(actividadSeleccionada
 							.getIdActivity());
-			Long hrCertificados = hrDao.consultarHrCertificados(
+			Long hrCertificados = hrDao.queryHrCertifications(
 					actividadSeleccionada.getIdActivity(), this.idTrabajador);
 			Long searchHrCertifiedAndMaternity = hrDao
 					.hrCertifiedAndMaternityAmount(
