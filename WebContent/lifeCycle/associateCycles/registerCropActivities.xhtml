@@ -164,6 +164,7 @@
 								</a:commandLink>
 								<a:commandLink
 									oncomplete="#{rich:component('popupEliminarLista')}.show()"
+									render="popupEliminarLista"
 									actionListener="#{cropActivitiesAction.setRemoveList(activities)}">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
@@ -677,7 +678,7 @@
 						<h:graphicImage value="/img/close_14.png"
 							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-							onclick="#{rich:component('popupEliminar')}.hide()"
+							onclick="#{rich:component('popupEliminarLista')}.hide()"
 							styleClass="cursor" />
 					</h:panelGroup>
 				</f:facet>
@@ -687,7 +688,20 @@
 							value="#{mensajeCosts.cycle_standard_activities_eliminar}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_nombre}:"
+							styleClass="etiquetaTitulo" />
+						<h:outputText
+							value="#{cropActivitiesAction.removeList.activityName.activityName}" />
 
+						<h:outputText value="#{mensaje.label_descripcion}:"
+							styleClass="etiquetaTitulo" />
+						<h:outputText
+							value="#{cropActivitiesAction.removeList.description}"
+							rendered="#{cropActivitiesAction.removeList.description ne null}" />
+						<h:outputText value=""
+							rendered="#{cropActivitiesAction.removeList.description eq null}" />
+					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cropActivitiesAction.removeSelected()}"
