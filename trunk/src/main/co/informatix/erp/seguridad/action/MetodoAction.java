@@ -571,7 +571,7 @@ public class MetodoAction implements Serializable {
 				.getBundle("messageSecurity");
 		try {
 			if (this.method != null) {
-				boolean result1 = rolMetodoDao.relacionRolMetodo(this.method
+				boolean result1 = rolMetodoDao.rolMethodRelation(this.method
 						.getId());
 				if (result1) {
 					ControladorContexto

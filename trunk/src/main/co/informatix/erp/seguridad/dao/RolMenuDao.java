@@ -13,8 +13,8 @@ import co.informatix.security.entities.Rol;
 import co.informatix.security.entities.RolMenu;
 
 /**
- * This class manages access to data to record, view, edit and complete
- * observance of rolesMenu
+ * This class manages the access to data to record, view, edit and complete
+ * observance of rolesMenu.
  * 
  * @author Oscar.Amaya
  * 
@@ -27,24 +27,24 @@ public class RolMenuDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * This method saves a rolMenu
+	 * This method saves a rolMenu.
 	 * 
 	 * @param rolMenu
-	 *            : rolMenu to Save
+	 *            : rolMenu to Save.
 	 * @throws Exception
 	 */
-	public void guardarRolMenu(RolMenu rolMenu) throws Exception {
+	public void saveRolMenu(RolMenu rolMenu) throws Exception {
 		em.persist(rolMenu);
 	}
 
 	/**
-	 * This method edits the menu roles
+	 * This method edits the rolMenu.
 	 * 
 	 * @param rolMenu
-	 *            : rolMenu to edit
+	 *            : rolMenu to edit.
 	 * @throws Exception
 	 */
-	public void editarRolMenu(RolMenu rolMenu) throws Exception {
+	public void editRolMenu(RolMenu rolMenu) throws Exception {
 		em.merge(rolMenu);
 	}
 
@@ -54,36 +54,36 @@ public class RolMenuDao implements Serializable {
 	 * 
 	 * @author Gabriel.Moreno
 	 * 
-	 * @param rol
+	 * @param role
 	 *            : Role to find menus.
 	 * 
 	 * @return Role menu list, regardless of duration.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<RolMenu> consultarTodosRolMenu(Rol rol) throws Exception {
+	public List<RolMenu> queryAllRolMenu(Rol role) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT rm FROM RolMenu rm ");
 		query.append("WHERE rm.rolMenuPK.rol=:rol ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("rol", rol);
-		return q.getResultList();
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("rol", role);
+		return queryResult.getResultList();
 	}
 
 	/**
-	 * This method allows to verify if the menu has relationships with the role
-	 * in the database.
+	 * This method verifies if the menu has relations with the role in the
+	 * database.
 	 * 
 	 * @author Luz.Jaimes
 	 * 
 	 * @param idMenu
-	 *            : Identifier of the menu to which you consult relationships.
-	 * @return boolean: True if the menu is related to the role, otherwise
-	 *         false.
+	 *            : Identifier of the menu in which you look for relations.
+	 * @return boolean: True if the menu is related to the role, false
+	 *         otherwise.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean relacionesRolMenu(int idMenu) throws Exception {
+	public boolean rolMenuRelations(int idMenu) throws Exception {
 		List<Menu> results = em
 				.createQuery(
 						"SELECT rm FROM RolMenu rm "

@@ -37,8 +37,7 @@ import co.informatix.security.entities.RolMetodo;
 import co.informatix.security.entities.RolMetodoPK;
 
 /**
- * Allows implementation of business logic in the Role entity to record and
- * manage.
+ * It implements business logic in the Role entity to register and manage.
  * 
  * @author marisol.calderon
  * @modify 19/06/2014 Gabriel.Moreno
@@ -48,23 +47,23 @@ import co.informatix.security.entities.RolMetodoPK;
 @RequestScoped
 public class RolAction implements Serializable {
 
-	private List<Rol> listaRoles;
+	private List<Rol> rolesList;
 	private List<Menu> listaMenus;
 	private List<RolMenu> rolMenus;
 	private List<Integer> menuViewNoSelected;
 
-	private HashMap<Integer, HashMap<String, Boolean>> selChecksPermisos;
+	private HashMap<Integer, HashMap<String, Boolean>> methodsPermissions;
 
 	private Paginador pagination = new Paginador();
-	private Paginador paginationMetodo = new Paginador();
-	private Paginador paginadorMenu = new Paginador();
+	private Paginador paginationMethod = new Paginador();
+	private Paginador paginationMenu = new Paginador();
 
 	private Rol rol;
 
 	private String vigencia = Constantes.SI;
-	private String nombreBuscar = "";
+	private String nameSearch = "";
 
-	private boolean esEditable = true;
+	private boolean editable = true;
 
 	@Inject
 	private IdentityAction identity;
@@ -81,31 +80,30 @@ public class RolAction implements Serializable {
 
 	/**
 	 * 
-	 * @return listaRoles: list of roles that are loaded into the user
-	 *         interface.
+	 * @return rolesList: List of roles that are loaded into the user interface.
 	 */
-	public List<Rol> getListaRoles() {
-		return listaRoles;
+	public List<Rol> getRolesList() {
+		return rolesList;
 	}
 
 	/**
-	 * @param listaRoles
-	 *            : list of roles that are loaded into the user interface.
+	 * @param rolesList
+	 *            : List of roles that are loaded into the user interface.
 	 */
-	public void setListaRoles(List<Rol> listaRoles) {
-		this.listaRoles = listaRoles;
+	public void setRolesList(List<Rol> rolesList) {
+		this.rolesList = rolesList;
 	}
 
 	/**
-	 * @return selChecksPermisos: HashMap that stores the identifiers of the
+	 * @return methodsPermissions: HashMap that stores the identifiers of the
 	 *         methods that you want to assign permissions.
 	 */
-	public HashMap<Integer, HashMap<String, Boolean>> getSelChecksPermisos() {
-		return selChecksPermisos;
+	public HashMap<Integer, HashMap<String, Boolean>> getMethodsPermissions() {
+		return methodsPermissions;
 	}
 
 	/**
-	 * @return rol: variable representing a role object to which it is made the
+	 * @return rol: variable that represents a role object in which is made the
 	 *         management.
 	 */
 	public Rol getRol() {
@@ -114,7 +112,7 @@ public class RolAction implements Serializable {
 
 	/**
 	 * @param rol
-	 *            : variable representing a role object to which it is made the
+	 *            : variable representing a role object in which is made the
 	 *            management.
 	 */
 	public void setRol(Rol rol) {
@@ -152,35 +150,35 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * @return paginationMetodo: page manages the allocation of permits.
+	 * @return paginationMethod: page manages the allocation of permits.
 	 */
-	public Paginador getPaginationMetodo() {
-		return paginationMetodo;
+	public Paginador getPaginationMethod() {
+		return paginationMethod;
 	}
 
 	/**
-	 * @param pagerMethod
+	 * @param paginationMethod
 	 *            : page manages the allocation of permits.
 	 */
-	public void setPaginationMetodo(Paginador pagerMethod) {
-		this.paginationMetodo = pagerMethod;
+	public void setPaginationMethod(Paginador paginationMethod) {
+		this.paginationMethod = paginationMethod;
 	}
 
 	/**
-	 * @return paginadorMenu: Manages the pagination of the menus related to the
-	 *         allocation of permits.
+	 * @return paginationMenu: Manages the pagination of the menus related to
+	 *         the allocation of permissions.
 	 */
-	public Paginador getPaginadorMenu() {
-		return paginadorMenu;
+	public Paginador getPaginationMenu() {
+		return paginationMenu;
 	}
 
 	/**
-	 * @param pagerMenu
+	 * @param paginationMenu
 	 *            : Manages the pagination of the menus related to the
 	 *            allocation of permits.
 	 */
-	public void setPaginadorMenu(Paginador pagerMenu) {
-		this.paginadorMenu = pagerMenu;
+	public void setPaginationMenu(Paginador paginationMenu) {
+		this.paginationMenu = paginationMenu;
 	}
 
 	/**
@@ -191,100 +189,100 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * @return perms: "S" represents permissions to query.
+	 * @return perms: "S" represents the permissions to query.
 	 */
 	public static String getPermS() {
 		return Constantes.PERM_S;
 	}
 
 	/**
-	 * @return permu: "U" represents permissions to update.
+	 * @return permu: "U" represents the permissions to update.
 	 */
 	public static String getPermU() {
 		return Constantes.PERM_U;
 	}
 
 	/**
-	 * @return permd: "D" represents permission to delete.
+	 * @return permd: "D" represents the permission to delete.
 	 */
 	public static String getPermD() {
 		return Constantes.PERM_D;
 	}
 
 	/**
-	 * @return permi: "I" represents permissions to insert.
+	 * @return permi: "I" represents the permissions to insert.
 	 */
 	public static String getPermI() {
 		return Constantes.PERM_I;
 	}
 
 	/**
-	 * @return perml: "L" represents permissions to generate reports.
+	 * @return perml: "L" represents the permissions to generate reports.
 	 */
 	public static String getPermL() {
 		return Constantes.PERM_L;
 	}
 
 	/**
-	 * Variable get a boolean that shows whether the role can or can not edit
-	 * the name and expired after
+	 * Get a boolean that shows whether the role can or can not edit the name
+	 * and it expires after.
 	 * 
-	 * @return esEditable: true if variable can be edited or false otherwise
+	 * @return editable: true if the variable can be edited or false otherwise.
 	 */
-	public boolean isEsEditable() {
-		return esEditable;
+	public boolean isEditable() {
+		return editable;
 	}
 
 	/**
-	 * Variable get a boolean that shows whether the role can or can not edit
-	 * the name and expired afters
+	 * Set a boolean that shows whether the role can or can not edit the name
+	 * and it expires after.
 	 * 
-	 * @param esEditable
-	 *            : true if variable can be edited or false otherwise
+	 * @param editable
+	 *            : true if the variable can be edited or false otherwise.
 	 */
-	public void setEsEditable(boolean esEditable) {
-		this.esEditable = esEditable;
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 
 	/**
-	 * @return nombreBuscar: Name to find the type of roles
+	 * @return nameSearch: Name to find the type of roles
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            :Name to find the type of role
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * Method prepares the view to add a new role or edit an existing one.
+	 * Method that prepares the view to add a new role or edit an existing one.
 	 * 
 	 * modify 27/09/2012 marisol.calderon
 	 * 
 	 * @param rol
-	 *            : role to be edited if editing.
+	 *            : role to be edited.
 	 * 
-	 * @return "regRol": redirects to the template to record a role.
+	 * @return "regRol": redirects to the template to register a role.
 	 */
-	public String agregarEditarRol(Rol rol) {
-		selChecksPermisos = new HashMap<Integer, HashMap<String, Boolean>>();
+	public String addEditRol(Rol rol) {
+		methodsPermissions = new HashMap<Integer, HashMap<String, Boolean>>();
 		menuViewNoSelected = new ArrayList<Integer>();
 		try {
 			if (rol != null) {
 				this.rol = rol;
-				validarEdicionRol(this.rol);
-				cargarChecksPermisos();
+				validateRolEdition(this.rol);
+				loadMethodsPermissions();
 			} else {
 				this.rol = new Rol();
 			}
-			inicializarMetodosPermisos();
-			inicializarMenusRelacionados();
-			cargarMenuViewNoSelected();
+			initializeMethodsPermissions();
+			initializeRelatedMethods();
+			loadNotSelectedViewMenu();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -292,18 +290,18 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * This method allows them to identify invisible menus.
+	 * This method allows to identify invisible menus.
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarMenuViewNoSelected() throws Exception {
+	private void loadNotSelectedViewMenu() throws Exception {
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
-		List<Menu> listaTodosMenus = menuAction.getListAllMenus();
-		if (listaTodosMenus != null && listaTodosMenus.size() > 0
-				&& this.rol != null && this.rol.getId() > 0) {
+		List<Menu> allMenusList = menuAction.getListAllMenus();
+		if (allMenusList != null && allMenusList.size() > 0 && this.rol != null
+				&& this.rol.getId() > 0) {
 			List<Menu> listMenusRol = menuDao.consultMenusRol(this.rol);
-			menu: for (Menu menu : listaTodosMenus) {
+			menu: for (Menu menu : allMenusList) {
 				for (Menu menuRol : listMenusRol) {
 					if (menu.getId() == menuRol.getId()) {
 						continue menu;
@@ -315,105 +313,102 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * This method allows to identify which permissions method has a role.s
+	 * This method identifies which methods permissions have roles.
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarChecksPermisos() throws Exception {
-		List<RolMetodo> rolMetodos = this.rolMetodoDao
-				.consultarRolMetodos(this.rol);
-		for (RolMetodo rolMetodo : rolMetodos) {
-			RolMetodoPK rolMetodoPK = rolMetodo.getRolMetodoPK();
-			int idMetodo = rolMetodoPK.getMetodo().getId();
-			HashMap<String, Boolean> permisos = this.selChecksPermisos
+	private void loadMethodsPermissions() throws Exception {
+		List<RolMetodo> methodRoles = this.rolMetodoDao
+				.queryRolMethods(this.rol);
+		for (RolMetodo methodRole : methodRoles) {
+			RolMetodoPK methodRolPk = methodRole.getRolMetodoPK();
+			int idMetodo = methodRolPk.getMetodo().getId();
+			HashMap<String, Boolean> permissions = this.methodsPermissions
 					.get(idMetodo);
-			if (permisos == null) {
-				permisos = new HashMap<String, Boolean>();
+			if (permissions == null) {
+				permissions = new HashMap<String, Boolean>();
 			}
-			permisos.put(rolMetodoPK.getPermiso(), true);
-			this.selChecksPermisos.put(idMetodo, permisos);
+			permissions.put(methodRolPk.getPermiso(), true);
+			this.methodsPermissions.put(idMetodo, permissions);
 		}
 	}
 
 	/**
 	 * Method to validate if the role id is in the range of roles that you can
-	 * not rename or terminate their validity
+	 * not rename or terminate their validity.
 	 * 
 	 * @param rol
 	 *            : role to be validated
 	 */
-	public void validarEdicionRol(Rol rol) {
+	public void validateRolEdition(Rol rol) {
 		if (rol.getId() <= Constantes.MAXIMO_ROLES_SIN_MODIFICAR) {
-			esEditable = false;
+			editable = false;
 		} else {
-			esEditable = true;
+			editable = true;
 		}
 	}
 
 	/**
-	 * Initializes search parameters and load the initial list of types of roles
+	 * It initializes search parameters and load the initial list of role types.
 	 * 
 	 * @author Liseth Jimenez
 	 * 
-	 * @return consultarRoles: navigation rule that returns the product
-	 *         management roles
+	 * @return searchRoles: navigation rule that redirects to the product
+	 *         management roles template.
 	 */
-	public String inicializarBusqueda() {
-		this.nombreBuscar = "";
-		return this.consultarRoles();
+	public String initializeSearch() {
+		this.nameSearch = "";
+		return this.searchRoles();
 	}
 
 	/**
-	 * This method queries the list of roles according to their validity
+	 * This method queries the list of roles according to their validity.
 	 * 
 	 * @modify 27/09/2012 marisol.calderon
 	 * 
-	 * @return gesRol: navigation rule that returns the product management roles
+	 * @return gesRol: navigation rule that redirects to the product management
+	 *         roles template.
 	 */
-	public String consultarRoles() {
+	public String searchRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeg = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
-		String mensajeBusqueda = "";
-		listaRoles = new ArrayList<Rol>();
-		ValidacionesAction validaciones = ControladorContexto
+		String searchMessage = "";
+		rolesList = new ArrayList<Rol>();
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		try {
 			this.rol = new Rol();
-			String condicionVigencia = Constantes.IS_NULL;
+			String validityCondition = Constantes.IS_NULL;
 			if (Constantes.NOT.equals(vigencia)) {
-				condicionVigencia = Constantes.IS_NOT_NULL;
+				validityCondition = Constantes.IS_NOT_NULL;
 			}
-			Long cantidadRoles = rolDao.cantidadRoles(condicionVigencia,
-					this.nombreBuscar);
-			if (cantidadRoles != null) {
-				pagination.paginar(cantidadRoles);
+			Long rolesAmount = rolDao.rolesAmount(validityCondition,
+					this.nameSearch);
+			if (rolesAmount != null) {
+				pagination.paginar(rolesAmount);
 			}
-			listaRoles = rolDao
-					.consultarRoles(pagination.getInicio(),
-							pagination.getRango(), condicionVigencia,
-							this.nombreBuscar);
-			if ((listaRoles == null || listaRoles.size() <= 0)
-					&& (this.nombreBuscar != null && !""
-							.equals(this.nombreBuscar))) {
-				mensajeBusqueda = MessageFormat
+			rolesList = rolDao.queryRoles(pagination.getInicio(),
+					pagination.getRango(), validityCondition, this.nameSearch);
+			if ((rolesList == null || rolesList.size() <= 0)
+					&& (this.nameSearch != null && !"".equals(this.nameSearch))) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								bundle.getString("label_nombre") + ": " + '"'
-										+ this.nombreBuscar + '"');
-			} else if (listaRoles == null || listaRoles.size() <= 0) {
+										+ this.nameSearch + '"');
+			} else if (rolesList == null || rolesList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (this.nombreBuscar != null
-					&& !"".equals(this.nombreBuscar)) {
-				mensajeBusqueda = MessageFormat
+			} else if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeg.getString("role_label_s"),
+								bundleSecurity.getString("role_label_s"),
 								bundle.getString("label_nombre") + ": " + '"'
-										+ this.nombreBuscar + '"');
+										+ this.nameSearch + '"');
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -423,28 +418,28 @@ public class RolAction implements Serializable {
 	/**
 	 * This method adds or edits a role.
 	 * 
-	 * @return consultarRoles: method of consulting roles
+	 * @return searchRoles: method to query roles.
 	 */
-	public String agregarRol() {
+	public String addRol() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeMostrar = "message_registro_modificar";
+		String shownMessage = "message_registro_modificar";
 		try {
 			userTransaction.begin();
 			rol.setNombre(rol.getNombre());
 			rol.setUserName(identity.getUserName());
 			if (rol.getId() != 0) {
-				rolDao.editarRol(rol);
+				rolDao.editRole(rol);
 			} else {
-				mensajeMostrar = "message_registro_guardar";
+				shownMessage = "message_registro_guardar";
 				rol.setFechaCreacion(new Date());
 				rol.setFechaInicioVigencia(new Date());
-				rolDao.guardarRol(rol);
+				rolDao.saveRole(rol);
 			}
-			agregarRolMenuMetodo();
+			addRolMethodMenu();
 			userTransaction.commit();
 			ControladorContexto.mensajeInformacion(
 					null,
-					MessageFormat.format(bundle.getString(mensajeMostrar),
+					MessageFormat.format(bundle.getString(shownMessage),
 							rol.getNombre()));
 		} catch (Exception e) {
 			try {
@@ -454,95 +449,96 @@ public class RolAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarRoles();
+		return searchRoles();
 	}
 
 	/**
-	 * This method allows you to add or edit a rolMenu and rolMetodo and
-	 * register it in the database.
+	 * This method allows you to add, edit, and register a rolMenu and rolMethod
+	 * in the database.
 	 * 
 	 * @throws Exception
 	 */
-	private void agregarRolMenuMetodo() throws Exception {
+	private void addRolMethodMenu() throws Exception {
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
-		List<RolMetodo> rolMetodos = this.rolMetodoDao
-				.consultarTodosRolMetodos(this.rol);
-		for (Integer idMetodo : this.selChecksPermisos.keySet()) {
-			HashMap<String, Boolean> permisos = this.selChecksPermisos
-					.get(idMetodo);
-			permiso: for (String permiso : permisos.keySet()) {
-				if (permisos.get(permiso)) {
-					for (RolMetodo rolMetodo : rolMetodos) {
-						RolMetodoPK rolMetodoPK = rolMetodo.getRolMetodoPK();
-						Metodo metodo = rolMetodoPK.getMetodo();
-						if (metodo.getId() == idMetodo
-								&& permiso.equals(rolMetodoPK.getPermiso())) {
-							rolMetodo.setFechaFinVigencia(null);
-							rolMetodo.setUserName(identity.getUserName());
-							rolMetodoDao.editarRolMetodo(rolMetodo);
-							rolMetodos.remove(rolMetodo);
+		List<RolMetodo> rolMethods = this.rolMetodoDao
+				.queryAllRolMethods(this.rol);
+		for (Integer methodId : this.methodsPermissions.keySet()) {
+			HashMap<String, Boolean> permissions = this.methodsPermissions
+					.get(methodId);
+			permiso: for (String perm : permissions.keySet()) {
+				if (permissions.get(perm)) {
+					for (RolMetodo rolMethod : rolMethods) {
+						RolMetodoPK rolMetodoPK = rolMethod.getRolMetodoPK();
+						Metodo method = rolMetodoPK.getMetodo();
+						if (method.getId() == methodId
+								&& perm.equals(rolMetodoPK.getPermiso())) {
+							rolMethod.setFechaFinVigencia(null);
+							rolMethod.setUserName(identity.getUserName());
+							rolMetodoDao.editRolMethod(rolMethod);
+							rolMethods.remove(rolMethod);
 							continue permiso;
 						}
 					}
 
-					RolMetodo rolMetodo = llenarRolMetodo(permiso, idMetodo);
-					rolMetodo.setFechaCreacion(new Date());
-					rolMetodoDao.guardarRolMetodo(rolMetodo);
+					RolMetodo rolMethod = loadRolMethod(perm, methodId);
+					rolMethod.setFechaCreacion(new Date());
+					rolMetodoDao.saveRolMethod(rolMethod);
 				}
 			}
 		}
-		for (RolMetodo rolMetodo : rolMetodos) {
-			rolMetodo.setFechaFinVigencia(new Date());
-			rolMetodo.setUserName(identity.getUserName());
-			rolMetodoDao.editarRolMetodo(rolMetodo);
+		for (RolMetodo rolMethod : rolMethods) {
+			rolMethod.setFechaFinVigencia(new Date());
+			rolMethod.setUserName(identity.getUserName());
+			rolMetodoDao.editRolMethod(rolMethod);
 		}
 
 		this.listaMenus = new ArrayList<Menu>();
-		this.rolMenus = rolMenuDao.consultarTodosRolMenu(this.rol);
-		List<Menu> listaTodosMenus = menuAction.getListAllMenus();
-		if (listaTodosMenus != null) {
-			for (Menu menu : listaTodosMenus) {
+		this.rolMenus = rolMenuDao.queryAllRolMenu(this.rol);
+		List<Menu> allMenusList = menuAction.getListAllMenus();
+		if (allMenusList != null) {
+			for (Menu menu : allMenusList) {
 				if (!this.menuViewNoSelected.contains(menu.getId())) {
-					consultarGuardarPadreMenu(menu);
+					searchSaveFatherMenu(menu);
 				}
 			}
 		}
 		for (RolMenu rolMenu : this.rolMenus) {
 			rolMenu.setFechaFinVigencia(new Date());
 			rolMenu.setUserName(identity.getUserName());
-			rolMenuDao.editarRolMenu(rolMenu);
+			rolMenuDao.editRolMenu(rolMenu);
 		}
 	}
 
 	/**
-	 * This method allows you to insert or edit the menu in the menu rolMetodo
-	 * father and seek to insert as well.
+	 * This method inserts or edits the menu in the rolMetodo father menu and
+	 * inserts it as well.
 	 * 
 	 * @param menu
-	 *            : Menu to add or edit menu and find the father.
+	 *            : Menu to be added or edited and there will be found its
+	 *            father.
 	 * 
 	 * @throws Exception
 	 */
-	private void consultarGuardarPadreMenu(Menu menu) throws Exception {
+	private void searchSaveFatherMenu(Menu menu) throws Exception {
 		this.listaMenus.add(menu);
-		boolean crearMenu = true;
+		boolean createMenu = true;
 		for (RolMenu rolMenu : this.rolMenus) {
 			RolMenuPK rolMenuPK = rolMenu.getRolMenuPK();
 			Menu menuRol = rolMenuPK.getMenu();
 			if (menuRol.getId() == menu.getId()) {
 				rolMenu.setFechaFinVigencia(null);
 				rolMenu.setUserName(identity.getUserName());
-				rolMenuDao.editarRolMenu(rolMenu);
+				rolMenuDao.editRolMenu(rolMenu);
 				this.rolMenus.remove(rolMenu);
-				crearMenu = false;
+				createMenu = false;
 				break;
 			}
 		}
-		if (crearMenu) {
-			RolMenu rolMenu = llenarRolMenu(menu);
+		if (createMenu) {
+			RolMenu rolMenu = loadRolMenu(menu);
 			rolMenu.setFechaCreacion(new Date());
-			rolMenuDao.guardarRolMenu(rolMenu);
+			rolMenuDao.saveRolMenu(rolMenu);
 		}
 		Menu menuPadre = menuDao.consultMenuFather(menu.getId());
 		if (menuPadre != null) {
@@ -551,135 +547,140 @@ public class RolAction implements Serializable {
 					return;
 				}
 			}
-			consultarGuardarPadreMenu(menuPadre);
+			searchSaveFatherMenu(menuPadre);
 		}
 	}
 
 	/**
-	 * Handles the change effective in the role records
+	 * Handles the change effective in the role records.
 	 * 
-	 * @param vigente
-	 *            : boolean option
-	 * @return consultarRoles: navigation rule consulting roles method
+	 * @param validity
+	 *            : boolean option.
+	 * @return searchRoles: navigation rule consulting roles method.
 	 */
-	public String vigenciaRoles(boolean vigente) {
+	public String rolesValidity(boolean validity) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeguridad = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
-		StringBuilder regVigUsados = new StringBuilder();
-		StringBuilder regExito = new StringBuilder();
-		StringBuilder regRolesNoEdit = new StringBuilder();
-		String mensajeCambioVigencia = "message_inicio_vigencia_satisfactorio";
+		StringBuilder regValidUsers = new StringBuilder();
+		StringBuilder regSuccess = new StringBuilder();
+		StringBuilder regNotEditRoles = new StringBuilder();
+		String validityChangeMess = "message_inicio_vigencia_satisfactorio";
 		try {
-			if (vigente) {
-				mensajeCambioVigencia = "message_fin_vigencia_satisfactorio";
-				boolean relaciones = buscarRelaciones(rol.getId());
+			if (validity) {
+				validityChangeMess = "message_fin_vigencia_satisfactorio";
+				boolean relaciones = searchRelations(rol.getId());
 				if (!relaciones) {
-					validarEdicionRol(rol);
-					if (esEditable) {
+					validateRolEdition(rol);
+					if (editable) {
 						rol.setFechaFinVigencia(new Date());
 						rol.setUserName(identity.getUserName());
-						rolDao.editarRol(rol);
-						regExito.append(rol.getNombre() + ", ");
+						rolDao.editRole(rol);
+						regSuccess.append(rol.getNombre() + ", ");
 					} else {
-						regRolesNoEdit.append(rol.getNombre() + ", ");
+						regNotEditRoles.append(rol.getNombre() + ", ");
 					}
 				} else {
-					regVigUsados.append(rol.getNombre() + ", ");
+					regValidUsers.append(rol.getNombre() + ", ");
 				}
 			} else {
 				rol.setFechaFinVigencia(null);
 				rol.setUserName(identity.getUserName());
-				rolDao.editarRol(rol);
-				regExito.append(rol.getNombre() + ", ");
+				rolDao.editRole(rol);
+				regSuccess.append(rol.getNombre() + ", ");
 			}
-			if (regRolesNoEdit.length() > 0) {
-				ControladorContexto.mensajeError(bundleSeguridad
+			if (regNotEditRoles.length() > 0) {
+				ControladorContexto.mensajeError(bundleSecurity
 						.getString("rol_message_no_editable_validity")
 						+ ": "
-						+ regRolesNoEdit.substring(0,
-								regRolesNoEdit.length() - 2));
+						+ regNotEditRoles.substring(0,
+								regNotEditRoles.length() - 2));
 			}
-			if (regVigUsados.length() > 0) {
-				ControladorContexto.mensajeError(bundle
-						.getString("message_registro_vigencia_con_relaciones")
-						+ ": "
-						+ regVigUsados.substring(0, regVigUsados.length() - 2));
+			if (regValidUsers.length() > 0) {
+				ControladorContexto
+						.mensajeError(bundle
+								.getString("message_registro_vigencia_con_relaciones")
+								+ ": "
+								+ regValidUsers.substring(0,
+										regValidUsers.length() - 2));
 			}
-			if (regExito.length() > 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString(mensajeCambioVigencia) + ": "
-								+ regExito.substring(0, regExito.length() - 2));
+			if (regSuccess.length() > 0) {
+				ControladorContexto.mensajeInformacion(
+						null,
+						bundle.getString(validityChangeMess)
+								+ ": "
+								+ regSuccess.substring(0,
+										regSuccess.length() - 2));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarRoles();
+		return searchRoles();
 	}
 
 	/**
-	 * Examines whether a role has relationships with user menu
+	 * Examines whether a role has relations with a user menu.
 	 * 
 	 * @param id
-	 *            : role identifier
-	 * @return boolean: allows know the relation was found in the role it
-	 *         returns true if the case returns false otherwise
+	 *            : role identifier.
+	 * @return boolean: it returns true if the relation was found in the role,
+	 *         false otherwise.
 	 * @throws Exception
 	 */
-	private boolean buscarRelaciones(short id) throws Exception {
+	private boolean searchRelations(short id) throws Exception {
 		boolean result = false;
-		result = rolDao.rolRelacionado(id, Constantes.ROLES_USUARIO);
+		result = rolDao.relatedRole(id, Constantes.ROLES_USUARIO);
 		if (!result) {
-			result = rolDao.rolRelacionado(id, Constantes.ROLES_MENU);
+			result = rolDao.relatedRole(id, Constantes.ROLES_MENU);
 		}
 		if (!result) {
-			result = rolDao.rolRelacionado(id, Constantes.ROLES_METODO);
+			result = rolDao.relatedRole(id, Constantes.ROLES_METODO);
 		}
 		return result;
 	}
 
 	/**
-	 * Validates if the role name exists in the database
+	 * Validates if the role name exists in the database..
 	 * 
 	 * @modify Liseth.Jimenez 19/06/2012
 	 * 
 	 * @param context
-	 *            : application context
+	 *            : application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : validate component.
 	 * @param value
-	 *            : field value to be valid
+	 *            : field value to be valid.
 	 * 
 	 * @throws Exception
 	 */
-	public void validarNombre(FacesContext context, UIComponent toValidate,
+	public void validateName(FacesContext context, UIComponent toValidate,
 			Object value) throws Exception {
-		String nombre = (String) value;
+		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
 			Rol rolAux = new Rol();
-			String resultado = "";
+			String result = "";
 
 			if (rol.getId() != 0) {
-				rolAux = rolDao.nombreExisteActualizar(nombre, rol.getId());
+				rolAux = rolDao.updateNameExists(name, rol.getId());
 			} else {
-				rolAux = rolDao.nombreExiste(nombre);
+				rolAux = rolDao.nameExists(name);
 			}
-			resultado = validarVigencia(resultado, rolAux);
+			result = validateValidity(result, rolAux);
 
-			if (Constantes.VIGENTE.equals(resultado)) {
+			if (Constantes.VIGENTE.equals(result)) {
 				ControladorContexto.mensajeErrorEspecifico(clientId,
 						"message_ya_existe_verifique", "mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
-			if (Constantes.SIN_VIGENTE.equals(resultado)) {
+			if (Constantes.SIN_VIGENTE.equals(result)) {
 				ControladorContexto.mensajeErrorEspecifico(clientId,
 						"message_ya_existe_sin_vigencia", "mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
 
-			if (!EncodeFilter.validarXSS(nombre, clientId,
+			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -690,16 +691,16 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * Allows to validate if the role is in force
+	 * Allows to validate if the role is in force.
 	 * 
 	 * @param result
-	 *            : Chain to check for
+	 *            : Chain to check for.
 	 * @param rolAux
-	 *            : It is a role object brought from the BD
-	 * @return result: Variable value 'sinVigencia' if registration is not in
-	 *         force or 'force' when this force
+	 *            : It is a role object brought from the database.
+	 * @return result: It returns 'sinVigencia' if registration is not in force
+	 *         or returns 'force' when it's in force.
 	 */
-	private String validarVigencia(String result, Rol rolAux) {
+	private String validateValidity(String result, Rol rolAux) {
 		if (rolAux != null) {
 			if (rolAux.getFechaFinVigencia() != null) {
 				result = Constantes.SIN_VIGENTE;
@@ -711,23 +712,23 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * Initializes the list of methods to select you permissions.
+	 * Initializes the list of methods to select their permissions.
 	 */
-	public void inicializarMetodosPermisos() {
-		MetodoAction metodoAction = ControladorContexto
+	public void initializeMethodsPermissions() {
+		MetodoAction methodAction = ControladorContexto
 				.getContextBean(MetodoAction.class);
-		metodoAction.initializeSearch();
-		ajustarMetodosPermisos(metodoAction);
+		methodAction.initializeSearch();
+		adjustMethodPermissions(methodAction);
 	}
 
 	/**
-	 * This method loads the list of methods to select them permissions.
+	 * It loads the list of methods to select their permissions.
 	 */
-	public void cargarMetodosPermisos() {
-		MetodoAction metodoAction = ControladorContexto
+	public void loadMethodPermissions() {
+		MetodoAction methodAction = ControladorContexto
 				.getContextBean(MetodoAction.class);
-		metodoAction.searchMethods();
-		ajustarMetodosPermisos(metodoAction);
+		methodAction.searchMethods();
+		adjustMethodPermissions(methodAction);
 	}
 
 	/**
@@ -737,47 +738,46 @@ public class RolAction implements Serializable {
 	 *            : Action method to reuse the functions for the list of
 	 *            methods.
 	 */
-	private void ajustarMetodosPermisos(MetodoAction metodoAction) {
-		ValidacionesAction validaciones = ControladorContexto
+	private void adjustMethodPermissions(MetodoAction metodoAction) {
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		this.paginationMetodo = metodoAction.getPagination();
-		String mensajeBusquedaPopUp = validaciones.getMensajeBusqueda();
-		validaciones.setMensajeBusquedaPopUp(mensajeBusquedaPopUp);
+		this.paginationMethod = metodoAction.getPagination();
+		String mensajeBusquedaPopUp = validations.getMensajeBusqueda();
+		validations.setMensajeBusquedaPopUp(mensajeBusquedaPopUp);
 	}
 
 	/**
-	 * Method allows loading the object with the method RolMetod and assigned
-	 * permissions.
+	 * It loads the object with the method RolMetod and assigned permissions.
 	 * 
-	 * @param permiso
-	 *            :Permission associated with the method.
-	 * @param idMetodo
+	 * @param permission
+	 *            : Permission associated with the method.
+	 * @param methodId
 	 *            : Method identifier associated with permission.
 	 * 
 	 * @return: Permission object and the loaded method.
 	 */
-	public RolMetodo llenarRolMetodo(String permiso, Integer idMetodo) {
-		RolMetodo rolMetodo = new RolMetodo();
-		RolMetodoPK rolMetodoPK = new RolMetodoPK();
-		rolMetodoPK.setRol(this.rol);
-		Metodo metodo = new Metodo();
-		metodo.setId(idMetodo);
-		rolMetodoPK.setMetodo(metodo);
-		rolMetodoPK.setPermiso(permiso);
-		rolMetodo.setRolMetodoPK(rolMetodoPK);
-		rolMetodo.setUserName(identity.getUserName());
-		return rolMetodo;
+	public RolMetodo loadRolMethod(String permission, Integer methodId) {
+		RolMetodo rolMethod = new RolMetodo();
+		RolMetodoPK methodRolPk = new RolMetodoPK();
+		methodRolPk.setRol(this.rol);
+		Metodo method = new Metodo();
+		method.setId(methodId);
+		methodRolPk.setMetodo(method);
+		methodRolPk.setPermiso(permission);
+		rolMethod.setRolMetodoPK(methodRolPk);
+		rolMethod.setUserName(identity.getUserName());
+		return rolMethod;
 	}
 
 	/**
-	 * allows load the rolMenu object, the menu assigned to the role.
+	 * It loads the rolMenu object, the menu assigned to the role.
 	 * 
 	 * @param menu
 	 *            : Menu that is associated with the role.
 	 * 
 	 * @return: RolMenu object associated with the menu and the role.
 	 */
-	public RolMenu llenarRolMenu(Menu menu) {
+	public RolMenu loadRolMenu(Menu menu) {
 		RolMenu rolMenu = new RolMenu();
 		RolMenuPK rolMenuPK = new RolMenuPK();
 		rolMenuPK.setRol(this.rol);
@@ -788,59 +788,60 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * Method allows add a menu to the list of selected identifiers that
-	 * associate a permit.
+	 * It adds a menu to the list of selected identifiers that associate a
+	 * permission.
 	 * 
 	 * @param id
 	 *            : ID of the selected method.
-	 * @param permiso
+	 * @param permission
 	 *            : Permission related to the method.
 	 * @param selected
 	 *            : It indicates whether it is selected or not.
 	 */
-	public void agregarMenuCheck(Integer id, String permiso, boolean selected) {
+	public void addMenuCheck(Integer id, String permission, boolean selected) {
 		try {
-			HashMap<String, Boolean> permisos = this.selChecksPermisos.get(id);
+			HashMap<String, Boolean> permissions = this.methodsPermissions
+					.get(id);
 			if (selected) {
-				if (permisos == null) {
-					permisos = new HashMap<String, Boolean>();
+				if (permissions == null) {
+					permissions = new HashMap<String, Boolean>();
 				}
-				if (Constantes.PERM_A.equals(permiso)) {
-					permisos.put(Constantes.PERM_A, selected);
-					permisos.put(Constantes.PERM_S, selected);
-					permisos.put(Constantes.PERM_U, selected);
-					permisos.put(Constantes.PERM_D, selected);
-					permisos.put(Constantes.PERM_I, selected);
-					permisos.put(Constantes.PERM_L, selected);
+				if (Constantes.PERM_A.equals(permission)) {
+					permissions.put(Constantes.PERM_A, selected);
+					permissions.put(Constantes.PERM_S, selected);
+					permissions.put(Constantes.PERM_U, selected);
+					permissions.put(Constantes.PERM_D, selected);
+					permissions.put(Constantes.PERM_I, selected);
+					permissions.put(Constantes.PERM_L, selected);
 				} else {
-					permisos.put(permiso, selected);
-					if (permSel(permisos, Constantes.PERM_S)
-							&& permSel(permisos, Constantes.PERM_U)
-							&& permSel(permisos, Constantes.PERM_D)
-							&& permSel(permisos, Constantes.PERM_I)
-							&& permSel(permisos, Constantes.PERM_L)) {
-						permisos.put(Constantes.PERM_A, selected);
+					permissions.put(permission, selected);
+					if (permSel(permissions, Constantes.PERM_S)
+							&& permSel(permissions, Constantes.PERM_U)
+							&& permSel(permissions, Constantes.PERM_D)
+							&& permSel(permissions, Constantes.PERM_I)
+							&& permSel(permissions, Constantes.PERM_L)) {
+						permissions.put(Constantes.PERM_A, selected);
 					}
 				}
-				this.selChecksPermisos.put(id, permisos);
+				this.methodsPermissions.put(id, permissions);
 			} else {
-				if (Constantes.PERM_A.equals(permiso)) {
-					this.selChecksPermisos.remove(id);
+				if (Constantes.PERM_A.equals(permission)) {
+					this.methodsPermissions.remove(id);
 				} else {
-					permisos.remove(permiso);
-					if (permSel(permisos, Constantes.PERM_S)
-							|| permSel(permisos, Constantes.PERM_U)
-							|| permSel(permisos, Constantes.PERM_D)
-							|| permSel(permisos, Constantes.PERM_I)
-							|| permSel(permisos, Constantes.PERM_L)) {
-						permisos.remove(Constantes.PERM_A);
-						this.selChecksPermisos.put(id, permisos);
+					permissions.remove(permission);
+					if (permSel(permissions, Constantes.PERM_S)
+							|| permSel(permissions, Constantes.PERM_U)
+							|| permSel(permissions, Constantes.PERM_D)
+							|| permSel(permissions, Constantes.PERM_I)
+							|| permSel(permissions, Constantes.PERM_L)) {
+						permissions.remove(Constantes.PERM_A);
+						this.methodsPermissions.put(id, permissions);
 					} else {
-						this.selChecksPermisos.remove(id);
+						this.methodsPermissions.remove(id);
 					}
 				}
 			}
-			cargarMenusRelacionados();
+			loadRelatedMenus();
 			removeMenuViewNoSelected();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -850,63 +851,66 @@ public class RolAction implements Serializable {
 	/**
 	 * Disclosed if permission is selected or not.
 	 * 
-	 * @param permisos
-	 *            : List of permits to seek permission.
-	 * @param permiso
-	 *            : Permission looking for.
+	 * @param permissions
+	 *            : List to seek a permission.
+	 * @param permission
+	 *            : Permission to look for.
 	 * 
-	 * @return boolean: True if the permission is selected, otherwise false.s
+	 * @return boolean: True if the permission is selected, false otherwise.
 	 */
-	private boolean permSel(HashMap<String, Boolean> permisos, String permiso) {
-		return permisos.get(permiso) != null && permisos.get(permiso);
+	private boolean permSel(HashMap<String, Boolean> permissions,
+			String permission) {
+		return permissions.get(permission) != null
+				&& permissions.get(permission);
 	}
 
 	/**
-	 * Disclosed if permission is selected for the method sent.
+	 * It discloses if permission is selected for the method that was sent.
 	 * 
 	 * @param id
 	 *            : ID of the selected method.
-	 * @param permiso
+	 * @param permission
 	 *            : Permission to query select.
 	 * 
 	 * @return True if the permission in the method is selected, otherwise
 	 *         false.
 	 */
-	public boolean permisoSeleccionado(Integer id, String permiso) {
-		HashMap<String, Boolean> permisos = this.selChecksPermisos.get(id);
-		if (permisos != null) {
-			return permisos.get(permiso) != null && permisos.get(permiso);
+	public boolean selectedPermission(Integer id, String permission) {
+		HashMap<String, Boolean> permissions = this.methodsPermissions.get(id);
+		if (permissions != null) {
+			return permissions.get(permission) != null
+					&& permissions.get(permission);
 		}
 		return false;
 	}
 
 	/**
-	 * This method initializes the list of menus related the role.
+	 * This method initializes the list of menus related to the role.
 	 */
-	public void inicializarMenusRelacionados() {
+	public void initializeRelatedMethods() {
 		try {
 			GestionarMenuAction menuAction = ControladorContexto
 					.getContextBean(GestionarMenuAction.class);
 			menuAction.initialData();
 			menuAction.setFromRol(true);
-			cargarMenusRelacionados();
+			loadRelatedMenus();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
 
 	/**
-	 * This method loads the list of menus to relate to the role.
+	 * This method loads the list of menus related to the role.
 	 */
-	public void cargarMenusRelacionados() {
-		ValidacionesAction validaciones = ControladorContexto
+	public void loadRelatedMenus() {
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
 		menuAction.consultMenus();
-		this.paginadorMenu = menuAction.getPagination();
-		String mensajeBusquedaPopUp = validaciones.getMensajeBusqueda();
-		validaciones.setMensajeBusquedaPopUp(mensajeBusquedaPopUp);
+		this.paginationMenu = menuAction.getPagination();
+		String searchPopupMessage = validations.getMensajeBusqueda();
+		validations.setMensajeBusquedaPopUp(searchPopupMessage);
 	}
 
 	/**
@@ -929,14 +933,14 @@ public class RolAction implements Serializable {
 
 	/**
 	 * Adds or removes a menu from the list of selected identifiers to know
-	 * whether or not displayed.
+	 * whether or not it is displayed.
 	 * 
 	 * @param id
 	 *            : ID of the selected menu.
 	 * @param selected
 	 *            : Indicates whether it is selected or not.
 	 */
-	public void noVerMenuCheck(Integer id, boolean selected) {
+	public void hideMenuCheck(Integer id, boolean selected) {
 		if (selected) {
 			this.menuViewNoSelected.add(id);
 		} else {
@@ -945,16 +949,16 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * Disclosed if the menu has permission to view or not.
+	 * It discloses if the menu has permission to view or not.
 	 * 
 	 * @param id
-	 *            : Menu identifier to see if you have permission to be
-	 *            displayed or not.
+	 *            : Menu identifier to see if it has permission to be displayed
+	 *            or not.
 	 * 
-	 * @return boolean: True if you have permissions for viewing, otherwise
+	 * @return boolean: True if it has permissions for viewing, otherwise
 	 *         false.
 	 */
-	public boolean menuNoSeleccionado(Integer id) {
+	public boolean notSelectedMenu(Integer id) {
 		return this.menuViewNoSelected.contains(id);
 	}
 }

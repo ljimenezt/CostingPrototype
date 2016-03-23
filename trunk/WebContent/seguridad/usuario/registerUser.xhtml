@@ -269,7 +269,7 @@
 					<p:calendar onchange="setFocus('popupForm:calFechaFin_input');"
 						onkeypress="return submitByEnter(event,'popupForm:btnBuscarC')"
 						value="#{usuarioAction.selectEndDate}" id="calFechaFin"
-						showOn="button" validator="#{usuarioAction.validarFechas}" />
+						showOn="button" validator="#{usuarioAction.validateDates}" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">

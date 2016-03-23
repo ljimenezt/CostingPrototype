@@ -11,7 +11,7 @@ import co.informatix.security.entities.Rol;
 import co.informatix.security.entities.Usuario;
 
 /**
- * Allows the basic management Role (CRUD) entity.
+ * Allows the basic management (CRUD) for Role entity.
  * 
  * @author Oscar.Amaya
  * 
@@ -25,90 +25,90 @@ public class RolDao implements Serializable {
 
 	/**
 	 * This method queries a range of records of roles depending on the
-	 * condition of validity
+	 * condition of validity.
 	 * 
 	 * @modify Liseth.Jimenez 19/06/2012
 	 * 
 	 * @param start
-	 *            : start range
+	 *            : start range.
 	 * @param range
-	 *            : number of records in the range
-	 * @param condicionVigencia
-	 *            : validity condition
-	 * @param nombreBuscar
-	 *            role name to search
+	 *            : number of records in the range.
+	 * @param validityCondition
+	 *            : validity condition.
+	 * @param nameSearch
+	 *            role name to search.
 	 * @return List<Rol>: list of roles found in the database.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Rol> consultarRoles(int start, int range,
-			String condicionVigencia, String nombreBuscar) throws Exception {
+	public List<Rol> queryRoles(int start, int range, String validityCondition,
+			String nameSearch) throws Exception {
 		return em
 				.createQuery(
 						"SELECT r FROM Rol r WHERE r.fechaFinVigencia "
-								+ condicionVigencia
+								+ validityCondition
 								+ " AND UPPER(r.nombre) LIKE UPPER(:keyword) ORDER BY r.nombre")
-				.setParameter("keyword", "%" + nombreBuscar + "%")
+				.setParameter("keyword", "%" + nameSearch + "%")
 				.setFirstResult(start).setMaxResults(range).getResultList();
 	}
 
 	/**
-	 * Allows for roles in the database.
+	 * It counts roles in the database.
 	 * 
 	 * @modify Liseth.Jimenez 19/06/2012
 	 * 
-	 * @param condicionVigencia
-	 *            : manage the condition of validity in consultation.
-	 * @param nombreBuscar
-	 *            role name to search
-	 * @return Long: Record number of roles in the database.
+	 * @param validityCondition
+	 *            : manage the condition of validity in the query.
+	 * @param nameSearch
+	 *            : role name to search.
+	 * @return Long: Amount of roles in the database.
 	 * @throws Exception
 	 */
-	public Long cantidadRoles(String condicionVigencia, String nombreBuscar)
+	public Long rolesAmount(String validityCondition, String nameSearch)
 			throws Exception {
 		return (Long) em
 				.createQuery(
 						"SELECT COUNT(r) FROM Rol r WHERE r.fechaFinVigencia "
-								+ condicionVigencia
+								+ validityCondition
 								+ " AND UPPER(r.nombre) LIKE UPPER(:keyword) ")
-				.setParameter("keyword", "%" + nombreBuscar + "%")
+				.setParameter("keyword", "%" + nameSearch + "%")
 				.getSingleResult();
 	}
 
 	/**
-	 * Saves a new role in BD
+	 * Saves a new role in the database.
 	 * 
-	 * @param rol
-	 *            :role to save
+	 * @param role
+	 *            : role to save.
 	 * @throws Exception
 	 */
-	public void guardarRol(Rol rol) throws Exception {
-		em.persist(rol);
+	public void saveRole(Rol role) throws Exception {
+		em.persist(role);
 	}
 
 	/**
-	 * Edit the information of an existing role
+	 * Edit the information of an existing role.
 	 * 
-	 * @param rol
-	 *            : role to edit
+	 * @param role
+	 *            : role to edit.
 	 * @throws Exception
 	 */
-	public void editarRol(Rol rol) throws Exception {
-		em.merge(rol);
+	public void editRole(Rol role) throws Exception {
+		em.merge(role);
 	}
 
 	/**
-	 * Consultation If the role name exists in the database when you save
+	 * Query If the role name exists in the database before saving.
 	 * 
-	 * @param nombre
+	 * @param name
 	 *            : name to verify
-	 * @return Rol: role object found with the name
+	 * @return: role object found with the name
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Rol nombreExiste(String nombre) throws Exception {
+	public Rol nameExists(String name) throws Exception {
 		List<Rol> results = em.createQuery("FROM Rol WHERE nombre=:nombre")
-				.setParameter("nombre", nombre).getResultList();
+				.setParameter("nombre", name).getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -116,20 +116,20 @@ public class RolDao implements Serializable {
 	}
 
 	/**
-	 * Consultation If the role name exists in the database when editing
+	 * Query if the role name exists in the database when editing.
 	 * 
-	 * @param nombre
-	 *            : name you want to query the role.
+	 * @param name
+	 *            : name in which you query the role.
 	 * @param id
-	 *            : id of the role being edited.
-	 * @return Rol: role object found with the name
+	 *            : id of the role object that is being edited.
+	 * @return role object according to the name.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Rol nombreExisteActualizar(String nombre, short id) throws Exception {
+	public Rol updateNameExists(String name, short id) throws Exception {
 		List<Rol> results = em
 				.createQuery("FROM Rol WHERE nombre=:nombre AND id <>:id")
-				.setParameter("nombre", nombre).setParameter("id", id)
+				.setParameter("nombre", name).setParameter("id", id)
 				.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
@@ -138,22 +138,21 @@ public class RolDao implements Serializable {
 	}
 
 	/**
-	 * Reports whether a role is being used
+	 * Reports whether a role is being used or not.
 	 * 
 	 * @param id
-	 *            : role identifier
-	 * @param entidadRelacionada
+	 *            : role identifier.
+	 * @param relatedEntity
 	 *            : entity that is related to the role.
-	 * @return: true whether this related or false otherwise
+	 * @return: true whether it is related or false otherwise.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean rolRelacionado(short id, String entidadRelacionada)
-			throws Exception {
+	public boolean relatedRole(short id, String relatedEntity) throws Exception {
 
 		List<Rol> roles = em
 				.createQuery(
-						"SELECT r FROM Rol r JOIN r." + entidadRelacionada
+						"SELECT r FROM Rol r JOIN r." + relatedEntity
 								+ " WHERE r.id=:id ").setParameter("id", id)
 				.getResultList();
 		if (roles.size() > 0) {
@@ -167,19 +166,18 @@ public class RolDao implements Serializable {
 	 * Returns a list of existing roles that are different from those assigned
 	 * to the user.
 	 * 
-	 * @param usuario
+	 * @param user
 	 *            : User roles which are queried.
-	 * @return List<Rol>: list of user roles whether or all existing roles.
+	 * @return List<Rol>: list of filtered user roles records or all existing.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Rol> consultarRolesNoAsignados(Usuario usuario)
-			throws Exception {
+	public List<Rol> queryNotAssignedRoles(Usuario user) throws Exception {
 		List<Rol> roles = em
 				.createQuery(
 						"SELECT rs.rolUsuarioPK.rol FROM RolUsuario rs "
 								+ "WHERE rs.rolUsuarioPK.usuario=:usuario")
-				.setParameter("usuario", usuario).getResultList();
+				.setParameter("usuario", user).getResultList();
 		if (roles.size() > 0)
 			return em
 					.createQuery(
