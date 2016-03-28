@@ -82,6 +82,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	private Paginador paginationActivitiesAndHr = new Paginador();
 	private String mensaje;
 	private String messageWorkersAvailability;
+	private String nameSearch;
 
 	/**
 	 * @return idTrabajador: id for idTrabajador.
@@ -335,6 +336,21 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
+	 * @return nameSearch: Name of workers to search.
+	 */
+	public String getNameSearch() {
+		return nameSearch;
+	}
+
+	/**
+	 * @param nameSearch
+	 *            :Name of workers to search.
+	 */
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
+	}
+
+	/**
 	 * @return paginationTrabajador: Management paged list of workerd.
 	 */
 	public Paginador getPaginationTrabajador() {
@@ -453,6 +469,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 */
 	public void inicializarTrabajadores() {
 		paginationTrabajador = new Paginador();
+		nameSearch = "";
 		consultarTrabajador();
 	}
 
@@ -484,7 +501,7 @@ public class ActivitiesAndHrAction implements Serializable {
 							this.idTrabajador);
 			busquedaAvanzadaTrabajador(consulta, parametros,
 					actividadesCertificadas, hrCertificados,
-					searchHrCertifiedAndMaternity);
+					searchHrCertifiedAndMaternity, unionMensajesBusqueda);
 			Long cantidad = hrDao.hrAmount(consulta, parametros);
 			if (cantidad != null) {
 				if (cantidad > 5) {
@@ -516,6 +533,7 @@ public class ActivitiesAndHrAction implements Serializable {
 			if (trabajadores != null)
 				mantenerTrabajadores();
 			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validaciones.setMensajeBusquedaPopUp(mensajeBusqueda);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -542,10 +560,15 @@ public class ActivitiesAndHrAction implements Serializable {
 	 *            : list of the human resources who have the certifications
 	 *            required to perform the selected activity but are on maternity
 	 *            or breast feeding period
+	 * @param unionMessagesSearch
+	 *            : message search.
 	 */
 	private void busquedaAvanzadaTrabajador(StringBuilder consulta,
 			List<SelectItem> parametros, Long actividadesCertificadas,
-			Long hrCertificados, Long searchHrCertifiedAndMaternity) {
+			Long hrCertificados, Long searchHrCertifiedAndMaternity,
+			StringBuilder unionMensajesBusqueda) {
+		String nameSearchTrim = nameSearch;
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		this.messageWorkersAvailability = null;
 		Date fechaMinima = ControladorFechas.restarAnyos(
 				ControladorFechas.fechaActual(),
@@ -568,6 +591,15 @@ public class ActivitiesAndHrAction implements Serializable {
 		consulta.append("OR ah.initialDateTimeActual BETWEEN :fechaInicial AND :fechaFinal ");
 		consulta.append("OR ah.finalDateTimeBudget BETWEEN :fechaInicial AND :fechaFinal ");
 		consulta.append("OR ah.finalDateTimeActual BETWEEN :fechaInicial AND :fechaFinal) ");
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+
+			consulta.append("AND UPPER(h.name || h.familyName) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%"
+					+ nameSearchTrim.replace(" ", "") + "%", "keyword");
+			parametros.add(item);
+			unionMensajesBusqueda.append(bundle.getString("label_nombre")
+					+ ": " + '"' + this.nameSearch + '"');
+		}
 		if (actividadesCertificadas != null && actividadesCertificadas > 0) {
 			consulta.append("AND h IN ");
 			consulta.append("(SELECT h FROM HrCertificationsAndRoles hrc ");
@@ -633,6 +665,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	public void mostrarTipoTrabajador() {
 		try {
 			idTrabajador = 0;
+			nameSearch="";
 			listaActivitiesAndHr = new ArrayList<ActivitiesAndHr>();
 			trabajadoresSeleccionados = new ArrayList<Hr>();
 			consultarTrabajador();

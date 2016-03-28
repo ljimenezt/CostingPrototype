@@ -26,8 +26,7 @@
 					<a:outputPanel id="outputTrabajador">
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.tipo_recurso_humano_label}</legend>
-							<h:panelGrid columns="2"
-								columnClasses="tdAlignTop center, center">
+							<h:panelGrid columns="2" cellpadding="3">
 								<h:outputText
 									value="#{mensajeRecursosHumanos.tipo_recurso_humano_label}"
 									styleClass="etiquetaTitulo" />
@@ -38,11 +37,37 @@
 									<f:selectItems
 										value="#{activitiesAndHrAction.listaTipoTrabajador}" />
 									<f:ajax event="change"
-										listener="#{activitiesAndHrAction.inicializarTrabajadores()}"
-										render="outputBuscar" />
+										listener="#{activitiesAndHrAction.consultarTrabajador()}"
+										render="outputBuscar msjSearch" />
 								</h:selectOneMenu>
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensaje.label_nombre}" />
+								<h:inputText value="#{activitiesAndHrAction.nameSearch}"
+									styleClass="colTextoCorto" id="txtName"
+									onkeypress="return submitByEnter(event,'seleccionarTrabajador:btnBuscar')">
+								</h:inputText>
 							</h:panelGrid>
+							<br />
+							<div class="W100Per center inBlock">
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+									actionListener="#{activitiesAndHrAction.consultarTrabajador()}"
+									render="outputBuscar msjSearch">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+								<a:commandButton
+									onclick="#{rich:component('popupTrabajador')}.hide()"
+									value="#{mensaje.button_cancel}" />
+							</div>
+
 						</t:fieldset>
+						<br />
+						<a:outputPanel id="msjSearch">
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W520P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
 						<br />
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.recurso_humano_label_s}</legend>
