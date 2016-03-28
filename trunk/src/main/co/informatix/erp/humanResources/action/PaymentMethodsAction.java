@@ -103,7 +103,7 @@ public class PaymentMethodsAction implements Serializable {
 
 	/**
 	 * Method to initialize the parameters of the search and load initial
-	 * listing of the types of PaymentMethods
+	 * listing of the types of PaymentMethods.
 	 * 
 	 * @return searchPaymentMethods: consulting method types PaymentMethods
 	 *         returns to the template management.
@@ -132,10 +132,10 @@ public class PaymentMethodsAction implements Serializable {
 		String searchMessage = "";
 		try {
 			advancedSearch(query, parameters, bundle, jointSearchMessages);
-			Long cantidad = paymentMethodsDao.amountPaymentMethods(query,
+			Long quantity = paymentMethodsDao.amountPaymentMethods(query,
 					parameters);
-			if (cantidad != null) {
-				pagination.paginar(cantidad);
+			if (quantity != null) {
+				pagination.paginar(quantity);
 			}
 			paymentMethodsList = paymentMethodsDao.searchPaymentMethods(
 					pagination.getInicio(), pagination.getRango(), query,

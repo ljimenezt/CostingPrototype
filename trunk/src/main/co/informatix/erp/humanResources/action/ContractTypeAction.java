@@ -108,7 +108,7 @@ public class ContractTypeAction implements Serializable {
 	 * Method to initialize the parameters of the search and load initial
 	 * listing of the types of contract.
 	 * 
-	 * @return consultarContractType: Method consulting contract types, returns
+	 * @return consultContractType: Method consulting contract types, returns
 	 *         to the template management.
 	 */
 	public String searchInitialization() {
@@ -124,7 +124,7 @@ public class ContractTypeAction implements Serializable {
 	 */
 	public String consultContractType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
+		ResourceBundle bundleHumanResources = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
@@ -156,7 +156,7 @@ public class ContractTypeAction implements Serializable {
 				String message = bundle
 						.getString("message_existen_registros_criterio_busqueda");
 				messageSearch = MessageFormat.format(message,
-						bundleRecursosHumanos.getString("contract_type_label"),
+						bundleHumanResources.getString("contract_type_label"),
 						unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);

@@ -158,7 +158,7 @@ public class HrDao implements Serializable {
 
 	/**
 	 * Query article assigned to a human resource, it takes only those that are
-	 * not null in the table
+	 * not null in the table.
 	 * 
 	 * @param objectName
 	 *            : Object name that is a human resources property.
