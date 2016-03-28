@@ -26,7 +26,7 @@
 				  $g('#formCrops\\:txtDescripcion').maxlength({   
 				    events: [],     
 				    max: 200,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 			});		
@@ -50,7 +50,7 @@
 								value="#{cropsAction.crops.cropNames.idCropName}"
 								styleClass="colTextoMediano"
 								requiredMessage="#{mensaje.message_campo_requerido}">
-								<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+								<f:selectItem itemLabel="#{mensaje.label_select}" />
 								<f:selectItems value="#{cropsAction.options}" />
 								<f:ajax event="change" listener="#{cropsAction.compareCrops()}"
 									render=":formCrops:listaSeleccionados" />
@@ -87,7 +87,7 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu id="cropAnyo" value="#{cropsAction.year}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" />
 							<f:selectItems value="#{cropsAction.selectYear}" />
 						</h:selectOneMenu>
 						<rich:message for="cropAnyo" />
@@ -129,7 +129,7 @@
 							<f:setPropertyActionListener value="true"
 								target="#{plotAction.pagerState}" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_seleccionar}" />
+								<h:outputText value="#{mensaje.label_select}" />
 							</rich:tooltip>
 							<f:param name="param2" value="si" />
 						</a:commandLink>
@@ -154,7 +154,7 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colTextoLargo">
-								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<h:outputText value="#{plot.name}" />
 							</rich:column>
 							<rich:column styleClass="colTextoLargo">
@@ -190,7 +190,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -206,7 +206,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{cropsAction.plotRemove.name}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -224,7 +224,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -250,7 +250,7 @@
 						<h:outputText value="#{mensaje.label_anyo_registro}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(cropsAction.selectYear,cropsAction.year)}" />
-						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText value="#{cropsAction.crops.description}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -282,7 +282,7 @@
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
 								#{mensajeLifeCycle.plot_names_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
-								<h:outputText value="#{mensaje.label_nombre}"
+								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="20" maxlength="100" id="txtNombreBuscar"
 									value="#{plotAction.nameSearch}"
@@ -326,7 +326,7 @@
 									<h:selectBooleanCheckbox value="#{plot.seleccionado}" />
 								</rich:column>
 								<rich:column styleClass="colTextoCorto">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{plot.name}" />
 								</rich:column>
 								<rich:column styleClass="colNumero">

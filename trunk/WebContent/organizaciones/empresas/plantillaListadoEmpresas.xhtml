@@ -11,8 +11,8 @@
 		columnClasses="W50Per,W50Per" styleClass="anchoDos">
 		<h:selectOneRadio value="#{empresaAction.vigencia}"
 			styleClass="rdVigencia">
-			<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
-			<f:selectItem itemValue="no" itemLabel="#{mensaje.label_no_vigentes}" />
+			<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
+			<f:selectItem itemValue="no" itemLabel="#{mensaje.label_not_current}" />
 			<a:ajax event="click"
 				listener="#{empresaAction.consultarEmpresas(valId)}"
 				render="panelEmpresa, mensajes, vigenciaPopup, mensajeBusqueda" />
@@ -90,7 +90,7 @@
 				</a:commandLink>
 			</rich:column>
 			<rich:column styleClass="colNumero">
-				<f:facet name="header">#{mensaje.label_nit}</f:facet>
+				<f:facet name="header">#{mensaje.label_identification}</f:facet>
 				<c:choose>
 					<c:when
 						test="#{empresaAction.vigencia eq 'si' and (identity.autorizado('empresaAction','A') or identity.autorizado('empresaAction','U'))}">
@@ -104,15 +104,15 @@
 				</c:choose>
 			</rich:column>
 			<rich:column styleClass="colTextoMediano">
-				<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+				<f:facet name="header">#{mensaje.label_name}</f:facet>
 				<h:outputText value="#{empresa.nombre}" />
 			</rich:column>
 			<rich:column styleClass="colTextoMediano">
-				<f:facet name="header">#{mensaje.label_direccion}</f:facet>
+				<f:facet name="header">#{mensaje.label_address}</f:facet>
 				<h:outputText value="#{empresa.direccion}" />
 			</rich:column>
 			<rich:column styleClass="colNumero">
-				<f:facet name="header">#{mensaje.label_telefono}</f:facet>
+				<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
 				<h:outputText value="#{empresa.telefono}" />
 			</rich:column>
 			<rich:column styleClass="colTextoCorto">
@@ -124,14 +124,14 @@
 				<h:outputText value="#{empresa.movil}" />
 			</rich:column>
 			<rich:column styleClass="colFecha">
-				<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+				<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
 				<h:outputText value="#{empresa.fechaCreacion}">
 					<f:convertDateTime pattern="MMM dd, yyyy" locale="#{idioma.locale}" />
 				</h:outputText>
 			</rich:column>
 			<rich:column styleClass="colFecha"
 				rendered="#{empresaAction.vigencia eq 'no'}">
-				<f:facet name="header">#{mensaje.label_fecha_fin_vigencia}</f:facet>
+				<f:facet name="header">#{mensaje.label_effective_end_date}</f:facet>
 				<h:outputText value="#{empresa.fechaFinVigencia}">
 					<f:convertDateTime pattern="MMM dd, yyyy" locale="#{idioma.locale}" />
 				</h:outputText>

@@ -16,7 +16,7 @@
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.tipoDocumento.id}"
 				id="cmbTipoDocumento">
-				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 				<f:selectItems value="#{personaAction.itemsDocumentsTypes}" />
 			</h:selectOneMenu>
 			<rich:message for="cmbTipoDocumento" />
@@ -32,7 +32,7 @@
 			</h:inputText>
 			<rich:message for="txtId" />
 
-			<h:outputText value="#{mensaje.label_nombre}"
+			<h:outputText value="#{mensaje.label_name}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:inputText value="#{personaAction.person.nombres}" maxlength="100"
@@ -43,7 +43,7 @@
 			</h:inputText>
 			<rich:message for="txtNombre" />
 
-			<h:outputText value="#{mensaje.label_apellido}"
+			<h:outputText value="#{mensaje.label_surname}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
 			<h:inputText value="#{personaAction.person.apellidos}"
@@ -80,7 +80,7 @@
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.paisNac.id}"
 				id="comboPais">
-				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 				<f:selectItems value="#{personaAction.itemsCountries}" />
 				<a:ajax event="valueChange"
 					render="comboDepartamento, comboMunicipio" execute="@this"
@@ -94,7 +94,7 @@
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.departamentoNac.id}"
 				id="comboDepartamento">
-				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 				<f:selectItems value="#{personaAction.itemDepartments}" />
 				<a:ajax event="change" render="comboMunicipio"
 					listener="#{personaAction.loadComboMunicipality()}" execute="@this" />
@@ -107,7 +107,7 @@
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.municipioNac.id}"
 				id="comboMunicipio">
-				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 				<f:selectItems value="#{personaAction.itemsMunicipalities}" />
 			</h:selectOneMenu>
 			<rich:message for="comboMunicipio" />
@@ -117,7 +117,7 @@
 			<h:outputText value="" />
 			<h:selectOneMenu value="#{personaAction.person.civilStatus.id}"
 				id="comboEstadoCivil">
-				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 				<f:selectItems value="#{personaAction.itemsMaritalStatus}" />
 			</h:selectOneMenu>
 			<rich:message for="comboEstadoCivil" />
@@ -134,7 +134,7 @@
 			</h:inputText>
 			<rich:message for="txtNumHijos" />
 
-			<h:outputText value="#{mensaje.label_telefono}"
+			<h:outputText value="#{mensaje.label_telephone_number}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:inputText value="#{personaAction.person.telefono}" maxlength="20"
@@ -144,7 +144,7 @@
 			</h:inputText>
 			<rich:message for="txtTelefono" />
 
-			<h:outputText value="#{mensaje.label_direccion}"
+			<h:outputText value="#{mensaje.label_address}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
 			<h:inputText value="#{personaAction.person.direccion}"
@@ -192,7 +192,7 @@
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.paisRes.id}"
 				id="comboPaisRes">
-				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 				<f:selectItems value="#{personaAction.itemsCountries}" />
 				<a:ajax event="valueChange"
 					render="comboDepartamentoRes, comboMunicipioRes" execute="@this"
@@ -206,7 +206,7 @@
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.departamentoRes.id}"
 				id="comboDepartamentoRes">
-				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 				<f:selectItems value="#{personaAction.itemDepartmentsRes}" />
 				<a:ajax event="change" render="comboMunicipioRes"
 					listener="#{personaAction.loadComboMunicipalityRes()}"
@@ -220,7 +220,7 @@
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.municipioRes.id}"
 				id="comboMunicipioRes">
-				<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 				<f:selectItems value="#{personaAction.itemsMunicipalitiesRes}" />
 			</h:selectOneMenu>
 			<rich:message for="comboMunicipioRes" />

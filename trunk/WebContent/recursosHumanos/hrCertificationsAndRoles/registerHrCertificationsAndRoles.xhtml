@@ -26,7 +26,7 @@
 				  $g('#formHrCert\\:txaDescription').maxlength({   
 				    events: [],     
 				    max: 200,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 			});		
@@ -47,7 +47,7 @@
 							value="#{hrCertificationsAndRolesAction.certificationsAndRoles.idCertificactionsAndRoles}"
 							styleClass="colTextoMediano" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" />
 							<f:selectItems
 								value="#{hrCertificationsAndRolesAction.itemsCertificationsAndRoles}" />
 						</h:selectOneMenu>
@@ -60,7 +60,7 @@
 							value="#{hrCertificationsAndRolesAction.hr.idHr}"
 							styleClass="colTextoMediano" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" />
 							<f:selectItems value="#{hrCertificationsAndRolesAction.itemsHr}" />
 						</h:selectOneMenu>
 						<rich:message for="hr" />
@@ -131,7 +131,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

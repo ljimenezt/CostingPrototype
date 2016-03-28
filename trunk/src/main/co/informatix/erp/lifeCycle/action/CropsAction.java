@@ -323,7 +323,7 @@ public class CropsAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_descripcion")
+			unionMessagesSearch.append(bundle.getString("label_description")
 					+ ": " + '"' + this.nameSearch + '"');
 
 			if (this.nameCrop != 0) {

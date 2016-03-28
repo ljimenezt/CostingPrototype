@@ -33,7 +33,7 @@
 						value="#{activitiesAndCertificationsAction.certificationsAndRoles.idCertificactionsAndRoles}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems
 							value="#{activitiesAndCertificationsAction.itemsCertificationsAndRoles}" />
 					</h:selectOneMenu>
@@ -45,7 +45,7 @@
 						value="#{activitiesAndCertificationsAction.activityNames.idActivityName}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems
 							value="#{activitiesAndCertificationsAction.itemsActivities}" />
 					</h:selectOneMenu>
@@ -62,7 +62,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

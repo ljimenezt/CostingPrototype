@@ -390,7 +390,7 @@ public class ActivitiesAction implements Serializable {
 			parameters.add(item);
 			if (!showSearchMessage)
 				jointSearchMessages.append(bundle
-						.getString("label_descripcion")
+						.getString("label_description")
 						+ ": "
 						+ '"'
 						+ this.activities.getDescription() + '"' + " ");
@@ -494,14 +494,14 @@ public class ActivitiesAction implements Serializable {
 	 * @param activityNames
 	 *            : Name of activity that is load from popup.
 	 */
-	public void cargarActivityNames(ActivityNames activityNames) {
+	public void loadActivityNames(ActivityNames activityNames) {
 		this.activities.setActivityName(activityNames);
 	}
 
 	/**
 	 * Method to clear the selected activity name of activity
 	 */
-	public void limpiarActivityNames() {
+	public void clearActivityNames() {
 		this.activities.setActivityName(new ActivityNames());
 	}
 
@@ -536,8 +536,7 @@ public class ActivitiesAction implements Serializable {
 	/**
 	 * Method to save or edit activities.
 	 * 
-	 * @return agregarEditarActivities: Redirects to register activities
-	 *         template.
+	 * @return addEditActivities: Redirects to register activities template.
 	 * 
 	 */
 	public String saveActivities() {

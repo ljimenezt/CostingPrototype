@@ -308,7 +308,7 @@ public class MaintenanceLinesAction implements Serializable {
 			SelectItem item = new SelectItem(this.machineNameSearch,
 					"nombreMaquina");
 			parameters.add(item);
-			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+			jointSearchMessages.append(bundle.getString("label_name") + ": "
 					+ '"' + this.machineNameSearch + '"');
 		}
 	}

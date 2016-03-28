@@ -189,7 +189,7 @@ public class PaymentMethodsAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameter.add(item);
-			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+			jointSearchMessages.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
 	}

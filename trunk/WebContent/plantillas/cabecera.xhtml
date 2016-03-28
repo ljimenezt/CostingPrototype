@@ -8,15 +8,15 @@
 		<rich:toolbar>
 			<rich:toolbarGroup>
 				<h:outputText styleClass="etiquetaTitulo"
-					value="#{mensaje.label_nombre_sistema}" />
+					value="#{mensaje.label_system_name}" />
 				<h:outputText styleClass="etiquetaTitulo" value="-" />
 				<h:outputText styleClass="etiquetaTitulo"
-					value="#{mensaje.label_descripcion_sistema}" />
+					value="#{mensaje.label_system_description}" />
 			</rich:toolbarGroup>
 			<rich:toolbarGroup rendered="#{autenticado}">
 				<h:outputText value="" />
 				<h:outputText
-					value="#{mensaje.label_bienvenido}, #{identity.nombreUsuario}" />
+					value="#{mensaje.label_welcome}, #{identity.nombreUsuario}" />
 				<h:outputText value="(#{identity.nombreRoles})"
 					rendered="#{identity.nombreRoles ne null and !(empty identity.nombreRoles)}" />
 			</rich:toolbarGroup>

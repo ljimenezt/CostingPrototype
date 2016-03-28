@@ -55,7 +55,7 @@
 								<f:setPropertyActionListener value=""
 									target="#{hrAction.nameSearch}" />
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_seleccionar}" />
+									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
 								<f:param name="param2" value="si" />
 							</a:commandLink>
@@ -93,7 +93,7 @@
 								<f:setPropertyActionListener value=""
 									target="#{contratoAction.nameSearch}" />
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_seleccionar}" />
+									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
 								<f:param name="param2" value="si" />
 							</a:commandLink>
@@ -143,7 +143,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -159,7 +159,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText
 							value="#{paymentsAction.payments.hr.name} #{paymentsAction.payments.hr.familyName}" />
 						<h:outputText value="#{mensaje.label_persona_responsable}:" />
@@ -195,7 +195,7 @@
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
 								#{mensajeNombre.tipo_concepto_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
-								<h:outputText value="#{mensaje.label_nombre}"
+								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 									value="#{contratoAction.nameSearch}"
@@ -247,16 +247,16 @@
 										oncomplete="#{rich:component('popupContrato')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_seleccionar}" />
+											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>
 								<rich:column width="300px">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{contrato.persona.nombreCompleto}" />
 								</rich:column>
 								<rich:column width="100px" styleClass="center">
-									<f:facet name="header">#{mensaje.label_observaciones}</f:facet>
+									<f:facet name="header">#{mensaje.label_observations}</f:facet>
 									<a:outputPanel>
 										<h:graphicImage value="/img/info_16.png" />
 										<rich:tooltip layout="block">
@@ -308,7 +308,7 @@
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
 								#{mensajeNombre.tipo_concepto_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
-								<h:outputText value="#{mensaje.label_nombre}"
+								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtHrBuscar"
 									value="#{hrAction.nameSearch}"
@@ -359,16 +359,16 @@
 										oncomplete="#{rich:component('popupHR')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_seleccionar}" />
+											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>
 								<rich:column width="300px">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{hr.name} #{hr.familyName}" />
 								</rich:column>
 								<rich:column width="100px" styleClass="center">
-									<f:facet name="header">#{mensaje.label_telefono}</f:facet>
+									<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
 									<a:outputPanel>
 										<h:graphicImage value="/img/info_16.png" />
 										<rich:tooltip layout="block">

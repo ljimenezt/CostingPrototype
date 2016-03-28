@@ -190,7 +190,7 @@ public class FuelTypesAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
 	}

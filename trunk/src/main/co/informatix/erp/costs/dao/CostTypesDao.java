@@ -31,7 +31,7 @@ public class CostTypesDao implements Serializable {
 	 *            : type of cost saving.
 	 * @throws Exception
 	 */
-	public void guardarCostTypes(CostTypes costTypes) throws Exception {
+	public void saveCostTypes(CostTypes costTypes) throws Exception {
 		em.persist(costTypes);
 	}
 
@@ -42,7 +42,7 @@ public class CostTypesDao implements Serializable {
 	 *            : cost type to edit.
 	 * @throws Exception
 	 */
-	public void editarCostTypes(CostTypes costTypes) throws Exception {
+	public void editCostTypes(CostTypes costTypes) throws Exception {
 		em.merge(costTypes);
 	}
 
@@ -53,7 +53,7 @@ public class CostTypesDao implements Serializable {
 	 *            : cost type to remove.
 	 * @throws Exception
 	 */
-	public void eliminarCostTypes(CostTypes costTypes) throws Exception {
+	public void removeCostTypes(CostTypes costTypes) throws Exception {
 		em.remove(em.merge(costTypes));
 	}
 
@@ -61,21 +61,21 @@ public class CostTypesDao implements Serializable {
 	 * Returns the amount of such costs in the BD existing filtering information
 	 * search by the values sent.
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : String containing the query why the filter assignments.
-	 * @param parametros
+	 * @param parameters
 	 *            : query parameters.
 	 * @return long: number of records found such costs.
 	 * @throws Exception
 	 */
-	public Long cantidadCostTypes(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long quantityCostTypes(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(c) FROM CostTypes c ");
-		query.append(consulta);
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -84,31 +84,31 @@ public class CostTypesDao implements Serializable {
 	 * This method queries the type of costs sent to a particular range as a
 	 * parameter and filtering the information by the values of search sent.
 	 * 
-	 * @param inicio
+	 * @param start
 	 *            : where it initiates the consultation record
-	 * @param rango
+	 * @param range
 	 *            : range of records
-	 * @param consulta
+	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
-	 * @param parametros
+	 * @param parameters
 	 *            : Query parameters.
 	 * @return List<CostTypes>:list of types of costs
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<CostTypes> consultarCostTypes(int inicio, int rango,
-			StringBuilder consulta, List<SelectItem> parametros)
+	public List<CostTypes> consultCostTypes(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT c FROM CostTypes c ");
-		query.append(consulta);
+		query.append(consult);
 		query.append("ORDER BY c.name ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(inicio).setMaxResults(rango);
+		q.setFirstResult(start).setMaxResults(range);
 		List<CostTypes> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
@@ -128,7 +128,7 @@ public class CostTypesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoCostTypes(String nomObject, int idCostTypes)
+	public Object consultObjetoCostTypes(String nomObject, int idCostTypes)
 			throws Exception {
 		List<Object> results = em
 				.createQuery(

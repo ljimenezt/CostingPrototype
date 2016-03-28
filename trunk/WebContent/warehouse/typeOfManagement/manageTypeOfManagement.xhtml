@@ -59,7 +59,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<h:commandLink value="#{typeOfManagement.name}"
 							action="#{typeOfManagementAction.addEditTypeOfManagement(typeOfManagement)}"
 							onclick="#{rich:component('statPane')}.show();">
@@ -67,7 +67,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoExxtraLargo">
-						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+						<f:facet name="header">#{mensaje.label_description}</f:facet>
 						<h:outputText value="#{typeOfManagement.description}" />
 					</rich:column>
 
@@ -132,7 +132,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -148,7 +148,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText
 							value="#{typeOfManagementAction.typeOfManagement.name}" />
 					</ui:define>

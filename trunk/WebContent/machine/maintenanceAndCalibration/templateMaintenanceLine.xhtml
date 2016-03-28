@@ -49,9 +49,9 @@
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_descripcion}" />
+								value="#{mensaje.label_description}" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputTextarea label="#{mensaje.label_descripcion}"
+							<h:inputTextarea label="#{mensaje.label_description}"
 								value="#{maintenanceAndCalibrationAction.maintenanceLines.description}"
 								styleClass="colTextoMedianoTextArea" id="txaDescription"
 								validator="#{encodeFilter.validarScripting}" required="true">
@@ -94,7 +94,7 @@
 	</h:form>
 	<h:form id="formConfirmation">
 		<rich:popupPanel id="confirmationPopUp" modal="true" autosized="true"
-			resizeable="false" header="#{mensaje.label_confirmacion}">
+			resizeable="false" header="#{mensaje.label_confirmation}">
 			<f:facet name="controls">
 				<h:outputLink value="#"
 					onclick="#{rich:component('confirmationPopUp')}.hide(); return false;">
@@ -119,7 +119,7 @@
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.maintenanceAndCalibration.dateTime}" />
 
-					<h:outputText value="#{mensaje.label_descripcion}: " />
+					<h:outputText value="#{mensaje.label_description}: " />
 					<h:outputText
 						value="#{maintenanceAndCalibrationAction.maintenanceLines.description}" />
 

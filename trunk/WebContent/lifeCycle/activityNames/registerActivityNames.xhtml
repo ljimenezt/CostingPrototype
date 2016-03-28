@@ -23,7 +23,7 @@
 				  $('#formActivityNames\\:txaDescription').maxlength({   
 				    events: [],     
 				    max: 200,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 			});		
@@ -38,7 +38,7 @@
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
 
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText
@@ -50,7 +50,7 @@
 					<rich:message for="txtNombre" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_descripcion}" />
+						value="#{mensaje.label_description}" />
 					<h:outputText value="" />
 					<h:inputTextarea
 						value="#{activityNamesAction.activityNames.description}"
@@ -71,7 +71,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -90,7 +90,7 @@
 						<h:outputText value="#{mensaje.label_nombre_actividad}:" />
 						<h:outputText
 							value="#{activityNamesAction.activityNames.activityName}" />
-						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
 							value="#{activityNamesAction.activityNames.description}" />
 					</ui:define>

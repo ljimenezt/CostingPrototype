@@ -10,7 +10,7 @@
 	<!-- PopUp de confirmacion -->
 	<h:form id="formModificacion">
 		<rich:popupPanel id="confirmacionPopUp" autosized="true" height="550"
-			header="#{mensaje.label_confirmacion}">
+			header="#{mensaje.label_confirmation}">
 			<f:facet name="controls">
 				<h:outputLink value="#"
 					onclick="#{rich:component('confirmacionPopUp')}.hide(); return false;">
@@ -32,10 +32,10 @@
 					<h:outputText value="#{mensaje.label_numero_identificacion}" />
 					<h:outputText value="#{personaAction.person.documento}" />
 
-					<h:outputText value="#{mensaje.label_nombre} :" />
+					<h:outputText value="#{mensaje.label_name} :" />
 					<h:outputText value="#{personaAction.person.nombres}" />
 
-					<h:outputText value="#{mensaje.label_apellido} :" />
+					<h:outputText value="#{mensaje.label_surname} :" />
 					<h:outputText value="#{personaAction.person.apellidos}" />
 
 					<h:outputText value="#{mensaje.label_genero} :" />
@@ -51,7 +51,7 @@
 							locale="#{idioma.locale}" />
 					</h:outputText>
 
-					<h:outputText value="#{mensaje.label_telefono} :" />
+					<h:outputText value="#{mensaje.label_telephone_number} :" />
 					<h:outputText value="#{personaAction.person.telefono}" />
 
 					<h:outputLabel value="#{mensaje.label_movil} :" />
@@ -60,7 +60,7 @@
 					<h:outputText value="#{mensaje.label_fax} :" />
 					<h:outputText value="#{personaAction.person.fax}" />
 
-					<h:outputText value="#{mensaje.label_direccion}:" />
+					<h:outputText value="#{mensaje.label_address}:" />
 					<h:outputText value="#{personaAction.person.direccion}" />
 
 					<h:outputText value="#{mensaje.label_email}:" />

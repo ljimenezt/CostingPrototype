@@ -484,7 +484,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+			jointSearchMessages.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
 	}

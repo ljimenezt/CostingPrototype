@@ -41,7 +41,7 @@
 		<h:form>
 			<rich:popupPanel id="popupVigencia" keepVisualState="true"
 				autosized="true" width="500" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -57,9 +57,9 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nit}:" />
+						<h:outputText value="#{mensaje.label_identification}:" />
 						<h:outputText value="#{empresaAction.empresaVigencia.nit}" />
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{empresaAction.empresaVigencia.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -95,7 +95,7 @@
 					</h:outputLink>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 						value="#{empresaAction.nombreBuscar}"

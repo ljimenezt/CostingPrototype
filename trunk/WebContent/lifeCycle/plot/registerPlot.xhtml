@@ -22,7 +22,7 @@
 				  $('#formPlot\\:txaDescripcion').maxlength({   
 				    events: [],     
 				    max: 250,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 			});		
@@ -46,7 +46,7 @@
 						rendered="#{plotAction.farmParameter eq false}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{plotAction.optionsFarm}" />
 					</h:selectOneMenu>
 					<h:outputText value="#{plotAction.farm.name}"
@@ -54,7 +54,7 @@
 						rendered="#{plotAction.farmParameter eq true}" />
 					<rich:message for="farm1" />
 
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText value="#{plotAction.plot.name}"
@@ -95,7 +95,7 @@
 					</h:inputText>
 					<rich:message for="txtNumberTrees" />
 
-					<h:outputText value="#{mensaje.label_descripcion}"
+					<h:outputText value="#{mensaje.label_description}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputTextarea value="#{plotAction.plot.description}"
@@ -117,7 +117,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -133,13 +133,13 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{plotAction.plot.name}" />
 						<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}:" />
 						<h:outputText value="#{plotAction.plot.locationLinkToMap}" />
 						<h:outputText value="#{mensaje.label_size}:" />
 						<h:outputText value="#{plotAction.plot.size}" />
-						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText value="#{plotAction.plot.description}" />
 					</ui:define>
 					<ui:define name="botones">

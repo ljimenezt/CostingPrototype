@@ -20,7 +20,7 @@
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}">
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_nombre}" />
+						value="#{mensaje.label_name}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText id="txtNombre" styleClass="colTextoMediano"
 						maxlength="100" value="#{paisAction.pais.nombre}" required="true"
@@ -61,7 +61,7 @@
 		<h:form id="formModificacion">
 			<rich:popupPanel id="confirmacionPopUp" modal="true" autosized="true"
 				width="500" resizeable="false"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -75,7 +75,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{paisAction.pais.nombre}" />
 						<h:outputText value="#{mensaje.label_codigo_postal}:" />
 						<h:outputText value="#{paisAction.pais.codigoPostal}" />

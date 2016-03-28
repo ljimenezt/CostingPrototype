@@ -37,8 +37,7 @@
 						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu id="cropName" value="#{cycleAction.idCropsName}"
 							styleClass="colTextoMediano" required="true">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{cycleAction.optionsCropNames}" />
 							<f:ajax event="change"
 								listener="#{cycleAction.loadCropNamesCrop()}" render="@form" />
@@ -50,8 +49,7 @@
 						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu id="crop" value="#{cycleAction.idCrops}"
 							styleClass="colTextoMediano" required="true">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{cycleAction.optionsCrops}" />
 							<f:ajax event="change" listener="#{cycleAction.loadActivities()}"
 								render="formRegisterCycle" />
@@ -286,7 +284,7 @@
 							</h:panelGrid>
 
 							<t:fieldset styleClass="W166P">
-								<legend class="etiquetaTitulo">#{mensaje.label_documento}</legend>
+								<legend class="etiquetaTitulo">#{mensaje.label_document}</legend>
 								<h:panelGrid columns="1" cellspacing="0" cellpadding="0"
 									id="panelDocumentCycle">
 									<a:outputPanel
@@ -373,7 +371,7 @@
 
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

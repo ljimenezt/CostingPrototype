@@ -128,8 +128,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="cmbCrops" value="#{beanIndexAction.crop}"
 						onkeypress="return submitByEnter(event, 'formBuscar:btnBuscar')">
-						<f:selectItem itemValue="0"
-							itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemValue="0" itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{beanIndexAction.itemsCrops}" />
 					</h:selectOneMenu>
 
@@ -137,8 +136,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="cmbSection" value="#{beanIndexAction.section}"
 						onkeypress="return submitByEnter(event, 'formBuscar:btnBuscar')">
-						<f:selectItem itemValue="0"
-							itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemValue="0" itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{beanIndexAction.itemsSection}" />
 					</h:selectOneMenu>
 
@@ -157,7 +155,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

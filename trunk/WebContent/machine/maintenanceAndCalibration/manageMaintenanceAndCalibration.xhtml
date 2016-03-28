@@ -26,8 +26,7 @@
 			value="#{maintenanceAndCalibrationAction}" />
 		<ui:param name="renderLista"
 			value="panelMaintenanceAndCalibration vigenciaPopup" />
-		<ui:param name="metodoLista"
-			value="consultMaintenanceAndCalibration" />
+		<ui:param name="metodoLista" value="consultMaintenanceAndCalibration" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
@@ -73,8 +72,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:selectOneMenu id="modelSearch"
 								value="#{maintenanceAndCalibrationAction.machines.idMachine}">
-								<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-									itemValue="0" />
+								<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 								<f:selectItems
 									value="#{maintenanceAndCalibrationAction.machinesItems}" />
 							</h:selectOneMenu>
@@ -283,7 +281,7 @@
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
-								<h:outputText value="#{mensaje.label_descripcion}"
+								<h:outputText value="#{mensaje.label_description}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNameSearch"
 									value="#{maintenanceAndCalibrationAction.nameSearch}"
@@ -333,7 +331,7 @@
 									<h:outputText value="#{mensajeMachine.maintenance_lines_label}" />
 								</f:facet>
 								<rich:column styleClass="colTextoLargo">
-									<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+									<f:facet name="header">#{mensaje.label_description}</f:facet>
 									<a:commandLink render="popupMaintenanceLine"
 										action="#{maintenanceAndCalibrationAction.addEditMaintenanceLines(maintenanceLines)}"
 										oncomplete="#{rich:component('popupMaintenanceLine')}.show();">

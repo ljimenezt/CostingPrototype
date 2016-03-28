@@ -308,7 +308,7 @@ public class LoteAction implements Serializable {
 			consult.append("AND UPPER(l.nombre) LIKE UPPER(:keyword) ");
 			parameters.add(item);
 			unionMessagesSearch.append((seAgregoMens ? comaEspacio : "")
-					+ bundle.getString("label_nombre") + ": " + '"'
+					+ bundle.getString("label_name") + ": " + '"'
 					+ this.nombreBuscar + '"');
 		}
 	}

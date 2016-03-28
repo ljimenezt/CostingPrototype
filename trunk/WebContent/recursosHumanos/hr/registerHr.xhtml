@@ -29,7 +29,7 @@
 								cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 								columnClasses="tdAlignTop right,,,tdAlignTop">
 
-								<h:outputText value="#{mensaje.label_nombre}"
+								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="*" styleClass="required" />
 								<h:inputText value="#{hrAction.hr.name}"
@@ -42,7 +42,7 @@
 								</h:inputText>
 								<rich:message for="txtNombre" />
 
-								<h:outputText value="#{mensaje.label_apellido}"
+								<h:outputText value="#{mensaje.label_surname}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="*" styleClass="required" />
 								<h:inputText value="#{hrAction.hr.familyName}"
@@ -87,8 +87,7 @@
 								<h:outputText value="" />
 								<h:selectOneMenu value="#{hrAction.hr.civilStatus.id}"
 									styleClass="MaxW175P W155P" id="comboCivilStatus">
-									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-										itemValue="0" />
+									<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 									<f:selectItems value="#{hrAction.maritalStatusItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboCivilStatus" />
@@ -118,7 +117,7 @@
 								<h:selectOneMenu value="#{hrAction.hr.hrTypes.idHrType}"
 									styleClass="MaxW175P W170P" id="comboTipoHr" required="true"
 									requiredMessage="#{mensaje.message_campo_requerido}">
-									<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+									<f:selectItem itemLabel="#{mensaje.label_select}" />
 									<f:selectItems value="#{hrAction.hrTypesItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboTipoHr" />
@@ -131,7 +130,7 @@
 									value="#{hrAction.hr.paymentMethods.idPaymentMethod}"
 									styleClass="MaxW175P W170P" id="comboTipoPago" required="true"
 									requiredMessage="#{mensaje.message_campo_requerido}">
-									<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+									<f:selectItem itemLabel="#{mensaje.label_select}" />
 									<f:selectItems value="#{hrAction.paymentMethodsItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboTipoPago" />
@@ -204,7 +203,7 @@
 								<h:selectOneMenu value="#{hrAction.hr.paisNacimiento.id}"
 									styleClass="MaxW175P W170P" id="comboPais" required="true"
 									requiredMessage="#{mensaje.message_campo_requerido}">
-									<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+									<f:selectItem itemLabel="#{mensaje.label_select}" />
 									<f:selectItems value="#{hrAction.birthCountryItems}" />
 									<a:ajax event="valueChange"
 										render="comboDepartamento, comboMunicipio" execute="@this"
@@ -219,8 +218,7 @@
 								<h:selectOneMenu
 									value="#{hrAction.hr.departamentoNacimiento.id}"
 									styleClass="MaxW175P W170P" id="comboDepartamento">
-									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-										itemValue="0" />
+									<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 									<f:selectItems value="#{hrAction.birthStateItems}" />
 									<a:ajax event="change" render="comboMunicipio"
 										listener="#{hrAction.loadBirthStates()}" execute="@this" />
@@ -233,8 +231,7 @@
 								<h:outputText value="" />
 								<h:selectOneMenu value="#{hrAction.hr.municipioNacimiento.id}"
 									styleClass="MaxW175P W170P" id="comboMunicipio">
-									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-										itemValue="0" />
+									<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 									<f:selectItems value="#{hrAction.birthMunicipalityItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboMunicipio" />
@@ -394,7 +391,7 @@
 								cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 								columnClasses="tdAlignTop right,,,tdAlignTop">
 
-								<h:outputText value="#{mensaje.label_direccion}"
+								<h:outputText value="#{mensaje.label_address}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:inputText value="#{hrAction.hr.direccion}" maxlength="200"
@@ -406,7 +403,7 @@
 								</h:inputText>
 								<rich:message for="txtDireccion" />
 
-								<h:outputText value="#{mensaje.label_telefono}"
+								<h:outputText value="#{mensaje.label_telephone_number}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:inputText value="#{hrAction.hr.telefono}" maxlength="150"
@@ -465,7 +462,7 @@
 								<h:selectOneMenu value="#{hrAction.hr.paisResidencia.id}"
 									styleClass="MaxW175P W170P" id="comboPaisRes" required="true"
 									requiredMessage="#{mensaje.message_campo_requerido}">
-									<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+									<f:selectItem itemLabel="#{mensaje.label_select}" />
 									<f:selectItems value="#{hrAction.residenceCountryItems}" />
 									<a:ajax event="valueChange"
 										render="comboDepartamentoRes, comboMunicipioRes"
@@ -480,8 +477,7 @@
 								<h:selectOneMenu
 									value="#{hrAction.hr.departamentoResidencia.id}"
 									styleClass="MaxW175P W170P" id="comboDepartamentoRes">
-									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-										itemValue="0" />
+									<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 									<f:selectItems value="#{hrAction.getResidenceStateItems()}" />
 									<a:ajax event="change" render="comboMunicipioRes"
 										listener="#{hrAction.loadResidenceMunicipality()}"
@@ -495,8 +491,7 @@
 								<h:outputText value="" />
 								<h:selectOneMenu value="#{hrAction.hr.municipioResidencia.id}"
 									styleClass="MaxW175P W170P" id="comboMunicipioRes">
-									<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-										itemValue="0" />
+									<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 									<f:selectItems value="#{hrAction.residenceMunicipalityItems}" />
 								</h:selectOneMenu>
 								<rich:message for="comboMunicipioRes" />
@@ -515,7 +510,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -531,15 +526,15 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText
 							value="#{hrAction.hr.name} #{hrAction.hr.familyName}" />
 						<h:outputText
 							value="#{mensajeRecursosHumanos.recurso_humano_label_fecha_nacimiento}:" />
 						<h:outputText value="#{hrAction.hr.birthDate}" />
-						<h:outputText value="#{mensaje.label_direccion}:" />
+						<h:outputText value="#{mensaje.label_address}:" />
 						<h:outputText value="#{hrAction.hr.direccion}" />
-						<h:outputText value="#{mensaje.label_telefono}:" />
+						<h:outputText value="#{mensaje.label_telephone_number}:" />
 						<h:outputText value="#{hrAction.hr.telefono}" />
 						<h:outputText value="#{mensaje.label_movil}:" />
 						<h:outputText value="#{hrAction.hr.movil}" />

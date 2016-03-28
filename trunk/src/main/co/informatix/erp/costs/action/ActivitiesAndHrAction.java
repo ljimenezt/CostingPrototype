@@ -57,46 +57,46 @@ public class ActivitiesAndHrAction implements Serializable {
 	@EJB
 	private OvertimePaymentRateDao overtimePaymentRateDao;
 
-	private int idTrabajador;
+	private int idWorker;
 	private int idOvertimeRate;
-	private boolean validacionTrabajador;
+	private boolean validateWorker;
 	private boolean workHoursValid;
-	private boolean estadoMensaje = false;
-	private boolean actividadCertificada = false;
+	private boolean statusMessage = false;
+	private boolean certifiedActivity = false;
 	private boolean reportingActuals = false;
 
-	private List<SelectItem> listaTipoTrabajador;
+	private List<SelectItem> listTypeWorker;
 	private List<SelectItem> listOvertimePaymentRate;
-	private List<Hr> trabajadores;
-	private List<Hr> trabajadoresSeleccionados;
-	private List<ActivitiesAndHr> listaActivitiesAndHrTemp;
-	private List<ActivitiesAndHr> listaActivitiesAndHr;
+	private List<Hr> workers;
+	private List<Hr> selectedWorkers;
+	private List<ActivitiesAndHr> listActivitiesAndHrTemp;
+	private List<ActivitiesAndHr> listActivitiesAndHr;
 
 	private ActivitiesAndHrPK activitiesAndHrPK;
 	private ActivitiesAndHr activitiesAndHr;
 	private Activities activities;
-	private Activities actividadSeleccionada;
-	private Hr trabajador;
+	private Activities selectedActivity;
+	private Hr worker;
 	private Paginador pagination = new Paginador();
-	private Paginador paginationTrabajador = new Paginador();
+	private Paginador paginationWorker = new Paginador();
 	private Paginador paginationActivitiesAndHr = new Paginador();
-	private String mensaje;
+	private String message;
 	private String messageWorkersAvailability;
 	private String nameSearch;
 
 	/**
-	 * @return idTrabajador: id for idTrabajador.
+	 * @return idWorker: id for idWorker.
 	 */
-	public int getIdTrabajador() {
-		return idTrabajador;
+	public int getIdWorker() {
+		return idWorker;
 	}
 
 	/**
-	 * @param idTrabajador
-	 *            : id for idTrabajador.
+	 * @param idWorker
+	 *            : id for idWorker.
 	 */
-	public void setIdTrabajador(int idTrabajador) {
-		this.idTrabajador = idTrabajador;
+	public void setIdWorker(int idWorker) {
+		this.idWorker = idWorker;
 	}
 
 	/**
@@ -115,18 +115,18 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * @return listaTipoTrabajador: List of type worker.
+	 * @return listTypeWorker: List of type worker.
 	 */
-	public List<SelectItem> getListaTipoTrabajador() {
-		return listaTipoTrabajador;
+	public List<SelectItem> getListTypeWorker() {
+		return listTypeWorker;
 	}
 
 	/**
-	 * @param listaTipoTrabajador
+	 * @param listTypeWorker
 	 *            : List of type worker.
 	 */
-	public void setListaTipoTrabajador(List<SelectItem> listaTipoTrabajador) {
-		this.listaTipoTrabajador = listaTipoTrabajador;
+	public void setListTypeWorker(List<SelectItem> listTypeWorker) {
+		this.listTypeWorker = listTypeWorker;
 	}
 
 	/**
@@ -146,69 +146,68 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * @return trabajadores: List type worker.
+	 * @return workers: List type worker.
 	 */
-	public List<Hr> getTrabajadores() {
-		return trabajadores;
+	public List<Hr> getWorkers() {
+		return workers;
 	}
 
 	/**
-	 * @param trabajadores
+	 * @param workers
 	 *            : List type worker.
 	 */
-	public void setTrabajadores(List<Hr> trabajadores) {
-		this.trabajadores = trabajadores;
+	public void setWorkers(List<Hr> workers) {
+		this.workers = workers;
 	}
 
 	/**
-	 * @return trabajadoresSeleccionados: list of selected workers
+	 * @return selectedWorkers: list of selected workers
 	 */
-	public List<Hr> getTrabajadoresSeleccionados() {
-		return trabajadoresSeleccionados;
+	public List<Hr> getSelectedWorkers() {
+		return selectedWorkers;
 	}
 
 	/**
-	 * @param trabajadoresSeleccionados
+	 * @param selectedWorkers
 	 *            : list of selected workers
 	 */
-	public void setTrabajadoresSeleccionados(List<Hr> trabajadoresSeleccionados) {
-		this.trabajadoresSeleccionados = trabajadoresSeleccionados;
+	public void setSelectedWorkers(List<Hr> selectedWorkers) {
+		this.selectedWorkers = selectedWorkers;
 	}
 
 	/**
-	 * @return listaActivitiesAndHrTemp: list of the relationship between
+	 * @return listActivitiesAndHrTemp: list of the relationship between
 	 *         activity and human resources
 	 */
-	public List<ActivitiesAndHr> getListaActivitiesAndHrTemp() {
-		return listaActivitiesAndHrTemp;
+	public List<ActivitiesAndHr> getListActivitiesAndHrTemp() {
+		return listActivitiesAndHrTemp;
 	}
 
 	/**
-	 * @param listaActivitiesAndHrTemp
+	 * @param listActivitiesAndHrTemp
 	 *            : list of the relationship between activity and human
 	 *            resources
 	 */
-	public void setListaActivitiesAndHrTemp(
-			List<ActivitiesAndHr> listaActivitiesAndHrTemp) {
-		this.listaActivitiesAndHrTemp = listaActivitiesAndHrTemp;
+	public void setListActivitiesAndHrTemp(
+			List<ActivitiesAndHr> listActivitiesAndHrTemp) {
+		this.listActivitiesAndHrTemp = listActivitiesAndHrTemp;
 	}
 
 	/**
-	 * @return listaActivitiesAndHr: list of the relationship between activity
+	 * @return listActivitiesAndHr: list of the relationship between activity
 	 *         and human resources
 	 */
-	public List<ActivitiesAndHr> getListaActivitiesAndHr() {
-		return listaActivitiesAndHr;
+	public List<ActivitiesAndHr> getListActivitiesAndHr() {
+		return listActivitiesAndHr;
 	}
 
 	/**
-	 * @param listaActivitiesAndHr
+	 * @param listActivitiesAndHr
 	 *            : list of the relationship between activity and human
 	 *            resources
 	 */
-	public void setListaActivitiesAndHr(
-			List<ActivitiesAndHr> listaActivitiesAndHr) {
-		this.listaActivitiesAndHr = listaActivitiesAndHr;
+	public void setListActivitiesAndHr(List<ActivitiesAndHr> listActivitiesAndHr) {
+		this.listActivitiesAndHr = listActivitiesAndHr;
 	}
 
 	/**
@@ -227,18 +226,18 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * @return trabajador: Object type of worker.
+	 * @return worker: Object type of worker.
 	 */
-	public Hr getTrabajador() {
-		return trabajador;
+	public Hr getWorker() {
+		return worker;
 	}
 
 	/**
-	 * @param trabajador
+	 * @param worker
 	 *            : Object type of worker.
 	 */
-	public void setTrabajador(Hr trabajador) {
-		this.trabajador = trabajador;
+	public void setWorker(Hr worker) {
+		this.worker = worker;
 	}
 
 	/**
@@ -257,18 +256,18 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * @return actividadSeleccionada: activities object.
+	 * @return selectedActivity: activities object.
 	 */
-	public Activities getActividadSeleccionada() {
-		return actividadSeleccionada;
+	public Activities getSelectedActivity() {
+		return selectedActivity;
 	}
 
 	/**
-	 * @param actividadSeleccionada
+	 * @param selectedActivity
 	 *            : activities object.
 	 */
-	public void setActividadSeleccionada(Activities actividadSeleccionada) {
-		this.actividadSeleccionada = actividadSeleccionada;
+	public void setSelectedActivity(Activities selectedActivity) {
+		this.selectedActivity = selectedActivity;
 	}
 
 	/**
@@ -304,18 +303,18 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * @return mensaje: validation message.
+	 * @return message: validation message.
 	 */
-	public String getMensaje() {
-		return mensaje;
+	public String getMessage() {
+		return message;
 	}
 
 	/**
-	 * @param mensaje
+	 * @param message
 	 *            : validation message.
 	 */
-	public void setMensaje(String mensaje) {
-		this.mensaje = mensaje;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	/**
@@ -351,18 +350,18 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * @return paginationTrabajador: Management paged list of workerd.
+	 * @return paginationWorker: Management paged list of workerd.
 	 */
-	public Paginador getPaginationTrabajador() {
-		return paginationTrabajador;
+	public Paginador getPaginationWorker() {
+		return paginationWorker;
 	}
 
 	/**
-	 * @param paginationTrabajador
+	 * @param paginationWorker
 	 *            : Management paged list of workerd.
 	 */
-	public void setPaginationTrabajador(Paginador paginationTrabajador) {
-		this.paginationTrabajador = paginationTrabajador;
+	public void setPaginationWorker(Paginador paginationWorker) {
+		this.paginationWorker = paginationWorker;
 	}
 
 	/**
@@ -382,52 +381,52 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * @return validacionTrabajador: handles the validation status of workers.
+	 * @return validateWorker: handles the validation status of workers.
 	 */
-	public boolean isValidacionTrabajador() {
-		return validacionTrabajador;
+	public boolean isValidateWorker() {
+		return validateWorker;
 	}
 
 	/**
-	 * @param validacionTrabajador
+	 * @param validateWorker
 	 *            : handles the validation status of workers.
 	 */
-	public void setValidacionTrabajador(boolean validacionTrabajador) {
-		this.validacionTrabajador = validacionTrabajador;
+	public void setValidateWorker(boolean validateWorker) {
+		this.validateWorker = validateWorker;
 	}
 
 	/**
-	 * @return estadoMensaje: status to check if the message is displayed
+	 * @return statusMessage: status to check if the message is displayed
 	 *         certificated staff
 	 */
-	public boolean isEstadoMensaje() {
-		return estadoMensaje;
+	public boolean isStatusMessage() {
+		return statusMessage;
 	}
 
 	/**
-	 * @param estadoMensaje
+	 * @param statusMessage
 	 *            : status to check if the message is displayed certificated
 	 *            staff
 	 */
-	public void setEstadoMensaje(boolean estadoMensaje) {
-		this.estadoMensaje = estadoMensaje;
+	public void setStatusMessage(boolean statusMessage) {
+		this.statusMessage = statusMessage;
 	}
 
 	/**
-	 * @return actividadCertificada: status to check if the message is displayed
+	 * @return certifiedActivity: status to check if the message is displayed
 	 *         certified activity
 	 */
-	public boolean isActividadCertificada() {
-		return actividadCertificada;
+	public boolean isCertifiedActivity() {
+		return certifiedActivity;
 	}
 
 	/**
-	 * @param actividadCertificada
+	 * @param certifiedActivity
 	 *            : status to check if the message is displayed certified
 	 *            activity
 	 */
-	public void setActividadCertificada(boolean actividadCertificada) {
-		this.actividadCertificada = actividadCertificada;
+	public void setCertifiedActivity(boolean certifiedActivity) {
+		this.certifiedActivity = certifiedActivity;
 	}
 
 	/**
@@ -467,73 +466,70 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * It is responsible for initializing the parameters for the search of
 	 * workers.
 	 */
-	public void inicializarTrabajadores() {
-		paginationTrabajador = new Paginador();
+	public void initializeWorkers() {
+		paginationWorker = new Paginador();
 		nameSearch = "";
-		consultarTrabajador();
+		consultWorkers();
 	}
 
 	/**
 	 * Consult the list of workers required.
 	 */
-	public void consultarTrabajador() {
+	public void consultWorkers() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
+		ResourceBundle bundleHumanResources = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		this.estadoMensaje = false;
-		this.actividadCertificada = false;
-		this.trabajadores = new ArrayList<Hr>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		this.statusMessage = false;
+		this.certifiedActivity = false;
+		this.workers = new ArrayList<Hr>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder uniteMessageSearch = new StringBuilder();
+		String menssageSearch = "";
 		try {
-			Long actividadesCertificadas = activitiesDao
-					.queryCertifiedActivities(actividadSeleccionada
-							.getIdActivity());
-			Long hrCertificados = hrDao.queryHrCertifications(
-					actividadSeleccionada.getIdActivity(), this.idTrabajador);
+			Long certifiedActivities = activitiesDao
+					.queryCertifiedActivities(selectedActivity.getIdActivity());
+			Long certifiedHr = hrDao.queryHrCertifications(
+					selectedActivity.getIdActivity(), this.idWorker);
 			Long searchHrCertifiedAndMaternity = hrDao
 					.hrCertifiedAndMaternityAmount(
-							actividadSeleccionada.getIdActivity(),
-							this.idTrabajador);
-			busquedaAvanzadaTrabajador(consulta, parametros,
-					actividadesCertificadas, hrCertificados,
-					searchHrCertifiedAndMaternity, unionMensajesBusqueda);
-			Long cantidad = hrDao.hrAmount(consulta, parametros);
-			if (cantidad != null) {
-				if (cantidad > 5) {
-					paginationTrabajador.paginarRangoDefinido(cantidad, 5);
+							selectedActivity.getIdActivity(), this.idWorker);
+			advancedSearchWorker(consult, parameters, certifiedActivities,
+					certifiedHr, searchHrCertifiedAndMaternity,
+					uniteMessageSearch);
+			Long quantity = hrDao.hrAmount(consult, parameters);
+			if (quantity != null) {
+				if (quantity > 5) {
+					paginationWorker.paginarRangoDefinido(quantity, 5);
 				} else {
-					paginationTrabajador.paginar(cantidad);
+					paginationWorker.paginar(quantity);
 				}
-				this.trabajadores = hrDao.queryHr(
-						paginationTrabajador.getInicio(),
-						paginationTrabajador.getRango(), consulta, parametros);
+				this.workers = hrDao.queryHr(paginationWorker.getInicio(),
+						paginationWorker.getRango(), consult, parameters);
 			}
-			if ((trabajadores == null || trabajadores.size() <= 0)
-					&& !"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			if ((workers == null || workers.size() <= 0)
+					&& !"".equals(uniteMessageSearch.toString())) {
+				menssageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMensajesBusqueda);
-			} else if (trabajadores == null || trabajadores.size() <= 0) {
+								uniteMessageSearch);
+			} else if (workers == null || workers.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMensajesBusqueda.toString())) {
-				mensajeBusqueda = MessageFormat
+			} else if (!"".equals(uniteMessageSearch.toString())) {
+				menssageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleRecursosHumanos
+								bundleHumanResources
 										.getString("recurso_humano_label"),
-								unionMensajesBusqueda);
+								uniteMessageSearch);
 			}
-			if (trabajadores != null)
-				mantenerTrabajadores();
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
-			validaciones.setMensajeBusquedaPopUp(mensajeBusqueda);
+			if (workers != null)
+				maintainWorkers();
+			validations.setMensajeBusqueda(menssageSearch);
+			validations.setMensajeBusquedaPopUp(menssageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -546,14 +542,14 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * 
 	 * @modify Cristhian.Pico
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : query to concatenate
-	 * @param parametros
+	 * @param parameters
 	 *            : list of search parameters.
-	 * @param actividadesCertificadas
+	 * @param certifiedActivities
 	 *            : list of the certifications required to perform the selected
 	 *            activity
-	 * @param hrCertificados
+	 * @param certifiedHr
 	 *            : list of the human resources who have the certifications
 	 *            required to perform the selected activity
 	 * @param searchHrCertifiedAndMaternity
@@ -563,81 +559,79 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * @param unionMessagesSearch
 	 *            : message search.
 	 */
-	private void busquedaAvanzadaTrabajador(StringBuilder consulta,
-			List<SelectItem> parametros, Long actividadesCertificadas,
-			Long hrCertificados, Long searchHrCertifiedAndMaternity,
-			StringBuilder unionMensajesBusqueda) {
+	private void advancedSearchWorker(StringBuilder consult,
+			List<SelectItem> parameters, Long certifiedActivities,
+			Long certifiedHr, Long searchHrCertifiedAndMaternity,
+			StringBuilder uniteMessageSearch) {
 		String nameSearchTrim = nameSearch;
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		this.messageWorkersAvailability = null;
-		Date fechaMinima = ControladorFechas.restarAnyos(
+		Date minimumDate = ControladorFechas.restarAnyos(
 				ControladorFechas.fechaActual(),
 				Constantes.EDAD_MINIMA_ACTIVIDAD_PELIGROSA);
-		boolean seleccion = false;
-		consulta.append("JOIN h.hrTypes ht ");
-		if (this.idTrabajador != 0) {
-			consulta.append("WHERE ht.idHrType = :idTrabajador ");
-			SelectItem itemHrType = new SelectItem(this.idTrabajador,
-					"idTrabajador");
-			parametros.add(itemHrType);
-			seleccion = true;
+		boolean selection = false;
+		consult.append("JOIN h.hrTypes ht ");
+		if (this.idWorker != 0) {
+			consult.append("WHERE ht.idHrType = :idWorker ");
+			SelectItem itemHrType = new SelectItem(this.idWorker, "idWorker");
+			parameters.add(itemHrType);
+			selection = true;
 		}
-		consulta.append(seleccion ? "AND " : "WHERE ");
-		consulta.append("h NOT IN ");
-		consulta.append("(SELECT h FROM ActivitiesAndHr ah ");
-		consulta.append("JOIN ah.activitiesAndHrPK ahp ");
-		consulta.append("JOIN ahp.hr h ");
-		consulta.append("WHERE ah.initialDateTimeBudget BETWEEN :fechaInicial AND :fechaFinal ");
-		consulta.append("OR ah.initialDateTimeActual BETWEEN :fechaInicial AND :fechaFinal ");
-		consulta.append("OR ah.finalDateTimeBudget BETWEEN :fechaInicial AND :fechaFinal ");
-		consulta.append("OR ah.finalDateTimeActual BETWEEN :fechaInicial AND :fechaFinal) ");
+		consult.append(selection ? "AND " : "WHERE ");
+		consult.append("h NOT IN ");
+		consult.append("(SELECT h FROM ActivitiesAndHr ah ");
+		consult.append("JOIN ah.activitiesAndHrPK ahp ");
+		consult.append("JOIN ahp.hr h ");
+		consult.append("WHERE ah.initialDateTimeBudget BETWEEN :fechaInicial AND :fechaFinal ");
+		consult.append("OR ah.initialDateTimeActual BETWEEN :fechaInicial AND :fechaFinal ");
+		consult.append("OR ah.finalDateTimeBudget BETWEEN :fechaInicial AND :fechaFinal ");
+		consult.append("OR ah.finalDateTimeActual BETWEEN :fechaInicial AND :fechaFinal) ");
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 
-			consulta.append("AND UPPER(h.name || h.familyName) LIKE UPPER(:keyword) ");
+			consult.append("AND UPPER(h.name || h.familyName) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%"
 					+ nameSearchTrim.replace(" ", "") + "%", "keyword");
-			parametros.add(item);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nameSearch + '"');
+			parameters.add(item);
+			uniteMessageSearch.append(bundle.getString("label_nombre") + ": "
+					+ '"' + this.nameSearch + '"');
 		}
-		if (actividadesCertificadas != null && actividadesCertificadas > 0) {
-			consulta.append("AND h IN ");
-			consulta.append("(SELECT h FROM HrCertificationsAndRoles hrc ");
-			consulta.append("JOIN hrc.hrCertificationsAndRolesPK.certificationsAndRoles ca ");
-			consulta.append("JOIN hrc.hrCertificationsAndRolesPK.hr h ");
-			consulta.append("WHERE ca IN ");
-			consulta.append("(SELECT acr FROM ActivitiesAndCertifications ac ");
-			consulta.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles acr ");
-			consulta.append("JOIN ac.activitiesAndCertificationsPK.activities aca ");
-			consulta.append("WHERE aca.idActivity = :actividadSeleccion )) ");
+		if (certifiedActivities != null && certifiedActivities > 0) {
+			consult.append("AND h IN ");
+			consult.append("(SELECT h FROM HrCertificationsAndRoles hrc ");
+			consult.append("JOIN hrc.hrCertificationsAndRolesPK.certificationsAndRoles ca ");
+			consult.append("JOIN hrc.hrCertificationsAndRolesPK.hr h ");
+			consult.append("WHERE ca IN ");
+			consult.append("(SELECT acr FROM ActivitiesAndCertifications ac ");
+			consult.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles acr ");
+			consult.append("JOIN ac.activitiesAndCertificationsPK.activities aca ");
+			consult.append("WHERE aca.idActivity = :actividadSeleccion )) ");
 			SelectItem itemActividadSeleccion = new SelectItem(
-					this.actividadSeleccionada.getIdActivity(),
-					"actividadSeleccion");
-			parametros.add(itemActividadSeleccion);
+					this.selectedActivity.getIdActivity(), "actividadSeleccion");
+			parameters.add(itemActividadSeleccion);
 			this.messageWorkersAvailability = Constantes.STATE_CERTIFIED;
-			this.actividadCertificada = true;
-			if (hrCertificados > 0) {
-				this.estadoMensaje = true;
+			this.certifiedActivity = true;
+			if (certifiedHr > 0) {
+				this.statusMessage = true;
 				this.messageWorkersAvailability = Constantes.STATE_HR_CERTIFIED;
 			}
 		}
-		if (actividadSeleccionada.getDangerous() != null
-				&& actividadSeleccionada.getDangerous()) {
-			consulta.append("AND h.birthDate < :fechaMinima ");
-			consulta.append("AND h.maternityBreastFeeding = false  ");
-			SelectItem itemFechaMinima = new SelectItem(fechaMinima,
+		if (selectedActivity.getDangerous() != null
+				&& selectedActivity.getDangerous()) {
+			consult.append("AND h.birthDate < :fechaMinima ");
+			consult.append("AND h.maternityBreastFeeding = false  ");
+			SelectItem itemMinimumDate = new SelectItem(minimumDate,
 					"fechaMinima");
-			parametros.add(itemFechaMinima);
+			parameters.add(itemMinimumDate);
 			if (searchHrCertifiedAndMaternity > 0) {
 				this.messageWorkersAvailability = Constantes.STATE_CERTIFIED_MATERNITY;
 			}
 		}
-		SelectItem itemInicial = new SelectItem(
-				this.actividadSeleccionada.getInitialDtBudget(), "fechaInicial");
-		SelectItem itemFinal = new SelectItem(
-				this.actividadSeleccionada.getFinalDtBudget(), "fechaFinal");
-		parametros.add(itemInicial);
-		parametros.add(itemFinal);
+		SelectItem initialItem = new SelectItem(
+				this.selectedActivity.getInitialDtBudget(), "fechaInicial");
+		SelectItem finalItem = new SelectItem(
+				this.selectedActivity.getFinalDtBudget(), "fechaFinal");
+		parameters.add(initialItem);
+		parameters.add(finalItem);
 	}
 
 	/**
@@ -662,20 +656,20 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * It allows charging workers available on a list of SelectItem type.
 	 * 
 	 */
-	public void mostrarTipoTrabajador() {
+	public void showTypeWorker() {
 		try {
-			idTrabajador = 0;
-			nameSearch="";
-			listaActivitiesAndHr = new ArrayList<ActivitiesAndHr>();
-			trabajadoresSeleccionados = new ArrayList<Hr>();
-			consultarTrabajador();
-			trabajadoresSeleccionados = new ArrayList<Hr>();
-			listaTipoTrabajador = new ArrayList<SelectItem>();
-			List<HrTypes> tipoTrabajador = hrTypeDao.queryHrTypes();
-			if (tipoTrabajador != null) {
-				for (HrTypes tipo : tipoTrabajador) {
-					listaTipoTrabajador.add(new SelectItem(tipo.getIdHrType(),
-							tipo.getName()));
+			idWorker = 0;
+			nameSearch = "";
+			listActivitiesAndHr = new ArrayList<ActivitiesAndHr>();
+			selectedWorkers = new ArrayList<Hr>();
+			consultWorkers();
+			selectedWorkers = new ArrayList<Hr>();
+			listTypeWorker = new ArrayList<SelectItem>();
+			List<HrTypes> workerType = hrTypeDao.queryHrTypes();
+			if (workerType != null) {
+				for (HrTypes type : workerType) {
+					listTypeWorker.add(new SelectItem(type.getIdHrType(), type
+							.getName()));
 				}
 			}
 		} catch (Exception e) {
@@ -690,33 +684,33 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * @param trabajadorSeleccionado
 	 *            : Human Resource object type.
 	 */
-	public void seleccionarTrabajador(Hr trabajadorSeleccionado) {
-		this.mensaje = "";
-		this.trabajador = new Hr();
+	public void selectedWorker(Hr selectedWorker) {
+		this.message = "";
+		this.worker = new Hr();
 		activitiesAndHrPK = new ActivitiesAndHrPK();
 		activitiesAndHr = new ActivitiesAndHr();
-		validacionTrabajador = false;
+		validateWorker = false;
 		try {
-			trabajador = trabajadorSeleccionado;
-			if (!trabajadorSeleccionado.isSeleccionado()) {
-				activitiesAndHr.setDurationBudget(actividadSeleccionada
+			worker = selectedWorker;
+			if (!selectedWorker.isSeleccionado()) {
+				activitiesAndHr.setDurationBudget(selectedActivity
 						.getDurationBudget());
 			} else {
 				ActivitiesAndHr actividadesHr = new ActivitiesAndHr();
-				for (ActivitiesAndHr actividadHr : listaActivitiesAndHr) {
+				for (ActivitiesAndHr actividadHr : listActivitiesAndHr) {
 					int actividadIdHr = actividadHr.getActivitiesAndHrPK()
 							.getHr().getIdHr();
 					int idActivity = actividadHr.getActivitiesAndHrPK()
 							.getActivities().getIdActivity();
-					if (actividadIdHr == trabajador.getIdHr()
-							&& actividadSeleccionada.getIdActivity() == idActivity) {
+					if (actividadIdHr == worker.getIdHr()
+							&& selectedActivity.getIdActivity() == idActivity) {
 						actividadesHr = actividadHr;
 					}
 				}
-				listaActivitiesAndHr.remove(actividadesHr);
-				trabajador.setSeleccionado(false);
-				validacionTrabajador = true;
-				trabajadoresSeleccionados.remove(trabajador);
+				listActivitiesAndHr.remove(actividadesHr);
+				worker.setSeleccionado(false);
+				validateWorker = true;
+				selectedWorkers.remove(worker);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -727,29 +721,29 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * It is responsible for adding workers are selected to list workers and
 	 * selected the list of activities and resources humans.
 	 */
-	public void agregarTrabajadores() {
+	public void addEditWorker() {
 		try {
 			OvertimePaymentRate overTimePaymentRate = overtimePaymentRateDao
 					.overtimePaymentRateXDefaultRate(true);
-			trabajador.setSeleccionado(true);
-			Double costNormalHours = trabajador.getHourCost()
+			worker.setSeleccionado(true);
+			Double costNormalHours = worker.getHourCost()
 					* activitiesAndHr.getNormalHours();
-			Double costOvertimeHours = trabajador.getHourCostOvertime()
+			Double costOvertimeHours = worker.getHourCostOvertime()
 					* activitiesAndHr.getOvertimeHours()
 					* overTimePaymentRate.getOvertimeRateRatio();
 			Double totalCostBudget = Math
 					.round((costNormalHours + costOvertimeHours) * 10.0) / 10.0;
-			activitiesAndHrPK.setHr(trabajador);
-			activitiesAndHrPK.setActivities(actividadSeleccionada);
+			activitiesAndHrPK.setHr(worker);
+			activitiesAndHrPK.setActivities(selectedActivity);
 			activitiesAndHr.setActivitiesAndHrPK(activitiesAndHrPK);
-			activitiesAndHr.setInitialDateTimeBudget(actividadSeleccionada
+			activitiesAndHr.setInitialDateTimeBudget(selectedActivity
 					.getInitialDtBudget());
-			activitiesAndHr.setFinalDateTimeBudget(actividadSeleccionada
+			activitiesAndHr.setFinalDateTimeBudget(selectedActivity
 					.getFinalDtBudget());
 			activitiesAndHr.setTotalCostBudget(totalCostBudget);
 			activitiesAndHr.setOvertimePaymentRate(overTimePaymentRate);
-			listaActivitiesAndHr.add(activitiesAndHr);
-			trabajadoresSeleccionados.add(trabajador);
+			listActivitiesAndHr.add(activitiesAndHr);
+			selectedWorkers.add(worker);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -759,9 +753,9 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * It is responsible for maintaining selected workers regardless of whether
 	 * they workers run the search again.
 	 */
-	private void mantenerTrabajadores() {
-		for (Hr trabajador : trabajadores) {
-			for (Hr trabajadorSeleccionado : trabajadoresSeleccionados) {
+	private void maintainWorkers() {
+		for (Hr trabajador : workers) {
+			for (Hr trabajadorSeleccionado : selectedWorkers) {
 				if (trabajador.getIdHr() == trabajadorSeleccionado.getIdHr()) {
 					trabajador.setSeleccionado(true);
 				}
@@ -773,26 +767,26 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * Save the relationship between activities and human resources.
 	 * 
 	 */
-	public void crearListaActivitiesAndHr() {
+	public void createListActivitiesAndHr() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String messageRegister = "message_registro_modificar";
 		double costHrBudget = 0;
 		try {
-			if (actividadSeleccionada.getCostHrBudget() == null)
-				actividadSeleccionada.setCostHrBudget(new Double(0));
-			if (this.listaActivitiesAndHr != null
-					&& this.listaActivitiesAndHr.size() > 0) {
-				for (ActivitiesAndHr actividadAndHr : listaActivitiesAndHr) {
+			if (selectedActivity.getCostHrBudget() == null)
+				selectedActivity.setCostHrBudget(new Double(0));
+			if (this.listActivitiesAndHr != null
+					&& this.listActivitiesAndHr.size() > 0) {
+				for (ActivitiesAndHr actividadAndHr : listActivitiesAndHr) {
 					activitiesAndHrDao.saveActivitiesAndHr(actividadAndHr);
 					costHrBudget = costHrBudget
 							+ actividadAndHr.getTotalCostBudget();
 				}
-				costHrBudget = actividadSeleccionada.getCostHrBudget()
+				costHrBudget = selectedActivity.getCostHrBudget()
 						+ costHrBudget;
-				actividadSeleccionada.setCostHrBudget(costHrBudget);
-				activitiesDao.editActivities(this.actividadSeleccionada);
-				setListaActivitiesAndHr(null);
-				consultarActivitiesAndHrXActividad();
+				selectedActivity.setCostHrBudget(costHrBudget);
+				activitiesDao.editActivities(this.selectedActivity);
+				setListActivitiesAndHr(null);
+				consultActivitiesAndHrByActivity();
 			} else {
 				OvertimePaymentRate overtimePaymentRate = overtimePaymentRateDao
 						.overtimePaymentRateXId(idOvertimeRate);
@@ -810,17 +804,17 @@ public class ActivitiesAndHrAction implements Serializable {
 				activitiesAndHr.setTotalCostBudget(Math
 						.round(totalCostBudget * 10.0) / 10.0);
 				activitiesAndHr.setOvertimePaymentRate(overtimePaymentRate);
-				Double costHr = (actividadSeleccionada.getCostHrBudget() - activitiesAndHrAnterior
+				Double costHr = (selectedActivity.getCostHrBudget() - activitiesAndHrAnterior
 						.getTotalCostBudget())
 						+ activitiesAndHr.getTotalCostBudget();
-				actividadSeleccionada.setCostHrBudget(costHr);
+				selectedActivity.setCostHrBudget(costHr);
 				activitiesAndHrDao.editActivitiesAndHr(activitiesAndHr);
-				activitiesDao.editActivities(actividadSeleccionada);
+				activitiesDao.editActivities(selectedActivity);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString(mensajeRegistro),
+						.format(bundle.getString(messageRegister),
 								activitiesAndHr.getActivitiesAndHrPK().getHr()
 										.getName()));
-				consultarActivitiesAndHrXActividad();
+				consultActivitiesAndHrByActivity();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -833,47 +827,47 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * @modify 12/01/2016 Wilhelm.Boada
 	 * 
 	 */
-	public void consultarActivitiesAndHrXActividad() {
-		ValidacionesAction validaciones = ControladorContexto
+	public void consultActivitiesAndHrByActivity() {
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		this.listaActivitiesAndHrTemp = new ArrayList<ActivitiesAndHr>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		String mensajeBusqueda = "";
+		this.listActivitiesAndHrTemp = new ArrayList<ActivitiesAndHr>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		String messageSearch = "";
 		String param2 = ControladorContexto.getParam("param2");
-		boolean desdeModal = (param2 != null && Constantes.SI.equals(param2)) ? true
+		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
 				: false;
 		try {
 			RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
 					.getContextBean(RecordActivitiesActualsAction.class);
-			if (desdeModal) {
-				this.actividadSeleccionada = recordActivitiesActualsAction
+			if (fromModal) {
+				this.selectedActivity = recordActivitiesActualsAction
 						.getSelectedActivity();
 			}
-			busquedaAvanzadaActivitiesAndHr(consulta, parametros);
-			Long cantidad = activitiesAndHrDao.amountActivitiesAndHr(consulta,
-					parametros);
-			busquedaAvanzadaActivitiesAndHr(consulta, parametros);
-			if (cantidad != null) {
-				if (cantidad > 5) {
-					paginationActivitiesAndHr.paginarRangoDefinido(cantidad, 5);
+			advancedSearchActivitiesAndHr(consult, parameters);
+			Long quantity = activitiesAndHrDao.amountActivitiesAndHr(consult,
+					parameters);
+			advancedSearchActivitiesAndHr(consult, parameters);
+			if (quantity != null) {
+				if (quantity > 5) {
+					paginationActivitiesAndHr.paginarRangoDefinido(quantity, 5);
 				} else {
-					paginationActivitiesAndHr.paginar(cantidad);
+					paginationActivitiesAndHr.paginar(quantity);
 				}
-				this.listaActivitiesAndHrTemp = activitiesAndHrDao
+				this.listActivitiesAndHrTemp = activitiesAndHrDao
 						.queryActivitiesAndHr(
 								paginationActivitiesAndHr.getInicio(),
-								paginationActivitiesAndHr.getRango(), consulta,
-								parametros);
-				if (param2 != null && (desdeModal || param2.equals("mostrar"))) {
+								paginationActivitiesAndHr.getRango(), consult,
+								parameters);
+				if (param2 != null && (fromModal || param2.equals("mostrar"))) {
 					recordActivitiesActualsAction
-							.setListActivitiesAndHr(listaActivitiesAndHrTemp);
+							.setListActivitiesAndHr(listActivitiesAndHrTemp);
 					recordActivitiesActualsAction
 							.setCalculateCostsButtonActivated(false);
 				}
 			}
 			loadOvertimePaymentRate();
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -884,28 +878,28 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * between activities and human resources, also it allows messages to build
 	 * show depending on the search criteria selected by the user.
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : query to concatenate
-	 * @param parametros
+	 * @param parameters
 	 *            : list of the search parameters.
 	 */
-	private void busquedaAvanzadaActivitiesAndHr(StringBuilder consulta,
-			List<SelectItem> parametros) {
+	private void advancedSearchActivitiesAndHr(StringBuilder consult,
+			List<SelectItem> parameters) {
 		boolean seleccion = false;
-		if (consulta.length() > 0) {
-			consulta.setLength(0);
+		if (consult.length() > 0) {
+			consult.setLength(0);
 			seleccion = true;
 		}
-		consulta.append(seleccion ? "JOIN FETCH " : "JOIN ");
-		consulta.append("ah.activitiesAndHrPK.hr h ");
-		consulta.append(seleccion ? "JOIN FETCH " : "JOIN ");
-		consulta.append("ah.activitiesAndHrPK.activities ac ");
-		consulta.append(seleccion ? "JOIN FETCH " : "JOIN ");
-		consulta.append("ah.overtimePaymentRate op ");
-		consulta.append("WHERE ac.idActivity = :id ");
-		SelectItem item = new SelectItem(
-				this.actividadSeleccionada.getIdActivity(), "id");
-		parametros.add(item);
+		consult.append(seleccion ? "JOIN FETCH " : "JOIN ");
+		consult.append("ah.activitiesAndHrPK.hr h ");
+		consult.append(seleccion ? "JOIN FETCH " : "JOIN ");
+		consult.append("ah.activitiesAndHrPK.activities ac ");
+		consult.append(seleccion ? "JOIN FETCH " : "JOIN ");
+		consult.append("ah.overtimePaymentRate op ");
+		consult.append("WHERE ac.idActivity = :id ");
+		SelectItem item = new SelectItem(this.selectedActivity.getIdActivity(),
+				"id");
+		parameters.add(item);
 	}
 
 	/**
@@ -922,44 +916,44 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * @param value
 	 *            : Component value.
 	 */
-	public void validar(FacesContext context, UIComponent toValidate,
+	public void validate(FacesContext context, UIComponent toValidate,
 			Object value) {
 		int idHr;
 		String clientId = toValidate.getClientId(context);
 		String modal = (String) toValidate.getAttributes().get("var");
-		boolean desdeModal = (modal != null && Constantes.SI.equals(modal)) ? true
+		boolean fromModal = (modal != null && Constantes.SI.equals(modal)) ? true
 				: false;
 		this.workHoursValid = true;
-		Double duracion = (Double) value;
-		Double duracionActividad;
-		if (!desdeModal) {
-			duracionActividad = (Double) ControladorFechas.restarFechas(
-					actividadSeleccionada.getInitialDtBudget(),
-					actividadSeleccionada.getFinalDtBudget());
+		Double duration = (Double) value;
+		Double durationActivity;
+		if (!fromModal) {
+			durationActivity = (Double) ControladorFechas.restarFechas(
+					selectedActivity.getInitialDtBudget(),
+					selectedActivity.getFinalDtBudget());
 		} else {
-			duracionActividad = (Double) ControladorFechas.restarFechas(
+			durationActivity = (Double) ControladorFechas.restarFechas(
 					activitiesAndHr.getInitialDateTimeBudget(),
 					activitiesAndHr.getFinalDateTimeBudget());
 		}
 		try {
-			if (duracion > 0) {
-				if (duracion.compareTo(duracionActividad) > 0) {
-					String mensaje = "message_duracion_actividad";
+			if (duration > 0) {
+				if (duration.compareTo(durationActivity) > 0) {
+					String message = "message_duracion_actividad";
 					ControladorContexto.mensajeErrorEspecifico(clientId,
-							mensaje, "mensaje");
+							message, "mensaje");
 					((UIInput) toValidate).setValid(false);
 				} else {
 					if (activitiesAndHr.getActivitiesAndHrPK() != null) {
 						idHr = this.activitiesAndHr.getActivitiesAndHrPK()
 								.getHr().getIdHr();
 					} else {
-						idHr = this.trabajador.getIdHr();
+						idHr = this.worker.getIdHr();
 					}
-					validarWorkLoad(duracion, idHr, false);
+					validateWorkLoad(duration, idHr, false);
 					if (!this.workHoursValid) {
-						String mensaje = "message_overtime_week";
+						String message = "message_overtime_week";
 						ControladorContexto.mensajeErrorEspecifico(clientId,
-								mensaje, "mensaje");
+								message, "mensaje");
 						((UIInput) toValidate).setValid(false);
 					}
 				}
@@ -980,7 +974,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * 
 	 * @author Cristhian.Pico
 	 * 
-	 * @param duracionHrActividad
+	 * @param durationHrActivity
 	 *            : Value entered by the user as long as the human resource work
 	 *            on that activity.
 	 * @param humanReosurceId
@@ -991,28 +985,28 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void validarWorkLoad(Double duracionHrActividad,
+	public void validateWorkLoad(Double durationHrActivity,
 			int humanReosurceId, boolean var) throws Exception {
-		Date activityDate = this.actividadSeleccionada.getInitialDtBudget();
+		Date activityDate = this.selectedActivity.getInitialDtBudget();
 		Date mindDateTime = ControladorFechas.diaInicialSemana(activityDate);
 		Date maxDateTime = ControladorFechas.diaFinalSemana(activityDate);
 		try {
 			Double overtimeWeek = activitiesAndHrDao.calculateOverTimeHours(
 					humanReosurceId, mindDateTime, maxDateTime,
-					this.actividadSeleccionada.getIdActivity());
+					this.selectedActivity.getIdActivity());
 			Double workedHoursDay = activitiesAndHrDao.calculateNormalHours(
 					humanReosurceId, activityDate,
-					this.actividadSeleccionada.getIdActivity());
-			if (duracionHrActividad <= (8 - workedHoursDay)) {
-				this.activitiesAndHr.setNormalHours(duracionHrActividad);
+					this.selectedActivity.getIdActivity());
+			if (durationHrActivity <= (8 - workedHoursDay)) {
+				this.activitiesAndHr.setNormalHours(durationHrActivity);
 				this.activitiesAndHr.setOvertimeHours(0.0);
 			} else {
 				Double activityNormalHours = (8 - workedHoursDay);
 				this.activitiesAndHr.setNormalHours(activityNormalHours);
-				if ((overtimeWeek + duracionHrActividad - activityNormalHours) <= 12) {
+				if ((overtimeWeek + durationHrActivity - activityNormalHours) <= 12) {
 					this.activitiesAndHr
 							.setOvertimeHours(Math
-									.round((duracionHrActividad - activityNormalHours) * 10.0) / 10.0);
+									.round((durationHrActivity - activityNormalHours) * 10.0) / 10.0);
 				} else {
 					Double overtimeActivity = 12 - overtimeWeek;
 					this.activitiesAndHr.setOvertimeHours(Math
@@ -1041,7 +1035,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * Deletes a relationship of activity and human resource data base.
 	 * 
 	 */
-	public void eliminarActivitiesAndHr() {
+	public void removeActivitiesAndHr() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String message = "message_registro_eliminar";
 		try {
@@ -1049,12 +1043,10 @@ public class ActivitiesAndHrAction implements Serializable {
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(message), activitiesAndHr
 							.getActivitiesAndHrPK().getHr().getName()));
-			this.actividadSeleccionada
-					.setCostHrBudget(this.actividadSeleccionada
-							.getCostHrBudget()
-							- activitiesAndHr.getTotalCostBudget());
-			activitiesDao.editActivities(this.actividadSeleccionada);
-			consultarActivitiesAndHrXActividad();
+			this.selectedActivity.setCostHrBudget(this.selectedActivity
+					.getCostHrBudget() - activitiesAndHr.getTotalCostBudget());
+			activitiesDao.editActivities(this.selectedActivity);
+			consultActivitiesAndHrByActivity();
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),
@@ -1075,7 +1067,7 @@ public class ActivitiesAndHrAction implements Serializable {
 					activitiesAndHr.getFinalDateTimeBudget());
 			int idHr = activitiesAndHr.getActivitiesAndHrPK().getHr().getIdHr();
 			activitiesAndHr.setDurationBudget(durationBudget);
-			validarWorkLoad(durationBudget, idHr, false);
+			validateWorkLoad(durationBudget, idHr, false);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

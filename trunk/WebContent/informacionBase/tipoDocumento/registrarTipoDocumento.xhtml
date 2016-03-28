@@ -21,7 +21,7 @@
 			  $('#tipoDocumentoForm\\:txaDescripcion').maxlength({   
 			    events: [],     
 			    max: 100,    
-			   feedbackText: "#{mensaje.label_caracteres_restantes}",  
+			   feedbackText: "#{mensaje.label_characters_left}",  
 			    showFeedback: 'active'
 			  }); 
 			});		</script>
@@ -33,7 +33,7 @@
 					columnClasses="tdAlignTop,,,tdAlignTop">
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_nombre}" />
+						value="#{mensaje.label_name}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText id="nombre" styleClass="colTextoCorto" maxlength="50"
 						value="#{tipoDocumentoAction.tipoDocumento.nombre}"
@@ -45,7 +45,7 @@
 					<rich:message for="nombre" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_descripcion}" />
+						value="#{mensaje.label_description}" />
 					<h:outputText value="" />
 					<h:inputTextarea
 						value="#{tipoDocumentoAction.tipoDocumento.descripcion}"
@@ -68,7 +68,7 @@
 		<h:form id="formModificacion">
 			<rich:popupPanel id="confirmacionPopUp" modal="true" autosized="true"
 				width="500" resizeable="false"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -82,9 +82,9 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{tipoDocumentoAction.tipoDocumento.nombre}" />
-						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
 							value="#{tipoDocumentoAction.tipoDocumento.descripcion}" />
 					</ui:define>

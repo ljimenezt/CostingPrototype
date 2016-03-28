@@ -125,7 +125,7 @@ public class AllocationDao implements Serializable {
 	 * 
 	 * @param name
 	 *            : Name the allocation to verify.
-	 * @param id
+	 * @param idAllocation
 	 *            : id the allocation to verify.
 	 * @return Allocation: Object found with the search parameters id and name.
 	 * @throws Exception

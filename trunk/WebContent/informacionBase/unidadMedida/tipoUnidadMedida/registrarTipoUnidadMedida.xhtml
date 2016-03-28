@@ -22,7 +22,7 @@
 			  $('#frmRegistrarTipoUnidad\\:txtDescripcion').maxlength({   
 			    events: [],     
 			    max: 200,    
-			 feedbackText: "#{mensaje.label_caracteres_restantes}",  
+			 feedbackText: "#{mensaje.label_characters_left}",  
 			    showFeedback: 'active'
 			  }); 
 			});		
@@ -35,8 +35,8 @@
 					styleClass="anchoUno" id="panelUnidadMedida">
 					<h:panelGrid columns="4" cellpadding="5" cellspacing="7"
 						columnClasses="tdAlignTop,,,tdAlignTop">
-						<h:outputText value="#{mensaje.label_nombre}"
-							id="nombretipoUnidad" styleClass="etiquetaTitulo" />
+						<h:outputText value="#{mensaje.label_name}" id="nombretipoUnidad"
+							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{unidadMedidaAction.tipoUnidad.nombre}"
 							id="txtNombre" required="true" maxlength="50"
@@ -47,7 +47,7 @@
 						</h:inputText>
 						<rich:message for="txtNombre" />
 
-						<h:outputText value="#{mensaje.label_descripcion}"
+						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputTextarea validator="#{encodeFilter.validarScripting}"
@@ -73,7 +73,7 @@
 		<h:form id="formConfirmacion">
 			<rich:popupPanel id="confirmacionCrearPopUp" modal="true"
 				autosized="true" resizeable="false"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('confirmacionCrearPopUp')}.hide(); return false;">
@@ -86,9 +86,9 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}: " />
+						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText value="#{unidadMedidaAction.tipoUnidad.nombre}" />
-						<h:outputText value="#{mensaje.label_descripcion}: " />
+						<h:outputText value="#{mensaje.label_description}: " />
 						<h:outputText value="#{unidadMedidaAction.tipoUnidad.descripcion}" />
 					</ui:define>
 					<ui:define name="botones">

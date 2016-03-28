@@ -24,9 +24,9 @@
 					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
 					<h:selectOneRadio value="#{tipoCargoAction.vigencia}"
 						styleClass="rdVigencia">
-						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
+						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
 						<f:selectItem itemValue="no"
-							itemLabel="#{mensaje.label_no_vigentes}" />
+							itemLabel="#{mensaje.label_not_current}" />
 						<a:ajax event="click"
 							listener="#{tipoCargoAction.consultarTiposCargo()}"
 							render="panelTipoCargo, mensajes, vigenciaPopup, mensajeBusqueda">
@@ -93,7 +93,7 @@
 						</a:commandLink>
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<c:choose>
 							<c:when
 								test="#{tipoCargoAction.vigencia eq 'si' and (identity.autorizado('tipoCargoAction','A') or identity.autorizado('tipoCargoAction','U'))}">
@@ -111,7 +111,7 @@
 						<h:outputText value="#{tipoCargo.funciones}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
 						<h:outputText value="#{tipoCargo.fechaRegistro}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
@@ -119,7 +119,7 @@
 					</rich:column>
 					<rich:column styleClass="colFecha"
 						rendered="#{tipoCargoAction.vigencia eq 'no'}">
-						<f:facet name="header">#{mensaje.label_fecha_fin_vigencia}</f:facet>
+						<f:facet name="header">#{mensaje.label_effective_end_date}</f:facet>
 						<h:outputText value="#{tipoCargo.fechaFinVigencia}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
@@ -187,7 +187,7 @@
 		<h:form>
 			<rich:popupPanel id="popupVigencia" keepVisualState="true"
 				autosized="true" width="500" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -201,7 +201,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{tipoCargoAction.tipoCargoVigencia.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -235,7 +235,7 @@
 					</h:outputLink>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_nombre}:"
+					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
 						value="#{tipoCargoAction.nombreBuscar}" />

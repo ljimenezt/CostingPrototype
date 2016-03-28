@@ -217,7 +217,7 @@ public class TipoCargoAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			} else if (this.listaTiposCargo == null
 					|| this.listaTiposCargo.size() <= 0) {
@@ -229,7 +229,7 @@ public class TipoCargoAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleRH.getString("tipo_cargo_label_s"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			}
 			validaciones.setMensajeBusqueda(mensajeBusqueda);

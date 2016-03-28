@@ -62,7 +62,7 @@
 							value="#{menuAction.folderFilesIcons}/#{menuList.icono.nombre}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<c:choose>
 							<c:when
 								test="#{identity.autorizado('menuAction','A') or identity.autorizado('menuAction','U')}">
@@ -77,11 +77,11 @@
 						</c:choose>
 					</rich:column>
 					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+						<f:facet name="header">#{mensaje.label_description}</f:facet>
 						<h:outputText value="#{menuList.descripcion}" />
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_nombre_url}</f:facet>
+						<f:facet name="header">#{mensaje.label_name_url}</f:facet>
 						<h:outputText
 							value="#{validacionesAction.cadenaCorta(menuList.url,50)}" />
 						<rich:tooltip layout="block"
@@ -94,7 +94,7 @@
 						<h:outputText value="#{menuList.menuPadre.nombre}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
 						<h:outputText value="#{menuList.fechaCreacion}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
@@ -138,7 +138,7 @@
 					</h:outputLink>
 				</f:facet>
 				<h:panelGrid columns="3" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 						value="#{menuAction.nameSearch}"
@@ -163,7 +163,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -179,7 +179,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{menuAction.menuAction.nombre}" />
 					</ui:define>
 					<ui:define name="botones">

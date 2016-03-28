@@ -52,7 +52,7 @@
 								<f:setPropertyActionListener value=""
 									target="#{purchaseInvoicesAction.searchNumber}" />
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_seleccionar}" />
+									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
 								<f:param name="param2" value="si" />
 							</a:commandLink>
@@ -216,7 +216,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -347,7 +347,7 @@
 										oncomplete="#{rich:component('popupInvoice')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_seleccionar}" />
+											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>

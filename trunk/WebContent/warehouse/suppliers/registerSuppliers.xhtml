@@ -27,7 +27,7 @@
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
 
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText value="#{suppliersAction.suppliers.name}"
@@ -37,7 +37,7 @@
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
-					<h:outputText value="#{mensaje.label_direccion}"
+					<h:outputText value="#{mensaje.label_address}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText value="#{suppliersAction.suppliers.address}"
@@ -68,7 +68,7 @@
 					</h:inputText>
 					<rich:message for="txtCodPostal" />
 
-					<h:outputText value="#{mensaje.label_telefono}"
+					<h:outputText value="#{mensaje.label_telephone_number}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText value="#{suppliersAction.suppliers.phone}"
@@ -113,7 +113,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -129,15 +129,15 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{suppliersAction.suppliers.name}" />
-						<h:outputText value="#{mensaje.label_direccion}:" />
+						<h:outputText value="#{mensaje.label_address}:" />
 						<h:outputText value="#{suppliersAction.suppliers.address}" />
 						<h:outputText value="#{mensajeWarehouse.suppliers_label_ciudad}:" />
 						<h:outputText value="#{suppliersAction.suppliers.city}" />
 						<h:outputText value="#{mensaje.label_codigo_postal}:" />
 						<h:outputText value="#{suppliersAction.suppliers.postalCode}" />
-						<h:outputText value="#{mensaje.label_telefono}:" />
+						<h:outputText value="#{mensaje.label_telephone_number}:" />
 						<h:outputText value="#{suppliersAction.suppliers.phone}" />
 						<h:outputText value="#{mensaje.label_movil}:" />
 						<h:outputText value="#{suppliersAction.suppliers.phone2}" />

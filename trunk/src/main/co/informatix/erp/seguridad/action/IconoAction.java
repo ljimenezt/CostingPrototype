@@ -238,7 +238,7 @@ public class IconoAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nameSearch + '"');
 
 			} else if (icons == null || icons.size() <= 0) {
@@ -249,7 +249,7 @@ public class IconoAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleSeguridad.getString("icon_label_s"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nameSearch + '"');
 			}
 			validations.setMensajeBusqueda(messageSearch);

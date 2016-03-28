@@ -26,14 +26,14 @@
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						required="true"
 						value="#{unidadMedidaAction.unidadMedida.tipoUnidad.id}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{unidadMedidaAction.itemsTipoUnidades}"
 							id="selectTipoUnidad">
 						</f:selectItems>
 					</h:selectOneMenu>
 					<rich:message for="cmbTipoUnidad" />
 
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText value="#{unidadMedidaAction.unidadMedida.nombre}"
@@ -72,7 +72,7 @@
 		<h:form id="formConfirmacion">
 			<rich:popupPanel id="confirmacionCrearPopUp" modal="true"
 				autosized="true" resizeable="false"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('confirmacionCrearPopUp')}.hide(); return false;">
@@ -89,7 +89,7 @@
 							value="#{mensajeInformacionBase.tipo_unidad_medida_label}: " />
 						<h:outputText
 							value="#{validacionesAction.getLabel(unidadMedidaAction.itemsTipoUnidades,unidadMedidaAction.unidadMedida.tipoUnidad.id)}" />
-						<h:outputText value="#{mensaje.label_nombre}: " />
+						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText value="#{unidadMedidaAction.unidadMedida.nombre}" />
 						<h:outputText value="#{mensaje.label_abreviatura}: " />
 						<h:outputText

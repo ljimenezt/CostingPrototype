@@ -69,7 +69,7 @@
 						</a:commandLink>
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<h:commandLink value="#{hr.name} #{hr.familyName}"
 							action="#{hrAction.addEditHr(hr)}"
 							onclick="#{rich:component('statPane')}.show();">
@@ -149,7 +149,7 @@
 				</f:facet>
 				<h:panelGrid columns="4" cellpadding="4" cellspacing="0"
 					columnClasses="right,,right,">
-					<h:outputText value="#{mensaje.label_nombre}:"
+					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoCorto" maxlength="100"
 						id="txtNombreBuscar" value="#{hrAction.nameSearch}"
@@ -163,7 +163,7 @@
 						<f:selectItems value="#{hrAction.hrTypesItems}" />
 					</h:selectOneMenu>
 
-					<h:outputText value="#{mensaje.label_apellido}:"
+					<h:outputText value="#{mensaje.label_surname}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoCorto" maxlength="100"
 						id="txtNombreBuscar2" value="#{hrAction.lastNameSearch}"
@@ -173,8 +173,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu value="#{hrAction.paymentTypeSearch}"
 						styleClass="MaxW175P colTextoCorto" id="comboTipoPago">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-							itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 						<f:selectItems value="#{hrAction.paymentMethodsItems}" />
 					</h:selectOneMenu>
 				</h:panelGrid>
@@ -192,7 +191,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -208,7 +207,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText
 							value="#{hrAction.hr.name} #{hrAction.hr.familyName}" />
 					</ui:define>

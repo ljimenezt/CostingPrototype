@@ -25,7 +25,7 @@
 				$g('#formHrReporting\\:descripcion').maxlength({
 					events : [],
 					max : 250,
-					feedbackText : "#{mensaje.label_caracteres_restantes}",
+					feedbackText : "#{mensaje.label_characters_left}",
 					showFeedback : 'active'
 				});
 			});
@@ -50,8 +50,7 @@
 							value="#{hrReportingActualsAction.idCropName}"
 							styleClass="colTextoMediano" required="true"
 							disabled="#{hrReportingActualsAction.listActivities.size() gt 0}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{hrReportingActualsAction.listCropNames}" />
 							<f:ajax event="change"
 								listener="#{hrReportingActualsAction.cargarComboCrops()}"
@@ -65,8 +64,7 @@
 							value="#{hrReportingActualsAction.idCrop}"
 							styleClass="colTextoMediano" required="true"
 							disabled="#{hrReportingActualsAction.listActivities.size() gt 0}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{hrReportingActualsAction.listCrops}" />
 							<f:ajax event="change"
 								listener="#{hrReportingActualsAction.mostrarActivities()}"
@@ -127,7 +125,7 @@
 						</p:calendar>
 						<rich:message for="fechaFinal" />
 
-						<h:outputText value="#{mensaje.label_descripcion}"
+						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputTextarea
@@ -157,7 +155,7 @@
 							<rich:column styleClass="colIconoUno verticalAlignMiddle">
 								<f:facet name="header" />
 								<a:commandLink render="mensajes, mensajeBusqueda"
-									actionListener="#{activitiesAndHrAction.consultarActivitiesAndHrXActividad()}">
+									actionListener="#{activitiesAndHrAction.consultActivitiesAndHrByActivity()}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
 											styleClass="verticalAlignMiddle"
@@ -174,12 +172,12 @@
 							</rich:column>
 
 							<rich:column styleClass="colTextoCorto verticalAlignMiddle">
-								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<h:outputText value="#{activity.activityName.activityName}" />
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano verticalAlignMiddle">
-								<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+								<f:facet name="header">#{mensaje.label_description}</f:facet>
 								<h:outputText
 									value="#{activity.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? activity.description.substring(0, propPrototipoCostos['locate.activitiesandhr.long.descripcion']) : activity.description} #{activity.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? '...' : ''}" />
 								<rich:tooltip layout="block" styleClass="campoTooltip"
@@ -267,7 +265,7 @@
 									<h:outputText value="#{mensaje.label_cost_activity}" />
 								</h:panelGrid>
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_seleccionar}" />
+									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
 							</a:commandLink>
 						</div>
@@ -275,14 +273,14 @@
 						<ui:param name="listaVaciaA"
 							value="#{hrReportingActualsAction.listActivitiesAndHr eq null}" />
 						<rich:dataTable
-							value="#{activitiesAndHrAction.listaActivitiesAndHrTemp}"
+							value="#{activitiesAndHrAction.listActivitiesAndHrTemp}"
 							var="actividadesTrabajadores" id="listaEmpleados"
 							footerClass="H130P"
 							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoDos"
 							rowClasses="odd-row, even-row">
 
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<a:commandLink
 									actionListener="#{hrReportingActualsAction.setActivitiesAndHr(actividadesTrabajadores.clone())}"
 									action="#{hrReportingActualsAction.validateMaxDate()}"
@@ -350,7 +348,7 @@
 						</rich:dataTable>
 						<br />
 						<a:outputPanel id="paginadoActivities"
-							rendered="#{activitiesAndHrAction.listaActivitiesAndHrTemp.size() gt 0}">
+							rendered="#{activitiesAndHrAction.listActivitiesAndHrTemp.size() gt 0}">
 							<div class="anchoDos center inBlock">
 								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valParam2" value="si" />
@@ -362,7 +360,7 @@
 									<ui:param name="beanActionParam"
 										value="#{activitiesAndHrAction}" />
 									<ui:param name="metodoActionParam"
-										value="consultarActivitiesAndHrXActividad" />
+										value="consultActivitiesAndHrByActivity" />
 								</ui:include>
 							</div>
 						</a:outputPanel>

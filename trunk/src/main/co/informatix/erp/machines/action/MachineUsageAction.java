@@ -394,7 +394,7 @@ public class MachineUsageAction implements Serializable {
 			consult.append("WHERE mu.machineUsagePK.machine.idMachine = :keyword ");
 			SelectItem item = new SelectItem(this.nameMachine, "keyword");
 			parameters.add(item);
-			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+			jointSearchMessages.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameMachine + '"');
 			if (this.year != 0 && !"".equals(this.year)) {
 				consult.append("AND mu.machineUsagePK.year = :keyword1 ");
@@ -406,7 +406,7 @@ public class MachineUsageAction implements Serializable {
 				consult.append("WHERE mu.machineUsagePK.year = :keyword1 ");
 				SelectItem item = new SelectItem(this.year, "keyword1");
 				parameters.add(item);
-				jointSearchMessages.append(bundle.getString("label_nombre")
+				jointSearchMessages.append(bundle.getString("label_name")
 						+ ": " + '"' + this.year + '"');
 			}
 		}

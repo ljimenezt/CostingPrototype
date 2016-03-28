@@ -14,8 +14,7 @@
 			<h:inputHidden value="#{sesionEmpresa.cargar}"
 				rendered="#{identity ne null and identity.autenticado}" />
 			<rich:panel styleClass="anchoUno MinH253P">
-				<h1>#{mensaje.label_bienvenido_a}
-					#{mensaje.label_nombre_sistema}</h1>
+				<h1>#{mensaje.label_welcome_to} #{mensaje.label_system_name}</h1>
 				<div align="center">
 					<h:commandButton value="Ingresar como Admin"
 						onclick="#{rich:component('statPane')}.show();"

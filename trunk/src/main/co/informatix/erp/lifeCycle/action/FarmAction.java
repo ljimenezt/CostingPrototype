@@ -319,7 +319,7 @@ public class FarmAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			searchMessage.append(bundle.getString("label_nombre") + ": " + '"'
+			searchMessage.append(bundle.getString("label_name") + ": " + '"'
 					+ this.nameSearch + '"');
 		}
 	}

@@ -80,7 +80,7 @@
 							</a:commandLink>
 						</rich:column>
 						<rich:column styleClass="colTextoCorto">
-							<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+							<f:facet name="header">#{mensaje.label_name}</f:facet>
 							<c:choose>
 								<c:when
 									test="#{identity.autorizado('fincaAction','A') or identity.autorizado('fincaAction','U')}">
@@ -111,7 +111,7 @@
 							<h:outputText value="#{finca.pais.nombre}" />
 						</rich:column>
 						<rich:column styleClass="colFecha">
-							<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+							<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
 							<h:outputText value="#{finca.fechaCreacion}">
 								<f:convertDateTime pattern="MMM dd, yyyy"
 									locale="#{idioma.locale}" />
@@ -202,7 +202,7 @@
 										value="#{mensajeOrganizaciones.finca_label_codigo_registro}:" />
 									<h:outputText value="#{fincaAction.finca.codigoRegistro}" />
 
-									<h:outputText value="#{mensaje.label_nombre}:" />
+									<h:outputText value="#{mensaje.label_name}:" />
 									<h:outputText value="#{fincaAction.finca.nombre}" />
 
 									<h:outputText value="#{mensaje.label_contacto}:" />

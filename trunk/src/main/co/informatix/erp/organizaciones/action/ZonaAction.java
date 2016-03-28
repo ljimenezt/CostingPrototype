@@ -406,7 +406,7 @@ public class ZonaAction implements Serializable {
 					"keyword");
 			consult.append("AND UPPER(z.nombre) LIKE UPPER(:keyword) ");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nombreBuscar + '"');
 		}
 	}

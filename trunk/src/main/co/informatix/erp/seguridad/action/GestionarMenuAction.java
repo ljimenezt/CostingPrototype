@@ -387,7 +387,7 @@ public class GestionarMenuAction implements Serializable {
 		consult.append(" WHERE m.fechaFinVigencia IS NULL ");
 
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
 		if (fromRol) {

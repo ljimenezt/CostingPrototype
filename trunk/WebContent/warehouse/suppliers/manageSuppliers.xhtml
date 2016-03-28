@@ -57,7 +57,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<h:commandLink value="#{suppliers.name}"
 							action="#{suppliersAction.addEditSuppliers(suppliers)}"
 							onclick="#{rich:component('statPane')}.show();">
@@ -65,7 +65,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensaje.label_direccion}</f:facet>
+						<f:facet name="header">#{mensaje.label_address}</f:facet>
 						<h:outputText value="#{suppliers.address}" />
 					</rich:column>
 
@@ -80,7 +80,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_telefono}</f:facet>
+						<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
 						<h:outputText value="#{suppliers.phone}" />
 					</rich:column>
 
@@ -153,7 +153,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -169,7 +169,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{suppliersAction.suppliers.name}" />
 					</ui:define>
 					<ui:define name="botones">

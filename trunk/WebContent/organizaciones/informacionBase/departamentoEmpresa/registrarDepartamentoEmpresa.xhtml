@@ -23,7 +23,7 @@
 				  $('#inputTxtADescripcionDepartamento').maxlength({   
 				    events: [],     
 				    max: 200,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 			    showFeedback: 'active'
 				  }); 
 				});
@@ -37,7 +37,7 @@
 					<h:panelGrid id="tablaFrmDepartamento" columns="4" cellpadding="5"
 						cellspacing="7" columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 						<h:outputText id="labelNombreDepartamento"
-							value="#{mensaje.label_nombre}" styleClass="etiquetaTitulo" />
+							value="#{mensaje.label_name}" styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText maxlength="50" id="inputTxtNombreDepartamento"
 							value="#{departamentoEmpresaAction.departamentoEmpresa.nombre}"
@@ -47,7 +47,7 @@
 							validator="#{departamentoEmpresaAction.validarNombreXSS}" />
 						<rich:message for="inputTxtNombreDepartamento" />
 
-						<h:outputText value="#{mensaje.label_descripcion}"
+						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputTextarea styleClass="colTextoLargoTextArea"
@@ -74,7 +74,7 @@
 										value="#{mensajeRecursosHumanos.tipo_cargo_label_disponibles}" />
 								</f:facet>
 								<rich:column width="300px" styleClass="top">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<a:outputPanel>
 										<h:outputText value="#{tipoCargo.nombre}" />
 										<rich:tooltip layout="block">
@@ -90,7 +90,7 @@
 											render="frmDepartamento:panelTiposCargo">
 											<h:graphicImage value="/img/agregar_16.png" />
 											<rich:tooltip layout="block">
-												<h:outputText value="#{mensaje.label_seleccionar_todos}" />
+												<h:outputText value="#{mensaje.label_select_all}" />
 											</rich:tooltip>
 										</a:commandLink>
 									</f:facet>
@@ -98,7 +98,7 @@
 										actionListener="#{controladorListasDobles.pasarItem(tipoCargo, 'agregar','nombre',departamentoEmpresaAction.listaTipoCargos, departamentoEmpresaAction.listaTipoCargosSeleccionados)}"
 										render="frmDepartamento:panelTiposCargo">
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_seleccionar}" />
+											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 										<h:graphicImage value="/img/agregar_16.png" />
 									</a:commandLink>
@@ -134,7 +134,7 @@
 									</a:commandLink>
 								</rich:column>
 								<rich:column width="300px" styleClass="top">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<a:outputPanel>
 										<h:outputText value="#{tipoCargoSel.nombre}" />
 										<rich:tooltip layout="block">
@@ -159,7 +159,7 @@
 
 			<!-- Dialogo de confirmacion -->
 			<rich:popupPanel id="dialogoConfirmacion"
-				header="#{mensaje.label_confirmacion}" modal="true"
+				header="#{mensaje.label_confirmation}" modal="true"
 				resizeable="false" moveable="false" autosized="true">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -173,7 +173,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText
 							value="#{departamentoEmpresaAction.departamentoEmpresa.nombre}" />
 					</ui:define>

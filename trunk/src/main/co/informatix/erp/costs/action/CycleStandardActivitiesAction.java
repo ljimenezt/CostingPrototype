@@ -178,7 +178,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginador: Paged list of the names of the activities they may
+	 * @return pagination: Paged list of the names of the activities they may
 	 *         have in the popup.
 	 */
 	public Paginador getPagination() {
@@ -388,7 +388,8 @@ public class CycleStandardActivitiesAction implements Serializable {
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
-	 * @return regCyclStandAct: regla de navegacion a la gestion
+	 * @return regCyclStandAct: Redirects to the register Standard cycle
+	 *         activities template.
 	 */
 	public String consultCycleStandarActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -550,7 +551,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameter.add(item);
-			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+			jointSearchMessages.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
 	}

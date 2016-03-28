@@ -70,7 +70,7 @@
 					<h:selectOneMenu id="maquina"
 						value="#{insuranceAction.machines.idMachine}" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{insuranceAction.machinesList}" />
 						<f:ajax event="change"
 							listener="#{insuranceAction.searchInsurances()}"
@@ -115,7 +115,7 @@
 							</h:commandLink>
 						</rich:column>
 						<rich:column styleClass="colTextoExtraLargo">
-							<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+							<f:facet name="header">#{mensaje.label_description}</f:facet>
 							<h:outputText value="#{insurance.descripcion}" />
 						</rich:column>
 						<rich:column styleClass="colValorLargo">
@@ -214,7 +214,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
