@@ -316,13 +316,24 @@ public class MaintenanceLinesAction implements Serializable {
 	/**
 	 * Method used to save or edit maintenance lines.
 	 * 
+	 * @modify 28/03/2016 Jhair.Leal
+	 * 
 	 * @return searchMaintenanceLines: Redirects to manage maintenance lines
 	 *         with the list of names updated.
 	 */
 	public String saveMaintenanceLines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleMachineType = ControladorContexto
+				.getBundle("mensajeMachine");
 		String registerMessage = "message_registro_modificar";
+
 		try {
+			Machines machine = machinesDao.machinesXId(maintenanceLines
+					.getMachines().getIdMachine());
+			StringBuilder details = new StringBuilder();
+			details.append(bundleMachineType.getString("machines_label_names"));
+			details.append(": ");
+			details.append(machine.getName());
 			if (maintenanceLines.getIdMaintenanceline() != 0) {
 				maintenanceLinesDao.editMaintenanceLines(maintenanceLines);
 			} else {
@@ -330,8 +341,7 @@ public class MaintenanceLinesAction implements Serializable {
 				maintenanceLinesDao.saveMaintenanceLines(maintenanceLines);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(registerMessage),
-					maintenanceLines.getIdMaintenanceline()));
+					bundle.getString(registerMessage), details));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
