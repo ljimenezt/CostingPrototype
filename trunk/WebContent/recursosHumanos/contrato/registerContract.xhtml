@@ -54,14 +54,14 @@
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								required="true" validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkPersona" render=":popupForm:popupPersona"
-								actionListener="#{personaAction.consultarPersonas}"
+								actionListener="#{personaAction.consultPersons}"
 								execute="@this"
 								oncomplete="#{rich:component('popupPersona')}.show(); setFocus('popupForm:txtNombreBuscar');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />
 								<f:param name="param2" value="si" />
 								<f:setPropertyActionListener value=""
-									target="#{personaAction.filtroBusqueda}" />
+									target="#{personaAction.searchFilter}" />
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
@@ -178,10 +178,10 @@
 								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-									value="#{personaAction.filtroBusqueda}"
+									value="#{personaAction.searchFilter}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-									actionListener="#{personaAction.consultarPersonas}"
+									actionListener="#{personaAction.consultPersons}"
 									render="outputPersona, outPutBuscarPersona">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
@@ -197,12 +197,12 @@
 						</a:outputPanel>
 						<br />
 						<ui:param name="listaVacia"
-							value="#{personaAction.personas eq null or (empty personaAction.personas)}" />
+							value="#{personaAction.persons eq null or (empty personaAction.persons)}" />
 						<div align="right" class="W560P">
 							<a:commandLink render="outPutBuscarPersona"
 								styleClass="quitarDecoracionLink"
-								action="#{personaAction.consultarPersonas}"
-								actionListener="#{personaAction.setFiltroBusqueda(null)}">
+								action="#{personaAction.consultPersons}"
+								actionListener="#{personaAction.setSearchFilter(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />
 									<h:outputText value="#{mensaje.button_list_all}" />
@@ -211,7 +211,7 @@
 							</a:commandLink>
 						</div>
 						<a:outputPanel id="outputPersona">
-							<rich:dataTable value="#{personaAction.personas}" var="persona"
+							<rich:dataTable value="#{personaAction.persons}" var="persona"
 								id="tpersona" footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 								rowClasses="odd-row, even-row">
