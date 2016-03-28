@@ -120,11 +120,11 @@ public class CycleStandardActivitiesDao implements Serializable {
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : String containing the query why the filter assignments.
 	 * @param parameters
 	 *            : query parameters.
-	 * @return
+	 * @return Long: quantity of activities for the cycle
 	 * @throws Exception
 	 */
 	public Long quantityCycleStandard(StringBuilder consult,
