@@ -24,8 +24,8 @@ import co.informatix.erp.warehouse.dao.MeasurementUnitsDao;
 import co.informatix.erp.warehouse.entities.MeasurementUnits;
 
 /**
- * This class allows the logic of MeasurementUnits which may be in the BD The
- * logic is to consult, edit or add MeasurementUnits
+ * This class allows the logic of MeasurementUnits which may be in the database.
+ * The logic is to consult, edit or add MeasurementUnits
  * 
  * @author Sergio.Ortiz
  * 
@@ -76,7 +76,7 @@ public class MeasurementUnitsAction implements Serializable {
 	}
 
 	/**
-	 * @return nameSearch: Units of measurement name to search.
+	 * @return nameSearch: Measurement unit name to search.
 	 */
 	public String getNameSearch() {
 		return nameSearch;
@@ -84,14 +84,14 @@ public class MeasurementUnitsAction implements Serializable {
 
 	/**
 	 * @param nameSearch
-	 *            : Units of measurement name to search.
+	 *            : Measurement unit name to search.
 	 */
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return listMeasurementUnits: list of objects of type Measurement Units.
+	 * @return listMeasurementUnits: list of objects of Measurement Unit Types.
 	 */
 	public List<MeasurementUnits> getListMeasurementUnits() {
 		return listMeasurementUnits;
@@ -99,7 +99,7 @@ public class MeasurementUnitsAction implements Serializable {
 
 	/**
 	 * @param listMeasurementUnits
-	 *            : list of objects of type Measurement Units.
+	 *            : list of objects of Measurement Unit Types.
 	 */
 	public void setListMeasurementUnits(
 			List<MeasurementUnits> listMeasurementUnits) {
@@ -111,7 +111,8 @@ public class MeasurementUnitsAction implements Serializable {
 	 * list of measurementUnits.
 	 * 
 	 * @return consultMeasurementUnits: method that allows consulting the
-	 *         measurementUnits returns to the template management.
+	 *         measurementUnits, it redirects to the manage measurement unit
+	 *         template.
 	 */
 	public String searchInitialization() {
 		nameSearch = "";
@@ -121,7 +122,7 @@ public class MeasurementUnitsAction implements Serializable {
 	/**
 	 * Consult the list of the Measurement Units.
 	 * 
-	 * @return "gesMeasurementUnits": redirects to the template to manage the
+	 * @return "gesMeasurementUnits": It redirects to the template to manage the
 	 *         Measurement Units.
 	 */
 	public String consultMeasurementUnits() {
@@ -205,7 +206,7 @@ public class MeasurementUnitsAction implements Serializable {
 	 * @param measurementUnits
 	 *            :Measurement Units to be add or edit.
 	 * 
-	 * @return "regMeasurementUnits":redirected to the template record
+	 * @return "regMeasurementUnits":redirected to the template to manage
 	 *         Measurement Units.
 	 */
 	public String addEditMeasurementUnits(MeasurementUnits measurementUnits)
@@ -277,7 +278,7 @@ public class MeasurementUnitsAction implements Serializable {
 
 	/**
 	 * To validate the name of the measurement units, so it is not repeated in
-	 * the database and validates against XSS.
+	 * the database and it validates against XSS.
 	 * 
 	 * @author Jhair.Leal
 	 * 

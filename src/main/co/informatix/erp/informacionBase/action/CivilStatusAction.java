@@ -23,7 +23,7 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class is all the logic related to the creation, updating or removal of
+ * This class iplements the logic related to creating, updating or removing
  * civil States in the system.
  * 
  * @author Mabell.Boada
@@ -57,7 +57,8 @@ public class CivilStatusAction implements Serializable {
 	}
 
 	/**
-	 * @return pagination: Paginated list of civil states can be in view.
+	 * @return pagination: Paginated list of civil status that can be in the
+	 *         view.
 	 */
 	public Paginador getPagination() {
 		return pagination;
@@ -65,14 +66,14 @@ public class CivilStatusAction implements Serializable {
 
 	/**
 	 * @param pagination
-	 *            : Paginated list of civil states can be in view.
+	 *            : Paginated list of civil status that can be in the view.
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
 	}
 
 	/**
-	 * @return civilStatus: Object civil status.
+	 * @return civilStatus: Object of civil status.
 	 */
 	public CivilStatus getCivilStatus() {
 		return civilStatus;
@@ -80,7 +81,7 @@ public class CivilStatusAction implements Serializable {
 
 	/**
 	 * @param civilStatus
-	 *            : Object civil status.
+	 *            : Object of civil status.
 	 */
 	public void setCivilStatus(CivilStatus civilStatus) {
 		this.civilStatus = civilStatus;
@@ -103,7 +104,7 @@ public class CivilStatusAction implements Serializable {
 
 	/**
 	 * Method to initialize the parameters of the search and load initial list
-	 * of civil states.
+	 * of civil status.
 	 * 
 	 * @return consultCivilStatus: Method consulting civil states, returns to
 	 *         the template management.
@@ -169,7 +170,7 @@ public class CivilStatusAction implements Serializable {
 	 * user.
 	 * 
 	 * @param consult
-	 *            : Consult concatenate.
+	 *            : Consult to concatenate.
 	 * @param parameters
 	 *            : List of search parameters.
 	 * @param bundle
@@ -246,7 +247,7 @@ public class CivilStatusAction implements Serializable {
 	/**
 	 * Method used to save or edit the civil status.
 	 * 
-	 * @return consultCivilStatus: Redirects to manage civil states with the
+	 * @return consultCivilStatus: Redirects to manage civil status with the
 	 *         list of names updated.
 	 */
 	public String saveCivilStatus() {
@@ -270,7 +271,7 @@ public class CivilStatusAction implements Serializable {
 	/**
 	 * Method to delete a civil state of the database.
 	 * 
-	 * @return consultCivilStatus: Redirects to manage the states civilians with
+	 * @return consultCivilStatus: Redirects to manage the civil statuses with
 	 *         the list of names updated.
 	 */
 	public String removeCivilStatus() {
