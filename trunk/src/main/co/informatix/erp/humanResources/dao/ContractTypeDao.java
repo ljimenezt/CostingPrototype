@@ -13,10 +13,9 @@ import co.informatix.erp.humanResources.entities.ContractType;
 
 /**
  * DAO class that establishes the connection between business logic and
- * database. ContractTypeAction used for managing ContractType.
+ * database. ContractTypeAction manages ContractType.
  * 
  * @author Mabell.Boada
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
@@ -36,8 +35,7 @@ public class ContractTypeDao implements Serializable {
 	}
 
 	/**
-	 * 
-	 Saves the type of contract in the database.
+	 * Saves the type of contract in the database.
 	 * 
 	 * @param contractType
 	 *            : Contract to save.
@@ -48,7 +46,7 @@ public class ContractTypeDao implements Serializable {
 	}
 
 	/**
-	 * Removes a type of contract BD.
+	 * Removes a type of contract from the database.
 	 * 
 	 * @param contractType
 	 *            : Contract to remove.
