@@ -94,7 +94,7 @@ public class HrAction implements Serializable {
 	private boolean temporalPicLoaded;
 
 	/**
-	 * @return hrList: gets the list of human resources
+	 * @return hrList: gets the list of human resources.
 	 */
 	public List<Hr> getHrList() {
 		return hrList;
@@ -102,7 +102,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @param hrList
-	 *            : gets the list of human resources
+	 *            : gets the list of human resources.
 	 */
 	public void setHrList(List<Hr> hrList) {
 		this.hrList = hrList;
@@ -110,7 +110,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @return pagination: paginated list of human resources which can be in
-	 *         view
+	 *         view.
 	 */
 	public Paginador getPagination() {
 		return pagination;
@@ -118,7 +118,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @param pagination
-	 *            : paginated list of human resources which can be in view
+	 *            : paginated list of human resources which can be in view.
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
@@ -141,7 +141,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * @return hr: HR object
+	 * @return hr: HR object.
 	 */
 	public Hr getHr() {
 		return hr;
@@ -149,7 +149,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @param hr
-	 *            : HR object
+	 *            : HR object.
 	 */
 	public void setHr(Hr hr) {
 		this.hr = hr;
@@ -157,7 +157,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @return nameSearch: gets the name by which you want to consult Human
-	 *         resources
+	 *         resources.
 	 */
 	public String getNameSearch() {
 		return nameSearch;
@@ -165,14 +165,14 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @param nameSearch
-	 *            : gets the name by which you want to consult Human resources
+	 *            : gets the name by which you want to consult Human resources.
 	 */
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return lastNameSearch: Name by which you want to consult human Resources
+	 * @return lastNameSearch: Name by which you want to consult human Resources.
 	 */
 	public String getLastNameSearch() {
 		return lastNameSearch;
@@ -180,7 +180,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @param lastNameSearch
-	 *            : Name by which you want to consult human Resources
+	 *            : Name by which you want to consult human Resources.
 	 */
 	public void setLastNameSearch(String lastNameSearch) {
 		this.lastNameSearch = lastNameSearch;
@@ -222,7 +222,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @return birthCountryItems: Items of the countries shown in the combo of
-	 *         country of birth in the user interface
+	 *         country of birth in the user interface.
 	 */
 	public List<SelectItem> getBirthCountryItems() {
 		return birthCountryItems;
@@ -230,7 +230,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @return birthStateItems: Items Items of the countries shown in the combo
-	 *         of country of birth in the user interface
+	 *         of country of birth in the user interface.
 	 */
 	public List<SelectItem> getBirthStateItems() {
 		return birthStateItems;
@@ -238,7 +238,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @return birthMunicipalityItems: Items of the municipalities that are
-	 *         shown in the combo municipality of birth interface user
+	 *         shown in the combo municipality of birth interface user.
 	 */
 	public List<SelectItem> getBirthMunicipalityItems() {
 		return birthMunicipalityItems;
@@ -294,7 +294,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @return hrPicName: filename of the picture that is associated with human
-	 *         resource
+	 *         resource.
 	 */
 	public String getHrPicName() {
 		return hrPicName;
@@ -303,7 +303,7 @@ public class HrAction implements Serializable {
 	/**
 	 * @param hrPicName
 	 *            : filename of the picture that is associated with human
-	 *            resource
+	 *            resource.
 	 */
 	public void setHrPicName(String hrPicName) {
 		this.hrPicName = hrPicName;
@@ -311,7 +311,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @return filesFolder: the actual folder path where you load the Photos of
-	 *         human resources
+	 *         human resources.
 	 */
 	public String getFilesFolder() {
 		this.filesFolder = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
@@ -322,7 +322,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @return temporalFilesFolder: temporary folder path where Photo charge of
-	 *         human resources
+	 *         human resources.
 	 */
 	public String getTemporalFilesFolder() {
 		this.temporalFilesFolder = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
@@ -349,7 +349,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @return temporalPicLoaded: Flag indicating whether the picture is loaded
-	 *         from temporary location or not
+	 *         from temporary location or not.
 	 */
 	public boolean isTemporalPicLoaded() {
 		return temporalPicLoaded;
@@ -358,7 +358,7 @@ public class HrAction implements Serializable {
 	/**
 	 * @param temporalPicLoaded
 	 *            : Flag indicating whether the picture is loaded from temporary
-	 *            location or not
+	 *            location or not.
 	 */
 	public void setTemporalPicLoaded(boolean temporalPicLoaded) {
 		this.temporalPicLoaded = temporalPicLoaded;
@@ -380,7 +380,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * Initializes the search parameters to filter by hrTypes
+	 * Initializes the search parameters to filter by hrTypes.
 	 * 
 	 * @return searchHrs(): method that queries resource types human, returns to
 	 *         the template management.
@@ -394,7 +394,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * Method to initialize the parameters of the search and load initial list
-	 * of types of human resources
+	 * of types of human resources.
 	 * 
 	 * @modify 15/07/2015 Gerardo.Herrera
 	 * 
@@ -410,18 +410,18 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of hr
+	 * Consult the list of hr.
 	 * 
 	 * @modify 13/05/2015 Andres.Gomez
 	 * @modify 14/07/2015 Gerardo.Herrera
 	 * @modify 08/03/2016 Mabell.Boada
 	 * 
 	 * @return returns: Navigation rule that redirects to manage Human Resources
-	 *         According condition
+	 *         According condition.
 	 */
 	public String searchHrs() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
+		ResourceBundle bundleHumanResources = ControladorContexto
 				.getBundle("mensajeRecursosHumanos");
 		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
 				.getContextBean(ValidacionesAction.class);
@@ -436,7 +436,7 @@ public class HrAction implements Serializable {
 		String returns = fromModal ? "" : "gesHumanResources";
 		try {
 			advancedSearch(queryBuilder, parameters, bundle,
-					bundleRecursosHumanos, jointSearchMessages);
+					bundleHumanResources, jointSearchMessages);
 			Long amount = hrDao.hrAmount(queryBuilder, parameters);
 			if (amount != null) {
 				if (fromModal) {
@@ -465,7 +465,7 @@ public class HrAction implements Serializable {
 				String message = bundle
 						.getString("message_existen_registros_criterio_busqueda");
 				searchMessage = MessageFormat
-						.format(message, bundleRecursosHumanos
+						.format(message, bundleHumanResources
 								.getString("recurso_humano_label"),
 								jointSearchMessages);
 			}
@@ -493,17 +493,17 @@ public class HrAction implements Serializable {
 	 * @modify 14/07/2015 Gerardo.Herrera
 	 * 
 	 * @param query
-	 *            : query to concatenate
+	 *            : query to concatenate.
 	 * @param parameter
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            : access language tags
+	 *            : access language tags.
 	 * 
 	 * @param bundleHr
-	 *            : access language tags HR
+	 *            : access language tags HR.
 	 * 
 	 * @param jointSearchMessages
-	 *            : Message search
+	 *            : Message search.
 	 */
 	private void advancedSearch(StringBuilder query,
 			List<SelectItem> parameter, ResourceBundle bundle,
@@ -563,15 +563,15 @@ public class HrAction implements Serializable {
 
 	/**
 	 * Lets get the value of an object in a List <SelectItem> passing as a
-	 * search id
+	 * search id.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
 	 * @param parameters
-	 *            : List of objects type SelectItem
+	 *            : List of objects type SelectItem.
 	 * @param id
 	 *            : Object Identifier
-	 * @return result: returns the value of the object sought
+	 * @return result: returns the value of the object sought.
 	 */
 	private String searchTypeName(List<SelectItem> parameters, int id) {
 		String result = "";
@@ -589,7 +589,7 @@ public class HrAction implements Serializable {
 	 * @modify 15/03/2016 Sergio.Gelves
 	 * 
 	 * @param hr
-	 *            : human resource that will add or edit
+	 *            : human resource that will add or edit.
 	 * 
 	 * @return "regHumanResources": redirected to the template record human
 	 *         Resources.
@@ -676,8 +676,8 @@ public class HrAction implements Serializable {
 	 *            : field value is validated.
 	 */
 	public void validateAddNameXSS(Object value) {
-		String nombre = (String) value;
-		this.hr.setName(nombre);
+		String name = (String) value;
+		this.hr.setName(name);
 	}
 
 	/**
@@ -686,19 +686,19 @@ public class HrAction implements Serializable {
 	 * 
 	 * @modify 11/09/2015 Dario.Lopez
 	 * 
-	 * @param contexto
-	 *            : application context
+	 * @param context
+	 *            : application context.
 	 * 
 	 * @param toValidate
-	 *            : validate component
+	 *            : validate component.
 	 * @param value
-	 *            : field value is validated
+	 *            : field value is validated.
 	 */
-	public void validateFullNameXSS(FacesContext contexto,
+	public void validateFullNameXSS(FacesContext context,
 			UIComponent toValidate, Object value) {
 		String lastName = (String) value;
 		String name = (String) toValidate.getAttributes().get("nombre");
-		String clientId = toValidate.getClientId(contexto);
+		String clientId = toValidate.getClientId(context);
 		try {
 			int id = hr.getIdHr();
 			Hr hrAux = new Hr();
@@ -719,11 +719,11 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * Save or edit human resources
+	 * Save or edit human resources.
 	 * 
 	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
-	 * @return searchHrs: Redirects to manage human resources in updated list
+	 * @return searchHrs: Redirects to manage human resources in updated list.
 	 */
 	public String saveHr() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -789,7 +789,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * This method allows you to load country combos, department and
-	 * municipality
+	 * municipality.
 	 * 
 	 * @modify 14/07/2015 Gerardo.Herrera
 	 * @modify 17/03/2016 Wilhelm.Boada
@@ -831,7 +831,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * It allows charging combo types of human resources
+	 * It allows charging combo types of human resources.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
@@ -849,7 +849,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * It allows loading the item select the types of payment
+	 * It allows loading the item select the types of payment.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
@@ -988,7 +988,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * This method fills the various objects associated with a human resource
+	 * This method fills the various objects associated with a human resource.
 	 * 
 	 * @throws Exception
 	 */
@@ -1083,7 +1083,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * It allows you to load the file system
+	 * It allows you to load the file system.
 	 * 
 	 * @param e
 	 *            : Fileupload event for the file to be up server.
@@ -1120,7 +1120,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * Add photo image to the actual folder
+	 * Add photo image to the actual folder.
 	 * 
 	 * @throws Exception
 	 */
@@ -1147,11 +1147,11 @@ public class HrAction implements Serializable {
 
 	/**
 	 * This method allows dynamically calculate the cost per hour from the
-	 * information of the payment information in the form registrarHR view
+	 * information of the payment information in the form registrarHR view.
 	 * 
 	 * @author Dario.Lopez
 	 * 
-	 * @return hourCost: cost per hour
+	 * @return hourCost: cost per hour.
 	 */
 	public double calculateCostPerHour() {
 		double hourCost = 0;
@@ -1173,7 +1173,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * Assigns a state maternityBreastFeeding considering gender HR
+	 * Assigns a state maternityBreastFeeding considering gender HR.
 	 * 
 	 * @author Gerardo.Herrera
 	 */

@@ -25,7 +25,7 @@ public class OvertimePaymentRateDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Save a overtime payment rate in DB.
+	 * Save a overtime payment rate in database.
 	 * 
 	 * @param overtimePaymentRate
 	 *            : overtime payment rate to save.
@@ -37,7 +37,7 @@ public class OvertimePaymentRateDao implements Serializable {
 	}
 
 	/**
-	 * Edits a overtime payment rate in DB.
+	 * Edits a overtime payment rate in database.
 	 * 
 	 * @param overtimePaymentRate
 	 *            : edit overtime payment rate.
@@ -49,7 +49,7 @@ public class OvertimePaymentRateDao implements Serializable {
 	}
 
 	/**
-	 * Removes overtime payment Rate DB.
+	 * Removes overtime payment Rate in database.
 	 * 
 	 * @param overtimePaymentRate
 	 *            : overtime payment rate to remove.

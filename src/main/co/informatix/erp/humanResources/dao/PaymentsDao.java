@@ -37,7 +37,7 @@ public class PaymentsDao implements Serializable {
 	}
 
 	/**
-	 * Save payment in the BD.
+	 * Save payment in the database.
 	 * 
 	 * @param payments
 	 *            : Pay to save.
@@ -48,7 +48,7 @@ public class PaymentsDao implements Serializable {
 	}
 
 	/**
-	 * Removes payment in BD.
+	 * Removes payment in the database.
 	 * 
 	 * @param payments
 	 *            : payment to eliminate.
@@ -60,7 +60,7 @@ public class PaymentsDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of existing payments in the DB by filtering
+	 * Returns the number of existing payments in the database by filtering
 	 * information sent search values.
 	 * 
 	 * @param consult
@@ -107,8 +107,8 @@ public class PaymentsDao implements Serializable {
 		query.append(consult);
 		query.append("ORDER BY p.idPayment ");
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		q.setFirstResult(start).setMaxResults(range);
 		List<Payments> resultList = q.getResultList();

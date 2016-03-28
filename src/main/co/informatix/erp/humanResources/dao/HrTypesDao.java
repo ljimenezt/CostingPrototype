@@ -87,9 +87,9 @@ public class HrTypesDao implements Serializable {
 	 * parameter and the result has its information filtered with search values.
 	 * 
 	 * @param first
-	 *            : where it initiates the query record
+	 *            : where it initiates the query record.
 	 * @param range
-	 *            : range of records
+	 *            : range of records.
 	 * @param query
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
