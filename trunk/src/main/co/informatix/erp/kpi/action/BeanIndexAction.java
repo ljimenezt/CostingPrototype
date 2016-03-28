@@ -14,8 +14,10 @@ import javax.faces.model.SelectItem;
 
 import co.informatix.erp.kpi.dao.BeanIndexDao;
 import co.informatix.erp.kpi.entities.BeanIndex;
+import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
 import co.informatix.erp.lifeCycle.dao.SectionDao;
+import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
 import co.informatix.erp.lifeCycle.entities.Section;
 import co.informatix.erp.utils.ControladorContexto;
@@ -39,6 +41,8 @@ public class BeanIndexAction implements Serializable {
 	private CropsDao cropsDao;
 	@EJB
 	private SectionDao sectionDao;
+	@EJB
+	private CropNamesDao cropNamesDao;
 
 	private List<BeanIndex> listBeanIndex;
 	private ArrayList<SelectItem> itemsCrops;
@@ -380,27 +384,45 @@ public class BeanIndexAction implements Serializable {
 	/**
 	 * This Method saves or edits one bean index in the database.
 	 * 
+	 * @modify 23/03/2016 Sergio.Gelves
+	 * 
 	 * @return searchBeanIndex: Redirects to manage bean index with the list of
 	 *         bean index
 	 */
 	public String saveBeanIndex() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleCrop = ControladorContexto
+				.getBundle("mensajeLifeCycle");
 		String registerMessage = "message_registro_modificar";
 		try {
 
+			Crops crop = cropsDao.cropsById(beanIndex.getCrops().getIdCrop());
+			CropNames cropName = cropNamesDao.cropNamesXId(crop.getCropNames()
+					.getIdCropName());
+			StringBuilder details = new StringBuilder();
+			details.append("Id: ");
+			details.append(crop.getIdCrop());
+			details.append(", ");
+			details.append(bundleCrop.getString("crop_names_label"));
+			details.append(": ");
+			details.append(cropName.getCropName());
+			details.append(", ");
+			details.append(bundleCrop.getString("section_label"));
+			details.append(": ");
 			if (beanIndex.getIdBeanIndex() != 0) {
 				beanIndexDao.editBeanIndex(beanIndex);
+				details.append(beanIndex.getSection().getName());
 			} else {
 				registerMessage = "message_registro_guardar";
 				beanIndexDao.saveBeanIndex(beanIndex);
+				details.append(sectionDao.sectionXId(
+						beanIndex.getSection().getIdSection()).getName());
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(registerMessage),
-					beanIndex.getSampleWeight()));
+					bundle.getString(registerMessage), details));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 		return searchBeanIndex();
 	}
-
 }
