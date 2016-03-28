@@ -26,8 +26,7 @@
 					<a:outputPanel id="outputMachine">
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensajeMachine.machines_label_types}</legend>
-							<h:panelGrid columns="2"
-								columnClasses="tdAlignTop center, center">
+							<h:panelGrid columns="2" cellpadding="3">
 								<h:outputText value="#{mensajeMachine.machines_label_types}"
 									styleClass="etiquetaTitulo" />
 								<h:selectOneMenu id="machine"
@@ -37,11 +36,37 @@
 									<f:selectItems
 										value="#{scheduledActivitiesAction.itemsMachineTypes}" />
 									<f:ajax event="change"
-										listener="#{machinesAction.initializeMachines()}"
+										listener="#{machinesAction.consultMachines()}"
 										render="outputBuscar" />
 								</h:selectOneMenu>
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensaje.label_nombre}" />
+								<h:inputText value="#{machinesAction.nameSearch}"
+									styleClass="colTextoCorto" id="txtName"
+									onkeypress="return submitByEnter(event,'selectMachines:btnBuscar')">
+								</h:inputText>
 							</h:panelGrid>
+							<br />
+							<div class="W100Per center inBlock">
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+									actionListener="#{machinesAction.consultMachines()}"
+									render="outputBuscar msjSearch">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+								<a:commandButton
+									onclick="#{rich:component('popupMachines')}.hide()"
+									value="#{mensaje.button_cancel}" />
+							</div>
+
 						</t:fieldset>
+						<br />
+						<a:outputPanel id="msjSearch">
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W520P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
 						<br />
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensajeMachine.machines_label_names_s}</legend>

@@ -273,6 +273,7 @@ public class MachinesAction implements Serializable {
 	 */
 	public void initializeMachines() {
 		setState(true);
+		this.nameSearch="";
 		this.pagination.setOpcion('f');
 		consultMachines();
 	}
@@ -300,7 +301,8 @@ public class MachinesAction implements Serializable {
 		String result = this.state ? "" : "gesMachines";
 		try {
 			if (this.state) {
-				advancedSearchActivityMachine(query, parameters);
+				advancedSearchActivityMachine(query, parameters, bundle,
+						unionMessagesSearch);
 			} else {
 				advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			}
@@ -343,6 +345,7 @@ public class MachinesAction implements Serializable {
 				persistMachines();
 			}
 			validations.setMensajeBusqueda(messageSearch);
+			validations.setMensajeBusquedaPopUp(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -420,7 +423,8 @@ public class MachinesAction implements Serializable {
 	 *            : list of search parameters.
 	 */
 	private void advancedSearchActivityMachine(StringBuilder query,
-			List<SelectItem> parameters) {
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
 		Activities selectedActivity = new Activities();
 		boolean seleccion = false;
 		if (ControladorContexto.getFacesContext() != null) {
@@ -430,6 +434,16 @@ public class MachinesAction implements Serializable {
 		}
 		if (this.nameMachines != 0) {
 			query.append("WHERE mt.idMachineType = :idMachineType ");
+			seleccion = true;
+		}
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			query.append(seleccion ? "AND " : "WHERE ");
+			query.append("UPPER(m.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
+					"keyword");
+			parameters.add(item);
+			unionMessagesSearch.append(bundle.getString("label_modelo") + ": "
+					+ '"' + this.nameSearch + '"');
 			seleccion = true;
 		}
 		query.append(seleccion ? "AND " : "WHERE ");
