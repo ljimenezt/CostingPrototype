@@ -365,11 +365,27 @@ public class BeanIndexAction implements Serializable {
 	 */
 	public String deleteBeanIndex() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleCrop = ControladorContexto
+				.getBundle("mensajeLifeCycle");
 		try {
-			beanIndexDao.deleteBeanIndex(beanIndex);
+			Crops crop = cropsDao.cropsById(beanIndex.getCrops().getIdCrop());
+			CropNames cropName = cropNamesDao.cropNamesXId(crop.getCropNames()
+					.getIdCropName());
+			StringBuilder details = new StringBuilder();
+			details.append("Id: ");
+			details.append(crop.getIdCrop());
+			details.append(", ");
+			details.append(bundleCrop.getString("crop_names_label"));
+			details.append(": ");
+			details.append(cropName.getCropName());
+			details.append(", ");
+			details.append(bundleCrop.getString("section_label"));
+			details.append(": ");
+			beanIndexDao.editBeanIndex(beanIndex);
+			details.append(beanIndex.getSection().getName());
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString("message_registro_eliminar"),
-					beanIndex.getCycleNumber()));
+					bundle.getString("message_registro_eliminar"), details));
+			beanIndexDao.deleteBeanIndex(beanIndex);
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),
