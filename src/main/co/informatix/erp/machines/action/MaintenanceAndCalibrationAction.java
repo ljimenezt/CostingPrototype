@@ -782,7 +782,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessageSearch.append(bundle.getString("label_descripcion")
+			unionMessageSearch.append(bundle.getString("label_description")
 					+ ": " + '"' + this.nameSearch + '"');
 		}
 	}

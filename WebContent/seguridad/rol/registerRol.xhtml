@@ -23,7 +23,7 @@
 				  $('#rolForm\\:txaDescripcion').maxlength({   
 				    events: [],     
 				    max: 150,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 			});				
@@ -52,7 +52,7 @@
 						cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
 						cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop,,,tdAlignTop">
-						<h:outputText value="#{mensaje.label_nombre}"
+						<h:outputText value="#{mensaje.label_name}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<c:choose>
@@ -72,7 +72,7 @@
 						</c:choose>
 						<rich:message for="txtNombre" />
 
-						<h:outputText value="#{mensaje.label_descripcion}"
+						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputTextarea value="#{rolAction.rol.descripcion}"
@@ -137,7 +137,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermA(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
@@ -146,7 +146,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermA(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -158,7 +158,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermS(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
@@ -167,7 +167,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermS(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -179,7 +179,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermU(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
@@ -188,7 +188,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermU(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -200,7 +200,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermD(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
@@ -209,7 +209,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermD(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -221,7 +221,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermI(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
@@ -230,7 +230,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermI(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -242,7 +242,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermL(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
@@ -251,7 +251,7 @@
 									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermL(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_seleccionar}" />
+										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -322,7 +322,7 @@
 										actionListener="#{rolAction.hideMenuCheck(menu.id,false)}">
 										<h:graphicImage value="/img/sinSeleccion_16.png" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_seleccionar}" />
+											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 									</a:commandLink>
 									<a:commandLink render="tablaMenus" execute="@this"
@@ -330,12 +330,12 @@
 										actionListener="#{rolAction.hideMenuCheck(menu.id,true)}">
 										<h:graphicImage value="/img/seleccionado_16.png" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_seleccionar}" />
+											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>
 								<rich:column styleClass="colTextoCorto">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{menu.nombre}" />
 								</rich:column>
 								<rich:column styleClass="colTextoCorto">
@@ -343,7 +343,7 @@
 									<h:outputText value="#{menu.menuPadre.nombre}" />
 								</rich:column>
 								<rich:column styleClass="colTextoLargo">
-									<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+									<f:facet name="header">#{mensaje.label_description}</f:facet>
 									<h:outputText value="#{menu.descripcion}" />
 								</rich:column>
 								<f:facet name="footer">
@@ -431,7 +431,7 @@
 				<h:panelGrid columns="2"
 					cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
 					cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}">
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100"
 						value="#{menuAction.nameSearch}" id="txtNombreMenuBuscar"
@@ -455,7 +455,7 @@
 			<rich:popupPanel id="confirmacionPopUp" modal="true" autosized="true"
 				resizeable="false">
 				<f:facet name="header">
-					<h:outputText value="#{mensaje.label_confirmacion}" />
+					<h:outputText value="#{mensaje.label_confirmation}" />
 				</f:facet>
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -471,7 +471,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}: "
+						<h:outputText value="#{mensaje.label_name}: "
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="#{rolAction.rol.nombre}" />
 					</ui:define>

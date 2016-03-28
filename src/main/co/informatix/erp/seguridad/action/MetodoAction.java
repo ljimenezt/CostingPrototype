@@ -206,7 +206,7 @@ public class MetodoAction implements Serializable {
 				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nameSearch + '"');
 			} else if (methods == null || methods.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
@@ -375,8 +375,8 @@ public class MetodoAction implements Serializable {
 		try {
 			if (menuAction.getNameSearch() != null
 					&& !"".equals(menuAction.getNameSearch())) {
-				jointSearchMessage.append(bundle.getString("label_nombre")
-						+ ": " + '"' + menuAction.getNameSearch() + '"');
+				jointSearchMessage.append(bundle.getString("label_name") + ": "
+						+ '"' + menuAction.getNameSearch() + '"');
 				List<Menu> allMenus = menuDao
 						.consultAllMenusAction(this.menusSelected);
 				List<Menu> menusData = menuAction.filterMenusByName(allMenus);

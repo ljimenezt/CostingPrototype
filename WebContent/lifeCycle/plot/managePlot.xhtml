@@ -40,7 +40,7 @@
 					<h:panelGrid columns="2" rowClasses="alignTop"
 						columnClasses="columnaIzquierda, columnaDerecha" cellpadding="5"
 						cellspacing="7">
-						<h:outputText value="#{mensaje.label_nombre}: " />
+						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText value="#{plotAction.farm.name}" />
 						<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}: " />
 						<h:outputText value="#{plotAction.farm.locationLinkToMap}" />
@@ -90,14 +90,14 @@
 						</rich:column>
 
 						<rich:column styleClass="colTextoCorto">
-							<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+							<f:facet name="header">#{mensaje.label_name}</f:facet>
 							<h:commandLink value="#{plot.name}"
 								action="#{plotAction.addEditPlot(plot)}"
 								onclick="#{rich:component('statPane')}.show();">
 							</h:commandLink>
 						</rich:column>
 						<rich:column styleClass="colTextoLargo">
-							<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+							<f:facet name="header">#{mensaje.label_description}</f:facet>
 							<h:outputText value="#{plot.description}" />
 						</rich:column>
 						<rich:column styleClass="colNumero">
@@ -154,7 +154,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_nombre}:"
+					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar" value="#{plotAction.nameSearch}"
@@ -174,7 +174,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -190,7 +190,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{plotAction.plot.name}" />
 					</ui:define>
 					<ui:define name="botones">

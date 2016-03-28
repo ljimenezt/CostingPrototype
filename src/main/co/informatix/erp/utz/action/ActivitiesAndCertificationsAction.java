@@ -471,7 +471,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 			consult.append("AND UPPER(an.activityName) LIKE UPPER(:keyword) ");
 			item = new SelectItem("%" + this.nameSearch + "%", "keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		} else if (this.idCertAndRoles != 0) {
 			consult.append("WHERE cr.idCertificactionsAndRoles = :keyword ) ");

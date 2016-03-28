@@ -32,7 +32,7 @@
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop,,,tdAlignTop">
-						<h:outputText value="#{mensaje.label_nombre}"
+						<h:outputText value="#{mensaje.label_name}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{materialsAction.materials.name}"
@@ -116,7 +116,7 @@
 								<f:setPropertyActionListener value=""
 									target="#{hrAction.nameSearch}" />
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_seleccionar}" />
+									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
 								<f:param name="param2" value="si" />
 							</a:commandLink>
@@ -305,7 +305,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -321,7 +321,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{materialsAction.materials.name}" />
 						<h:outputText
 							value="#{mensajeWarehouse.materials_label_responsible}:" />
@@ -369,7 +369,7 @@
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
 								#{mensajeNombre.tipo_concepto_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
-								<h:outputText value="#{mensaje.label_nombre}"
+								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 									value="#{hrAction.nameSearch}"
@@ -420,16 +420,16 @@
 										oncomplete="#{rich:component('popupResponsable')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_seleccionar}" />
+											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>
 								<rich:column width="300px">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{responsable.name}" />
 								</rich:column>
 								<rich:column width="100px" styleClass="center">
-									<f:facet name="header">#{mensaje.label_direccion}</f:facet>
+									<f:facet name="header">#{mensaje.label_address}</f:facet>
 									<a:outputPanel>
 										<h:graphicImage value="/img/info_16.png" />
 										<rich:tooltip layout="block">
@@ -438,7 +438,7 @@
 									</a:outputPanel>
 								</rich:column>
 								<rich:column width="100px" styleClass="center">
-									<f:facet name="header">#{mensaje.label_telefono}</f:facet>
+									<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
 									<h:outputText value="#{responsable.telefono}" />
 								</rich:column>
 								<f:facet name="footer">

@@ -517,7 +517,7 @@ public class HrAction implements Serializable {
 			SelectItem nameItem = new SelectItem("%" + this.nameSearch + "%",
 					"keywordNombre");
 			parameter.add(nameItem);
-			jointSearchMessages.append(bundle.getString("label_nombre") + ": "
+			jointSearchMessages.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"' + " ");
 			addFilter = true;
 		}
@@ -527,8 +527,8 @@ public class HrAction implements Serializable {
 			SelectItem lastNameItem = new SelectItem("%" + this.lastNameSearch
 					+ "%", "keywordApellido");
 			parameter.add(lastNameItem);
-			jointSearchMessages.append(bundle.getString("label_apellido")
-					+ ": " + '"' + this.lastNameSearch + '"' + " ");
+			jointSearchMessages.append(bundle.getString("label_surname") + ": "
+					+ '"' + this.lastNameSearch + '"' + " ");
 			addFilter = true;
 		}
 		if (this.hrTypeSearch > 0) {

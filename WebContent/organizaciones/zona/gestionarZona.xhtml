@@ -60,7 +60,7 @@
 						</a:commandLink>
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<c:choose>
 							<c:when
 								test="#{zonaAction.vigencia eq 'si' and (identity.autorizado('zonaAction','A') or identity.autorizado('zonaAction','U'))}">
@@ -79,11 +79,11 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+						<f:facet name="header">#{mensaje.label_description}</f:facet>
 						<h:outputText value="#{tipoZona.descripcion}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
 						<h:outputText value="#{tipoZona.fechaCreacion}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
@@ -91,7 +91,7 @@
 					</rich:column>
 					<rich:column styleClass="colFecha"
 						rendered="#{zonaAction.vigencia eq 'no'}">
-						<f:facet name="header">#{mensaje.label_fecha_fin_vigencia}</f:facet>
+						<f:facet name="header">#{mensaje.label_effective_end_date}</f:facet>
 						<h:outputText value="#{tipoZona.fechaFinVigencia}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
@@ -126,7 +126,7 @@
 		<h:form>
 			<rich:popupPanel id="popupVigencia" keepVisualState="true"
 				autosized="true" width="500" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -142,7 +142,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{zonaAction.zona.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -178,7 +178,7 @@
 					</h:outputLink>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_nombre}:"
+					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
 						value="#{zonaAction.nombreBuscar}"

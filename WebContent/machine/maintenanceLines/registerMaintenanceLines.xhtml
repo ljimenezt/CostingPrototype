@@ -24,7 +24,7 @@
 				  $('#formMaintenanceLines\\:txaDescription').maxlength({   
 				    events: [],     
 				    max: 200,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 			});		
@@ -47,7 +47,7 @@
 						value="#{maintenanceLinesAction.maintenanceLines.machines.idMachine}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{maintenanceLinesAction.machineOptions}" />
 						<f:ajax event="change"
 							listener="#{maintenanceLinesAction.loadMaintenance()}"
@@ -64,13 +64,13 @@
 						value="#{maintenanceLinesAction.maintenanceLines.maintenanceAndCalibration.idMaintenance}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{maintenanceLinesAction.machineOptions}" />
 					</h:selectOneMenu>
 					<rich:message for="cmbFechaMaquina" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_descripcion}" />
+						value="#{mensaje.label_description}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputTextarea
 						value="#{maintenanceLinesAction.maintenanceLines.description}"
@@ -118,7 +118,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -143,7 +143,7 @@
 							value="#{mensajeMachine.maintenance_calibration_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(maintenanceLinesAction.machineOptions,maintenanceLinesAction.maintenanceLines.maintenanceAndCalibration.idMaintenance)}" />
-						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
 							value="#{maintenanceLinesAction.maintenanceLines.description}" />
 						<h:outputText

@@ -29,13 +29,13 @@
 						<h:outputText value="#{mensaje.label_identificacion}: " />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.documento}" />
-						<h:outputText value="#{mensaje.label_nombre}: " />
+						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.nombres}" />
-						<h:outputText value="#{mensaje.label_apellido}: " />
+						<h:outputText value="#{mensaje.label_surname}: " />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.apellidos}" />
-						<h:outputText value="#{mensaje.label_telefono}: " />
+						<h:outputText value="#{mensaje.label_telephone_number}: " />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.telefono}" />
 					</h:panelGrid>
@@ -51,9 +51,9 @@
 							<h:selectOneRadio styleClass="rdVigencia"
 								value="#{permisoPersonaEmpresaAction.vigencia}">
 								<f:selectItem itemValue="si"
-									itemLabel="#{mensaje.label_vigentes}" />
+									itemLabel="#{mensaje.label_current}" />
 								<f:selectItem itemValue="no"
-									itemLabel="#{mensaje.label_no_vigentes}" />
+									itemLabel="#{mensaje.label_not_current}" />
 								<a:ajax event="click"
 									listener="#{permisoPersonaEmpresaAction.consultarPermisoPersonaEmpresa()}"
 									render="panelEmpresaPermiso, mensajes, vigenciaPopup, mensajeBusqueda">
@@ -134,15 +134,15 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colTextoCorto">
-								<f:facet name="header">#{mensaje.label_nit}</f:facet>
+								<f:facet name="header">#{mensaje.label_identification}</f:facet>
 								<h:outputText value="#{permisoEmpresa.empresa.nit}" />
 							</rich:column>
 							<rich:column styleClass="colTextoCorto">
-								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<h:outputText value="#{permisoEmpresa.empresa.nombre}" />
 							</rich:column>
 							<rich:column styleClass="colTextoCorto">
-								<f:facet name="header">#{mensaje.label_telefono}</f:facet>
+								<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
 								<h:outputText value="#{permisoEmpresa.empresa.telefono}" />
 							</rich:column>
 							<rich:column styleClass="colTextoCorto">
@@ -240,7 +240,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_nombre}:"
+					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 						value="#{permisoPersonaEmpresaAction.empresaBuscarGestion}" />
@@ -271,7 +271,7 @@
 		<h:form id="frmVigencia">
 			<rich:popupPanel id="popupVigencia" keepVisualState="true"
 				autosized="true" width="500" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

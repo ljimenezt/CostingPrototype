@@ -115,8 +115,9 @@ public class CycleStandardActivitiesDao implements Serializable {
 		}
 		return false;
 	}
+
 	/**
-	 * Returns the amount of cycle standars - activities
+	 * Returns the amount of cycle standard - activities
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
@@ -157,7 +158,7 @@ public class CycleStandardActivitiesDao implements Serializable {
 	 *            the user.
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return List<CycleStandardActivities> : list of cycle standar activities
+	 * @return List<CycleStandardActivities> : list of cycle standard activities
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

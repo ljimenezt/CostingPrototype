@@ -35,7 +35,7 @@
 						value="#{beanIndexAction.beanIndex.crops.idCrop}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{beanIndexAction.itemsCrops}" />
 					</h:selectOneMenu>
 					<rich:message for="cmbCrop" />
@@ -47,7 +47,7 @@
 						value="#{beanIndexAction.beanIndex.section.idSection}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{beanIndexAction.itemsSection}" />
 					</h:selectOneMenu>
 					<rich:message for="cmbSection" />
@@ -103,7 +103,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

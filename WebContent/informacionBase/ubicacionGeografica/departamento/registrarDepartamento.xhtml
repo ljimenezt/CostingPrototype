@@ -33,7 +33,7 @@
 					<rich:message for="cmbPais" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_nombre}" />
+						value="#{mensaje.label_name}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText id="nombre" styleClass="colTextoMediano"
 						maxlength="100" value="#{departamentoAction.departamento.nombre}"
@@ -68,7 +68,7 @@
 		<h:form id="formModificacion">
 			<rich:popupPanel id="confirmacionPopUp" modal="true" autosized="true"
 				width="500" resizeable="false"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -86,7 +86,7 @@
 						<h:outputText
 							value="#{validacionesAction.getLabel(departamentoAction.itemsPaises,departamentoAction.departamento.pais.id)}" />
 
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{departamentoAction.departamento.nombre}" />
 
 						<h:outputText value="#{mensaje.label_codigo_postal}:" />

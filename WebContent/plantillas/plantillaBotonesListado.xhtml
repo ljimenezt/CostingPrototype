@@ -23,9 +23,9 @@
 				<h:selectOneRadio value="#{actionLista['vigencia']}"
 					styleClass="rdVigencia"
 					rendered="#{(botonesAbajo eq null or botonesAbajo eq 'no') and (tieneVigencia eq null or tieneVigencia ne 'no')}">
-					<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
+					<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
 					<f:selectItem itemValue="no"
-						itemLabel="#{mensaje.label_no_vigentes}" />
+						itemLabel="#{mensaje.label_not_current}" />
 					<a:ajax event="click" listener="#{pagerList['setOpcion']('f')}"
 						render="#{renderLista}, mensajes, mensajeBusqueda" />
 					<c:choose>

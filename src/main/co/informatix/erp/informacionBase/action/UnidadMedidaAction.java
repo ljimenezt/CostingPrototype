@@ -524,7 +524,7 @@ public class UnidadMedidaAction implements Serializable {
 		}
 		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
 			unionMensajesBusqueda.append((seAgregoMens ? comaEspacio : "")
-					+ bundle.getString("label_nombre") + ": " + '"'
+					+ bundle.getString("label_name") + ": " + '"'
 					+ this.nombreBuscar + '"');
 		}
 	}
@@ -550,7 +550,7 @@ public class UnidadMedidaAction implements Serializable {
 		UIInput findComponent = (UIInput) toValidate
 				.findComponent("cmbTipoUnidad");
 		Integer tipoUnidad = (Integer) findComponent.getValue();
-		String mensajeVigencia = "label_el,label_nombre,message_ya_existe_sin_vigencia";
+		String mensajeVigencia = "label_el,label_name,message_ya_existe_sin_vigencia";
 		try {
 			if (tipoUnidad != null) {
 				Integer id = this.unidadMedida.getId();
@@ -570,7 +570,7 @@ public class UnidadMedidaAction implements Serializable {
 								mensajeVigencia, "mensaje");
 						((UIInput) toValidate).setValid(false);
 					} else {
-						mensajeVigencia = "label_el,label_nombre,message_ya_existe_verifique";
+						mensajeVigencia = "label_el,label_name,message_ya_existe_verifique";
 						ControladorContexto.mensajeErrorEspecifico(clientId,
 								mensajeVigencia, "mensaje");
 						((UIInput) toValidate).setValid(false);
@@ -840,8 +840,8 @@ public class UnidadMedidaAction implements Serializable {
 					"keyword");
 			consulta.append("AND UPPER(tu.nombre) LIKE UPPER(:keyword) ");
 			parametros.add(item);
-			unionMensajesBusqueda.append(bundle.getString("label_nombre")
-					+ ": " + '"' + this.nombreBuscar + '"');
+			unionMensajesBusqueda.append(bundle.getString("label_name") + ": "
+					+ '"' + this.nombreBuscar + '"');
 		}
 	}
 
@@ -923,7 +923,7 @@ public class UnidadMedidaAction implements Serializable {
 			UIComponent toValidate, Object value) {
 		String nombre = (String) value;
 		String clientId = toValidate.getClientId(contexto);
-		String mensajeExistencia = "label_el,label_nombre,message_ya_existe_sin_vigencia";
+		String mensajeExistencia = "label_el,label_name,message_ya_existe_sin_vigencia";
 		try {
 			Integer id = this.tipoUnidad.getId();
 			String nombreCapitalize = WordUtils.capitalizeFully(nombre);
@@ -941,7 +941,7 @@ public class UnidadMedidaAction implements Serializable {
 							mensajeExistencia, "mensaje");
 					((UIInput) toValidate).setValid(false);
 				} else {
-					mensajeExistencia = "label_el,label_nombre,message_ya_existe_verifique";
+					mensajeExistencia = "label_el,label_name,message_ya_existe_verifique";
 					ControladorContexto.mensajeErrorEspecifico(clientId,
 							mensajeExistencia, "mensaje");
 					((UIInput) toValidate).setValid(false);
@@ -999,7 +999,7 @@ public class UnidadMedidaAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.filtroBusqueda + '"');
 			} else if (this.listaConversionUnidades == null
 					|| this.listaConversionUnidades.size() <= 0) {
@@ -1012,7 +1012,7 @@ public class UnidadMedidaAction implements Serializable {
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleInformacionBase
 										.getString("conversion_unidad_medida_label"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.filtroBusqueda + '"');
 			}
 			validaciones.setMensajeBusqueda(mensajeBusqueda);

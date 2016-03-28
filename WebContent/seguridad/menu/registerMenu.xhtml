@@ -23,7 +23,7 @@
 				$g('#menuForm\\:txaDescripcion').maxlength({   
 				    events: [],     
 				    max: 100,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 				});		
@@ -42,7 +42,7 @@
 					cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,,tdAlignTop">
 
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText id="txtnombre" maxlength="100" required="true"
@@ -54,7 +54,7 @@
 					</h:inputText>
 					<rich:message for="txtnombre" />
 
-					<h:outputText value="#{mensaje.label_descripcion}"
+					<h:outputText value="#{mensaje.label_description}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputTextarea value="#{menuAction.menuAction.descripcion}"
@@ -80,7 +80,7 @@
 							<f:setPropertyActionListener value=""
 								target="#{menuAction.nameSearch}" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_seleccionar}" />
+								<h:outputText value="#{mensaje.label_select}" />
 							</rich:tooltip>
 							<f:param name="param2" value="si" />
 						</a:commandLink>
@@ -109,7 +109,7 @@
 							<f:setPropertyActionListener value=""
 								target="#{menuAction.nameIconSearch}" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_seleccionar}" />
+								<h:outputText value="#{mensaje.label_select}" />
 							</rich:tooltip>
 						</a:commandLink>
 						<a:commandLink actionListener="#{menuAction.deleteIcon()}"
@@ -121,7 +121,7 @@
 						</a:commandLink>
 					</h:panelGrid>
 
-					<h:outputText value="#{mensaje.label_nombre_url}"
+					<h:outputText value="#{mensaje.label_name_url}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText styleClass="colTextoMediano" id="urlMenu"
@@ -245,7 +245,7 @@
 			</rich:popupPanel>
 
 			<rich:popupPanel id="confirmacionPopUp" autosized="true"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('confirmacionPopUp')}.hide(); return false;">
@@ -260,11 +260,11 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}: " />
+						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText value="#{menuAction.menuAction.nombre}" />
 						<h:outputText value="#{messageSecurity.menu_label_parent}: " />
 						<h:outputText value="#{menuAction.menuPadre.nombre}" />
-						<h:outputText value="#{mensaje.label_nombre_url}: " />
+						<h:outputText value="#{mensaje.label_name_url}: " />
 						<h:outputText value="#{menuAction.menuAction.url}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -297,14 +297,13 @@
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
 								#{messageSecurity.icon_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
-								<h:outputText value="#{mensaje.label_nombre}"
+								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscarIcono"
 									value="#{menuAction.nameIconSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscarI')" />
 								<a:commandButton value="#{mensaje.button_search}"
-									id="btnBuscarI"
-									actionListener="#{menuAction.consultIcons()}"
+									id="btnBuscarI" actionListener="#{menuAction.consultIcons()}"
 									render="outPutBuscarIconos" />
 							</h:panelGrid>
 						</t:fieldset>
@@ -337,7 +336,7 @@
 										oncomplete="#{rich:component('popupIconos')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_seleccionar}" />
+											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>
@@ -347,7 +346,7 @@
 										value="#{menuAction.folderFilesIcons}/#{iconoList.nombre}" />
 								</rich:column>
 								<rich:column styleClass="colTextoLargo">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{iconoList.nombre}" />
 								</rich:column>
 								<f:facet name="footer">

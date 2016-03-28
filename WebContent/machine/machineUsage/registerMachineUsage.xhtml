@@ -34,13 +34,13 @@
 						columnClasses="tdAlignTop,,,tdAlignTop,top">
 
 						<h:outputText
-							value="#{mensaje.label_seleccionar} #{mensajeLifeCycle.crops_label}"
+							value="#{mensaje.label_select} #{mensajeLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu id="cmbYear" required="true"
 							value="#{machineUsageAction.year}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" />
 							<f:selectItems value="#{machineUsageAction.itemsYears}" />
 						</h:selectOneMenu>
 						<rich:message for="cmbYear" />
@@ -152,7 +152,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -184,7 +184,7 @@
 		<h:form id="formConfirmarDepreciation">
 			<rich:popupPanel id="popUpConfirmarDepreciation" modal="true"
 				autosized="true" maxWidth="500"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -216,7 +216,7 @@
 		<h:form id="formConfirmarInsurance">
 			<rich:popupPanel id="popUpConfirmarInsurance" modal="true"
 				autosized="true" maxWidth="500"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -248,7 +248,7 @@
 		<h:form id="formConfirmarMaintenance">
 			<rich:popupPanel id="popUpConfirmarMaintenance" modal="true"
 				autosized="true" maxWidth="500"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

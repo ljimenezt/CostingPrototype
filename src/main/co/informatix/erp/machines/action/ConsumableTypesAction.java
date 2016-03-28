@@ -202,7 +202,7 @@ public class ConsumableTypesAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nombreBuscar + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_nombre") + ": "
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nombreBuscar + '"');
 		}
 	}

@@ -481,7 +481,7 @@ public class UsuarioAction implements Serializable {
 				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nameSearch + '"');
 			} else if (this.users == null || this.users.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
@@ -491,7 +491,7 @@ public class UsuarioAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleSecurity.getString("user_label_s"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nameSearch + '"');
 			}
 			validation.setMensajeBusqueda(searchMessage);

@@ -46,7 +46,7 @@
 		<h:form id="formConfirmacion">
 			<rich:popupPanel id="popupConfirmar" keepVisualState="true"
 				autosized="true" width="500" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -68,16 +68,16 @@
 						<h:outputText
 							value="#{validacionesAction.getLabel(empresaAction.itemsOrganizaciones,empresaAction.empresa.organizacion.id)}" />
 
-						<h:outputText value="#{mensaje.label_nit}:" />
+						<h:outputText value="#{mensaje.label_identification}:" />
 						<h:outputText value="#{empresaAction.empresa.nit}" />
 
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{empresaAction.empresa.nombre}" />
 
-						<h:outputText value="#{mensaje.label_direccion}:" />
+						<h:outputText value="#{mensaje.label_address}:" />
 						<h:outputText value="#{empresaAction.empresa.direccion}" />
 
-						<h:outputText value="#{mensaje.label_telefono}:" />
+						<h:outputText value="#{mensaje.label_telephone_number}:" />
 						<h:outputText value="#{empresaAction.empresa.telefono}" />
 
 						<h:outputText value="#{mensaje.label_email}:" />

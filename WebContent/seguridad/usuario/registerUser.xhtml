@@ -52,7 +52,7 @@
 									styleClass="verticalAlignMiddle" />
 								<rich:tooltip layout="block">
 									<h:outputText
-										value="#{mensaje.label_seleccionar} #{mensajeRecursosHumanos.persona_label}" />
+										value="#{mensaje.label_select} #{mensajeRecursosHumanos.persona_label}" />
 								</rich:tooltip>
 							</a:commandLink>
 						</h:panelGrid>
@@ -156,11 +156,11 @@
 									</a:commandLink>
 								</rich:column>
 								<rich:column width="250px">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{objRol.nombre}" />
 								</rich:column>
 								<rich:column width="350px">
-									<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+									<f:facet name="header">#{mensaje.label_description}</f:facet>
 									<h:outputText value="#{objRol.descripcion}" />
 								</rich:column>
 							</rich:extendedDataTable>
@@ -172,9 +172,9 @@
 								<f:selectItem itemValue="nuevo"
 									itemLabel="#{mensaje.label_nuevos}" />
 								<f:selectItem itemValue="si"
-									itemLabel="#{mensaje.label_vigentes}" />
+									itemLabel="#{mensaje.label_current}" />
 								<f:selectItem itemValue="no"
-									itemLabel="#{mensaje.label_no_vigentes}" />
+									itemLabel="#{mensaje.label_not_current}" />
 								<a:ajax event="click"
 									listener="#{usuarioAction.userRoleControler()}"
 									render="tablaRolesUsuario, mensajes">
@@ -213,7 +213,7 @@
 										</a:commandLink>
 									</rich:column>
 									<rich:column width="300px">
-										<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+										<f:facet name="header">#{mensaje.label_name}</f:facet>
 										<h:outputText
 											value="#{rolesUsuarioList.rolUsuarioPK.rol.nombre}" />
 									</rich:column>
@@ -295,7 +295,7 @@
 
 		<h:form id="modalContrasena">
 			<rich:popupPanel id="popupContrasena" autosized="true"
-				header="#{mensaje.label_confirmacion}" domElementAttachment="form">
+				header="#{mensaje.label_confirmation}" domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('popupContrasena')}.hide(); return false;">
@@ -323,7 +323,7 @@
 			</rich:popupPanel>
 
 			<rich:popupPanel id="confirmacionPopUp" modal="true" autosized="true"
-				resizeable="false" header="#{mensaje.label_confirmacion}">
+				resizeable="false" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('confirmacionPopUp')}.hide(); return false;">

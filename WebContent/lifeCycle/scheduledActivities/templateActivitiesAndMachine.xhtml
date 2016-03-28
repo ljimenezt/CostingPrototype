@@ -96,7 +96,7 @@
 									</rich:column>
 
 									<rich:column styleClass="colTextoLargo">
-										<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+										<f:facet name="header">#{mensaje.label_name}</f:facet>
 										<h:outputText value="#{machine.name}" />
 									</rich:column>
 
@@ -197,7 +197,7 @@
 	</h:form>
 	<h:form>
 		<rich:popupPanel id="popupDeleteActivityMachine" autosized="true"
-			modal="true" header="#{mensaje.label_confirmacion}">
+			modal="true" header="#{mensaje.label_confirmation}">
 			<f:facet name="controls">
 				<h:panelGroup>
 					<h:graphicImage value="/img/close_14.png"
@@ -213,7 +213,7 @@
 						styleClass="etiquetaTitulo" />
 				</ui:define>
 				<ui:define name="campos">
-					<h:outputText value="#{mensaje.label_nombre}:" />
+					<h:outputText value="#{mensaje.label_name}:" />
 					<h:outputText
 						value="#{scheduledActivitiesAction.activityMachine.activityMachinePK.machines.name}" />
 				</ui:define>
@@ -329,7 +329,7 @@
 	<h:form id="formConfirmSaveMachine">
 		<rich:popupPanel id="popUpConfirmSaveMachine" modal="true"
 			autosized="true" maxWidth="800"
-			header="#{mensaje.label_confirmacion}">
+			header="#{mensaje.label_confirmation}">
 			<f:facet name="controls">
 				<h:panelGroup>
 					<h:graphicImage value="/img/close_14.png"

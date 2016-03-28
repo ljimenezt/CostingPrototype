@@ -37,7 +37,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu id="tipoMaquina" styleClass="colTextoCorto"
 							value="#{machinesAction.machines.machineTypes.idMachineType}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" />
 							<f:selectItems value="#{machinesAction.itemsMachinesType}" />
 						</h:selectOneMenu>
 						<rich:message for="tipoMaquina" />
@@ -97,7 +97,7 @@
 							styleClass="colNumero" id="txtHorse"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
-							<f:validateDoubleRange minimum="0"/>
+							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
 						<rich:message for="txtHorse" />
 
@@ -140,8 +140,7 @@
 							<h:selectOneMenu id="fuelTypes" styleClass="colTextoCorto"
 								disabled="#{machinesAction.machines.fuel eq false}"
 								value="#{machinesAction.machines.fuelTypes.idFuelType}">
-								<f:selectItem itemValue="0"
-									itemLabel="#{mensaje.label_seleccionar}" />
+								<f:selectItem itemValue="0" itemLabel="#{mensaje.label_select}" />
 								<f:selectItems value="#{machinesAction.itemsFuelTypes}" />
 							</h:selectOneMenu>
 							<rich:message for="fuelTypes" />
@@ -236,7 +235,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -252,7 +251,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{machinesAction.machines.name}" />
 						<h:outputText value="#{mensaje.label_tipo_maquina}:" />
 						<h:outputText

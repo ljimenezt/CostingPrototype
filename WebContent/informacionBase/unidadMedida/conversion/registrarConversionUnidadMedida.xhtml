@@ -29,7 +29,7 @@
 						rendered="#{!unidadMedidaAction.esEdicion}"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						value="#{unidadMedidaAction.conversionUnidad.llavePrimaria.unidadInicial.id}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{unidadMedidaAction.itemsUnidadInicial}" />
 						<a:ajax event="change" render=":formCrearUnidad:cmdbUnidadFinal"
 							listener="#{unidadMedidaAction.cargarComboUnidadesFinales()}" />
@@ -50,7 +50,7 @@
 						rendered="#{!unidadMedidaAction.esEdicion}"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						value="#{unidadMedidaAction.conversionUnidad.llavePrimaria.unidadFinal.id}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{unidadMedidaAction.itemsUnidadFinal}" />
 					</h:selectOneMenu>
 					<h:outputText
@@ -88,7 +88,7 @@
 		<h:form id="formConfirmacion">
 			<rich:popupPanel id="confirmacionCrearPopUp" modal="true"
 				autosized="true" resizeable="false"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('confirmacionCrearPopUp')}.hide(); return false;">

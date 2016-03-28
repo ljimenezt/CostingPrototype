@@ -26,9 +26,9 @@
 					columnClasses="W50Per,W50Per" styleClass="anchoTres">
 					<h:selectOneRadio value="#{organizacionAction.vigencia}"
 						styleClass="rdVigencia">
-						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
+						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
 						<f:selectItem itemValue="no"
-							itemLabel="#{mensaje.label_no_vigentes}" />
+							itemLabel="#{mensaje.label_not_current}" />
 						<a:ajax event="click"
 							listener="#{organizacionAction.consultarOrganizaciones()}"
 							render="panelOrganizacion, vigenciaPopup, mensajes, mensajeBusqueda">
@@ -117,19 +117,19 @@
 							rendered="#{organizacionAction.vigencia eq 'no'}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensaje.label_nit}/#{mensaje.label_documento}</f:facet>
+						<f:facet name="header">#{mensaje.label_identification}/#{mensaje.label_document}</f:facet>
 						<h:outputText value="#{organizacionList.nit}" />
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_direccion}</f:facet>
+						<f:facet name="header">#{mensaje.label_address}</f:facet>
 						<h:outputText value="#{organizacionList.direccion}" />
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_telefono}</f:facet>
+						<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
 						<h:outputText value="#{organizacionList.telefono}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
 						<h:outputText value="#{organizacionList.fechaCreacion}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
@@ -137,7 +137,7 @@
 					</rich:column>
 					<rich:column styleClass="colFecha"
 						rendered="#{organizacionAction.vigencia eq 'no'}">
-						<f:facet name="header">#{mensaje.label_fecha_fin_vigencia}</f:facet>
+						<f:facet name="header">#{mensaje.label_effective_end_date}</f:facet>
 						<h:outputText value="#{organizacionList.fechaFinVigencia}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
@@ -231,12 +231,12 @@
 							<h:outputText
 								value="#{organizacionAction.organizacion.tipoDocumento.nombre}" />
 							<h:outputFormat
-								value="#{mensaje.label_nit}/#{mensaje.label_documento}: " />
+								value="#{mensaje.label_identification}/#{mensaje.label_document}: " />
 							<h:outputText value="#{organizacionAction.organizacion.nit}" />
-							<h:outputFormat value="#{mensaje.label_direccion}: " />
+							<h:outputFormat value="#{mensaje.label_address}: " />
 							<h:outputText
 								value="#{organizacionAction.organizacion.direccion}" />
-							<h:outputFormat value="#{mensaje.label_telefono}: " />
+							<h:outputFormat value="#{mensaje.label_telephone_number}: " />
 							<h:outputText value="#{organizacionAction.organizacion.telefono}" />
 						</h:panelGrid>
 						<h:panelGrid columns="1">
@@ -260,7 +260,7 @@
 		<h:form id="frmVigencia">
 			<rich:popupPanel id="popupFinalizar" resizeable="false"
 				autosized="true" domElementAttachment="form" modal="true"
-				moveable="false" header="#{mensaje.label_confirmacion}">
+				moveable="false" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('popupFinalizar')}.hide();">
@@ -314,7 +314,7 @@
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
 					<h:outputText
-						value="#{mensaje.label_razon_social} / #{mensaje.label_nit}:"
+						value="#{mensaje.label_razon_social} / #{mensaje.label_identification}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
 						value="#{organizacionAction.filtroBusqueda}"

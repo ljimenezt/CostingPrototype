@@ -204,7 +204,7 @@ public class EstadoAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			} else if (listaEstados == null || listaEstados.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
@@ -216,7 +216,7 @@ public class EstadoAction implements Serializable {
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleInfoBase
 										.getString("estado_civil_label_s"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			}
 			validaciones.setMensajeBusqueda(mensajeBusqueda);

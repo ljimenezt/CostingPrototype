@@ -107,7 +107,7 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colFecha">
-								<f:facet name="header">#{mensaje.label_fecha_registro}</f:facet>
+								<f:facet name="header">#{mensaje.label_record_date}</f:facet>
 								<a:commandLink render="depositDetails"
 									actionListener="#{depositsAction.setDepositDetails(deposit)}"
 									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('depositDetails')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
@@ -423,7 +423,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

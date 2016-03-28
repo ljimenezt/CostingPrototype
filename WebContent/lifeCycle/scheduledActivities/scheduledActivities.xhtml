@@ -34,7 +34,7 @@
 				$g('#formScheduledActivities\\:description').maxlength({
 					events : [],
 					max : 250,
-					feedbackText : "#{mensaje.label_caracteres_restantes}",
+					feedbackText : "#{mensaje.label_characters_left}",
 					showFeedback : 'active'
 				});
 			});
@@ -55,8 +55,7 @@
 							value="#{scheduledActivitiesAction.idCropName}"
 							styleClass="colTextoMediano" required="true"
 							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems
 								value="#{scheduledActivitiesAction.optionsCropNames}" />
 							<f:ajax event="change"
@@ -71,8 +70,7 @@
 							value="#{scheduledActivitiesAction.idCrop}"
 							styleClass="colTextoMediano" required="true"
 							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null }">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{scheduledActivitiesAction.optionsCrops}" />
 							<f:ajax event="change"
 								listener="#{scheduledActivitiesAction.showActivities()}"
@@ -126,7 +124,7 @@
 							<p:ajax event="dateSelect" update="fechaInicio" />
 						</p:calendar>
 						<rich:message for="fechaFinal" />
-						<h:outputText value="#{mensaje.label_descripcion}"
+						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:inputTextarea
 							disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
@@ -176,7 +174,7 @@
 							<rich:column styleClass="colTextoCorto verticalAlignMiddle">
 								<f:facet name="header">
 									<h:panelGrid columns="2">
-										<h:outputText value="#{mensaje.label_nombre}" />
+										<h:outputText value="#{mensaje.label_name}" />
 										<ui:include src="/plantillas/templateHeaderSort.xhtml">
 											<ui:param name="sortField" value="an.activityName" />
 										</ui:include>
@@ -185,7 +183,7 @@
 								<h:outputText value="#{activity.activityName.activityName}" />
 							</rich:column>
 							<rich:column styleClass="colTextoMediano verticalAlignMiddle">
-								<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+								<f:facet name="header">#{mensaje.label_description}</f:facet>
 								<h:outputText
 									value="#{activity.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? activity.description.substring(0, propPrototipoCostos['locate.activitiesandhr.long.descripcion']) : activity.description} #{activity.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? '...' : ''}" />
 								<rich:tooltip layout="block" styleClass="campoTooltip"
@@ -280,7 +278,7 @@
 							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
 								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false and scheduledActivitiesAction.selectedActivity.costHrActual eq null}"
 								render="seleccionarTrabajador:popupTrabajador seleccionarTrabajador:trabajadores mensajes mensajeBusqueda"
-								actionListener="#{activitiesAndHrAction.mostrarTipoTrabajador()}"
+								actionListener="#{activitiesAndHrAction.showTypeWorker()}"
 								execute="formActivitiesAndHr"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popupTrabajador')}.show();} else{ 
@@ -292,14 +290,14 @@
 										value="#{mensaje.label_asignar} #{mensajeCosts.activities_and_hr_label_trabajadores}" />
 								</h:panelGrid>
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_seleccionar}" />
+									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
 							</a:commandLink>
 						</div>
 						<ui:param name="listaVaciaA"
-							value="#{activitiesAndHrAction.listaActivitiesAndHrTemp.size() eq 0 or (activitiesAndHrAction.listaActivitiesAndHrTemp eq null)}" />
+							value="#{activitiesAndHrAction.listActivitiesAndHrTemp.size() eq 0 or (activitiesAndHrAction.listActivitiesAndHrTemp eq null)}" />
 						<rich:dataTable
-							value="#{activitiesAndHrAction.listaActivitiesAndHrTemp}"
+							value="#{activitiesAndHrAction.listActivitiesAndHrTemp}"
 							var="actividadesTrabajadores" id="listaEmpleados"
 							footerClass="H130P"
 							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoDos"
@@ -327,7 +325,7 @@
 								</a:outputPanel>
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<a:commandLink
 									rendered="#{actividadesTrabajadores.initialDateTimeActual eq null}"
 									action="#{activitiesAndHrAction.setActivitiesAndHr(actividadesTrabajadores.clone())}"
@@ -389,7 +387,7 @@
 						</rich:dataTable>
 						<br />
 						<a:outputPanel id="paginadoEmpleados"
-							rendered="#{activitiesAndHrAction.listaActivitiesAndHrTemp.size() gt 0}">
+							rendered="#{activitiesAndHrAction.listActivitiesAndHrTemp.size() gt 0}">
 							<div class="anchoDos center inBlock">
 								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="conParam2" value="1" />
@@ -400,7 +398,7 @@
 									<ui:param name="beanActionParam"
 										value="#{activitiesAndHrAction}" />
 									<ui:param name="metodoActionParam"
-										value="consultarActivitiesAndHrXActividad" />
+										value="consultActivitiesAndHrByActivity" />
 								</ui:include>
 							</div>
 						</a:outputPanel>
@@ -437,7 +435,7 @@
 										value="#{mensaje.label_asignar} #{mensajeMachine.machines_label_names_s}" />
 								</h:panelGrid>
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_seleccionar}" />
+									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
 								<f:setPropertyActionListener
 									target="#{machinesAction.nameMachines}" value="0" />
@@ -472,7 +470,7 @@
 								</a:outputPanel>
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<a:commandLink
 									rendered="#{activitiesMachines.durationActual eq null}"
 									actionListener="#{scheduledActivitiesAction.setActivityMachine(activitiesMachines.clone())}"

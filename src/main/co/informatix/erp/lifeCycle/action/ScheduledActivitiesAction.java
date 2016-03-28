@@ -628,9 +628,9 @@ public class ScheduledActivitiesAction implements Serializable {
 					this.activitiesAndHrAction = ControladorContexto
 							.getContextBean(ActivitiesAndHrAction.class);
 					this.activitiesAndHrAction
-							.setActividadSeleccionada(selectedActivity);
+							.setSelectedActivity(selectedActivity);
 					this.activitiesAndHrAction
-							.consultarActivitiesAndHrXActividad();
+							.consultActivitiesAndHrByActivity();
 				}
 			} else {
 				recordActivitiesActualsAction.currentCost();

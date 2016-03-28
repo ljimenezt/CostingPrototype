@@ -354,7 +354,7 @@ public class OrganizacionAction implements Serializable {
 				.getContextBean(ValidacionesAction.class);
 		try {
 			String cadena = bundle.getString("label_razon_social") + " / "
-					+ bundle.getString("label_nit");
+					+ bundle.getString("label_identification");
 			String condicionVigencia = Constantes.IS_NULL;
 			if (Constantes.NOT.equals(vigencia)) {
 				condicionVigencia = Constantes.IS_NOT_NULL;

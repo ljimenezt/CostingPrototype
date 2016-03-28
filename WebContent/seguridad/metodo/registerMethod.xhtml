@@ -22,7 +22,7 @@
 				  $('#metodoForm\\:txaDescripcion').maxlength({   
 				    events: [],     
 				    max: 255,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 				});		
@@ -68,7 +68,7 @@
 						</h:inputText>
 						<rich:message for="txtnombremetodo" />
 
-						<h:outputText value="#{mensaje.label_descripcion}"
+						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputTextarea value="#{metodoAction.method.descripcion}"
@@ -127,11 +127,11 @@
 									<h:outputText value="#{messageSecurity.menu_label_availables}" />
 								</f:facet>
 								<rich:column styleClass="colTextoMediano">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{menuDisponible.nombre}" />
 								</rich:column>
 								<rich:column styleClass="colTextoLargo">
-									<f:facet name="header">#{mensaje.label_nombre_url}</f:facet>
+									<f:facet name="header">#{mensaje.label_name_url}</f:facet>
 									<h:outputText
 										value="#{validacionesAction.cadenaCorta(menuDisponible.url,50)}" />
 									<rich:tooltip layout="block"
@@ -146,7 +146,7 @@
 											actionListener="#{metodoAction.addRemoveAllMenus('add')}">
 											<h:graphicImage value="/img/agregar_16.png" />
 											<rich:tooltip layout="block">
-												<h:outputText value="#{mensaje.label_seleccionar_todos}" />
+												<h:outputText value="#{mensaje.label_select_all}" />
 											</rich:tooltip>
 										</a:commandLink>
 									</f:facet>
@@ -154,7 +154,7 @@
 										actionListener="#{metodoAction.addRemoveMenusListSelected('add',menuDisponible)}">
 										<h:graphicImage value="/img/agregar_16.png" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_seleccionar}" />
+											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>
@@ -208,11 +208,11 @@
 									</a:commandLink>
 								</rich:column>
 								<rich:column width="150px">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{selectedMenu.nombre}" />
 								</rich:column>
 								<rich:column width="240px">
-									<f:facet name="header">#{mensaje.label_nombre_url}</f:facet>
+									<f:facet name="header">#{mensaje.label_name_url}</f:facet>
 									<a:outputPanel>
 										<h:outputText
 											value="#{validacionesAction.cadenaCorta(selectedMenu.url,45)}" />
@@ -240,7 +240,7 @@
 		<h:form id="popupForm">
 
 			<rich:popupPanel id="confirmacionPopUp" autosized="true"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('confirmacionPopUp')}.hide(); return false;">
@@ -285,12 +285,12 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:panelGrid columns="3" cellpadding="3" cellspacing="3">
-					<h:outputText value="#{mensaje.label_nombre}:"
+					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoCorto" id="txtMenuName"
 						value="#{menuAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'popupFormSearch:btnBuscarMenus')"
-						label="#{mensaje.label_nombre}">
+						label="#{mensaje.label_name}">
 					</h:inputText>
 					<rich:message for="txtMenuName" />
 				</h:panelGrid>

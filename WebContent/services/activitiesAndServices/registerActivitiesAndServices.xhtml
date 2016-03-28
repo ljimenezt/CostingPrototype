@@ -76,7 +76,7 @@
 							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 							columnClasses="tdAlignTop,,,tdAlignTop">
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_descripcion}" />
+								value="#{mensaje.label_description}" />
 							<h:outputText value="*" styleClass="required" />
 							<h:selectOneMenu
 								value="#{activitiesAndServicesAction.crops.idCrop}"
@@ -112,7 +112,7 @@
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<h:commandLink
 									action="#{activitiesAndServicesAction.addEditServices(activities)}"
 									onclick="#{rich:component('statPane')}.show();"
@@ -120,7 +120,7 @@
 								</h:commandLink>
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+								<f:facet name="header">#{mensaje.label_description}</f:facet>
 								<h:outputText
 									value="#{activities.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? activities.description.substring(0, propPrototipoCostos['locate.activitiesandhr.long.descripcion']) : activities.description} #{activities.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? '...' : ''}" />
 								<rich:tooltip layout="block" styleClass="campoTooltip"
@@ -208,7 +208,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_nombre}:"
+					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar"

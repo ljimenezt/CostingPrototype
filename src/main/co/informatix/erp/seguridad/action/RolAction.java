@@ -395,7 +395,7 @@ public class RolAction implements Serializable {
 				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nameSearch + '"');
 			} else if (rolesList == null || rolesList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
@@ -405,7 +405,7 @@ public class RolAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleSecurity.getString("role_label_s"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nameSearch + '"');
 			}
 			validations.setMensajeBusqueda(searchMessage);

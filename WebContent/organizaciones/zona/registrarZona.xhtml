@@ -19,7 +19,7 @@
 				  $('#frmRegistrarZona\\:txtDescripcion').maxlength({   
 				    events: [],     
 				    max: 200,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 			});		
@@ -33,7 +33,7 @@
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
-					<h:outputText value="#{mensaje.label_nombre}: "
+					<h:outputText value="#{mensaje.label_name}: "
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText id="txtNombre" styleClass="colTextoMediano"
@@ -46,7 +46,7 @@
 					<rich:message for="txtNombre" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_descripcion}" />
+						value="#{mensaje.label_description}" />
 					<h:outputText value="" />
 					<h:inputTextarea value="#{zonaAction.zona.descripcion}"
 						styleClass="colTextoMedianoTextArea" id="txtDescripcion"
@@ -62,8 +62,7 @@
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						value="#{zonaAction.zona.variedadZona.tipoZona.id}"
 						id="cmbListaTipoZona">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-							itemValue="" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="" />
 						<f:selectItems value="#{zonaAction.itemsTipoZona}" />
 						<f:ajax event="change"
 							listener="#{zonaAction.seleccionarComboTipoZona()}"
@@ -80,8 +79,7 @@
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						value="#{zonaAction.zona.variedadZona.id}"
 						id="cmbListaVariedadZona">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-							itemValue="" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="" />
 						<f:selectItems value="#{zonaAction.itemsVariedadZona}" />
 
 					</h:selectOneMenu>
@@ -98,7 +96,7 @@
 			</rich:panel>
 
 			<rich:popupPanel id="popupConfirmar" autosized="true"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -114,7 +112,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{zonaAction.zona.nombre}" />
 					</ui:define>
 					<ui:define name="botones">

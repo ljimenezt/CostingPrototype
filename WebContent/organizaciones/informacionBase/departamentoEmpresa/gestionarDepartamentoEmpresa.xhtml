@@ -25,9 +25,9 @@
 					<h:selectOneRadio
 						value="#{departamentoEmpresaAction.consultarVigentes}"
 						styleClass="rdVigencia">
-						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
+						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
 						<f:selectItem itemValue="no"
-							itemLabel="#{mensaje.label_no_vigentes}" />
+							itemLabel="#{mensaje.label_not_current}" />
 						<a:ajax event="click"
 							listener="#{departamentoEmpresaAction.gestionarDepartamentoEmpresa()}"
 							render="panelFrmListaDepartamento, mensajes, mensajeBusqueda">
@@ -109,7 +109,7 @@
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">
-							<h:outputText value="#{mensaje.label_nombre}" />
+							<h:outputText value="#{mensaje.label_name}" />
 						</f:facet>
 						<h:commandLink value="#{departamento.nombre}"
 							action="#{departamentoEmpresaAction.registrarDepartamentoEmpresa(departamento)}"
@@ -118,11 +118,11 @@
 							rendered="#{departamentoEmpresaAction.consultarVigentes eq 'no'}" />
 					</rich:column>
 					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+						<f:facet name="header">#{mensaje.label_description}</f:facet>
 						<h:outputText value="#{departamento.descripcion}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensaje.label_fecha_creacion}</f:facet>
+						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
 						<h:outputText value="#{departamento.fechaCreacion}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
@@ -131,7 +131,7 @@
 					<rich:column styleClass="colFecha"
 						rendered="#{departamentoEmpresaAction.consultarVigentes eq 'no'}">
 						<f:facet name="header">
-							<h:outputText value="#{mensaje.label_fecha_fin_vigencia}" />
+							<h:outputText value="#{mensaje.label_effective_end_date}" />
 						</f:facet>
 						<h:outputText value="#{departamento.fechaFinVigencia}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
@@ -213,11 +213,11 @@
 					<h:panelGrid columns="2" cellpadding="5" cellspacing="7"
 						columnClasses="columnaIzquierda, columnaDerecha">
 
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText
 							value="#{departamentoEmpresaAction.departamentoEmpresa.nombre}" />
 
-						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
 							value="#{departamentoEmpresaAction.departamentoEmpresa.descripcion}" />
 
@@ -233,11 +233,11 @@
 								#{mensaje.label_listado_de} #{mensajeRecursosHumanos.tipo_cargo_label_s}
 							</f:facet>
 						<rich:column styleClass="W180P">
-							<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+							<f:facet name="header">#{mensaje.label_name}</f:facet>
 							<h:outputText value="#{tipoCargoObj.nombre}" />
 						</rich:column>
 						<rich:column styleClass="W210P">
-							<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+							<f:facet name="header">#{mensaje.label_description}</f:facet>
 							<h:outputText value="#{tipoCargoObj.funciones}" />
 						</rich:column>
 					</rich:extendedDataTable>
@@ -249,7 +249,7 @@
 		<h:form id="frmVigenciaDepartamento">
 			<!-- Dialogo de confirmacion -->
 			<rich:popupPanel id="dialogoConfirmacionVigenciaDepartamento"
-				header="#{mensaje.label_confirmacion}" resizeable="false"
+				header="#{mensaje.label_confirmation}" resizeable="false"
 				autosized="true" domElementAttachment="form" modal="true"
 				moveable="false">
 				<f:facet name="controls">
@@ -264,7 +264,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText
 							value="#{departamentoEmpresaAction.departamentoEmpresa.nombre}" />
 					</ui:define>
@@ -301,7 +301,7 @@
 					</h:outputLink>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_nombre}:"
+					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
 						value="#{departamentoEmpresaAction.nombreBuscar}" />

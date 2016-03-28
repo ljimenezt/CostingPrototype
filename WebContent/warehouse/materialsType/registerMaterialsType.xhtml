@@ -24,7 +24,7 @@
 				  $('#formMaterialsType\\:txaDescripcion').maxlength({   
 				    events: [],     
 				    max: 250,    
-				    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+				    feedbackText: "#{mensaje.label_characters_left}",  
 				    showFeedback: 'active'    
 				  }); 
 			});		
@@ -39,7 +39,7 @@
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
 
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText value="#{materialsTypeAction.materialsType.name}"
@@ -49,7 +49,7 @@
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
-					<h:outputText value="#{mensaje.label_descripcion}"
+					<h:outputText value="#{mensaje.label_description}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputTextarea
@@ -72,7 +72,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -88,9 +88,9 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{materialsTypeAction.materialsType.name}" />
-						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
 							value="#{materialsTypeAction.materialsType.description}" />
 					</ui:define>

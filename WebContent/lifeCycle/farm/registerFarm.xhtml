@@ -24,7 +24,7 @@
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop,,,tdAlignTop">
-						<h:outputText value="#{mensaje.label_nombre}"
+						<h:outputText value="#{mensaje.label_name}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{farmAction.farm.name}"
@@ -55,7 +55,7 @@
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="txtFieldAddress" />
 
-						<h:outputText value="#{mensaje.label_nit}"
+						<h:outputText value="#{mensaje.label_identification}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 
@@ -65,7 +65,7 @@
 						</h:inputText>
 						<rich:message for="nit" />
 
-						<h:outputText value="#{mensaje.label_nombre_comercial}"
+						<h:outputText value="#{mensaje.label_name_trade}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoMediano" maxlength="100"
@@ -75,7 +75,7 @@
 						</h:inputText>
 						<rich:message for="nombreComercial" />
 
-						<h:outputText value="#{mensaje.label_direccion}"
+						<h:outputText value="#{mensaje.label_address}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoMediano" id="direccion"
@@ -85,7 +85,7 @@
 						</h:inputText>
 						<rich:message for="direccion" />
 
-						<h:outputText value="#{mensaje.label_telefono}"
+						<h:outputText value="#{mensaje.label_telephone_number}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoCorto" maxlength="20"
@@ -134,8 +134,7 @@
 						<h:outputText value="" />
 						<h:selectOneMenu value="#{farmAction.farm.pais.id}"
 							id="comboPaisFarm">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{farmAction.countryItems}" />
 							<a:ajax event="valueChange"
 								render="comboDepartamentoFarm, comboMunicipioFarm"
@@ -148,8 +147,7 @@
 						<h:outputText value="" />
 						<h:selectOneMenu value="#{farmAction.farm.departamento.id}"
 							id="comboDepartamentoFarm">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{farmAction.departmentItems}" />
 							<a:ajax event="change" render="comboMunicipioFarm"
 								listener="#{farmAction.loadMunicipalities}" execute="@this" />
@@ -161,8 +159,7 @@
 						<h:outputText value="" />
 						<h:selectOneMenu value="#{farmAction.farm.municipio.id}"
 							id="comboMunicipioFarm">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{farmAction.municipalityItems}" />
 						</h:selectOneMenu>
 						<rich:message for="comboMunicipioFarm" />
@@ -230,7 +227,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -246,7 +243,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{farmAction.farm.name}" />
 						<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}:" />
 						<h:outputText value="#{farmAction.farm.locationLinkToMap}" />

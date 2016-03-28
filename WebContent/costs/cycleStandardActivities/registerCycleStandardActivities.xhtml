@@ -35,7 +35,7 @@
 					<h:selectOneMenu id="cropName"
 						value="#{cycleStandardActivitiesAction.idCropNames}"
 						styleClass="colTextoMediano">
-						<f:selectItem itemLabel="#{mensaje.label_seleccionar}" itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 						<f:selectItems
 							value="#{cycleStandardActivitiesAction.itemsCropName}" />
 						<f:ajax event="change"
@@ -60,7 +60,7 @@
 									value="#{mensajeCosts.cycle_standard_activities_label_agregar_actividad}" />
 							</h:panelGrid>
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_seleccionar}" />
+								<h:outputText value="#{mensaje.label_select}" />
 							</rich:tooltip>
 							<f:param name="param2" value="si" />
 							<f:setPropertyActionListener value=""
@@ -88,7 +88,7 @@
 							</a:commandLink>
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+							<f:facet name="header">#{mensaje.label_name}</f:facet>
 							<a:commandLink id="linkReg" render="popupFormReg:popupRegCycle"
 								value="" execute="@form"
 								actionListener="#{cycleStandardActivitiesAction.setCycleStandardActivities(cycleStandardActivities)}"
@@ -182,7 +182,7 @@
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
 								#{mensajeLifeCycle.activity_names_label_s}</legend>
 							<h:panelGrid columns="3">
-								<h:outputText value="#{mensaje.label_nombre}"
+								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="20" maxlength="100" id="txtNombreBuscar"
 									value="#{cycleStandardActivitiesAction.nameSearch}"
@@ -230,7 +230,7 @@
 
 								</rich:column>
 								<rich:column styleClass="colTextoLargo">
-									<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
 									<h:outputText value="#{cycleStandardActivities.activityName}" />
 								</rich:column>
 								<br />
@@ -408,7 +408,7 @@
 
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -468,7 +468,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminarLista" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

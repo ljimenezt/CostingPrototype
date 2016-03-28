@@ -48,7 +48,7 @@
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_descripcion}</f:facet>
+						<f:facet name="header">#{mensaje.label_description}</f:facet>
 						<h:commandLink value="#{maintenanceLines.description}"
 							action="#{maintenanceLinesAction.addEditMaintenanceLines(maintenanceLines)}"
 							onclick="#{rich:component('statPane')}.show();">
@@ -105,7 +105,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensaje.label_nombre}"
+				header="#{mensaje.button_search} #{mensaje.label_name}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

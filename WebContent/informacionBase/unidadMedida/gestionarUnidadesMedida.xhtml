@@ -33,9 +33,9 @@
 						columnClasses="W50Per,W50Per" styleClass="anchoCinco">
 						<h:selectOneRadio value="#{unidadMedidaAction.tipoVigenteSelect}"
 							styleClass="rdVigencia">
-							<f:selectItem itemValue="1" itemLabel="#{mensaje.label_vigentes}" />
+							<f:selectItem itemValue="1" itemLabel="#{mensaje.label_current}" />
 							<f:selectItem itemValue="2"
-								itemLabel="#{mensaje.label_no_vigentes}" />
+								itemLabel="#{mensaje.label_not_current}" />
 							<a:ajax event="click"
 								render="pnlListadoUnidades, mensajes, mensajeBusqueda"
 								listener="#{unidadMedidaAction.consultarUnidadesMedida(unidadMedidaAction.tipoUnidad ne null ? 'true' : 'false')}"></a:ajax>
@@ -109,7 +109,7 @@
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
 							<f:facet name="header">
-								<h:outputLabel value="#{mensaje.label_nombre}" />
+								<h:outputLabel value="#{mensaje.label_name}" />
 							</f:facet>
 							<c:choose>
 								<c:when
@@ -138,7 +138,7 @@
 						</rich:column>
 						<rich:column styleClass="colFecha">
 							<f:facet name="header">
-								<h:outputText value="#{mensaje.label_fecha_creacion}" />
+								<h:outputText value="#{mensaje.label_creation_date}" />
 							</f:facet>
 							<h:outputText value="#{unidad.fechaRegistro}">
 								<f:convertDateTime pattern="MMM dd, yyyy"
@@ -148,7 +148,7 @@
 						<rich:column styleClass="colFecha"
 							rendered="#{unidadMedidaAction.tipoVigenteSelect eq 2}">
 							<f:facet name="header">
-								<h:outputText value="#{mensaje.label_fecha_fin_vigencia}" />
+								<h:outputText value="#{mensaje.label_effective_end_date}" />
 							</f:facet>
 							<h:outputText value="#{unidad.fechaFinVigencia}">
 								<f:convertDateTime pattern="MMM dd, yyyy"
@@ -223,7 +223,7 @@
 		<h:form>
 			<rich:popupPanel id="popupVigencia" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -237,7 +237,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}: " />
+						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText value="#{unidadMedidaAction.unidadMedida.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -281,7 +281,7 @@
 							itemValue="0" />
 						<f:selectItems value="#{unidadMedidaAction.itemsTipoUnidades}" />
 					</h:selectOneMenu>
-					<h:outputText value="#{mensaje.label_nombre}:"
+					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 						value="#{unidadMedidaAction.nombreBuscar}" />

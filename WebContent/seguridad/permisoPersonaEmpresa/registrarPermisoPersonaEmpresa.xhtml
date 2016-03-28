@@ -26,15 +26,15 @@
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.documento}" />
 
-						<h:outputText value="#{mensaje.label_nombre}: " />
+						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.nombres}" />
 
-						<h:outputText value="#{mensaje.label_apellido}: " />
+						<h:outputText value="#{mensaje.label_surname}: " />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.apellidos}" />
 
-						<h:outputText value="#{mensaje.label_telefono}: " />
+						<h:outputText value="#{mensaje.label_telephone_number}: " />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.telefono}" />
 					</h:panelGrid>
@@ -46,7 +46,7 @@
 						<rich:message for="empresas" />
 						<h:panelGrid columns="4" id="pnlBuscar">
 							<h:outputText
-								value="#{mensaje.label_nit} / #{mensaje.label_nombre}: "
+								value="#{mensaje.label_identification} / #{mensaje.label_name}: "
 								styleClass="etiquetaTitulo" />
 							<h:inputText id="txtBuscarEmpresa"
 								value="#{permisoPersonaEmpresaAction.empresaBuscar}" />
@@ -75,19 +75,19 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column width="120px">
-								<f:facet name="header">#{mensaje.label_nit}</f:facet>
+								<f:facet name="header">#{mensaje.label_identification}</f:facet>
 								<h:outputText value="#{empresa.nit}" />
 							</rich:column>
 							<rich:column width="250px">
-								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<h:outputText value="#{empresa.nombre}" />
 							</rich:column>
 							<rich:column width="250px">
-								<f:facet name="header">#{mensaje.label_telefono}</f:facet>
+								<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
 								<h:outputText value="#{empresa.telefono}" />
 							</rich:column>
 							<rich:column width="250px">
-								<f:facet name="header">#{mensaje.label_direccion}</f:facet>
+								<f:facet name="header">#{mensaje.label_address}</f:facet>
 								<h:outputText value="#{empresa.direccion}" />
 							</rich:column>
 						</rich:extendedDataTable>
@@ -220,7 +220,7 @@
 		<h:form id="popUpQuitar">
 			<rich:popupPanel id="popupValidarQuitar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -261,7 +261,7 @@
 		<h:form>
 			<rich:popupPanel id="popupConfirmar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

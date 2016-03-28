@@ -27,7 +27,7 @@
 			  $g('#formInsurance\\:txaDescripcion').maxlength({   
 			    events: [],     
 			    max: 250,    
-			    feedbackText: "#{mensaje.label_caracteres_restantes}",  
+			    feedbackText: "#{mensaje.label_characters_left}",  
 			    showFeedback: 'active'    
 			  }); 
 		});		
@@ -66,7 +66,7 @@
 							value="#{insuranceAction.machines.idMachine}"
 							styleClass="colTextoMediano" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccionar}" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" />
 							<f:selectItems value="#{insuranceAction.machinesList}" />
 						</h:selectOneMenu>
 						<rich:message for="maquina" />
@@ -142,7 +142,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmacion}">
+				maxWidth="500" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -165,7 +165,7 @@
 						<h:outputText value="#{mensajeMachine.insurance_label_maquina}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(insuranceAction.machinesList, insuranceAction.machines.idMachine)}" />
-						<h:outputText value="#{mensaje.label_descripcion}:" />
+						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText value="#{insuranceAction.insurance.descripcion}" />
 						<h:outputText value="#{mensaje.label_fecha}:" />
 						<h:outputText value="#{insuranceAction.insurance.dateTime}" />

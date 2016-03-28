@@ -135,8 +135,7 @@
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						value="#{machineUsageAction.nameMachine}"
 						onkeypress="return submitByEnter(event, 'formBuscar:btnBuscar')">
-						<f:selectItem itemValue="0"
-							itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemValue="0" itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{machineUsageAction.itemsMachines}" />
 					</h:selectOneMenu>
 
@@ -146,8 +145,7 @@
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						value="#{machineUsageAction.year}"
 						onkeypress="return submitByEnter(event, 'formBuscar:btnBuscar')">
-						<f:selectItem itemValue="0"
-							itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemValue="0" itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{machineUsageAction.itemsYears}" />
 					</h:selectOneMenu>
 
@@ -166,7 +164,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -182,7 +180,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{machineUsageAction.machineUsage.usage}" />
 					</ui:define>
 					<ui:define name="botones">

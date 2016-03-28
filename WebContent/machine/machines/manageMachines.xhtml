@@ -210,11 +210,10 @@
 					<h:selectOneMenu id="tipoMaquina" styleClass="colTextoCorto"
 						value="#{machinesAction.nameMachines}"
 						onkeypress="return submitByEnter(event,'formBuscar:tipoMaquina')">
-						<f:selectItem itemValue="0"
-							itemLabel="#{mensaje.label_seleccionar}" />
+						<f:selectItem itemValue="0" itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{machinesAction.itemsMachinesType}" />
 					</h:selectOneMenu>
-					<h:outputText value="#{mensaje.label_nombre}"
+					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar" value="#{machinesAction.nameSearch}"
@@ -240,7 +239,7 @@
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -256,7 +255,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{machinesAction.machines.name}" />
 					</ui:define>
 					<ui:define name="botones">

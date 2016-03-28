@@ -24,7 +24,7 @@
 					columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_nombre}" />
+						value="#{mensaje.label_name}" />
 					<h:outputText value="" />
 					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
 						<h:inputText id="nombre" styleClass="colTextoLargo"
@@ -36,8 +36,7 @@
 							<h:graphicImage value="/img/nota_16.png"
 								styleClass="verticalAlignMiddle" />
 							<rich:tooltip layout="block">
-								<h:outputText
-									value="#{messageSecurity.icon_message_name_empty}" />
+								<h:outputText value="#{messageSecurity.icon_message_name_empty}" />
 							</rich:tooltip>
 						</a:outputPanel>
 					</h:panelGrid>
@@ -114,7 +113,7 @@
 		<h:form id="formModificacion">
 			<rich:popupPanel id="confirmacionPopUp" modal="true" autosized="true"
 				maxWidth="500" resizeable="false"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -130,7 +129,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}:" />
+						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{iconoAction.icon.nombre}" />
 					</ui:define>
 					<ui:define name="botones">

@@ -527,9 +527,9 @@ public class DepartamentoEmpresaAction implements Serializable {
 			this.opcionesVigencia = new ArrayList<SelectItem>();
 			// Enter valid options
 			this.opcionesVigencia.add(new SelectItem(true, bundle
-					.getString("label_vigentes")));
+					.getString("label_current")));
 			this.opcionesVigencia.add(new SelectItem(false, bundle
-					.getString("label_no_vigentes")));
+					.getString("label_not_current")));
 
 			this.listaDepartamentoEmpresas = new ArrayList<DepartamentoEmpresa>();
 			long cantidadRegistros = 0;
@@ -558,7 +558,7 @@ public class DepartamentoEmpresaAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			} else if (this.listaDepartamentoEmpresas == null
 					|| this.listaDepartamentoEmpresas.size() <= 0) {
@@ -571,7 +571,7 @@ public class DepartamentoEmpresaAction implements Serializable {
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleOrg
 										.getString("departamento_empresa_label_s"),
-								bundle.getString("label_nombre") + ": " + '"'
+								bundle.getString("label_name") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			}
 			validaciones.setMensajeBusqueda(mensajeBusqueda);

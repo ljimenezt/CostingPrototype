@@ -62,7 +62,7 @@
 							<rich:message for="txtRazonSocial" />
 
 							<h:outputText
-								value="#{mensaje.label_nit}/#{mensaje.label_documento}"
+								value="#{mensaje.label_identification}/#{mensaje.label_document}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText styleClass="colTextoMediano" id="txtNit"
@@ -72,7 +72,7 @@
 							</h:inputText>
 							<rich:message for="txtNit" />
 
-							<h:outputText value="#{mensaje.label_direccion}"
+							<h:outputText value="#{mensaje.label_address}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="" />
 							<h:inputText styleClass="colTextoMediano" id="txtDireccion"
@@ -82,7 +82,7 @@
 							</h:inputText>
 							<rich:message for="txtDireccion" />
 
-							<h:outputText value="#{mensaje.label_telefono}"
+							<h:outputText value="#{mensaje.label_telephone_number}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="" />
 							<h:inputText styleClass="colTextoMediano" id="txtTelefono"
@@ -190,7 +190,7 @@
 		<h:form id="formConfirmacion">
 			<rich:popupPanel id="confirmacionPopUp" modal="true" autosized="true"
 				width="500" resizeable="false"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -216,13 +216,13 @@
 							value="#{organizacionAction.organizacion.razonSocial}" />
 
 						<h:outputText
-							value="#{mensaje.label_nit}/#{mensaje.label_documento}" />
+							value="#{mensaje.label_identification}/#{mensaje.label_document}" />
 						<h:outputText value="#{organizacionAction.organizacion.nit}" />
 
-						<h:outputText value="#{mensaje.label_direccion}" />
+						<h:outputText value="#{mensaje.label_address}" />
 						<h:outputText value="#{organizacionAction.organizacion.direccion}" />
 
-						<h:outputText value="#{mensaje.label_telefono}" />
+						<h:outputText value="#{mensaje.label_telephone_number}" />
 						<h:outputText value="#{organizacionAction.organizacion.telefono}" />
 					</ui:define>
 					<ui:define name="botones">

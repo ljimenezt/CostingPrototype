@@ -522,7 +522,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 							.getIdActivity()) {
 						this.selectedActivity = activity;
 						activitiesAndHrAction
-								.setActividadSeleccionada(selectedActivity);
+								.setSelectedActivity(selectedActivity);
 					} else {
 						activityTemp.setSeleccionado(false);
 					}
@@ -616,7 +616,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 						.format(bundle.getString(registerMessage),
 								activitiesAndHr.getActivitiesAndHrPK().getHr()
 										.getName()));
-				activitiesAndHrAction.consultarActivitiesAndHrXActividad();
+				activitiesAndHrAction.consultActivitiesAndHrByActivity();
 			} else {
 				ScheduledActivitiesAction scheduledActivitiesAction = ControladorContexto
 						.getContextBean(ScheduledActivitiesAction.class);
@@ -732,7 +732,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 						activitiesAndHrAction
 								.setActivitiesAndHr(activitiesAndHr);
 						activitiesAndHrAction.setWorkHoursValid(true);
-						activitiesAndHrAction.validarWorkLoad(duration, idHr,
+						activitiesAndHrAction.validateWorkLoad(duration, idHr,
 								fromModal);
 						if (!activitiesAndHrAction.isWorkHoursValid()) {
 							String message = "message_overtime_week";
