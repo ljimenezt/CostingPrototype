@@ -37,7 +37,7 @@
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-					columnClasses="tdAlignTop,,,tdAlignTop">
+					columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 
 					<h:outputText
 						value="#{mensajeMachine.maintenance_lines_label_machine_name}"
@@ -71,12 +71,13 @@
 
 					<h:outputText styleClass="etiquetaTitulo"
 						value="#{mensaje.label_descripcion}" />
-					<h:outputText value="" />
+					<h:outputText value="*" styleClass="required" />
 					<h:inputTextarea
 						value="#{maintenanceLinesAction.maintenanceLines.description}"
 						styleClass="colTextoMedianoTextArea" id="txaDescription"
-						validator="#{encodeFilter.validarScripting}">
-						<f:validateLength maximum="250" />
+						validator="#{encodeFilter.validarScripting}" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:validateLength maximum="200" />
 					</h:inputTextarea>
 					<rich:message for="txaDescription" />
 

@@ -54,6 +54,11 @@
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
+					
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeMachine.maintenance_lines_label_machine_name}</f:facet>
+						<h:outputText value="#{maintenanceLines.machines.name}" />
+					</rich:column>
 
 					<rich:column styleClass="colValor">
 						<f:facet name="header">#{mensajeMachine.maintenance_lines_label_budget_cost}</f:facet>
