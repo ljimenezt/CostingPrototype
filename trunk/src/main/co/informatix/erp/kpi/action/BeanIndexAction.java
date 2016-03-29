@@ -160,7 +160,7 @@ public class BeanIndexAction implements Serializable {
 	}
 
 	/**
-	 * This method allow initialize the needles variables to create a report
+	 * This method allow initialize the needles variables to create a report.
 	 * 
 	 * @return rptGeneralTrend : Display the view to manage the report.
 	 */
@@ -233,9 +233,9 @@ public class BeanIndexAction implements Serializable {
 	 * @param parameters
 	 *            : list of search parameters.
 	 * @param bundle
-	 *            :access language tags
+	 *            :access language tags.
 	 * @param jointSearchMessages
-	 *            : message search
+	 *            : message search.
 	 */
 	private void advancedSearch(StringBuilder queryBuilder,
 			List<SelectItem> parameters, ResourceBundle bundle,
