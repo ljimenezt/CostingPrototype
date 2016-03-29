@@ -9,7 +9,7 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	<h:form id="seleccionarTrabajador">
-		<rich:popupPanel id="popupTrabajador" autosized="true" maxWidth="430"
+		<rich:popupPanel id="popupTrabajador" autosized="true" maxWidth="490"
 			domElementAttachment="form"
 			header="#{mensajeCosts.activities_and_hr_label_trabajadores} #{mensaje.label_para} #{activitiesAndHrAction.selectedActivity.activityName.activityName}">
 			<f:facet name="controls">
@@ -31,7 +31,7 @@
 									value="#{mensajeRecursosHumanos.tipo_recurso_humano_label}"
 									styleClass="etiquetaTitulo" />
 								<h:selectOneMenu id="trabajador"
-									value="#{activitiesAndHrAction.idWorker}" styleClass="W180P"
+									value="#{activitiesAndHrAction.idWorker}" styleClass="W225P"
 									required="true">
 									<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
 									<f:selectItems value="#{activitiesAndHrAction.listTypeWorker}" />
@@ -43,7 +43,7 @@
 								<h:outputText styleClass="etiquetaTitulo"
 									value="#{mensaje.label_name}" />
 								<h:inputText value="#{activitiesAndHrAction.nameSearch}"
-									styleClass="colTextoCorto" id="txtName"
+									styleClass="colTextoMediano" id="txtName"
 									onkeypress="return submitByEnter(event,'seleccionarTrabajador:btnBuscar')">
 								</h:inputText>
 							</h:panelGrid>
@@ -54,9 +54,6 @@
 									render="outputBuscar msjSearch">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
-								<a:commandButton
-									onclick="#{rich:component('popupTrabajador')}.hide()"
-									value="#{mensaje.button_cancel}" />
 							</div>
 
 						</t:fieldset>
