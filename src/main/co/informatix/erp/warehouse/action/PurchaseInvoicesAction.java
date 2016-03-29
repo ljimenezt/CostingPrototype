@@ -2,7 +2,9 @@ package co.informatix.erp.warehouse.action;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -11,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -38,10 +41,15 @@ public class PurchaseInvoicesAction implements Serializable {
 	private SuppliersDao suppliersDao;
 
 	private String searchNumber;
+	private String searchSupplier;
 
 	private List<PurchaseInvoices> listInovoices;
 	private PurchaseInvoices invoices;
+	private PurchaseInvoices invoicesActualSelected;
 	private List<SelectItem> itemsSupplier;
+
+	private Date initialDateSearch;
+	private Date finalDateSearch;
 
 	private Paginador pagerForm = new Paginador();
 	private Paginador pagination = new Paginador();
@@ -61,6 +69,23 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void setSearchNumber(String searchNumber) {
 		this.searchNumber = searchNumber;
+	}
+
+	/**
+	 * @return searchSupplier: gets the supplier name by which you want to
+	 *         consult purchases invoices
+	 */
+	public String getSearchSupplier() {
+		return searchSupplier;
+	}
+
+	/**
+	 * @param searchSupplier
+	 *            : gets the supplier name by which you want to consult
+	 *            purchases invoices
+	 */
+	public void setSearchSupplier(String searchSupplier) {
+		this.searchSupplier = searchSupplier;
 	}
 
 	/**
@@ -110,6 +135,38 @@ public class PurchaseInvoicesAction implements Serializable {
 	}
 
 	/**
+	 * @return initialDateSearch: gets the initial date of the supplier to
+	 *         search in a range.
+	 */
+	public Date getInitialDateSearch() {
+		return initialDateSearch;
+	}
+
+	/**
+	 * @param initialDateSearch
+	 *            :sets the initial date of the supplier to search in a range.
+	 */
+	public void setInitialDateSearch(Date initialDateSearch) {
+		this.initialDateSearch = initialDateSearch;
+	}
+
+	/**
+	 * @return finalDateSearch: gets the final date of the supplier to search in
+	 *         a range.
+	 */
+	public Date getFinalDateSearch() {
+		return finalDateSearch;
+	}
+
+	/**
+	 * @param finalDateSearch
+	 *            :sets the final date of the supplier to search in a range.
+	 */
+	public void setFinalDateSearch(Date finalDateSearch) {
+		this.finalDateSearch = finalDateSearch;
+	}
+
+	/**
 	 * @return pagerForm: Management purchases invoices paged list from search
 	 *         engine.
 	 */
@@ -144,11 +201,16 @@ public class PurchaseInvoicesAction implements Serializable {
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
+	 * @modify 29/03/2016 Wilhelm.Boada
+	 * 
 	 * @return consultInvoices: Method that consultation purchase invoices and
 	 *         load the template with the information found
 	 */
 	public String searchInitialize() {
 		this.searchNumber = "";
+		this.searchSupplier = "";
+		this.initialDateSearch = null;
+		this.finalDateSearch = null;
 		return consultInvoices();
 	}
 
@@ -226,6 +288,8 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * assemble messages to display depending on the search criteria selected by
 	 * the user.
 	 * 
+	 * @modify 29/03/2016 Wilhelm.Boada
+	 * 
 	 * @param consult
 	 *            : query to concatenate
 	 * @param parameters
@@ -240,8 +304,30 @@ public class PurchaseInvoicesAction implements Serializable {
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			ResourceBundle bundleWarehouse, StringBuilder unionSearchMessages) {
-		if ((this.searchNumber != null && !"".equals(this.searchNumber))) {
+		boolean flag = false;
+		SimpleDateFormat formatDate = new SimpleDateFormat(
+				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
+
+		if ((this.searchSupplier != null && !"".equals(this.searchSupplier))) {
 			consult.append("WHERE ");
+			consult.append(" UPPER(s.name) LIKE UPPER(:keywordSupplier) ");
+			SelectItem itemNombre = new SelectItem("%" + this.searchSupplier
+					+ "%", "keywordSupplier");
+			parameters.add(itemNombre);
+			unionSearchMessages.append(bundleWarehouse
+					.getString("suppliers_label_nombre")
+					+ ": "
+					+ '"'
+					+ this.searchSupplier + '"' + " ");
+			flag = true;
+		}
+
+		if ((this.searchNumber != null && !"".equals(this.searchNumber))) {
+			if (flag) {
+				consult.append("AND ");
+			} else {
+				consult.append("WHERE ");
+			}
 			consult.append(" UPPER(pi.invoiceNumber) LIKE UPPER(:keywordNumber) ");
 			SelectItem itemNombre = new SelectItem("%" + this.searchNumber
 					+ "%", "keywordNumber");
@@ -251,7 +337,32 @@ public class PurchaseInvoicesAction implements Serializable {
 					+ ": "
 					+ '"'
 					+ this.searchNumber + '"' + " ");
+			flag = true;
 		}
+
+		if (this.initialDateSearch != null && this.finalDateSearch != null) {
+			if (flag) {
+				consult.append("AND ");
+			} else {
+				consult.append("WHERE ");
+			}
+			consult.append("pi.dateTime BETWEEN :initialDateSearch AND :finalDateSearch ");
+			SelectItem item = new SelectItem(initialDateSearch,
+					"initialDateSearch");
+			parameters.add(item);
+			SelectItem item2 = new SelectItem(finalDateSearch,
+					"finalDateSearch");
+			parameters.add(item2);
+			String dateFrom = bundle.getString("label_fecha_inicio") + ": "
+					+ '"' + formatDate.format(this.initialDateSearch) + '"'
+					+ " ";
+			unionSearchMessages.append(dateFrom);
+
+			String dateTo = bundle.getString("label_fecha_finalizacion") + ": "
+					+ '"' + formatDate.format(finalDateSearch) + '"' + " ";
+			unionSearchMessages.append(dateTo);
+		}
+		flag = false;
 	}
 
 	/**
@@ -291,6 +402,29 @@ public class PurchaseInvoicesAction implements Serializable {
 			for (Suppliers supplier : supplierList) {
 				itemsSupplier.add(new SelectItem(supplier.getIdSupplier(),
 						supplier.getName()));
+			}
+		}
+	}
+
+	/**
+	 * Selects a single purchase invoice for display the associated transaction
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param invoiceSelected
+	 *            : invoice selected on the view
+	 */
+	public void selectInvoice(PurchaseInvoices invoiceSelected) {
+		this.invoicesActualSelected = new PurchaseInvoices();
+		invoicesActualSelected.setSelected(true);
+		for (PurchaseInvoices invoice : listInovoices) {
+			if (invoice.isSelected()) {
+				if (invoice.getIdPurchaseInvoice() == invoicesActualSelected
+						.getIdPurchaseInvoice()) {
+					this.invoicesActualSelected = invoice;
+				} else {
+					invoice.setSelected(false);
+				}
 			}
 		}
 	}

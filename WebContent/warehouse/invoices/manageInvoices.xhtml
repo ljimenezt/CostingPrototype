@@ -1,0 +1,218 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="purchaseInvoicesAction.searchInitialize" />
+	<ui:param name="titulo"
+		value="mensaje.label_gestionar,mensajeWarehouse.purchase_invoice_label" />
+
+	<ui:define name="body">
+		<t:saveState value="#{purchaseInvoicesAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		      $g=jQuery.noConflict();
+		</script>
+		<ui:param name="listaVacia"
+			value="#{purchaseInvoicesAction.listInovoices eq null or (empty purchaseInvoicesAction.listInovoices)}" />
+		<ui:param name="anchoTabla" value="anchoDos" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{purchaseInvoicesAction}" />
+		<ui:param name="renderLista"
+			value="panelPurchaseInvoices vigenciaPopup" />
+		<ui:param name="metodoLista" value="consultInvoices" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="purchaseInvoicesAction" />
+		<ui:param name="metodoNuevo" value="addEditInvoices" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
+		<ui:param name="popupBuscar" value="popupSearch" />
+		<ui:param name="metodoListarTodos" value="searchInitialize" />
+
+		<h:form id="formPurchaseInvoices">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listado_de} #{mensajeWarehouse.purchase_invoice_label_s}"
+				id="panelPurchaseInvoices">
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<rich:dataTable value="#{purchaseInvoicesAction.listInovoices}"
+					var="invoice" id="invoiceTable" footerClass="H100P"
+					styleClass="#{listEmpty ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row">
+					<rich:column styleClass="colIconoUno">
+						<a:commandLink render="formPurchaseInvoices, invoiceTable"
+							actionListener="#{purchaseInvoicesAction.selectInvoice(invoice)}"
+							oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+							<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+								styleClass="verticalAlignMiddle"
+								rendered="#{invoice.selected eq true}" />
+							<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+								styleClass="verticalAlignMiddle"
+								rendered="#{invoice.selected eq false}" />
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_number}</f:facet>
+						<h:outputText value="#{invoice.invoiceNumber}" />
+					</rich:column>
+					<rich:column styleClass="colTextoXCorto center">
+						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_date}</f:facet>
+						<h:outputText value="#{invoice.dateTime}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensajeWarehouse.suppliers_label}</f:facet>
+						<h:outputText value="#{invoice.suppliers.name}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
+						<h:outputText value="#{invoice.subtotal}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_shipping}</f:facet>
+						<h:outputText value="#{invoice.shipping}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_packaging}</f:facet>
+						<h:outputText value="#{invoice.packaging}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_taxes}</f:facet>
+						<h:outputText value="#{invoice.taxes}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_discount}</f:facet>
+						<h:outputText value="#{invoice.discount}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensaje.label_total}</f:facet>
+						<h:outputText value="#{invoice.totalValueActual}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensaje.label_document}</f:facet>
+						<h:outputText value="#{invoice.invoiceDocumentLink}" />
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensaje.label_note}</f:facet>
+						<h:outputText value="#{invoice.note}" />
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listEmpty}">
+							<rich:column colspan="6" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="botonesAbajo" value="si" />
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="#{anchoTabla} center inBlock">
+						<ui:include src="/plantillas/templatePagination.xhtml">
+							<ui:param name="valReder" value="panelPurchaseInvoices" />
+							<ui:param name="beanActionParam"
+								value="#{purchaseInvoicesAction}" />
+							<ui:param name="metodoActionParam" value="consultInvoices" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formSearch">
+			<rich:popupPanel id="popupSearch" autosized="true" width="330"
+				maxWidth="450" height="180"
+				header="#{mensaje.button_search}  #{mensajeWarehouse.purchase_invoice_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupSearch')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<a:outputPanel id="outPutSearch">
+					<script type="text/javascript">
+		     			 $g=jQuery.noConflict();
+					</script>
+					<rich:messages id="messagePopUp" styleClass="messageBlock" />
+					<h:panelGrid columns="4" cellpadding="0">
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_number}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText size="30" maxlength="100" id="txtSearchNumber"
+							value="#{purchaseInvoicesAction.searchNumber}"
+							onkeypress="return submitByEnter(event,'popupSearch:btnSearch)" />
+						<h:outputText value="" />
+
+						<h:outputText value="#{mensajeWarehouse.suppliers_label_nombre}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputText size="30" maxlength="100" id="txtSearchSupplier"
+							value="#{purchaseInvoicesAction.searchSupplier}"
+							onkeypress="return submitByEnter(event,'popupSearch:btnSearch')" />
+						<h:outputText value="" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_fecha_inicio}:" />
+						<h:outputText value="" />
+						<p:calendar value="#{purchaseInvoicesAction.initialDateSearch}"
+							readonlyInput="true" showOn="button" navigator="true"
+							onSelectUpdate="endDate" id="startDate" pattern="MM/dd/yyyy"
+							label="#{mensaje.label_fecha_inicio}">
+							<p:ajax process="@form" event="dateSelect"
+								update="formSearch:outPutSearch" />
+						</p:calendar>
+						<h:outputText value="" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_fecha_finalizacion}:" />
+						<h:outputText value="*" styleClass="required"
+							rendered="#{purchaseInvoicesAction.initialDateSearch ne null}" />
+						<h:outputText value=""
+							rendered="#{purchaseInvoicesAction.initialDateSearch eq null}" />
+						<p:calendar value="#{purchaseInvoicesAction.finalDateSearch}"
+							readonlyInput="true"
+							disabled="#{purchaseInvoicesAction.initialDateSearch eq null}"
+							showOn="button" navigator="true" required="true"
+							mindate="#{purchaseInvoicesAction.initialDateSearch}"
+							id="endDate" pattern="MM/dd/yyyy"
+							onkeypress="return submitByEnter(event,'popupSearch:btnSearch')"
+							label="#{mensaje.label_fecha_finalizacion}" />
+					</h:panelGrid>
+				</a:outputPanel>
+				<br />
+				<div class="W350P center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
+						actionListener="#{purchaseInvoicesAction.consultInvoices()}"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupSearch')}.hide();}"
+						render="panelPurchaseInvoices mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
