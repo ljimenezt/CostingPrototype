@@ -118,8 +118,7 @@
             /warehouse/materials/faces-config-materials.xml,
             /warehouse/deposits/faces-config-deposits.xml,
             /warehouse/transactionType/faces-config-transactionType.xml,
-            
-
+            /warehouse/invoices/faces-config-invoices.xml,          
 
 			/costs/activities/faces-config-activities.xml,
 			/costs/cycleStandardActivities/faces-config-cycleStandardActivities.xml,

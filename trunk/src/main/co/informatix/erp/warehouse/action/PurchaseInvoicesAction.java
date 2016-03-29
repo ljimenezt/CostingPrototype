@@ -15,6 +15,7 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.PurchaseInvoicesDao;
+import co.informatix.erp.warehouse.dao.SuppliersDao;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
 import co.informatix.erp.warehouse.entities.Suppliers;
 
@@ -33,11 +34,14 @@ public class PurchaseInvoicesAction implements Serializable {
 
 	@EJB
 	private PurchaseInvoicesDao purchaseInvoicesDao;
+	@EJB
+	private SuppliersDao suppliersDao;
 
 	private String searchNumber;
 
 	private List<PurchaseInvoices> listInovoices;
 	private PurchaseInvoices invoices;
+	private List<SelectItem> itemsSupplier;
 
 	private Paginador pagerForm = new Paginador();
 	private Paginador pagination = new Paginador();
@@ -87,6 +91,22 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void setInvoices(PurchaseInvoices invoices) {
 		this.invoices = invoices;
+	}
+
+	/**
+	 * @return itemsSupplier: List of supplier that are loaded into the user
+	 *         interface.
+	 */
+	public List<SelectItem> getItemsSupplier() {
+		return itemsSupplier;
+	}
+
+	/**
+	 * @param itemsSupplier
+	 *            :List of supplier that are loaded into the user interface.
+	 */
+	public void setItemsSupplier(List<SelectItem> itemsSupplier) {
+		this.itemsSupplier = itemsSupplier;
 	}
 
 	/**
@@ -244,6 +264,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public String addEditInvoices(PurchaseInvoices invoices) {
 		try {
+			loadSuppliers();
 			if (invoices != null) {
 				this.invoices = invoices;
 			} else {
@@ -254,5 +275,23 @@ public class PurchaseInvoicesAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return "regInvoice";
+	}
+
+	/**
+	 * This method allows you to load the suppliers in interface for registering
+	 * a new invoice.
+	 * 
+	 * 
+	 * @throws Exception
+	 */
+	private void loadSuppliers() throws Exception {
+		itemsSupplier = new ArrayList<SelectItem>();
+		List<Suppliers> supplierList = suppliersDao.querySuppliers();
+		if (supplierList != null) {
+			for (Suppliers supplier : supplierList) {
+				itemsSupplier.add(new SelectItem(supplier.getIdSupplier(),
+						supplier.getName()));
+			}
+		}
 	}
 }

@@ -1,0 +1,190 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="purchaseInvoicesAction.addEditInvoices(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,mensajeWarehouse.purchase_invoice_label" />
+	<ui:define name="body">
+		<t:saveState value="#{purchaseInvoicesAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+			$g(document).ready(function(){    
+				  $('#formInvoices\\:txaDescription').maxlength({   
+				    events: [],     
+				    max: 200,    
+				    feedbackText: "#{mensaje.label_characters_left}",  
+				    showFeedback: 'active'    
+				  }); 
+			});		
+		</script>
+		<h:form id="formInvoices">
+			<rich:panel
+				header="#{mensaje.label_registrar} #{mensajeWarehouse.purchase_invoice_label}"
+				styleClass="anchoUno MinH253P" id="pnlInvoices">
+				<h:panelGrid columns="4"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,tdAlignTop">
+
+					<h:outputText
+						value="#{mensajeWarehouse.purchase_invoice_label_date}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar required="true" readonlyInput="true"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						value="#{purchaseInvoicesAction.invoices.dateTime}"
+						styleClass="W100P" id="dateInvoice" showOn="button"
+						navigator="true" pattern="MM/dd/yyyy HH:mm"
+						converterMessage="#{mensaje.message_validar_formato_fecha}" />
+					<rich:message for="dateInvoice" />
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensajeWarehouse.suppliers_label}" />
+					<h:outputText value="*" styleClass="required" />
+					<h:selectOneMenu
+						value="#{purchaseInvoicesAction.invoices.suppliers.idSupplier}"
+						id="supplier" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+							itemValue="0" />
+						<f:selectItems value="#{purchaseInvoicesAction.itemsSupplier}" />
+					</h:selectOneMenu>
+					<rich:message for="supplier" />
+
+					<h:outputText
+						value="#{mensajeWarehouse.purchase_invoice_label_number}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText
+						value="#{purchaseInvoicesAction.invoices.invoiceNumber}"
+						styleClass="colTextoMediano" id="txtNumInv" required="true"
+						size="50" maxlength="50"
+						validator="#{encodeFilter.validarScripting}"
+						requiredMessage="#{mensaje.message_campo_requerido}" />
+					<rich:message for="txtNumInv" />
+
+					<h:outputText value="#{mensaje.label_subtotal}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText readonly="true" id="subTotalValue" required="true"
+						value="#{purchaseInvoicesAction.invoices.subtotal}"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						converterMessage="#{mensaje.message_juego_caracter_numeros}"
+						styleClass="W108P">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:inputText>
+					<rich:message for="subTotalValue" />
+
+					<h:outputText
+						value="#{mensajeWarehouse.purchase_invoice_label_taxes}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText readonly="true" id="taxes" required="true"
+						value="#{purchaseInvoicesAction.invoices.taxes}"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						converterMessage="#{mensaje.message_juego_caracter_numeros}"
+						styleClass="W108P">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:inputText>
+					<rich:message for="taxes" />
+
+					<h:outputText
+						value="#{mensajeWarehouse.purchase_invoice_label_shipping}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText readonly="true" id="shipping" required="true"
+						value="#{purchaseInvoicesAction.invoices.shipping}"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						converterMessage="#{mensaje.message_juego_caracter_numeros}"
+						styleClass="W108P">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:inputText>
+					<rich:message for="shipping" />
+
+					<h:outputText value="#{mensaje.label_total}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText readonly="true" id="totalValue" required="true"
+						value="#{purchaseInvoicesAction.invoices.totalValueActual}"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						converterMessage="#{mensaje.message_juego_caracter_numeros}"
+						styleClass="W108P">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:inputText>
+					<rich:message for="totalValue" />
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensaje.label_note}" />
+					<h:outputText value="" />
+					<h:inputTextarea value="#{purchaseInvoicesAction.invoices.note}"
+						styleClass="colTextoMedianoTextArea" id="txaDescription"
+						validator="#{encodeFilter.validarScripting}">
+						<f:validateLength maximum="200" />
+					</h:inputTextarea>
+					<rich:message for="txaDescription" />
+
+
+				</h:panelGrid>
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						execute="formInvoices"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_save}" />
+				</div>
+			</rich:panel>
+		</h:form>
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_number}" />
+						<h:outputText
+							value="#{purchaseInvoicesAction.invoices.invoiceNumber}" />
+						<h:outputText value="#{mensaje.label_description}:" />
+						<h:outputText value="#{purchaseInvoicesAction.invoices.note}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
