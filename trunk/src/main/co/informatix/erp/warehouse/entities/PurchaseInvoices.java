@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * This is the entity that is responsible for mapping the purchase_invoices
@@ -40,6 +41,7 @@ public class PurchaseInvoices implements Serializable {
 	private Double discount;
 	private String note;
 	private String invoiceDocumentLink;
+	private boolean selected;
 
 	/**
 	 * @return idpurchaseinvoice: Purchase invoices identifier
@@ -236,6 +238,24 @@ public class PurchaseInvoices implements Serializable {
 	 */
 	public void setInvoiceDocumentLink(String invoiceDocumentLink) {
 		this.invoiceDocumentLink = invoiceDocumentLink;
+	}
+
+	/**
+	 * @return selected: Flag to see if it is selected deposit, true is selected
+	 *         and false is not selected
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : Flag to see if it is selected purchase invoices, true is
+	 *            selected and false is not selected
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override

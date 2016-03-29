@@ -70,6 +70,7 @@ public class PurchaseInvoicesDao implements Serializable {
 	 * filtering information search by the values sent.
 	 * 
 	 * @author Liseth.Jimenez
+	 * @modify 29/03/2016 Wilhelm.Boada
 	 * 
 	 * @param consult
 	 *            : String containing the query why the filter purchase
@@ -83,6 +84,7 @@ public class PurchaseInvoicesDao implements Serializable {
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(pi) FROM PurchaseInvoices pi ");
+		query.append("JOIN pi.suppliers s ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
@@ -96,6 +98,7 @@ public class PurchaseInvoicesDao implements Serializable {
 	 * parameter and filtering the information by the values of sent search.
 	 * 
 	 * @author Liseth.Jimenez
+	 * @modify 29/03/2016 Wilhelm.Boada
 	 * 
 	 * @param start
 	 *            : where he started the consultation record
@@ -115,7 +118,7 @@ public class PurchaseInvoicesDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT pi FROM PurchaseInvoices pi ");
-		query.append("JOIN FETCH pi.suppliers ");
+		query.append("JOIN FETCH pi.suppliers s ");
 		query.append(consult);
 		query.append("ORDER BY pi.invoiceNumber ");
 		Query q = em.createQuery(query.toString());
