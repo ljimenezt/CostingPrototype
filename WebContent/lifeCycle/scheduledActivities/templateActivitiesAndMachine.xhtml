@@ -30,7 +30,7 @@
 								<h:outputText value="#{mensajeMachine.machines_label_types}"
 									styleClass="etiquetaTitulo" />
 								<h:selectOneMenu id="machine"
-									value="#{machinesAction.nameMachines}" styleClass="W180P"
+									value="#{machinesAction.nameMachines}" styleClass="W225P"
 									required="true">
 									<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
 									<f:selectItems
@@ -43,7 +43,7 @@
 								<h:outputText styleClass="etiquetaTitulo"
 									value="#{mensaje.label_name}" />
 								<h:inputText value="#{machinesAction.nameSearch}"
-									styleClass="colTextoCorto" id="txtName"
+									styleClass="colTextoMediano" id="txtName"
 									onkeypress="return submitByEnter(event,'selectMachines:btnBuscar')">
 								</h:inputText>
 							</h:panelGrid>
@@ -54,9 +54,6 @@
 									render="outputBuscar msjSearch">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
-								<a:commandButton
-									onclick="#{rich:component('popupMachines')}.hide()"
-									value="#{mensaje.button_cancel}" />
 							</div>
 
 						</t:fieldset>
