@@ -50,7 +50,7 @@
 				</ui:include>
 				<rich:dataTable value="#{purchaseInvoicesAction.listInovoices}"
 					var="invoice" id="invoiceTable" footerClass="H100P"
-					styleClass="#{listEmpty ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row">
 					<rich:column styleClass="colIconoUno">
 						<a:commandLink render="formPurchaseInvoices, invoiceTable"
@@ -112,8 +112,8 @@
 						<h:outputText value="#{invoice.note}" />
 					</rich:column>
 					<f:facet name="footer">
-						<rich:columnGroup rendered="#{listEmpty}">
-							<rich:column colspan="6" styleClass="footTabla">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="12" styleClass="footTabla">
 								<h:outputText
 									value="#{mensaje.message_no_existen_registros_tabla}" />
 							</rich:column>
