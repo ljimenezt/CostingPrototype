@@ -16,12 +16,14 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.PurchaseInvoicesDao;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
+import co.informatix.erp.warehouse.entities.Suppliers;
 
 /**
  * This class is all related logic with creating, updating and removal of
  * purchase invoices.
  * 
  * @author Liseth.Jimenez
+ * @modify 28/03/2016 Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -35,6 +37,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	private String searchNumber;
 
 	private List<PurchaseInvoices> listInovoices;
+	private PurchaseInvoices invoices;
 
 	private Paginador pagerForm = new Paginador();
 	private Paginador pagination = new Paginador();
@@ -69,6 +72,21 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void setListInovoices(List<PurchaseInvoices> listInovoices) {
 		this.listInovoices = listInovoices;
+	}
+
+	/**
+	 * @return invoice: sets object of purchases invoices
+	 */
+	public PurchaseInvoices getInvoices() {
+		return invoices;
+	}
+
+	/**
+	 * @param invoice
+	 *            :gets object of purchases invoices
+	 */
+	public void setInvoices(PurchaseInvoices invoices) {
+		this.invoices = invoices;
 	}
 
 	/**
@@ -133,7 +151,7 @@ public class PurchaseInvoicesAction implements Serializable {
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
 				: false;
-		String giveBack = fromModal ? "" : "manageInvoices";
+		String giveBack = fromModal ? "" : "manInvoices";
 		this.listInovoices = new ArrayList<PurchaseInvoices>();
 		try {
 			advancedSearch(consult, parameters, bundle, bundleWarehouse,
@@ -214,5 +232,27 @@ public class PurchaseInvoicesAction implements Serializable {
 					+ '"'
 					+ this.searchNumber + '"' + " ");
 		}
+	}
+
+	/**
+	 * Method to edit or create a new invoice.
+	 * 
+	 * @param invoices
+	 *            :invoice are adding or editing
+	 * 
+	 * @return "regInvoice":redirected to the template record invoice.
+	 */
+	public String addEditInvoices(PurchaseInvoices invoices) {
+		try {
+			if (invoices != null) {
+				this.invoices = invoices;
+			} else {
+				this.invoices = new PurchaseInvoices();
+				this.invoices.setSuppliers(new Suppliers());
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return "regInvoice";
 	}
 }

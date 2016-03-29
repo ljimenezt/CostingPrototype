@@ -33,6 +33,13 @@ public class PurchaseInvoices implements Serializable {
 	private Suppliers suppliers;
 	private Double totalValueActual;
 	private String invoiceNumber;
+	private Double subtotal;
+	private Double shipping;
+	private Double packaging;
+	private Double taxes;
+	private Double discount;
+	private String note;
+	private String invoiceDocumentLink;
 
 	/**
 	 * @return idpurchaseinvoice: Purchase invoices identifier
@@ -118,13 +125,135 @@ public class PurchaseInvoices implements Serializable {
 		this.invoiceNumber = invoiceNumber;
 	}
 
+	/**
+	 * @return subtotal: Gets subtotal of the purshace invoices
+	 */
+	public Double getSubtotal() {
+		return subtotal;
+	}
+
+	/**
+	 * @param subtotal
+	 *            :Sets subtotal of the purshace invoices
+	 */
+	public void setSubtotal(Double subtotal) {
+		this.subtotal = subtotal;
+	}
+
+	/**
+	 * @return shipping :Gets shipping of the purchase invoices
+	 */
+	public Double getShipping() {
+		return shipping;
+	}
+
+	/**
+	 * @param shipping
+	 *            :Sets shipping of the purchase invoices
+	 */
+	public void setShipping(Double shipping) {
+		this.shipping = shipping;
+	}
+
+	/**
+	 * @return packaging :Gets packaging of he purchase invoices
+	 */
+	public Double getPackaging() {
+		return packaging;
+	}
+
+	/**
+	 * @param packaging
+	 *            :Sets packaging of he purchase invoices
+	 */
+	public void setPackaging(Double packaging) {
+		this.packaging = packaging;
+	}
+
+	/**
+	 * @return taxes: Gets taxes of the purchase invoices
+	 */
+	public Double getTaxes() {
+		return taxes;
+	}
+
+	/**
+	 * @param taxes
+	 *            :Sets taxes of the purchase invoices
+	 */
+	public void setTaxes(Double taxes) {
+		this.taxes = taxes;
+	}
+
+	/**
+	 * @return discount: Gets discount of the purchase invoices
+	 */
+	public Double getDiscount() {
+		return discount;
+	}
+
+	/**
+	 * @param discount
+	 *            :Sets discount of the purchase invoices
+	 */
+	public void setDiscount(Double discount) {
+		this.discount = discount;
+	}
+
+	/**
+	 * @return note: Gets note of the purchase invoices
+	 */
+	public String getNote() {
+		return note;
+	}
+
+	/**
+	 * @param note
+	 *            :Sets note of the purchase invoices
+	 */
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	/**
+	 * @return invoiceDocumentLink: Gets invoice document link of the purchase
+	 *         invoices
+	 */
+	public String getInvoiceDocumentLink() {
+		return invoiceDocumentLink;
+	}
+
+	/**
+	 * @param invoiceDocumentLink
+	 *            : Sets invoice document link of the purchase invoices
+	 */
+	public void setInvoiceDocumentLink(String invoiceDocumentLink) {
+		this.invoiceDocumentLink = invoiceDocumentLink;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
 				+ ((dateTime == null) ? 0 : dateTime.hashCode());
+		result = prime * result
+				+ ((discount == null) ? 0 : discount.hashCode());
 		result = prime * result + idPurchaseInvoice;
+		result = prime
+				* result
+				+ ((invoiceDocumentLink == null) ? 0 : invoiceDocumentLink
+						.hashCode());
+		result = prime * result
+				+ ((invoiceNumber == null) ? 0 : invoiceNumber.hashCode());
+		result = prime * result + ((note == null) ? 0 : note.hashCode());
+		result = prime * result
+				+ ((packaging == null) ? 0 : packaging.hashCode());
+		result = prime * result
+				+ ((shipping == null) ? 0 : shipping.hashCode());
+		result = prime * result
+				+ ((subtotal == null) ? 0 : subtotal.hashCode());
+		result = prime * result + ((taxes == null) ? 0 : taxes.hashCode());
 		result = prime
 				* result
 				+ ((totalValueActual == null) ? 0 : totalValueActual.hashCode());
@@ -145,7 +274,47 @@ public class PurchaseInvoices implements Serializable {
 				return false;
 		} else if (!dateTime.equals(other.dateTime))
 			return false;
+		if (discount == null) {
+			if (other.discount != null)
+				return false;
+		} else if (!discount.equals(other.discount))
+			return false;
 		if (idPurchaseInvoice != other.idPurchaseInvoice)
+			return false;
+		if (invoiceDocumentLink == null) {
+			if (other.invoiceDocumentLink != null)
+				return false;
+		} else if (!invoiceDocumentLink.equals(other.invoiceDocumentLink))
+			return false;
+		if (invoiceNumber == null) {
+			if (other.invoiceNumber != null)
+				return false;
+		} else if (!invoiceNumber.equals(other.invoiceNumber))
+			return false;
+		if (note == null) {
+			if (other.note != null)
+				return false;
+		} else if (!note.equals(other.note))
+			return false;
+		if (packaging == null) {
+			if (other.packaging != null)
+				return false;
+		} else if (!packaging.equals(other.packaging))
+			return false;
+		if (shipping == null) {
+			if (other.shipping != null)
+				return false;
+		} else if (!shipping.equals(other.shipping))
+			return false;
+		if (subtotal == null) {
+			if (other.subtotal != null)
+				return false;
+		} else if (!subtotal.equals(other.subtotal))
+			return false;
+		if (taxes == null) {
+			if (other.taxes != null)
+				return false;
+		} else if (!taxes.equals(other.taxes))
 			return false;
 		if (totalValueActual == null) {
 			if (other.totalValueActual != null)
