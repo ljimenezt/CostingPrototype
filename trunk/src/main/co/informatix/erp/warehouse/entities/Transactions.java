@@ -33,6 +33,7 @@ public class Transactions implements Serializable {
 	private Date dateTime;
 	private double quantity;
 	private String justification;
+	private String userName;
 
 	private TransactionType transactionType;
 	private Activities activities;
@@ -107,6 +108,22 @@ public class Transactions implements Serializable {
 	}
 
 	/**
+	 * @return userName: User name of the logged person
+	 */
+	@Column(name = "user_name", length = 50)
+	public String getUserName() {
+		return userName;
+	}
+
+	/**
+	 * @param userName
+	 *            : User name of the logged person
+	 */
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	/**
 	 * @return transactionType: gets the foreign key of machines type.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -127,7 +144,7 @@ public class Transactions implements Serializable {
 	 * @return activities: activities to which belong the transactions.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_activity", referencedColumnName = "idactivity", nullable = false)
+	@JoinColumn(name = "id_activity", referencedColumnName = "idactivity")
 	public Activities getActivities() {
 		return activities;
 	}
@@ -144,7 +161,7 @@ public class Transactions implements Serializable {
 	 * @return hr: human resource to which belong the transactions.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_hr", referencedColumnName = "idhr", nullable = false)
+	@JoinColumn(name = "id_hr", referencedColumnName = "idhr")
 	public Hr getHr() {
 		return hr;
 	}
@@ -186,6 +203,8 @@ public class Transactions implements Serializable {
 		long temp;
 		temp = Double.doubleToLongBits(quantity);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result
+				+ ((userName == null) ? 0 : userName.hashCode());
 		return result;
 	}
 
@@ -212,6 +231,11 @@ public class Transactions implements Serializable {
 			return false;
 		if (Double.doubleToLongBits(quantity) != Double
 				.doubleToLongBits(other.quantity))
+			return false;
+		if (userName == null) {
+			if (other.userName != null)
+				return false;
+		} else if (!userName.equals(other.userName))
 			return false;
 		return true;
 	}
