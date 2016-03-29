@@ -592,7 +592,7 @@ public class ActivitiesAndHrAction implements Serializable {
 			SelectItem item = new SelectItem("%"
 					+ nameSearchTrim.replace(" ", "") + "%", "keyword");
 			parameters.add(item);
-			uniteMessageSearch.append(bundle.getString("label_nombre") + ": "
+			uniteMessageSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
 		if (certifiedActivities != null && certifiedActivities > 0) {
@@ -681,7 +681,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * Adds a list of workers who are selected validating age and time of
 	 * motherhood.
 	 * 
-	 * @param trabajadorSeleccionado
+	 * @param selectedWorker
 	 *            : Human Resource object type.
 	 */
 	public void selectedWorker(Hr selectedWorker) {
