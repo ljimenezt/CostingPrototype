@@ -62,7 +62,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return dateTime: Date of Purchase invoices
 	 */
-	@Column(name = "date_time")
+	@Column(name = "date_time", nullable = false)
 	@Temporal(TemporalType.DATE)
 	public Date getDateTime() {
 		return dateTime;
@@ -96,7 +96,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return totalValueActual: Total Value Actual
 	 */
-	@Column(name = "total_value_actual")
+	@Column(name = "total_value_actual", nullable = false)
 	public Double getTotalValueActual() {
 		return totalValueActual;
 	}
@@ -112,7 +112,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return invoiceNumber: Number of the invoice
 	 */
-	@Column(name = "invoice_number", length = 50)
+	@Column(name = "invoice_number", length = 50, nullable = false)
 	public String getInvoiceNumber() {
 		return invoiceNumber;
 	}
@@ -128,6 +128,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return subtotal: Gets subtotal of the purshace invoices
 	 */
+	@Column(name = "subtotal", nullable = false)
 	public Double getSubtotal() {
 		return subtotal;
 	}
@@ -143,6 +144,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return shipping :Gets shipping of the purchase invoices
 	 */
+	@Column(name = "shipping", nullable = false)
 	public Double getShipping() {
 		return shipping;
 	}
@@ -158,6 +160,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return packaging :Gets packaging of he purchase invoices
 	 */
+	@Column(name = "packaging", nullable = false)
 	public Double getPackaging() {
 		return packaging;
 	}
@@ -173,6 +176,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return taxes: Gets taxes of the purchase invoices
 	 */
+	@Column(name = "taxes", nullable = false)
 	public Double getTaxes() {
 		return taxes;
 	}
@@ -188,6 +192,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return discount: Gets discount of the purchase invoices
 	 */
+	@Column(name = "discount", nullable = false)
 	public Double getDiscount() {
 		return discount;
 	}
@@ -203,6 +208,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return note: Gets note of the purchase invoices
 	 */
+	@Column(name = "note")
 	public String getNote() {
 		return note;
 	}
@@ -219,6 +225,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @return invoiceDocumentLink: Gets invoice document link of the purchase
 	 *         invoices
 	 */
+	@Column(name = "invoice_document_link", length = 50)
 	public String getInvoiceDocumentLink() {
 		return invoiceDocumentLink;
 	}
