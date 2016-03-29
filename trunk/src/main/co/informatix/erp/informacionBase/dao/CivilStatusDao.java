@@ -47,7 +47,7 @@ public class CivilStatusDao implements Serializable {
 	}
 
 	/**
-	 * Removes a civil state of the BD.
+	 * Removes a civil state of the database.
 	 * 
 	 * @param civilStatus
 	 *            : Civil status to delete.
@@ -58,7 +58,7 @@ public class CivilStatusDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of existing civil states in the BD filtering
+	 * Returns the number of existing civil states in the database filtering
 	 * information search by the values sent.
 	 * 
 	 * @param consult

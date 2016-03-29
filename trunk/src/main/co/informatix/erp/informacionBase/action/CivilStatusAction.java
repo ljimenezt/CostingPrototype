@@ -23,7 +23,7 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * This class iplements the logic related to creating, updating or removing
+ * This class implements the logic related to creating, updating or removing
  * civil States in the system.
  * 
  * @author Mabell.Boada
@@ -180,13 +180,13 @@ public class CivilStatusAction implements Serializable {
 	 *            : Message Word Search.
 	 */
 	private void advancedSearch(StringBuilder consult,
-			List<SelectItem> parametros, ResourceBundle bundle,
+			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append("WHERE UPPER(cs.name) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
-			parametros.add(item);
+			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
