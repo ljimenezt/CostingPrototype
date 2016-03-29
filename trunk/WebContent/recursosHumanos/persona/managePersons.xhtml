@@ -25,8 +25,7 @@
 						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
 						<f:selectItem itemValue="no"
 							itemLabel="#{mensaje.label_no_vigentes}" />
-						<a:ajax event="click"
-							listener="#{personaAction.consultPersons()}"
+						<a:ajax event="click" listener="#{personaAction.consultPersons()}"
 							render="personasPanel, mensajes, mensajeBusqueda">
 						</a:ajax>
 					</h:selectOneRadio>
@@ -36,8 +35,7 @@
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="document.getElementById('formListarUsario:idButtonNuevo').click()"
 									rendered="#{personaAction.vigencia eq 'si' and (identity.autorizado('personaAction','A') or identity.autorizado('personaAction','I'))}">
-									<h:commandButton
-										action="#{personaAction.registerPerson(null)}"
+									<h:commandButton action="#{personaAction.registerPerson(null)}"
 										image="/img/new_16.png" id="idButtonNuevo"
 										onclick="#{rich:component('statPane')}.show();" />
 									<h:outputText value="#{mensaje.button_new}" />
@@ -121,7 +119,7 @@
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">
-							<h:outputText value="#{mensaje.label_nombre}" />
+							<h:outputText value="#{mensaje.label_name}" />
 						</f:facet>
 						<h:outputText value="#{persona.nombres}" />
 					</rich:column>
@@ -172,8 +170,7 @@
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 								onclick="document.getElementById('formListarUsario:idButtonNuevoInf').click()"
 								rendered="#{personaAction.vigencia eq 'si' and (identity.autorizado('personaAction','A') or identity.autorizado('personaAction','I'))}">
-								<h:commandButton
-									action="#{personaAction.registerPerson(null)}"
+								<h:commandButton action="#{personaAction.registerPerson(null)}"
 									image="/img/new_16.png" id="idButtonNuevoInf"
 									onclick="#{rich:component('statPane')}.show();" />
 								<h:outputText value="#{mensaje.button_new}" />
@@ -235,7 +232,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_nombre}: " />
+						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText
 							value="#{personaAction.person.nombres} #{personaAction.person.apellidos}" />
 					</ui:define>
@@ -285,7 +282,7 @@
 									<h:outputText value="#{mensaje.label_numero_identificacion}:" />
 									<h:outputText value="#{personaAction.person.documento}" />
 
-									<h:outputText value="#{mensaje.label_nombre}:" />
+									<h:outputText value="#{mensaje.label_name}:" />
 									<h:outputText value="#{personaAction.person.nombres}" />
 
 									<h:outputText value="#{mensaje.label_apellido}:" />
@@ -338,8 +335,7 @@
 										<h:graphicImage
 											rendered="#{personaAction.person.foto != null and !empty personaAction.person.foto}"
 											value="#{personaAction.filesFolder}/#{personaAction.person.foto}"
-											title="#{personaAction.person.foto}"
-											styleClass="H200P W250P" />
+											title="#{personaAction.person.foto}" styleClass="H200P W250P" />
 										<h:graphicImage
 											rendered="#{personaAction.person.foto eq null or empty personaAction.person.foto}"
 											value="/img/noImage_240X203.png" styleClass="H200P W250P" />
