@@ -7,7 +7,7 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesTypeUnit</from-outcome>
+			<from-outcome>manTypeUnit</from-outcome>
 			<to-view-id>/informacionBase/typeUnit/manageTypeUnit.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>

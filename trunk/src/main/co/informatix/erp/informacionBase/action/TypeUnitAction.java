@@ -119,7 +119,7 @@ public class TypeUnitAction implements Serializable {
 	/**
 	 * Consult the list of the Type Unit.
 	 * 
-	 * @return "gesTypeUnit": It redirects to the template to manage the Type
+	 * @return "manTypeUnit": It redirects to the template to manage the Type
 	 *         Unit.
 	 */
 	public String consultTypeUnit() {
@@ -162,7 +162,7 @@ public class TypeUnitAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesTypeUnit";
+		return "manTypeUnit";
 	}
 
 	/**
