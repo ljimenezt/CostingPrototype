@@ -573,6 +573,18 @@ public class PurchaseInvoicesAction implements Serializable {
 	}
 
 	/**
+	 * Show the invoices item associated to purchase invoices.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void showInvoiceItems() {
+		if (invoiceItemsAction != null) {
+			invoiceItemsAction.setInvoicesSelected(invoicesActualSelected);
+			invoiceItemsAction.consultInvoiceItems();
+		}
+	}
+
+	/**
 	 * Method allows you to load the file system.
 	 * 
 	 * @param e
@@ -639,17 +651,5 @@ public class PurchaseInvoicesAction implements Serializable {
 		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
 				+ getFolderFileTemporal() };
 		fileUploadBean.delete(locations, fileName);
-	}
-
-	/**
-	 * Show the invoices item associated to purchase invoices.
-	 * 
-	 * @author Wilhelm.Boada
-	 */
-	public void showInvoiceItems() {
-		if (invoiceItemsAction != null) {
-			invoiceItemsAction.setInvoicesSelected(invoicesActualSelected);
-			invoiceItemsAction.consultInvoiceItems();
-		}
 	}
 }
