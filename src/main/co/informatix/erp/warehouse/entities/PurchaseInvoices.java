@@ -32,13 +32,13 @@ public class PurchaseInvoices implements Serializable {
 	private int idPurchaseInvoice;
 	private Date dateTime;
 	private Suppliers suppliers;
-	private Double totalValueActual;
+	private double totalValueActual;
 	private String invoiceNumber;
-	private Double subtotal;
-	private Double shipping;
-	private Double packaging;
-	private Double taxes;
-	private Double discount;
+	private double subtotal;
+	private double shipping;
+	private double packaging;
+	private double taxes;
+	private double discount;
 	private String note;
 	private String invoiceDocumentLink;
 	private boolean selected;
@@ -99,7 +99,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @return totalValueActual: Total Value Actual
 	 */
 	@Column(name = "total_value_actual", nullable = false)
-	public Double getTotalValueActual() {
+	public double getTotalValueActual() {
 		return totalValueActual;
 	}
 
@@ -107,7 +107,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @param totalValueActual
 	 *            :Total Value Actual
 	 */
-	public void setTotalValueActual(Double totalValueActual) {
+	public void setTotalValueActual(double totalValueActual) {
 		this.totalValueActual = totalValueActual;
 	}
 
@@ -131,7 +131,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @return subtotal: Gets subtotal of the purshace invoices
 	 */
 	@Column(name = "subtotal", nullable = false)
-	public Double getSubtotal() {
+	public double getSubtotal() {
 		return subtotal;
 	}
 
@@ -139,7 +139,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @param subtotal
 	 *            :Sets subtotal of the purshace invoices
 	 */
-	public void setSubtotal(Double subtotal) {
+	public void setSubtotal(double subtotal) {
 		this.subtotal = subtotal;
 	}
 
@@ -147,7 +147,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @return shipping :Gets shipping of the purchase invoices
 	 */
 	@Column(name = "shipping", nullable = false)
-	public Double getShipping() {
+	public double getShipping() {
 		return shipping;
 	}
 
@@ -155,7 +155,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @param shipping
 	 *            :Sets shipping of the purchase invoices
 	 */
-	public void setShipping(Double shipping) {
+	public void setShipping(double shipping) {
 		this.shipping = shipping;
 	}
 
@@ -163,7 +163,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @return packaging :Gets packaging of he purchase invoices
 	 */
 	@Column(name = "packaging", nullable = false)
-	public Double getPackaging() {
+	public double getPackaging() {
 		return packaging;
 	}
 
@@ -171,7 +171,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @param packaging
 	 *            :Sets packaging of he purchase invoices
 	 */
-	public void setPackaging(Double packaging) {
+	public void setPackaging(double packaging) {
 		this.packaging = packaging;
 	}
 
@@ -179,7 +179,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @return taxes: Gets taxes of the purchase invoices
 	 */
 	@Column(name = "taxes", nullable = false)
-	public Double getTaxes() {
+	public double getTaxes() {
 		return taxes;
 	}
 
@@ -187,7 +187,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @param taxes
 	 *            :Sets taxes of the purchase invoices
 	 */
-	public void setTaxes(Double taxes) {
+	public void setTaxes(double taxes) {
 		this.taxes = taxes;
 	}
 
@@ -195,7 +195,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @return discount: Gets discount of the purchase invoices
 	 */
 	@Column(name = "discount", nullable = false)
-	public Double getDiscount() {
+	public double getDiscount() {
 		return discount;
 	}
 
@@ -203,7 +203,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @param discount
 	 *            :Sets discount of the purchase invoices
 	 */
-	public void setDiscount(Double discount) {
+	public void setDiscount(double discount) {
 		this.discount = discount;
 	}
 
@@ -264,8 +264,9 @@ public class PurchaseInvoices implements Serializable {
 		int result = 1;
 		result = prime * result
 				+ ((dateTime == null) ? 0 : dateTime.hashCode());
-		result = prime * result
-				+ ((discount == null) ? 0 : discount.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(discount);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + idPurchaseInvoice;
 		result = prime
 				* result
@@ -274,16 +275,17 @@ public class PurchaseInvoices implements Serializable {
 		result = prime * result
 				+ ((invoiceNumber == null) ? 0 : invoiceNumber.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
-		result = prime * result
-				+ ((packaging == null) ? 0 : packaging.hashCode());
-		result = prime * result
-				+ ((shipping == null) ? 0 : shipping.hashCode());
-		result = prime * result
-				+ ((subtotal == null) ? 0 : subtotal.hashCode());
-		result = prime * result + ((taxes == null) ? 0 : taxes.hashCode());
-		result = prime
-				* result
-				+ ((totalValueActual == null) ? 0 : totalValueActual.hashCode());
+		temp = Double.doubleToLongBits(packaging);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (selected ? 1231 : 1237);
+		temp = Double.doubleToLongBits(shipping);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(subtotal);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(taxes);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(totalValueActual);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -301,10 +303,8 @@ public class PurchaseInvoices implements Serializable {
 				return false;
 		} else if (!dateTime.equals(other.dateTime))
 			return false;
-		if (discount == null) {
-			if (other.discount != null)
-				return false;
-		} else if (!discount.equals(other.discount))
+		if (Double.doubleToLongBits(discount) != Double
+				.doubleToLongBits(other.discount))
 			return false;
 		if (idPurchaseInvoice != other.idPurchaseInvoice)
 			return false;
@@ -323,30 +323,22 @@ public class PurchaseInvoices implements Serializable {
 				return false;
 		} else if (!note.equals(other.note))
 			return false;
-		if (packaging == null) {
-			if (other.packaging != null)
-				return false;
-		} else if (!packaging.equals(other.packaging))
+		if (Double.doubleToLongBits(packaging) != Double
+				.doubleToLongBits(other.packaging))
 			return false;
-		if (shipping == null) {
-			if (other.shipping != null)
-				return false;
-		} else if (!shipping.equals(other.shipping))
+		if (selected != other.selected)
 			return false;
-		if (subtotal == null) {
-			if (other.subtotal != null)
-				return false;
-		} else if (!subtotal.equals(other.subtotal))
+		if (Double.doubleToLongBits(shipping) != Double
+				.doubleToLongBits(other.shipping))
 			return false;
-		if (taxes == null) {
-			if (other.taxes != null)
-				return false;
-		} else if (!taxes.equals(other.taxes))
+		if (Double.doubleToLongBits(subtotal) != Double
+				.doubleToLongBits(other.subtotal))
 			return false;
-		if (totalValueActual == null) {
-			if (other.totalValueActual != null)
-				return false;
-		} else if (!totalValueActual.equals(other.totalValueActual))
+		if (Double.doubleToLongBits(taxes) != Double
+				.doubleToLongBits(other.taxes))
+			return false;
+		if (Double.doubleToLongBits(totalValueActual) != Double
+				.doubleToLongBits(other.totalValueActual))
 			return false;
 		return true;
 	}
