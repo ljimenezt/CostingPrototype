@@ -110,7 +110,7 @@ public class ControladorGenerico implements Serializable {
 	 */
 	public static String LOCAL_PATH() {
 		String path = FilenameUtils.getPrefix(Utils.RUTA_SERVIDOR())
-				+ PropertiesManagerUtils.getProperty("locate.path.local");
+				+ PropertiesManager.getProperty("locate.path.local");
 		return path;
 	}
 }
