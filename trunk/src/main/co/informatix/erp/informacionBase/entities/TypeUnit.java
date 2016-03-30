@@ -12,9 +12,7 @@ import javax.persistence.Table;
 /**
  * This entity represents the classification with the units of measure.
  * 
- * @author Angelica Amaya
- * @modify 13/12/2011 marisol.calderon
- * @modify 29/03/2016 Jhair.Leal
+ * @author Jhair.Leal
  * 
  */
 @SuppressWarnings("serial")
