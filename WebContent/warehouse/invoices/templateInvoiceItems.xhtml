@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	<h:body>
+		<t:fieldset styleClass="anchoDos BorderW2P"
+			rendered="#{purchaseInvoicesAction.invoicesActualSelected ne null and purchaseInvoicesAction.listInovoices ne null}">
+			<legend class="etiquetaTitulo">#{mensajeWarehouse.purchase_invoice_label_items}</legend>
+			<ui:param name="listaVaciaA"
+				value="#{invoiceItemsAction.invoiceItemsList.size() eq 0 or (invoiceItemsAction.invoiceItemsList eq null)}" />
+			<rich:dataTable value="#{invoiceItemsAction.invoiceItemsList}"
+				id="invoiceItemsTable" var="invoiceItems"
+				styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+				rowClasses="odd-row, even-row" footerClass="H130P">
+				<rich:column styleClass="colTextoLargo">
+					<f:facet name="header">#{mensajeWarehouse.materials_label}/#{mensaje.label_brand}</f:facet>
+					<h:outputText value="#{invoiceItems.material.name}" />
+				</rich:column>
+				<rich:column styleClass="colTextoLargo">
+					<f:facet name="header">#{mensaje.label_cantidad}</f:facet>
+					<h:outputText value="#{invoiceItems.quantity}" />
+				</rich:column>
+
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
+					<h:outputText value="#{invoiceItems.subTotal}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
+				</rich:column>
+
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensaje.label_total}</f:facet>
+					<h:outputText value="#{invoiceItems.total}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
+				</rich:column>
+
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_discount}</f:facet>
+					<h:outputText value="#{invoiceItems.discount}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
+				</rich:column>
+
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensajeWarehouse.invoice_items_label_unit_cost}</f:facet>
+					<h:outputText value="#{invoiceItems.unitCost}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
+				</rich:column>
+
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_shipping}</f:facet>
+					<h:outputText value="#{invoiceItems.shipping}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
+				</rich:column>
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_packaging}</f:facet>
+					<h:outputText value="#{invoiceItems.packaging}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
+				</rich:column>
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensajeWarehouse.invoice_items_label_handling}</f:facet>
+					<h:outputText value="#{invoiceItems.handling}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
+				</rich:column>
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_taxes}</f:facet>
+					<h:outputText value="#{invoiceItems.taxes}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
+				</rich:column>
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensaje.label_note}</f:facet>
+					<h:outputText value="#{invoiceItems.note}" />
+				</rich:column>
+				<f:facet name="footer">
+					<rich:columnGroup rendered="#{listaVaciaA}">
+						<rich:column colspan="11" styleClass="footTabla">
+							<h:outputText
+								value="#{mensaje.message_no_existen_registros_tabla}" />
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+			</rich:dataTable>
+			<a:outputPanel rendered="#{!listaVaciaA}">
+				<br />
+				<div class="#{anchoTabla} center inBlock">
+					<ui:include src="/plantillas/templatePagination.xhtml">
+						<ui:param name="valId" value="2" />
+						<ui:param name="valReder" value="panelPurchaseInvoices" />
+						<ui:param name="beanActionParam" value="#{invoiceItemsAction}" />
+						<ui:param name="metodoActionParam" value="consultInvoiceItems" />
+					</ui:include>
+				</div>
+			</a:outputPanel>
+		</t:fieldset>
+	</h:body>
+</ui:composition>
