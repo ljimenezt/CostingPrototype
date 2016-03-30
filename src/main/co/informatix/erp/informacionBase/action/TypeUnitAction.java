@@ -38,8 +38,8 @@ public class TypeUnitAction implements Serializable {
 	private TypeUnitDao typeUnitDao;
 
 	private TypeUnit typeUnit;
-
 	private Paginador pagination = new Paginador();
+	
 	private String nameSearch;
 
 	private List<TypeUnit> listTypeUnits;
@@ -266,8 +266,6 @@ public class TypeUnitAction implements Serializable {
 	/**
 	 * To validate the name of the type unit, so it is not repeated in the
 	 * database and it validates against XSS.
-	 * 
-	 * @author Jhair.Leal
 	 * 
 	 * @param context
 	 *            : application context.

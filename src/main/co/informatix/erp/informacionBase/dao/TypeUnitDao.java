@@ -15,8 +15,7 @@ import co.informatix.erp.informacionBase.entities.TypeUnit;
  * This class in responsible for the administration in the database of the type
  * unit.
  * 
- * @author marisol.calderon
- * @modify Jhair.Leal
+ * @author Jhair.Leal
  * 
  */
 @SuppressWarnings("serial")
@@ -55,8 +54,6 @@ public class TypeUnitDao implements Serializable {
 	 * This method of consultation with a range determining TypeUnit sent as a
 	 * parameter and filtering the information by the values sent search.
 	 * 
-	 * @author Jhair.Leal
-	 * 
 	 * @param start
 	 *            : Registry where consultation begins.
 	 * @param range
@@ -93,8 +90,6 @@ public class TypeUnitDao implements Serializable {
 	 * Returns the number of existing in database TypeUnit in filtering the
 	 * information by the values sent search.
 	 * 
-	 * @author Jhair.Leal
-	 * 
 	 * @param consult
 	 *            : String containing the query why the TypeUnit filtered.
 	 * @param parameters
@@ -117,8 +112,6 @@ public class TypeUnitDao implements Serializable {
 	/**
 	 * Consult the types of type unit.
 	 * 
-	 * @author Jhair.Leal
-	 * 
 	 * @return List<TypeUnit>: List of type units.
 	 * @throws Exception
 	 */
@@ -132,8 +125,6 @@ public class TypeUnitDao implements Serializable {
 	/**
 	 * Delete a TypeUnit in the database.
 	 * 
-	 * @author Jhair.Leal
-	 * 
 	 * @param typeUnit
 	 *            : typeUnit to delete.
 	 * @throws Exception
@@ -145,8 +136,6 @@ public class TypeUnitDao implements Serializable {
 	/**
 	 * Consultation if the name of the type unit there in the database when
 	 * storing or editing.
-	 * 
-	 * @author Jhair.Leal
 	 * 
 	 * @param name
 	 *            : type unit name to verify.
