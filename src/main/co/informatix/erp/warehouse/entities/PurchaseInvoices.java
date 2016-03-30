@@ -241,8 +241,8 @@ public class PurchaseInvoices implements Serializable {
 	}
 
 	/**
-	 * @return selected: Flag to see if it is selected deposit, true is selected
-	 *         and false is not selected
+	 * @return selected: Flag to see if it is selected purchase invoices, true
+	 *         is selected and false is not selected
 	 */
 	@Transient
 	public boolean isSelected() {

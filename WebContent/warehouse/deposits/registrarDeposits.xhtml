@@ -297,23 +297,22 @@
 							<h:outputText
 								value="#{mensajeWarehouse.purchase_invoice_label_number}"
 								styleClass="etiquetaTitulo" />
-							<h:outputText value="" />
 							<h:inputText size="30" maxlength="100" id="txtSearchNumber"
 								value="#{purchaseInvoicesAction.searchNumber}"
 								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 							<h:outputText value="" />
+							<h:outputText value="" />
 
 							<h:outputText value="#{mensajeWarehouse.suppliers_label_nombre}"
 								styleClass="etiquetaTitulo" />
-							<h:outputText value="" />
 							<h:inputText size="30" maxlength="100" id="txtSearchSupplier"
 								value="#{purchaseInvoicesAction.searchSupplier}"
 								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 							<h:outputText value="" />
+							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_fecha_inicio}:" />
-							<h:outputText value="" />
 							<p:calendar value="#{purchaseInvoicesAction.initialDateSearch}"
 								readonlyInput="true" showOn="button" navigator="true"
 								onSelectUpdate="endDate" id="startDate" pattern="MM/dd/yyyy"
@@ -321,23 +320,15 @@
 								<p:ajax process="@form" event="dateSelect"
 									update="popupForm:outPutSearchInvoice" />
 							</p:calendar>
-							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_fecha_finalizacion}:" />
-							<h:outputText value="*" styleClass="required"
-								rendered="#{purchaseInvoicesAction.initialDateSearch ne null}" />
-							<h:outputText value=""
-								rendered="#{purchaseInvoicesAction.initialDateSearch eq null}" />
 							<p:calendar value="#{purchaseInvoicesAction.finalDateSearch}"
-								readonlyInput="true"
-								disabled="#{purchaseInvoicesAction.initialDateSearch eq null}"
-								showOn="button" navigator="true" required="true"
+								readonlyInput="true" showOn="button" navigator="true"
 								mindate="#{purchaseInvoicesAction.initialDateSearch}"
 								id="endDate" pattern="MM/dd/yyyy"
 								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')"
 								label="#{mensaje.label_fecha_finalizacion}" />
-							<rich:message for="endDate" />
 						</h:panelGrid>
 						<br />
 						<div class="W100Per center inBlock">

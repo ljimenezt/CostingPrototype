@@ -55,9 +55,10 @@ public class PurchaseInvoicesAction implements Serializable {
 	private boolean iconPdf;
 
 	private List<PurchaseInvoices> listInovoices;
+	private List<SelectItem> itemsSupplier;
 	private PurchaseInvoices invoices;
 	private PurchaseInvoices invoicesActualSelected;
-	private List<SelectItem> itemsSupplier;
+	private InvoiceItemsAction invoiceItemsAction;
 
 	private Date initialDateSearch;
 	private Date finalDateSearch;
@@ -183,6 +184,22 @@ public class PurchaseInvoicesAction implements Serializable {
 	}
 
 	/**
+	 * @return itemsSupplier: List of supplier that are loaded into the user
+	 *         interface.
+	 */
+	public List<SelectItem> getItemsSupplier() {
+		return itemsSupplier;
+	}
+
+	/**
+	 * @param itemsSupplier
+	 *            :List of supplier that are loaded into the user interface.
+	 */
+	public void setItemsSupplier(List<SelectItem> itemsSupplier) {
+		this.itemsSupplier = itemsSupplier;
+	}
+
+	/**
 	 * @return invoice: sets object of purchases invoices
 	 */
 	public PurchaseInvoices getInvoices() {
@@ -198,19 +215,35 @@ public class PurchaseInvoicesAction implements Serializable {
 	}
 
 	/**
-	 * @return itemsSupplier: List of supplier that are loaded into the user
-	 *         interface.
+	 * @return invoicesActualSelected: Deposit selected in the purchaseInvoices
+	 *         table
 	 */
-	public List<SelectItem> getItemsSupplier() {
-		return itemsSupplier;
+	public PurchaseInvoices getInvoicesActualSelected() {
+		return invoicesActualSelected;
 	}
 
 	/**
-	 * @param itemsSupplier
-	 *            :List of supplier that are loaded into the user interface.
+	 * @param invoicesActualSelected
+	 *            : PurchaseInvoices selected in the purchaseInvoices table
 	 */
-	public void setItemsSupplier(List<SelectItem> itemsSupplier) {
-		this.itemsSupplier = itemsSupplier;
+	public void setInvoicesActualSelected(
+			PurchaseInvoices invoicesActualSelected) {
+		this.invoicesActualSelected = invoicesActualSelected;
+	}
+
+	/**
+	 * @return invoiceItemsAction: Object of invoiceItems action
+	 */
+	public InvoiceItemsAction getInvoiceItemsAction() {
+		return invoiceItemsAction;
+	}
+
+	/**
+	 * @param invoiceItemsAction
+	 *            : Object of invoiceItems action
+	 */
+	public void setInvoiceItemsAction(InvoiceItemsAction invoiceItemsAction) {
+		this.invoiceItemsAction = invoiceItemsAction;
 	}
 
 	/**
@@ -296,10 +329,16 @@ public class PurchaseInvoicesAction implements Serializable {
 	 *         load the template with the information found
 	 */
 	public String searchInitialize() {
+		if (ControladorContexto.getFacesContext() != null) {
+			this.invoiceItemsAction = ControladorContexto
+					.getContextBean(InvoiceItemsAction.class);
+		}
 		this.searchNumber = "";
 		this.searchSupplier = "";
 		this.initialDateSearch = null;
 		this.finalDateSearch = null;
+		this.invoicesActualSelected = null;
+		this.invoices = new PurchaseInvoices();
 		return consultInvoices();
 	}
 
@@ -429,27 +468,39 @@ public class PurchaseInvoicesAction implements Serializable {
 			flag = true;
 		}
 
-		if (this.initialDateSearch != null && this.finalDateSearch != null) {
+		if (this.initialDateSearch != null || this.finalDateSearch != null) {
 			if (flag) {
 				consult.append("AND ");
 			} else {
 				consult.append("WHERE ");
 			}
-			consult.append("pi.dateTime BETWEEN :initialDateSearch AND :finalDateSearch ");
-			SelectItem item = new SelectItem(initialDateSearch,
-					"initialDateSearch");
-			parameters.add(item);
-			SelectItem item2 = new SelectItem(finalDateSearch,
-					"finalDateSearch");
-			parameters.add(item2);
-			String dateFrom = bundle.getString("label_fecha_inicio") + ": "
-					+ '"' + formatDate.format(this.initialDateSearch) + '"'
-					+ " ";
-			unionSearchMessages.append(dateFrom);
-
-			String dateTo = bundle.getString("label_fecha_finalizacion") + ": "
-					+ '"' + formatDate.format(finalDateSearch) + '"' + " ";
-			unionSearchMessages.append(dateTo);
+			if (this.initialDateSearch != null && this.finalDateSearch != null) {
+				consult.append("pi.dateTime BETWEEN :initialDateSearch AND :finalDateSearch ");
+			}
+			if (this.initialDateSearch != null && this.finalDateSearch == null) {
+				consult.append("pi.dateTime >= :initialDateSearch ");
+			}
+			if (this.initialDateSearch == null && this.finalDateSearch != null) {
+				consult.append("pi.dateTime <= :finalDateSearch ");
+			}
+			if (this.initialDateSearch != null) {
+				SelectItem item = new SelectItem(initialDateSearch,
+						"initialDateSearch");
+				parameters.add(item);
+				String dateFrom = bundle.getString("label_fecha_inicio") + ": "
+						+ '"' + formatDate.format(this.initialDateSearch) + '"'
+						+ " ";
+				unionSearchMessages.append(dateFrom);
+			}
+			if (this.finalDateSearch != null) {
+				SelectItem item2 = new SelectItem(finalDateSearch,
+						"finalDateSearch");
+				parameters.add(item2);
+				String dateTo = bundle.getString("label_fecha_finalizacion")
+						+ ": " + '"' + formatDate.format(finalDateSearch) + '"'
+						+ " ";
+				unionSearchMessages.append(dateTo);
+			}
 		}
 		flag = false;
 	}
@@ -508,10 +559,10 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void selectInvoice(PurchaseInvoices invoiceSelected) {
 		this.invoicesActualSelected = new PurchaseInvoices();
-		invoicesActualSelected.setSelected(true);
+		invoiceSelected.setSelected(true);
 		for (PurchaseInvoices invoice : listInovoices) {
 			if (invoice.isSelected()) {
-				if (invoice.getIdPurchaseInvoice() == invoicesActualSelected
+				if (invoice.getIdPurchaseInvoice() == invoiceSelected
 						.getIdPurchaseInvoice()) {
 					this.invoicesActualSelected = invoice;
 				} else {
@@ -590,4 +641,15 @@ public class PurchaseInvoicesAction implements Serializable {
 		fileUploadBean.delete(locations, fileName);
 	}
 
+	/**
+	 * Show the invoices item associated to purchase invoices.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void showInvoiceItems() {
+		if (invoiceItemsAction != null) {
+			invoiceItemsAction.setInvoicesSelected(invoicesActualSelected);
+			invoiceItemsAction.consultInvoiceItems();
+		}
+	}
 }
