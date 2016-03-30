@@ -39,6 +39,10 @@ public class Constantes implements Serializable {
 			.getProperty("locate.img.reporte.fondo");
 	public static final String CARPETA_GESTION_DOCUMENTAL = PropertiesManager
 			.getProperty("locate.carpeta.archivos.gestion.documental");
+	public static final String FOLDER_FILES = PropertiesManager
+			.getProperty("locate.carpeta.archivos.files");
+	public static final String FOLDER_INVOICES = PropertiesManager
+			.getProperty("locate.carpeta.archivos.invoices");
 
 	public static final String CARPETA_TEMP_SISTEMA() throws Exception {
 		String tempdir = System.getProperty("java.io.tmpdir");
