@@ -227,7 +227,7 @@ public class PurchaseInvoices implements Serializable {
 	 * @return invoiceDocumentLink: Gets invoice document link of the purchase
 	 *         invoices
 	 */
-	@Column(name = "invoice_document_link", length = 50)
+	@Column(name = "invoice_document_link", length = 100)
 	public String getInvoiceDocumentLink() {
 		return invoiceDocumentLink;
 	}
