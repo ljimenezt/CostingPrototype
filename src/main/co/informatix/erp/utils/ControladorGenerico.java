@@ -100,17 +100,17 @@ public class ControladorGenerico implements Serializable {
 	}
 
 	/**
-	 * Este metodo permite consultar el prefijo de la ruta del servidor 'C:/' en
-	 * windows o '/' en unix y la concatena con la ruta de la carpeta local para
-	 * el archivo de propiedades PrototipoCostos.properties.
+	 * This method allows you to consult the route prefix 'C: /' windows server
+	 * or '/' in unix and concatenated with the path to the local folder for the
+	 * file properties PrototipoCostos.properties .
 	 * 
 	 * @author marisol.calderon
 	 * 
-	 * @return ruta de la carpeta local del sistema.
+	 * @return path to the local system folder.
 	 */
-	public static String RUTA_LOCAL() {
-		String ruta = FilenameUtils.getPrefix(Utils.RUTA_SERVIDOR())
-				+ PropertiesManagerUtils.getProperty("locate.carpeta.local");
-		return ruta;
+	public static String LOCAL_PATH() {
+		String path = FilenameUtils.getPrefix(Utils.RUTA_SERVIDOR())
+				+ PropertiesManagerUtils.getProperty("locate.path.local");
+		return path;
 	}
 }

@@ -17,7 +17,7 @@ public class Constantes implements Serializable {
 	public static final String RUTA_UPLOADFILE_GLASFISH = Utils.RUTA_SERVIDOR();
 
 	public static final String RUTA_UPLOADFILE_WORKSPACE = ControladorGenerico
-			.RUTA_LOCAL();
+			.LOCAL_PATH();
 
 	public static final String CARPETA_ARCHIVOS_SUBIDOS = PropertiesManager
 			.getProperty("locate.carpeta.archivos");
