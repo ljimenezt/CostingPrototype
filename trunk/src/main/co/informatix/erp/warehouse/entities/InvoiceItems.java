@@ -25,9 +25,11 @@ public class InvoiceItems implements Serializable {
 
 	private int idInvoiceItem;
 	private String quantity;
-	private double subtotal;
+	private String note;
+	private double subTotal;
 	private double shipping;
 	private double packaging;
+	private double handling;
 	private double taxes;
 	private double discount;
 	private double unitCost;
@@ -56,7 +58,7 @@ public class InvoiceItems implements Serializable {
 	/**
 	 * @return quantity: : Invoice item quantity.
 	 */
-	@Column(name = "quantity")
+	@Column(name = "quantity", nullable = false)
 	public String getQuantity() {
 		return quantity;
 	}
@@ -70,25 +72,41 @@ public class InvoiceItems implements Serializable {
 	}
 
 	/**
-	 * @return subtotal: Invoice item subtotal.
+	 * @return note: Invoice item note.
 	 */
-	@Column(name = "subtotal")
-	public double getSubtotal() {
-		return subtotal;
+	@Column(name = "note")
+	public String getNote() {
+		return note;
 	}
 
 	/**
-	 * @param subtotal
-	 *            : Invoice item subtotal.
+	 * @param note
+	 *            : Invoice item note.
 	 */
-	public void setSubtotal(double subtotal) {
-		this.subtotal = subtotal;
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	/**
+	 * @return subTotal: Invoice item subTotal.
+	 */
+	@Column(name = "subtotal", nullable = false)
+	public double getSubTotal() {
+		return subTotal;
+	}
+
+	/**
+	 * @param subTotal
+	 *            : Invoice item subTotal.
+	 */
+	public void setSubTotal(double subTotal) {
+		this.subTotal = subTotal;
 	}
 
 	/**
 	 * @return shipping: Invoice item shipping.
 	 */
-	@Column(name = "shipping")
+	@Column(name = "shipping", nullable = false)
 	public double getShipping() {
 		return shipping;
 	}
@@ -104,7 +122,7 @@ public class InvoiceItems implements Serializable {
 	/**
 	 * @return packaging: Invoice item packaging.
 	 */
-	@Column(name = "packaging")
+	@Column(name = "packaging", nullable = false)
 	public double getPackaging() {
 		return packaging;
 	}
@@ -118,9 +136,25 @@ public class InvoiceItems implements Serializable {
 	}
 
 	/**
+	 * @return handling: Invoice item handling.
+	 */
+	@Column(name = "handling", nullable = false)
+	public double getHandling() {
+		return handling;
+	}
+
+	/**
+	 * @param handling
+	 *            : Invoice item handling.
+	 */
+	public void setHandling(double handling) {
+		this.handling = handling;
+	}
+
+	/**
 	 * @return taxes: Invoice item taxes.
 	 */
-	@Column(name = "taxes")
+	@Column(name = "taxes", nullable = false)
 	public double getTaxes() {
 		return taxes;
 	}
@@ -136,7 +170,7 @@ public class InvoiceItems implements Serializable {
 	/**
 	 * @return discount: Invoice item discount.
 	 */
-	@Column(name = "discount")
+	@Column(name = "discount", nullable = false)
 	public double getDiscount() {
 		return discount;
 	}
@@ -152,7 +186,7 @@ public class InvoiceItems implements Serializable {
 	/**
 	 * @return unitCost: Invoice item unit cost.
 	 */
-	@Column(name = "unit_cost")
+	@Column(name = "unit_cost", nullable = false)
 	public double getUnitCost() {
 		return unitCost;
 	}
@@ -168,7 +202,7 @@ public class InvoiceItems implements Serializable {
 	/**
 	 * @return total: Invoice item total.
 	 */
-	@Column(name = "total")
+	@Column(name = "total", nullable = false)
 	public double getTotal() {
 		return total;
 	}
@@ -230,7 +264,7 @@ public class InvoiceItems implements Serializable {
 				+ ((quantity == null) ? 0 : quantity.hashCode());
 		temp = Double.doubleToLongBits(shipping);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(subtotal);
+		temp = Double.doubleToLongBits(subTotal);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(taxes);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -266,8 +300,8 @@ public class InvoiceItems implements Serializable {
 		if (Double.doubleToLongBits(shipping) != Double
 				.doubleToLongBits(other.shipping))
 			return false;
-		if (Double.doubleToLongBits(subtotal) != Double
-				.doubleToLongBits(other.subtotal))
+		if (Double.doubleToLongBits(subTotal) != Double
+				.doubleToLongBits(other.subTotal))
 			return false;
 		if (Double.doubleToLongBits(taxes) != Double
 				.doubleToLongBits(other.taxes))

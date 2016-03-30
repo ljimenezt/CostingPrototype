@@ -16,6 +16,7 @@
 
 	<ui:define name="body">
 		<t:saveState value="#{purchaseInvoicesAction}" />
+		<t:saveState value="#{invoiceItemsAction}" />
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
@@ -45,111 +46,217 @@
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listado_de} #{mensajeWarehouse.purchase_invoice_label_s}"
 				id="panelPurchaseInvoices">
-				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-					<ui:param name="tieneVigencia" value="no" />
-				</ui:include>
-				<rich:dataTable value="#{purchaseInvoicesAction.listInovoices}"
-					var="invoice" id="invoiceTable" footerClass="H100P"
-					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
-					rowClasses="odd-row, even-row">
-					<rich:column styleClass="colIconoUno">
-						<a:commandLink render="formPurchaseInvoices, invoiceTable"
-							actionListener="#{purchaseInvoicesAction.selectInvoice(invoice)}"
-							oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
-							<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
-								styleClass="verticalAlignMiddle"
-								rendered="#{invoice.selected eq true}" />
-							<h:graphicImage value="/img/seleccionarRadioOut_16.png"
-								styleClass="verticalAlignMiddle"
-								rendered="#{invoice.selected eq false}" />
-						</a:commandLink>
-					</rich:column>
-					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_number}</f:facet>
-						<h:commandLink value="#{invoice.invoiceNumber}"
-							action="#{purchaseInvoicesAction.addEditInvoices(invoice)}"
-							onclick="#{rich:component('statPane')}.show();">
-						</h:commandLink>
-					</rich:column>
-					<rich:column styleClass="colFechaLarga center">
-						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_date}</f:facet>
-						<h:outputText value="#{invoice.dateTime}">
-							<f:convertDateTime pattern="MMM dd, yyyy"
-								locale="#{idioma.locale}" />
-						</h:outputText>
-					</rich:column>
-					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensajeWarehouse.suppliers_label}</f:facet>
-						<h:outputText value="#{invoice.suppliers.name}" />
-					</rich:column>
-					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
-						<h:outputText value="#{invoice.subtotal}">
-							<f:convertNumber pattern="#,##0.00" />
-						</h:outputText>
-					</rich:column>
-					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_shipping}</f:facet>
-						<h:outputText value="#{invoice.shipping}">
-							<f:convertNumber pattern="#,##0.00" />
-						</h:outputText>
-					</rich:column>
-					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_packaging}</f:facet>
-						<h:outputText value="#{invoice.packaging}">
-							<f:convertNumber pattern="#,##0.00" />
-						</h:outputText>
-					</rich:column>
-					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_taxes}</f:facet>
-						<h:outputText value="#{invoice.taxes}">
-							<f:convertNumber pattern="#,##0.00" />
-						</h:outputText>
-					</rich:column>
-					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_discount}</f:facet>
-						<h:outputText value="#{invoice.discount}">
-							<f:convertNumber pattern="#,##0.00" />
-						</h:outputText>
-					</rich:column>
-					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensaje.label_total}</f:facet>
-						<h:outputText value="#{invoice.totalValueActual}">
-							<f:convertNumber pattern="#,##0.00" />
-						</h:outputText>
-					</rich:column>
-					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensaje.label_document}</f:facet>
-						<h:outputText value="#{invoice.invoiceDocumentLink}" />
-					</rich:column>
-					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensaje.label_note}</f:facet>
-						<h:outputText value="#{invoice.note}" />
-					</rich:column>
-					<f:facet name="footer">
-						<rich:columnGroup rendered="#{listaVacia}">
-							<rich:column colspan="12" styleClass="footTabla">
-								<h:outputText
-									value="#{mensaje.message_no_existen_registros_tabla}" />
-							</rich:column>
-						</rich:columnGroup>
-					</f:facet>
-				</rich:dataTable>
-				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-					<ui:param name="botonesAbajo" value="si" />
-					<ui:param name="tieneVigencia" value="no" />
-				</ui:include>
-				<a:outputPanel rendered="#{!listaVacia}">
-					<br />
-					<div class="#{anchoTabla} center inBlock">
-						<ui:include src="/plantillas/templatePagination.xhtml">
-							<ui:param name="valReder" value="panelPurchaseInvoices" />
-							<ui:param name="beanActionParam"
-								value="#{purchaseInvoicesAction}" />
-							<ui:param name="metodoActionParam" value="consultInvoices" />
+				<a:outputPanel>
+					<script type="text/javascript">
+						$g = jQuery.noConflict();
+					</script>
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<legend class="etiquetaTitulo">#{mensajeWarehouse.purchase_invoice_label_s}</legend>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="tieneVigencia" value="no" />
 						</ui:include>
-					</div>
+						<rich:dataTable value="#{purchaseInvoicesAction.listInovoices}"
+							var="invoice" id="invoiceTable" footerClass="H100P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<a:commandLink render="formPurchaseInvoices, invoiceItemsTable"
+									actionListener="#{purchaseInvoicesAction.selectInvoice(invoice)}"
+									action="#{purchaseInvoicesAction.showInvoiceItems()}"
+									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{invoice.selected eq true}" />
+									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{invoice.selected eq false}" />
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_number}</f:facet>
+								<h:commandLink value="#{invoice.invoiceNumber}"
+									action="#{purchaseInvoicesAction.addEditInvoices(invoice)}"
+									onclick="#{rich:component('statPane')}.show();">
+								</h:commandLink>
+							</rich:column>
+							<rich:column styleClass="colFechaLarga center">
+								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_date}</f:facet>
+								<h:outputText value="#{invoice.dateTime}">
+									<f:convertDateTime pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensajeWarehouse.suppliers_label}</f:facet>
+								<h:outputText value="#{invoice.suppliers.name}" />
+							</rich:column>
+							<rich:column styleClass="colValorLargo">
+								<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
+								<h:outputText value="#{invoice.subtotal}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colValorLargo">
+								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_shipping}</f:facet>
+								<h:outputText value="#{invoice.shipping}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colValorLargo">
+								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_packaging}</f:facet>
+								<h:outputText value="#{invoice.packaging}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colValorLargo">
+								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_taxes}</f:facet>
+								<h:outputText value="#{invoice.taxes}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colValorLargo">
+								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_discount}</f:facet>
+								<h:outputText value="#{invoice.discount}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colValorLargo">
+								<f:facet name="header">#{mensaje.label_total}</f:facet>
+								<h:outputText value="#{invoice.totalValueActual}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_document}</f:facet>
+								<h:outputText value="#{invoice.invoiceDocumentLink}" />
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_note}</f:facet>
+								<h:outputText value="#{invoice.note}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="12" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="botonesAbajo" value="si" />
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
+						<a:outputPanel rendered="#{!listaVacia}">
+							<br />
+							<div class="#{anchoTabla} center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valReder" value="panelPurchaseInvoices" />
+									<ui:param name="beanActionParam"
+										value="#{purchaseInvoicesAction}" />
+									<ui:param name="metodoActionParam" value="consultInvoices" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
 				</a:outputPanel>
+				<br />
+				<t:fieldset styleClass="anchoDos BorderW2P"
+					rendered="#{purchaseInvoicesAction.invoicesActualSelected ne null and purchaseInvoicesAction.listInovoices ne null}">
+					<legend class="etiquetaTitulo">#{mensajeWarehouse.purchase_invoice_label_items}</legend>
+					<ui:param name="listaVaciaA"
+						value="#{invoiceItemsAction.invoiceItemsList.size() eq 0 or (invoiceItemsAction.invoiceItemsList eq null)}" />
+					<rich:dataTable value="#{invoiceItemsAction.invoiceItemsList}"
+						id="invoiceItemsTable" var="invoiceItems"
+						styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+						rowClasses="odd-row, even-row" footerClass="H130P">
+						<rich:column styleClass="colTextoLargo">
+							<f:facet name="header">#{mensajeWareHouse.materials_label} #{mensaje.label_name}/#{mensaje.label_brand} #{mensaje.label_name}</f:facet>
+							<h:outputText value="#{invoiceItems.material.name}" />
+						</rich:column>
+						<rich:column styleClass="colTextoLargo">
+							<f:facet name="header">#{mensaje.label_cantidad}</f:facet>
+							<h:outputText value="#{invoiceItems.quantity}" />
+						</rich:column>
+
+						<rich:column styleClass="colValorLargo">
+							<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
+							<h:outputText value="#{invoiceItems.subTotal}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+
+						<rich:column styleClass="colValorLargo">
+							<f:facet name="header">#{mensaje.label_total}</f:facet>
+							<h:outputText value="#{invoiceItems.total}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+
+						<rich:column styleClass="colValorLargo">
+							<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_discount}</f:facet>
+							<h:outputText value="#{invoiceItems.discount}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+
+						<rich:column styleClass="colValorLargo">
+							<f:facet name="header">#{mensajeWarehouse.invoice_items_label_unit_cost}</f:facet>
+							<h:outputText value="#{invoiceItems.unitCost}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+
+						<rich:column styleClass="colValorLargo">
+							<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_shipping}</f:facet>
+							<h:outputText value="#{invoiceItems.shipping}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colValorLargo">
+							<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_packaging}</f:facet>
+							<h:outputText value="#{invoiceItems.packaging}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colValorLargo">
+							<f:facet name="header">#{mensajeWarehouse.invoice_items_label_handling}</f:facet>
+							<h:outputText value="#{invoiceItems.handling}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colValorLargo">
+							<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_taxes}</f:facet>
+							<h:outputText value="#{invoiceItems.taxes}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colValorLargo">
+							<f:facet name="header">#{mensaje.label_note}</f:facet>
+							<h:outputText value="#{invoiceItems.note}" />
+						</rich:column>
+						<f:facet name="footer">
+							<rich:columnGroup rendered="#{listaVaciaA}">
+								<rich:column colspan="11" styleClass="footTabla">
+									<h:outputText
+										value="#{mensaje.message_no_existen_registros_tabla}" />
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+					</rich:dataTable>
+					<a:outputPanel rendered="#{!listaVaciaA}">
+						<br />
+						<div class="#{anchoTabla} center inBlock">
+							<ui:include src="/plantillas/templatePagination.xhtml">
+								<ui:param name="valId" value="2" />
+								<ui:param name="valReder" value="panelPurchaseInvoices" />
+								<ui:param name="beanActionParam" value="#{invoiceItemsAction}" />
+								<ui:param name="metodoActionParam" value="consultInvoiceItems" />
+							</ui:include>
+						</div>
+					</a:outputPanel>
+				</t:fieldset>
+
 			</rich:panel>
 		</h:form>
 
