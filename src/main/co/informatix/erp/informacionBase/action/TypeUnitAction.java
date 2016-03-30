@@ -155,7 +155,7 @@ public class TypeUnitAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleTypeUnit
-										.getString("tipo_unidad_medida_label"),
+										.getString("type_unit_label"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
