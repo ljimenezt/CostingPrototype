@@ -171,7 +171,7 @@
 						styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 						rowClasses="odd-row, even-row" footerClass="H130P">
 						<rich:column styleClass="colTextoLargo">
-							<f:facet name="header">#{mensajeWareHouse.materials_label} #{mensaje.label_name}/#{mensaje.label_brand} #{mensaje.label_name}</f:facet>
+							<f:facet name="header">#{mensajeWarehouse.materials_label}/#{mensaje.label_brand}</f:facet>
 							<h:outputText value="#{invoiceItems.material.name}" />
 						</rich:column>
 						<rich:column styleClass="colTextoLargo">
