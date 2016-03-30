@@ -23,7 +23,7 @@
 		<script type="text/javascript">
 			$g=jQuery.noConflict();
 			$g(document).ready(function(){    
-				  $('#formInvoices\\:txaDescription').maxlength({   
+				  $g('#formInvoices\\:txaDescription').maxlength({   
 				    events: [],     
 				    max: 200,    
 				    feedbackText: "#{mensaje.label_characters_left}",  
@@ -35,114 +35,230 @@
 			<rich:panel
 				header="#{mensaje.label_registrar} #{mensajeWarehouse.purchase_invoice_label}"
 				styleClass="anchoUno MinH253P" id="pnlInvoices">
-				<h:panelGrid columns="4"
-					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-					columnClasses="tdAlignTop,,,tdAlignTop">
+				<t:fieldset styleClass="BorderW2P anchoDos ">
+					<legend class="etiquetaTitulo">#{mensaje.label_group}</legend>
+					<h:panelGrid columns="2" columnClasses="W80Per,W23Per tdAlignTop">
+						<h:panelGrid columns="4"
+							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+							columnClasses="tdAlignTop,,,tdAlignTop">
+							<h:outputText
+								value="#{mensajeWarehouse.purchase_invoice_label_date}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<p:calendar required="true" readonlyInput="true"
+								requiredMessage="#{mensaje.message_campo_requerido}"
+								value="#{purchaseInvoicesAction.invoices.dateTime}"
+								styleClass="W100P" id="dateInvoice" showOn="button"
+								navigator="true" pattern="MM/dd/yyyy HH:mm"
+								converterMessage="#{mensaje.message_validar_formato_fecha}" />
+							<rich:message for="dateInvoice" />
 
-					<h:outputText
-						value="#{mensajeWarehouse.purchase_invoice_label_date}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<p:calendar required="true" readonlyInput="true"
-						requiredMessage="#{mensaje.message_campo_requerido}"
-						value="#{purchaseInvoicesAction.invoices.dateTime}"
-						styleClass="W100P" id="dateInvoice" showOn="button"
-						navigator="true" pattern="MM/dd/yyyy HH:mm"
-						converterMessage="#{mensaje.message_validar_formato_fecha}" />
-					<rich:message for="dateInvoice" />
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeWarehouse.suppliers_label}" />
+							<h:outputText value="*" styleClass="required" />
+							<h:selectOneMenu
+								value="#{purchaseInvoicesAction.invoices.suppliers.idSupplier}"
+								id="supplier" required="true"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+									itemValue="0" />
+								<f:selectItems value="#{purchaseInvoicesAction.itemsSupplier}" />
+							</h:selectOneMenu>
+							<rich:message for="supplier" />
 
-					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeWarehouse.suppliers_label}" />
-					<h:outputText value="*" styleClass="required" />
-					<h:selectOneMenu
-						value="#{purchaseInvoicesAction.invoices.suppliers.idSupplier}"
-						id="supplier" required="true"
-						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-							itemValue="0" />
-						<f:selectItems value="#{purchaseInvoicesAction.itemsSupplier}" />
-					</h:selectOneMenu>
-					<rich:message for="supplier" />
+							<h:outputText
+								value="#{mensajeWarehouse.purchase_invoice_label_number}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText
+								value="#{purchaseInvoicesAction.invoices.invoiceNumber}"
+								styleClass="colTextoMediano" id="txtNumInv" required="true"
+								size="50" maxlength="50"
+								validator="#{encodeFilter.validarScripting}"
+								requiredMessage="#{mensaje.message_campo_requerido}" />
+							<rich:message for="txtNumInv" />
 
-					<h:outputText
-						value="#{mensajeWarehouse.purchase_invoice_label_number}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:inputText
-						value="#{purchaseInvoicesAction.invoices.invoiceNumber}"
-						styleClass="colTextoMediano" id="txtNumInv" required="true"
-						size="50" maxlength="50"
-						validator="#{encodeFilter.validarScripting}"
-						requiredMessage="#{mensaje.message_campo_requerido}" />
-					<rich:message for="txtNumInv" />
+							<h:outputText value="#{mensaje.label_subtotal}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText readonly="true" id="subTotalValue" required="true"
+								value="#{purchaseInvoicesAction.invoices.subtotal}"
+								requiredMessage="#{mensaje.message_campo_requerido}"
+								converterMessage="#{mensaje.message_juego_caracter_numeros}"
+								styleClass="W108P">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:inputText>
+							<rich:message for="subTotalValue" />
 
-					<h:outputText value="#{mensaje.label_subtotal}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:inputText readonly="true" id="subTotalValue" required="true"
-						value="#{purchaseInvoicesAction.invoices.subtotal}"
-						requiredMessage="#{mensaje.message_campo_requerido}"
-						converterMessage="#{mensaje.message_juego_caracter_numeros}"
-						styleClass="W108P">
-						<f:convertNumber maxFractionDigits="2" type="currency"
-							currencySymbol="$" locale="#{idioma.locale}" />
-					</h:inputText>
-					<rich:message for="subTotalValue" />
+							<h:outputText
+								value="#{mensajeWarehouse.purchase_invoice_label_taxes}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText readonly="true" id="taxes" required="true"
+								value="#{purchaseInvoicesAction.invoices.taxes}"
+								requiredMessage="#{mensaje.message_campo_requerido}"
+								converterMessage="#{mensaje.message_juego_caracter_numeros}"
+								styleClass="W108P">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:inputText>
+							<rich:message for="taxes" />
 
-					<h:outputText
-						value="#{mensajeWarehouse.purchase_invoice_label_taxes}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:inputText readonly="true" id="taxes" required="true"
-						value="#{purchaseInvoicesAction.invoices.taxes}"
-						requiredMessage="#{mensaje.message_campo_requerido}"
-						converterMessage="#{mensaje.message_juego_caracter_numeros}"
-						styleClass="W108P">
-						<f:convertNumber maxFractionDigits="2" type="currency"
-							currencySymbol="$" locale="#{idioma.locale}" />
-					</h:inputText>
-					<rich:message for="taxes" />
+							<h:outputText
+								value="#{mensajeWarehouse.purchase_invoice_label_shipping}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText readonly="true" id="shipping" required="true"
+								value="#{purchaseInvoicesAction.invoices.shipping}"
+								requiredMessage="#{mensaje.message_campo_requerido}"
+								converterMessage="#{mensaje.message_juego_caracter_numeros}"
+								styleClass="W108P">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:inputText>
+							<rich:message for="shipping" />
 
-					<h:outputText
-						value="#{mensajeWarehouse.purchase_invoice_label_shipping}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:inputText readonly="true" id="shipping" required="true"
-						value="#{purchaseInvoicesAction.invoices.shipping}"
-						requiredMessage="#{mensaje.message_campo_requerido}"
-						converterMessage="#{mensaje.message_juego_caracter_numeros}"
-						styleClass="W108P">
-						<f:convertNumber maxFractionDigits="2" type="currency"
-							currencySymbol="$" locale="#{idioma.locale}" />
-					</h:inputText>
-					<rich:message for="shipping" />
+							<h:outputText
+								value="#{mensajeWarehouse.purchase_invoice_label_packaging}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText readonly="true" id="packaging" required="true"
+								value="#{purchaseInvoicesAction.invoices.packaging}"
+								requiredMessage="#{mensaje.message_campo_requerido}"
+								converterMessage="#{mensaje.message_juego_caracter_numeros}"
+								styleClass="W108P">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:inputText>
+							<rich:message for="packaging" />
 
-					<h:outputText value="#{mensaje.label_total}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:inputText readonly="true" id="totalValue" required="true"
-						value="#{purchaseInvoicesAction.invoices.totalValueActual}"
-						requiredMessage="#{mensaje.message_campo_requerido}"
-						converterMessage="#{mensaje.message_juego_caracter_numeros}"
-						styleClass="W108P">
-						<f:convertNumber maxFractionDigits="2" type="currency"
-							currencySymbol="$" locale="#{idioma.locale}" />
-					</h:inputText>
-					<rich:message for="totalValue" />
+							<h:outputText
+								value="#{mensajeWarehouse.purchase_invoice_label_discount}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText readonly="true" id="discount" required="true"
+								value="#{purchaseInvoicesAction.invoices.discount}"
+								requiredMessage="#{mensaje.message_campo_requerido}"
+								converterMessage="#{mensaje.message_juego_caracter_numeros}"
+								styleClass="W108P">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:inputText>
+							<rich:message for="discount" />
 
-					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_note}" />
-					<h:outputText value="" />
-					<h:inputTextarea value="#{purchaseInvoicesAction.invoices.note}"
-						styleClass="colTextoMedianoTextArea" id="txaDescription"
-						validator="#{encodeFilter.validarScripting}">
-						<f:validateLength maximum="200" />
-					</h:inputTextarea>
-					<rich:message for="txaDescription" />
+							<h:outputText value="#{mensaje.label_total}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText readonly="true" id="totalValue" required="true"
+								value="#{purchaseInvoicesAction.invoices.totalValueActual}"
+								requiredMessage="#{mensaje.message_campo_requerido}"
+								converterMessage="#{mensaje.message_juego_caracter_numeros}"
+								styleClass="W108P">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:inputText>
+							<rich:message for="totalValue" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_note}" />
+							<h:outputText value="" />
+							<h:inputTextarea value="#{purchaseInvoicesAction.invoices.note}"
+								styleClass="colTextoMedianoTextArea" id="txaDescription"
+								validator="#{encodeFilter.validarScripting}"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+								<f:validateLength maximum="200" />
+							</h:inputTextarea>
+							<rich:message for="txaDescription" />
+						</h:panelGrid>
 
 
-				</h:panelGrid>
+
+						<t:fieldset styleClass="W166P">
+							<legend class="etiquetaTitulo">#{mensaje.label_document}</legend>
+							<h:panelGrid columns="1" cellspacing="0" cellpadding="0"
+								id="pnlDocumentInvoice">
+								<a:outputPanel
+									rendered="#{purchaseInvoicesAction.nameDocument != null and !(empty purchaseInvoicesAction.nameDocument)}">
+									<div class="uploadImg155P">
+										<div class="closeImg">
+											<a:commandLink
+												action="#{purchaseInvoicesAction.deleteFilename()}"
+												immediate="true" render=":formInvoices:pnlDocumentInvoice">
+												<h:graphicImage value="/img/close_14.png"
+													onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+													onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+													styleClass="cursor" title="#{mensaje.label_change_file}" />
+											</a:commandLink>
+										</div>
+										<a:outputPanel
+											rendered="#{purchaseInvoicesAction.loadDocumentTemporal eq true and purchaseInvoicesAction.iconPdf eq true }">
+											<a:outputPanel
+												rendered="#{purchaseInvoicesAction.loadDocumentTemporal}">
+												<a target="_blank"
+													href="#{request.contextPath}#{purchaseInvoicesAction.folderFileTemporal}/#{purchaseInvoicesAction.nameDocument}"><h:graphicImage
+														title="#{purchaseInvoicesAction.nameDocument}"
+														styleClass="H156P" value="/img/bigPdf_128.png" /></a>
+											</a:outputPanel>
+											<a:outputPanel>
+												<h:graphicImage value="/img/bigPdf_128.png"
+													title="#{purchaseInvoicesAction.nameDocument}"
+													styleClass="H156P"
+													rendered="#{!purchaseInvoicesAction.loadDocumentTemporal}" />
+											</a:outputPanel>
+										</a:outputPanel>
+										<a:outputPanel
+											rendered="#{purchaseInvoicesAction.loadDocumentTemporal eq true and purchaseInvoicesAction.iconPdf eq false }">
+											<a:outputPanel
+												rendered="#{purchaseInvoicesAction.loadDocumentTemporal}">
+												<a target="_blank"
+													href="#{request.contextPath}#{purchaseInvoicesAction.folderFileTemporal}/#{purchaseInvoicesAction.nameDocument}"><h:graphicImage
+														title="#{purchaseInvoicesAction.nameDocument}"
+														styleClass="H156P" value="/img/bigWord_128.png" /></a>
+											</a:outputPanel>
+											<a:outputPanel>
+												<h:graphicImage value="/img/bigWord_128.png"
+													title="#{purchaseInvoicesAction.nameDocument}"
+													styleClass="H156P"
+													rendered="#{!purchaseInvoicesAction.loadDocumentTemporal}" />
+											</a:outputPanel>
+										</a:outputPanel>
+									</div>
+								</a:outputPanel>
+								<a:outputPanel>
+									<h:graphicImage value="/img/fileLess_128.png"
+										rendered="#{purchaseInvoicesAction.nameDocument eq null or empty purchaseInvoicesAction.nameDocument}"
+										styleClass="H162P" />
+									<p:fileUpload id="uploadDocument" dragDropSupport="true"
+										styleClass="sytleButtonUpload"
+										rendered="#{purchaseInvoicesAction.nameDocument eq null or empty purchaseInvoicesAction.nameDocument}"
+										label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+										auto="true"
+										fileUploadListener="#{purchaseInvoicesAction.submit}"
+										update="pnlDocumentInvoice"
+										onstart="#{rich:component('statPane')}.show();"
+										oncomplete="#{rich:component('statPane')}.hide();" />
+									<rich:message for="uploadDocument" styleClass="errors" />
+									<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
+										styleClass="W100Per">
+										<hr />
+										<h:outputText styleClass="etiquetaTitulo"
+											value="#{mensaje.label_ext_permitida}: #{propPrototipoCostos['locate.ext.permitidas.doc.docx.pdf']} " />
+										<hr />
+									</h:panelGrid>
+								</a:outputPanel>
+							</h:panelGrid>
+						</t:fieldset>
+					</h:panelGrid>
+
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos ">
+					<legend class="etiquetaTitulo">#{mensajeWarehouse.purchase_invoice_label_items}</legend>
+
+
+				</t:fieldset>
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"

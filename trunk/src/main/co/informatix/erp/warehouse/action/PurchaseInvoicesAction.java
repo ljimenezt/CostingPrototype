@@ -13,8 +13,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import org.apache.commons.io.FilenameUtils;
+import org.primefaces.event.FileUploadEvent;
+
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.PurchaseInvoicesDao;
@@ -39,9 +43,16 @@ public class PurchaseInvoicesAction implements Serializable {
 	private PurchaseInvoicesDao purchaseInvoicesDao;
 	@EJB
 	private SuppliersDao suppliersDao;
+	@EJB
+	private FileUploadBean fileUploadBean;
 
 	private String searchNumber;
 	private String searchSupplier;
+	private String nameDocument;
+	private String folderFileTemporal;
+
+	private boolean loadDocumentTemporal;
+	private boolean iconPdf;
 
 	private List<PurchaseInvoices> listInovoices;
 	private PurchaseInvoices invoices;
@@ -53,6 +64,23 @@ public class PurchaseInvoicesAction implements Serializable {
 
 	private Paginador pagerForm = new Paginador();
 	private Paginador pagination = new Paginador();
+
+	/**
+	 * 
+	 * @return fileUploadBean: Variable that gets the object for uploading
+	 *         files.
+	 */
+	public FileUploadBean getFileUploadBean() {
+		return fileUploadBean;
+	}
+
+	/**
+	 * @param fileUploadBean
+	 *            : field that gets the object for uploading files.
+	 */
+	public void setFileUploadBean(FileUploadBean fileUploadBean) {
+		this.fileUploadBean = fileUploadBean;
+	}
 
 	/**
 	 * @return searchNumber: gets the number the invoices by which you want to
@@ -86,6 +114,57 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void setSearchSupplier(String searchSupplier) {
 		this.searchSupplier = searchSupplier;
+	}
+
+	/**
+	 * @return nameDocument: file name that has the information associated to
+	 *         the invoice.
+	 */
+	public String getNameDocument() {
+		return nameDocument;
+	}
+
+	/**
+	 * @param nameDocument
+	 *            : file name that has the information associated to the
+	 *            invoice.
+	 */
+	public void setNameDocument(String nameDocument) {
+		this.nameDocument = nameDocument;
+	}
+
+	/**
+	 * @return loadDocumentTemporal: Flag indicating whether the picture is
+	 *         loaded from the temporary location or not
+	 */
+	public boolean getLoadDocumentTemporal() {
+		return loadDocumentTemporal;
+	}
+
+	/**
+	 * @param loadDocumentTemporal
+	 *            : Flag indicating whether the picture is loaded from the
+	 *            temporary location or not
+	 */
+	public void setLoadDocumentTemporal(boolean loadDocumentTemporal) {
+		this.loadDocumentTemporal = loadDocumentTemporal;
+	}
+
+	/**
+	 * @return iconPdf: Flag indicating whether the file is loaded from the
+	 *         temporary location or not
+	 */
+	public boolean getIconPdf() {
+		return iconPdf;
+	}
+
+	/**
+	 * @param iconPdf
+	 *            : Flag indicating whether the file is loaded from the
+	 *            temporary location or not
+	 */
+	public void setIconPdf(boolean iconPdf) {
+		this.iconPdf = iconPdf;
 	}
 
 	/**
@@ -196,6 +275,16 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	/**
+	 * @return folderFileTemporal: path of the temporary folder where the
+	 *         document of the cycle are loaded.
+	 */
+	public String getFolderFileTemporal() {
+		this.folderFileTemporal = Constantes.CARPETA_ARCHIVOS_SUBIDOS
+				+ Constantes.CARPETA_ARCHIVOS_TEMP;
+		return folderFileTemporal;
 	}
 
 	/**
@@ -378,10 +467,13 @@ public class PurchaseInvoicesAction implements Serializable {
 			loadSuppliers();
 			if (invoices != null) {
 				this.invoices = invoices;
+				this.nameDocument = invoices.getInvoiceDocumentLink();
 			} else {
 				this.invoices = new PurchaseInvoices();
 				this.invoices.setSuppliers(new Suppliers());
+				this.nameDocument = null;
 			}
+			this.loadDocumentTemporal = true;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -428,4 +520,74 @@ public class PurchaseInvoicesAction implements Serializable {
 			}
 		}
 	}
+
+	/**
+	 * Method allows you to load the file system.
+	 * 
+	 * @param e
+	 *            : Fileupload event for the file to be uploaded to the server.
+	 */
+	public void submit(FileUploadEvent e) {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String extAccepted[] = Constantes.EXT_DOC_PDF.split(", ");
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFolderFileTemporal() };
+		fileUploadBean.setUploadedFile(e.getFile());
+		long maximuSizeFile = Constantes.TAMANYO_MAX_ARCHIVOS;
+		String resultUpload = fileUploadBean.uploadValTamanyo(extAccepted,
+				locations, maximuSizeFile);
+		String message = "";
+		if (Constantes.UPLOAD_EXT_INVALIDA.equals(resultUpload)) {
+			message = "error_ext_invalida";
+		} else if (Constantes.UPLOAD_TAMANO_INVALIDA.equals(resultUpload)) {
+			String format = MessageFormat.format(
+					bundle.getString("error_tamanyo_invalido"), maximuSizeFile,
+					"MB");
+			ControladorContexto.mensajeError("formInvoices:uploadDocument",
+					format);
+		} else if (Constantes.UPLOAD_NULL.equals(resultUpload)) {
+			message = "error_carga_archivo";
+		}
+		if (!"".equals(message)) {
+			ControladorContexto.mensajeError("formInvoices:uploadDocument",
+					bundle.getString(message));
+		}
+		this.nameDocument = fileUploadBean.getFileName();
+		if (Constantes.OK.equals(resultUpload)) {
+			String suffix = FilenameUtils.getExtension(this.nameDocument);
+			if (suffix.equals("pdf")) {
+				iconPdf = true;
+			} else {
+				iconPdf = false;
+			}
+		}
+
+	}
+
+	/**
+	 * Delete the file name.
+	 * 
+	 */
+	public void deleteFilename() {
+		if (this.nameDocument != null && !"".equals(this.nameDocument)
+				&& this.loadDocumentTemporal) {
+			deleteFile(this.nameDocument);
+		}
+		this.nameDocument = null;
+		fileUploadBean.setFileName(null);
+	}
+
+	/**
+	 * Delete the files.
+	 * 
+	 * @param fileName
+	 *            : Name of the file to delete.
+	 * 
+	 */
+	public void deleteFile(String fileName) {
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFolderFileTemporal() };
+		fileUploadBean.delete(locations, fileName);
+	}
+
 }
