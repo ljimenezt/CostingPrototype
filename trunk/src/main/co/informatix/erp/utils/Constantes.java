@@ -242,6 +242,9 @@ public class Constantes implements Serializable {
 			.getProperty("locate.ext.permitidas.doc");
 	public static final String EXT_DOC_PDF = PropertiesManager
 			.getProperty("locate.ext.permitidas.doc.docx.pdf");
+	public static final String EXT_PDF_DOC_IMG = PropertiesManager
+			.getProperty("locate.ext.permitidas.doc.pdf.img");
+	
 
 	/* Maximum size in MB, for uploading files */
 	public static final long TAMANYO_MAX_ARCHIVOS = Long
@@ -337,4 +340,8 @@ public class Constantes implements Serializable {
 	public static final String ASCENDING = "ASC";
 	public static final String SORT_PROPERTY = "sortProperty";
 
+	/* File Extension */
+	public static final String FILE_EXT_PDF = "pdf";
+	public static final String FILE_EXT_DOCX = "docx";
+	public static final String FILE_EXT_DOC = "doc";
 }
