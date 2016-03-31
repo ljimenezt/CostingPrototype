@@ -15,7 +15,11 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.InvoiceItemsDao;
+import co.informatix.erp.warehouse.dao.MaterialsDao;
+import co.informatix.erp.warehouse.dao.MaterialsTypeDao;
 import co.informatix.erp.warehouse.entities.InvoiceItems;
+import co.informatix.erp.warehouse.entities.Materials;
+import co.informatix.erp.warehouse.entities.MaterialsType;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
 
 /**
@@ -31,10 +35,19 @@ public class InvoiceItemsAction implements Serializable {
 
 	@EJB
 	private InvoiceItemsDao invoiceItemsDao;
+	@EJB
+	private MaterialsTypeDao materialsTypeDao;
+	@EJB
+	private MaterialsDao materialsDao;
 
 	private List<InvoiceItems> invoiceItemsList;
+	private List<SelectItem> itemsMaterialsType;
+	private List<SelectItem> itemsMaterials;
 	private Paginador pagination = new Paginador();
 	private PurchaseInvoices invoicesSelected;
+	private InvoiceItems invoiceItem;
+
+	private int idMaterialsType;
 
 	/**
 	 * @return invoiceItemsList: invoiceItems list objects
@@ -49,6 +62,40 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void setInvoiceItemsList(List<InvoiceItems> invoiceItemsList) {
 		this.invoiceItemsList = invoiceItemsList;
+	}
+
+	/**
+	 * @return itemsMaterialsType: List of items of the types of materials to be
+	 *         loaded into the combo in the user interface.
+	 */
+	public List<SelectItem> getItemsMaterialsType() {
+		return itemsMaterialsType;
+	}
+
+	/**
+	 * @param itemsMaterialsType
+	 *            :List of items of the types of materials to be loaded into the
+	 *            combo in the user interface.
+	 */
+	public void setItemsMaterialsType(List<SelectItem> itemsMaterialsType) {
+		this.itemsMaterialsType = itemsMaterialsType;
+	}
+
+	/**
+	 * @return itemsMaterials: List of items of the materials to be loaded into
+	 *         the combo in the user interface.
+	 */
+	public List<SelectItem> getItemsMaterials() {
+		return itemsMaterials;
+	}
+
+	/**
+	 * @param itemsMaterials
+	 *            :List of items of the materials to be loaded into the combo in
+	 *            the user interface.
+	 */
+	public void setItemsMaterials(List<SelectItem> itemsMaterials) {
+		this.itemsMaterials = itemsMaterials;
 	}
 
 	/**
@@ -79,6 +126,59 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void setInvoicesSelected(PurchaseInvoices invoicesSelected) {
 		this.invoicesSelected = invoicesSelected;
+	}
+
+	/**
+	 * @return invoiceItem: invoiceItem object
+	 */
+	public InvoiceItems getInvoiceItems() {
+		return invoiceItem;
+	}
+
+	/**
+	 * @param invoiceItem
+	 *            : invoiceItem object
+	 */
+	public void setInvoiceItems(InvoiceItems invoiceItem) {
+		this.invoiceItem = invoiceItem;
+	}
+
+	/**
+	 * @return idMaterialsType: materials type identifier.
+	 */
+	public int getIdMaterialsType() {
+		return idMaterialsType;
+	}
+
+	/**
+	 * @param idMaterialsType
+	 *            : materials type identifier.
+	 */
+	public void setIdMaterialsType(int idMaterialsType) {
+		this.idMaterialsType = idMaterialsType;
+	}
+
+	/**
+	 * Method to edit or create a new invoiceItem.
+	 * 
+	 * @param invoiceItem
+	 *            :invoiceItem are adding or editing
+	 */
+	public void addEditInvoiceItems(InvoiceItems invoiceItem) {
+		try {
+			if (invoiceItem != null) {
+				this.invoiceItem = invoiceItem;
+				this.idMaterialsType = this.invoiceItem.getMaterial()
+						.getMaterialType().getIdMaterialsType();
+			} else {
+				this.invoiceItem = new InvoiceItems();
+				this.invoiceItem.setMaterial(new Materials());
+				this.idMaterialsType = 0;
+			}
+			loadMaterialsType();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 
 	/**
@@ -157,4 +257,43 @@ public class InvoiceItemsAction implements Serializable {
 		}
 	}
 
+	/**
+	 * This method allows load the materials type list.
+	 * 
+	 */
+	public void loadMaterialsType() {
+		try {
+			itemsMaterialsType = new ArrayList<SelectItem>();
+			List<MaterialsType> materialsType = materialsTypeDao
+					.consultMaterialsTypes();
+			if (materialsType != null) {
+				for (MaterialsType materialsTypes : materialsType) {
+					itemsMaterialsType.add(new SelectItem(materialsTypes
+							.getIdMaterialsType(), materialsTypes.getName()));
+				}
+				loadMaterials();
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows load the materials list.
+	 */
+	public void loadMaterials() {
+		try {
+			itemsMaterials = new ArrayList<SelectItem>();
+			List<Materials> materialsList = materialsDao
+					.queryMaterialsByType(idMaterialsType);
+			if (materialsList != null) {
+				for (Materials materials : materialsList) {
+					itemsMaterials.add(new SelectItem(
+							materials.getIdMaterial(), materials.getName()));
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
 }
