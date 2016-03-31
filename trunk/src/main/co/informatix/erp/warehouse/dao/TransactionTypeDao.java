@@ -158,4 +158,19 @@ public class TransactionTypeDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * Consult a type of transaction by id
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param idTransactionType
+	 *            : Identifier of transaction type
+	 * @return transactionType: Object transactionType
+	 * @throws Exception
+	 */
+	public TransactionType transactionTypeById(int idTransactionType)
+			throws Exception {
+		return em.find(TransactionType.class, idTransactionType);
+	}
 }

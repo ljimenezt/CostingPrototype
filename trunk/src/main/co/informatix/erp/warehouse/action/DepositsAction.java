@@ -8,11 +8,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
+import javax.transaction.UserTransaction;
 
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
@@ -27,6 +33,7 @@ import co.informatix.erp.warehouse.dao.MaterialsTypeDao;
 import co.informatix.erp.warehouse.dao.MeasurementUnitsDao;
 import co.informatix.erp.warehouse.dao.PurchaseInvoicesDao;
 import co.informatix.erp.warehouse.dao.SuppliersDao;
+import co.informatix.erp.warehouse.dao.TransactionTypeDao;
 import co.informatix.erp.warehouse.dao.TransactionsDao;
 import co.informatix.erp.warehouse.entities.Deposits;
 import co.informatix.erp.warehouse.entities.Materials;
@@ -34,6 +41,9 @@ import co.informatix.erp.warehouse.entities.MaterialsType;
 import co.informatix.erp.warehouse.entities.MeasurementUnits;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
 import co.informatix.erp.warehouse.entities.Suppliers;
+import co.informatix.erp.warehouse.entities.TransactionType;
+import co.informatix.erp.warehouse.entities.Transactions;
+import co.informatix.security.action.IdentityAction;
 
 /**
  * This class is all related logic with creating, updating and removal of
@@ -64,6 +74,12 @@ public class DepositsAction implements Serializable {
 	private SuppliersDao suppliersDao;
 	@EJB
 	private TransactionsDao transactionsDao;
+	@EJB
+	private TransactionTypeDao transactionTypeDao;
+	@Resource
+	private UserTransaction userTransaction;
+	@Inject
+	private IdentityAction identity;
 
 	private Paginador pagination = new Paginador();
 
@@ -78,6 +94,9 @@ public class DepositsAction implements Serializable {
 	private Date dateEndSearch;
 
 	private Double unitCost;
+	private Double newQuantity;
+
+	private String justificationTransaction;
 
 	private List<Deposits> listDeposits;
 	private List<SelectItem> itemsMaterial;
@@ -305,6 +324,36 @@ public class DepositsAction implements Serializable {
 	 */
 	public void setUnitCost(Double unitCost) {
 		this.unitCost = unitCost;
+	}
+
+	/**
+	 * @return newQuantity: Quantity for make the adjust
+	 */
+	public Double getNewQuantity() {
+		return newQuantity;
+	}
+
+	/**
+	 * @param newQuantity
+	 *            : Quantity for make the adjust
+	 */
+	public void setNewQuantity(Double newQuantity) {
+		this.newQuantity = newQuantity;
+	}
+
+	/**
+	 * @return justificationTransaction: Justification for make the transaction
+	 */
+	public String getJustificationTransaction() {
+		return justificationTransaction;
+	}
+
+	/**
+	 * @param justificationTransaction
+	 *            : Justification for make the transaction
+	 */
+	public void setJustificationTransaction(String justificationTransaction) {
+		this.justificationTransaction = justificationTransaction;
 	}
 
 	/**
@@ -755,6 +804,77 @@ public class DepositsAction implements Serializable {
 			this.purchaseInvoice.setSuppliers(suppliers);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * It is responsible for validating the number entered to make an adjustment
+	 * does not exceed the current registered
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param context
+	 *            : Context for the view.
+	 * @param toValidate
+	 *            : Validate component.
+	 * @param value
+	 *            : Component value.
+	 */
+	public void validateDuration(FacesContext context, UIComponent toValidate,
+			Object value) {
+		String clientId = toValidate.getClientId(context);
+		Double quantity = (Double) value;
+		if (quantity.compareTo(this.depositDetails.getActualQuantity()) >= 0) {
+			String message = "deposits_message_adjust_quantity";
+			ControladorContexto.mensajeErrorEspecifico(clientId, message,
+					"mensajeWarehouse");
+			((UIInput) toValidate).setValid(false);
+		}
+	}
+
+	/**
+	 * It is responsible of save a transaction and edit the deposit when it make
+	 * a adjust
+	 * 
+	 * @author Gerardo.Herrera
+	 */
+	public void depositAdjust() {
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		if (this.depositDetails != null) {
+			try {
+				this.userTransaction.begin();
+				Transactions transactions = new Transactions();
+				Double quantity = this.depositDetails.getActualQuantity()
+						- this.newQuantity;
+				this.depositDetails.setActualQuantity(this.newQuantity);
+				TransactionType transactionType = this.transactionTypeDao
+						.transactionTypeById(Constantes.IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE);
+				this.depositsDao.editDeposits(this.depositDetails);
+				transactions.setJustification(this.justificationTransaction);
+				transactions.setTransactionType(transactionType);
+				transactions.setUserName(identity.getUserName());
+				transactions.setDeposits(this.depositDetails);
+				transactions.setDateTime(new Date());
+				transactions.setQuantity(quantity);
+				this.transactionsDao.saveTransaction(transactions);
+				userTransaction.commit();
+				showTransaction();
+				String format = MessageFormat
+						.format(bundle
+								.getString("deposits_message_adjust_deposit"),
+								depositDetails.getPurchaseInvoices()
+										.getInvoiceNumber(), depositDetails
+										.getMaterials().getName());
+				ControladorContexto.mensajeInformacion(null, format);
+			} catch (Exception e) {
+				try {
+					this.userTransaction.rollback();
+				} catch (Exception e1) {
+					ControladorContexto.printErrorLog(e1);
+				}
+				ControladorContexto.mensajeError(e);
+			}
 		}
 	}
 

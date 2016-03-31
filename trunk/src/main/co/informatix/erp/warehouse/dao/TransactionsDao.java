@@ -24,6 +24,17 @@ public class TransactionsDao implements Serializable {
 	private EntityManager em;
 
 	/**
+	 * Saves a Transaction in the database.
+	 * 
+	 * @param transaction
+	 *            : Save transaction.
+	 * @throws Exception
+	 */
+	public void saveTransaction(Transactions transaction) throws Exception {
+		em.persist(transaction);
+	}
+
+	/**
 	 * Consult the list of transactions that comply with the option of force.
 	 * 
 	 * @param start
@@ -45,9 +56,9 @@ public class TransactionsDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT t FROM Transactions t ");
-		query.append("JOIN FETCH t.activities a ");
-		query.append("JOIN FETCH a.activityName ");
-		query.append("JOIN FETCH t.hr ");
+		query.append("LEFT JOIN FETCH t.activities a ");
+		query.append("LEFT JOIN FETCH a.activityName ");
+		query.append("LEFT JOIN FETCH t.hr ");
 		query.append("JOIN FETCH t.transactionType ");
 		query.append(consult);
 		query.append(" ORDER BY t.idTransaction");
