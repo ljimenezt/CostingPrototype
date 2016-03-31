@@ -172,7 +172,8 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * @return lastNameSearch: Name by which you want to consult human Resources.
+	 * @return lastNameSearch: Name by which you want to consult human
+	 *         Resources.
 	 */
 	public String getLastNameSearch() {
 		return lastNameSearch;
@@ -314,8 +315,7 @@ public class HrAction implements Serializable {
 	 *         human resources.
 	 */
 	public String getFilesFolder() {
-		this.filesFolder = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
-				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
+		this.filesFolder = Constantes.FOLDER_FILES
 				+ Constantes.CARPETA_ARCHIVOS_PERSONAS;
 		return filesFolder;
 	}
@@ -325,8 +325,7 @@ public class HrAction implements Serializable {
 	 *         human resources.
 	 */
 	public String getTemporalFilesFolder() {
-		this.temporalFilesFolder = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
-				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
+		this.temporalFilesFolder = Constantes.FOLDER_FILES
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
 		return temporalFilesFolder;
 	}
@@ -464,10 +463,9 @@ public class HrAction implements Serializable {
 			} else if (!"".equals(jointSearchMessages.toString())) {
 				String message = bundle
 						.getString("message_existen_registros_criterio_busqueda");
-				searchMessage = MessageFormat
-						.format(message, bundleHumanResources
-								.getString("recurso_humano_label"),
-								jointSearchMessages);
+				searchMessage = MessageFormat.format(message,
+						bundleHumanResources.getString("recurso_humano_label"),
+						jointSearchMessages);
 			}
 			if (amount != 0) {
 				loadHrDetails();

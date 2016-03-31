@@ -183,9 +183,8 @@ public class FarmAction implements Serializable {
 	 *         logos are loaded.
 	 */
 	public String getFilesFolder() {
-		this.filesFolder = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
-				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
-				+ Constantes.CARPETA_ARCHIVOS_LOGOS_EMPRESAS;
+		this.filesFolder = Constantes.FOLDER_FILES
+				+ Constantes.FOLDER_FILES_FARMS;
 		return filesFolder;
 	}
 
@@ -194,8 +193,7 @@ public class FarmAction implements Serializable {
 	 *         logos are loaded.
 	 */
 	public String getTemporalFilesFolder() {
-		this.temporalFilesFolder = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
-				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
+		this.temporalFilesFolder = Constantes.FOLDER_FILES
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
 		return temporalFilesFolder;
 	}
