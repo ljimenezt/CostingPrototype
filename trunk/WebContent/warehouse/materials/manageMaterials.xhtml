@@ -12,7 +12,6 @@
 	<ui:param name="action" value="materialsAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_gestionar,mensajeWarehouse.materials_label" />
-
 	<ui:define name="body">
 		<t:saveState value="#{materialsAction}" />
 		<ui:param name="listaVacia"
@@ -31,11 +30,28 @@
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
 		<ui:param name="metodoListarTodos" value="initializeSearch" />
-
 		<h:form id="formMaterials">
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listado_de} #{mensajeWarehouse.materials_label_s}"
 				id="panelMaterials">
+				<br />
+				<h:panelGrid columns="3"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,tdAlignTop">
+					<h:outputText value="#{mensajeWarehouse.materials_type_label}"
+						styleClass="etiquetaTitulo" />
+					<h:selectOneMenu id="materialType"
+						value="#{materialsAction.idMaterialType}"
+						styleClass="colTextoMediano" required="true">
+						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItems value="#{materialsAction.materialTypeItems}" />
+						<f:ajax event="change"
+							listener="#{materialsAction.searchMaterials()}"
+							render=":mensajes :formMaterials :mensajeBusqueda" />
+					</h:selectOneMenu>
+					<rich:message for="materialType" />
+				</h:panelGrid>
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
@@ -110,8 +126,8 @@
 			</rich:panel>
 		</h:form>
 		<h:form id="formBuscar">
-			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{materials_label_nombre}"
+			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="400"
+				header="#{mensajeWarehouse.materials_label_s} #{mensaje.button_search}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -122,8 +138,18 @@
 							styleClass="cursor" />
 					</h:panelGroup>
 				</f:facet>
-				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_name}:"
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="5">
+					<h:outputText value="#{mensajeWarehouse.materials_type_label}"
+						styleClass="etiquetaTitulo" />
+					<h:selectOneMenu id="materialType"
+						value="#{materialsAction.idMaterialType}"
+						styleClass="colTextoMediano" required="true">
+						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItems value="#{materialsAction.materialTypeItems}" />
+					</h:selectOneMenu>
+
+					<h:outputText
+						value="#{mensajeWarehouse.materials_label} #{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar" value="#{materialsAction.nameSearch}"
@@ -140,7 +166,6 @@
 				</div>
 			</rich:popupPanel>
 		</h:form>
-
 		<h:form>
 			<rich:popupPanel id="popupEliminar" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
@@ -174,6 +199,5 @@
 				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
-
 	</ui:define>
 </ui:composition>

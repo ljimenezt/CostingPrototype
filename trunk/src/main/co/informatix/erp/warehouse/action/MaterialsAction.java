@@ -57,6 +57,8 @@ public class MaterialsAction implements Serializable {
 	private List<SelectItem> measureUnitItems;
 	private List<SelectItem> managementTypeItems;
 
+	private int idMaterialType;
+
 	/**
 	 * @return nameSearch : The material name that is going to be queried.
 	 */
@@ -170,12 +172,30 @@ public class MaterialsAction implements Serializable {
 	}
 
 	/**
+	 * @return idMaterialType : Material type identifier associated with the
+	 *         materials to consult
+	 */
+	public int getIdMaterialType() {
+		return idMaterialType;
+	}
+
+	/**
+	 * @param idMaterialType
+	 *            : Material type identifier associated with the materials to
+	 *            consult
+	 */
+	public void setIdMaterialType(int idMaterialType) {
+		this.idMaterialType = idMaterialType;
+	}
+
+	/**
 	 * Method to initialize the fields in the search.
 	 * 
 	 * @return searchMaterials: Materials query method that redirects to the
 	 *         template to manage materials.
 	 */
 	public String initializeSearch() {
+		this.idMaterialType = 0;
 		this.nameSearch = "";
 		this.materials = null;
 		return searchMaterials();
@@ -184,11 +204,13 @@ public class MaterialsAction implements Serializable {
 	/**
 	 * Query the list of Materials.
 	 * 
+	 * @modify 30/03/2016 Liseth.Jimenez
+	 * 
 	 * @return gesMaterials: Navigation rule that redirects to manage materials.
 	 */
 	public String searchMaterials() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
+		ResourceBundle bundleWarehouse = ControladorContexto
 				.getBundle("mensajeWarehouse");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
@@ -223,10 +245,10 @@ public class MaterialsAction implements Serializable {
 				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleRecursosHumanos
-										.getString("materials_label_s"),
+								bundleWarehouse.getString("materials_label_s"),
 								jointSearchMessages);
 			}
+			listMaterialsType();
 			loadMaterialsDetails();
 			validation.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
@@ -238,6 +260,8 @@ public class MaterialsAction implements Serializable {
 	/**
 	 * This method builds the query to the advanced search and display messages
 	 * depending on the search criteria selected by the user.
+	 * 
+	 * @modify 30/03/2016 Liseth.Jimenez
 	 * 
 	 * @param queryBuilder
 	 *            : Query to concatenate.
@@ -258,6 +282,21 @@ public class MaterialsAction implements Serializable {
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
+
+			if (this.idMaterialType != 0) {
+				queryBuilder
+						.append("AND m.materialType.idMaterialsType = :keyword3 ");
+				item = new SelectItem(this.idMaterialType, "keyword3");
+				parameters.add(item);
+
+			}
+		} else {
+			if (this.idMaterialType != 0) {
+				queryBuilder
+						.append("WHERE m.materialType.idMaterialsType = :keyword ");
+				SelectItem item = new SelectItem(this.idMaterialType, "keyword");
+				parameters.add(item);
+			}
 		}
 	}
 
@@ -331,21 +370,15 @@ public class MaterialsAction implements Serializable {
 	/**
 	 * This method loads combo in the register a new material template.
 	 * 
+	 * @modify 30/03/2016 Liseth.Jimenez
+	 * 
 	 * @throws Exception
 	 */
 	private void loadComboBoxes() throws Exception {
-		materialTypeItems = new ArrayList<SelectItem>();
 		measureUnitItems = new ArrayList<SelectItem>();
 		managementTypeItems = new ArrayList<SelectItem>();
+		listMaterialsType();
 
-		List<MaterialsType> materialTypes = materialsTypeDao
-				.consultMaterialsTypes();
-		if (materialTypes != null) {
-			for (MaterialsType materialType : materialTypes) {
-				materialTypeItems.add(new SelectItem(materialType
-						.getIdMaterialsType(), materialType.getName()));
-			}
-		}
 		List<MeasurementUnits> measureUnits = measurementUnitsDao
 				.consultMeasurementsUnits();
 		if (measureUnits != null) {
@@ -429,5 +462,24 @@ public class MaterialsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return searchMaterials();
+	}
+
+	/**
+	 * Method that loads a materials type list.
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @throws Exception
+	 */
+	private void listMaterialsType() throws Exception {
+		this.materialTypeItems = new ArrayList<SelectItem>();
+		List<MaterialsType> materialsTypeList = materialsTypeDao
+				.consultMaterialsTypes();
+		if (materialsTypeList != null) {
+			for (MaterialsType materialType : materialsTypeList) {
+				this.materialTypeItems.add(new SelectItem(materialType
+						.getIdMaterialsType(), materialType.getName()));
+			}
+		}
 	}
 }

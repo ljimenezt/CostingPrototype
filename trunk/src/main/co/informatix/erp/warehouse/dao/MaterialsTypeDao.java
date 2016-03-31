@@ -165,5 +165,4 @@ public class MaterialsTypeDao implements Serializable {
 		}
 		return null;
 	}
-
 }
