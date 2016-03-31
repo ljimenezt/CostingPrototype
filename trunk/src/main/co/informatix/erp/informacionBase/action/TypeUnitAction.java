@@ -39,7 +39,7 @@ public class TypeUnitAction implements Serializable {
 
 	private TypeUnit typeUnit;
 	private Paginador pagination = new Paginador();
-	
+
 	private String nameSearch;
 
 	private List<TypeUnit> listTypeUnits;
@@ -154,8 +154,7 @@ public class TypeUnitAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleTypeUnit
-										.getString("type_unit_label"),
+								bundleTypeUnit.getString("type_unit_label"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
