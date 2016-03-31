@@ -82,6 +82,8 @@ public class InvoiceItemsDao implements Serializable {
 	 * Consult the total values of invoices items according to a purchase
 	 * invoice
 	 * 
+	 * @author Andres.Gomez
+	 * 
 	 * @param idPurchaseInvoice
 	 *            : Identifier of the purchase invoice to filter the consult
 	 * 

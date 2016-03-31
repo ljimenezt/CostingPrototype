@@ -773,6 +773,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * new file
 	 * 
 	 * @param nameActualDocument
+	 *            :name of the actual document that invoice have
 	 */
 	private void deleteOldFile(String nameActualDocument) {
 		String locationTemp[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
