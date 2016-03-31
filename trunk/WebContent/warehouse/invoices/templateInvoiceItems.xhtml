@@ -18,7 +18,11 @@
 				rowClasses="odd-row, even-row" footerClass="H130P">
 				<rich:column styleClass="colTextoLargo">
 					<f:facet name="header">#{mensajeWarehouse.materials_label}/#{mensaje.label_brand}</f:facet>
-					<h:outputText value="#{invoiceItems.material.name}" />
+					<a:commandLink render="popupRegInvoiceItems"
+						oncomplete="#{rich:component('popupRegInvoiceItems')}.show()"
+						action="#{invoiceItemsAction.addEditInvoiceItems(invoiceItems)}"
+						value="#{invoiceItems.material.name}">
+					</a:commandLink>
 				</rich:column>
 				<rich:column styleClass="colTextoLargo">
 					<f:facet name="header">#{mensaje.label_cantidad}</f:facet>
@@ -47,7 +51,7 @@
 				</rich:column>
 
 				<rich:column styleClass="colValorLargo">
-					<f:facet name="header">#{mensajeWarehouse.invoice_items_label_unit_cost}</f:facet>
+					<f:facet name="header">#{mensaje.label_unit_cost}</f:facet>
 					<h:outputText value="#{invoiceItems.unitCost}">
 						<f:convertNumber pattern="#,##0.00" />
 					</h:outputText>

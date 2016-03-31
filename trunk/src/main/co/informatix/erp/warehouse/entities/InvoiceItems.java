@@ -24,8 +24,8 @@ import javax.persistence.Table;
 public class InvoiceItems implements Serializable {
 
 	private int idInvoiceItem;
-	private String quantity;
 	private String note;
+	private double quantity;
 	private double subTotal;
 	private double shipping;
 	private double packaging;
@@ -56,22 +56,6 @@ public class InvoiceItems implements Serializable {
 	}
 
 	/**
-	 * @return quantity: : Invoice item quantity.
-	 */
-	@Column(name = "quantity", nullable = false)
-	public String getQuantity() {
-		return quantity;
-	}
-
-	/**
-	 * @param quantity
-	 *            : Invoice item quantity.
-	 */
-	public void setQuantity(String quantity) {
-		this.quantity = quantity;
-	}
-
-	/**
 	 * @return note: Invoice item note.
 	 */
 	@Column(name = "note")
@@ -85,6 +69,22 @@ public class InvoiceItems implements Serializable {
 	 */
 	public void setNote(String note) {
 		this.note = note;
+	}
+
+	/**
+	 * @return quantity: : Invoice item quantity.
+	 */
+	@Column(name = "quantity", nullable = false)
+	public double getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * @param quantity
+	 *            : Invoice item quantity.
+	 */
+	public void setQuantity(double quantity) {
+		this.quantity = quantity;
 	}
 
 	/**
@@ -257,11 +257,14 @@ public class InvoiceItems implements Serializable {
 		long temp;
 		temp = Double.doubleToLongBits(discount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(handling);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + idInvoiceItem;
+		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		temp = Double.doubleToLongBits(packaging);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result
-				+ ((quantity == null) ? 0 : quantity.hashCode());
+		temp = Double.doubleToLongBits(quantity);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(shipping);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(subTotal);
@@ -287,15 +290,21 @@ public class InvoiceItems implements Serializable {
 		if (Double.doubleToLongBits(discount) != Double
 				.doubleToLongBits(other.discount))
 			return false;
+		if (Double.doubleToLongBits(handling) != Double
+				.doubleToLongBits(other.handling))
+			return false;
 		if (idInvoiceItem != other.idInvoiceItem)
+			return false;
+		if (note == null) {
+			if (other.note != null)
+				return false;
+		} else if (!note.equals(other.note))
 			return false;
 		if (Double.doubleToLongBits(packaging) != Double
 				.doubleToLongBits(other.packaging))
 			return false;
-		if (quantity == null) {
-			if (other.quantity != null)
-				return false;
-		} else if (!quantity.equals(other.quantity))
+		if (Double.doubleToLongBits(quantity) != Double
+				.doubleToLongBits(other.quantity))
 			return false;
 		if (Double.doubleToLongBits(shipping) != Double
 				.doubleToLongBits(other.shipping))
