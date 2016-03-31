@@ -161,7 +161,7 @@ public class PersonaAction implements Serializable {
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
 		return filesFolderTemporal;
 	}
-	
+
 	/**
 	 * @return uploadPhotoTemporal: Flag indicating whether the picture is
 	 *         loaded from the temporary location or not.
