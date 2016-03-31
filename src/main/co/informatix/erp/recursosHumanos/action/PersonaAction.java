@@ -139,7 +139,7 @@ public class PersonaAction implements Serializable {
 	 */
 	public String getFilesFolder() {
 		this.filesFolder = Constantes.FOLDER_FILES
-				+ Constantes.CARPETA_ARCHIVOS_PERSONAS;
+				+ Constantes.FOLDER_FILES_PERSONS;
 		return filesFolder;
 	}
 

@@ -90,8 +90,12 @@ public class Constantes implements Serializable {
 			.getProperty("locate.reporte.actividad.label.historico.especifica");
 
 	/* Human Resources */
+	/*
 	public static final String CARPETA_ARCHIVOS_PERSONAS = PropertiesManager
 			.getProperty("locate.carpeta.archivos.personas");
+			*/
+	public static final String FOLDER_FILES_PERSONS = PropertiesManager
+			.getProperty("locate.folder.files.persons");
 
 	/* Validation Scripting */
 	public static final String POLICY_FILE_LOCATION = RUTA_UPLOADFILE_GLASFISH
@@ -125,7 +129,7 @@ public class Constantes implements Serializable {
 
 	/* Farm */
 	public static final String FOLDER_FILES_FARMS = PropertiesManager
-			.getProperty("locate.carpeta.archivos.farm");
+			.getProperty("locate.folder.files.farm");
 
 	/* END FOLDER PATHS */
 
