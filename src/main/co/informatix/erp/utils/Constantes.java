@@ -52,6 +52,9 @@ public class Constantes implements Serializable {
 		tempdir += System.getProperty("file.separator");
 		return tempdir;
 	}
+	
+	/* Adjust to deposit */
+	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE = 22;
 
 	/* Organizations */
 	public static final String CARPETA_ARCHIVOS_ORGANIZACIONES = PropertiesManager
