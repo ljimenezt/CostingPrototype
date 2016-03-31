@@ -193,7 +193,7 @@
 											</a:commandLink>
 										</div>
 										<a:outputPanel
-											rendered="#{purchaseInvoicesAction.loadDocumentTemporal eq true and purchaseInvoicesAction.iconPdf eq true }">
+											rendered="#{purchaseInvoicesAction.loadDocumentTemporal eq true and purchaseInvoicesAction.iconPdf eq true and purchaseInvoicesAction.iconImg eq false }">
 											<a:outputPanel
 												rendered="#{purchaseInvoicesAction.loadDocumentTemporal}">
 												<a target="_blank"
@@ -208,8 +208,9 @@
 													rendered="#{!purchaseInvoicesAction.loadDocumentTemporal}" />
 											</a:outputPanel>
 										</a:outputPanel>
+
 										<a:outputPanel
-											rendered="#{purchaseInvoicesAction.loadDocumentTemporal eq true and purchaseInvoicesAction.iconPdf eq false }">
+											rendered="#{purchaseInvoicesAction.loadDocumentTemporal eq true and purchaseInvoicesAction.iconPdf eq false and purchaseInvoicesAction.iconImg eq false }">
 											<a:outputPanel
 												rendered="#{purchaseInvoicesAction.loadDocumentTemporal}">
 												<a target="_blank"
@@ -219,6 +220,25 @@
 											</a:outputPanel>
 											<a:outputPanel>
 												<h:graphicImage value="/img/bigWord_128.png"
+													title="#{purchaseInvoicesAction.nameDocument}"
+													styleClass="H156P"
+													rendered="#{!purchaseInvoicesAction.loadDocumentTemporal}" />
+											</a:outputPanel>
+										</a:outputPanel>
+
+										<a:outputPanel
+											rendered="#{purchaseInvoicesAction.loadDocumentTemporal eq true and purchaseInvoicesAction.iconImg eq true }">
+											<a:outputPanel
+												rendered="#{purchaseInvoicesAction.loadDocumentTemporal}">
+												<a target="_blank"
+													href="#{request.contextPath}#{purchaseInvoicesAction.folderFileTemporal}/#{purchaseInvoicesAction.nameDocument}"><h:graphicImage
+														title="#{purchaseInvoicesAction.nameDocument}"
+														styleClass="H156P"
+														value="/#{purchaseInvoicesAction.folderFileTemporal}/#{purchaseInvoicesAction.nameDocument}" /></a>
+											</a:outputPanel>
+											<a:outputPanel>
+												<h:graphicImage
+													value="/#{purchaseInvoicesAction.folderFileTemporal}/#{purchaseInvoicesAction.nameDocument}"
 													title="#{purchaseInvoicesAction.nameDocument}"
 													styleClass="H156P"
 													rendered="#{!purchaseInvoicesAction.loadDocumentTemporal}" />
@@ -244,7 +264,7 @@
 										styleClass="W100Per">
 										<hr />
 										<h:outputText styleClass="etiquetaTitulo"
-											value="#{mensaje.label_ext_permitida}: #{propPrototipoCostos['locate.ext.permitidas.doc.docx.pdf']} " />
+											value="#{mensaje.label_ext_permitida}: #{propPrototipoCostos['locate.ext.permitidas.doc.pdf.img']} " />
 										<hr />
 									</h:panelGrid>
 								</a:outputPanel>
@@ -287,14 +307,24 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeWarehouse.purchase_invoice_label_number}" />
+							value="#{mensajeWarehouse.purchase_invoice_label_date}:" />
+						<h:outputText value="#{purchaseInvoicesAction.invoices.dateTime}" />
+						<h:outputText value="#{mensajeWarehouse.suppliers_label}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(purchaseInvoicesAction.itemsSupplier,purchaseInvoicesAction.invoices.idPurchaseInvoice)}" />
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_number}:" />
 						<h:outputText
 							value="#{purchaseInvoicesAction.invoices.invoiceNumber}" />
-						<h:outputText value="#{mensaje.label_description}:" />
+						<h:outputText value="#{mensaje.label_document}:" />
+						<h:outputText value="#{purchaseInvoicesAction.nameDocument}" />
+						<h:outputText value="#{mensaje.label_note}:" />
 						<h:outputText value="#{purchaseInvoicesAction.invoices.note}" />
+
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{purchaseInvoicesAction.saveInvoices()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

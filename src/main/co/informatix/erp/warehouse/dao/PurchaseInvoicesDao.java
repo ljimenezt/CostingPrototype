@@ -25,6 +25,30 @@ public class PurchaseInvoicesDao implements Serializable {
 	private EntityManager em;
 
 	/**
+	 * Modify a Purchase Invoices in the database.
+	 * 
+	 * @author Andres.Gomez
+	 * @param invoices
+	 *            : invoices to edit.
+	 * @throws Exception
+	 */
+	public void editInvoices(PurchaseInvoices invoices) throws Exception {
+		em.merge(invoices);
+	}
+
+	/**
+	 * Saves a Invoices in the database.
+	 * 
+	 * @author Andres.Gomez
+	 * @param invoices
+	 *            : invoices to save.
+	 * @throws Exception
+	 */
+	public void saveInvoices(PurchaseInvoices invoices) throws Exception {
+		em.persist(invoices);
+	}
+
+	/**
 	 * This method allow consult all PurchaseInvoices stored in data base
 	 * 
 	 * @author Sergio.Ortiz

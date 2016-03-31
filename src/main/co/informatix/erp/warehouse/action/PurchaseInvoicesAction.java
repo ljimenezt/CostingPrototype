@@ -1,5 +1,6 @@
 package co.informatix.erp.warehouse.action;
 
+import java.io.File;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -21,6 +22,7 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
+import co.informatix.erp.warehouse.dao.InvoiceItemsDao;
 import co.informatix.erp.warehouse.dao.PurchaseInvoicesDao;
 import co.informatix.erp.warehouse.dao.SuppliersDao;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
@@ -44,15 +46,20 @@ public class PurchaseInvoicesAction implements Serializable {
 	@EJB
 	private SuppliersDao suppliersDao;
 	@EJB
+	private InvoiceItemsDao invoiceItemsDao;
+	@EJB
 	private FileUploadBean fileUploadBean;
 
 	private String searchNumber;
 	private String searchSupplier;
 	private String nameDocument;
 	private String folderFileTemporal;
+	private String locationServer;
+	private String locationLocal;
 
 	private boolean loadDocumentTemporal;
 	private boolean iconPdf;
+	private boolean iconImg;
 
 	private List<PurchaseInvoices> listInovoices;
 	private List<SelectItem> itemsSupplier;
@@ -166,6 +173,23 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void setIconPdf(boolean iconPdf) {
 		this.iconPdf = iconPdf;
+	}
+
+	/**
+	 * @return iconImg: Flag indicating if the file is loaded from the temporary
+	 *         location or not and is a image
+	 */
+	public boolean isIconImg() {
+		return iconImg;
+	}
+
+	/**
+	 * @param iconImg
+	 *            :Flag indicating if the file is loaded from the temporary
+	 *            location or not and is a image
+	 */
+	public void setIconImg(boolean iconImg) {
+		this.iconImg = iconImg;
 	}
 
 	/**
@@ -318,6 +342,17 @@ public class PurchaseInvoicesAction implements Serializable {
 		this.folderFileTemporal = Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
 		return folderFileTemporal;
+	}
+
+	/**
+	 * This Method assigned the values to the variables
+	 */
+	public void getLocations() {
+		String pathLocation = Constantes.FOLDER_FILES
+				+ Constantes.FOLDER_INVOICES;
+		locationServer = Constantes.RUTA_UPLOADFILE_GLASFISH + pathLocation;
+		locationServer = locationServer.replace("\\", "/");
+		locationLocal = Constantes.RUTA_UPLOADFILE_WORKSPACE + pathLocation;
 	}
 
 	/**
@@ -519,6 +554,9 @@ public class PurchaseInvoicesAction implements Serializable {
 			if (invoices != null) {
 				this.invoices = invoices;
 				this.nameDocument = invoices.getInvoiceDocumentLink();
+				if (!("").equals(nameDocument) && nameDocument != null) {
+					relocateFileTemp();
+				}
 			} else {
 				this.invoices = new PurchaseInvoices();
 				this.invoices.setSuppliers(new Suppliers());
@@ -529,6 +567,33 @@ public class PurchaseInvoicesAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return "regInvoice";
+	}
+
+	/**
+	 * This method allows relocate file saving in the server to copy in the
+	 * temporal folder when the invoice have a document
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+	private void relocateFileTemp() throws Exception {
+		getFolderFileTemporal();
+		getLocations();
+		String suffix = FilenameUtils.getExtension(nameDocument);
+		if (suffix.equals(Constantes.FILE_EXT_PDF)) {
+			iconPdf = true;
+		} else if (suffix.equals(Constantes.FILE_EXT_DOCX)
+				|| suffix.equals(Constantes.FILE_EXT_DOC)) {
+			iconImg = false;
+			iconPdf = false;
+		} else {
+			iconImg = true;
+			iconPdf = false;
+		}
+		String location = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ folderFileTemporal;
+		File fileTemp = new File(locationServer + "/" + nameDocument);
+		FileUploadBean.fileCopyLocationReal(fileTemp, location);
 	}
 
 	/**
@@ -592,7 +657,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void submit(FileUploadEvent e) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String extAccepted[] = Constantes.EXT_DOC_PDF.split(", ");
+		String extAccepted[] = Constantes.EXT_PDF_DOC_IMG.split(", ");
 		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
 				+ getFolderFileTemporal() };
 		fileUploadBean.setUploadedFile(e.getFile());
@@ -618,13 +683,17 @@ public class PurchaseInvoicesAction implements Serializable {
 		this.nameDocument = fileUploadBean.getFileName();
 		if (Constantes.OK.equals(resultUpload)) {
 			String suffix = FilenameUtils.getExtension(this.nameDocument);
-			if (suffix.equals("pdf")) {
+			if (suffix.equals(Constantes.FILE_EXT_PDF)) {
 				iconPdf = true;
+			} else if (suffix.equals(Constantes.FILE_EXT_DOCX)
+					|| suffix.equals(Constantes.FILE_EXT_DOC)) {
+				iconImg = false;
+				iconPdf = false;
 			} else {
+				iconImg = true;
 				iconPdf = false;
 			}
 		}
-
 	}
 
 	/**
@@ -652,4 +721,106 @@ public class PurchaseInvoicesAction implements Serializable {
 				+ getFolderFileTemporal() };
 		fileUploadBean.delete(locations, fileName);
 	}
+
+	/**
+	 * Method used to save or edit the invoices
+	 * 
+	 * @return searchInitialize: Redirects to manage deposits with a list of
+	 *         updated deposits
+	 */
+	public String saveInvoices() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String mensajeRegistro = "message_registro_modificar";
+		try {
+			getLocations();
+			getFolderFileTemporal();
+			String nameActualDocument = this.invoices.getInvoiceDocumentLink();
+			if (!("").equals(nameDocument) && nameDocument != null) {
+				getLocations();
+				getFolderFileTemporal();
+				if (!("").equals(nameActualDocument)
+						&& nameActualDocument != null) {
+					if (nameDocument != nameActualDocument) {
+						deleteOldFile(nameActualDocument);
+					}
+				}
+				saveFiles();
+			} else {
+				if (nameActualDocument != null) {
+					deleteOldFile(nameActualDocument);
+				}
+			}
+			this.invoices.setInvoiceDocumentLink(nameDocument);
+			if (this.invoices.getIdPurchaseInvoice() != 0) {
+				calculateValuesInvoices();
+				purchaseInvoicesDao.editInvoices(this.invoices);
+			} else {
+				mensajeRegistro = "message_registro_guardar";
+
+				purchaseInvoicesDao.saveInvoices(this.invoices);
+			}
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString(mensajeRegistro),
+					invoices.getInvoiceNumber()));
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return searchInitialize();
+	}
+
+	/**
+	 * This method allows delete the old file saving preview to replace with the
+	 * new file
+	 * 
+	 * @param nameActualDocument
+	 */
+	private void deleteOldFile(String nameActualDocument) {
+		String locationTemp[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFolderFileTemporal() };
+		String locServer[] = { locationServer };
+		String locnLocal[] = { locationLocal };
+		fileUploadBean.delete(locationTemp, nameActualDocument);
+		fileUploadBean.delete(locServer, nameActualDocument);
+		fileUploadBean.delete(locnLocal, nameActualDocument);
+	}
+
+	/**
+	 * This method allow save the file in the server and the local path
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+	private void saveFiles() throws Exception {
+		String location = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ folderFileTemporal + "/" + nameDocument;
+		File fileTemp = new File(location);
+		FileUploadBean.fileCopyLocationReal(fileTemp, locationServer);
+		FileUploadBean.fileCopyLocationReal(fileTemp, locationLocal);
+	}
+
+	/**
+	 * This method allow calculate the values according with the items invoice
+	 * values
+	 * 
+	 * @throws Exception
+	 */
+	private void calculateValuesInvoices() throws Exception {
+		int idPurchaseInvoice = this.invoices.getIdPurchaseInvoice();
+		Object[] values = invoiceItemsDao.consultValuesItems(idPurchaseInvoice);
+		if (values[0] != null) {
+			double subtotal = (double) values[0];
+			double shipping = (double) values[1];
+			double packaging = (double) values[2];
+			double taxes = (double) values[3];
+			double discount = (double) values[4];
+			double totalValueActual = (double) values[5];
+			this.invoices.setSubtotal(subtotal);
+			this.invoices.setShipping(shipping);
+			this.invoices.setPackaging(packaging);
+			this.invoices.setTaxes(taxes);
+			this.invoices.setDiscount(discount);
+			this.invoices.setTotalValueActual(totalValueActual);
+		}
+	}
+
 }
