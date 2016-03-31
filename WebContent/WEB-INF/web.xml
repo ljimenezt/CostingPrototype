@@ -54,7 +54,6 @@
 			/informacionBase/unidadMedida/faces-config-unidadMedida.xml,
 			/informacionBase/unidadMedida/tipoUnidadMedida/faces-config-tipoUnidadMedida.xml,
 			/informacionBase/unidadMedida/conversion/faces-config-conversionUnidadMedida.xml,
-			/informacionBase/estadoCivil/faces-config-estadoCivil.xml,
 			/informacionBase/estado/faces-config-estado.xml,
 			/informacionBase/civilStatus/faces-config-civilStatus.xml,
 			/informacionBase/typeUnit/faces-config-typeUnit.xml,
