@@ -138,8 +138,7 @@ public class PersonaAction implements Serializable {
 	 *         pictures are saved person.
 	 */
 	public String getFilesFolder() {
-		this.filesFolder = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
-				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
+		this.filesFolder = Constantes.FOLDER_FILES
 				+ Constantes.CARPETA_ARCHIVOS_PERSONAS;
 		return filesFolder;
 	}
@@ -158,12 +157,11 @@ public class PersonaAction implements Serializable {
 	 *         people loaded.
 	 */
 	public String getFilesFolderTemporal() {
-		this.filesFolderTemporal = Constantes.CARPETA_ARCHIVOS_RECURSOS_HUMANOS
-				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
+		this.filesFolderTemporal = Constantes.FOLDER_FILES
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
 		return filesFolderTemporal;
 	}
-
+	
 	/**
 	 * @return uploadPhotoTemporal: Flag indicating whether the picture is
 	 *         loaded from the temporary location or not.
