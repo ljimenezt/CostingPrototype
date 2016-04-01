@@ -40,7 +40,7 @@
 							value="#{cycleStandardActivitiesAction.itemsCropName}" />
 						<f:ajax event="change"
 							listener="#{cycleStandardActivitiesAction.consultCycleStandarActivities}"
-							render=":formInicio mensajes" execute="@this" />
+							render="@form" execute="@this" />
 					</h:selectOneMenu>
 					<rich:message for="cropName" />
 				</h:panelGrid>
