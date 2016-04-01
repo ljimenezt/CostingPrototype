@@ -169,4 +169,9 @@ public class MeasurementUnitsDao implements Serializable {
 		}
 		return null;
 	}
+
+	// TODO javadoc
+	public MeasurementUnits measurementUnitByID(int id) {
+		return em.find(MeasurementUnits.class, id);
+	}
 }
