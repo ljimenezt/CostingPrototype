@@ -381,7 +381,6 @@ public class UnitConversionAction implements Serializable {
 
 		try {
 			String messageLog = "message_registro_guardar";
-			UnitConversionPK pk = new UnitConversionPK();
 			int idOriginal = this.unitConversion.getUnitConversionPk()
 					.getOriginalUnit().getIdMeasurementUnits();
 			int idFinal = this.unitConversion.getUnitConversionPk()
@@ -390,9 +389,7 @@ public class UnitConversionAction implements Serializable {
 					.measurementUnitByID(idOriginal);
 			MeasurementUnits finalUnit = measurementUnitsDao
 					.measurementUnitByID(idFinal);
-			pk.setOriginalUnit(originalUnit);
-			pk.setFinalUnit(finalUnit);
-			this.unitConversion.setUnitConversionPk(pk);
+
 			if (this.edited == true) {
 				messageLog = "message_registro_modificar";
 				unitConversionDao.editUnitConversion(this.unitConversion);
