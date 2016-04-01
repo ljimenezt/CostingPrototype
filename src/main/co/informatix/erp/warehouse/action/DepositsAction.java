@@ -879,6 +879,14 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
+	 * Clear fields for adjustement deposit
+	 */
+	public void clearFieldAdjust() {
+		setNewQuantity(null);
+		setJustificationTransaction(null);
+	}
+
+	/**
 	 * This method allows validate the required fields.
 	 * 
 	 * @author Wilhelm.Boada
