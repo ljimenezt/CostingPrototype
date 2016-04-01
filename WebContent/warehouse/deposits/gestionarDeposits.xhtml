@@ -175,6 +175,7 @@
 								<f:facet name="header">#{mensaje.label_adjust}</f:facet>
 								<a:commandLink
 									actionListener="#{depositsAction.setDepositDetails(deposit)}"
+									action="#{depositsAction.clearFieldAdjust()}"
 									render="popUpAdjust"
 									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpAdjust')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
 									<h:graphicImage value="/img/adjust_16.png" />
@@ -385,9 +386,8 @@
 		</h:form>
 
 		<h:form id="formPopUpAdjust">
-			<rich:popupPanel id="popUpAdjust" modal="true"
-				domElementAttachment="form" autosized="true" width="1200"
-				maxWidth="1300"
+			<rich:popupPanel id="popUpAdjust" domElementAttachment="form"
+				autosized="true"
 				header="#{mensajeWarehouse.deposits_label_adjustement}">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -398,12 +398,13 @@
 							onclick="#{rich:component('popUpAdjust')}.hide()" />
 					</h:panelGroup>
 				</f:facet>
-				<rich:panel styleClass="H383P fondoAnchoUno W400P">
+				<rich:panel styleClass="fondoAnchoUno">
 					<a:outputPanel id="Adjust">
 						<script type="text/javascript">
 						$g = jQuery.noConflict();		
 					</script>
-						<h:panelGrid columns="4" columnClasses="left,W24P,left">
+						<h:panelGrid columns="4" columnClasses="left,W24P,left"
+							cellpadding="5" cellspacing="0">
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.materials_label}:" />
@@ -439,35 +440,35 @@
 								value="#{depositsAction.depositDetails.actualQuantity}" />
 							<h:outputText value="" />
 						</h:panelGrid>
-
-						<h:panelGrid columns="3"
-							columnClasses="left tdAlignTop,W44P tdAlignTop, left">
+						<br />
+						<h:panelGrid columns="4"
+							columnClasses="left tdAlignTop,W44P tdAlignTop, left"
+							cellpadding="5" cellspacing="3">
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.deposits_label_actual_quantity}:" />
 							<h:outputText value="*" styleClass="required" />
 
-							<a:outputPanel>
-								<h:panelGrid columns="2" columnClasses=",W135P">
-									<h:inputText styleClass="colTextoMini"
-										converterMessage="#{mensaje.message_campo_positivo}"
-										validator="#{depositsAction.validateDuration}"
-										value="#{depositsAction.newQuantity}" id="txtActualQuantity">
-										<f:validateDoubleRange minimum="0" />
-									</h:inputText>
-									<rich:message for="txtActualQuantity" />
-								</h:panelGrid>
-							</a:outputPanel>
+							<h:inputText styleClass="colTextoXCorto" required="true"
+								label="#{mensajeWarehouse.deposits_label_actual_quantity}"
+								converterMessage="#{mensaje.message_campo_positivo}"
+								validator="#{depositsAction.validateDuration}"
+								value="#{depositsAction.newQuantity}" id="txtActualQuantity">
+								<f:validateDoubleRange minimum="0" />
+							</h:inputText>
+							<rich:message for="txtActualQuantity" />
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_justificacion}:" />
-							<h:outputText value="" />
+							<h:outputText value="*" styleClass="required" />
 							<h:inputTextarea
 								value="#{depositsAction.justificationTransaction}"
-								styleClass="colTextoCortoTextArea" id="txtJustification"
+								required="true" styleClass="colTextoMedianoTextArea"
+								id="txtJustification"
 								validator="#{encodeFilter.validarScripting}"
 								requiredMessage="#{mensaje.message_campo_requerido}">
 								<f:validateLength maximum="200" />
 							</h:inputTextarea>
+							<rich:message for="txtJustification" />
 						</h:panelGrid>
 
 						<br />
@@ -552,7 +553,8 @@
 				</f:facet>
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
-						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+						<h:outputText
+							value="#{mensajeWarehouse.deposit_message_adjust_deposit_confirm}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="botones">

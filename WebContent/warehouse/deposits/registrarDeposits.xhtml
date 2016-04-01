@@ -214,6 +214,7 @@
 				value="#{depositsAction.deposits.purchaseInvoices.invoiceNumber}"
 				id="txtInvoiceNumber" />
 		</h:form>
+		
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
 				maxWidth="500" header="#{mensaje.label_confirmation}">
@@ -276,6 +277,7 @@
 				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
+		
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupInvoice" autosized="true"
 				styleClass="H440P fondoAnchoUno W600P" domElementAttachment="form"
@@ -375,7 +377,7 @@
 							<rich:column styleClass="colIconoUno">
 								<f:facet name="header" />
 								<a:commandLink
-									render=":formDeposits:txtInvoiceNumber, :formDeposits:txtSupplier, :formDeposits:txtInvoiceNumber2"
+									render=":formDeposits:txtInvoiceNumber, :formDeposits:txtSupplier, :formDeposits:txtInvoiceNumber2, :formDeposits:materials"
 									actionListener="#{depositsAction.loadInvoice(invoice)}"
 									oncomplete="#{rich:component('popupInvoice')}.hide();">
 									<h:graphicImage value="/img/add_16.png" />
