@@ -19,7 +19,7 @@ import javax.persistence.Table;
 public class UnitConversion implements Serializable {
 
 	private UnitConversionPK unitConversionPk;
-	private float conversionFactor;
+	private double conversionFactor;
 
 	/**
 	 * Default constructor that initializes the necessary variable as an empty
@@ -52,7 +52,7 @@ public class UnitConversion implements Serializable {
 	 * 
 	 */
 	@Column(name = "conversion_factor", nullable = false)
-	public float getConversionFactor() {
+	public double getConversionFactor() {
 		return conversionFactor;
 	}
 
@@ -60,7 +60,7 @@ public class UnitConversion implements Serializable {
 	 * @param conversionFactor
 	 *            : conversion factor between two units.
 	 */
-	public void setConversionFactor(float conversionFactor) {
+	public void setConversionFactor(double conversionFactor) {
 		this.conversionFactor = conversionFactor;
 	}
 
@@ -68,7 +68,9 @@ public class UnitConversion implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Float.floatToIntBits(conversionFactor);
+		long temp;
+		temp = Double.doubleToLongBits(conversionFactor);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime
 				* result
 				+ ((unitConversionPk == null) ? 0 : unitConversionPk.hashCode());
@@ -84,8 +86,8 @@ public class UnitConversion implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		UnitConversion other = (UnitConversion) obj;
-		if (Float.floatToIntBits(conversionFactor) != Float
-				.floatToIntBits(other.conversionFactor))
+		if (Double.doubleToLongBits(conversionFactor) != Double
+				.doubleToLongBits(other.conversionFactor))
 			return false;
 		if (unitConversionPk == null) {
 			if (other.unitConversionPk != null)

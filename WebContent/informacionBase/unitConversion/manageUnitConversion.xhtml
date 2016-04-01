@@ -52,10 +52,10 @@
 						<f:selectItems value="#{unitConversionAction.unitOptions}" />
 						<f:ajax event="change"
 							listener="#{unitConversionAction.setFinalUnitIdSearch('')}"
-							render=":formUnitConversion" />
+							render="mensaje, mensajeBusqueda" />
 						<f:ajax event="change"
 							listener="#{unitConversionAction.searchUnitConversion()}"
-							render="mensajes, mensajeBusqueda" />
+							render="mensajes mensajeBusqueda :formUnitConversion:panelUnitConversion" />
 					</h:selectOneMenu>
 				</h:panelGrid>
 
@@ -79,10 +79,19 @@
 							</a:commandLink>
 						</a:outputPanel>
 					</rich:column>
-					<rich:column styleClass="colTextoExxtraLargo">
-						<f:facet name="header">#{mensajeInformacionBase.unit_conversion_original_unit} - #{mensajeInformacionBase.unit_conversion_final_unit}</f:facet>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeInformacionBase.unit_conversion_original_unit} </f:facet>
 						<h:commandLink
-							value="#{unitConversion.unitConversionPk.originalUnit.name} - #{unitConversion.unitConversionPk.finalUnit.name}"
+							value="#{unitConversion.unitConversionPk.originalUnit.name}"
+							action="#{unitConversionAction.addEditUnitConversion(unitConversion)}"
+							onclick="#{rich:component('statPane')}.show();">
+						</h:commandLink>
+					</rich:column>
+
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header"> #{mensajeInformacionBase.unit_conversion_final_unit}</f:facet>
+						<h:commandLink
+							value="#{unitConversion.unitConversionPk.finalUnit.name}"
 							action="#{unitConversionAction.addEditUnitConversion(unitConversion)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
