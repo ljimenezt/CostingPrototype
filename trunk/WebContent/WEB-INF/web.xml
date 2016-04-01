@@ -57,6 +57,8 @@
 			/informacionBase/estado/faces-config-estado.xml,
 			/informacionBase/civilStatus/faces-config-civilStatus.xml,
 			/informacionBase/typeUnit/faces-config-typeUnit.xml,
+			/informacionBase/unitConversion/faces-config-unit-conversion.xml,
+			
 
             /organizaciones/empresas/faces-config-empresas.xml,
             /organizaciones/organizacion/faces-config-organizacion.xml,

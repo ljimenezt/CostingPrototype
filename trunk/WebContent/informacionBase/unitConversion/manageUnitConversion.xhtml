@@ -1,0 +1,204 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="unitConversionAction.searchInitialization" />
+	<ui:param name="titulo"
+		value="mensaje.label_gestionar,mensajeInformacionBase.unit_conversion_label_s" />
+
+	<ui:define name="body">
+		<t:saveState value="#{unitConversionAction}" />
+		<ui:param name="listaVacia"
+			value="#{unitConversionAction.unitConversionsList eq null or (empty unitConversionAction.unitConversionsList)}" />
+		<ui:param name="anchoTabla" value="anchoCuatro" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{unitConversionAction}" />
+		<ui:param name="renderLista" value="panelUnitConversion vigenciaPopup" />
+		<ui:param name="metodoLista" value="searchUnitConversion" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="unitConversionAction" />
+		<ui:param name="metodoNuevo" value="addEditUnitConversion" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
+
+		<h:form id="formUnitConversion">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listado_de} #{mensajeInformacionBase.unit_conversion_label_s}"
+				id="panelUnitConversion">
+
+				<h:panelGrid columns="2"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,">
+					<h:outputText
+						value="#{mensajeInformacionBase.unit_conversion_original_unit}"
+						styleClass="etiquetaTitulo" />
+					<h:selectOneMenu id="originalUnitBuscar"
+						value="#{unitConversionAction.originalUnitIdSearch}"
+						styleClass="colTextoMediano" required="false">
+						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="" />
+						<f:selectItems value="#{unitConversionAction.unitOptions}" />
+						<f:ajax event="change"
+							listener="#{unitConversionAction.setFinalUnitIdSearch('')}"
+							render=":formUnitConversion" />
+						<f:ajax event="change"
+							listener="#{unitConversionAction.searchUnitConversion()}"
+							render="mensajes, mensajeBusqueda" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<rich:dataTable value="#{unitConversionAction.unitConversionsList}"
+					var="unitConversion"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoUno">
+						<a:outputPanel
+							rendered="#{(identity.autorizado('unitConversionAction','A') or identity.autorizado('unitConversionAction','D'))}">
+							<a:commandLink render="popupEliminar"
+								actionListener="#{unitConversionAction.setUnitConversion(unitConversion)}"
+								oncomplete="#{rich:component('popupEliminar')}.show()">
+								<h:graphicImage value="/img/delete_16.png" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.button_remove}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</a:outputPanel>
+					</rich:column>
+					<rich:column styleClass="colTextoExxtraLargo">
+						<f:facet name="header">#{mensajeInformacionBase.unit_conversion_original_unit} - #{mensajeInformacionBase.unit_conversion_final_unit}</f:facet>
+						<h:commandLink
+							value="#{unitConversion.unitConversionPk.originalUnit.name} - #{unitConversion.unitConversionPk.finalUnit.name}"
+							action="#{unitConversionAction.addEditUnitConversion(unitConversion)}"
+							onclick="#{rich:component('statPane')}.show();">
+						</h:commandLink>
+					</rich:column>
+
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeInformacionBase.unit_conversion_factor}</f:facet>
+						<h:outputText value="#{unitConversion.conversionFactor}" />
+					</rich:column>
+
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="7" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="botonesAbajo" value="si" />
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="#{anchoTabla} center inBlock">
+						<ui:include src="/plantillas/templatePagination.xhtml">
+							<ui:param name="valReder" value="panelUnitConversion" />
+							<ui:param name="beanActionParam" value="#{unitConversionAction}" />
+							<ui:param name="metodoActionParam" value="searchUnitConversion" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+		<h:form id="formBuscar">
+			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="400"
+				header="#{mensaje.button_search} #{mensajeInformacionBase.unit_conversion_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<h:panelGrid columns="2"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,">
+					<h:outputText
+						value="#{mensajeInformacionBase.unit_conversion_original_unit}"
+						styleClass="etiquetaTitulo" />
+					<h:selectOneMenu
+						value="#{unitConversionAction.originalUnitIdSearch}"
+						styleClass="colTextoMediano" required="false">
+						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="" />
+						<f:selectItems value="#{unitConversionAction.unitOptions}" />
+					</h:selectOneMenu>
+					<h:outputText
+						value="#{mensajeInformacionBase.unit_conversion_original_unit}"
+						styleClass="etiquetaTitulo" />
+					<h:selectOneMenu value="#{unitConversionAction.finalUnitIdSearch}"
+						styleClass="colTextoMediano" required="false">
+						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="" />
+						<f:selectItems value="#{unitConversionAction.unitOptions}" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+						actionListener="#{unitConversionAction.searchUnitConversion}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelUnitConversion, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form>
+			<rich:popupPanel id="popupEliminar" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText
+							value="#{mensajeInformacionBase.unit_conversion_original_unit}:" />
+						<h:outputText
+							value="#{unitConversionAction.unitConversion.unitConversionPk.originalUnit.name}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							actionListener="#{unitConversionAction.removeUnitConversion()}"
+							onclick="#{rich:component('popupEliminar')}.hide()"
+							render="panelUnitConversion, mensajes, mensajeBusqueda" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupEliminar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
