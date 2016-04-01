@@ -430,7 +430,10 @@
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_total_cost}:" />
 							<h:outputText value="" />
-							<h:outputText value="#{depositsAction.depositDetails.totalCost}" />
+							<h:outputText value="#{depositsAction.depositDetails.totalCost}">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
