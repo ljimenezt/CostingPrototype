@@ -22,9 +22,9 @@
 					columnClasses="W50Per,W50Per" styleClass="anchoDos">
 					<h:selectOneRadio value="#{personaAction.vigencia}"
 						styleClass="rdVigencia">
-						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_vigentes}" />
+						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
 						<f:selectItem itemValue="no"
-							itemLabel="#{mensaje.label_no_vigentes}" />
+							itemLabel="#{mensaje.label_not_current}" />
 						<a:ajax event="click" listener="#{personaAction.consultPersons()}"
 							render="personasPanel, mensajes, mensajeBusqueda">
 						</a:ajax>
@@ -125,19 +125,19 @@
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">
-							<h:outputText value="#{mensaje.label_apellido}" />
+							<h:outputText value="#{mensaje.label_surname}" />
 						</f:facet>
 						<h:outputText value="#{persona.apellidos} " />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">
-							<h:outputText value="#{mensaje.label_telefono}" />
+							<h:outputText value="#{mensaje.label_telephone_number}" />
 						</f:facet>
 						<h:outputText value="#{persona.telefono} " />
 					</rich:column>
 					<rich:column styleClass="colFecha">
 						<f:facet name="header">
-							<h:outputText value="#{mensaje.label_fecha_creacion}" />
+							<h:outputText value="#{mensaje.label_creation_date}" />
 						</f:facet>
 						<h:outputText value="#{persona.fechaCreacion}">
 							<f:convertDateTime pattern="MMM dd, yyyy"

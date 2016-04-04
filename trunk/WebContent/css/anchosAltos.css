@@ -123,8 +123,20 @@
 	height: 440px;
 }
 
+.H430P {
+	height: 430px;
+}
+
+.H450P {
+	height: 450px;
+}
+
 .H485P {
 	height: 485px !important;
+}
+
+.H502P {
+	height: 502px;
 }
 
 .H544P {
@@ -207,6 +219,10 @@
 
 .W82P {
 	width: 82px;
+}
+
+.W85P {
+	width: 85px;
 }
 
 .W90P input {

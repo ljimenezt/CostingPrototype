@@ -280,7 +280,7 @@
 		
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupInvoice" autosized="true"
-				styleClass="H440P fondoAnchoUno W600P" domElementAttachment="form"
+				styleClass="H502P fondoAnchoUno W580P" domElementAttachment="form"
 				header="#{mensaje.label_listado_de} #{mensajeWarehouse.purchase_invoice_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -295,30 +295,26 @@
 					<t:fieldset styleClass="BorderW2P">
 						<legend class="etiquetaTitulo">#{mensaje.label_buscar}
 							#{mensajeWarehouse.purchase_invoice_label}</legend>
-						<h:panelGrid columns="4" cellpadding="0">
+						<h:panelGrid columns="2" cellpadding="0">
 							<h:outputText
 								value="#{mensajeWarehouse.purchase_invoice_label_number}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText size="30" maxlength="100" id="txtSearchNumber"
 								value="#{purchaseInvoicesAction.searchNumber}"
 								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
-							<h:outputText value="" />
-							<h:outputText value="" />
 
 							<h:outputText value="#{mensajeWarehouse.suppliers_label_nombre}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText size="30" maxlength="100" id="txtSearchSupplier"
 								value="#{purchaseInvoicesAction.searchSupplier}"
 								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
-							<h:outputText value="" />
-							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_fecha_inicio}" />
 							<p:calendar value="#{purchaseInvoicesAction.initialDateSearch}"
-								readonlyInput="true" showOn="button" navigator="true"
-								onSelectUpdate="endDate" id="startDate" pattern="MM/dd/yyyy"
-								label="#{mensaje.label_fecha_inicio}">
+								styleClass="W104P" readonlyInput="true" showOn="button"
+								navigator="true" onSelectUpdate="endDate" id="startDate"
+								pattern="MM/dd/yyyy" label="#{mensaje.label_fecha_inicio}">
 								<p:ajax process="@form" event="dateSelect"
 									update="popupForm:outPutSearchInvoice" />
 							</p:calendar>
@@ -326,11 +322,13 @@
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_fecha_finalizacion}" />
 							<p:calendar value="#{purchaseInvoicesAction.finalDateSearch}"
-								readonlyInput="true" showOn="button" navigator="true"
+								styleClass="W104P" readonlyInput="true" showOn="button"
+								navigator="true"
 								mindate="#{purchaseInvoicesAction.initialDateSearch}"
 								id="endDate" pattern="MM/dd/yyyy"
 								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')"
 								label="#{mensaje.label_fecha_finalizacion}" />
+
 						</h:panelGrid>
 						<br />
 						<div class="W100Per center inBlock">
