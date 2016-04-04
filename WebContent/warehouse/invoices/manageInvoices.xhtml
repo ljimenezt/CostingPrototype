@@ -16,6 +16,7 @@
 	<ui:define name="body">
 		<t:saveState value="#{purchaseInvoicesAction}" />
 		<t:saveState value="#{invoiceItemsAction}" />
+		<t:saveState value="#{materialsAction}" />
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
@@ -92,43 +93,52 @@
 							<rich:column styleClass="colValorLargo">
 								<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
 								<h:outputText value="#{invoice.subtotal}">
-									<f:convertNumber pattern="#,##0.00" />
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colValorLargo">
 								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_shipping}</f:facet>
 								<h:outputText value="#{invoice.shipping}">
-									<f:convertNumber pattern="#,##0.00" />
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colValorLargo">
 								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_packaging}</f:facet>
 								<h:outputText value="#{invoice.packaging}">
-									<f:convertNumber pattern="#,##0.00" />
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colValorLargo">
 								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_taxes}</f:facet>
 								<h:outputText value="#{invoice.taxes}">
-									<f:convertNumber pattern="#,##0.00" />
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colValorLargo">
 								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_discount}</f:facet>
 								<h:outputText value="#{invoice.discount}">
-									<f:convertNumber pattern="#,##0.00" />
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colValorLargo">
+
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensaje.label_total}</f:facet>
 								<h:outputText value="#{invoice.totalValueActual}">
-									<f:convertNumber pattern="#,##0.00" />
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
+
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensaje.label_document}</f:facet>
 								<h:outputText value="#{invoice.invoiceDocumentLink}" />
 							</rich:column>
+
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensaje.label_note}</f:facet>
 								<h:outputText value="#{invoice.note}" />

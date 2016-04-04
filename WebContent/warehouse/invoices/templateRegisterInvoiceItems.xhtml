@@ -7,6 +7,7 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	<h:body>
+	
 		<h:form id="formRegInvoiceItems">
 			<rich:popupPanel id="popupRegInvoiceItems" autosized="true"
 				domElementAttachment="form" styleClass="H340P fondoAnchoUno W440P"
@@ -22,32 +23,40 @@
 				</f:facet>
 				<t:fieldset styleClass="BorderW2P">
 					<h:panelGrid columns="4">
-
-						<h:outputText value="#{mensajeWarehouse.materials_type_label}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
-						<h:selectOneMenu id="cmbMaterialsType"
-							value="#{invoiceItemsAction.idMaterialsType}"
-							styleClass="colTextoCorto">
-							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
-							<f:selectItems value="#{invoiceItemsAction.itemsMaterialsType}" />
-							<f:ajax event="change"
-								listener="#{invoiceItemsAction.loadMaterials()}"
-								render=":formRegInvoiceItems:cmbMaterials" />
-						</h:selectOneMenu>
-						<rich:message for="cmbMaterialsType" />
-
 						<h:outputText value="#{mensajeWarehouse.materials_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu id="cmbMaterials"
-							value="#{invoiceItemsAction.invoiceItems.material.idMaterial}"
-							styleClass="colTextoCorto" required="true"
-							validator="#{validacionesAction.validarComboRequerido}">
-							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
-							<f:selectItems value="#{invoiceItemsAction.itemsMaterials}" />
-						</h:selectOneMenu>
-						<rich:message for="cmbMaterials" />
+						<h:panelGrid columns="4" cellpadding="0" cellspacing="0">
+							<h:inputText styleClass="colTextoCorto"
+								value="#{invoiceItemsAction.invoiceItems.material.name}"
+								id="txtMaterial2" readonly="true"
+								validator="#{encodeFilter.validarScripting}" />
+							<a:commandLink id="lnkMaterial" render=":popupForm:popupMaterial"
+								actionListener="#{materialsAction.initializeSearch}"
+								execute="@this"
+								oncomplete="#{rich:component('popupMaterial')}.show(); setFocus('popupForm:txtSearchName');">
+								<h:graphicImage value="/img/add_22.png"
+									styleClass="verticalAlignMiddle" />
+								<f:param name="param2" value="si" />
+								<f:setPropertyActionListener value=""
+									target="#{materialsAction.nameSearch}" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_select}" />
+								</rich:tooltip>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+							<h:outputText value="&#32;&#32;&#32;" />
+							<a:commandLink
+								actionListener="#{invoiceItemsAction.cleanMaterial()}"
+								render=":formRegInvoiceItems:txtMaterial, :formRegInvoiceItems:txtMaterial2"
+								execute="@this">
+								<h:graphicImage value="/img/editRemove_16.png" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_quitar}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</h:panelGrid>
+						<rich:message for="txtMaterial2" />
 
 						<h:outputText value="#{mensaje.label_cantidad}"
 							styleClass="etiquetaTitulo" />
@@ -66,8 +75,6 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
 						<rich:message for="subTotalItem" />
 
@@ -80,8 +87,6 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
 						<rich:message for="shippingItem" />
 
@@ -94,8 +99,6 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
 						<rich:message for="taxesItem" />
 
@@ -108,8 +111,6 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
 						<rich:message for="packagingItem" />
 
@@ -122,8 +123,6 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
 						<rich:message for="handlingItem" />
 
@@ -136,8 +135,6 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
 						<rich:message for="discountItem" />
 
@@ -149,8 +146,6 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
 						<rich:message for="totalItem" />
 
@@ -162,8 +157,6 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
 						<rich:message for="unitCostItem" />
 
@@ -176,6 +169,9 @@
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="noteItem" />
 					</h:panelGrid>
+					<h:inputHidden
+						value="#{invoiceItemsAction.invoiceItems.material.name}"
+						id="txtMaterial" />
 					<br />
 					<div align="center">
 						<h:panelGrid columns="2" columnClasses="right W106P, center">
@@ -213,9 +209,38 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
+						<h:outputText value="#{mensajeWarehouse.materials_label}:" />
+						<h:outputText
+							value="#{invoiceItemsAction.invoiceItems.material.name}" />
+						<h:outputText value="#{mensaje.label_cantidad}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.quantity}" />
+						<h:outputText value="#{mensaje.label_subtotal}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.subTotal}" />
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_shipping}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.shipping}" />
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_taxes}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.taxes}" />
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_packaging}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.packaging}" />
+						<h:outputText
+							value="#{mensajeWarehouse.invoice_items_label_handling}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.handling}" />
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_discount}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.discount}" />
+						<h:outputText value="#{mensaje.label_total}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.total}" />
+						<h:outputText value="#{mensaje.label_unit_cost}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.unitCost}" />
+						<h:outputText value="#{mensaje.label_unit_cost}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.note}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{invoiceItemsAction.saveUpdateInvoiceItem}"
 							onclick="#{rich:component('popUpConfirmActual')}.hide(); #{rich:component('statPane')}.show();">
 							<f:param name="param2" value="si" />
 						</h:commandButton>
@@ -226,5 +251,133 @@
 			</rich:popupPanel>
 		</h:form>
 
+		<h:form id="popupForm">
+			<rich:popupPanel id="popupMaterial" autosized="true"
+				styleClass="H450P fondoAnchoUno W580P" domElementAttachment="form"
+				header="#{mensaje.label_listado_de} #{mensajeWarehouse.materials_label_s}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupMaterial')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<a:outputPanel id="outPutSearchMaterials">
+					<t:fieldset styleClass="BorderW2P">
+						<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+							#{mensajeWarehouse.purchase_invoice_label}</legend>
+						<h:panelGrid columns="2" cellpadding="0">
+
+							<h:outputText value="#{mensajeWarehouse.materials_type_label}"
+								styleClass="etiquetaTitulo" />
+							<h:selectOneMenu id="cmbMaterialsType"
+								value="#{materialsAction.idMaterialType}"
+								styleClass="colTextoMediano">
+								<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+								<f:selectItems value="#{materialsAction.materialTypeItems}" />
+							</h:selectOneMenu>
+
+							<h:outputText value="#{mensaje.label_name}"
+								styleClass="etiquetaTitulo" />
+							<h:inputText styleClass="colTextoMediano" id="txtSearchName"
+								value="#{materialsAction.nameSearch}"
+								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
+
+						</h:panelGrid>
+						<br />
+						<div class="W100Per center inBlock">
+							<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+								actionListener="#{materialsAction.searchMaterials}"
+								render="outputMaterials, outPutSearchMaterials">
+								<f:param name="param2" value="si" />
+							</a:commandButton>
+							<h:outputText value="" />
+						</div>
+
+					</t:fieldset>
+					<br />
+					<a:outputPanel id="mensajeBusquedaMenu">
+						<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+							<ui:param name="width" value="W520P" />
+							<ui:param name="id" value="popupBuscarMenu" />
+						</ui:include>
+					</a:outputPanel>
+					<ui:param name="listEmpty"
+						value="#{materialsAction.materialsList eq null or (empty materialsAction.materialsList)}" />
+					<div align="right" class="W560P">
+						<h:panelGrid>
+							<a:commandLink render="outPutSearchMaterials"
+								styleClass="quitarDecoracionLink"
+								action="#{materialsAction.initializeSearch()}"
+								actionListener="#{materialsAction.setNameSearch(null)}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/listarTodos_16.png" />
+									<h:outputText value="#{mensaje.button_list_all}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+						</h:panelGrid>
+					</div>
+					<a:outputPanel id="outputMaterials">
+						<rich:dataTable value="#{materialsAction.materialsList}"
+							var="material" id="dtMaterial" footerClass="H100P"
+							styleClass="#{listEmpty ? 'BCTransparente' : 'dataTable'} W560P"
+							rowClasses="odd-row, even-row">
+							<f:facet name="header">
+								<h:outputText value="#{mensajeWarehouse.materials_label_s}" />
+							</f:facet>
+							<rich:column styleClass="colIconoUno">
+								<f:facet name="header" />
+								<a:commandLink
+									render=":formRegInvoiceItems:txtMaterial, :formRegInvoiceItems:txtMaterial2"
+									actionListener="#{invoiceItemsAction.loadMaterial(material)}"
+									oncomplete="#{rich:component('popupMaterial')}.hide();">
+									<h:graphicImage value="/img/add_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_select}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText value="#{material.name}" />
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensajeWarehouse.materials_label_responsible}</f:facet>
+								<h:outputText value="#{material.responsable.name}" />
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensajeWarehouse.materials_type_label}</f:facet>
+								<h:outputText value="#{material.materialType.name}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listEmpty}">
+									<rich:column colspan="4" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<a:outputPanel rendered="#{!listEmpty}">
+							<div class="W560P center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valParam2" value="si" />
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="pager" value="pagerForm" />
+									<ui:param name="valReder"
+										value=":popupForm:outPutSearchMaterials" />
+									<ui:param name="beanActionParam" value="#{materialsAction}" />
+									<ui:param name="metodoActionParam" value="searchMaterials" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+				</a:outputPanel>
+			</rich:popupPanel>
+		</h:form>
+		
 	</h:body>
 </ui:composition>

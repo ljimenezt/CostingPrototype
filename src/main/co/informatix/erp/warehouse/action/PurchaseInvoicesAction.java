@@ -56,6 +56,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	private String folderFileTemporal;
 	private String locationServer;
 	private String locationLocal;
+	private String pathLocation;
 
 	private boolean loadDocumentTemporal;
 	private boolean iconPdf;
@@ -130,6 +131,15 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public String getNameDocument() {
 		return nameDocument;
+	}
+
+	/**
+	 * @return pathLocation actual folder path where to save the file associated
+	 *         with a invoice.
+	 */
+	public String getPathLocation() {
+		pathLocation = Constantes.FOLDER_FILES + Constantes.FOLDER_INVOICES;
+		return pathLocation;
 	}
 
 	/**
@@ -348,8 +358,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * This Method assigned the values to the variables
 	 */
 	public void getLocations() {
-		String pathLocation = Constantes.FOLDER_FILES
-				+ Constantes.FOLDER_INVOICES;
 		locationServer = Constantes.RUTA_UPLOADFILE_GLASFISH + pathLocation;
 		locationServer = locationServer.replace("\\", "/");
 		locationLocal = Constantes.RUTA_UPLOADFILE_WORKSPACE + pathLocation;

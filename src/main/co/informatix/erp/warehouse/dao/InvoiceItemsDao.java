@@ -15,13 +15,35 @@ import co.informatix.erp.warehouse.entities.InvoiceItems;
  * DAO class that establishes the connection between business logic and
  * database. InvoiceItemsAction used for managing InvoiceItems.
  * 
- * @author Gerardo.Herrera
+ * @author Wilhelm.Boada
  */
 @SuppressWarnings("serial")
 @Stateless
 public class InvoiceItemsDao implements Serializable {
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
+
+	/**
+	 * Save an invoiceItem in database
+	 * 
+	 * @param invoiceItem
+	 *            : invoiceItem to save.
+	 * @throws Exception
+	 */
+	public void saveInvoiceItem(InvoiceItems invoiceItem) throws Exception {
+		em.persist(invoiceItem);
+	}
+
+	/**
+	 * Edit an invoiceItem in database
+	 * 
+	 * @param invoiceItem
+	 *            : invoiceItem to edit.
+	 * @throws Exception
+	 */
+	public void editInvoiceItem(InvoiceItems invoiceItem) throws Exception {
+		em.merge(invoiceItem);
+	}
 
 	/**
 	 * Returns the number of existing invoices items in the database that are

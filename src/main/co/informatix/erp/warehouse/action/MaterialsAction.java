@@ -49,6 +49,7 @@ public class MaterialsAction implements Serializable {
 	private String nameSearch;
 
 	private Paginador pagination = new Paginador();
+	private Paginador pagerForm = new Paginador();
 
 	private Materials materials;
 
@@ -58,6 +59,7 @@ public class MaterialsAction implements Serializable {
 	private List<SelectItem> managementTypeItems;
 
 	private int idMaterialType;
+	private boolean fromModal;
 
 	/**
 	 * @return nameSearch : The material name that is going to be queried.
@@ -87,6 +89,21 @@ public class MaterialsAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	/**
+	 * @return pagerForm: The paging controller object.
+	 */
+	public Paginador getPagerForm() {
+		return pagerForm;
+	}
+
+	/**
+	 * @param pagerForm
+	 *            :The paging controller object.
+	 */
+	public void setPagerForm(Paginador pagerForm) {
+		this.pagerForm = pagerForm;
 	}
 
 	/**
@@ -191,13 +208,19 @@ public class MaterialsAction implements Serializable {
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
+	 * @modify 01/04/2016 Wilhelm.Boada
+	 * 
 	 * @return searchMaterials: Materials query method that redirects to the
 	 *         template to manage materials.
 	 */
 	public String initializeSearch() {
+		String param2 = ControladorContexto.getParam("param2");
+		fromModal = (param2 != null && "si".equals(param2)) ? true : false;
 		this.idMaterialType = 0;
 		this.nameSearch = "";
-		this.materials = null;
+		if (!fromModal) {
+			this.materials = null;
+		}
 		return searchMaterials();
 	}
 
@@ -205,6 +228,7 @@ public class MaterialsAction implements Serializable {
 	 * Query the list of Materials.
 	 * 
 	 * @modify 30/03/2016 Liseth.Jimenez
+	 * @modify 01/04/2016 Wilhelm.Boada
 	 * 
 	 * @return gesMaterials: Navigation rule that redirects to manage materials.
 	 */
@@ -219,18 +243,24 @@ public class MaterialsAction implements Serializable {
 		StringBuilder queryBuilder = new StringBuilder();
 		StringBuilder jointSearchMessages = new StringBuilder();
 		String searchMessage = "";
+		String giveBack = fromModal ? "" : "gesMaterials";
 		try {
 			advancedSearch(queryBuilder, parameters, bundle,
 					jointSearchMessages);
 			Long amount = materialsDao
 					.materialsAmount(queryBuilder, parameters);
 			if (amount != null) {
-				pagination.paginar(amount);
-			}
-			if (amount != null && amount > 0) {
-				materialsList = materialsDao.queryMaterials(
-						pagination.getInicio(), pagination.getRango(),
-						queryBuilder, parameters);
+				if (fromModal) {
+					pagerForm.paginarRangoDefinido(amount, 5);
+					materialsList = materialsDao.queryMaterials(
+							pagerForm.getInicio(), pagerForm.getRango(),
+							queryBuilder, parameters);
+				} else {
+					pagination.paginar(amount);
+					materialsList = materialsDao.queryMaterials(
+							pagination.getInicio(), pagination.getRango(),
+							queryBuilder, parameters);
+				}
 			}
 			if ((materialsList == null || materialsList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {
@@ -250,11 +280,15 @@ public class MaterialsAction implements Serializable {
 			}
 			listMaterialsType();
 			loadMaterialsDetails();
-			validation.setMensajeBusqueda(searchMessage);
+			if (fromModal) {
+				validation.setMensajeBusquedaPopUp(searchMessage);
+			} else {
+				validation.setMensajeBusqueda(searchMessage);
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesMaterials";
+		return giveBack;
 	}
 
 	/**
@@ -262,6 +296,7 @@ public class MaterialsAction implements Serializable {
 	 * depending on the search criteria selected by the user.
 	 * 
 	 * @modify 30/03/2016 Liseth.Jimenez
+	 * @modify 30/03/2016 Wilhelm.Boada
 	 * 
 	 * @param queryBuilder
 	 *            : Query to concatenate.
@@ -275,29 +310,37 @@ public class MaterialsAction implements Serializable {
 	private void advancedSearch(StringBuilder queryBuilder,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
+		ResourceBundle bundleWarehouse = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		boolean flag = false;
+		if (this.idMaterialType != 0) {
+			queryBuilder
+					.append("WHERE m.materialType.idMaterialsType = :keyword3 ");
+			SelectItem item = new SelectItem(this.idMaterialType, "keyword3");
+			parameters.add(item);
+			String materialTypeName = (String) ValidacionesAction.getLabel(
+					materialTypeItems, this.idMaterialType);
+			unionMessagesSearch.append(bundleWarehouse
+					.getString("materials_type_label")
+					+ ": "
+					+ '"'
+					+ materialTypeName + '"' + " ");
+			flag = true;
+		}
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			queryBuilder.append("WHERE UPPER(m.name) LIKE UPPER(:keyword) ");
+			if (flag) {
+				queryBuilder.append("AND ");
+			} else {
+				queryBuilder.append("WHERE ");
+			}
+			queryBuilder.append("UPPER(m.name) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
-
-			if (this.idMaterialType != 0) {
-				queryBuilder
-						.append("AND m.materialType.idMaterialsType = :keyword3 ");
-				item = new SelectItem(this.idMaterialType, "keyword3");
-				parameters.add(item);
-
-			}
-		} else {
-			if (this.idMaterialType != 0) {
-				queryBuilder
-						.append("WHERE m.materialType.idMaterialsType = :keyword ");
-				SelectItem item = new SelectItem(this.idMaterialType, "keyword");
-				parameters.add(item);
-			}
 		}
+		flag = false;
 	}
 
 	/**
