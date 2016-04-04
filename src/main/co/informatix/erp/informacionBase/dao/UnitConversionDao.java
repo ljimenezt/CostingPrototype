@@ -106,7 +106,9 @@ public class UnitConversionDao implements Serializable {
 			StringBuilder query, List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder
-				.append("SELECT uc FROM UnitConversion uc JOIN FETCH uc.unitConversionPk pk JOIN FETCH pk.originalUnit JOIN FETCH pk.finalUnit ");
+				.append("SELECT uc FROM UnitConversion uc JOIN FETCH uc.unitConversionPk pk ");
+		queryBuilder
+				.append("JOIN FETCH pk.originalUnit JOIN FETCH pk.finalUnit ");
 		queryBuilder.append(query);
 		queryBuilder.append("ORDER BY uc.unitConversionPk.originalUnit.name ");
 		Query q = em.createQuery(queryBuilder.toString());

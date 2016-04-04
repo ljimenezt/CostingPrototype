@@ -42,11 +42,9 @@ public class UnitConversionAction implements Serializable {
 	private MeasurementUnitsDao measurementUnitsDao;
 
 	private UnitConversion unitConversion;
-
-	private List<SelectItem> unitOptions;
-
 	private Paginador pagination = new Paginador();
 
+	private List<SelectItem> unitOptions;
 	private List<UnitConversion> unitConversionsList;
 
 	private boolean edited;
@@ -193,7 +191,7 @@ public class UnitConversionAction implements Serializable {
 	 * Know whether a record in the registration process is in the database or
 	 * not, to distinguish between modifying or creating a record.
 	 * 
-	 * @return
+	 * @return It returns whether a record is being created or edited.
 	 */
 	public boolean isEdited() {
 		return this.edited;
@@ -252,7 +250,8 @@ public class UnitConversionAction implements Serializable {
 					|| unitConversionsList.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(jointSearchMessages.toString())) {
+			} else if (!"".equals(jointSearchMessages.toString())
+					&& !"null".equals(jointSearchMessages.toString())) {
 				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
@@ -276,7 +275,7 @@ public class UnitConversionAction implements Serializable {
 	 *            : Query to concatenate.
 	 * @param parameters
 	 *            : List of search parameters.
-	 * @param bundle
+	 * @param bundleUnitConversion
 	 *            : Context to access language tags.
 	 * @param jointSearchMessages
 	 *            : Search message.
@@ -301,7 +300,6 @@ public class UnitConversionAction implements Serializable {
 					.getString("unit_conversion_label")
 					+ ": "
 					+ originalUnit.getName() + " - ";
-
 		}
 		if (this.finalUnitIdSearch != null
 				&& !"".equals(this.finalUnitIdSearch)) {
@@ -337,8 +335,11 @@ public class UnitConversionAction implements Serializable {
 			throws Exception {
 		if (unitConversion != null) {
 			this.unitConversion = unitConversion;
+			this.originalUnitName = this.unitConversion.getUnitConversionPk()
+					.getOriginalUnit().getName();
+			this.finalUnitName = this.unitConversion.getUnitConversionPk()
+					.getFinalUnit().getName();
 			this.edited = true;
-
 		} else {
 			this.unitConversion = new UnitConversion();
 			this.unitConversion.setUnitConversionPk(new UnitConversionPK());
@@ -381,23 +382,29 @@ public class UnitConversionAction implements Serializable {
 
 		try {
 			String messageLog = "message_registro_guardar";
-			int idOriginal = this.unitConversion.getUnitConversionPk()
-					.getOriginalUnit().getIdMeasurementUnits();
-			int idFinal = this.unitConversion.getUnitConversionPk()
-					.getFinalUnit().getIdMeasurementUnits();
-			MeasurementUnits originalUnit = measurementUnitsDao
-					.measurementUnitByID(idOriginal);
-			MeasurementUnits finalUnit = measurementUnitsDao
-					.measurementUnitByID(idFinal);
+			String originalUnit;
+			String finalUnit;
 
 			if (this.edited == true) {
 				messageLog = "message_registro_modificar";
 				unitConversionDao.editUnitConversion(this.unitConversion);
+				originalUnit = this.unitConversion.getUnitConversionPk()
+						.getOriginalUnit().getName();
+				finalUnit = this.unitConversion.getUnitConversionPk()
+						.getFinalUnit().getName();
 			} else {
 				unitConversionDao.saveUnitConversion(this.unitConversion);
+				int idOriginal = this.unitConversion.getUnitConversionPk()
+						.getOriginalUnit().getIdMeasurementUnits();
+				int idFinal = this.unitConversion.getUnitConversionPk()
+						.getFinalUnit().getIdMeasurementUnits();
+				originalUnit = measurementUnitsDao.measurementUnitByID(
+						idOriginal).getName();
+				finalUnit = measurementUnitsDao.measurementUnitByID(idFinal)
+						.getName();
 			}
 			String name = bundleGeneral.getString("unit_conversion_label")
-					+ ": " + originalUnit.getName() + "-" + finalUnit.getName();
+					+ ": " + originalUnit + "-" + finalUnit;
 			ControladorContexto.mensajeInformacion(null,
 					MessageFormat.format(bundle.getString(messageLog), name));
 		} catch (Exception e) {
@@ -418,16 +425,12 @@ public class UnitConversionAction implements Serializable {
 		ResourceBundle bundleGeneral = ControladorContexto
 				.getBundle("mensajeInformacionBase");
 		try {
-			int idOriginal = this.unitConversion.getUnitConversionPk()
-					.getOriginalUnit().getIdMeasurementUnits();
-			int idFinal = this.unitConversion.getUnitConversionPk()
-					.getFinalUnit().getIdMeasurementUnits();
-			MeasurementUnits originalUnit = measurementUnitsDao
-					.measurementUnitByID(idOriginal);
-			MeasurementUnits finalUnit = measurementUnitsDao
-					.measurementUnitByID(idFinal);
+			String originalUnit = this.unitConversion.getUnitConversionPk()
+					.getOriginalUnit().getName();
+			String finalUnit = this.unitConversion.getUnitConversionPk()
+					.getFinalUnit().getName();
 			String name = bundleGeneral.getString("unit_conversion_label")
-					+ ": " + originalUnit.getName() + "-" + finalUnit.getName();
+					+ ": " + originalUnit + "-" + finalUnit;
 			unitConversionDao.removeUnitConversion(unitConversion);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"), name));
@@ -445,7 +448,6 @@ public class UnitConversionAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value

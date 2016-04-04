@@ -170,7 +170,13 @@ public class MeasurementUnitsDao implements Serializable {
 		return null;
 	}
 
-	// TODO javadoc
+	/**
+	 * It returns a measurement unit according to a specified ID.
+	 * 
+	 * @param id
+	 *            : The identifier corresponding to a unit.
+	 * @return The MeasurementUnit Object.
+	 */
 	public MeasurementUnits measurementUnitByID(int id) {
 		return em.find(MeasurementUnits.class, id);
 	}
