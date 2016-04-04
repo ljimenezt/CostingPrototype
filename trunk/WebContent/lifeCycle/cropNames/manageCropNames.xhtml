@@ -67,7 +67,7 @@
 						</a:outputPanel>
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_nombre_cosecha}</f:facet>
+						<f:facet name="header">#{mensajeLifeCycle.crop_names_label_s}</f:facet>
 						<h:commandLink value="#{cropNames.cropName}"
 							action="#{cropNamesAction.addEditCropNames(cropNames)}"
 							onclick="#{rich:component('statPane')}.show();">
