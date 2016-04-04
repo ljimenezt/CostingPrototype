@@ -37,7 +37,8 @@
 						value="#{unitConversionAction.unitConversion.unitConversionPk.originalUnit.idMeasurementUnits}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}"
-						validator="#{unitConversionAction.validatePrimaryKey}">
+						validator="#{unitConversionAction.validatePrimaryKey}"
+						disabled="#{unitConversionAction.edited}">
 						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{unitConversionAction.unitOptions}" />
 					</h:selectOneMenu>
@@ -50,7 +51,8 @@
 					<h:selectOneMenu id="finalUnit"
 						value="#{unitConversionAction.unitConversion.unitConversionPk.finalUnit.idMeasurementUnits}"
 						styleClass="colTextoMediano" required="true"
-						requiredMessage="#{mensaje.message_campo_requerido}">
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						disabled="#{unitConversionAction.edited}">
 						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{unitConversionAction.unitOptions}" />
 					</h:selectOneMenu>

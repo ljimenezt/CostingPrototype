@@ -90,11 +90,9 @@
 
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header"> #{mensajeInformacionBase.unit_conversion_final_unit}</f:facet>
-						<h:commandLink
-							value="#{unitConversion.unitConversionPk.finalUnit.name}"
-							action="#{unitConversionAction.addEditUnitConversion(unitConversion)}"
-							onclick="#{rich:component('statPane')}.show();">
-						</h:commandLink>
+						<h:outputText
+							value="#{unitConversion.unitConversionPk.finalUnit.name}">
+						</h:outputText>
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
@@ -197,6 +195,10 @@
 							value="#{mensajeInformacionBase.unit_conversion_original_unit}:" />
 						<h:outputText
 							value="#{unitConversionAction.unitConversion.unitConversionPk.originalUnit.name}" />
+						<h:outputText
+							value="#{mensajeInformacionBase.unit_conversion_final_unit}:" />
+						<h:outputText
+							value="#{unitConversionAction.unitConversion.unitConversionPk.finalUnit.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
