@@ -277,7 +277,6 @@ public class PurchaseInvoices implements Serializable {
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		temp = Double.doubleToLongBits(packaging);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + (selected ? 1231 : 1237);
 		temp = Double.doubleToLongBits(shipping);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(subtotal);
@@ -325,8 +324,6 @@ public class PurchaseInvoices implements Serializable {
 			return false;
 		if (Double.doubleToLongBits(packaging) != Double
 				.doubleToLongBits(other.packaging))
-			return false;
-		if (selected != other.selected)
 			return false;
 		if (Double.doubleToLongBits(shipping) != Double
 				.doubleToLongBits(other.shipping))

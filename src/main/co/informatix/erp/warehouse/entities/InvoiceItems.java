@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "invoice_items", schema = "warehouse")
-public class InvoiceItems implements Serializable {
+public class InvoiceItems implements Serializable, Cloneable {
 
 	private int idInvoiceItem;
 	private String note;
@@ -248,6 +248,16 @@ public class InvoiceItems implements Serializable {
 	 */
 	public void setMaterial(Materials material) {
 		this.material = material;
+	}
+
+	@Override
+	public InvoiceItems clone() {
+		Object clone = null;
+		try {
+			clone = super.clone();
+		} catch (CloneNotSupportedException e) {
+		}
+		return (InvoiceItems) clone;
 	}
 
 	@Override

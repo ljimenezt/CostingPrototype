@@ -61,6 +61,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	private boolean loadDocumentTemporal;
 	private boolean iconPdf;
 	private boolean iconImg;
+	private boolean flag;
 
 	private List<PurchaseInvoices> listInovoices;
 	private List<SelectItem> itemsSupplier;
@@ -200,6 +201,14 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void setIconImg(boolean iconImg) {
 		this.iconImg = iconImg;
+	}
+
+	/**
+	 * @return flag: This field allows to validate if added or modified a
+	 *         invoice items.
+	 */
+	public boolean isFlag() {
+		return flag;
 	}
 
 	/**
@@ -382,6 +391,7 @@ public class PurchaseInvoicesAction implements Serializable {
 		this.finalDateSearch = null;
 		this.invoicesActualSelected = null;
 		this.invoices = new PurchaseInvoices();
+		this.flag = false;
 		return consultInvoices();
 	}
 
@@ -571,6 +581,7 @@ public class PurchaseInvoicesAction implements Serializable {
 				this.nameDocument = null;
 			}
 			this.loadDocumentTemporal = true;
+			this.flag = false;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
