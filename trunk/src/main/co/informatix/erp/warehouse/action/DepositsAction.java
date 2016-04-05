@@ -791,13 +791,15 @@ public class DepositsAction implements Serializable {
 	 * This method allows to consult the supplier associated to an invoice
 	 * 
 	 * @author Liseth.Jimenez
+	 * @modify 05/04/2016 Wilhelm.Boada
 	 * 
 	 * @param invoices
 	 *            : Purchase invoice for consult supplier
 	 */
-	public void setInoviceSupplier(PurchaseInvoices invoices) {
+	public void setInoviceSupplier(Deposits deposit) {
 		try {
-			this.purchaseInvoice = invoices;
+			this.depositDetails = deposit;
+			this.purchaseInvoice = deposit.getPurchaseInvoices();
 			Suppliers suppliers = suppliersDao
 					.suppliersById(this.purchaseInvoice.getSuppliers()
 							.getIdSupplier());
