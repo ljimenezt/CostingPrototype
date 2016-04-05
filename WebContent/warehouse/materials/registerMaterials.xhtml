@@ -55,6 +55,17 @@
 						</h:selectOneMenu>
 						<rich:message for="cmbMaterialsType" />
 
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_presentation}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText value="#{materialsAction.materials.name}"
+							styleClass="colTextoCorto" id="txtPresentation" required="true"
+							size="41" maxlength="5"
+							validator="#{encodeFilter.validarScripting}"
+							requiredMessage="#{mensaje.message_campo_requerido}" />
+						<rich:message for="txtPresentation" />
+
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensajeWarehouse.measurement_units_label}" />
 						<h:outputText value="*" styleClass="required" />

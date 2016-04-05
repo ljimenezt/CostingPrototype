@@ -72,6 +72,12 @@
 						</a:commandLink>
 					</rich:column>
 
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeWarehouse.materials_type_label}</f:facet>
+						<h:outputText value="#{materials.materialType.name}" />
+					</rich:column>
+
+
 					<rich:column styleClass="colTextoLargo">
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<h:commandLink value="#{materials.name}"
@@ -80,14 +86,14 @@
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensajeWarehouse.materials_label_responsible}</f:facet>
-						<h:outputText value="#{materials.responsable.name}" />
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{mensajeWarehouse.materials_label_product_trade_brand_name}</f:facet>
+						<h:outputText value="#{materials.productTradeBrandName}" />
 					</rich:column>
 
-					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeWarehouse.materials_type_label}</f:facet>
-						<h:outputText value="#{materials.materialType.name}" />
+					<rich:column styleClass="colTextoXCorto">
+						<f:facet name="header">#{mensajeWarehouse.materials_label_presentation}</f:facet>
+						<h:outputText value="#{materials.presentation}" />
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
@@ -95,9 +101,15 @@
 						<h:outputText value="#{materials.measurementUnits.name}" />
 					</rich:column>
 
-					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeWarehouse.type_management_label}</f:facet>
-						<h:outputText value="#{materials.typeOfManagement.name}" />
+					<rich:column styleClass="colIconoTres">
+						<f:facet name="header">#{mensajeWarehouse.materials_label_dangerous}</f:facet>
+						<h:graphicImage value="/img/warnRojo_16.png"
+							rendered="#{materials.dangerous eq true}" />
+					</rich:column>
+
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{mensajeWarehouse.materials_label_responsible}</f:facet>
+						<h:outputText value="#{materials.responsable.name}" />
 					</rich:column>
 
 					<f:facet name="footer">

@@ -26,6 +26,9 @@ import co.informatix.erp.humanResources.entities.Hr;
 public class Materials implements Serializable {
 
 	private int idMaterial;
+
+	private short presentation;
+
 	private Integer waitingTimeHarvest;
 	private Integer waitingTimePeople;
 
@@ -85,6 +88,26 @@ public class Materials implements Serializable {
 	 */
 	public void setIdMaterial(int idMaterial) {
 		this.idMaterial = idMaterial;
+	}
+
+	/**
+	 * Get the small integer for a presentation.
+	 * 
+	 * @return A small integer.
+	 */
+	@Column(name = "presentation")
+	public short getPresentation() {
+		return presentation;
+	}
+
+	/**
+	 * Set the small integer for a presentation.
+	 * 
+	 * @param presentation
+	 *            : A small integer.
+	 */
+	public void setPresentation(short presentation) {
+		this.presentation = presentation;
 	}
 
 	/**
@@ -544,6 +567,7 @@ public class Materials implements Serializable {
 		result = prime * result + (obsolete ? 1231 : 1237);
 		result = prime * result + (organic ? 1231 : 1237);
 		result = prime * result + (pops ? 1231 : 1237);
+		result = prime * result + presentation;
 		result = prime
 				* result
 				+ ((productTradeBrandName == null) ? 0 : productTradeBrandName
@@ -626,6 +650,8 @@ public class Materials implements Serializable {
 			return false;
 		if (pops != other.pops)
 			return false;
+		if (presentation != other.presentation)
+			return false;
 		if (productTradeBrandName == null) {
 			if (other.productTradeBrandName != null)
 				return false;
@@ -647,7 +673,6 @@ public class Materials implements Serializable {
 		} else if (!waitingTimePeople.equals(other.waitingTimePeople))
 			return false;
 		return true;
-
 	}
 
 }
