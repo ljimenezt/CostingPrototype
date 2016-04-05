@@ -654,6 +654,7 @@ public class DepositsAction implements Serializable {
 		String mensajeRegistro = "message_registro_modificar";
 		try {
 			deposits.setActualQuantity(deposits.getInitialQuantity());
+			deposits.setUnitCost(unitCost);
 			if (deposits.getIdDeposit() != 0) {
 				depositsDao.editDeposits(deposits);
 			} else {
@@ -882,6 +883,8 @@ public class DepositsAction implements Serializable {
 
 	/**
 	 * Clear fields for adjustement deposit
+	 * 
+	 * @author Gerardo.Herrera
 	 */
 	public void clearFieldAdjust() {
 		setNewQuantity(null);
