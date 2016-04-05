@@ -53,18 +53,14 @@
 					<rich:message for="txtEmailServerUser" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_contrasena}"
-						 />
-					<h:outputText value="*" styleClass="required"
-						 />
+						value="#{mensaje.label_contrasena}" />
+					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret id="txtEmailServerPassword" required="true"
 						styleClass="colTextoCorto" maxlength="12"
 						value="#{perfilSistemaAction.perfilSistema.emailServerPassword}"
-						requiredMessage="#{mensaje.message_campo_requerido}"
-						>
+						requiredMessage="#{mensaje.message_campo_requerido}">
 					</h:inputSecret>
-					<rich:message for="txtEmailServerPassword"
-						 />
+					<rich:message for="txtEmailServerPassword" />
 
 					<h:outputText value="#{messageSecurity.profile_system_label_port}"
 						styleClass="etiquetaTitulo" />
