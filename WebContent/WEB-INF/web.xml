@@ -74,6 +74,7 @@
 			/seguridad/metodo/faces-config-metodo.xml,
 			/seguridad/perfilUsuario/faces-config-perfilUsuario.xml,
 			/seguridad/permisoPersonaEmpresa/faces-config-permisoPersonaEmpresa.xml,
+			/seguridad/profileSystem/faces-config-profileSystem.xml,
 			
 			/recursosHumanos/informacionBase/tipoCargo/faces-config-tipoCargo.xml,
 			/recursosHumanos/persona/faces-config-persona.xml,
