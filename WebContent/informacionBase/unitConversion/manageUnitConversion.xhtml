@@ -52,10 +52,10 @@
 						<f:selectItems value="#{unitConversionAction.unitOptions}" />
 						<f:ajax event="change"
 							listener="#{unitConversionAction.setFinalUnitIdSearch('')}"
-							render="mensaje, mensajeBusqueda" />
+							render=":mensajes :mensajeBusqueda" />
 						<f:ajax event="change"
 							listener="#{unitConversionAction.searchUnitConversion()}"
-							render="mensajes mensajeBusqueda :formUnitConversion:panelUnitConversion" />
+							render=":mensajes :mensajeBusqueda :formUnitConversion:panelUnitConversion" />
 					</h:selectOneMenu>
 				</h:panelGrid>
 
