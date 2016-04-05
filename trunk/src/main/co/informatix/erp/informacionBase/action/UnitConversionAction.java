@@ -285,39 +285,43 @@ public class UnitConversionAction implements Serializable {
 			StringBuilder jointSearchMessages) {
 		String identifier = null;
 		boolean notOriginalUnit = true;
-		if (this.originalUnitIdSearch != null
-				&& !"".equals(this.originalUnitIdSearch)) {
-			notOriginalUnit = false;
-			query.append("WHERE uc.unitConversionPk.originalUnit.idMeasurementUnits =:originalUnitId ");
-			SelectItem item = new SelectItem(this.originalUnitIdSearch,
-					"originalUnitId");
-			parameters.add(item);
+		try {
+			if (this.originalUnitIdSearch != null
+					&& !"".equals(this.originalUnitIdSearch)) {
+				notOriginalUnit = false;
+				query.append("WHERE uc.unitConversionPk.originalUnit.idMeasurementUnits =:originalUnitId ");
+				SelectItem item = new SelectItem(this.originalUnitIdSearch,
+						"originalUnitId");
+				parameters.add(item);
 
-			int idOriginal = Integer.parseInt(this.originalUnitIdSearch);
-			MeasurementUnits originalUnit = measurementUnitsDao
-					.measurementUnitByID(idOriginal);
-			identifier = bundleUnitConversion
-					.getString("unit_conversion_label")
-					+ ": "
-					+ originalUnit.getName() + " - ";
-		}
-		if (this.finalUnitIdSearch != null
-				&& !"".equals(this.finalUnitIdSearch)) {
-			if (notOriginalUnit) {
-				query.append("WHERE uc.unitConversionPk.finalUnit.idMeasurementUnits =:finalUnitId ");
+				int idOriginal = Integer.parseInt(this.originalUnitIdSearch);
+				MeasurementUnits originalUnit = measurementUnitsDao
+						.measurementUnitByID(idOriginal);
 				identifier = bundleUnitConversion
-						.getString("unit_conversion_final_unit") + ": ";
-			} else {
-				query.append("AND uc.unitConversionPk.finalUnit.idMeasurementUnits =:finalUnitId ");
+						.getString("unit_conversion_label")
+						+ ": "
+						+ originalUnit.getName() + " - ";
 			}
-			SelectItem item = new SelectItem(this.finalUnitIdSearch,
-					"finalUnitId");
-			parameters.add(item);
+			if (this.finalUnitIdSearch != null
+					&& !"".equals(this.finalUnitIdSearch)) {
+				if (notOriginalUnit) {
+					query.append("WHERE uc.unitConversionPk.finalUnit.idMeasurementUnits =:finalUnitId ");
+					identifier = bundleUnitConversion
+							.getString("unit_conversion_final_unit") + ": ";
+				} else {
+					query.append("AND uc.unitConversionPk.finalUnit.idMeasurementUnits =:finalUnitId ");
+				}
+				SelectItem item = new SelectItem(this.finalUnitIdSearch,
+						"finalUnitId");
+				parameters.add(item);
 
-			int idFinal = Integer.parseInt(this.finalUnitIdSearch);
-			MeasurementUnits finalUnit = measurementUnitsDao
-					.measurementUnitByID(idFinal);
-			identifier += finalUnit.getName();
+				int idFinal = Integer.parseInt(this.finalUnitIdSearch);
+				MeasurementUnits finalUnit = measurementUnitsDao
+						.measurementUnitByID(idFinal);
+				identifier += finalUnit.getName();
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 		jointSearchMessages.append(identifier);
 	}
