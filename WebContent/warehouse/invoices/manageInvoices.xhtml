@@ -58,7 +58,7 @@
 						<rich:dataTable value="#{purchaseInvoicesAction.listInovoices}"
 							var="invoice" id="invoiceTable" footerClass="H100P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
-							rowClasses="odd-row, even-row">
+							rowClasses="#{invoice.selected ? 'rf-ddm-itm-sel backgroundNone left, rf-ddm-itm-sel backgroundNone left':'odd-row, even-row'}">
 							<rich:column styleClass="colIconoAjustable">
 								<a:outputPanel>
 									<a:commandLink render="formPurchaseInvoices, invoiceItemsTable"
