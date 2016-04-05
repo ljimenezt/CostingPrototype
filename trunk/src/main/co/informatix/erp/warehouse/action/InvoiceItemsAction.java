@@ -105,15 +105,12 @@ public class InvoiceItemsAction implements Serializable {
 	 *            :invoiceItem are adding or editing
 	 */
 	public void addEditInvoiceItems(InvoiceItems invoiceItem) {
-		try {
-			if (invoiceItem != null) {
-				this.invoiceItem = invoiceItem;
-			} else {
-				this.invoiceItem = new InvoiceItems();
-				this.invoiceItem.setMaterial(new Materials());
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
+
+		if (invoiceItem != null) {
+			this.invoiceItem = invoiceItem.clone();
+		} else {
+			this.invoiceItem = new InvoiceItems();
+			this.invoiceItem.setMaterial(new Materials());
 		}
 	}
 
@@ -199,21 +196,12 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void saveUpdateInvoiceItem() {
 		try {
-			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-			ValidacionesAction validations = ControladorContexto
-					.getContextBean(ValidacionesAction.class);
-			String messageSearch = "message_registro_modificar";
 			if (invoiceItem.getIdInvoiceItem() != 0) {
 				invoiceItemsDao.editInvoiceItem(invoiceItem);
 			} else {
 				invoiceItem.setPurchaseInvoice(invoicesSelected);
 				invoiceItemsDao.saveInvoiceItem(invoiceItem);
-				messageSearch = "message_registro_guardar";
 			}
-			validations.setMensajeBusquedaPopUp(messageSearch);
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(messageSearch), invoiceItem.getMaterial()
-							.getName()));
 			consultInvoiceItems();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

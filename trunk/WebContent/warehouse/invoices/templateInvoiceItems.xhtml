@@ -13,7 +13,9 @@
 			<ui:param name="listaVaciaA"
 				value="#{invoiceItemsAction.invoiceItemsList.size() eq 0 or (invoiceItemsAction.invoiceItemsList eq null)}" />
 			<div align="right">
-				<h:panelGrid id="pnlButtons" cellpadding="0" cellspacing="0">
+				<h:panelGrid id="pnlButtons"
+					rendered="#{purchaseInvoicesAction.flag eq true}" cellpadding="0"
+					cellspacing="0">
 					<a:commandLink id="lnkActivityNames"
 						styleClass="quitarDecoracionLink"
 						oncomplete="#{rich:component('popupRegInvoiceItems')}.show()"
@@ -36,30 +38,17 @@
 				<rich:column styleClass="colTextoLargo">
 					<f:facet name="header">#{mensajeWarehouse.materials_label}/#{mensaje.label_brand}</f:facet>
 					<a:commandLink render="popupRegInvoiceItems"
+						rendered="#{purchaseInvoicesAction.flag eq true}"
 						oncomplete="#{rich:component('popupRegInvoiceItems')}.show()"
 						action="#{invoiceItemsAction.addEditInvoiceItems(invoiceItems)}"
 						value="#{invoiceItems.material.name}">
 					</a:commandLink>
+					<h:outputText rendered="#{purchaseInvoicesAction.flag eq false}"
+						value="#{invoiceItems.material.name}" />
 				</rich:column>
 				<rich:column styleClass="colValorLargo">
 					<f:facet name="header">#{mensaje.label_cantidad}</f:facet>
 					<h:outputText value="#{invoiceItems.quantity}" />
-				</rich:column>
-
-				<rich:column styleClass="colValorLargo">
-					<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
-					<h:outputText value="#{invoiceItems.subTotal}">
-						<f:convertNumber maxFractionDigits="2" type="currency"
-							currencySymbol="$" locale="#{idioma.locale}" />
-					</h:outputText>
-				</rich:column>
-
-				<rich:column styleClass="colValorLargo">
-					<f:facet name="header">#{mensaje.label_total}</f:facet>
-					<h:outputText value="#{invoiceItems.total}">
-						<f:convertNumber maxFractionDigits="2" type="currency"
-							currencySymbol="$" locale="#{idioma.locale}" />
-					</h:outputText>
 				</rich:column>
 
 				<rich:column styleClass="colValorLargo">
@@ -110,9 +99,30 @@
 					</h:outputText>
 				</rich:column>
 
-				<rich:column styleClass="colTextoLargo">
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
+					<h:outputText value="#{invoiceItems.subTotal}">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:outputText>
+				</rich:column>
+
+				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{mensaje.label_total}</f:facet>
+					<h:outputText value="#{invoiceItems.total}">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:outputText>
+				</rich:column>
+
+				<rich:column styleClass="colIconoUno">
 					<f:facet name="header">#{mensaje.label_note}</f:facet>
-					<h:outputText value="#{invoiceItems.note}" />
+					<a:outputPanel>
+						<h:graphicImage value="/img/info_16.png" />
+						<rich:tooltip layout="block">
+							<h:outputText value="#{invoiceItems.note}" />
+						</rich:tooltip>
+					</a:outputPanel>
 				</rich:column>
 
 				<f:facet name="footer">

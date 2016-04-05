@@ -90,8 +90,9 @@ public class InvoiceItemsDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT it FROM InvoiceItems it ");
-		query.append("JOIN FETCH it.material ");
+		query.append("JOIN FETCH it.material m ");
 		query.append(consult);
+		query.append("ORDER BY m.name ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());

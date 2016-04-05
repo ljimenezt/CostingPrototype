@@ -59,18 +59,30 @@
 							var="invoice" id="invoiceTable" footerClass="H100P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 							rowClasses="odd-row, even-row">
-							<rich:column styleClass="colIconoUno">
-								<a:commandLink render="formPurchaseInvoices, invoiceItemsTable"
-									actionListener="#{purchaseInvoicesAction.selectInvoice(invoice)}"
-									action="#{purchaseInvoicesAction.showInvoiceItems()}"
-									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
-									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
-										styleClass="verticalAlignMiddle"
-										rendered="#{invoice.selected eq true}" />
-									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
-										styleClass="verticalAlignMiddle"
-										rendered="#{invoice.selected eq false}" />
-								</a:commandLink>
+							<rich:column styleClass="colIconoAjustable">
+								<a:outputPanel>
+									<a:commandLink render="formPurchaseInvoices, invoiceItemsTable"
+										actionListener="#{purchaseInvoicesAction.selectInvoice(invoice)}"
+										action="#{purchaseInvoicesAction.showInvoiceItems()}"
+										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{invoice.selected eq true}" />
+										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{invoice.selected eq false}" />
+									</a:commandLink>
+								</a:outputPanel>
+								<h:outputText value="&#32;&#32;&#32;" />
+								<a:outputPanel rendered="#{invoice.invoiceDocumentLink ne null}">
+									<rich:tooltip layout="block"
+										rendered="#{invoice.invoiceDocumentLink ne null}">
+										<h:outputText value="#{mensaje.label_descargar}" />
+									</rich:tooltip>
+									<a target="_blank"
+										href="#{request.contextPath}#{purchaseInvoicesAction.pathLocation}/#{invoice.invoiceDocumentLink}"><h:graphicImage
+											value="/img/download_16.png" class="verticalAlignMiddle" /></a>
+								</a:outputPanel>
 							</rich:column>
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_number}</f:facet>
@@ -79,7 +91,7 @@
 									onclick="#{rich:component('statPane')}.show();">
 								</h:commandLink>
 							</rich:column>
-							<rich:column styleClass="colFechaLarga center">
+							<rich:column styleClass="colFechaExtraLarga center">
 								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_date}</f:facet>
 								<h:outputText value="#{invoice.dateTime}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
@@ -89,13 +101,6 @@
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensajeWarehouse.suppliers_label}</f:facet>
 								<h:outputText value="#{invoice.suppliers.name}" />
-							</rich:column>
-							<rich:column styleClass="colValorLargo">
-								<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
-								<h:outputText value="#{invoice.subtotal}">
-									<f:convertNumber maxFractionDigits="2" type="currency"
-										currencySymbol="$" locale="#{idioma.locale}" />
-								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colValorLargo">
 								<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_shipping}</f:facet>
@@ -125,7 +130,13 @@
 										currencySymbol="$" locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
-
+							<rich:column styleClass="colValorLargo">
+								<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
+								<h:outputText value="#{invoice.subtotal}">
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
 							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensaje.label_total}</f:facet>
 								<h:outputText value="#{invoice.totalValueActual}">
@@ -133,15 +144,14 @@
 										currencySymbol="$" locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
-
-							<rich:column styleClass="colTextoLargo">
-								<f:facet name="header">#{mensaje.label_document}</f:facet>
-								<h:outputText value="#{invoice.invoiceDocumentLink}" />
-							</rich:column>
-
-							<rich:column styleClass="colTextoLargo">
+							<rich:column styleClass="colIconoUno">
 								<f:facet name="header">#{mensaje.label_note}</f:facet>
-								<h:outputText value="#{invoice.note}" />
+								<a:outputPanel>
+									<h:graphicImage value="/img/info_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{invoice.note}" />
+									</rich:tooltip>
+								</a:outputPanel>
 							</rich:column>
 							<f:facet name="footer">
 								<rich:columnGroup rendered="#{listaVacia}">
