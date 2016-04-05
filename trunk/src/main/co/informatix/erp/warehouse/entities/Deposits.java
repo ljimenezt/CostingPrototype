@@ -36,6 +36,7 @@ public class Deposits implements Serializable {
 	private Date expireDate;
 	private Double initialQuantity;
 	private Double actualQuantity;
+	private Double unitCost;
 	private Double totalCost;
 	private String location;
 	private String qualityCertificateLocationLink;
@@ -137,6 +138,22 @@ public class Deposits implements Serializable {
 	 */
 	public void setActualQuantity(Double actualQuantity) {
 		this.actualQuantity = actualQuantity;
+	}
+
+	/**
+	 * @return unitCost: Unit cost for deposit
+	 */
+	@Column(name = "unit_cost", nullable = false)
+	public Double getUnitCost() {
+		return unitCost;
+	}
+
+	/**
+	 * @param unitCost
+	 *            : Unit cost for deposit
+	 */
+	public void setUnitCost(Double unitCost) {
+		this.unitCost = unitCost;
 	}
 
 	/**
@@ -295,6 +312,8 @@ public class Deposits implements Serializable {
 						: qualityCertificateLocationLink.hashCode());
 		result = prime * result
 				+ ((totalCost == null) ? 0 : totalCost.hashCode());
+		result = prime * result
+				+ ((unitCost == null) ? 0 : unitCost.hashCode());
 		return result;
 	}
 
@@ -344,6 +363,11 @@ public class Deposits implements Serializable {
 			if (other.totalCost != null)
 				return false;
 		} else if (!totalCost.equals(other.totalCost))
+			return false;
+		if (unitCost == null) {
+			if (other.unitCost != null)
+				return false;
+		} else if (!unitCost.equals(other.unitCost))
 			return false;
 		return true;
 	}
