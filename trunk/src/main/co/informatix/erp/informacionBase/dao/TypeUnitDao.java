@@ -140,7 +140,7 @@ public class TypeUnitDao implements Serializable {
 	 * @param name
 	 *            : type unit name to verify.
 	 * @param id
-	 *            : identifier harvest to verify.
+	 *            : identifier type unit to verify.
 	 * @return TypeUnit: TypeUnit object found with the search parameters name
 	 *         and identifier.
 	 * @throws Exception
