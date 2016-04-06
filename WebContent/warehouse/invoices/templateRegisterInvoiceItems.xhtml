@@ -256,7 +256,8 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{invoiceItemsAction.saveUpdateInvoiceItem}"
+							action="#{purchaseInvoicesAction.saveInvoices()}"
+							actionListener="#{invoiceItemsAction.saveUpdateInvoiceItem()}"
 							onclick="#{rich:component('popUpConfirmActual')}.hide(); #{rich:component('statPane')}.show();">
 							<f:param name="param2" value="si" />
 						</h:commandButton>
@@ -393,6 +394,5 @@
 				</a:outputPanel>
 			</rich:popupPanel>
 		</h:form>
-
 	</h:body>
 </ui:composition>

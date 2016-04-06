@@ -49,6 +49,8 @@ public class InvoiceItemsDao implements Serializable {
 	 * Returns the number of existing invoices items in the database that are
 	 * existing or not existing.
 	 * 
+	 * @modify 06/04/2016 Andres.Gomez
+	 * 
 	 * @param consult
 	 *            : Query running on SQL.
 	 * @param parameters
@@ -60,6 +62,7 @@ public class InvoiceItemsDao implements Serializable {
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(it) FROM InvoiceItems it ");
+		query.append("JOIN it.purchaseInvoice pi ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
@@ -70,6 +73,8 @@ public class InvoiceItemsDao implements Serializable {
 
 	/**
 	 * Consult the list of invoices items that comply with the option of force.
+	 * 
+	 * @modify 06/04/2016 Andres.Gomez
 	 * 
 	 * @param start
 	 *            : Registry where consultation begins
@@ -91,6 +96,7 @@ public class InvoiceItemsDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT it FROM InvoiceItems it ");
 		query.append("JOIN FETCH it.material m ");
+		query.append("JOIN it.purchaseInvoice pi ");
 		query.append(consult);
 		query.append("ORDER BY m.name ");
 		Query q = em.createQuery(query.toString());

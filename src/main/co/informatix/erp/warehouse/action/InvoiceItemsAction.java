@@ -1,19 +1,20 @@
 package co.informatix.erp.warehouse.action;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
+import javax.transaction.UserTransaction;
 
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
-import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.InvoiceItemsDao;
 import co.informatix.erp.warehouse.entities.InvoiceItems;
 import co.informatix.erp.warehouse.entities.Materials;
@@ -32,6 +33,8 @@ public class InvoiceItemsAction implements Serializable {
 
 	@EJB
 	private InvoiceItemsDao invoiceItemsDao;
+	@Resource
+	private UserTransaction userTransaction;
 
 	private List<InvoiceItems> invoiceItemsList;
 	private Paginador pagination = new Paginador();
@@ -116,18 +119,15 @@ public class InvoiceItemsAction implements Serializable {
 
 	/**
 	 * Consult the list of invoice Items
+	 * 
+	 * @modify 06/04/2016 Andres.Gomez
 	 */
 	public void consultInvoiceItems() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleWarehouse = ControladorContexto
-				.getBundle("mensajeWarehouse");
-		ValidacionesAction validations = ControladorContexto
-				.getContextBean(ValidacionesAction.class);
 		invoiceItemsList = new ArrayList<InvoiceItems>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
 		StringBuilder allMessageSearch = new StringBuilder();
-		String messageSearch = "";
 		try {
 			advancedSearchInvoiceItems(consult, parameters, bundle,
 					allMessageSearch);
@@ -141,23 +141,6 @@ public class InvoiceItemsAction implements Serializable {
 						pagination.getInicio(), pagination.getRango(), consult,
 						parameters);
 			}
-			if ((invoiceItemsList == null || invoiceItemsList.size() <= 0)
-					&& !"".equals(allMessageSearch.toString())) {
-				messageSearch = MessageFormat
-						.format(bundle
-								.getString("message_no_existen_registros_criterio_busqueda"),
-								allMessageSearch);
-			} else if (invoiceItemsList == null || invoiceItemsList.size() <= 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(allMessageSearch.toString())) {
-				messageSearch = MessageFormat
-						.format(bundle
-								.getString("message_existen_registros_criterio_busqueda"),
-								bundleWarehouse.getString("deposits_label"),
-								allMessageSearch);
-			}
-			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -168,6 +151,8 @@ public class InvoiceItemsAction implements Serializable {
 	 * This method allows to build the query to the advanced search and allows
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
+	 * 
+	 * @modify 06/04/2016 Andres.Gomez
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -183,8 +168,9 @@ public class InvoiceItemsAction implements Serializable {
 			StringBuilder unionMessagesSearch) {
 
 		if (this.invoicesSelected != null) {
-			consult.append("WHERE it.purchaseInvoice = :purchaseInvoice ");
-			SelectItem item = new SelectItem(this.invoicesSelected,
+			consult.append("WHERE pi.idPurchaseInvoice = :purchaseInvoice ");
+			SelectItem item = new SelectItem(
+					this.invoicesSelected.getIdPurchaseInvoice(),
 					"purchaseInvoice");
 			parameters.add(item);
 		}
@@ -193,9 +179,21 @@ public class InvoiceItemsAction implements Serializable {
 	/**
 	 * Method used to save or edit the invoiceItem
 	 * 
+	 * @modify 06/04/2016 Andres.Gomez
+	 * 
 	 */
 	public void saveUpdateInvoiceItem() {
+		String param2 = ControladorContexto.getParam("param2");
+		boolean desdeModal = (param2 != null && Constantes.SI.equals(param2)) ? true
+				: false;
+		PurchaseInvoicesAction purchaseInvoicesAction = ControladorContexto
+				.getContextBean(PurchaseInvoicesAction.class);
 		try {
+			if (desdeModal) {
+				purchaseInvoicesAction.saveInvoices();
+				invoicesSelected = purchaseInvoicesAction.getInvoices();
+			}
+			userTransaction.begin();
 			if (invoiceItem.getIdInvoiceItem() != 0) {
 				invoiceItemsDao.editInvoiceItem(invoiceItem);
 			} else {
@@ -203,7 +201,13 @@ public class InvoiceItemsAction implements Serializable {
 				invoiceItemsDao.saveInvoiceItem(invoiceItem);
 			}
 			consultInvoiceItems();
+			userTransaction.commit();
 		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception exception2) {
+				ControladorContexto.mensajeError(exception2);
+			}
 			ControladorContexto.mensajeError(e);
 		}
 	}

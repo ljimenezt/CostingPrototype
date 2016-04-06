@@ -25,6 +25,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.InvoiceItemsDao;
 import co.informatix.erp.warehouse.dao.PurchaseInvoicesDao;
 import co.informatix.erp.warehouse.dao.SuppliersDao;
+import co.informatix.erp.warehouse.entities.InvoiceItems;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
 import co.informatix.erp.warehouse.entities.Suppliers;
 
@@ -569,23 +570,36 @@ public class PurchaseInvoicesAction implements Serializable {
 	public String addEditInvoices(PurchaseInvoices invoices) {
 		try {
 			loadSuppliers();
+			cleanItemList();
 			if (invoices != null) {
 				this.invoices = invoices;
 				this.nameDocument = invoices.getInvoiceDocumentLink();
 				if (!("").equals(nameDocument) && nameDocument != null) {
 					relocateFileTemp();
 				}
+				selectInvoice(invoices);
+				showInvoiceItems();
 			} else {
 				this.invoices = new PurchaseInvoices();
 				this.invoices.setSuppliers(new Suppliers());
 				this.nameDocument = null;
 			}
 			this.loadDocumentTemporal = true;
-			this.flag = false;
+			this.flag = true;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 		return "regInvoice";
+	}
+
+	/**
+	 * This method allow clean the list of the invoiceItems list
+	 * 
+	 */
+	private void cleanItemList() {
+		this.invoiceItemsAction = ControladorContexto
+				.getContextBean(InvoiceItemsAction.class);
+		invoiceItemsAction.setInvoiceItemsList(new ArrayList<InvoiceItems>());
 	}
 
 	/**
@@ -596,6 +610,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * 
 	 */
 	private void relocateFileTemp() throws Exception {
+		getPathLocation();
 		getFolderFileTemporal();
 		getLocations();
 		String suffix = FilenameUtils.getExtension(nameDocument);
@@ -750,13 +765,16 @@ public class PurchaseInvoicesAction implements Serializable {
 	public String saveInvoices() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String mensajeRegistro = "message_registro_modificar";
+		String param2 = ControladorContexto.getParam("param2");
+		boolean desdeModal = (param2 != null && Constantes.SI.equals(param2)) ? true
+				: false;
+		ControladorContexto.quitarFacesMessages();
 		try {
+			getPathLocation();
 			getLocations();
 			getFolderFileTemporal();
 			String nameActualDocument = this.invoices.getInvoiceDocumentLink();
 			if (!("").equals(nameDocument) && nameDocument != null) {
-				getLocations();
-				getFolderFileTemporal();
 				if (!("").equals(nameActualDocument)
 						&& nameActualDocument != null) {
 					if (nameDocument != nameActualDocument) {
@@ -775,7 +793,6 @@ public class PurchaseInvoicesAction implements Serializable {
 				purchaseInvoicesDao.editInvoices(this.invoices);
 			} else {
 				mensajeRegistro = "message_registro_guardar";
-
 				purchaseInvoicesDao.saveInvoices(this.invoices);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
@@ -784,7 +801,12 @@ public class PurchaseInvoicesAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return searchInitialize();
+		if (desdeModal) {
+			return "";
+		} else {
+			return searchInitialize();
+		}
+
 	}
 
 	/**
