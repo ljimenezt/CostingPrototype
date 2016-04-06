@@ -136,8 +136,6 @@ public class GestionarPerfilSistemaDao implements Serializable {
 	/**
 	 * Consult a profile system by id profile system by ConstantesErp.
 	 * 
-	 * @param id
-	 *            : identifier of profile system.
 	 * @return PerfilSistema: object of profile system found by identifier.
 	 * @throws Exception
 	 */
