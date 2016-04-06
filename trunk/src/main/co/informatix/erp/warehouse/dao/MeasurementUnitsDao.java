@@ -176,6 +176,7 @@ public class MeasurementUnitsDao implements Serializable {
 	 * @param id
 	 *            : The identifier corresponding to a unit.
 	 * @return The MeasurementUnit Object.
+	 * @throws Exception
 	 */
 	public MeasurementUnits measurementUnitByID(int id) throws Exception {
 		return em.find(MeasurementUnits.class, id);
