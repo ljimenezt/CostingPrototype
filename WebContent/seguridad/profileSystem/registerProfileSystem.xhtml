@@ -45,7 +45,7 @@
 					<h:inputText required="true"
 						value="#{perfilSistemaAction.perfilSistema.emailServerUser}"
 						styleClass="colTextoMediano" id="txtEmailServerUser" size="41"
-						maxlength="50" validator="#{encodeFilter.validarScripting}"
+						maxlength="99" validator="#{encodeFilter.validarScripting}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:validateLength maximum="250" />
 						<f:attribute name="nameRegEx" value="locate.regex.email" />
@@ -56,9 +56,11 @@
 						value="#{mensaje.label_contrasena}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret id="txtEmailServerPassword" required="true"
-						styleClass="colTextoCorto" maxlength="12"
+						styleClass="colTextoMediano" maxlength="99" redisplay="true"
 						value="#{perfilSistemaAction.perfilSistema.emailServerPassword}"
-						requiredMessage="#{mensaje.message_campo_requerido}">
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						validator="#{encodeFilter.validarScripting}">
+						<f:validateLength minimum="6" maximum="99" />
 					</h:inputSecret>
 					<rich:message for="txtEmailServerPassword" />
 
@@ -82,7 +84,7 @@
 					<h:inputText required="true"
 						value="#{perfilSistemaAction.perfilSistema.emailServerHost}"
 						styleClass="colTextoMediano" id="txtEmailServerHost" size="41"
-						maxlength="50" validator="#{encodeFilter.validarScripting}"
+						maxlength="99" validator="#{encodeFilter.validarScripting}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtEmailServerHost" />
 
