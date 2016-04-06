@@ -189,4 +189,32 @@ public class MaterialsDao implements Serializable {
 			query.setParameter("idMaterialType", idMaterialType);
 		return query.getResultList();
 	}
+
+	/**
+	 * It retrieves a Material from the database according to it name and
+	 * presentation, because there should not be any two materials with the same
+	 * name and presentation.
+	 * 
+	 * @param name
+	 *            : Material's name.
+	 * @param presentation
+	 *            : Material's presentation.
+	 * @return The matched material or null if there is none.
+	 * @throws Exception
+	 */
+	public Materials materialByNamePresentation(String name, short presentation)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT m FROM Materials m ");
+		queryBuilder
+				.append("WHERE m.name=:name AND m.presentation=:presentation");
+		Query query = em.createQuery(queryBuilder.toString());
+		query.setParameter("name", name);
+		query.setParameter("presentation", presentation);
+		if (query.getResultList().size() > 0) {
+			return (Materials) query.getResultList().get(0);
+		}
+		return null;
+	}
+
 }

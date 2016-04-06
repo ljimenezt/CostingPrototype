@@ -95,7 +95,7 @@ public class Materials implements Serializable {
 	 * 
 	 * @return A small integer.
 	 */
-	@Column(name = "presentation")
+	@Column(name = "presentation", nullable = false)
 	public short getPresentation() {
 		return presentation;
 	}
