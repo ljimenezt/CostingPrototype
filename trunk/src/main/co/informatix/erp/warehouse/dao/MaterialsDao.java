@@ -195,6 +195,8 @@ public class MaterialsDao implements Serializable {
 	 * presentation, because there should not be any two materials with the same
 	 * name and presentation.
 	 * 
+	 * @author Sergio.Gelves
+	 * 
 	 * @param name
 	 *            : Material's name.
 	 * @param presentation
