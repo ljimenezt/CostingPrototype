@@ -71,6 +71,7 @@
 										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
 											styleClass="verticalAlignMiddle"
 											rendered="#{invoice.selected eq false}" />
+										<f:param name="param2" value="si" />
 									</a:commandLink>
 								</a:outputPanel>
 								<h:outputText value="&#32;&#32;&#32;" />
@@ -180,7 +181,10 @@
 					</t:fieldset>
 				</a:outputPanel>
 				<br />
-				<ui:include src="templateInvoiceItems.xhtml" />
+				<ui:include src="templateInvoiceItems.xhtml">
+					<ui:param name="invoiceSelected"
+						value="#{purchaseInvoicesAction.invoicesActualSelected}" />
+				</ui:include>
 			</rich:panel>
 		</h:form>
 

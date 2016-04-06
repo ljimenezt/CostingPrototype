@@ -8,7 +8,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	<h:body>
 		<t:fieldset styleClass="anchoDos BorderW2P"
-			rendered="#{purchaseInvoicesAction.invoicesActualSelected ne null and purchaseInvoicesAction.listInovoices ne null}">
+			rendered="#{invoiceSelected ne null}">
 			<legend class="etiquetaTitulo">#{mensajeWarehouse.purchase_invoice_label_items}</legend>
 			<ui:param name="listaVaciaA"
 				value="#{invoiceItemsAction.invoiceItemsList.size() eq 0 or (invoiceItemsAction.invoiceItemsList eq null)}" />
@@ -18,9 +18,10 @@
 					cellspacing="0">
 					<a:commandLink id="lnkActivityNames"
 						styleClass="quitarDecoracionLink"
-						oncomplete="#{rich:component('popupRegInvoiceItems')}.show()"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupRegInvoiceItems')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						action="#{invoiceItemsAction.addEditInvoiceItems(null)}"
-						render=":formRegInvoiceItems:popupRegInvoiceItems" execute="@form">
+						render=":formRegInvoiceItems:popupRegInvoiceItems,formGenerico"
+						execute="@form">
 						<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 							<h:graphicImage value="/img/add_16.png"
 								styleClass="verticalAlignMiddle" />
@@ -32,7 +33,7 @@
 			</div>
 			<rich:dataTable value="#{invoiceItemsAction.invoiceItemsList}"
 				id="invoiceItemsTable" var="invoiceItems"
-				styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+				styleClass="#{listaVaciaA ? 'BCTransparente W100Per' : 'dataTable'} #{anchoTabla}"
 				rowClasses="odd-row, even-row" footerClass="H130P">
 
 				<rich:column styleClass="colTextoLargo">
@@ -136,7 +137,7 @@
 			</rich:dataTable>
 			<a:outputPanel rendered="#{!listaVaciaA}">
 				<br />
-				<div class="#{anchoTabla} center inBlock">
+				<div class="#{anchoTabla} center inBlock W100Per">
 					<ui:include src="/plantillas/templatePagination.xhtml">
 						<ui:param name="valId" value="2" />
 						<ui:param name="valReder" value="panelPurchaseInvoices" />

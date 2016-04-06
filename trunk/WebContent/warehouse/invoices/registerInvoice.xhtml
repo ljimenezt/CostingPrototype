@@ -16,6 +16,8 @@
 		value="mensaje.label_registrar,mensajeWarehouse.purchase_invoice_label" />
 	<ui:define name="body">
 		<t:saveState value="#{purchaseInvoicesAction}" />
+		<t:saveState value="#{invoiceItemsAction}" />
+		<t:saveState value="#{materialsAction}" />
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
@@ -34,7 +36,7 @@
 		<h:form id="formInvoices">
 			<rich:panel
 				header="#{mensaje.label_registrar} #{mensajeWarehouse.purchase_invoice_label}"
-				styleClass="anchoUno MinH253P" id="pnlInvoices">
+				styleClass="anchoUno MinH253P" id="panelPurchaseInvoices">
 				<t:fieldset styleClass="BorderW2P anchoDos ">
 					<legend class="etiquetaTitulo">#{mensaje.label_group}</legend>
 					<h:panelGrid columns="2" columnClasses="W80Per,W23Per tdAlignTop">
@@ -264,7 +266,7 @@
 										styleClass="W100Per">
 										<hr />
 										<h:outputText styleClass="etiquetaTitulo"
-											value="#{mensaje.label_ext_permitida}: #{propPrototipoCostos['locate.ext.permitidas.doc.pdf.img']} " />
+											value="#{mensaje.label_ext_permitida}: #{propPrototipoCostos['locate.ext.permitted.doc.pdf.img']} " />
 										<hr />
 									</h:panelGrid>
 								</a:outputPanel>
@@ -274,11 +276,9 @@
 
 				</t:fieldset>
 				<br />
-				<t:fieldset styleClass="BorderW2P anchoDos ">
-					<legend class="etiquetaTitulo">#{mensajeWarehouse.purchase_invoice_label_items}</legend>
-
-
-				</t:fieldset>
+				<ui:include src="templateInvoiceItems.xhtml">
+					<ui:param name="invoiceSelected" value="true" />
+				</ui:include>
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
@@ -332,5 +332,6 @@
 				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
+		<ui:include src="templateRegisterInvoiceItems.xhtml" />
 	</ui:define>
 </ui:composition>
