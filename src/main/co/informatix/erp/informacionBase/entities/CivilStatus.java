@@ -13,8 +13,8 @@ import javax.persistence.Table;
  * Class containing the record of Civil Status
  * 
  * @author Mabell.Boada
+ * 
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "civil_status", schema = "general")

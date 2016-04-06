@@ -14,7 +14,6 @@ import co.informatix.erp.informacionBase.entities.Estado;
  * DAO class that establishes the connection between business logic and
  * database. EstadoAction used for managing the states of processes.
  * 
- * 
  * @author Gerson.Cespedes
  * 
  */
