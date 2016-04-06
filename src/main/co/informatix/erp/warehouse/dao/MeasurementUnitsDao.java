@@ -173,6 +173,8 @@ public class MeasurementUnitsDao implements Serializable {
 	/**
 	 * It returns a measurement unit according to a specified ID.
 	 * 
+	 * @author Sergio.Gelves
+	 * 
 	 * @param id
 	 *            : The identifier corresponding to a unit.
 	 * @return The MeasurementUnit Object.

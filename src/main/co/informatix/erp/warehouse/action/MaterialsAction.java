@@ -536,6 +536,8 @@ public class MaterialsAction implements Serializable {
 	 * Method that validates the material name and presentation to check that
 	 * there is no other record with the same attributes in the database.
 	 * 
+	 * @author Sergio.Gelves
+	 * 
 	 * @param context
 	 *            : application context.
 	 * @param toValidate
@@ -596,6 +598,8 @@ public class MaterialsAction implements Serializable {
 
 	/**
 	 * Locate an UIComponent from its root component.
+	 * 
+	 * @author Sergio.Gelves
 	 * 
 	 * @param base
 	 *            root Component (parent)
