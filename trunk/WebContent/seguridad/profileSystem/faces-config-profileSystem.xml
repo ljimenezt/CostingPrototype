@@ -7,14 +7,6 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>manProfileSystem</from-outcome>
-			<to-view-id>/seguridad/profileSystem/manageProfileSystem.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-
-	<navigation-rule>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
 			<from-outcome>regProfileSystem</from-outcome>
 			<to-view-id>/seguridad/profileSystem/registerProfileSystem.xhtml</to-view-id>
 		</navigation-case>
