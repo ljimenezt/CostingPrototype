@@ -193,6 +193,8 @@
 								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 									itemValue="0" />
 								<f:selectItems value="#{cycleAction.itemsMaterials}" />
+								<f:ajax event="change" listener="#{cycleAction.loadUnits()}"
+									render="units" />
 							</h:selectOneMenu>
 							<rich:message for="cmbMaterials" />
 
@@ -211,7 +213,7 @@
 							<h:outputText value="#{mensaje.label_units}" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText value="#{cycleAction.units}" id="units"
-								required="true"
+								required="true" readonly="true"
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								validator="#{encodeFilter.validarScripting}" />
 							<rich:message for="units" />

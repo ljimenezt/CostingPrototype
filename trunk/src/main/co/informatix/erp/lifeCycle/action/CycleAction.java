@@ -1103,6 +1103,19 @@ public class CycleAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+	}
 
+	/**
+	 * This method allow set the measurement unit.
+	 * 
+	 * @author Andres.Gomez
+	 */
+	public void loadUnits() {
+		try {
+			Materials material = materialsDao.consultMaterialsById(idMaterials);
+			units = material.getMeasurementUnits().getName();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 }

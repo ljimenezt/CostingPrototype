@@ -219,4 +219,28 @@ public class MaterialsDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * This method queries all materials stored in the database.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param idMaterial
+	 *            :identifier using like search criteria to consult
+	 * @return Materials: material stored in the database according with the
+	 *         identifier.
+	 * @throws Exception
+	 */
+	public Materials consultMaterialsById(int idMaterial) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT m FROM Materials m ");
+		query.append("JOIN FETCH m.measurementUnits ");
+		query.append("WHERE m.idMaterial =:idMaterial ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idMaterial", idMaterial);
+		if (q.getResultList().size() > 0) {
+			return (Materials) q.getResultList().get(0);
+		}
+		return null;
+	}
+
 }
