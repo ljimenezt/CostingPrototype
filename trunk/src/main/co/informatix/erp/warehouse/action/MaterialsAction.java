@@ -3,17 +3,23 @@ package co.informatix.erp.warehouse.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.MaterialsDao;
@@ -525,4 +531,98 @@ public class MaterialsAction implements Serializable {
 			}
 		}
 	}
+
+	/**
+	 * Method that validates the material name and presentation to check that
+	 * there is no other record with the same attributes in the database.
+	 * 
+	 * @param context
+	 *            : application context.
+	 * @param toValidate
+	 *            : validate component.
+	 * @param value
+	 *            : field value to be valid.
+	 */
+	public void validateMaterialPresentation(FacesContext context,
+			UIComponent toValidate, Object value) {
+		ResourceBundle bundleWarehouse = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		String materialName = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			UIComponent component = findComponent(context.getViewRoot(),
+					"txtPresentation");
+			String stringNumber = ((UIInput) component).getSubmittedValue()
+					.toString();
+			short presentation = Short.parseShort(stringNumber);
+			Materials material = materialsDao.materialByNamePresentation(
+					materialName, presentation);
+
+			if (!EncodeFilter.validarXSS(materialName, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+
+			if (this.materials.getIdMaterial() > 0 && material != null) {
+				if (material.getIdMaterial() != this.materials.getIdMaterial()
+						&& materialName.equals(material.getName())
+						&& presentation == material.getPresentation()) {
+					context.addMessage(
+							clientId,
+							new FacesMessage(
+									FacesMessage.SEVERITY_ERROR,
+									bundleWarehouse
+											.getString("materials_label_repeated_name_presentation"),
+									null));
+					((UIInput) toValidate).setValid(false);
+				}
+			} else if (material != null) {
+				if (materialName.equals(material.getName())
+						&& presentation == material.getPresentation()) {
+					context.addMessage(
+							clientId,
+							new FacesMessage(
+									FacesMessage.SEVERITY_ERROR,
+									bundleWarehouse
+											.getString("materials_label_repeated_name_presentation"),
+									null));
+					((UIInput) toValidate).setValid(false);
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Locate an UIComponent from its root component.
+	 * 
+	 * @param base
+	 *            root Component (parent)
+	 * @param id
+	 *            UIComponent id
+	 * @return UIComponent object
+	 */
+	@SuppressWarnings("rawtypes")
+	private UIComponent findComponent(UIComponent base, String id) {
+		if (id.equals(base.getId()))
+			return base;
+
+		UIComponent children = null;
+		UIComponent result = null;
+		Iterator childrens = base.getFacetsAndChildren();
+		while (childrens.hasNext() && (result == null)) {
+			children = (UIComponent) childrens.next();
+			if (id.equals(children.getId())) {
+				result = children;
+				break;
+			}
+			result = findComponent(children, id);
+			if (result != null) {
+				break;
+			}
+		}
+		return result;
+	}
+
 }
