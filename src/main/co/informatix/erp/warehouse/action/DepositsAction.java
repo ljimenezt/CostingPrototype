@@ -794,8 +794,8 @@ public class DepositsAction implements Serializable {
 	 * @author Liseth.Jimenez
 	 * @modify 05/04/2016 Wilhelm.Boada
 	 * 
-	 * @param invoices
-	 *            : Purchase invoice for consult supplier
+	 * @param deposit
+	 *            : To view details of deposits and purchase invoices
 	 */
 	public void setInoviceSupplier(Deposits deposit) {
 		try {
