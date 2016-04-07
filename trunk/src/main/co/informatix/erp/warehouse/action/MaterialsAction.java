@@ -3,7 +3,6 @@ package co.informatix.erp.warehouse.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -552,8 +551,8 @@ public class MaterialsAction implements Serializable {
 		String materialName = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
-			UIComponent component = findComponent(context.getViewRoot(),
-					"txtPresentation");
+			UIComponent component = toValidate
+					.findComponent("formMaterials:txtPresentation");
 			String stringNumber = ((UIInput) component).getSubmittedValue()
 					.toString();
 			short presentation = Short.parseShort(stringNumber);
@@ -594,39 +593,6 @@ public class MaterialsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-	}
-
-	/**
-	 * Locate an UIComponent from its root component.
-	 * 
-	 * @author Sergio.Gelves
-	 * 
-	 * @param base
-	 *            root Component (parent)
-	 * @param id
-	 *            UIComponent id
-	 * @return UIComponent object
-	 */
-	@SuppressWarnings("rawtypes")
-	private UIComponent findComponent(UIComponent base, String id) {
-		if (id.equals(base.getId()))
-			return base;
-
-		UIComponent children = null;
-		UIComponent result = null;
-		Iterator childrens = base.getFacetsAndChildren();
-		while (childrens.hasNext() && (result == null)) {
-			children = (UIComponent) childrens.next();
-			if (id.equals(children.getId())) {
-				result = children;
-				break;
-			}
-			result = findComponent(children, id);
-			if (result != null) {
-				break;
-			}
-		}
-		return result;
 	}
 
 }

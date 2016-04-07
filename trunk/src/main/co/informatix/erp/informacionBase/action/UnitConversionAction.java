@@ -3,7 +3,6 @@ package co.informatix.erp.informacionBase.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -464,13 +463,14 @@ public class UnitConversionAction implements Serializable {
 		int originalUnitId = (int) value;
 		String clientId = toValidate.getClientId(context);
 		/* It is sent the JSF component ID */
-		UIComponent component = findComponent(context.getViewRoot(),
-				"finalUnit");
+		UIComponent component = toValidate
+				.findComponent("formUnitConversion:finalUnit");
 		String stringNumber = ((UIInput) component).getSubmittedValue()
 				.toString();
-		int finalUnitId = Integer.parseInt(stringNumber);
-		try {
 
+		int finalUnitId = stringNumber.equals("") ? 0 : Integer
+				.parseInt(stringNumber);
+		try {
 			this.originalUnitName = measurementUnitsDao.measurementUnitByID(
 					originalUnitId).getName();
 			this.finalUnitName = measurementUnitsDao.measurementUnitByID(
@@ -491,37 +491,6 @@ public class UnitConversionAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-	}
-
-	/**
-	 * Locate an UIComponent from its root component.
-	 * 
-	 * @param base
-	 *            root Component (parent)
-	 * @param id
-	 *            UIComponent id
-	 * @return UIComponent object
-	 */
-	@SuppressWarnings("rawtypes")
-	private UIComponent findComponent(UIComponent base, String id) {
-		if (id.equals(base.getId()))
-			return base;
-
-		UIComponent children = null;
-		UIComponent result = null;
-		Iterator childrens = base.getFacetsAndChildren();
-		while (childrens.hasNext() && (result == null)) {
-			children = (UIComponent) childrens.next();
-			if (id.equals(children.getId())) {
-				result = children;
-				break;
-			}
-			result = findComponent(children, id);
-			if (result != null) {
-				break;
-			}
-		}
-		return result;
 	}
 
 }
