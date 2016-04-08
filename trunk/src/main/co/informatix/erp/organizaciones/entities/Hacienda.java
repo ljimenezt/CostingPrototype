@@ -392,7 +392,7 @@ public class Hacienda implements Serializable, Comparable<Hacienda>, Cloneable {
 	 *         farm.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_unidad_medida", referencedColumnName = "id", nullable = true)
+	@JoinColumn(name = "idmeasurementunits", referencedColumnName = "id", nullable = true)
 	public UnidadMedida getUnidadMedida() {
 		return unidadMedida;
 	}
