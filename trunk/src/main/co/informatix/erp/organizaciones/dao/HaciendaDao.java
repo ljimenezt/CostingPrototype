@@ -12,11 +12,11 @@ import javax.persistence.Query;
 import co.informatix.erp.informacionBase.entities.Departamento;
 import co.informatix.erp.informacionBase.entities.Municipio;
 import co.informatix.erp.informacionBase.entities.Pais;
-import co.informatix.erp.informacionBase.entities.UnidadMedida;
 import co.informatix.erp.organizaciones.entities.Empresa;
 import co.informatix.erp.organizaciones.entities.Hacienda;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.utils.Constantes;
+import co.informatix.erp.warehouse.entities.MeasurementUnits;
 
 /**
  * This class data access and allows communication between action and haciendas
@@ -90,8 +90,8 @@ public class HaciendaDao implements Serializable {
 				Constantes.DEPARTAMENTO, id);
 		List<Municipio> municipios = (List<Municipio>) consultarListaObjetosDelaHacienda(
 				Constantes.MUNICIPIO, id);
-		List<UnidadMedida> unidadesMedida = (List<UnidadMedida>) consultarListaObjetosDelaHacienda(
-				Constantes.UNIDADMEDIDA, id);
+		List<MeasurementUnits> measurementUnits = (List<MeasurementUnits>) consultarListaObjetosDelaHacienda(
+				Constantes.MEASUREMENTUNITS, id);
 		hacienda.setEmpresa(empresa);
 		hacienda.setContacto(contacto);
 		hacienda.setPais(pais);
@@ -101,8 +101,8 @@ public class HaciendaDao implements Serializable {
 		if (municipios.size() > 0) {
 			hacienda.setMunicipio(municipios.get(0));
 		}
-		if (unidadesMedida.size() > 0) {
-			hacienda.setUnidadMedida(unidadesMedida.get(0));
+		if (measurementUnits.size() > 0) {
+			hacienda.setMeasurementUnits(measurementUnits.get(0));
 		}
 		return hacienda;
 	}
