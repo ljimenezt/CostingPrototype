@@ -87,7 +87,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colTextoLargo">
-								<f:facet name="header">#{mensajeRecursosHumanos.recurso_humano_label}</f:facet>
+								<f:facet name="header">#{mensajeRecursosHumanos.human_resource_label}</f:facet>
 								<h:commandLink
 									value="#{hrCertRol.hrCertificationsAndRolesPK.hr.name} #{hrCertRol.hrCertificationsAndRolesPK.hr.familyName}"
 									action="#{hrCertificationsAndRolesAction.addEditHrCertRoles(hrCertRol)}"
@@ -140,7 +140,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeRecursosHumanos.recurso_humano_label_nombre}"
+				header="#{mensaje.button_search} #{mensajeRecursosHumanos.human_resource_label_name}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

@@ -285,10 +285,10 @@ public class DepartamentoEmpresaAction implements Serializable {
 						}
 					}
 				}
-				this.mensajeMiga = "mensajeOrganizaciones.departamento_empresa_label_modificar";
+				this.mensajeMiga = "mensajeOrganizaciones.departamento_company_label_modify";
 			} else {
 				this.departamentoEmpresa = new DepartamentoEmpresa();
-				this.mensajeMiga = "mensajeOrganizaciones.departamento_empresa_label_registrar";
+				this.mensajeMiga = "mensajeOrganizaciones.department_company_label_register";
 			}
 			Collections.sort(listaTipoCargos);
 			Collections.sort(listaTipoCargosSeleccionados);
@@ -570,7 +570,7 @@ public class DepartamentoEmpresaAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleOrg
-										.getString("departamento_empresa_label_s"),
+										.getString("department_company_label_s"),
 								bundle.getString("label_name") + ": " + '"'
 										+ this.nombreBuscar + '"');
 			}

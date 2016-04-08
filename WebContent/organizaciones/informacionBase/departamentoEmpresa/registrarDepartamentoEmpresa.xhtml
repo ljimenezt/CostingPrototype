@@ -31,7 +31,7 @@
 		<t:saveState value="#{departamentoEmpresaAction}" />
 		<h:form id="frmDepartamento" prependId="false">
 			<rich:panel id="panelFrmDepartamento" styleClass="anchoUno MinH253P"
-				header="#{departamentoEmpresaAction.departamentoEmpresa.id eq null ? mensajeOrganizaciones.departamento_empresa_label_registrar : mensajeOrganizaciones.departamento_empresa_label_modificar}">
+				header="#{departamentoEmpresaAction.departamentoEmpresa.id eq null ? mensajeOrganizaciones.department_company_label_register : mensajeOrganizaciones.department_company_label_modify}">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}:</legend>
 					<h:panelGrid id="tablaFrmDepartamento" columns="4" cellpadding="5"

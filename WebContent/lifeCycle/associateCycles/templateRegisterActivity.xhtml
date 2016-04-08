@@ -28,11 +28,11 @@
 				<rich:message for="txtSecNum" />
 
 				<h:outputText styleClass="etiquetaTitulo"
-					value="#{mensajeCosts.activities_label_duracion_estimada}" />
+					value="#{mensajeCosts.activities_label_duration_budget}" />
 				<h:outputText value="" styleClass="required" />
 				<h:inputText
 					value="#{cropActivitiesAction.activities.durationBudget}"
-					label="#{mensajeCosts.activities_label_duracion_estimada}"
+					label="#{mensajeCosts.activities_label_duration_budget}"
 					styleClass="colNumero" id="txtDuration"
 					validator="#{cropActivitiesAction.validateDate}"
 					converterMessage="#{mensaje.message_campo_positivo}"
@@ -42,7 +42,7 @@
 				<rich:message for="txtDuration" />
 
 				<h:outputText styleClass="etiquetaTitulo"
-					value="#{mensajeCosts.activities_label_fecha_inicio_estimada}" />
+					value="#{mensajeCosts.activities_label_date_initial_budget}" />
 				<h:outputText value="*" styleClass="required" />
 				<p:calendar required="true"
 					requiredMessage="#{mensaje.message_campo_requerido}"
@@ -59,7 +59,7 @@
 				<rich:message for="fechaInicio" />
 
 				<h:outputText styleClass="etiquetaTitulo"
-					value="#{mensajeCosts.activities_label_fecha_final_estimada}" />
+					value="#{mensajeCosts.activities_label_date_final_budget}" />
 				<h:outputText value="*" styleClass="required" />
 				<p:calendar value="#{cropActivitiesAction.activities.finalDtBudget}"
 					showOn="button" navigator="true" required="true"

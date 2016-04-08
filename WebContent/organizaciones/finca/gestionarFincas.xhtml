@@ -94,7 +94,7 @@
 							</c:choose>
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeOrganizaciones.empresa_label}</f:facet>
+							<f:facet name="header">#{mensajeOrganizaciones.company_label}</f:facet>
 							<h:outputText value="#{finca.empresa.nombre}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
@@ -107,7 +107,7 @@
 							<h:outputText value="#{finca.ubicacion}" />
 						</rich:column>
 						<rich:column styleClass="colTextoCorto">
-							<f:facet name="header">#{mensajeInformacionBase.pais_label}</f:facet>
+							<f:facet name="header">#{mensajeInformacionBase.country_label}</f:facet>
 							<h:outputText value="#{finca.pais.nombre}" />
 						</rich:column>
 						<rich:column styleClass="colFecha">
@@ -195,7 +195,7 @@
 								<h:panelGrid columns="2" cellpadding="5" cellspacing="5"
 									columnClasses="columnaIzquierda, columnaDerecha">
 
-									<h:outputText value="#{mensajeOrganizaciones.empresa_label}:" />
+									<h:outputText value="#{mensajeOrganizaciones.company_label}:" />
 									<h:outputText value="#{fincaAction.finca.empresa.nombre}" />
 
 									<h:outputText
@@ -238,15 +238,15 @@
 									<h:outputText value="#{mensaje.label_ubicacion}:" />
 									<h:outputText value="#{fincaAction.finca.ubicacion}" />
 
-									<h:outputText value="#{mensajeInformacionBase.pais_label}:" />
+									<h:outputText value="#{mensajeInformacionBase.country_label}:" />
 									<h:outputText value="#{fincaAction.finca.pais.nombre}" />
 
 									<h:outputText
-										value="#{mensajeInformacionBase.departamento_label}:" />
+										value="#{mensajeInformacionBase.department_label}:" />
 									<h:outputText value="#{fincaAction.finca.departamento.nombre}" />
 
 									<h:outputText
-										value="#{mensajeInformacionBase.municipio_label}:" />
+										value="#{mensajeInformacionBase.municipality_label}:" />
 									<h:outputText value="#{fincaAction.finca.municipio.nombre}" />
 
 									<h:outputText value="#{mensaje.label_vereda}:" />
@@ -312,7 +312,7 @@
 					</h:outputLink>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensajeOrganizaciones.empresa_label}"
+					<h:outputText value="#{mensajeOrganizaciones.company_label}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 						value="#{fincaAction.nombreEmpresaBuscar}"

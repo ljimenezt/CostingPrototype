@@ -11,18 +11,18 @@
 	<ui:param name="action"
 		value="departamentoAction.registrarDepartamento(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeInformacionBase.departamento_label" />
+		value="mensaje.label_registrar,mensajeInformacionBase.department_label" />
 	<ui:define name="body">
 		<h:form id="departamentoForm">
 			<t:saveState value="#{departamentoAction}" />
-			<rich:panel header="#{mensajeInformacionBase.departamento_label}"
+			<rich:panel header="#{mensajeInformacionBase.department_label}"
 				styleClass="anchoUno MinH230P">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}">
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeInformacionBase.pais_label}" />
+						value="#{mensajeInformacionBase.country_label}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu value="#{departamentoAction.departamento.pais.id}"
 						required="true" id="cmbPais"
@@ -82,7 +82,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeInformacionBase.pais_label}:" />
+						<h:outputText value="#{mensajeInformacionBase.country_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(departamentoAction.itemsPaises,departamentoAction.departamento.pais.id)}" />
 

@@ -403,8 +403,8 @@ public class PersonaAction implements Serializable {
 		try {
 			fileUploadBean = new FileUploadBean();
 			if (person == null) {
-				labelRichPanel = bundleRecHum.getString("persona_label_crear");
-				messageMiga = "mensajeRecursosHumanos.persona_label_crear";
+				labelRichPanel = bundleRecHum.getString("person_label_create");
+				messageMiga = "mensajeRecursosHumanos.person_label_create";
 				this.esEdicion = false;
 				this.person = new Persona();
 				this.uploadPhotoTemporal = true;
@@ -412,8 +412,8 @@ public class PersonaAction implements Serializable {
 				this.esEdicion = true;
 				this.person = person;
 				labelRichPanel = bundleRecHum
-						.getString("persona_label_modificar");
-				messageMiga = "mensajeRecursosHumanos.persona_label_modificar";
+						.getString("person_label_edit");
+				messageMiga = "mensajeRecursosHumanos.person_label_edit";
 				fileUploadBean.setFileName(person.getFoto());
 				this.uploadPhotoTemporal = false;
 			}
@@ -805,7 +805,7 @@ public class PersonaAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleHumanResources
-										.getString("persona_label_s"),
+										.getString("person_label_s"),
 								unionMessageSearch);
 			}
 			if (fromModal) {
@@ -851,7 +851,7 @@ public class PersonaAction implements Serializable {
 			parameters.add(item);
 			unionMessagesSearch
 					.append(bundle
-							.getString("persona_message_consulta_nombre_apellido_identificacion")
+							.getString("person_message_consult_name_surname_identification")
 							+ ": " + '"' + this.searchFilter + '"');
 		}
 		if (personsWithoutUser) {

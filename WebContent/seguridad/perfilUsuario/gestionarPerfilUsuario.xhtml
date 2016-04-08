@@ -72,7 +72,7 @@
 									<h:graphicImage value="/img/details_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText
-											value="#{mensajeOrganizaciones.empresa_label_detalles}" />
+											value="#{mensajeOrganizaciones.company_label_details}" />
 									</rich:tooltip>
 								</a:commandLink>
 								<h:outputText value="&#32;&#32;&#32;" />
@@ -104,7 +104,7 @@
 								<h:outputText value="#{permisoEmpresa.empresa.nombre}" />
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensajeOrganizaciones.hacienda_label}</f:facet>
+								<f:facet name="header">#{mensajeOrganizaciones.farm_label}</f:facet>
 								<h:outputText value="#{permisoEmpresa.hacienda.nombre}" />
 							</rich:column>
 							<rich:column styleClass="colFecha">
@@ -154,7 +154,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeOrganizaciones.empresa_label}: " />
+						<h:outputText value="#{mensajeOrganizaciones.company_label}: " />
 						<h:outputText id="nombreEmpresa"
 							value="#{perfilUsuarioAction.permisoPersonaEmpresa.empresa.nombre}" />
 					</ui:define>

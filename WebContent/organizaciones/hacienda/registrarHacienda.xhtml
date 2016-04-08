@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="haciendaAction.agregarEditarHacienda(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeOrganizaciones.hacienda_label" />
+		value="mensaje.label_registrar,mensajeOrganizaciones.farm_label" />
 	<ui:define name="body">
 		<t:saveState value="#{haciendaAction}" />
 		<t:saveState value="#{validacionesAction}" />
@@ -20,7 +20,7 @@
 		<t:saveState value="#{controladorArchivos}" />
 
 		<h:form id="haciendaForm" styleClass="edit">
-			<rich:panel header="#{mensajeOrganizaciones.hacienda_label}"
+			<rich:panel header="#{mensajeOrganizaciones.farm_label}"
 				id="panelHacienda" styleClass="anchoUno">
 				<t:fieldset styleClass="BorderW2P anchoDos" id="fieldSetDatBas">
 					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
@@ -38,7 +38,7 @@
 							cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
 							columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 
-							<h:outputText value="#{mensajeOrganizaciones.empresa_label}"
+							<h:outputText value="#{mensajeOrganizaciones.company_label}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:selectOneMenu value="#{haciendaAction.hacienda.empresa.id}"
@@ -49,7 +49,7 @@
 							<rich:message for="cmbEmpresa" />
 
 							<h:outputText
-								value="#{mensajeOrganizaciones.hacienda_label_codigo_registro}"
+								value="#{mensajeOrganizaciones.farm_label_register_code}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="" />
 							<h:inputText styleClass="colNumero" id="numero"
@@ -207,7 +207,7 @@
 							</h:inputText>
 							<rich:message for="txtUbicacion" />
 
-							<h:outputText value="#{mensajeInformacionBase.pais_label}"
+							<h:outputText value="#{mensajeInformacionBase.country_label}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:selectOneMenu value="#{haciendaAction.hacienda.pais.id}"
@@ -222,7 +222,7 @@
 							<rich:message for="comboPais" />
 
 							<h:outputText
-								value="#{mensajeInformacionBase.departamento_label}"
+								value="#{mensajeInformacionBase.department_label}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="" />
 							<a:outputPanel id="departamentos">
@@ -238,7 +238,7 @@
 							</a:outputPanel>
 							<rich:message for="comboDepartamento" />
 
-							<h:outputText value="#{mensajeInformacionBase.municipio_label}"
+							<h:outputText value="#{mensajeInformacionBase.municipality_label}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="" />
 							<a:outputPanel id="municipios">
@@ -407,12 +407,12 @@
 					</ui:define>
 					<ui:define name="campos">
 
-						<h:outputText value="#{mensajeOrganizaciones.empresa_label}:" />
+						<h:outputText value="#{mensajeOrganizaciones.company_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(haciendaAction.itemsEmpresas,haciendaAction.hacienda.empresa.id)}" />
 
 						<h:outputText
-							value="#{mensajeOrganizaciones.hacienda_label_codigo_registro}:" />
+							value="#{mensajeOrganizaciones.farm_label_register_code}:" />
 						<h:outputText value="#{haciendaAction.hacienda.codigoRegistro}" />
 
 						<h:outputText value="#{mensaje.label_name}:" />
@@ -450,7 +450,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeOrganizaciones.empresa_message_seleccione}"
+							value="#{mensajeOrganizaciones.company_message_select}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="botones">
@@ -465,7 +465,7 @@
 		<h:form id="formModalBusPersonas">
 			<rich:popupPanel id="popupPersonas" autosized="true"
 				domElementAttachment="form"
-				header="#{mensajeRecursosHumanos.persona_label_listado}">
+				header="#{mensajeRecursosHumanos.person_label_list}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png" styleClass="cursor"

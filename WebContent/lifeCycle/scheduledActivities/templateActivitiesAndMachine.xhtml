@@ -165,7 +165,7 @@
 							</h:inputText>
 							<h:outputText value="" />
 							<h:outputText
-								value="#{mensajeCosts.cycle_standard_activities_label_duracion}"
+								value="#{mensajeCosts.cycle_standard_activities_label_duration}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText id="durationBudget" styleClass="W91P"
 								required="true"
@@ -249,7 +249,7 @@
 
 						<h:panelGrid columns="3" columnClasses=" right, center, center">
 
-							<h:outputText value="#{mensajeCosts.budget_label_hora_inicio}"
+							<h:outputText value="#{mensajeCosts.budget_label_start_time}"
 								styleClass="etiquetaTitulo" />
 							<p:calendar
 								value="#{scheduledActivitiesAction.activityMachine.initialDateTime}"
@@ -265,7 +265,7 @@
 							</p:calendar>
 							<h:outputText value="" />
 
-							<h:outputText value="#{mensajeCosts.budget_label_hora_fin}"
+							<h:outputText value="#{mensajeCosts.budget_label_end_time}"
 								styleClass="etiquetaTitulo" />
 							<p:calendar
 								value="#{scheduledActivitiesAction.activityMachine.finalDateTime}"
@@ -281,10 +281,10 @@
 							</p:calendar>
 							<h:outputText value="" styleClass="" />
 
-							<h:outputText value="#{mensajeCosts.budget_label_duracion}"
+							<h:outputText value="#{mensajeCosts.budget_label_duration}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText id="durationBudget"
-								label="#{mensajeCosts.budget_label_duracion}" required="true"
+								label="#{mensajeCosts.budget_label_duration}" required="true"
 								validator="#{scheduledActivitiesAction.validateDuration}"
 								value="#{scheduledActivitiesAction.activityMachine.durationBudget}"
 								requiredMessage="#{mensaje.message_duration_requerido}"

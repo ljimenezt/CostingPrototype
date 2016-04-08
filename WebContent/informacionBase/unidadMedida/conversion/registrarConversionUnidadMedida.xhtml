@@ -20,7 +20,7 @@
 				styleClass="anchoUno" id="panelUnidadMedida">
 				<h:panelGrid columns="4" cellpadding="5" cellspacing="7">
 					<h:outputText
-						value="#{mensajeInformacionBase.unidad_medida_label_inicial}"
+						value="#{mensajeInformacionBase.measurent_unit_label_initial}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required"
 						rendered="#{!unidadMedidaAction.esEdicion}" />
@@ -41,7 +41,7 @@
 					<rich:message for="cmdbUnidadInicial" />
 
 					<h:outputText
-						value="#{mensajeInformacionBase.unidad_medida_label_final}"
+						value="#{mensajeInformacionBase.measurent_unit_label_final}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required"
 						rendered="#{!unidadMedidaAction.esEdicion}" />
@@ -102,11 +102,11 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeInformacionBase.unidad_medida_label_inicial} " />
+							value="#{mensajeInformacionBase.measurent_unit_label_initial} " />
 						<h:outputText
 							value="#{encodeFilter.getKey(unidadMedidaAction.itemsUnidadInicial,unidadMedidaAction.conversionUnidad.llavePrimaria.unidadInicial.id)}" />
 						<h:outputText
-							value="#{mensajeInformacionBase.unidad_medida_label_final} " />
+							value="#{mensajeInformacionBase.measurent_unit_label_final} " />
 						<h:outputText
 							value="#{encodeFilter.getKey(unidadMedidaAction.itemsUnidadFinal,unidadMedidaAction.conversionUnidad.llavePrimaria.unidadFinal.id)}" />
 						<h:outputText

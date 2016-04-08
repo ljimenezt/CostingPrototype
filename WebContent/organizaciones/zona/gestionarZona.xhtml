@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="zonaAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeOrganizaciones.zona_label_s" />
+		value="mensaje.label_gestionar,mensajeOrganizaciones.zone_label_s" />
 	<ui:define name="body">
 		<h:form id="frmGestionarZona">
 			<t:saveState value="#{zonaAction}" />
@@ -32,7 +32,7 @@
 			<ui:param name="popupBuscar" value="popupBuscar" />
 			<ui:param name="metodoListarTodos" value="inicializarBusqueda" />
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{mensajeOrganizaciones.zona_label_s}"
+				header="#{mensaje.label_listado_de} #{mensajeOrganizaciones.zone_label_s}"
 				id="panelZona" styleClass="anchoUno MinH253P">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
 				<rich:dataTable value="#{zonaAction.listaZonaes}" var="tipoZona"
@@ -167,7 +167,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeOrganizaciones.zona_label_s}"
+				header="#{mensaje.button_search} #{mensajeOrganizaciones.zone_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"

@@ -12,7 +12,7 @@
 		<rich:popupPanel id="popUpRecordMachineActual" modal="true"
 			domElementAttachment="form" autosized="true" width="1200"
 			maxWidth="1300"
-			header="#{mensajeMenu.machines_label_administracion} - #{scheduledActivitiesAction.selectedActivity.activityName.activityName}">
+			header="#{mensajeMenu.machines_label_administration} - #{scheduledActivitiesAction.selectedActivity.activityName.activityName}">
 			<f:facet name="controls">
 				<h:panelGroup>
 					<h:graphicImage value="/img/close_14.png"
@@ -35,7 +35,7 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_duracion}"
+							value="#{mensajeCosts.cycle_standard_activities_label_duration}"
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true"
 							value="#{recordActivitiesActualsAction.activityMachine.durationBudget}"

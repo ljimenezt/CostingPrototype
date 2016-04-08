@@ -11,15 +11,15 @@
 	<ui:param name="action"
 		value="unidadMedidaAction.registrarUnidadMedida(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeInformacionBase.unidad_medida_label" />
+		value="mensaje.label_registrar,mensajeInformacionBase.measurent_unit_label" />
 	<ui:define name="body">
 		<t:saveState value="#{unidadMedidaAction}" />
 		<h:form id="frmRegistrarUnidad">
-			<rich:panel header="#{mensajeInformacionBase.unidad_medida_label}"
+			<rich:panel header="#{mensajeInformacionBase.measurent_unit_label}"
 				styleClass="anchoUno" id="panelUnidadMedida">
 				<h:panelGrid columns="4" cellpadding="5" cellspacing="7">
 					<h:outputText
-						value="#{mensajeInformacionBase.tipo_unidad_medida_label}"
+						value="#{mensajeInformacionBase.type_unit_measurent_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="cmbTipoUnidad"
@@ -86,7 +86,7 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeInformacionBase.tipo_unidad_medida_label}: " />
+							value="#{mensajeInformacionBase.type_unit_measurent_label}: " />
 						<h:outputText
 							value="#{validacionesAction.getLabel(unidadMedidaAction.itemsTipoUnidades,unidadMedidaAction.unidadMedida.tipoUnidad.id)}" />
 						<h:outputText value="#{mensaje.label_name}: " />

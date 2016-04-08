@@ -464,7 +464,7 @@ public class HrAction implements Serializable {
 				String message = bundle
 						.getString("message_existen_registros_criterio_busqueda");
 				searchMessage = MessageFormat.format(message,
-						bundleHumanResources.getString("recurso_humano_label"),
+						bundleHumanResources.getString("human_resource_label"),
 						jointSearchMessages);
 			}
 			if (amount != 0) {
@@ -537,7 +537,7 @@ public class HrAction implements Serializable {
 			parameter.add(hrTypeItem);
 			hrType = searchTypeName(hrTypesItems, hrTypeSearch);
 			jointSearchMessages.append(bundleHr
-					.getString("tipo_recurso_humano_label")
+					.getString("human_resource_type_label")
 					+ ": "
 					+ '"'
 					+ hrType + '"' + " ");
@@ -551,7 +551,7 @@ public class HrAction implements Serializable {
 			parameter.add(paymentTypeItem);
 			paymentType = searchTypeName(paymentMethodsItems, paymentTypeSearch);
 			jointSearchMessages.append(bundleHr
-					.getString("recurso_humano_label_tipo_pago")
+					.getString("payment_type_label")
 					+ ": "
 					+ '"'
 					+ paymentType + '"' + " ");

@@ -152,7 +152,7 @@ public class AllocationAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleRecursosHumanos
-										.getString("tipo_recurso_humano_label"),
+										.getString("human_resource_type_label"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);

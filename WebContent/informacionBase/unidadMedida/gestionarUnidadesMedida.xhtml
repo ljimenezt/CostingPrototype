@@ -12,17 +12,17 @@
 	<ui:param name="action"
 		value="unidadMedidaAction.inicializarBusqueda(true)" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeInformacionBase.unidad_medida_label_s" />
+		value="mensaje.label_gestionar,mensajeInformacionBase.measurent_unit_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{unidadMedidaAction}" />
 
 		<rich:panel styleClass="anchoUno MinH208P">
 			<f:facet name="header">
 				<h:outputText
-					value="#{mensajeInformacionBase.unidad_medida_label_asociadas} #{unidadMedidaAction.tipoUnidad.nombre}"
+					value="#{mensajeInformacionBase.measurent_unit_label_associated} #{unidadMedidaAction.tipoUnidad.nombre}"
 					rendered="#{unidadMedidaAction.tipoUnidad ne null}" />
 				<h:outputText
-					value="#{mensaje.label_listado_de} #{mensajeInformacionBase.unidad_medida_label_s}"
+					value="#{mensaje.label_listado_de} #{mensajeInformacionBase.measurent_unit_label_s}"
 					rendered="#{unidadMedidaAction.tipoUnidad eq null}" />
 			</f:facet>
 			<h:form id="formUnidades">
@@ -132,7 +132,7 @@
 						<rich:column styleClass="colTextoCorto">
 							<f:facet name="header">
 								<h:outputLabel
-									value="#{mensajeInformacionBase.tipo_unidad_medida_label}" />
+									value="#{mensajeInformacionBase.type_unit_measurent_label}" />
 							</f:facet>
 							<h:outputText value="#{unidad.tipoUnidad.nombre}" />
 						</rich:column>
@@ -261,7 +261,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeInformacionBase.unidad_medida_label}"
+				header="#{mensaje.button_search} #{mensajeInformacionBase.measurent_unit_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -274,7 +274,7 @@
 				<br />
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeInformacionBase.tipo_unidad_medida_label}:" />
+						value="#{mensajeInformacionBase.type_unit_measurent_label}:" />
 					<h:selectOneMenu value="#{unidadMedidaAction.idTipoUnidad}"
 						id="cmbUnidadMedida">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
