@@ -19,8 +19,8 @@ import javax.persistence.Transient;
 import co.informatix.erp.informacionBase.entities.Departamento;
 import co.informatix.erp.informacionBase.entities.Municipio;
 import co.informatix.erp.informacionBase.entities.Pais;
-import co.informatix.erp.informacionBase.entities.UnidadMedida;
 import co.informatix.erp.recursosHumanos.entities.Persona;
+import co.informatix.erp.warehouse.entities.MeasurementUnits;
 
 /**
  * This class maps the farm table, which contains information on all the
@@ -54,7 +54,7 @@ public class Hacienda implements Serializable, Comparable<Hacienda>, Cloneable {
 	private Pais pais;
 	private Departamento departamento;
 	private Municipio municipio;
-	private UnidadMedida unidadMedida;
+	private MeasurementUnits measurementUnits;
 
 	/**
 	 * Constructor method.
@@ -65,7 +65,7 @@ public class Hacienda implements Serializable, Comparable<Hacienda>, Cloneable {
 		this.pais = new Pais();
 		this.departamento = new Departamento();
 		this.municipio = new Municipio();
-		this.unidadMedida = new UnidadMedida();
+		this.measurementUnits = new MeasurementUnits();
 	}
 
 	/**
@@ -388,21 +388,21 @@ public class Hacienda implements Serializable, Comparable<Hacienda>, Cloneable {
 	}
 
 	/**
-	 * @return unidadMedida: gets the unit of measurement associated with the
-	 *         farm.
+	 * @return measurementUnits: gets the unit of measurement associated with
+	 *         the farm.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idmeasurementunits", referencedColumnName = "id", nullable = true)
-	public UnidadMedida getUnidadMedida() {
-		return unidadMedida;
+	@JoinColumn(name = "id_unidad_medida", referencedColumnName = "idmeasurementunits", nullable = true)
+	public MeasurementUnits getMeasurementUnits() {
+		return measurementUnits;
 	}
 
 	/**
-	 * @param unidadMedida
+	 * @param measurementUnits
 	 *            : sets the unit of measurement associated with the farm.
 	 */
-	public void setUnidadMedida(UnidadMedida unidadMedida) {
-		this.unidadMedida = unidadMedida;
+	public void setMeasurementUnits(MeasurementUnits measurementUnits) {
+		this.measurementUnits = measurementUnits;
 	}
 
 	/**

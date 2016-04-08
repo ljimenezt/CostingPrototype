@@ -26,11 +26,9 @@ import org.primefaces.event.FileUploadEvent;
 import co.informatix.erp.informacionBase.dao.DepartamentoDao;
 import co.informatix.erp.informacionBase.dao.MunicipioDao;
 import co.informatix.erp.informacionBase.dao.PaisDao;
-import co.informatix.erp.informacionBase.dao.UnidadMedidaDao;
 import co.informatix.erp.informacionBase.entities.Departamento;
 import co.informatix.erp.informacionBase.entities.Municipio;
 import co.informatix.erp.informacionBase.entities.Pais;
-import co.informatix.erp.informacionBase.entities.UnidadMedida;
 import co.informatix.erp.organizaciones.dao.EmpresaDao;
 import co.informatix.erp.organizaciones.dao.HaciendaDao;
 import co.informatix.erp.organizaciones.entities.Empresa;
@@ -41,6 +39,8 @@ import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
+import co.informatix.erp.warehouse.dao.MeasurementUnitsDao;
+import co.informatix.erp.warehouse.entities.MeasurementUnits;
 import co.informatix.security.action.IdentityAction;
 
 /**
@@ -90,7 +90,7 @@ public class HaciendaAction implements Serializable {
 	@EJB
 	private EmpresaDao empresaDao;
 	@EJB
-	private UnidadMedidaDao unidadMedidaDao;
+	private MeasurementUnitsDao measurementUnitsDao;
 
 	@Inject
 	private IdentityAction identity;
@@ -379,8 +379,8 @@ public class HaciendaAction implements Serializable {
 			cargarCombos();
 			if (hacienda != null) {
 				cargarDetallesHacienda(hacienda);
-				if (this.hacienda.getUnidadMedida() == null) {
-					this.hacienda.setUnidadMedida(new UnidadMedida());
+				if (this.hacienda.getMeasurementUnits() == null) {
+					this.hacienda.setMeasurementUnits(new MeasurementUnits());
 				}
 				cargarDepartamentos();
 				if (this.hacienda.getDepartamento() == null) {
@@ -493,8 +493,7 @@ public class HaciendaAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSeguridad
-										.getString("farm_label_list"),
+								bundleSeguridad.getString("farm_label_list"),
 								bundleSeguridad.getString("company_label")
 										+ ": " + '"' + this.nombreEmpresaBuscar
 										+ '"');
@@ -550,8 +549,8 @@ public class HaciendaAction implements Serializable {
 			if (hacienda.getMunicipio().getId() == 0) {
 				hacienda.setMunicipio(null);
 			}
-			if (hacienda.getUnidadMedida().getId() == 0) {
-				hacienda.setUnidadMedida(null);
+			if (hacienda.getMeasurementUnits().getIdMeasurementUnits() == 0) {
+				hacienda.setMeasurementUnits(null);
 			}
 			seCambioFoto = validarCargaArchivo(this.fileNameFoto,
 					hacienda.getFoto(), true);
@@ -654,12 +653,12 @@ public class HaciendaAction implements Serializable {
 			}
 		}
 		itemsUnidadesMedida = new ArrayList<SelectItem>();
-		List<UnidadMedida> listaUnidadesMedidaVigentes = unidadMedidaDao
-				.consultarUnidadesMedidaVigentes(Constantes.TIPO_UNIDAD_LONGITUD);
+		List<MeasurementUnits> listaUnidadesMedidaVigentes = measurementUnitsDao
+				.consultMeasurementsUnits();
 		if (listaUnidadesMedidaVigentes != null) {
-			for (UnidadMedida unidadMedida : listaUnidadesMedidaVigentes) {
-				itemsUnidadesMedida.add(new SelectItem(unidadMedida.getId(),
-						unidadMedida.getNombre()));
+			for (MeasurementUnits unit : listaUnidadesMedidaVigentes) {
+				itemsUnidadesMedida.add(new SelectItem(unit
+						.getIdMeasurementUnits(), unit.getName()));
 			}
 		}
 		itemsDepartamentos = new ArrayList<SelectItem>();
