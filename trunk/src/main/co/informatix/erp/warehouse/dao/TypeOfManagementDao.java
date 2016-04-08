@@ -166,5 +166,4 @@ public class TypeOfManagementDao implements Serializable {
 				"SELECT tm FROM TypeOfManagement tm ORDER BY tm.name ")
 				.getResultList();
 	}
-
 }

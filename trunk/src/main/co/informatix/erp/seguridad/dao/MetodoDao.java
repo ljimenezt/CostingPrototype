@@ -126,7 +126,7 @@ public class MetodoDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Metodo nombreMetodoExiste(String name, int id) throws Exception {
+	public Metodo methodNameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Metodo m ");
 		query.append("WHERE UPPER(m.nombre)=UPPER(:nombre) ");

@@ -570,7 +570,7 @@ public class DepositsAction implements Serializable {
 	 */
 	private void loadFarms() throws Exception {
 		itemsFarm = new ArrayList<SelectItem>();
-		List<Farm> farmsList = farmDao.queryFarms();
+		List<Farm> farmsList = farmDao.farmsList();
 		if (farmsList != null) {
 			for (Farm farms : farmsList) {
 				itemsFarm

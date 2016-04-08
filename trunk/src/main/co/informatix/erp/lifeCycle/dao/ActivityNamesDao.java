@@ -255,37 +255,6 @@ public class ActivityNamesDao implements Serializable {
 	}
 
 	/**
-	 * This method queries the name of the activities That are Associated with a
-	 * culture.
-	 * 
-	 * @author Andres.Gomez
-	 * 
-	 * @param idCrop
-	 *            : Culture identifier.
-	 * @return List<ActivityNames>: List of ActivityNames.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<ActivityNames> queryActivityNamesCrop(int idCrop)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT an FROM  ActivityNames an ");
-		query.append("WHERE an IN ");
-		query.append("(SELECT an1 FROM  Activities a ");
-		query.append("JOIN a.crop c ");
-		query.append("JOIN a.activityName an1 ");
-		query.append("WHERE c.idCrop=:idCrop) ");
-		query.append("ORDER BY an.activityName ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idCrop", idCrop);
-		List<ActivityNames> resultList = q.getResultList();
-		if (resultList.size() > 0) {
-			return resultList;
-		}
-		return null;
-	}
-
-	/**
 	 * This method queries the names of the activities associated with a crop.
 	 * 
 	 * @author Gerardo.Herrera
@@ -313,23 +282,4 @@ public class ActivityNamesDao implements Serializable {
 		return null;
 	}
 
-	/**
-	 * Method to return the list of names of activities.
-	 * 
-	 * @author Mabell.Boada
-	 * 
-	 * @return List<ActivityNames>: List of all activity names.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<ActivityNames> queryActivityNames() throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT an FROM ActivityNames an ");
-		Query q = em.createQuery(query.toString());
-		List<ActivityNames> resultList = q.getResultList();
-		if (resultList.size() > 0) {
-			return resultList;
-		}
-		return null;
-	}
 }

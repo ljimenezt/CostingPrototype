@@ -267,36 +267,4 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 		return false;
 	}
 
-	/**
-	 * Method that checks whether a business is the default for a user
-	 * 
-	 * @author Fredy.Vera
-	 * @param documentoPersona
-	 *            : User documentation to verify
-	 * @param empresa
-	 *            : Company to verify
-	 * @return True if the default company, False otherwise.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public boolean empresaPredeterminada(String documentoPersona,
-			Empresa empresa) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT ppe.empresa FROM PermisoPersonaEmpresa ppe ");
-		query.append("WHERE ppe.persona.documento=:documentoPersona ");
-		query.append("AND  ppe.empresa.id = :idEmpresa ");
-		query.append("AND  ppe.predeterminado IS TRUE ");
-		query.append("AND (ppe.fechaFinVigencia IS NULL ");
-		query.append("OR ppe.fechaFinVigencia >= :fechaActual) ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("documentoPersona", documentoPersona);
-		q.setParameter("idEmpresa", empresa.getId());
-		q.setParameter("fechaActual", new Date());
-		List<Empresa> empresas = q.getResultList();
-
-		if (empresas != null && empresas.size() > 0) {
-			return true;
-		}
-		return false;
-	}
 }

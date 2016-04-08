@@ -125,18 +125,6 @@ public class UnitConversionDao implements Serializable {
 	}
 
 	/**
-	 * It queries all unit conversions stored in the database.
-	 * 
-	 * @return A list with the unit conversions.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<UnitConversion> queryUnitConversions() throws Exception {
-		return em.createQuery("SELECT uc FROM UnitConversion uc")
-				.getResultList();
-	}
-
-	/**
 	 * It looks for an unit conversion record that matches with the specified
 	 * measurement units that correspond to the originalUnit's id and
 	 * finalUnit's id parameters.

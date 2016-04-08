@@ -190,20 +190,4 @@ public class FarmDao implements Serializable {
 		return q.getResultList();
 
 	}
-
-	/**
-	 * This method queries all Farm stored in database.
-	 * 
-	 * @author Sergio.Ortiz
-	 * 
-	 * @return List<Farm>: All Farm stored in database.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Farm> queryFarms() throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT f FROM Farm f ");
-		Query q = em.createQuery(query.toString());
-		return q.getResultList();
-	}
 }
