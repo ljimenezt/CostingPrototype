@@ -52,7 +52,7 @@ public class Constantes implements Serializable {
 		tempdir += System.getProperty("file.separator");
 		return tempdir;
 	}
-	
+
 	/* Adjust to deposit */
 	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE = 22;
 
@@ -232,18 +232,17 @@ public class Constantes implements Serializable {
 
 	/* Allowed extensions in file uploads */
 	public static final String EXT_IMG = PropertiesManager
-			.getProperty("locate.ext.permitidas.img");
+			.getProperty("locate.ext.permitted.img");
 	public static final String EXT_IMG_PDF = PropertiesManager
-			.getProperty("locate.ext.permitidas.img.pdf");
+			.getProperty("locate.ext.permitted.img.pdf");
 	public static final String EXT_XLS = PropertiesManager
-			.getProperty("locate.ext.permitidas.xls");
+			.getProperty("locate.ext.permitted.xls");
 	public static final String EXT_DOC = PropertiesManager
-			.getProperty("locate.ext.permitidas.doc");
+			.getProperty("locate.ext.permitted.doc");
 	public static final String EXT_DOC_PDF = PropertiesManager
-			.getProperty("locate.ext.permitidas.doc.docx.pdf");
+			.getProperty("locate.ext.permitted.doc.docx.pdf");
 	public static final String EXT_PDF_DOC_IMG = PropertiesManager
-			.getProperty("locate.ext.permitidas.doc.pdf.img");
-	
+			.getProperty("locate.ext.permitted.doc.pdf.img");
 
 	/* Maximum size in MB, for uploading files */
 	public static final long TAMANYO_MAX_ARCHIVOS = Long
