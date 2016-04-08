@@ -1,6 +1,7 @@
 package co.informatix.erp.lifeCycle.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -125,5 +126,102 @@ public class CycleDao implements Serializable {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
 		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * This method allows to consult the cycle with the highest date belonging
+	 * to the same crop and activity.
+	 * 
+	 * @param idCrop
+	 *            :integer of the crop associated a one cycle.
+	 * @param idActivity
+	 *            :integer of the activity associated a one cycle.
+	 * @return Cycle: Cycle found with the parameters sent.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Cycle consultCycleNumber(int idCrop, int idActivity)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT c FROM Cycle c ");
+		query.append("WHERE c.initialDateTime =(SELECT MAX(cy.initialDateTime) FROM Cycle cy ");
+		query.append("JOIN cy.crops cr ");
+		query.append("JOIN cy.activiyNames an ");
+		query.append("WHERE cr.idCrop =:idCrop ");
+		query.append("AND an.idActivityName =:idActivity) ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idCrop", idCrop);
+		q.setParameter("idActivity", idActivity);
+		List<Cycle> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
+
+	/**
+	 * This method allows to consult the highest date belonging to the same crop
+	 * and activity.
+	 * 
+	 * @param idCrop
+	 *            :integer of the crop associated a one cycle.
+	 * @param idActivity
+	 *            :integer of the activity associated a one cycle.
+	 * @param initialDate
+	 *            :initial date associated a one cycle.
+	 * @return Date: Date found with the parameters sent.
+	 * @throws Exception
+	 */
+	public Date consultDateCycle(int idCrop, int idActivity, Date initialDate)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT MAX(c.finalDateTime) FROM Cycle c ");
+		query.append("JOIN c.crops cr ");
+		query.append("JOIN c.activiyNames an ");
+		query.append("WHERE cr.idCrop =:idCrop ");
+		query.append("AND an.idActivityName =:idActivity ");
+		query.append("AND c.finalDateTime>=:initialDate ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idCrop", idCrop);
+		q.setParameter("idActivity", idActivity);
+		q.setParameter("initialDate", initialDate);
+		if (q.getSingleResult() != null) {
+			return (Date) q.getSingleResult();
+		}
+		return null;
+	}
+
+	/**
+	 * This method allows to consult if there are cycles in the same crop and
+	 * activity to edit the cycle.
+	 * 
+	 * @param idCrop
+	 *            :integer of the crop associated a one cycle.
+	 * @param idActivity
+	 *            :integer of the activity associated a one cycle.
+	 * @param initialDate
+	 *            :initial date associated a one cycle.
+	 * @return Date: Date found with the parameters sent.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean consultCycleByIdCropsAndIdActivity(int idCrop,
+			int idActivity, Date initialDate) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT c FROM Cycle c ");
+		query.append("JOIN c.crops cr ");
+		query.append("JOIN c.activiyNames an ");
+		query.append("WHERE cr.idCrop =:idCrop ");
+		query.append("AND an.idActivityName =:idActivity ");
+		query.append("AND c.initialDateTime>:initialDate ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idCrop", idCrop);
+		q.setParameter("idActivity", idActivity);
+		q.setParameter("initialDate", initialDate);
+		List<Cycle> results = q.getResultList();
+		if (results.size() > 0) {
+			return true;
+		}
+		return false;
 	}
 }

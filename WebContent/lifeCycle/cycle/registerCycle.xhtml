@@ -36,24 +36,30 @@
 
 						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu id="cropName" value="#{cycleAction.idCropsName}"
+							rendered="#{cycleAction.flagCycle eq false}"
 							styleClass="colTextoMediano" required="true">
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{cycleAction.optionsCropNames}" />
 							<f:ajax event="change"
 								listener="#{cycleAction.loadCropNamesCrop()}" render="@form" />
 						</h:selectOneMenu>
+						<h:outputText rendered="#{cycleAction.flagCycle eq true}"
+							value="#{validacionesAction.getLabel(cycleAction.optionsCropNames,cycleAction.idCropsName)}" />
 						<rich:message for="cropName" />
 
 						<h:outputText value="#{mensajeLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu id="crop" value="#{cycleAction.idCrops}"
+							rendered="#{cycleAction.flagCycle eq false}"
 							styleClass="colTextoMediano" required="true">
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{cycleAction.optionsCrops}" />
 							<f:ajax event="change" listener="#{cycleAction.loadActivities()}"
 								render="formRegisterCycle" />
 						</h:selectOneMenu>
+						<h:outputText rendered="#{cycleAction.flagCycle eq true}"
+							value="#{validacionesAction.getLabel(cycleAction.optionsCrops,cycleAction.idCrops)}" />
 						<rich:message for="crop" />
 
 					</h:panelGrid>
@@ -69,50 +75,65 @@
 						rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}">
 
 						<h:outputText value="#{mensajeLifeCycle.activity_names_label}" />
-						<h:outputText value="*" styleClass="required" />
+						<h:outputText value="#{cycleAction.flagCycle eq true ? '' : '*'}"
+							styleClass="required" />
 						<h:selectOneMenu id="activities"
+							rendered="#{cycleAction.flagCycle eq false}"
 							value="#{cycleAction.cycle.activiyNames.idActivityName}"
 							styleClass="colTextoCorto" required="true"
 							validator="#{validacionesAction.validarComboRequerido}">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 								itemValue="0" />
 							<f:selectItems value="#{cycleAction.itemsActivityName}" />
+							<f:ajax event="change"
+								listener="#{cycleAction.calculateCycleNumber()}" render="@form" />
 						</h:selectOneMenu>
+						<h:outputText rendered="#{cycleAction.flagCycle eq true}"
+							value="#{validacionesAction.getLabel(cycleAction.itemsActivityName,cycleAction.cycle.activiyNames.idActivityName)}" />
+
 						<rich:message for="activities" />
 
 						<h:outputText value="#{mensaje.label_fecha_inicio}" />
-						<h:outputText value="*" styleClass="required" />
+						<h:outputText value="#{cycleAction.flagDate eq true ? '' : '*'}"
+							styleClass="required" />
 						<p:calendar value="#{cycleAction.cycle.initialDateTime}"
-							pattern="MM/dd/yyyy" id="fechaInicio" required="true"
-							readonlyInput="true" showOn="button"
-							maxdate="#{cycleAction.cycle.finalDateTime}" navigator="true"
+							rendered="#{cycleAction.flagDate eq false}" pattern="MM/dd/yyyy"
+							id="fechaInicio" required="true" readonlyInput="true"
+							showOn="button" maxdate="#{cycleAction.cycle.finalDateTime}"
+							navigator="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							validator="#{controladorFechas.validarRangoFecha}">
 							<p:ajax event="dateSelect" update="fechaFinal" />
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
+						<h:outputText value="#{cycleAction.cycle.initialDateTime}"
+							rendered="#{cycleAction.flagDate eq true}" />
 						<rich:message for="fechaInicio" />
 
 						<h:outputText value="#{mensaje.label_fecha_fin}" />
-						<h:outputText value="*" styleClass="required" />
+						<h:outputText value="#{cycleAction.flagDate eq true ? '' : '*'}"
+							styleClass="required" />
 						<p:calendar value="#{cycleAction.cycle.finalDateTime}"
-							pattern="MM/dd/yyyy" id="fechaFinal" readonlyInput="true"
-							required="true" showOn="button"
-							mindate="#{cycleAction.cycle.initialDateTime}" navigator="true"
+							rendered="#{cycleAction.flagDate eq false}" pattern="MM/dd/yyyy"
+							id="fechaFinal" readonlyInput="true" required="true"
+							showOn="button" mindate="#{cycleAction.cycle.initialDateTime}"
+							navigator="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							validator="#{controladorFechas.validarRangoFecha}">
 							<p:ajax event="dateSelect" update="fechaInicio" />
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
+						<h:outputText value="#{cycleAction.cycle.finalDateTime}"
+							rendered="#{cycleAction.flagDate eq true}" />
 						<rich:message for="fechaFinal" />
 
 						<h:outputText value="#{mensajeLifeCycle.cycle_label_number}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="cycleNumber" maxlength="5" rendered="true"
-							value="#{cycleAction.cycle.cycleNumber}" required="true"
-							styleClass="W75P"
+							value="#{cycleAction.cycle.cycleNumber}" readonly="true"
+							required="true" styleClass="W75P"
 							converterMessage="#{mensaje.message_campo_positivo}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateDoubleRange minimum="1" />
@@ -176,8 +197,7 @@
 								value="#{cycleAction.idMaterialsType}"
 								styleClass="colTextoCorto" required="true"
 								validator="#{validacionesAction.validarComboRequerido}">
-								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-									itemValue="0" />
+								<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
 								<f:selectItems value="#{cycleAction.itemsMaterialsType}" />
 								<f:ajax event="change" listener="#{cycleAction.loadMaterials()}"
 									render="cmbMaterials" />
@@ -190,11 +210,10 @@
 								value="#{cycleAction.idMaterials}" styleClass="colTextoCorto"
 								required="true"
 								validator="#{validacionesAction.validarComboRequerido}">
-								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-									itemValue="0" />
+								<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
 								<f:selectItems value="#{cycleAction.itemsMaterials}" />
 								<f:ajax event="change" listener="#{cycleAction.loadUnits()}"
-									render="units" />
+									render="units cmbMaterialsType cmbMaterials" />
 							</h:selectOneMenu>
 							<rich:message for="cmbMaterials" />
 
