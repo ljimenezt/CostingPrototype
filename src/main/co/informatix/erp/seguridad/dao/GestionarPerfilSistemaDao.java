@@ -46,18 +46,6 @@ public class GestionarPerfilSistemaDao implements Serializable {
 	}
 
 	/**
-	 * Removes a profile system in database.
-	 * 
-	 * @param perfilSistema
-	 *            : Profile system eliminate.
-	 * @throws Exception
-	 */
-	public void removeProfileSystem(PerfilSistema perfilSistema)
-			throws Exception {
-		em.remove(em.merge(perfilSistema));
-	}
-
-	/**
 	 * Consult a profile system by id profile system by ConstantesErp.
 	 * 
 	 * @return PerfilSistema: object of profile system found by identifier.

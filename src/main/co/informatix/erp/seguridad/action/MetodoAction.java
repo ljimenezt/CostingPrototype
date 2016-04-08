@@ -497,7 +497,7 @@ public class MetodoAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		String name = (String) value;
 		try {
-			Metodo auxMethod = metodoDao.nombreMetodoExiste(name,
+			Metodo auxMethod = metodoDao.methodNameExists(name,
 					this.method.getId());
 			if (auxMethod != null) {
 				context.addMessage(

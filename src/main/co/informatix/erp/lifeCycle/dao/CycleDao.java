@@ -58,65 +58,6 @@ public class CycleDao implements Serializable {
 	}
 
 	/**
-	 * This method consultation cycle with a certain range sent as a parameter
-	 * and filtering the information sent search values.
-	 * 
-	 * @param start
-	 *            :where he started the consultation record.
-	 * @param range
-	 *            : range of records.
-	 * @param consult
-	 *            : Query records depending on the user selected parameter.
-	 * @param parameters
-	 *            : consult parameters.
-	 * @return List<Cycle>: cycle list.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Cycle> consultCycle(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT c FROM Cycle c ");
-		query.append(consult);
-		query.append("ORDER BY c.cycleNumber ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
-		}
-		q.setFirstResult(start).setMaxResults(range);
-		List<Cycle> resultList = q.getResultList();
-		if (resultList.size() > 0) {
-			return resultList;
-		}
-		return null;
-	}
-
-	/**
-	 * Returns the number of existing cycle in the database by filtering
-	 * information sent lookup values.
-	 * 
-	 * @param consult
-	 *            : String containing the query for which the properties are
-	 *            filtered.
-	 * @param parameters
-	 *            : query parameters.
-	 * @return Long: amount of cycle records found.
-	 * @throws Exception
-	 */
-	public Long amountCycle(StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(c) FROM Cycle c ");
-		query.append(consult);
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parameters) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
-		}
-		return (Long) q.getSingleResult();
-	}
-
-	/**
 	 * This method consultation cycles that are associated with a crop.
 	 * 
 	 * @param start

@@ -112,20 +112,6 @@ public class MaterialsDao implements Serializable {
 	}
 
 	/**
-	 * Materials method that queries an object by its ID
-	 * 
-	 * @author Wilhelm.Boada
-	 * 
-	 * @param id
-	 *            : material identifier to consult
-	 * @return: Material object found with the identifier search parameter.
-	 * @throws Exception
-	 */
-	public Materials materialsById(int id) throws Exception {
-		return em.find(Materials.class, id);
-	}
-
-	/**
 	 * Consult a material object according to an identifier.
 	 * 
 	 * @param objectName
@@ -146,22 +132,6 @@ public class MaterialsDao implements Serializable {
 			return results.get(0);
 		}
 		return null;
-	}
-
-	/**
-	 * This method queries all materials stored in the database.
-	 * 
-	 * @author Sergio.Ortiz
-	 * 
-	 * @return List<Materials>: All materials stored in the database.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Materials> queryAllMaterials() throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT m FROM Materials m ");
-		Query q = em.createQuery(query.toString());
-		return q.getResultList();
 	}
 
 	/**
@@ -220,7 +190,8 @@ public class MaterialsDao implements Serializable {
 	}
 
 	/**
-	 * This method queries all materials stored in the database.
+	 * This method queries all materials stored in the database and its
+	 * information from measurement unit.
 	 * 
 	 * @author Andres.Gomez
 	 * 

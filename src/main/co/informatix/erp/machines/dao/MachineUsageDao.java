@@ -130,19 +130,6 @@ public class MachineUsageDao implements Serializable {
 	}
 
 	/**
-	 * Method that queries all Machine Usages object and retrieves then in a
-	 * list.
-	 * 
-	 * @return List<MachineUsage>: Machine Usages list.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<MachineUsage> listMachineUsage() throws Exception {
-		Query q = em.createQuery("SELECT mu FROM MachineUsage mu ");
-		return q.getResultList();
-	}
-
-	/**
 	 * Check if the machine is in the database when storing or editing.
 	 * 
 	 * @param machineId
