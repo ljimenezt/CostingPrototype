@@ -754,10 +754,10 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * they workers run the search again.
 	 */
 	private void maintainWorkers() {
-		for (Hr trabajador : workers) {
-			for (Hr trabajadorSeleccionado : selectedWorkers) {
-				if (trabajador.getIdHr() == trabajadorSeleccionado.getIdHr()) {
-					trabajador.setSeleccionado(true);
+		for (Hr worker : workers) {
+			for (Hr selectedWorker : selectedWorkers) {
+				if (worker.getIdHr() == selectedWorker.getIdHr()) {
+					worker.setSeleccionado(true);
 				}
 			}
 		}
@@ -958,8 +958,8 @@ public class ActivitiesAndHrAction implements Serializable {
 					}
 				}
 			} else {
-				String mensaje = "message_duration_mayor_cero";
-				ControladorContexto.mensajeErrorEspecifico(clientId, mensaje,
+				String message = "message_duration_mayor_cero";
+				ControladorContexto.mensajeErrorEspecifico(clientId, message,
 						"mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
