@@ -194,6 +194,7 @@ public class MaterialsDao implements Serializable {
 	 * information from measurement unit.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 07/04/2016 Wilhelm.Boada
 	 * 
 	 * @param idMaterial
 	 *            :identifier using like search criteria to consult
@@ -205,6 +206,7 @@ public class MaterialsDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Materials m ");
 		query.append("JOIN FETCH m.measurementUnits ");
+		query.append("JOIN FETCH m.materialType mt ");
 		query.append("WHERE m.idMaterial =:idMaterial ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", idMaterial);

@@ -74,6 +74,8 @@ public class CycleAction implements Serializable {
 	private boolean loadDocumentTemporal;
 	private boolean iconPdf;
 	private boolean flagCrops;
+	private boolean flagCycle;
+	private boolean flagDate;
 	private int idCrops;
 	private int idCropsName;
 	private int idMaterialsType;
@@ -428,6 +430,22 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
+	 * @return flagCycle: Flag indicating whether a cycle will be edited or
+	 *         added.
+	 */
+	public boolean getFlagCycle() {
+		return flagCycle;
+	}
+
+	/**
+	 * @return flagDate: Flag indicating whether there are cycles registered
+	 *         later date.
+	 */
+	public boolean getFlagDate() {
+		return flagDate;
+	}
+
+	/**
 	 * @return idCrops: Crop identifier.
 	 */
 	public int getIdCrops() {
@@ -625,6 +643,11 @@ public class CycleAction implements Serializable {
 				this.crops = cropsDao.cropsById(idCrops);
 				this.idCropsName = this.crops.getCropNames().getIdCropName();
 				loadCombos();
+				this.flagCycle = true;
+				this.flagDate = cycleDao.consultCycleByIdCropsAndIdActivity(
+						this.idCrops, this.cycle.getActiviyNames()
+								.getIdActivityName(), this.cycle
+								.getInitialDateTime());
 			} else {
 				if (this.idCrops == 0 && this.idCropsName == 0) {
 					this.crops = cropsDao
@@ -635,6 +658,8 @@ public class CycleAction implements Serializable {
 				}
 				this.cycle = new Cycle();
 				this.cycle.setActiviyNames(new ActivityNames());
+				this.flagCycle = false;
+				this.flagDate = false;
 			}
 			this.flagCrops = false;
 			clearFields();
@@ -1100,20 +1125,57 @@ public class CycleAction implements Serializable {
 											materialName));
 				}
 			}
+			Date dateInitial = cycleDao.consultDateCycle(this.idCrops,
+					this.cycle.getActiviyNames().getIdActivityName(),
+					this.cycle.getInitialDateTime());
+			if (dateInitial != null) {
+				ControladorContexto.mensajeErrorArg1(
+						"formRegisterCycle:fechaInicio",
+						"cycle_message_must_enter_late_date",
+						"mensajeLifeCycle", dateInitial);
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
 
 	/**
-	 * This method allow set the measurement unit.
+	 * This method allow set the measurement unit and update the material type.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 07/04/2016 Wilhelm.Boada
 	 */
 	public void loadUnits() {
 		try {
 			Materials material = materialsDao.consultMaterialsById(idMaterials);
 			units = material.getMeasurementUnits().getName();
+			if (this.idMaterialsType == 0
+					|| this.idMaterialsType != material.getMaterialType()
+							.getIdMaterialsType()) {
+				this.idMaterialsType = material.getMaterialType()
+						.getIdMaterialsType();
+				loadMaterials();
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allow set the cycle number.
+	 * 
+	 */
+	public void calculateCycleNumber() {
+		try {
+			if (!flagCycle) {
+				Cycle cycleNumber = cycleDao.consultCycleNumber(this.idCrops,
+						cycle.getActiviyNames().getIdActivityName());
+				if (cycleNumber != null) {
+					cycle.setCycleNumber(cycleNumber.getCycleNumber() + 1);
+				} else {
+					cycle.setCycleNumber(1);
+				}
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
