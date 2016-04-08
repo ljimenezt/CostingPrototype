@@ -243,12 +243,12 @@ public class LoteAction implements Serializable {
 					mensajeBusqueda = MessageFormat
 							.format(bundle
 									.getString("message_existen_registros_criterio_busqueda"),
-									bundleOrg.getString("lote_label_s"),
+									bundleOrg.getString("lot_label_s"),
 									unionMensajesBusqueda);
 				}
 			} else {
 				ControladorContexto.mensajeError(bundleOrg
-						.getString("zona_message_validar"));
+						.getString("zone_message_validate"));
 			}
 			if (!"".equals(mensajeBusqueda)) {
 				ControladorContexto.mensajeInformacion(idMessage,
@@ -296,7 +296,7 @@ public class LoteAction implements Serializable {
 			SelectItem item = new SelectItem(this.zona.getId(), "idZona");
 			parameters.add(item);
 			if (desdeModal) {
-				unionMessagesSearch.append(bundleOrg.getString("zona_label")
+				unionMessagesSearch.append(bundleOrg.getString("zone_label")
 						+ ": " + '"' + this.zona.getNombre() + '"');
 				seAgregoMens = true;
 			}

@@ -95,7 +95,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="500"
-				header="#{mensaje.button_search} #{diseases_label_nombre}"
+				header="#{mensaje.button_search} #{diseases_label_name}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -107,7 +107,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensajeWarehouse.diseases_label_nombre}:"
+					<h:outputText value="#{mensajeWarehouse.diseases_label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar" value="#{diseasesAction.nameSearch}"

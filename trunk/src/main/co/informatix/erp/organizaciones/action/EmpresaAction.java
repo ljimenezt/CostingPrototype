@@ -391,8 +391,8 @@ public class EmpresaAction implements Serializable {
 			this.cargarFotoTemporal = true;
 			if (Constantes.N_TAB.equals(rol)) {
 				this.labelCrear = bundleOrg
-						.getString("empresa_label_registrar");
-				this.mensajeMiga = "mensajeOrganizaciones.empresa_label_crear";
+						.getString("company_label_register");
+				this.mensajeMiga = "mensajeOrganizaciones.company_label_create";
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -431,8 +431,8 @@ public class EmpresaAction implements Serializable {
 			 */
 			if (Constantes.N_TAB.equals(rol)) {
 				this.labelCrear = bundleOrg
-						.getString("empresa_label_registrar");
-				mensajeMiga = "mensajeOrganizaciones.empresa_label_modificar";
+						.getString("company_label_register");
+				mensajeMiga = "mensajeOrganizaciones.company_label_modify";
 			}
 
 		} catch (Exception e) {
@@ -532,7 +532,7 @@ public class EmpresaAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleOrganizaciones
-										.getString("empresa_label_s"),
+										.getString("company_label_s"),
 								unionMensajesBusqueda);
 			}
 			validaciones.setMensajeBusqueda(mensajeBusqueda);
@@ -727,7 +727,7 @@ public class EmpresaAction implements Serializable {
 
 				mensaje = MessageFormat
 						.format(bundle2
-								.getString("empresa_message_exito_empresa_modificacion"),
+								.getString("company_message_successfully_modified"),
 								this.empresa.getNombre(), this.empresa.getNit());
 			} else {
 				if (this.nombreFotoLogo != null
@@ -739,7 +739,7 @@ public class EmpresaAction implements Serializable {
 				this.empresa.setLogo(this.nombreFotoLogo);
 				this.empresaDao.crearEmpresa(this.empresa);
 				mensaje = MessageFormat.format(bundle2
-						.getString("empresa_message_exito_empresa_registro"),
+						.getString("company_message_successfully_created"),
 						empresa.getNombre(), empresa.getNit());
 			}
 			this.userTransaction.commit();
@@ -894,7 +894,7 @@ public class EmpresaAction implements Serializable {
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle2
-								.getString("empresa_message_validar_nit"), null));
+								.getString("company_message_validate_nit"), null));
 			}
 			if (!EncodeFilter.validarXSS(nit, clientId, "locate.regex.nit")) {
 				((UIInput) toValidate).setValid(false);

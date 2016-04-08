@@ -482,7 +482,7 @@ public class UnidadMedidaAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleInformacionGeneral
-										.getString("unidad_medida_label_s"),
+										.getString("measurent_unit_label_s"),
 								unionMensajesBusqueda);
 			}
 			validaciones.setMensajeBusqueda(mensajeBusqueda);
@@ -516,7 +516,7 @@ public class UnidadMedidaAction implements Serializable {
 		String comaEspacio = ", ";
 		if (idTipoUnidad != 0) {
 			unionMensajesBusqueda.append(bundleInformacionGeneral
-					.getString("tipo_unidad_medida_label_s")
+					.getString("type_unit_measurent_label_s")
 					+ ": "
 					+ '"'
 					+ nombreTipoUnidad + '"');
@@ -804,7 +804,7 @@ public class UnidadMedidaAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleInformacionGeneral
-										.getString("tipo_unidad_medida_label_s"),
+										.getString("type_unit_measurent_label_s"),
 								unionMensajesBusqueda);
 			}
 			validaciones.setMensajeBusqueda(mensajeBusqueda);

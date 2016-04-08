@@ -11,7 +11,7 @@
 	<h:form id="seleccionarTrabajador">
 		<rich:popupPanel id="popupTrabajador" autosized="true" maxWidth="490"
 			domElementAttachment="form"
-			header="#{mensajeCosts.activities_and_hr_label_trabajadores} #{mensaje.label_para} #{activitiesAndHrAction.selectedActivity.activityName.activityName}">
+			header="#{mensajeCosts.activities_and_hr_label_workers} #{mensaje.label_para} #{activitiesAndHrAction.selectedActivity.activityName.activityName}">
 			<f:facet name="controls">
 				<h:panelGroup>
 					<h:graphicImage value="/img/close_14.png"
@@ -25,10 +25,10 @@
 				<a:outputPanel id="outPutBuscarTrabajador">
 					<a:outputPanel id="outputTrabajador">
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.tipo_recurso_humano_label}</legend>
+							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.human_resource_type_label}</legend>
 							<h:panelGrid columns="2" cellpadding="3">
 								<h:outputText
-									value="#{mensajeRecursosHumanos.tipo_recurso_humano_label}"
+									value="#{mensajeRecursosHumanos.human_resource_type_label}"
 									styleClass="etiquetaTitulo" />
 								<h:selectOneMenu id="trabajador"
 									value="#{activitiesAndHrAction.idWorker}" styleClass="W225P"
@@ -66,7 +66,7 @@
 						</a:outputPanel>
 						<br />
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.recurso_humano_label_s}</legend>
+							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.human_resource_label_s}</legend>
 							<a:outputPanel id="outputBuscar">
 								<ui:param name="listaVacia"
 									value="#{activitiesAndHrAction.workers eq null or (empty activitiesAndHrAction.workers)}" />
@@ -181,7 +181,7 @@
 							</h:inputText>
 							<h:outputText value="" />
 							<h:outputText
-								value="#{mensajeCosts.cycle_standard_activities_label_duracion}"
+								value="#{mensajeCosts.cycle_standard_activities_label_duration}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText id="duracionBudget" styleClass="W91P"
 								validator="#{activitiesAndHrAction.validate}" required="true"
@@ -240,7 +240,7 @@
 		<rich:popupPanel id="popUpEditarActivitiesAndHr" modal="true"
 			domElementAttachment="form" autosized="true" width="1200"
 			maxWidth="1300"
-			header="#{mensajeMenu.recursos_humanos_activities_label}">
+			header="#{mensajeMenu.humans_resources_activities_label}">
 			<f:facet name="controls">
 				<h:panelGroup>
 					<h:graphicImage value="/img/close_14.png"
@@ -265,7 +265,7 @@
 							<h:outputText value="#{mensaje.label_fecha_fin}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText
-								value="#{mensajeCosts.cycle_standard_activities_label_duracion}"
+								value="#{mensajeCosts.cycle_standard_activities_label_duration}"
 								styleClass="etiquetaTitulo" />
 							<p:calendar
 								value="#{activitiesAndHrAction.activitiesAndHr.initialDateTimeBudget}"
@@ -308,10 +308,10 @@
 							columnClasses=" center, center, center, center">
 
 							<h:outputText
-								value="#{mensajeCosts.activities_and_hr_label_hora_normal}"
+								value="#{mensajeCosts.activities_and_hr_label_normal_hours}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText
-								value="#{mensajeCosts.activities_and_hr_label_horas_extra}"
+								value="#{mensajeCosts.activities_and_hr_label_overtime}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="#{mensaje.label_total}"
 								styleClass="etiquetaTitulo" />

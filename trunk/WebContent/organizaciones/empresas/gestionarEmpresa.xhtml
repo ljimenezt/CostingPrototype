@@ -11,13 +11,13 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="empresaAction.inicializarBusqueda" />
 	<ui:param name="titulo"
-		value="mensajeOrganizaciones.empresa_label_listar" />
+		value="mensajeOrganizaciones.company_label_list" />
 	<ui:define name="body">
 		<h:form id="frmGestionarEmpresas">
 			<t:saveState value="#{empresaAction}" />
 			<ui:param name="listaVacia"
 				value="#{empresaAction.listaEmpresas eq null or (empty empresaAction.listaEmpresas)}" />
-			<rich:panel header="#{mensajeOrganizaciones.empresa_label_listado}"
+			<rich:panel header="#{mensajeOrganizaciones.company_label_list}"
 				id="panelEmpresa" styleClass="anchoUno MinH253P">
 				<rich:tabPanel switchType="ajax"
 					activeItem="#{empresaAction.tabSelect}"
@@ -84,7 +84,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeOrganizaciones.empresa_label_listado}"
+				header="#{mensaje.button_search} #{mensajeOrganizaciones.company_label_list}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"

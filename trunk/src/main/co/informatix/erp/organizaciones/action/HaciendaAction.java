@@ -482,7 +482,7 @@ public class HaciendaAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundleSeguridad.getString("empresa_label")
+								bundleSeguridad.getString("company_label")
 										+ ": " + '"' + this.nombreEmpresaBuscar
 										+ '"');
 			} else if (listaHaciendas == null || listaHaciendas.size() <= 0) {
@@ -494,8 +494,8 @@ public class HaciendaAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleSeguridad
-										.getString("hacienda_label_listado"),
-								bundleSeguridad.getString("empresa_label")
+										.getString("farm_label_list"),
+								bundleSeguridad.getString("company_label")
 										+ ": " + '"' + this.nombreEmpresaBuscar
 										+ '"');
 			}
@@ -869,7 +869,7 @@ public class HaciendaAction implements Serializable {
 		UIInput findComponent = (UIInput) toValidate
 				.findComponent("cmbEmpresa");
 		Integer idEmpresa = (Integer) findComponent.getValue();
-		String mensaje = "hacienda_message_numero_asignado";
+		String mensaje = "farm_message_number_assigned";
 		try {
 			if (idEmpresa != null && codigoHacienda != null
 					&& !"".equals(codigoHacienda)) {
@@ -911,7 +911,7 @@ public class HaciendaAction implements Serializable {
 				.getBundle("mensajeOrganizaciones");
 		String idCampoText = toValidate.getClientId(context);
 		String nombreHacienda = (String) value;
-		String mensaje = "hacienda_message_nombre_existe";
+		String mensaje = "farm_message_name_exist";
 		String nombreCapitalize = WordUtils.capitalizeFully(nombreHacienda);
 		UIInput findComponent = (UIInput) toValidate
 				.findComponent("cmbEmpresa");

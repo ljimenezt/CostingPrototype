@@ -65,7 +65,7 @@
 			<rich:message for="radGenero" />
 
 			<h:outputText
-				value="#{mensajeRecursosHumanos.persona_label_fecha_nacimiento}"
+				value="#{mensajeRecursosHumanos.person_label_date_birth}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
 			<p:calendar value="#{personaAction.person.fechaNacimiento}"
@@ -75,7 +75,7 @@
 				yearRange="c-90:c+1" />
 			<rich:message for="calFechaNacimiento" />
 
-			<h:outputText value="#{mensajeInformacionBase.pais_label_nacimiento}"
+			<h:outputText value="#{mensajeInformacionBase.country_label_birth}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.paisNac.id}"
@@ -89,7 +89,7 @@
 			<rich:message for="comboPais" />
 
 			<h:outputText
-				value="#{mensajeInformacionBase.departamento_label_nacimiento}"
+				value="#{mensajeInformacionBase.department_label_birth}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.departamentoNac.id}"
@@ -102,7 +102,7 @@
 			<rich:message for="comboDepartamento" />
 
 			<h:outputText
-				value="#{mensajeInformacionBase.municipio_label_nacimiento}"
+				value="#{mensajeInformacionBase.municipality_label_birth}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.municipioNac.id}"
@@ -123,7 +123,7 @@
 			<rich:message for="comboEstadoCivil" />
 
 			<h:outputText
-				value="#{mensajeRecursosHumanos.persona_label_numero_hijos}"
+				value="#{mensajeRecursosHumanos.person_label_number_children}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
 			<h:inputText id="txtNumHijos"
@@ -187,7 +187,7 @@
 			</h:inputText>
 			<rich:message for="txtMovil" />
 
-			<h:outputText value="#{mensajeInformacionBase.pais_label_residencia}"
+			<h:outputText value="#{mensajeInformacionBase.country_label_residence}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.paisRes.id}"
@@ -201,7 +201,7 @@
 			<rich:message for="comboPaisRes" />
 
 			<h:outputText
-				value="#{mensajeInformacionBase.departamento_label_residencia}"
+				value="#{mensajeInformacionBase.department_label_residence}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.departamentoRes.id}"
@@ -215,7 +215,7 @@
 			<rich:message for="comboDepartamentoRes" />
 
 			<h:outputText
-				value="#{mensajeInformacionBase.municipio_label_residencia}"
+				value="#{mensajeInformacionBase.municipality_label_residence}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.municipioRes.id}"

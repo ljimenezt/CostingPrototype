@@ -12,14 +12,14 @@
 	<ui:param name="action"
 		value="organizacionAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeOrganizaciones.organizacion_label" />
+		value="mensaje.label_gestionar,mensajeOrganizaciones.organization_label" />
 	<ui:define name="body">
 		<t:saveState value="#{organizacionAction}" />
 		<h:form id="organizacionForm">
 			<ui:param name="listaVacia"
 				value="#{organizacionAction.organizaciones eq null or (empty organizacionAction.organizaciones)}" />
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{mensajeOrganizaciones.organizacion_label_s}"
+				header="#{mensaje.label_listado_de} #{mensajeOrganizaciones.organization_label_s}"
 				id="panelOrganizacion" styleClass="anchoUno MinH253P">
 
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
@@ -204,7 +204,7 @@
 			</rich:panel>
 			<rich:popupPanel id="popupDetalles" autosized="true"
 				domElementAttachment="form" maxWidth="750"
-				header="#{mensajeOrganizaciones.organizacion_label}"
+				header="#{mensajeOrganizaciones.organization_label}"
 				styleClass="W760P">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -302,7 +302,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeOrganizaciones.organizacion_label_s}"
+				header="#{mensaje.button_search} #{mensajeOrganizaciones.organization_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"

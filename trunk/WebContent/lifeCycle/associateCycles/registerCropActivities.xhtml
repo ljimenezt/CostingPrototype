@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="cropActivitiesAction.addEditCropActivities(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeMenu.associate_cycles_label_registrar" />
+		value="mensaje.label_registrar,mensajeMenu.associate_cycles_label_register" />
 	<ui:define name="body">
 		<ui:param name="listaVacia"
 			value="#{cropActivitiesAction.listActivities eq null or (empty cropActivitiesAction.listActivities)}" />
@@ -46,7 +46,7 @@
 			$g=jQuery.noConflict();
 		</script>
 		<h:form id="formAssignActivities">
-			<rich:panel header="#{mensajeMenu.associate_cycles_label_registrar}"
+			<rich:panel header="#{mensajeMenu.associate_cycles_label_register}"
 				styleClass="anchoExtend MinH253P" id="panelAssignActivities">
 				<t:fieldset styleClass="BorderW2P">
 					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
@@ -106,7 +106,7 @@
 										<h:graphicImage value="/img/add_16.png"
 											styleClass="verticalAlignMiddle" />
 										<h:outputText
-											value="#{mensajeCosts.cycle_standard_activities_label_agregar_actividad}"
+											value="#{mensajeCosts.cycle_standard_activities_label_add_activity}"
 											actionListener="#{cropActivitiesAction.activities.crop.idCrop}" />
 									</h:panelGrid>
 									<rich:tooltip layout="block">
@@ -579,27 +579,27 @@
 						<h:outputText
 							value="#{cropActivitiesAction.activities.hrRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_maquina}:" />
+							value="#{mensajeCosts.cycle_standard_activities_label_machine}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.machineRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_servicio}:" />
+							value="#{mensajeCosts.cycle_standard_activities_label_service}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.serviceRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_materiales}:" />
+							value="#{mensajeCosts.cycle_standard_activities_label_materials}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.materialsRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_num_secuencia}:" />
+							value="#{mensajeCosts.cycle_standard_activities_label_num_sequence}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.sequenceNumber}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_duracion}:" />
+							value="#{mensajeCosts.cycle_standard_activities_label_duration}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.durationBudget}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_peligroso }:" />
+							value="#{mensajeCosts.cycle_standard_activities_label_dangerous }:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.dangerous eq true ? mensaje.label_si : mensaje.label_no}" />
 					</ui:define>
@@ -636,27 +636,27 @@
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.hrRequired}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_maquina}" />
+							value="#{mensajeCosts.cycle_standard_activities_label_machine}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.machineRequired}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_servicio}" />
+							value="#{mensajeCosts.cycle_standard_activities_label_service}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.serviceRequired}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_materiales}" />
+							value="#{mensajeCosts.cycle_standard_activities_label_materials}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.materialsRequired}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_num_secuencia}" />
+							value="#{mensajeCosts.cycle_standard_activities_label_num_sequence}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.sequenceNumber}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_duracion}" />
+							value="#{mensajeCosts.cycle_standard_activities_label_duration}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.duration}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_peligroso}" />
+							value="#{mensajeCosts.cycle_standard_activities_label_dangerous}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.dangerous}" />
 					</ui:define>
@@ -685,7 +685,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_eliminar}"
+							value="#{mensajeCosts.cycle_standard_activities_remove}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
@@ -728,7 +728,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_eliminar}"
+							value="#{mensajeCosts.cycle_standard_activities_remove}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 
@@ -814,7 +814,7 @@
 		<h:form id="formDetalles">
 			<rich:popupPanel id="PopUpDetalles" autosized="true"
 				domElementAttachment="form" styleClass="H340P fondoAnchoUno W250"
-				header="#{mensajeCosts.activities_message_popup_detalles}">
+				header="#{mensajeCosts.activities_message_popup_details}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

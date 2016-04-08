@@ -156,7 +156,7 @@ public class HrTypesAction implements Serializable {
 				searchMessage = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								hrBundle.getString("tipo_recurso_humano_label"),
+								hrBundle.getString("human_resource_type_label"),
 								jointSearchMessages);
 			}
 			validation.setMensajeBusqueda(searchMessage);

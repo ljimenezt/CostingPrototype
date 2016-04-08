@@ -497,7 +497,7 @@ public class PurchaseInvoicesAction implements Serializable {
 					+ "%", "keywordSupplier");
 			parameters.add(itemNombre);
 			unionSearchMessages.append(bundleWarehouse
-					.getString("suppliers_label_nombre")
+					.getString("suppliers_label_name")
 					+ ": "
 					+ '"'
 					+ this.searchSupplier + '"' + " ");

@@ -385,7 +385,7 @@ public class OrganizacionAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleOrg.getString("organizacion_label_s"),
+								bundleOrg.getString("organization_label_s"),
 								cadena + ": " + '"' + this.filtroBusqueda + '"');
 			}
 			validaciones.setMensajeBusqueda(mensajeBusqueda);

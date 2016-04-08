@@ -11,14 +11,14 @@
 	<ui:param name="action"
 		value="departamentoEmpresaAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensajeOrganizaciones.departamento_empresa_label_gestionar" />
+		value="mensajeOrganizaciones.department_company_label_manage" />
 	<ui:define name="body">
 		<t:saveState value="#{departamentoEmpresaAction}" />
 		<h:form id="frmListaDepartamento">
 			<ui:param name="listaVacia"
 				value="#{departamentoEmpresaAction.listaDepartamentoEmpresas eq null or (empty departamentoEmpresaAction.listaDepartamentoEmpresas)}" />
 			<rich:panel id="panelFrmListaDepartamento"
-				header="#{mensajeOrganizaciones.departamento_empresa_label_listado}"
+				header="#{mensajeOrganizaciones.department_company_label_list}"
 				styleClass="anchoUno MinH253P">
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
@@ -292,7 +292,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeOrganizaciones.departamento_empresa_label_s}"
+				header="#{mensaje.button_search} #{mensajeOrganizaciones.department_company_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"

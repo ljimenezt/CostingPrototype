@@ -15,7 +15,7 @@
 
 		<h:form id="frmRegistrarPersona">
 			<rich:panel
-				header="#{personaAction.esEdicion eq false ? mensajeRecursosHumanos.persona_label_crear : mensajeRecursosHumanos.persona_label_modificar}"
+				header="#{personaAction.esEdicion eq false ? mensajeRecursosHumanos.person_label_create : mensajeRecursosHumanos.person_label_edit}"
 				id="panelPersona" styleClass="anchoUno">
 				<ui:include src="templateCreatePerson.xhtml">
 					<ui:param name="idFormulario" value="frmRegistrarPersona" />

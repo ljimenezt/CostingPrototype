@@ -12,7 +12,7 @@
 		<rich:popupPanel id="popUpAgregarActualsActivitiesAndHr" modal="true"
 			domElementAttachment="form" autosized="true" width="1200"
 			maxWidth="1300"
-			header="#{mensajeMenu.recursos_humanos_label} -
+			header="#{mensajeMenu.human_resources_label} -
 							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}">
 			<f:facet name="controls">
 				<h:panelGroup>
@@ -32,7 +32,7 @@
 							<h:panelGrid columns="2"
 								columnClasses="tdAlignTop center,tdAlignTop center">
 								<h:outputText styleClass="etiquetaTitulo"
-									value="#{mensajeRecursosHumanos.recurso_humano_label_costo_hora}" />
+									value="#{mensajeRecursosHumanos.human_resource_label_hour_cost}" />
 								<h:outputText styleClass="etiquetaTitulo"
 									value="#{recordActivitiesActualsAction.activitiesAndHr.activitiesAndHrPK.hr.hourCost}" />
 							</h:panelGrid>
@@ -90,7 +90,7 @@
 						</p:calendar>
 						<rich:message for="fechaFinalTimeActual" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_duracion}"
+							value="#{mensajeCosts.cycle_standard_activities_label_duration}"
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.durationBudget}"

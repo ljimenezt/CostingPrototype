@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="unidadMedidaAction.inicializarBusqueda(false)" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeInformacionBase.tipo_unidad_medida_label_s" />
+		value="mensaje.label_gestionar,mensajeInformacionBase.type_unit_measurent_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{unidadMedidaAction}" />
 		<h:form id="formTipoUnidad">
@@ -20,7 +20,7 @@
 				value="#{unidadMedidaAction.tiposUnidades eq null or (empty unidadMedidaAction.tiposUnidades)}" />
 			<div align="left">
 				<rich:panel styleClass="anchoUno MinH208P" id="panelTipoUnidad"
-					header="#{mensaje.label_listado_de} #{mensajeInformacionBase.tipo_unidad_medida_label_s}">
+					header="#{mensaje.label_listado_de} #{mensajeInformacionBase.type_unit_measurent_label_s}">
 					<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 						columnClasses="W50Per,W50Per" styleClass="anchoCinco">
 						<h:selectOneRadio value="#{unidadMedidaAction.tipoVigenteSelect}"
@@ -84,7 +84,7 @@
 								</h:commandLink>
 								<rich:tooltip layout="block">
 									<h:outputText
-										value="#{mensajeInformacionBase.tipo_unidad_medida_message_ver_asignar}" />
+										value="#{mensajeInformacionBase.type_unit_measurent_message_see_assign}" />
 								</rich:tooltip>
 							</a:outputPanel>
 							<h:outputText value="&#32;&#32;&#32;" />
@@ -254,7 +254,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeInformacionBase.tipo_unidad_medida_label_s}"
+				header="#{mensaje.button_search} #{mensajeInformacionBase.type_unit_measurent_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

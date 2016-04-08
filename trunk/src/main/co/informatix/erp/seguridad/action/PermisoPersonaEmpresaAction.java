@@ -469,7 +469,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 			parameters.add(item);
 			String nombreSucursal = (String) ValidacionesAction.getLabel(
 					itemsSucursales, idSucursalBuscar);
-			unionMessagesSearch.append(bundleOrg.getString("sucursal_label")
+			unionMessagesSearch.append(bundleOrg.getString("branch_label")
 					+ ": " + '"' + nombreSucursal + '"');
 			seAgregoMens = true;
 		}
@@ -480,7 +480,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 			String nombreHacienda = (String) ValidacionesAction.getLabel(
 					itemsHaciendas, idHaciendaBuscar);
 			unionMessagesSearch.append((seAgregoMens ? comaEspacio : "")
-					+ bundleOrg.getString("hacienda_label") + ": " + '"'
+					+ bundleOrg.getString("farm_label") + ": " + '"'
 					+ nombreHacienda + '"');
 			seAgregoMens = true;
 		}

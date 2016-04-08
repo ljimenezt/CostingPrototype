@@ -35,7 +35,7 @@
 			});		
 		</script>
 		<h:form id="formServices">
-			<rich:panel header="#{mensajeMenu.associate_cycles_label_registrar}"
+			<rich:panel header="#{mensajeMenu.associate_cycles_label_register}"
 				styleClass="anchoUno MinH253P" id="panelServices">
 				<t:fieldset id="cropInfo">
 					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
@@ -60,7 +60,7 @@
 						<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 							<h:graphicImage value="/img/services_16.png" />
 							<h:outputText
-								value="#{mensaje.button_add} #{mensajeMenu.services_label_administracion}" />
+								value="#{mensaje.button_add} #{mensajeMenu.services_label_administration}" />
 						</h:panelGrid>
 					</a:commandLink>
 				</div>
@@ -155,7 +155,7 @@
 							<rich:message for="txtDurationActual" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeRecursosHumanos.recurso_humano_label_costo_hora} #{mensaje.label_presupuesto}" />
+								value="#{mensajeRecursosHumanos.human_resource_label_hour_cost} #{mensaje.label_presupuesto}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.hourCostBudget}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
@@ -165,7 +165,7 @@
 							<rich:message for="txtCostHourBudget" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeRecursosHumanos.recurso_humano_label_costo_hora} #{mensaje.label_actual}" />
+								value="#{mensajeRecursosHumanos.human_resource_label_hour_cost} #{mensaje.label_actual}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.hourCostActual}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"

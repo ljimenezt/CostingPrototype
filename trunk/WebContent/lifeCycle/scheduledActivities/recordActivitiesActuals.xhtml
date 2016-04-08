@@ -194,12 +194,12 @@
 							</rich:column>
 
 							<rich:column styleClass="colNumeroMini verticalAlignMiddle">
-								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_secuencia_abr}</f:facet>
+								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_sequence_abbr}</f:facet>
 								<h:outputText value="#{activity.sequenceNumber}" />
 							</rich:column>
 
 							<rich:column styleClass="colFecha verticalAlignMiddle">
-								<f:facet name="header">#{mensajeCosts.actual_label_hora_inicio}</f:facet>
+								<f:facet name="header">#{mensajeCosts.actual_label_start_time}</f:facet>
 								<h:outputText value="#{activity.initialDtBudget}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
 										locale="#{idioma.locale}" />
@@ -207,7 +207,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colFecha verticalAlignMiddle">
-								<f:facet name="header">#{mensajeCosts.actual_label_hora_fin}</f:facet>
+								<f:facet name="header">#{mensajeCosts.actual_label_end_time}</f:facet>
 								<h:outputText value="#{activity.finalDtBudget}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
 										locale="#{idioma.locale}" />
@@ -215,12 +215,12 @@
 							</rich:column>
 
 							<rich:column styleClass="colNumero verticalAlignMiddle">
-								<f:facet name="header">#{mensajeCosts.actual_label_duracion}</f:facet>
+								<f:facet name="header">#{mensajeCosts.actual_label_duration}</f:facet>
 								<h:outputText value="#{activity.durationBudget}" />
 							</rich:column>
 
 							<rich:column styleClass="center colIconoDos verticalAlignMiddle">
-								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_peligroso}</f:facet>
+								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_dangerous}</f:facet>
 								<h:graphicImage value="/img/peligroso_19.png"
 									rendered="#{activity.dangerous eq true}" />
 							</rich:column>
@@ -300,7 +300,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colFechaExtraLarga">
-								<f:facet name="header">#{mensajeCosts.actual_label_hora_inicio}</f:facet>
+								<f:facet name="header">#{mensajeCosts.actual_label_start_time}</f:facet>
 								<h:outputText
 									value="#{actividadesTrabajadores.initialDateTimeActual}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
@@ -309,7 +309,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colFechaExtraLarga">
-								<f:facet name="header">#{mensajeCosts.actual_label_hora_fin}</f:facet>
+								<f:facet name="header">#{mensajeCosts.actual_label_end_time}</f:facet>
 								<h:outputText
 									value="#{actividadesTrabajadores.finalDateTimeActual}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
@@ -318,7 +318,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensajeCosts.actual_label_duracion}</f:facet>
+								<f:facet name="header">#{mensajeCosts.actual_label_duration}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.durationActual}" />
 							</rich:column>
 
@@ -328,17 +328,17 @@
 							</rich:column>
 
 							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_hora_normal}</f:facet>
+								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_normal_hours}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.normalHours}" />
 							</rich:column>
 
 							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_horas_extra}</f:facet>
+								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_overtime}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.overtimeHours}" />
 							</rich:column>
 
 							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_horas_totales}</f:facet>
+								<f:facet name="header">#{mensajeCosts.activities_and_hr_label_total_hours}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.totalHours}" />
 							</rich:column>
 
@@ -375,7 +375,7 @@
 				<a:outputPanel
 					rendered="#{recordActivitiesActualsAction.selectedActivity.idActivity gt 0 and recordActivitiesActualsAction.selectedActivity.machineRequired eq true}">
 					<t:fieldset styleClass="anchoCuatro BorderW2P">
-						<legend class="etiquetaTitulo">#{mensajeMenu.machines_label_administracion}
+						<legend class="etiquetaTitulo">#{mensajeMenu.machines_label_administration}
 							-
 							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}</legend>
 						<br />
@@ -402,7 +402,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colFechaExtraLarga">
-								<f:facet name="header">#{mensajeCosts.actual_label_hora_inicio}</f:facet>
+								<f:facet name="header">#{mensajeCosts.actual_label_start_time}</f:facet>
 								<h:outputText value="#{machinesActivities.initialDateTime}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
 										locale="#{idioma.locale}" />
@@ -410,7 +410,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colFechaExtraLarga">
-								<f:facet name="header">#{mensajeCosts.actual_label_hora_fin}</f:facet>
+								<f:facet name="header">#{mensajeCosts.actual_label_end_time}</f:facet>
 								<h:outputText value="#{machinesActivities.finalDateTime}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
 										locale="#{idioma.locale}" />
@@ -418,7 +418,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensajeCosts.actual_label_duracion}</f:facet>
+								<f:facet name="header">#{mensajeCosts.actual_label_duration}</f:facet>
 								<h:outputText value="#{machinesActivities.durationActual}" />
 							</rich:column>
 

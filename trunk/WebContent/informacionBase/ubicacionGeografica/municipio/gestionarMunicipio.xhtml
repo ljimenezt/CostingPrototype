@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="municipioAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeInformacionBase.municipio_label" />
+		value="mensaje.label_gestionar,mensajeInformacionBase.municipality_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/validacion.js"></script>
@@ -20,7 +20,7 @@
 			<ui:param name="listaVacia"
 				value="#{municipioAction.listaMunicipios eq null or (empty municipioAction.listaMunicipios)}" />
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{mensajeInformacionBase.municipio_label_s}"
+				header="#{mensaje.label_listado_de} #{mensajeInformacionBase.municipality_label_s}"
 				id="panelTablaMunicipio" styleClass="anchoUno MinH230P">
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
@@ -116,11 +116,11 @@
 						<h:outputText value="#{objMunicipio.codigoPostal}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensajeInformacionBase.departamento_label}</f:facet>
+						<f:facet name="header">#{mensajeInformacionBase.department_label}</f:facet>
 						<h:outputText value="#{objMunicipio.departamento.nombre}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensajeInformacionBase.pais_label}</f:facet>
+						<f:facet name="header">#{mensajeInformacionBase.country_label}</f:facet>
 						<h:outputText value="#{objMunicipio.departamento.pais.nombre}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
@@ -236,7 +236,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeInformacionBase.municipio_label_s}"
+				header="#{mensaje.button_search} #{mensajeInformacionBase.municipality_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -254,7 +254,7 @@
 						value="#{municipioAction.nombreBuscar}" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeInformacionBase.pais_label}:" />
+						value="#{mensajeInformacionBase.country_label}:" />
 					<h:selectOneMenu value="#{municipioAction.idPaisBuscar}"
 						id="cmbPais">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
@@ -266,7 +266,7 @@
 					</h:selectOneMenu>
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeInformacionBase.departamento_label}:" />
+						value="#{mensajeInformacionBase.department_label}:" />
 					<h:selectOneMenu value="#{municipioAction.idDepBuscar}"
 						id="cmbdepartamento">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}"

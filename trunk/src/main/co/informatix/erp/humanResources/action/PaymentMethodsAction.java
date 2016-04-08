@@ -155,7 +155,7 @@ public class PaymentMethodsAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								paymentMethodsmBundle
-										.getString("paymentmethods_label_s"),
+										.getString("payment_methods_label_s"),
 								jointSearchMessages);
 			}
 			validation.setMensajeBusqueda(searchMessage);

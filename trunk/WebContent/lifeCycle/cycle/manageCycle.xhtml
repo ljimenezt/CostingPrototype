@@ -148,7 +148,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano center">
-								<f:facet name="header">#{mensajeRecursosHumanos.recurso_humano_label}</f:facet>
+								<f:facet name="header">#{mensajeRecursosHumanos.human_resource_label}</f:facet>
 								<h:graphicImage value="/img/okPermiso_16.png"
 									rendered="#{cycle.hrRequired eq true}" />
 							</rich:column>
@@ -223,7 +223,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_eliminar}"
+							value="#{mensajeCosts.cycle_standard_activities_remove}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 
@@ -344,7 +344,7 @@
 							value="#{cycleAction.cycle.costMachinesEqActual}" />
 
 						<h:outputText
-							value="#{mensajeRecursosHumanos.recurso_humano_label_hr_abbr}:"
+							value="#{mensajeRecursosHumanos.human_resource_label_hr_abbr}:"
 							styleClass="etiquetaTitulo" />
 						<h:panelGrid>
 							<h:inputText id="costHrBudget" styleClass="W103P right"
@@ -358,7 +358,7 @@
 							value="#{cycleAction.cycle.costHrActual}" />
 
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_materiales}:"
+							value="#{mensajeCosts.cycle_standard_activities_label_materials}:"
 							styleClass="etiquetaTitulo" />
 						<h:panelGrid>
 							<h:inputText id="costMaterialsBudget" styleClass="W103P right"
@@ -372,7 +372,7 @@
 							value="#{cycleAction.cycle.costMaterialsActual}" />
 
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_servicio}:"
+							value="#{mensajeCosts.cycle_standard_activities_label_service}:"
 							styleClass="etiquetaTitulo" />
 						<h:panelGrid>
 							<h:inputText id="costServicesBudget" styleClass="W103P right"

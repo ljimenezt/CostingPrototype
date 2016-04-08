@@ -523,7 +523,7 @@ public class ActivitiesAndHrAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleHumanResources
-										.getString("recurso_humano_label"),
+										.getString("human_resource_label"),
 								uniteMessageSearch);
 			}
 			if (workers != null)

@@ -64,7 +64,7 @@
 					</h:selectOneMenu>
 					<rich:message for="cmbMachinesTypes" />
 
-					<h:outputText value="#{mensajeMachine.insurance_label_maquina}"
+					<h:outputText value="#{mensajeMachine.insurance_label_machine}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="maquina"
@@ -119,14 +119,14 @@
 							<h:outputText value="#{insurance.descripcion}" />
 						</rich:column>
 						<rich:column styleClass="colValorLargo">
-							<f:facet name="header">#{mensajeMachine.insurance_label_total_costo_presupuesto}</f:facet>
+							<f:facet name="header">#{mensajeMachine.insurance_label_total_cost_budget}</f:facet>
 							<h:outputText value="#{insurance.totalCostBudget}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
 									minFractionDigits="2" currencySymbol="$" type="currency" />
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorLargo">
-							<f:facet name="header">#{mensajeMachine.insurance_label_costo_total_actual}</f:facet>
+							<f:facet name="header">#{mensajeMachine.insurance_label_cost_total_actual}</f:facet>
 							<h:outputText value="#{insurance.totalCostActual}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
 									minFractionDigits="2" currencySymbol="$" type="currency" />

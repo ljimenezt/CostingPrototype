@@ -358,7 +358,7 @@ public class ZonaAction implements Serializable {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleOrg.getString("zona_label_s"),
+								bundleOrg.getString("zone_label_s"),
 								unionMensajesBusqueda);
 			}
 			if (!"".equals(mensajeBusqueda) && desdeModal) {
