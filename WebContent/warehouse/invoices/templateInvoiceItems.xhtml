@@ -13,10 +13,9 @@
 			<ui:param name="listaVaciaA"
 				value="#{invoiceItemsAction.invoiceItemsList.size() eq 0 or (invoiceItemsAction.invoiceItemsList eq null)}" />
 			<div align="right">
-				<h:panelGrid id="pnlButtons"
-					rendered="#{purchaseInvoicesAction.flag eq true}" cellpadding="0"
-					cellspacing="0">
+				<h:panelGrid id="pnlButtons" cellpadding="0" cellspacing="0">
 					<a:commandLink id="lnkActivityNames"
+						rendered="#{purchaseInvoicesAction.flag eq true}"
 						styleClass="quitarDecoracionLink"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupRegInvoiceItems')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						action="#{invoiceItemsAction.addEditInvoiceItems(null)}"
@@ -29,6 +28,18 @@
 								value="#{mensaje.button_add} #{mensajeWarehouse.invoice_items_label}" />
 						</h:panelGrid>
 					</a:commandLink>
+					<a:commandLink rendered="#{purchaseInvoicesAction.flag eq false}"
+						styleClass="quitarDecoracionLink"
+						actionListener="#{purchaseInvoicesAction.saveInvoices()}"
+						action="#{purchaseInvoicesAction.selectInvoiceCalculate()}"
+						render="panelPurchaseInvoices, mensajes, mensajeBusqueda">
+						<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+							<h:graphicImage value="/img/calculateUsage_16.png"
+								styleClass="verticalAlignMiddle" />
+							<h:outputText
+								value="#{mensajeWarehouse.invoice_items_button_reconcile}" />
+						</h:panelGrid>
+					</a:commandLink>
 				</h:panelGrid>
 			</div>
 			<rich:dataTable value="#{invoiceItemsAction.invoiceItemsList}"
@@ -36,8 +47,8 @@
 				styleClass="#{listaVaciaA ? 'BCTransparente W100Per' : 'dataTable'} #{anchoTabla}"
 				rowClasses="odd-row, even-row" footerClass="H130P">
 
-				<rich:column styleClass="colTextoLargo">
-					<f:facet name="header">#{mensajeWarehouse.materials_label}/#{mensaje.label_brand}</f:facet>
+				<rich:column styleClass="colTextoExtraLargo">
+					<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
 					<a:commandLink render="popupRegInvoiceItems"
 						rendered="#{purchaseInvoicesAction.flag eq true}"
 						oncomplete="#{rich:component('popupRegInvoiceItems')}.show()"
@@ -45,7 +56,7 @@
 						value="#{invoiceItems.material.name}">
 					</a:commandLink>
 					<h:outputText rendered="#{purchaseInvoicesAction.flag eq false}"
-						value="#{invoiceItems.material.name}" />
+						value="#{invoiceItems.material.name} #{invoiceItems.material.presentation} #{invoiceItems.material.measurementUnits.name}" />
 				</rich:column>
 				<rich:column styleClass="colValorLargo">
 					<f:facet name="header">#{mensaje.label_cantidad}</f:facet>

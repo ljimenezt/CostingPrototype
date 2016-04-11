@@ -96,6 +96,7 @@ public class InvoiceItemsDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT it FROM InvoiceItems it ");
 		query.append("JOIN FETCH it.material m ");
+		query.append("JOIN FETCH m.measurementUnits mu ");
 		query.append("JOIN it.purchaseInvoice pi ");
 		query.append(consult);
 		query.append("ORDER BY m.name ");

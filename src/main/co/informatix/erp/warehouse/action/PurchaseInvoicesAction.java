@@ -759,6 +759,8 @@ public class PurchaseInvoicesAction implements Serializable {
 	/**
 	 * Method used to save or edit the invoices
 	 * 
+	 * modify 11/04/2016 Wilhelm.Boada
+	 * 
 	 * @return searchInitialize: Redirects to manage deposits with a list of
 	 *         updated deposits
 	 */
@@ -770,6 +772,9 @@ public class PurchaseInvoicesAction implements Serializable {
 				: false;
 		ControladorContexto.quitarFacesMessages();
 		try {
+			if (!flag) {
+				this.invoices = this.invoicesActualSelected;
+			}
 			getPathLocation();
 			getLocations();
 			getFolderFileTemporal();
@@ -803,10 +808,11 @@ public class PurchaseInvoicesAction implements Serializable {
 		}
 		if (desdeModal) {
 			return "";
+		} else if (!flag) {
+			return consultInvoices();
 		} else {
 			return searchInitialize();
 		}
-
 	}
 
 	/**
@@ -862,6 +868,22 @@ public class PurchaseInvoicesAction implements Serializable {
 			this.invoices.setTaxes(taxes);
 			this.invoices.setDiscount(discount);
 			this.invoices.setTotalValueActual(totalValueActual);
+		}
+	}
+
+	/**
+	 * This method allows set the invoice selected in the invoices list
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 */
+	public void selectInvoiceCalculate() {
+		for (PurchaseInvoices invoice : listInovoices) {
+			int value = listInovoices.indexOf(invoice);
+			if (invoice.getIdPurchaseInvoice() == invoicesActualSelected
+					.getIdPurchaseInvoice()) {
+				listInovoices.set(value, invoicesActualSelected);
+			}
 		}
 	}
 
