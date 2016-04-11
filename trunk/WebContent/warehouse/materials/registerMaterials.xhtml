@@ -38,7 +38,7 @@
 						<h:inputText value="#{materialsAction.materials.name}"
 							styleClass="colTextoMediano" id="txtNombre" required="true"
 							size="41" maxlength="100"
-							validator="#{materialsAction.validateMaterialPresentation}"
+							validator="#{encodeFilter.validarScripting}"
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="txtNombre" />
 
@@ -311,6 +311,7 @@
 					<a:commandButton
 						render="formConfirmar:popUpConfirmar,formGenerico,formMaterials"
 						execute="formMaterials"
+						actionListener="#{materialsAction.validateMaterialPresentation}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>
