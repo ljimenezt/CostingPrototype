@@ -550,11 +550,8 @@ public class HrAction implements Serializable {
 					"keywordPaymentType");
 			parameter.add(paymentTypeItem);
 			paymentType = searchTypeName(paymentMethodsItems, paymentTypeSearch);
-			jointSearchMessages.append(bundleHr
-					.getString("payment_type_label")
-					+ ": "
-					+ '"'
-					+ paymentType + '"' + " ");
+			jointSearchMessages.append(bundleHr.getString("payment_type_label")
+					+ ": " + '"' + paymentType + '"' + " ");
 			addFilter = true;
 		}
 	}
