@@ -8,17 +8,12 @@ import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.utils.ControladorContexto;
-import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.MaterialsDao;
@@ -536,63 +531,23 @@ public class MaterialsAction implements Serializable {
 	 * there is no other record with the same attributes in the database.
 	 * 
 	 * @author Sergio.Gelves
+	 * @modify 11/04/2016 Liseth.Jimenez
 	 * 
-	 * @param context
-	 *            : application context.
-	 * @param toValidate
-	 *            : validate component.
-	 * @param value
-	 *            : field value to be valid.
 	 */
-	public void validateMaterialPresentation(FacesContext context,
-			UIComponent toValidate, Object value) {
-		ResourceBundle bundleWarehouse = ControladorContexto
-				.getBundle("mensajeWarehouse");
-		String materialName = (String) value;
-		String clientId = toValidate.getClientId(context);
+	public void validateMaterialPresentation() {
 		try {
-			UIComponent component = toValidate
-					.findComponent("formMaterials:txtPresentation");
-			String stringNumber = ((UIInput) component).getSubmittedValue()
-					.toString();
-			short presentation = Short.parseShort(stringNumber);
-			Materials material = materialsDao.materialByNamePresentation(
-					materialName, presentation);
-
-			if (!EncodeFilter.validarXSS(materialName, clientId,
-					"locate.regex.letras.numeros")) {
-				((UIInput) toValidate).setValid(false);
-			}
-
-			if (this.materials.getIdMaterial() > 0 && material != null) {
-				if (material.getIdMaterial() != this.materials.getIdMaterial()
-						&& materialName.equals(material.getName())
-						&& presentation == material.getPresentation()) {
-					context.addMessage(
-							clientId,
-							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR,
-									bundleWarehouse
-											.getString("materials_label_repeated_name_presentation"),
-									null));
-					((UIInput) toValidate).setValid(false);
-				}
-			} else if (material != null) {
-				if (materialName.equals(material.getName())
-						&& presentation == material.getPresentation()) {
-					context.addMessage(
-							clientId,
-							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR,
-									bundleWarehouse
-											.getString("materials_label_repeated_name_presentation"),
-									null));
-					((UIInput) toValidate).setValid(false);
-				}
+			Materials materialAux = materialsDao.materialByNamePresentation(
+					this.materials.getName(), this.materials.getPresentation(),
+					this.materials.getMeasurementUnits()
+							.getIdMeasurementUnits());
+			if (materialAux != null) {
+				ControladorContexto.mensajeErrorEspecifico(
+						"formMaterials:txtNombre",
+						"materials_label_repeated_name_presentation",
+						"mensajeWarehouse");
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }
