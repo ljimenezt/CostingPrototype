@@ -51,20 +51,13 @@
 			/informacionBase/ubicacionGeografica/pais/faces-config-pais.xml,
 			/informacionBase/ubicacionGeografica/departamento/faces-config-departamento.xml,
 			/informacionBase/ubicacionGeografica/municipio/faces-config-municipio.xml,
-			/informacionBase/unidadMedida/faces-config-unidadMedida.xml,
-			/informacionBase/unidadMedida/tipoUnidadMedida/faces-config-tipoUnidadMedida.xml,
-			/informacionBase/unidadMedida/conversion/faces-config-conversionUnidadMedida.xml,
-			/informacionBase/estado/faces-config-estado.xml,
 			/informacionBase/civilStatus/faces-config-civilStatus.xml,
 			/informacionBase/typeUnit/faces-config-typeUnit.xml,
 			/informacionBase/unitConversion/faces-config-unit-conversion.xml,
 			
-
             /organizaciones/empresas/faces-config-empresas.xml,
             /organizaciones/organizacion/faces-config-organizacion.xml,
             /organizaciones/hacienda/faces-config-hacienda.xml,
-            /organizaciones/zona/faces-config-zona.xml,
-            /organizaciones/zona/lote/faces-config-lote.xml,
             /organizaciones/informacionBase/departamentoEmpresa/faces-config-departamentoEmpresa.xml,
 			            
 			/seguridad/menu/faces-config-gestionarMenu.xml,
@@ -101,7 +94,6 @@
 			/lifeCycle/cycle/faces-config-cycle.xml,
 			
 			/machine/machineTypes/faces-config-machineTypes.xml,
-			/machine/consumableTypes/faces-config-consumableTypes.xml,
 			/machine/machines/faces-config-machines.xml,
 			/machine/maintenanceAndCalibration/faces-config-maintenanceAndCalibration.xml,
 			/machine/maintenanceLines/faces-config-maintenanceLines.xml,
