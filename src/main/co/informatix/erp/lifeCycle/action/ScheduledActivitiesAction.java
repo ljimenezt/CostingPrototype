@@ -29,7 +29,6 @@ import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
 import co.informatix.erp.machines.action.MachinesAction;
-import co.informatix.erp.machines.dao.ConsumableTypesDao;
 import co.informatix.erp.machines.dao.MachineTypesDao;
 import co.informatix.erp.machines.dao.MachinesDao;
 import co.informatix.erp.machines.entities.MachineTypes;
@@ -60,8 +59,6 @@ public class ScheduledActivitiesAction implements Serializable {
 	private ActivityNamesDao activityNamesDao;
 	@EJB
 	private MachinesDao machinesDao;
-	@EJB
-	private ConsumableTypesDao consumableTypesDao;
 	@EJB
 	private ActivitiesDao activitiesDao;
 	@EJB
