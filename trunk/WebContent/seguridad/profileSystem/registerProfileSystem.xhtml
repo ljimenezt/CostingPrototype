@@ -37,7 +37,7 @@
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-					columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+					columnClasses="tdAlignTop,,,tdAlignTop">
 
 					<h:outputText value="#{messageSecurity.user_label}"
 						styleClass="etiquetaTitulo" />
@@ -56,7 +56,7 @@
 						value="#{mensaje.label_contrasena}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret id="txtEmailServerPassword" required="true"
-						styleClass="colTextoMediano" maxlength="99" redisplay="true"
+						styleClass="colTextoLargo" maxlength="99" redisplay="true"
 						value="#{perfilSistemaAction.perfilSistema.emailServerPassword}"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						validator="#{encodeFilter.validarScripting}">
@@ -90,7 +90,7 @@
 
 					<h:outputText styleClass="etiquetaTitulo"
 						value="#{messageSecurity.profile_system_label_report_errors}" />
-					<h:outputText value="*" styleClass="required" />
+					<h:outputText value="" styleClass="required" />
 					<h:selectBooleanCheckbox
 						value="#{perfilSistemaAction.perfilSistema.reportarErrores}"
 						styleClass="marginCheckbox" id="chkReportarErrores">
@@ -102,14 +102,13 @@
 					<h:outputText
 						value="#{messageSecurity.profile_system_label_mail_report_errors}"
 						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:inputTextarea required="true"
+					<h:outputText value="" />
+					<h:inputTextarea
 						value="#{perfilSistemaAction.perfilSistema.emailReportarErrores}"
 						styleClass="colTextoMedianoTextArea" id="txaEmailReportarErrores"
 						validator="#{perfilSistemaAction.validateMultipleEmails}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:validateLength maximum="250" />
-
 					</h:inputTextarea>
 					<rich:message for="txaEmailReportarErrores" />
 
@@ -126,7 +125,7 @@
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmation}">
+				maxWidth="700" header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -159,7 +158,7 @@
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_report_errors}:" />
 						<h:outputText
-							value="#{perfilSistemaAction.perfilSistema.reportarErrores}" />
+							value="#{perfilSistemaAction.perfilSistema.reportarErrores eq 'true'? mensaje.label_si:mensaje.label_no}" />
 
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_mail_report_errors}:" />
