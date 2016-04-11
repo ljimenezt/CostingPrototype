@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import co.informatix.erp.warehouse.entities.Withdrawals;
+import co.informatix.erp.warehouse.entities.Transactions;
 
 /**
  * This is the entity that is responsible for mapping the consumable_use table.
@@ -35,7 +35,7 @@ public class ConsumableUse implements Serializable {
 
 	private ConsumableUsePK ConsumableUsePK;
 
-	private Withdrawals withdrawals;
+	private Transactions transactions;
 
 	/**
 	 * @return initialLevel: Initial level.
@@ -182,20 +182,20 @@ public class ConsumableUse implements Serializable {
 	}
 
 	/**
-	 * @return withdrawals: relationship Withdrawals
+	 * @return transactions: relationship transactions
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_withdrawal", referencedColumnName = "idwithdrawal")
-	public Withdrawals getWithdrawals() {
-		return withdrawals;
+	@JoinColumn(name = "id_transaction", referencedColumnName = "idTransaction")
+	public Transactions getTransactions() {
+		return transactions;
 	}
 
 	/**
-	 * @param withdrawals
+	 * @param transactions
 	 *            : relationship Withdrawals
 	 */
-	public void setWithdrawals(Withdrawals withdrawals) {
-		this.withdrawals = withdrawals;
+	public void setTransactions(Transactions transactions) {
+		this.transactions = transactions;
 	}
 
 	@Override
