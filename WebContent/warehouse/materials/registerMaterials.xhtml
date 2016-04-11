@@ -42,19 +42,6 @@
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="txtNombre" />
 
-						<h:outputText
-							value="#{mensajeWarehouse.materials_label_presentation}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:inputText value="#{materialsAction.materials.presentation}"
-							styleClass="colTextoCorto" id="txtPresentation" required="true"
-							size="41" maxlength="5"
-							requiredMessage="#{mensaje.message_campo_requerido}">
-							<f:validateLength maximum="5" />
-							<f:validateLongRange minimum="0" maximum="32767" />
-						</h:inputText>
-						<rich:message for="txtPresentation" />
-
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensajeWarehouse.materials_type_label}" />
 						<h:outputText value="*" styleClass="required" />
@@ -67,6 +54,19 @@
 							<f:selectItems value="#{materialsAction.materialTypeItems}" />
 						</h:selectOneMenu>
 						<rich:message for="cmbMaterialsType" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.materials_label_presentation}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText value="#{materialsAction.materials.presentation}"
+							styleClass="colTextoXCorto" id="txtPresentation" required="true"
+							size="41" maxlength="5"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateLength maximum="5" />
+							<f:validateLongRange minimum="1" />
+						</h:inputText>
+						<rich:message for="txtPresentation" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensajeWarehouse.measurement_units_label}" />
