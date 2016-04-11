@@ -108,8 +108,8 @@ public class ContractTypeAction implements Serializable {
 	 * Method to initialize the parameters of the search and load initial
 	 * listing of the types of contract.
 	 * 
-	 * @return consultContractType: Method consulting contract types, returns
-	 *         to the template management.
+	 * @return consultContractType: Method consulting contract types, returns to
+	 *         the template management.
 	 */
 	public String searchInitialization() {
 		nameSearch = "";
