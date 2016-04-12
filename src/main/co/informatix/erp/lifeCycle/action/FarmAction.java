@@ -254,7 +254,7 @@ public class FarmAction implements Serializable {
 	public String searchFarms() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validate = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		farmsList = new ArrayList<Farm>();

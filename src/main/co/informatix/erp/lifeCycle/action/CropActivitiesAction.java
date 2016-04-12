@@ -517,10 +517,10 @@ public class CropActivitiesAction implements Serializable {
 				crops.setCropNames(new CropNames());
 				cropNames = new CropNames();
 				this.activities.setActivityName(new ActivityNames());
-				messageCrumb = "mensajeInformacionBase.municipio_label_registrar";
+				messageCrumb = "messageBaseInformation.municipio_label_registrar";
 			} else {
 				this.activities = activities;
-				messageCrumb = "mensajeInformacionBase.municipio_label_modificar";
+				messageCrumb = "messageBaseInformation.municipio_label_modificar";
 			}
 			crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 			if (crops != null) {
@@ -683,7 +683,7 @@ public class CropActivitiesAction implements Serializable {
 	public void consultActivityNamesXCrops() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listActivityNames = new ArrayList<ActivityNames>();
@@ -862,7 +862,7 @@ public class CropActivitiesAction implements Serializable {
 	public void consultActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		List<SelectItem> parameters = new ArrayList<SelectItem>();

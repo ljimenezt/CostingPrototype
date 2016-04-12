@@ -17,7 +17,7 @@
 			<rich:panel styleClass="anchoUno"
 				header="#{messageSecurity.person_permission_company_label_associate}">
 				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.person_label}</legend>
+					<legend class="etiquetaTitulo">#{messageHumanResources.person_label}</legend>
 					<h:panelGrid columns="2" rowClasses="alignTop"
 						columnClasses="columnaIzquierda, columnaDerecha" cellpadding="5"
 						cellspacing="7">
@@ -59,7 +59,7 @@
 							styleClass="H190P W900P">
 							<f:facet name="header">
 								<h:outputText
-									value="#{mensaje.label_listado_de} #{mensajeOrganizaciones.company_label_s}" />
+									value="#{mensaje.label_listado_de} #{messageOrganizations.company_label_s}" />
 							</f:facet>
 							<rich:column width="30px" styleClass="center top">
 								<a:commandLink
@@ -121,11 +121,11 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="top" width="300px">
-								<f:facet name="header">#{mensajeOrganizaciones.company_label}</f:facet>
+								<f:facet name="header">#{messageOrganizations.company_label}</f:facet>
 								<h:outputText value="#{permisoPersonaEmpresa.empresa.nombre}" />
 							</rich:column>
 							<rich:column styleClass="top" width="250px">
-								<f:facet name="header">#{mensajeOrganizaciones.farm_label}</f:facet>
+								<f:facet name="header">#{messageOrganizations.farm_label}</f:facet>
 								<h:outputText value="#{permisoPersonaEmpresa.hacienda.nombre}" />
 							</rich:column>
 							<rich:column styleClass="center top" width="150px">
@@ -174,12 +174,12 @@
 				<br />
 				<h:panelGrid columns="3" cellpadding="5" cellspacing="7"
 					columnClasses="tdAlignTop,tdAlignTop">
-					<h:outputText value="#{mensajeOrganizaciones.farm_label}"
+					<h:outputText value="#{messageOrganizations.farm_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu value="#{permisoPersonaEmpresaAction.idHacienda}"
 						id="cmbHacienda" required="true"
-						label="#{mensajeOrganizaciones.farm_label}">
+						label="#{messageOrganizations.farm_label}">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
 						<f:selectItems
 							value="#{permisoPersonaEmpresaAction.itemsHaciendasEmpresa}" />
@@ -236,12 +236,12 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeOrganizaciones.company_label}:"
+						<h:outputText value="#{messageOrganizations.company_label}:"
 							styleClass="etiquetaTitulo" />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.permisoPersonaEmpresa.empresa.nombre}" />
 
-						<h:outputText value="#{mensajeOrganizaciones.farm_label}:"
+						<h:outputText value="#{messageOrganizations.farm_label}:"
 							styleClass="etiquetaTitulo" />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.permisoPersonaEmpresa.hacienda.nombre}" />
@@ -283,13 +283,13 @@
 							var="permisoPersonaEmpTemp" id="tablaConfirm" styleClass="H130P">
 							<rich:column width="300px">
 								<f:facet name="header">
-									<h:outputText value="#{mensajeOrganizaciones.company_label}" />
+									<h:outputText value="#{messageOrganizations.company_label}" />
 								</f:facet>
 								<h:outputText value="#{permisoPersonaEmpTemp.empresa.nombre}" />
 							</rich:column>
 							<rich:column width="300px">
 								<f:facet name="header">
-									<h:outputText value="#{mensajeOrganizaciones.farm_label}" />
+									<h:outputText value="#{messageOrganizations.farm_label}" />
 								</f:facet>
 								<h:outputText value="#{permisoPersonaEmpTemp.hacienda.nombre}" />
 							</rich:column>

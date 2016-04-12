@@ -7,14 +7,14 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	<t:fieldset styleClass="BorderW2P">
-		<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
+		<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label}</legend>
 		<h:panelGrid columns="4"
 			cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 			cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 			columnClasses="tdAlignTop,,,tdAlignTop">
 
 			<h:outputText styleClass="etiquetaTitulo"
-				value="#{mensajeLifeCycle.crop_names_label}" />
+				value="#{messageLifeCycle.crop_names_label}" />
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu required="true"
 				requiredMessage="#{mensaje.message_campo_requerido}"

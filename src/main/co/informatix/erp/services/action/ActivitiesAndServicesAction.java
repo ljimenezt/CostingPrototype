@@ -339,10 +339,10 @@ public class ActivitiesAndServicesAction implements Serializable {
 				crops.setCropNames(new CropNames());
 				cropNames = new CropNames();
 				activities.setActivityName(new ActivityNames());
-				crumbMessage = "mensajeInformacionBase.municipio_label_registrar";
+				crumbMessage = "messageBaseInformation.municipio_label_registrar";
 			} else {
 				this.activitiesAndServices = activitiesAndServices;
-				crumbMessage = "mensajeInformacionBase.municipio_label_modificar";
+				crumbMessage = "messageBaseInformation.municipio_label_modificar";
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -422,7 +422,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	public void consultActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleAcivities = ControladorContexto
-				.getBundle("mensajeCosts");
+				.getBundle("messageCosts");
 		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		List<SelectItem> parameters = new ArrayList<SelectItem>();

@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="maintenanceAndCalibrationAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeMachine.maintenance_calibration_label" />
+		value="mensaje.label_gestionar,messageMachine.maintenance_calibration_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceAndCalibrationAction}" />
@@ -39,12 +39,12 @@
 
 		<h:form id="formMaintenanceAndCalibration">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeMachine.maintenance_calibration_label}"
+				header="#{mensaje.label_listado_de} #{messageMachine.maintenance_calibration_label}"
 				id="panelMaintenanceAndCalibration">
 
 				<t:fieldset>
 					<legend class="etiquetaTitulo">#{mensaje.label_buscar}
-						#{mensajeMachine.machines_label_names_s}</legend>
+						#{messageMachine.machines_label_names_s}</legend>
 					<h:panelGrid columns="2"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
@@ -55,7 +55,7 @@
 							columnClasses="tdAlignTop,">
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeMachine.machine_types_label_s}" />
+								value="#{messageMachine.machine_types_label_s}" />
 							<h:selectOneMenu
 								value="#{maintenanceAndCalibrationAction.machineTypes.idMachineType}"
 								id="cmbMachinesTypesSearch">
@@ -78,9 +78,9 @@
 							</h:selectOneMenu>
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeMachine.machines_label_serial_number}" />
+								value="#{messageMachine.machines_label_serial_number}" />
 							<h:inputText
-								label="#{mensajeMachine.machines_label_serial_number}"
+								label="#{messageMachine.machines_label_serial_number}"
 								value="#{maintenanceAndCalibrationAction.serialNumberSearch}"
 								styleClass="colTextoCorto" id="txtSerialNumberSearch">
 							</h:inputText>
@@ -100,7 +100,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset>
-					<legend class="etiquetaTitulo">#{mensajeMachine.maintenance_calibration_label}</legend>
+					<legend class="etiquetaTitulo">#{messageMachine.maintenance_calibration_label}</legend>
 					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 						<ui:param name="tieneVigencia" value="no" />
 					</ui:include>
@@ -119,13 +119,13 @@
 									<h:graphicImage value="/img/maintenance_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText
-											value="#{mensajeMachine.maintenance_lines_label}" />
+											value="#{messageMachine.maintenance_lines_label}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</a:outputPanel>
 						</rich:column>
 						<rich:column styleClass="colFecha">
-							<f:facet name="header">#{mensajeMachine.maintenance_calibration_label_maintenance_date}</f:facet>
+							<f:facet name="header">#{messageMachine.maintenance_calibration_label_maintenance_date}</f:facet>
 							<h:commandLink
 								action="#{maintenanceAndCalibrationAction.addEditMaintenanceAndCalibration(maintenanceAndCalibration)}"
 								onclick="#{rich:component('statPane')}.show();">
@@ -135,7 +135,7 @@
 							</h:commandLink>
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeMachine.machine_types_label}</f:facet>
+							<f:facet name="header">#{messageMachine.machine_types_label}</f:facet>
 							<h:outputText
 								value="#{maintenanceAndCalibration.machines.machineTypes.name}" />
 						</rich:column>
@@ -144,7 +144,7 @@
 							<h:outputText value="#{maintenanceAndCalibration.machines.name}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeMachine.machines_label_serial_number}</f:facet>
+							<f:facet name="header">#{messageMachine.machines_label_serial_number}</f:facet>
 							<h:outputText
 								value="#{maintenanceAndCalibration.machines.serialNumber}" />
 						</rich:column>
@@ -157,7 +157,7 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorTextoMediano">
-							<f:facet name="header">#{mensajeMachine.maintenance_calibration_label_total_budget_cost}</f:facet>
+							<f:facet name="header">#{messageMachine.maintenance_calibration_label_total_budget_cost}</f:facet>
 							<h:outputText
 								value="#{maintenanceAndCalibration.totalCostBudget}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
@@ -165,7 +165,7 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorTextoMediano">
-							<f:facet name="header">#{mensajeMachine.maintenance_calibration_label_current_total_cost}</f:facet>
+							<f:facet name="header">#{messageMachine.maintenance_calibration_label_current_total_cost}</f:facet>
 							<h:outputText
 								value="#{maintenanceAndCalibration.totalCostActual}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
@@ -173,7 +173,7 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colIconoUno">
-							<f:facet name="header">#{mensajeMachine.maintenance_calibration_label_good_condition_machines}</f:facet>
+							<f:facet name="header">#{messageMachine.maintenance_calibration_label_good_condition_machines}</f:facet>
 							<h:outputText
 								rendered="#{maintenanceAndCalibration.machineEquipementInGoodCondition}"
 								value="#{mensaje.label_si}" />
@@ -214,7 +214,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" width="330" maxWidth="450"
 				height="180"
-				header="#{mensaje.label_listado_de} #{mensajeMachine.maintenance_lines_label}"
+				header="#{mensaje.label_listado_de} #{messageMachine.maintenance_lines_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -263,7 +263,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupMaintenance" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{mensajeMachine.maintenance_lines_label}">
+				header="#{mensaje.label_listado_de} #{messageMachine.maintenance_lines_label}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<a:commandLink action="consultarMaintenanceAndCalibration"
@@ -328,7 +328,7 @@
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 								rowClasses="odd-row, even-row">
 								<f:facet name="header">
-									<h:outputText value="#{mensajeMachine.maintenance_lines_label}" />
+									<h:outputText value="#{messageMachine.maintenance_lines_label}" />
 								</f:facet>
 								<rich:column styleClass="colTextoLargo">
 									<f:facet name="header">#{mensaje.label_description}</f:facet>
@@ -339,7 +339,7 @@
 									</a:commandLink>
 								</rich:column>
 								<rich:column styleClass="colValorLargo">
-									<f:facet name="header">#{mensajeMachine.maintenance_lines_label_budget_cost}</f:facet>
+									<f:facet name="header">#{messageMachine.maintenance_lines_label_budget_cost}</f:facet>
 									<h:outputText value="#{maintenanceLines.costBudget}">
 										<f:convertNumber locale="#{idioma.locale}"
 											maxFractionDigits="2" minFractionDigits="2" type="currency"
@@ -347,7 +347,7 @@
 									</h:outputText>
 								</rich:column>
 								<rich:column styleClass="colValorLargo">
-									<f:facet name="header">#{mensajeMachine.maintenance_lines_label_current_cost}</f:facet>
+									<f:facet name="header">#{messageMachine.maintenance_lines_label_current_cost}</f:facet>
 									<h:outputText value="#{maintenanceLines.costActual}">
 										<f:convertNumber locale="#{idioma.locale}"
 											maxFractionDigits="2" minFractionDigits="2" type="currency"

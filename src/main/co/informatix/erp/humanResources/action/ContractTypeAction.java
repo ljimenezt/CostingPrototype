@@ -125,7 +125,7 @@ public class ContractTypeAction implements Serializable {
 	public String consultContractType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleHumanResources = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listContractType = new ArrayList<ContractType>();

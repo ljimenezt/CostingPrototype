@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="machineUsageAction.addEditMachineUsage(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeMachine.machine_usage_label" />
+		value="mensaje.label_registrar,messageMachine.machine_usage_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -24,7 +24,7 @@
 		<ui:param name="anchoTabla" value="anchoDos" />
 		<h:form id="formMachineUsage">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeMachine.machine_usage_label}"
+				header="#{mensaje.label_registrar} #{messageMachine.machine_usage_label}"
 				styleClass="anchoUno MinH253P" id="pnlRegisterMachineUsage">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_usage}</legend>
@@ -34,7 +34,7 @@
 						columnClasses="tdAlignTop,,,tdAlignTop,top">
 
 						<h:outputText
-							value="#{mensaje.label_select} #{mensajeLifeCycle.crops_label}"
+							value="#{mensaje.label_select} #{messageLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu id="cmbYear" required="true"
@@ -59,13 +59,13 @@
 				<a:outputPanel id="outListNonDuration"
 					rendered="#{machineUsageAction.subListActivityMachines ne null and (!empty machineUsageAction.subListActivityMachines)}">
 					<t:fieldset styleClass="BorderW2P anchoDos">
-						<legend class="etiquetaTitulo">#{mensajeMachine.machine_usage_label_unreported_duration}</legend>
+						<legend class="etiquetaTitulo">#{messageMachine.machine_usage_label_unreported_duration}</legend>
 						<br />
 						<hr class="W75Per MarginL0P" />
 						<h:panelGrid columns="2">
 							<h:graphicImage value="/img/warnRojo_16.png" />
 							<h:outputText
-								value="#{mensajeMachine.machine_usage_message_warning}"
+								value="#{messageMachine.machine_usage_message_warning}"
 								styleClass="colorRojo etiquetaTitulo" />
 						</h:panelGrid>
 						<hr class="W75Per MarginL0P" />
@@ -83,21 +83,21 @@
 							</rich:column>
 
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensajeMachine.machines_label_names}</f:facet>
+								<f:facet name="header">#{messageMachine.machines_label_names}</f:facet>
 								<h:outputText
 									value="#{activityMachine.activityMachinePK.machines.name}" />
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensajeMachine.machines_label_serial_number}</f:facet>
+								<f:facet name="header">#{messageMachine.machines_label_serial_number}</f:facet>
 								<h:outputText
 									value="#{activityMachine.activityMachinePK.machines.serialNumber}" />
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensajeLifeCycle.plot_inicial_date}</f:facet>
+								<f:facet name="header">#{messageLifeCycle.plot_inicial_date}</f:facet>
 								<h:outputText value="#{activityMachine.initialDateTime}" />
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensajeLifeCycle.plot_final_date}</f:facet>
+								<f:facet name="header">#{messageLifeCycle.plot_final_date}</f:facet>
 								<h:outputText value="#{activityMachine.finalDateTime}" />
 							</rich:column>
 						</rich:dataTable>
@@ -168,7 +168,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crops_label}:" />
+						<h:outputText value="#{messageLifeCycle.crops_label}:" />
 						<h:outputText value="#{machineUsageAction.year}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -200,7 +200,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crops_label}:" />
+						<h:outputText value="#{messageLifeCycle.crops_label}:" />
 						<h:outputText value="#{machineUsageAction.year}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -232,7 +232,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crops_label}:" />
+						<h:outputText value="#{messageLifeCycle.crops_label}:" />
 						<h:outputText value="#{machineUsageAction.year}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -264,7 +264,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crops_label}:" />
+						<h:outputText value="#{messageLifeCycle.crops_label}:" />
 						<h:outputText value="#{machineUsageAction.year}" />
 					</ui:define>
 					<ui:define name="botones">

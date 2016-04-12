@@ -12,18 +12,18 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:param name="action" value="hrAction.addEditHr(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeRecursosHumanos.human_resource_label" />
+		value="mensaje.label_registrar,messageHumanResources.human_resource_label" />
 	<ui:define name="body">
 		<t:saveState value="#{hrAction}" />
 		<h:form id="formHr">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeRecursosHumanos.human_resource_label}"
+				header="#{mensaje.label_registrar} #{messageHumanResources.human_resource_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarHr">
 				<h:panelGrid columns="2"
 					columnClasses="W50Per tdAlignTop,W50Per tdAlignTop">
 					<a:outputPanel>
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.human_resource_label_personal_information}</legend>
+							<legend class="etiquetaTitulo">#{messageHumanResources.human_resource_label_personal_information}</legend>
 							<h:panelGrid columns="4"
 								cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 								cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
@@ -67,7 +67,7 @@
 								<rich:message for="radGenero" />
 
 								<h:outputText
-									value="#{mensajeRecursosHumanos.human_resource_label_birth_date}"
+									value="#{messageHumanResources.human_resource_label_birth_date}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="*" styleClass="required" />
 								<p:calendar value="#{hrAction.hr.birthDate}" styleClass="W130P"
@@ -82,7 +82,7 @@
 								<rich:message for="calFechaNacimiento" />
 
 								<h:outputText
-									value="#{mensajeInformacionBase.civil_status_label}"
+									value="#{messageBaseInformation.civil_status_label}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:selectOneMenu value="#{hrAction.hr.civilStatus.id}"
@@ -93,7 +93,7 @@
 								<rich:message for="comboCivilStatus" />
 
 								<h:outputText
-									value="#{mensajeRecursosHumanos.human_resource_label_user_name}"
+									value="#{messageHumanResources.human_resource_label_user_name}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:inputText value="#{hrAction.hr.userName}"
@@ -104,14 +104,14 @@
 						</t:fieldset>
 						<br />
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.human_resource_label_employment_information}</legend>
+							<legend class="etiquetaTitulo">#{messageHumanResources.human_resource_label_employment_information}</legend>
 							<h:panelGrid columns="4"
 								cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 								cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 								columnClasses="tdAlignTop right,,,tdAlignTop">
 
 								<h:outputText
-									value="#{mensajeRecursosHumanos.human_resource_type_label}"
+									value="#{messageHumanResources.human_resource_type_label}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="*" styleClass="required" />
 								<h:selectOneMenu value="#{hrAction.hr.hrTypes.idHrType}"
@@ -123,7 +123,7 @@
 								<rich:message for="comboTipoHr" />
 
 								<h:outputText
-									value="#{mensajeRecursosHumanos.payment_type_label}"
+									value="#{messageHumanResources.payment_type_label}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="*" styleClass="required" />
 								<h:selectOneMenu
@@ -136,7 +136,7 @@
 								<rich:message for="comboTipoPago" />
 
 								<h:outputText styleClass="etiquetaTitulo"
-									value="#{mensajeRecursosHumanos.human_resource_label_maternity}" />
+									value="#{messageHumanResources.human_resource_label_maternity}" />
 								<h:outputText value="" />
 								<h:panelGrid columns="5"
 									cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -149,7 +149,7 @@
 									<rich:message for="ckbMaternity" />
 
 									<h:outputText
-										value="#{mensajeRecursosHumanos.human_resource_label_start_date}"
+										value="#{messageHumanResources.human_resource_label_start_date}"
 										styleClass="etiquetaTitulo" />
 									<p:calendar
 										value="#{hrAction.hr.centralFacilitiesAccessStartDate}"
@@ -163,7 +163,7 @@
 								</h:panelGrid>
 								<h:outputText value="" />
 								<h:outputText styleClass="etiquetaTitulo"
-									value="#{mensajeRecursosHumanos.human_resource_label_labor_rights}" />
+									value="#{messageHumanResources.human_resource_label_labor_rights}" />
 								<h:outputText value="" />
 								<h:panelGrid columns="5"
 									cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -173,7 +173,7 @@
 										value="#{hrAction.hr.laborRights}" />
 									<rich:message for="ckbLaborRights" />
 									<h:outputText
-										value="#{mensajeRecursosHumanos.human_resource_label_end_date}"
+										value="#{messageHumanResources.human_resource_label_end_date}"
 										styleClass="etiquetaTitulo" />
 									<p:calendar
 										value="#{hrAction.hr.centralFacilitiesAccessEndDate}"
@@ -190,14 +190,14 @@
 						</t:fieldset>
 						<br />
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.human_resource_label_birth_information}</legend>
+							<legend class="etiquetaTitulo">#{messageHumanResources.human_resource_label_birth_information}</legend>
 							<h:panelGrid columns="4"
 								cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 								cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 								columnClasses="tdAlignTop right,,,tdAlignTop">
 
 								<h:outputText
-									value="#{mensajeInformacionBase.country_label_birth}"
+									value="#{messageBaseInformation.country_label_birth}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="*" styleClass="required" />
 								<h:selectOneMenu value="#{hrAction.hr.paisNacimiento.id}"
@@ -212,7 +212,7 @@
 								<rich:message for="comboPais" />
 
 								<h:outputText
-									value="#{mensajeInformacionBase.department_label_birth}"
+									value="#{messageBaseInformation.department_label_birth}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:selectOneMenu
@@ -226,7 +226,7 @@
 								<rich:message for="comboDepartamento" />
 
 								<h:outputText
-									value="#{mensajeInformacionBase.municipality_label_birth}"
+									value="#{messageBaseInformation.municipality_label_birth}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:selectOneMenu value="#{hrAction.hr.municipioNacimiento.id}"
@@ -241,7 +241,7 @@
 					</a:outputPanel>
 					<a:outputPanel>
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.human_resource_label_payment_information}</legend>
+							<legend class="etiquetaTitulo">#{messageHumanResources.human_resource_label_payment_information}</legend>
 							<h:panelGrid columns="2"
 								columnClasses="W60Per tdAlignTop,W40Per tdAlignTop center">
 								<h:panelGrid columns="4"
@@ -250,7 +250,7 @@
 									columnClasses="tdAlignTop right W82P,,,tdAlignTop">
 
 									<h:outputText
-										value="#{mensajeRecursosHumanos.human_resource_label_anual_wage}"
+										value="#{messageHumanResources.human_resource_label_anual_wage}"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
 									<h:inputText value="#{hrAction.hr.annualWage}"
@@ -263,7 +263,7 @@
 									<rich:message for="annualWage" />
 
 									<h:outputText
-										value="#{mensajeRecursosHumanos.human_resource_label_hours_per_day}"
+										value="#{messageHumanResources.human_resource_label_hours_per_day}"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
 									<h:inputText styleClass="colTextoMini" maxlength="25"
@@ -276,7 +276,7 @@
 									<rich:message for="hoursPerDay" />
 
 									<h:outputText
-										value="#{mensajeRecursosHumanos.human_resource_label_total_days}"
+										value="#{messageHumanResources.human_resource_label_total_days}"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
 									<h:inputText styleClass="colTextoMini" maxlength="25"
@@ -289,7 +289,7 @@
 									<rich:message for="totalNumberDays" />
 
 									<h:outputText
-										value="#{mensajeRecursosHumanos.human_resource_label_hour_cost}"
+										value="#{messageHumanResources.human_resource_label_hour_cost}"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
 									<h:inputText styleClass="colTextoMini" maxlength="25"
@@ -304,7 +304,7 @@
 									<rich:message for="hourCost" />
 
 									<h:outputText
-										value="#{mensajeRecursosHumanos.human_resource_label_cost_overtime_hour}"
+										value="#{messageHumanResources.human_resource_label_cost_overtime_hour}"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="" />
 									<h:inputText styleClass="colTextoMini" maxlength="25"
@@ -385,7 +385,7 @@
 						</t:fieldset>
 						<br />
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.human_resource_label_contact_information}</legend>
+							<legend class="etiquetaTitulo">#{messageHumanResources.human_resource_label_contact_information}</legend>
 							<h:panelGrid columns="4"
 								cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 								cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
@@ -449,14 +449,14 @@
 						</t:fieldset>
 						<br />
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.human_resource_label_residence_information}</legend>
+							<legend class="etiquetaTitulo">#{messageHumanResources.human_resource_label_residence_information}</legend>
 							<h:panelGrid columns="4"
 								cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 								cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 								columnClasses="tdAlignTop right,,,tdAlignTop">
 
 								<h:outputText
-									value="#{mensajeInformacionBase.country_label_residence}"
+									value="#{messageBaseInformation.country_label_residence}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="*" styleClass="required" />
 								<h:selectOneMenu value="#{hrAction.hr.paisResidencia.id}"
@@ -471,7 +471,7 @@
 								<rich:message for="comboPaisRes" />
 
 								<h:outputText
-									value="#{mensajeInformacionBase.department_label_residence}"
+									value="#{messageBaseInformation.department_label_residence}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:selectOneMenu
@@ -486,7 +486,7 @@
 								<rich:message for="comboDepartamentoRes" />
 
 								<h:outputText
-									value="#{mensajeInformacionBase.municipality_label_residence}"
+									value="#{messageBaseInformation.municipality_label_residence}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:selectOneMenu value="#{hrAction.hr.municipioResidencia.id}"
@@ -530,7 +530,7 @@
 						<h:outputText
 							value="#{hrAction.hr.name} #{hrAction.hr.familyName}" />
 						<h:outputText
-							value="#{mensajeRecursosHumanos.human_resource_label_birth_date}:" />
+							value="#{messageHumanResources.human_resource_label_birth_date}:" />
 						<h:outputText value="#{hrAction.hr.birthDate}" />
 						<h:outputText value="#{mensaje.label_address}:" />
 						<h:outputText value="#{hrAction.hr.direccion}" />
@@ -539,16 +539,16 @@
 						<h:outputText value="#{mensaje.label_movil}:" />
 						<h:outputText value="#{hrAction.hr.movil}" />
 						<h:outputText
-							value="#{mensajeRecursosHumanos.human_resource_label_anual_wage}:" />
+							value="#{messageHumanResources.human_resource_label_anual_wage}:" />
 						<h:outputText value="#{hrAction.hr.annualWage}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:outputText>
 						<h:outputText
-							value="#{mensajeRecursosHumanos.human_resource_label_hours_per_day}:" />
+							value="#{messageHumanResources.human_resource_label_hours_per_day}:" />
 						<h:outputText value="#{hrAction.hr.hoursPerDay}" />
 						<h:outputText
-							value="#{mensajeRecursosHumanos.human_resource_label_total_days}:" />
+							value="#{messageHumanResources.human_resource_label_total_days}:" />
 						<h:outputText value="#{hrAction.hr.totalNumbersDays}" />
 					</ui:define>
 					<ui:define name="botones">

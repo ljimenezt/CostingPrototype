@@ -108,7 +108,7 @@
 						</c:choose>
 					</rich:column>
 					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensajeRecursosHumanos.person_label}</f:facet>
+						<f:facet name="header">#{messageHumanResources.person_label}</f:facet>
 						<h:outputText
 							value="#{usuarioList.nombre} #{usuarioList.apellido}" />
 					</rich:column>
@@ -169,7 +169,7 @@
 						columnClasses="columnaIzquierda, columnaDerecha">
 						<h:outputText value="#{messageSecurity.user_label_name}" />
 						<h:outputText value="#{usuarioAction.user.nombreUsuario}" />
-						<h:outputText value="#{mensajeRecursosHumanos.person_label}" />
+						<h:outputText value="#{messageHumanResources.person_label}" />
 						<h:outputText
 							value="#{usuarioAction.user.nombre} #{usuarioAction.user.apellido}" />
 						<h:outputText value="#{mensaje.label_email}" />
@@ -250,7 +250,7 @@
 					<ui:define name="campos">
 						<h:outputText value="#{messageSecurity.user_label_name}:" />
 						<h:outputText value="#{usuarioAction.user.nombreUsuario}" />
-						<h:outputText value="#{mensajeRecursosHumanos.person_label}:" />
+						<h:outputText value="#{messageHumanResources.person_label}:" />
 						<h:outputText
 							value="#{usuarioAction.user.nombre} #{usuarioAction.user.apellido}" />
 					</ui:define>

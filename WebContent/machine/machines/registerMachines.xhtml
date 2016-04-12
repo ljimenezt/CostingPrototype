@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="machinesAction.addEditMachines(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeMachines.machines_label_types" />
+		value="mensaje.label_registrar,messageMachines.machines_label_types" />
 	<ui:define name="body">
 
 		<script type="text/javascript"
@@ -25,7 +25,7 @@
 		<t:saveState value="#{machinesAction}" />
 		<h:form id="formMachines">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeMachine.machines_label_names}"
+				header="#{mensaje.label_registrar} #{messageMachine.machines_label_names}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarMachines">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
@@ -80,7 +80,7 @@
 						<rich:message for="fechmantenimiento" />
 
 						<h:outputText
-							value="#{mensajeMachine.machines_label_serial_number}"
+							value="#{messageMachine.machines_label_serial_number}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.serialNumber}"
@@ -131,7 +131,7 @@
 							</h:selectOneRadio>
 							<rich:message for="txtFuel" />
 
-							<h:outputText value="#{mensajeMachine.fuel_types_label}"
+							<h:outputText value="#{messageMachine.fuel_types_label}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required"
 								rendered="#{machinesAction.machines.fuel}" />
@@ -146,7 +146,7 @@
 							<rich:message for="fuelTypes" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeMachine.machines_label_fuel_consumption}" />
+								value="#{messageMachine.machines_label_fuel_consumption}" />
 							<h:outputText value="*" styleClass="required"
 								rendered="#{machinesAction.machines.fuel}" />
 							<h:outputText value="" styleClass="required"
@@ -275,7 +275,7 @@
 						<h:outputText value="#{mensaje.label_fuel}:" />
 						<h:outputText
 							value="#{machinesAction.machines.fuel eq true ? mensaje.label_si : mensaje.label_no}" />
-						<h:outputText value="#{mensajeMachine.fuel_types_label}:" />
+						<h:outputText value="#{messageMachine.fuel_types_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(machinesAction.itemsFuelTypes, machinesAction.machines.fuelTypes.idFuelType)}" />
 					</ui:define>

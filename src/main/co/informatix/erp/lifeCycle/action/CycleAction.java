@@ -853,7 +853,7 @@ public class CycleAction implements Serializable {
 	public void consultCycles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listCycles = new ArrayList<Cycle>();
@@ -1132,7 +1132,7 @@ public class CycleAction implements Serializable {
 				ControladorContexto.mensajeErrorArg1(
 						"formRegisterCycle:fechaInicio",
 						"cycle_message_must_enter_late_date",
-						"mensajeLifeCycle", dateInitial);
+						"messageLifeCycle", dateInitial);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

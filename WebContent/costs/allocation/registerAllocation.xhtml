@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="allocationAction.addEditAllocation(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar, mensajeCosts.allocation_label" />
+		value="mensaje.label_registrar, messageCosts.allocation_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -21,7 +21,7 @@
 		<t:saveState value="#{allocationAction}" />
 		<h:form id="formAllocation">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeCosts.allocation_label}"
+				header="#{mensaje.label_registrar} #{messageCosts.allocation_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarAllocation">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

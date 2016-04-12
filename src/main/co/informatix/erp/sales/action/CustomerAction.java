@@ -124,7 +124,7 @@ public class CustomerAction implements Serializable {
 	public String searchCustomers() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle salesMessages = ControladorContexto
-				.getBundle("mensajeSales");
+				.getBundle("messageSales");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		customersList = new ArrayList<Customer>();

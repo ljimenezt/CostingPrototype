@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="fuelTypesAction.addEditFuelTypes(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeMachine.fuel_types_label" />
+		value="mensaje.label_registrar,messageMachine.fuel_types_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -30,7 +30,7 @@
 		<t:saveState value="#{fuelTypesAction}" />
 		<h:form id="formFuelTypes">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeMachine.fuel_types_label}"
+				header="#{mensaje.label_registrar} #{messageMachine.fuel_types_label}"
 				styleClass="anchoUno MinH253P" id="panelRegisterFuelTypes">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -84,7 +84,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeMachine.fuel_types_label}:" />
+						<h:outputText value="#{messageMachine.fuel_types_label}:" />
 						<h:outputText value="#{fuelTypesAction.fuelTypes.name}" />
 						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText value="#{fuelTypesAction.fuelTypes.description}" />

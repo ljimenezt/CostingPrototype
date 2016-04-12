@@ -136,7 +136,7 @@ public class ActivityNamesAction implements Serializable {
 	public String queryActivityNames() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		activityNamesList = new ArrayList<ActivityNames>();

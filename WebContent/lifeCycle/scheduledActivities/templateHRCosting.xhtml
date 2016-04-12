@@ -32,7 +32,7 @@
 							<h:panelGrid columns="2"
 								columnClasses="tdAlignTop center,tdAlignTop center">
 								<h:outputText styleClass="etiquetaTitulo"
-									value="#{mensajeRecursosHumanos.human_resource_label_hour_cost}" />
+									value="#{messageHumanResources.human_resource_label_hour_cost}" />
 								<h:outputText styleClass="etiquetaTitulo"
 									value="#{recordActivitiesActualsAction.activitiesAndHr.activitiesAndHrPK.hr.hourCost}" />
 							</h:panelGrid>
@@ -90,7 +90,7 @@
 						</p:calendar>
 						<rich:message for="fechaFinalTimeActual" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_duration}"
+							value="#{messageCosts.cycle_standard_activities_label_duration}"
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.durationBudget}"
@@ -127,7 +127,7 @@
 						</h:inputText>
 						<rich:message for="costActual" />
 						<h:outputText
-							value="#{mensajeRecursosHumanos.overtime_payment_rate_label_overtime_rate}"
+							value="#{messageHumanResources.overtime_payment_rate_label_overtime_rate}"
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.overtimePaymentRate.overtimeRateType}"

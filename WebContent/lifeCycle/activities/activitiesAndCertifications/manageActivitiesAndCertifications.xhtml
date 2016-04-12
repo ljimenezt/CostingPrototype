@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="activitiesAndCertificationsAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeLifeCycle.activities_certifications_label" />
+		value="mensaje.label_gestionar,messageLifeCycle.activities_certifications_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{activitiesAndCertificationsAction}" />
@@ -36,11 +36,11 @@
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
 		<h:form id="formActAndCert">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeCosts.activities_label_s}"
+				header="#{mensaje.label_listado_de} #{messageCosts.activities_label_s}"
 				id="panelActAndCert">
 				<h:panelGrid columns="4" columnClasses="tdAlignTop,,,">
 					<h:outputText
-						value="#{mensajeLifeCycle.activities_certifications_label_certifications}"
+						value="#{messageLifeCycle.activities_certifications_label_certifications}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" styleClass="required" />
 					<h:selectOneMenu id="certifications"
@@ -80,15 +80,15 @@
 							</a:outputPanel>
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeLifeCycle.activity_names_label}</f:facet>
+							<f:facet name="header">#{messageLifeCycle.activity_names_label}</f:facet>
 							<h:outputText value="#{activitiesCert.activityName.activityName}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeLifeCycle.crop_names_label}</f:facet>
+							<f:facet name="header">#{messageLifeCycle.crop_names_label}</f:facet>
 							<h:outputText value="#{activitiesCert.crop.cropNames.cropName}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeLifeCycle.crop_names_label}</f:facet>
+							<f:facet name="header">#{messageLifeCycle.crop_names_label}</f:facet>
 							<h:outputText
 								value="#{activitiesCert.crop.cropNames.description}" />
 						</rich:column>
@@ -121,7 +121,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeLifeCycle.activity_names_label_s}"
+				header="#{mensaje.button_search} #{messageLifeCycle.activity_names_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

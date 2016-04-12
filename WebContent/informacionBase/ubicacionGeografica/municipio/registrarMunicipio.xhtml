@@ -11,12 +11,12 @@
 	<ui:param name="action"
 		value="municipioAction.registrarMunicipio(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeInformacionBase.municipality_label" />
+		value="mensaje.label_registrar,messageBaseInformation.municipality_label" />
 	<ui:define name="body">
 		<h:form id="municipioForm">
 			<t:saveState value="#{municipioAction}" />
 			<t:saveState value="#{validacionesAction}" />
-			<rich:panel header="#{mensajeInformacionBase.municipality_label}"
+			<rich:panel header="#{messageBaseInformation.municipality_label}"
 				styleClass="anchoUno MinH230P">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -24,7 +24,7 @@
 					columnClasses="tdAlignTop">
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeInformacionBase.country_label}" />
+						value="#{messageBaseInformation.country_label}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu
 						value="#{municipioAction.municipio.departamento.pais.id}"
@@ -41,7 +41,7 @@
 					<rich:message for="cmbpais" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeInformacionBase.department_label}" />
+						value="#{messageBaseInformation.department_label}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu
 						value="#{municipioAction.municipio.departamento.id}"
@@ -102,12 +102,12 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeInformacionBase.country_label}:" />
+						<h:outputText value="#{messageBaseInformation.country_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(municipioAction.itemsPais,municipioAction.municipio.departamento.pais.id)}" />
 
 						<h:outputText
-							value="#{mensajeInformacionBase.department_label}:" />
+							value="#{messageBaseInformation.department_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(municipioAction.itemsDepartamento,municipioAction.municipio.departamento.id)}" />
 

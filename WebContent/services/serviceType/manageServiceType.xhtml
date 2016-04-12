@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="serviceTypeAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeServices.service_type_label_s" />
+		value="mensaje.label_gestionar,messageServices.service_type_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{serviceTypeAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formServiceType">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeServices.service_type_label_s}"
+				header="#{mensaje.label_listado_de} #{messageServices.service_type_label_s}"
 				id="panelServiceType">
 				<rich:message for="tablaServiceType" styleClass="messageInfSpanMsg" />
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
@@ -92,7 +92,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeServices.service_type_label_s}"
+				header="#{mensaje.button_search} #{messageServices.service_type_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

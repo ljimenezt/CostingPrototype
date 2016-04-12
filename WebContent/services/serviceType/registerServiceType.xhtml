@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="serviceTypeAction.addEditServiceType(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeServices.service_type_label" />
+		value="mensaje.label_registrar,messageServices.service_type_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -32,7 +32,7 @@
 		<t:saveState value="#{serviceTypeAction}" />
 		<h:form id="formServiceType">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeServices.service_type_label}"
+				header="#{mensaje.label_registrar} #{messageServices.service_type_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarServiceType">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

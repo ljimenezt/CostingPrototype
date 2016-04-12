@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="machineUsageAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeMachine.machine_usage_label_s" />
+		value="mensaje.label_gestionar,messageMachine.machine_usage_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{machineUsageAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formFuelTypes">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeMachine.machine_usage_label_s}"
+				header="#{mensaje.label_listado_de} #{messageMachine.machine_usage_label_s}"
 				id="pnlMachineUsage">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -57,7 +57,7 @@
 						</a:outputPanel>
 					</rich:column>
 					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensajeMachine.machines_label_names}</f:facet>
+						<f:facet name="header">#{messageMachine.machines_label_names}</f:facet>
 						<h:commandLink value="#{machineUsage.machineUsagePK.machine.name}"
 							action="#{machineUsageAction.addEditMachineUsage(machineUsage)}"
 							onclick="#{rich:component('statPane')}.show();">
@@ -72,19 +72,19 @@
 						<h:outputText value="#{machineUsage.usage}" />
 					</rich:column>
 					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeMachine.machine_usage_label_hourly_maintenance}</f:facet>
+						<f:facet name="header">#{messageMachine.machine_usage_label_hourly_maintenance}</f:facet>
 						<h:outputText value="#{machineUsage.hourlyMaintenance}">
 							<f:convertNumber pattern="#,##0.00" />
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeMachine.machine_usage_label_hourly_insurance}</f:facet>
+						<f:facet name="header">#{messageMachine.machine_usage_label_hourly_insurance}</f:facet>
 						<h:outputText value="#{machineUsage.hourlyInsurance}">
 							<f:convertNumber pattern="#,##0.00" />
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeMachine.machine_usage_label_hourly_depreciation}</f:facet>
+						<f:facet name="header">#{messageMachine.machine_usage_label_hourly_depreciation}</f:facet>
 						<h:outputText value="#{machineUsage.hourlyDepreciation}">
 							<f:convertNumber pattern="#,##0.00" />
 						</h:outputText>
@@ -116,7 +116,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="400"
-				header="#{mensaje.button_search} #{mensajeMachine.machine_usage_label_s}"
+				header="#{mensaje.button_search} #{messageMachine.machine_usage_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -129,7 +129,7 @@
 				</f:facet>
 
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensajeMachine.machines_label_names}:"
+					<h:outputText value="#{messageMachine.machines_label_names}:"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="cmbMachine"
 						requiredMessage="#{mensaje.message_campo_requerido}"

@@ -11,14 +11,14 @@
 	<ui:param name="action"
 		value="departamentoEmpresaAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensajeOrganizaciones.department_company_label_manage" />
+		value="messageOrganizations.department_company_label_manage" />
 	<ui:define name="body">
 		<t:saveState value="#{departamentoEmpresaAction}" />
 		<h:form id="frmListaDepartamento">
 			<ui:param name="listaVacia"
 				value="#{departamentoEmpresaAction.listaDepartamentoEmpresas eq null or (empty departamentoEmpresaAction.listaDepartamentoEmpresas)}" />
 			<rich:panel id="panelFrmListaDepartamento"
-				header="#{mensajeOrganizaciones.department_company_label_list}"
+				header="#{messageOrganizations.department_company_label_list}"
 				styleClass="anchoUno MinH253P">
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
@@ -225,12 +225,12 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P">
-					<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.tipo_cargo_label_s}</legend>
+					<legend class="etiquetaTitulo">#{messageHumanResources.tipo_cargo_label_s}</legend>
 					<rich:extendedDataTable
 						value="#{departamentoEmpresaAction.departamentoEmpresa.tipoCargos}"
 						var="tipoCargoObj" id="tipoCargoSelect" styleClass="H190P W400P">
 						<f:facet name="header">
-								#{mensaje.label_listado_de} #{mensajeRecursosHumanos.tipo_cargo_label_s}
+								#{mensaje.label_listado_de} #{messageHumanResources.tipo_cargo_label_s}
 							</f:facet>
 						<rich:column styleClass="W180P">
 							<f:facet name="header">#{mensaje.label_name}</f:facet>
@@ -292,7 +292,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeOrganizaciones.department_company_label_s}"
+				header="#{mensaje.button_search} #{messageOrganizations.department_company_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"

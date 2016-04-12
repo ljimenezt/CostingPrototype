@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="plotAction.addEditPlot(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeLifeCycle.plot_label" />
+		value="mensaje.label_registrar,messageLifeCycle.plot_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -30,14 +30,14 @@
 		<t:saveState value="#{plotAction}" />
 		<h:form id="formPlot">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeLifeCycle.plot_label}"
+				header="#{mensaje.label_registrar} #{messageLifeCycle.plot_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarPlot">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
 
-					<h:outputText value="#{mensajeLifeCycle.farm_label}"
+					<h:outputText value="#{messageLifeCycle.farm_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText
 						value="#{plotAction.farmParameter eq false ? '*' : ''}"
@@ -85,11 +85,11 @@
 					</h:inputText>
 					<rich:message for="txtSize" />
 
-					<h:outputText value="#{mensajeLifeCycle.plot_numbers_trees}"
+					<h:outputText value="#{messageLifeCycle.plot_numbers_trees}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText value="#{plotAction.plot.numberOfTrees}"
-						label="#{mensajeLifeCycle.plot_numbers_trees}"
+						label="#{messageLifeCycle.plot_numbers_trees}"
 						styleClass="colTextoCorto" id="txtNumberTrees" maxlength="100">
 						<f:validateLongRange></f:validateLongRange>
 					</h:inputText>

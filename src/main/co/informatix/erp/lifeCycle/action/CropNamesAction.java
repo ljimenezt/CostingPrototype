@@ -131,7 +131,7 @@ public class CropNamesAction implements Serializable {
 	public String consultCropNames() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listCropNames = new ArrayList<CropNames>();

@@ -445,7 +445,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		ResourceBundle bundleOrg = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		boolean seAgregoMens = false;
 		String comaEspacio = ", ";
 

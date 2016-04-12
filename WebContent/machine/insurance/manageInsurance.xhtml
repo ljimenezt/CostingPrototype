@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="insuranceAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeMachine.insurance_label" />
+		value="mensaje.label_gestionar,messageMachine.insurance_label" />
 	<ui:define name="body">
 		<t:saveState value="#{insuranceAction}" />
 		<script type="text/javascript"
@@ -42,14 +42,14 @@
 
 		<h:form id="formInsurance">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeMachine.insurance_label}"
+				header="#{mensaje.label_listado_de} #{messageMachine.insurance_label}"
 				id="panelInsurance">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeMachine.machine_types_label_s}" />
+						value="#{messageMachine.machine_types_label_s}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu
 						value="#{insuranceAction.machineTypes.idMachineType}"
@@ -64,7 +64,7 @@
 					</h:selectOneMenu>
 					<rich:message for="cmbMachinesTypes" />
 
-					<h:outputText value="#{mensajeMachine.insurance_label_machine}"
+					<h:outputText value="#{messageMachine.insurance_label_machine}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="maquina"
@@ -119,14 +119,14 @@
 							<h:outputText value="#{insurance.descripcion}" />
 						</rich:column>
 						<rich:column styleClass="colValorLargo">
-							<f:facet name="header">#{mensajeMachine.insurance_label_total_cost_budget}</f:facet>
+							<f:facet name="header">#{messageMachine.insurance_label_total_cost_budget}</f:facet>
 							<h:outputText value="#{insurance.totalCostBudget}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
 									minFractionDigits="2" currencySymbol="$" type="currency" />
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colValorLargo">
-							<f:facet name="header">#{mensajeMachine.insurance_label_cost_total_actual}</f:facet>
+							<f:facet name="header">#{messageMachine.insurance_label_cost_total_actual}</f:facet>
 							<h:outputText value="#{insurance.totalCostActual}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
 									minFractionDigits="2" currencySymbol="$" type="currency" />
@@ -161,7 +161,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" width="330"
 				maxWidth="450" height="180"
-				header="#{mensaje.button_search} #{mensajeMachine.insurance_label}"
+				header="#{mensaje.button_search} #{messageMachine.insurance_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

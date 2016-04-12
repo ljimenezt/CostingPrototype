@@ -478,7 +478,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	public void consultWorkers() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleHumanResources = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.statusMessage = false;

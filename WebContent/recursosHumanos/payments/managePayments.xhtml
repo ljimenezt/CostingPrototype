@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="paymentsAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeRecursosHumanos.payments_label_s" />
+		value="mensaje.label_gestionar,messageHumanResources.payments_label_s" />
 
 	<ui:define name="body">
 		<script type="text/javascript"
@@ -41,7 +41,7 @@
 
 		<h:form id="formPayments">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeRecursosHumanos.payments_label_s}"
+				header="#{mensaje.label_listado_de} #{messageHumanResources.payments_label_s}"
 				id="panelPayments">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -120,7 +120,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeRecursosHumanos.payments_label_s}"
+				header="#{mensaje.button_search} #{messageHumanResources.payments_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

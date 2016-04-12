@@ -49,13 +49,13 @@
 			<rich:panel header="#{mensajeMenu.associate_cycles_label_register}"
 				styleClass="anchoExtend MinH253P" id="panelAssignActivities">
 				<t:fieldset styleClass="BorderW2P">
-					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
+					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop,,,tdAlignTop">
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeLifeCycle.crop_names_label}" />
+							value="#{messageLifeCycle.crop_names_label}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
@@ -93,7 +93,7 @@
 						$g=jQuery.noConflict();
 					</script>
 					<t:fieldset styleClass="BorderW2P">
-						<legend class="etiquetaTitulo">#{mensajeCosts.activities_label_s}</legend>
+						<legend class="etiquetaTitulo">#{messageCosts.activities_label_s}</legend>
 						<div align="right">
 							<h:panelGrid id="pnlButtons" columns="6" cellpadding="0"
 								cellspacing="0">
@@ -106,7 +106,7 @@
 										<h:graphicImage value="/img/add_16.png"
 											styleClass="verticalAlignMiddle" />
 										<h:outputText
-											value="#{mensajeCosts.cycle_standard_activities_label_add_activity}"
+											value="#{messageCosts.cycle_standard_activities_label_add_activity}"
 											actionListener="#{cropActivitiesAction.activities.crop.idCrop}" />
 									</h:panelGrid>
 									<rich:tooltip layout="block">
@@ -128,7 +128,7 @@
 										<h:graphicImage value="/img/addList_16.png"
 											styleClass="verticalAlignMiddle" />
 										<h:outputText
-											value="#{mensaje.label_asignar} #{mensajeCosts.cycle_standard_activities_label}"
+											value="#{mensaje.label_asignar} #{messageCosts.cycle_standard_activities_label}"
 											actionListener="#{cropActivitiesAction.crops.cropNames.idCropName}" />
 									</h:panelGrid>
 									<rich:tooltip layout="block">
@@ -263,7 +263,7 @@
 				<a:outputPanel id="formStandardActivities">
 					<t:fieldset styleClass="BorderW2P"
 						rendered="#{cropActivitiesAction.listCycleStandardActivities ne null and (!empty cropActivitiesAction.listCycleStandardActivities)}">
-						<legend class="etiquetaTitulo">#{mensajeCosts.cycle_standard_activities_label}</legend>
+						<legend class="etiquetaTitulo">#{messageCosts.cycle_standard_activities_label}</legend>
 						<rich:dataTable
 							value="#{cropActivitiesAction.subListCycleStandardActivities}"
 							var="standardActivities" id="txStandardActivities"
@@ -403,7 +403,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupActivityNames" autosized="true"
 				domElementAttachment="form"
-				header="#{mensajeLifeCycle.activity_names_label_s}">
+				header="#{messageLifeCycle.activity_names_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -417,7 +417,7 @@
 					<a:outputPanel id="outPutBuscarActivityNames">
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
-								#{mensajeLifeCycle.activity_names_label_s}</legend>
+								#{messageLifeCycle.activity_names_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
 								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
@@ -512,7 +512,7 @@
 		<h:form id="popupFormReg">
 			<rich:popupPanel id="popupRegActivity" autosized="true"
 				domElementAttachment="form" minHeight="370"
-				header="#{mensaje.label_registrar} #{mensajeCosts.activities_label}"
+				header="#{mensaje.label_registrar} #{messageCosts.activities_label}"
 				styleClass="fondoAnchoUno">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -541,7 +541,7 @@
 		<h:form id="popupFormRegStandard">
 			<rich:popupPanel id="popupRegStandarActivity" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_registrar} #{mensajeCosts.activities_label}"
+				header="#{mensaje.label_registrar} #{messageCosts.activities_label}"
 				styleClass="H340P fondoAnchoUno W250P">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -575,31 +575,31 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_hr}:" />
+							value="#{messageCosts.cycle_standard_activities_label_hr}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.hrRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_machine}:" />
+							value="#{messageCosts.cycle_standard_activities_label_machine}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.machineRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_service}:" />
+							value="#{messageCosts.cycle_standard_activities_label_service}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.serviceRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_materials}:" />
+							value="#{messageCosts.cycle_standard_activities_label_materials}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.materialsRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_num_sequence}:" />
+							value="#{messageCosts.cycle_standard_activities_label_num_sequence}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.sequenceNumber}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_duration}:" />
+							value="#{messageCosts.cycle_standard_activities_label_duration}:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.durationBudget}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_dangerous }:" />
+							value="#{messageCosts.cycle_standard_activities_label_dangerous }:" />
 						<h:outputText
 							value="#{cropActivitiesAction.activities.dangerous eq true ? mensaje.label_si : mensaje.label_no}" />
 					</ui:define>
@@ -632,31 +632,31 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_hr}" />
+							value="#{messageCosts.cycle_standard_activities_label_hr}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.hrRequired}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_machine}" />
+							value="#{messageCosts.cycle_standard_activities_label_machine}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.machineRequired}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_service}" />
+							value="#{messageCosts.cycle_standard_activities_label_service}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.serviceRequired}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_materials}" />
+							value="#{messageCosts.cycle_standard_activities_label_materials}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.materialsRequired}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_num_sequence}" />
+							value="#{messageCosts.cycle_standard_activities_label_num_sequence}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.sequenceNumber}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_duration}" />
+							value="#{messageCosts.cycle_standard_activities_label_duration}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.duration}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_dangerous}" />
+							value="#{messageCosts.cycle_standard_activities_label_dangerous}" />
 						<h:outputText
 							value="#{cropActivitiesAction.cycleStandardActivities.dangerous}" />
 					</ui:define>
@@ -685,7 +685,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_remove}"
+							value="#{messageCosts.cycle_standard_activities_remove}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
@@ -728,7 +728,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_remove}"
+							value="#{messageCosts.cycle_standard_activities_remove}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 
@@ -746,7 +746,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" width="400" maxWidth="710"
 				height="205"
-				header="#{mensaje.button_search} #{mensajeCosts.activities_label_s}"
+				header="#{mensaje.button_search} #{messageCosts.activities_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -814,7 +814,7 @@
 		<h:form id="formDetalles">
 			<rich:popupPanel id="PopUpDetalles" autosized="true"
 				domElementAttachment="form" styleClass="H340P fondoAnchoUno W250"
-				header="#{mensajeCosts.activities_message_popup_details}">
+				header="#{messageCosts.activities_message_popup_details}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"

@@ -380,7 +380,7 @@ public class EmpresaAction implements Serializable {
 	 */
 	public String nuevaEmpresa(char rol) {
 		ResourceBundle bundleOrg = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		String pagina = "regEmpresa";
 		try {
 			this.opcion = Constantes.NUEVO;
@@ -392,7 +392,7 @@ public class EmpresaAction implements Serializable {
 			if (Constantes.N_TAB.equals(rol)) {
 				this.labelCrear = bundleOrg
 						.getString("company_label_register");
-				this.mensajeMiga = "mensajeOrganizaciones.company_label_create";
+				this.mensajeMiga = "messageOrganizations.company_label_create";
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -418,7 +418,7 @@ public class EmpresaAction implements Serializable {
 	 */
 	public String editarEmpresa(Empresa empresaEditar, char rol) {
 		ResourceBundle bundleOrg = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		try {
 			opcion = Constantes.EDITAR;
 			this.empresa = empresaEditar;
@@ -432,7 +432,7 @@ public class EmpresaAction implements Serializable {
 			if (Constantes.N_TAB.equals(rol)) {
 				this.labelCrear = bundleOrg
 						.getString("company_label_register");
-				mensajeMiga = "mensajeOrganizaciones.company_label_modify";
+				mensajeMiga = "messageOrganizations.company_label_modify";
 			}
 
 		} catch (Exception e) {
@@ -479,7 +479,7 @@ public class EmpresaAction implements Serializable {
 	public String consultarEmpresas(String rol) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleOrganizaciones = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		List<SelectItem> parametros = new ArrayList<SelectItem>();
@@ -691,7 +691,7 @@ public class EmpresaAction implements Serializable {
 	 */
 	public String agregarEditarEmpresa(String rol) {
 		ResourceBundle bundle2 = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		String mensaje = "";
 		String nombreFotoBorrar = null;
 		String salida = "regEmpresa";
@@ -881,7 +881,7 @@ public class EmpresaAction implements Serializable {
 	public void validarNitEmpresaXSS(FacesContext context,
 			UIComponent toValidate, Object value) {
 		ResourceBundle bundle2 = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		String nit = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {

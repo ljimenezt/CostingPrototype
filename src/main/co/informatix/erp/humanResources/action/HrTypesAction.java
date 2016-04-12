@@ -127,7 +127,7 @@ public class HrTypesAction implements Serializable {
 	public String searchHrTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle hrBundle = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		hrTypesList = new ArrayList<HrTypes>();

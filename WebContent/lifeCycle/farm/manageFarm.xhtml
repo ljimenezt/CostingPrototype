@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="farmAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeLifeCycle.farm_label_s" />
+		value="mensaje.label_gestionar,messageLifeCycle.farm_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{farmAction}" />
 		<ui:param name="listaVacia"
@@ -32,7 +32,7 @@
 		<ui:param name="metodoListarTodos" value="initializeSearch" />
 		<h:form id="formFarm">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeLifeCycle.farm_label_s}"
+				header="#{mensaje.label_listado_de} #{messageLifeCycle.farm_label_s}"
 				id="panelFarm">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -50,7 +50,7 @@
 								<h:graphicImage value="/img/add_16.png" />
 							</h:commandLink>
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensajeLifeCycle.plot_label_add}" />
+								<h:outputText value="#{messageLifeCycle.plot_label_add}" />
 							</rich:tooltip>
 						</a:outputPanel>
 						<a:outputPanel
@@ -145,7 +145,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeLifeCycle.farm_label_s}"
+				header="#{mensaje.button_search} #{messageLifeCycle.farm_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

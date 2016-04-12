@@ -126,7 +126,7 @@ public class CertificationsAndRolesAction implements Serializable {
 	public String consultCertificationsAndRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listCertificationsAndRoles = new ArrayList<CertificationsAndRoles>();

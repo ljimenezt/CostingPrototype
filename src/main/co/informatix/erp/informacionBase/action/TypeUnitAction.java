@@ -125,7 +125,7 @@ public class TypeUnitAction implements Serializable {
 	public String consultTypeUnit() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleTypeUnit = ControladorContexto
-				.getBundle("mensajeInformacionBase");
+				.getBundle("messageBaseInformation");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listTypeUnits = new ArrayList<TypeUnit>();

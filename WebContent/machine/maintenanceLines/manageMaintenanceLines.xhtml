@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="maintenanceLinesAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeMachine.maintenance_lines_label" />
+		value="mensaje.label_gestionar,messageMachine.maintenance_lines_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceLinesAction}" />
@@ -37,7 +37,7 @@
 
 		<h:form id="formMaintenanceLines">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeMachine.maintenance_lines_label}"
+				header="#{mensaje.label_listado_de} #{messageMachine.maintenance_lines_label}"
 				id="panelMaintenanceLines">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -56,12 +56,12 @@
 					</rich:column>
 					
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeMachine.maintenance_lines_label_machine_name}</f:facet>
+						<f:facet name="header">#{messageMachine.maintenance_lines_label_machine_name}</f:facet>
 						<h:outputText value="#{maintenanceLines.machines.name}" />
 					</rich:column>
 
 					<rich:column styleClass="colValor">
-						<f:facet name="header">#{mensajeMachine.maintenance_lines_label_budget_cost}</f:facet>
+						<f:facet name="header">#{messageMachine.maintenance_lines_label_budget_cost}</f:facet>
 						<h:outputText value="#{maintenanceLines.costBudget}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
@@ -69,7 +69,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colValor">
-						<f:facet name="header">#{mensajeMachine.maintenance_lines_label_current_cost}</f:facet>
+						<f:facet name="header">#{messageMachine.maintenance_lines_label_current_cost}</f:facet>
 						<h:outputText value="#{maintenanceLines.costActual}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
@@ -118,7 +118,7 @@
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
 					<h:outputText
-						value="#{mensajeMachine.maintenance_lines_label_machine_name}:"
+						value="#{messageMachine.maintenance_lines_label_machine_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar"

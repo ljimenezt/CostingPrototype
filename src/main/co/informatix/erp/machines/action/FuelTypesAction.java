@@ -126,7 +126,7 @@ public class FuelTypesAction implements Serializable {
 	public String consultFuelTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listFuelTypes = new ArrayList<FuelTypes>();

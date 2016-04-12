@@ -11,7 +11,7 @@
 	<ui:param name="action"
 		value="organizacionAction.registrarOrganizacion(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeOrganizaciones.organization_label" />
+		value="mensaje.label_registrar,messageOrganizations.organization_label" />
 	<ui:define name="body">
 		<t:saveState value="#{organizacionAction}" />
 		<t:saveState value="#{personaAction}" />
@@ -20,7 +20,7 @@
 
 		<h:form id="organizacionForm" styleClass="edit">
 
-			<rich:panel header="#{mensajeOrganizaciones.organization_label}"
+			<rich:panel header="#{messageOrganizations.organization_label}"
 				styleClass="anchoUno">
 				<h:outputText value="" id="mensajeRazonSocial" />
 				<rich:message for="mensajeRazonSocial" />
@@ -37,7 +37,7 @@
 							cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
 							columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 							<h:outputText
-								value="#{mensajeInformacionBase.tipo_documento_label}"
+								value="#{messageBaseInformation.tipo_documento_label}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:selectOneMenu
@@ -164,7 +164,7 @@
 
 		<h:form id="personaForm">
 			<rich:popupPanel id="popUpNuevaPersona" width="690" height="598"
-				header="#{mensaje.label_registrar} #{mensajeRecursosHumanos.person_label}"
+				header="#{mensaje.label_registrar} #{messageHumanResources.person_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -207,7 +207,7 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeInformacionBase.tipo_documento_label}: " />
+							value="#{messageBaseInformation.tipo_documento_label}: " />
 						<h:outputText
 							value="#{encodeFilter.getKey(organizacionAction.itemsTiposDocumentos,organizacionAction.organizacion.tipoDocumento.id)}" />
 

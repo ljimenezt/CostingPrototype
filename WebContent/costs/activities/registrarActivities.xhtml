@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="activitiesAction.agregarEditarActivities(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeCosts.activities_label" />
+		value="mensaje.label_registrar,messageCosts.activities_label" />
 	<ui:define name="body">
 		<t:saveState value="#{activitiesAction}" />
 		<t:saveState value="#{activityNamesAction}" />
@@ -26,7 +26,7 @@
 		</script>
 		<h:form id="formActivities">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeCosts.activities_label}"
+				header="#{mensaje.label_registrar} #{messageCosts.activities_label}"
 				styleClass="anchoUno MinH253P" id="panelActivities">
 				<h:panelGrid columns="3"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -110,7 +110,7 @@
 					<p:row>
 						<p:column>
 							<h:outputText
-								value="#{mensajeCosts.activities_label_date_initial_budget}"
+								value="#{messageCosts.activities_label_date_initial_budget}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column colspan="2">
@@ -130,7 +130,7 @@
 					<p:row>
 						<p:column>
 							<h:outputText
-								value="#{mensajeCosts.activities_label_date_final_budget}"
+								value="#{messageCosts.activities_label_date_final_budget}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column colspan="2">
@@ -162,7 +162,7 @@
 					<p:row>
 						<p:column>
 							<h:outputText
-								value="#{mensajeCosts.activities_label_duration_budget}"
+								value="#{messageCosts.activities_label_duration_budget}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column colspan="2">
@@ -389,7 +389,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupActivityNames" autosized="true"
 				domElementAttachment="form"
-				header="#{mensajeLifeCycle.activity_names_label_s}">
+				header="#{messageLifeCycle.activity_names_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -403,7 +403,7 @@
 					<a:outputPanel id="outPutBuscarActivityNames">
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
-								#{mensajeLifeCycle.activity_names_label_s}</legend>
+								#{messageLifeCycle.activity_names_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
 								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
@@ -442,7 +442,7 @@
 								rowClasses="odd-row, even-row">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensajeLifeCycle.activity_names_label_s}" />
+										value="#{messageLifeCycle.activity_names_label_s}" />
 								</f:facet>
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header" />

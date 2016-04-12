@@ -247,7 +247,7 @@ public class InsuranceAction implements Serializable {
 	public void searchInsurances() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle insuranceBundle = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		insurancesList = new ArrayList<Insurance>();

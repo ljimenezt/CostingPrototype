@@ -12,7 +12,7 @@
 		<rich:popupPanel id="PopupDetalles" maxWidth="700"
 			height="#{conAlto eq '1' ? 420 : ''}" autosized="true"
 			domElementAttachment="form"
-			header="#{mensajeOrganizaciones.company_label_details}">
+			header="#{messageOrganizations.company_label_details}">
 			<f:facet name="controls">
 				<h:panelGroup>
 					<h:graphicImage value="/img/close_14.png"
@@ -30,7 +30,7 @@
 							<h:panelGrid columns="2" cellpadding="5" cellspacing="13"
 								columnClasses="columnaIzquierda, columnaDerecha">
 								<h:outputText
-									value="#{mensajeOrganizaciones.organization_label}:" />
+									value="#{messageOrganizations.organization_label}:" />
 								<h:outputText
 									value="#{empresaAction.empresa.organizacion.razonSocial}" />
 
@@ -73,15 +73,15 @@
 							<h:outputText value="#{mensaje.label_fax}:" />
 							<h:outputText value="#{empresaAction.empresa.fax}" />
 
-							<h:outputText value="#{mensajeInformacionBase.country_label}:" />
+							<h:outputText value="#{messageBaseInformation.country_label}:" />
 							<h:outputText value="#{empresaAction.empresa.pais.nombre}" />
 
 							<h:outputText
-								value="#{mensajeInformacionBase.department_label}:" />
+								value="#{messageBaseInformation.department_label}:" />
 							<h:outputText
 								value="#{empresaAction.empresa.departamento.nombre}" />
 
-							<h:outputText value="#{mensajeInformacionBase.municipality_label}:" />
+							<h:outputText value="#{messageBaseInformation.municipality_label}:" />
 							<h:outputText value="#{empresaAction.empresa.municipio.nombre}" />
 						</h:panelGrid>
 					</rich:accordionItem>

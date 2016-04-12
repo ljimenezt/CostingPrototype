@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="overtimePaymentRateAction.addEditOvertimePayment(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeRecursosHumanos.overtime_payment_rate_label" />
+		value="mensaje.label_registrar,messageHumanResources.overtime_payment_rate_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -31,7 +31,7 @@
 		<t:saveState value="#{overtimePaymentRateAction}" />
 		<h:form id="formOvertimePayments">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeRecursosHumanos.overtime_payment_rate_label}"
+				header="#{mensaje.label_registrar} #{messageHumanResources.overtime_payment_rate_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarOvertimePayments">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -39,7 +39,7 @@
 					columnClasses="tdAlignTop,,,tdAlignTop">
 
 					<h:outputText
-						value="#{mensajeRecursosHumanos.overtime_payment_rate_label_type}"
+						value="#{messageHumanResources.overtime_payment_rate_label_type}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText
@@ -51,7 +51,7 @@
 					<rich:message for="txtRateType" />
 
 					<h:outputText
-						value="#{mensajeRecursosHumanos.overtime_payment_rate_label_ratio}"
+						value="#{messageHumanResources.overtime_payment_rate_label_ratio}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText
@@ -102,11 +102,11 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeRecursosHumanos.overtime_payment_rate_label_type}:" />
+							value="#{messageHumanResources.overtime_payment_rate_label_type}:" />
 						<h:outputText
 							value="#{overtimePaymentRateAction.overtimePaymentRate.overtimeRateType}" />
 						<h:outputText
-							value="#{mensajeRecursosHumanos.overtime_payment_rate_label_ratio}:" />
+							value="#{messageHumanResources.overtime_payment_rate_label_ratio}:" />
 						<h:outputText
 							value="#{overtimePaymentRateAction.overtimePaymentRate.overtimeRateRatio}" />
 						<h:outputText value="#{mensaje.label_description}:" />

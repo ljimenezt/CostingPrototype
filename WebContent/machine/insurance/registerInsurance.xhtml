@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="insuranceAction.agregarEditarInsurance(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeMachine.insurance_label" />
+		value="mensaje.label_registrar,messageMachine.insurance_label" />
 	<ui:define name="body">
 		<t:saveState value="#{insuranceAction}" />
 		<t:saveState value="#{machinesAction}" />
@@ -34,7 +34,7 @@
 		</script>
 		<h:form id="formInsurance">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeMachine.insurance_label}"
+				header="#{mensaje.label_registrar} #{messageMachine.insurance_label}"
 				styleClass="anchoUno MinH253P" id="panelInsurance">
 				<t:fieldset styleClass="BorderW2P">
 					<legend class="etiquetaTitulo">#{mensaje.label_informacion_maquina}</legend>
@@ -43,7 +43,7 @@
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop W140P,tdAlignTop,,tdAlignTop">
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeMachine.machine_types_label_s}" />
+							value="#{messageMachine.machine_types_label_s}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu
 							value="#{insuranceAction.machineTypes.idMachineType}"
@@ -59,7 +59,7 @@
 						</h:selectOneMenu>
 						<rich:message for="cmbMachinesTypes" />
 
-						<h:outputText value="#{mensajeMachine.insurance_label_machine}"
+						<h:outputText value="#{messageMachine.insurance_label_machine}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu id="maquina"
@@ -75,12 +75,12 @@
 				<br />
 				<t:fieldset styleClass="BorderW2P">
 					<legend class="etiquetaTitulo">#{mensaje.button_new}
-						#{mensajeMachine.insurance_label}</legend>
+						#{messageMachine.insurance_label}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop W140P,tdAlignTop,,tdAlignTop">
-						<h:outputText value="#{mensajeMachine.insurance_label}"
+						<h:outputText value="#{messageMachine.insurance_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputTextarea value="#{insuranceAction.insurance.descripcion}"
@@ -106,10 +106,10 @@
 						<rich:message for="fechMaint" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeMachine.insurance_label_total_cost_budget}" />
+							value="#{messageMachine.insurance_label_total_cost_budget}" />
 						<h:outputText value="" />
 						<h:inputText
-							label="#{mensajeMachine.insurance_label_total_cost_budget}"
+							label="#{messageMachine.insurance_label_total_cost_budget}"
 							value="#{insuranceAction.insurance.totalCostBudget}"
 							styleClass="colNumeroLargo" id="txtTotalCostBudget"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
@@ -118,10 +118,10 @@
 						<rich:message for="txtTotalCostBudget" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeMachine.insurance_label_cost_total_actual}" />
+							value="#{messageMachine.insurance_label_cost_total_actual}" />
 						<h:outputText value="" />
 						<h:inputText
-							label="#{mensajeMachine.insurance_label_cost_total_actual}"
+							label="#{messageMachine.insurance_label_cost_total_actual}"
 							value="#{insuranceAction.insurance.totalCostActual}"
 							styleClass="colNumeroLargo" id="txtTotalCostActual"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
@@ -162,7 +162,7 @@
 						<h:outputText value="#{mensaje.label_tipo_maquina}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(insuranceAction.machineTypeOption, insuranceAction.machineTypes.idMachineType)}" />
-						<h:outputText value="#{mensajeMachine.insurance_label_machine}:" />
+						<h:outputText value="#{messageMachine.insurance_label_machine}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(insuranceAction.machinesList, insuranceAction.machines.idMachine)}" />
 						<h:outputText value="#{mensaje.label_description}:" />
@@ -170,13 +170,13 @@
 						<h:outputText value="#{mensaje.label_fecha}:" />
 						<h:outputText value="#{insuranceAction.insurance.dateTime}" />
 						<h:outputText
-							value="#{mensajeMachine.insurance_label_total_cost_budget}:" />
+							value="#{messageMachine.insurance_label_total_cost_budget}:" />
 						<h:outputText value="#{insuranceAction.insurance.totalCostBudget}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:outputText>
 						<h:outputText
-							value="#{mensajeMachine.insurance_label_cost_total_actual}:" />
+							value="#{messageMachine.insurance_label_cost_total_actual}:" />
 						<h:outputText value="#{insuranceAction.insurance.totalCostActual}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />

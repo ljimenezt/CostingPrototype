@@ -260,7 +260,7 @@ public class ActivitiesAction implements Serializable {
 	public void searchActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleCostos = ControladorContexto
-				.getBundle("mensajeCosts");
+				.getBundle("messageCosts");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listActivities = new ArrayList<Activities>();

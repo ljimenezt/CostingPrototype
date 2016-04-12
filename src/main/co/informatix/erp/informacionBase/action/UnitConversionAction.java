@@ -220,7 +220,7 @@ public class UnitConversionAction implements Serializable {
 		this.finalUnitName = "";
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleUnitConversion = ControladorContexto
-				.getBundle("mensajeInformacionBase");
+				.getBundle("messageBaseInformation");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		unitConversionsList = new ArrayList<UnitConversion>();
@@ -381,7 +381,7 @@ public class UnitConversionAction implements Serializable {
 	public String saveUnitConversion() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleGeneral = ControladorContexto
-				.getBundle("mensajeInformacionBase");
+				.getBundle("messageBaseInformation");
 
 		try {
 			String messageLog = "message_registro_guardar";
@@ -426,7 +426,7 @@ public class UnitConversionAction implements Serializable {
 	public String removeUnitConversion() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleGeneral = ControladorContexto
-				.getBundle("mensajeInformacionBase");
+				.getBundle("messageBaseInformation");
 		try {
 			String originalUnit = this.unitConversion.getUnitConversionPk()
 					.getOriginalUnit().getName();
@@ -459,7 +459,7 @@ public class UnitConversionAction implements Serializable {
 	public void validatePrimaryKey(FacesContext context,
 			UIComponent toValidate, Object value) {
 		ResourceBundle bundleGeneral = ControladorContexto
-				.getBundle("mensajeInformacionBase");
+				.getBundle("messageBaseInformation");
 		int originalUnitId = (int) value;
 		String clientId = toValidate.getClientId(context);
 		/* It is sent the JSF component ID */

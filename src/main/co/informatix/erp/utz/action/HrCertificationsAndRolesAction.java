@@ -370,7 +370,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	public String consultHrCertRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listHrCertificationsAndRoles = new ArrayList<HrCertificationsAndRoles>();

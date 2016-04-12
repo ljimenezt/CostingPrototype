@@ -194,7 +194,7 @@ public class TipoCargoAction implements Serializable {
 	public String consultarTiposCargo() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRH = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		String mensajeBusqueda = "";
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
