@@ -658,6 +658,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void selectInvoice(PurchaseInvoices invoiceSelected) {
 		this.invoicesActualSelected = new PurchaseInvoices();
+		this.flag = false;
 		invoiceSelected.setSelected(true);
 		for (PurchaseInvoices invoice : listInovoices) {
 			if (invoice.isSelected()) {
@@ -759,7 +760,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	/**
 	 * Method used to save or edit the invoices
 	 * 
-	 * modify 11/04/2016 Wilhelm.Boada
+	 * @modify 11/04/2016 Wilhelm.Boada
 	 * 
 	 * @return searchInitialize: Redirects to manage deposits with a list of
 	 *         updated deposits
@@ -774,25 +775,27 @@ public class PurchaseInvoicesAction implements Serializable {
 		try {
 			if (!flag) {
 				this.invoices = this.invoicesActualSelected;
-			}
-			getPathLocation();
-			getLocations();
-			getFolderFileTemporal();
-			String nameActualDocument = this.invoices.getInvoiceDocumentLink();
-			if (!("").equals(nameDocument) && nameDocument != null) {
-				if (!("").equals(nameActualDocument)
-						&& nameActualDocument != null) {
-					if (nameDocument != nameActualDocument) {
+			} else {
+				getPathLocation();
+				getLocations();
+				getFolderFileTemporal();
+				String nameActualDocument = this.invoices
+						.getInvoiceDocumentLink();
+				if (!("").equals(nameDocument) && nameDocument != null) {
+					if (!("").equals(nameActualDocument)
+							&& nameActualDocument != null) {
+						if (nameDocument != nameActualDocument) {
+							deleteOldFile(nameActualDocument);
+						}
+					}
+					saveFiles();
+				} else {
+					if (nameActualDocument != null) {
 						deleteOldFile(nameActualDocument);
 					}
 				}
-				saveFiles();
-			} else {
-				if (nameActualDocument != null) {
-					deleteOldFile(nameActualDocument);
-				}
+				this.invoices.setInvoiceDocumentLink(nameDocument);
 			}
-			this.invoices.setInvoiceDocumentLink(nameDocument);
 			if (this.invoices.getIdPurchaseInvoice() != 0) {
 				calculateValuesInvoices();
 				purchaseInvoicesDao.editInvoices(this.invoices);
