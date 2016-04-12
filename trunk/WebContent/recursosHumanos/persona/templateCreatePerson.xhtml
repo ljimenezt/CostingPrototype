@@ -187,7 +187,8 @@
 			</h:inputText>
 			<rich:message for="txtMovil" />
 
-			<h:outputText value="#{mensajeInformacionBase.country_label_residence}"
+			<h:outputText
+				value="#{mensajeInformacionBase.country_label_residence}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneMenu value="#{personaAction.person.paisRes.id}"
@@ -274,7 +275,7 @@
 						<div class="etiquetaTitulo">
 							<hr />
 							<h:outputText
-								value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
+								value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitted.img']}" />
 							<hr />
 						</div>
 					</a:outputPanel>
