@@ -805,6 +805,8 @@ public class DepositsAction implements Serializable {
 					.suppliersById(this.purchaseInvoice.getSuppliers()
 							.getIdSupplier());
 			this.purchaseInvoice.setSuppliers(suppliers);
+			selectDeposit(deposit);
+			showTransaction();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
