@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="fincaAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeOrganizaciones.finca_label_s" />
+		value="mensaje.label_gestionar,messageOrganizations.finca_label_s" />
 	<ui:define name="body">
 		<script src="http://maps.google.com/maps/api/js?sensor=false"
 			type="text/javascript"></script>
@@ -19,7 +19,7 @@
 			<t:saveState value="#{fincaAction}" />
 			<ui:param name="listaVacia"
 				value="#{fincaAction.listaFincas eq null or (empty fincaAction.listaFincas)}" />
-			<rich:panel header="#{mensajeOrganizaciones.finca_label_listado}"
+			<rich:panel header="#{messageOrganizations.finca_label_listado}"
 				id="panelFinca" styleClass="anchoUno MinH208P">
 
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
@@ -94,7 +94,7 @@
 							</c:choose>
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeOrganizaciones.company_label}</f:facet>
+							<f:facet name="header">#{messageOrganizations.company_label}</f:facet>
 							<h:outputText value="#{finca.empresa.nombre}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
@@ -107,7 +107,7 @@
 							<h:outputText value="#{finca.ubicacion}" />
 						</rich:column>
 						<rich:column styleClass="colTextoCorto">
-							<f:facet name="header">#{mensajeInformacionBase.country_label}</f:facet>
+							<f:facet name="header">#{messageBaseInformation.country_label}</f:facet>
 							<h:outputText value="#{finca.pais.nombre}" />
 						</rich:column>
 						<rich:column styleClass="colFecha">
@@ -195,11 +195,11 @@
 								<h:panelGrid columns="2" cellpadding="5" cellspacing="5"
 									columnClasses="columnaIzquierda, columnaDerecha">
 
-									<h:outputText value="#{mensajeOrganizaciones.company_label}:" />
+									<h:outputText value="#{messageOrganizations.company_label}:" />
 									<h:outputText value="#{fincaAction.finca.empresa.nombre}" />
 
 									<h:outputText
-										value="#{mensajeOrganizaciones.finca_label_codigo_registro}:" />
+										value="#{messageOrganizations.finca_label_codigo_registro}:" />
 									<h:outputText value="#{fincaAction.finca.codigoRegistro}" />
 
 									<h:outputText value="#{mensaje.label_name}:" />
@@ -238,15 +238,15 @@
 									<h:outputText value="#{mensaje.label_ubicacion}:" />
 									<h:outputText value="#{fincaAction.finca.ubicacion}" />
 
-									<h:outputText value="#{mensajeInformacionBase.country_label}:" />
+									<h:outputText value="#{messageBaseInformation.country_label}:" />
 									<h:outputText value="#{fincaAction.finca.pais.nombre}" />
 
 									<h:outputText
-										value="#{mensajeInformacionBase.department_label}:" />
+										value="#{messageBaseInformation.department_label}:" />
 									<h:outputText value="#{fincaAction.finca.departamento.nombre}" />
 
 									<h:outputText
-										value="#{mensajeInformacionBase.municipality_label}:" />
+										value="#{messageBaseInformation.municipality_label}:" />
 									<h:outputText value="#{fincaAction.finca.municipio.nombre}" />
 
 									<h:outputText value="#{mensaje.label_vereda}:" />
@@ -301,7 +301,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscarEmpresa" autosized="true"
-				header="#{mensaje.button_search} #{mensajeOrganizaciones.finca_label_s}"
+				header="#{mensaje.button_search} #{messageOrganizations.finca_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -312,7 +312,7 @@
 					</h:outputLink>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensajeOrganizaciones.company_label}"
+					<h:outputText value="#{messageOrganizations.company_label}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 						value="#{fincaAction.nombreEmpresaBuscar}"

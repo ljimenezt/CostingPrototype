@@ -10,7 +10,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="tipoDocumentoAction.nuevoTipoDocumento" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeInformacionBase.tipo_documento_label" />
+		value="mensaje.label_registrar,messageBaseInformation.tipo_documento_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -27,7 +27,7 @@
 			});		</script>
 		<h:form id="tipoDocumentoForm">
 			<t:saveState value="#{tipoDocumentoAction}" />
-			<rich:panel header="#{mensajeInformacionBase.tipo_documento_label}"
+			<rich:panel header="#{messageBaseInformation.tipo_documento_label}"
 				styleClass="anchoUno MinH230P">
 				<h:panelGrid columns="4" cellpadding="5" cellspacing="7"
 					columnClasses="tdAlignTop,,,tdAlignTop">

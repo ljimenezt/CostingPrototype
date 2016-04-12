@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="departamentoAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeInformacionBase.department_label" />
+		value="mensaje.label_gestionar,messageBaseInformation.department_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/validacion.js"></script>
@@ -21,7 +21,7 @@
 			<ui:param name="listaVacia"
 				value="#{departamentoAction.listaDepartamentos eq null or (empty departamentoAction.listaDepartamentos)}" />
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{mensajeInformacionBase.department_label_s}"
+				header="#{mensaje.label_listado_de} #{messageBaseInformation.department_label_s}"
 				id="panelDepartamento" styleClass="anchoUno MinH230P">
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
@@ -117,7 +117,7 @@
 						<h:outputText value="#{departamento.codigoPostal}" />
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeInformacionBase.country_label}</f:facet>
+						<f:facet name="header">#{messageBaseInformation.country_label}</f:facet>
 						<h:outputText value="#{departamento.pais.nombre}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
@@ -233,7 +233,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeInformacionBase.department_label_s}"
+				header="#{mensaje.button_search} #{messageBaseInformation.department_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -250,7 +250,7 @@
 						value="#{departamentoAction.nombreBuscar}" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeInformacionBase.country_label}:" />
+						value="#{messageBaseInformation.country_label}:" />
 					<h:selectOneMenu value="#{departamentoAction.idPaisBuscar}"
 						id="cmbPais">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}"

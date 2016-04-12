@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="hrAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeRecursosHumanos.human_resource_label_s" />
+		value="mensaje.label_gestionar,messageHumanResources.human_resource_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{hrAction}" />
@@ -34,14 +34,14 @@
 
 		<h:form id="formHr">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeRecursosHumanos.human_resource_label_s}"
+				header="#{mensaje.label_listado_de} #{messageHumanResources.human_resource_label_s}"
 				id="panelHr">
 				<h:panelGrid columns="3"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
 					<h:outputText
-						value="#{mensajeRecursosHumanos.human_resource_type_label}"
+						value="#{messageHumanResources.human_resource_type_label}"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="typeHr" value="#{hrAction.hrTypeSearch}"
 						styleClass="colTextoMediano" required="true">
@@ -77,32 +77,32 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeRecursosHumanos.human_resource_type_label}</f:facet>
+						<f:facet name="header">#{messageHumanResources.human_resource_type_label}</f:facet>
 						<h:outputText value="#{hr.hrTypes.name}" />
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeRecursosHumanos.payment_type_label}</f:facet>
+						<f:facet name="header">#{messageHumanResources.payment_type_label}</f:facet>
 						<h:outputText value="#{hr.paymentMethods.name}" />
 					</rich:column>
 
 					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeRecursosHumanos.human_resource_label_anual_wage}</f:facet>
+						<f:facet name="header">#{messageHumanResources.human_resource_label_anual_wage}</f:facet>
 						<h:outputText value="#{hr.annualWage}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeRecursosHumanos.human_resource_label_hours_per_day}</f:facet>
+						<f:facet name="header">#{messageHumanResources.human_resource_label_hours_per_day}</f:facet>
 						<h:outputText value="#{hr.hoursPerDay}" />
 					</rich:column>
 
 					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeRecursosHumanos.human_resource_label_total_days}</f:facet>
+						<f:facet name="header">#{messageHumanResources.human_resource_label_total_days}</f:facet>
 						<h:outputText value="#{hr.totalNumbersDays}" />
 					</rich:column>
 					<rich:column styleClass="colValorLargo">
-						<f:facet name="header">#{mensajeRecursosHumanos.human_resource_label_hour_cost}</f:facet>
+						<f:facet name="header">#{messageHumanResources.human_resource_label_hour_cost}</f:facet>
 						<h:outputText value="#{hr.hourCost}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
@@ -136,7 +136,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="742"
-				header="#{mensaje.button_search} #{mensajeRecursosHumanos.human_resource_label_s}"
+				header="#{mensaje.button_search} #{messageHumanResources.human_resource_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -155,7 +155,7 @@
 						id="txtNombreBuscar" value="#{hrAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 					<h:outputText
-						value="#{mensajeRecursosHumanos.human_resource_type_label}:"
+						value="#{messageHumanResources.human_resource_type_label}:"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="typeHr1" value="#{hrAction.hrTypeSearch}"
 						styleClass="colTextoCorto" required="true">
@@ -169,7 +169,7 @@
 						id="txtNombreBuscar2" value="#{hrAction.lastNameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 					<h:outputText
-						value="#{mensajeRecursosHumanos.payment_type_label}:"
+						value="#{messageHumanResources.payment_type_label}:"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu value="#{hrAction.paymentTypeSearch}"
 						styleClass="MaxW175P colTextoCorto" id="comboTipoPago">

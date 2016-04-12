@@ -238,7 +238,7 @@ public class GeneralTrendAction implements Serializable {
 	 */
 	public void consultGeneralTrend() {
 		ResourceBundle bundleReports = ControladorContexto
-				.getBundle("mensajeReports");
+				.getBundle("messageReports");
 
 		StringBuilder reportQuery = new StringBuilder();
 		StringBuilder filters = new StringBuilder();
@@ -313,9 +313,9 @@ public class GeneralTrendAction implements Serializable {
 	 */
 	public void consultBySection() {
 		ResourceBundle bundleReports = ControladorContexto
-				.getBundle("mensajeReports");
+				.getBundle("messageReports");
 		ResourceBundle bundle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 
 		StringBuilder reportQuery = new StringBuilder();
 		StringBuilder filters = new StringBuilder();

@@ -127,7 +127,7 @@ public class PaymentsAction implements Serializable {
 	public String consultPayments() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listPayments = new ArrayList<Payments>();

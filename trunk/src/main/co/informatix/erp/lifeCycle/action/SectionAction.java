@@ -122,7 +122,7 @@ public class SectionAction implements Serializable {
 	public String consultSection() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listSection = new ArrayList<Section>();

@@ -453,7 +453,7 @@ public class HaciendaAction implements Serializable {
 	public String consultarHaciendas() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		String mensajeBusqueda = "";
@@ -861,7 +861,7 @@ public class HaciendaAction implements Serializable {
 	public void validarNumeroHacienda(FacesContext context,
 			UIComponent toValidate, Object value) {
 		ResourceBundle bundleOrg = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		List<Hacienda> haciendas = new ArrayList<Hacienda>();
 		String idCampoText = toValidate.getClientId(context);
 		String codigoHacienda = (String) value;
@@ -907,7 +907,7 @@ public class HaciendaAction implements Serializable {
 	public void validarNombreHaciendaXSS(FacesContext context,
 			UIComponent toValidate, Object value) {
 		ResourceBundle bundleOrg = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		String idCampoText = toValidate.getClientId(context);
 		String nombreHacienda = (String) value;
 		String mensaje = "farm_message_name_exist";

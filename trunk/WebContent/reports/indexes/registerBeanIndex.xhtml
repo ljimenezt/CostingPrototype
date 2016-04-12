@@ -12,7 +12,7 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:param name="action" value="beanIndexAction.addEditBeanIndex(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeBeanIndex.bean_index_label_s" />
+		value="mensaje.label_registrar,messageBeanIndex.bean_index_label_s" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -24,11 +24,11 @@
 		</script>
 		<h:form id="formBeanIndex">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeBeanIndex.bean_index_label_s}"
+				header="#{mensaje.label_registrar} #{messageBeanIndex.bean_index_label_s}"
 				styleClass="anchoUno MinH253P" id="panelRegisterBeanIndex">
 
 				<h:panelGrid columns="4" columnClasses="tdAlignTop,,,tdAlignTop">
-					<h:outputText value="#{mensajeLifeCycle.crops_label}"
+					<h:outputText value="#{messageLifeCycle.crops_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="cmbCrop"
@@ -40,7 +40,7 @@
 					</h:selectOneMenu>
 					<rich:message for="cmbCrop" />
 
-					<h:outputText value="#{mensajeBeanIndex.bean_index_label_section}"
+					<h:outputText value="#{messageBeanIndex.bean_index_label_section}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="cmbSection"
@@ -53,11 +53,11 @@
 					<rich:message for="cmbSection" />
 
 					<h:outputText
-						value="#{mensajeBeanIndex.bean_index_label_sample_weight}"
+						value="#{messageBeanIndex.bean_index_label_sample_weight}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText
-						label="#{mensajeBeanIndex.bean_index_label_sample_weight}"
+						label="#{messageBeanIndex.bean_index_label_sample_weight}"
 						value="#{beanIndexAction.beanIndex.sampleWeight}"
 						styleClass="colTextoCorto" id="numSampleWeight" required="true"
 						maxlength="25"
@@ -68,11 +68,11 @@
 					<rich:message for="numSampleWeight" />
 
 					<h:outputText
-						value="#{mensajeBeanIndex.bean_index_label_cycle_number}"
+						value="#{messageBeanIndex.bean_index_label_cycle_number}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText
-						label="#{mensajeBeanIndex.bean_index_label_cycle_number}"
+						label="#{messageBeanIndex.bean_index_label_cycle_number}"
 						converterMessage="#{mensaje.message_juego_caracter_numeros}"
 						value="#{beanIndexAction.beanIndex.cycleNumber}" maxlength="25"
 						id="numCycleNumber" styleClass="colTextoCorto">
@@ -80,14 +80,14 @@
 					</h:inputText>
 					<rich:message for="numCycleNumber" />
 
-					<h:outputText value="#{mensajeBeanIndex.bean_index_label_date}"
+					<h:outputText value="#{messageBeanIndex.bean_index_label_date}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar value="#{beanIndexAction.beanIndex.dateBean}"
 						required="true" showOn="button" navigator="true"
 						converterMessage="#{mensaje.message_validar_formato_fecha}"
 						id="dateBean" pattern="MM/dd/yyyy" readonlyInput="true"
-						label="#{mensajeBeanIndex.bean_index_label_date}">
+						label="#{messageBeanIndex.bean_index_label_date}">
 					</p:calendar>
 					<rich:message for="dateBean" />
 
@@ -119,20 +119,20 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crops_label}:" />
+						<h:outputText value="#{messageLifeCycle.crops_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(beanIndexAction.itemsCrops, beanIndexAction.beanIndex.crops.idCrop)}" />
 						<h:outputText
-							value="#{mensajeBeanIndex.bean_index_label_section}:" />
+							value="#{messageBeanIndex.bean_index_label_section}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(beanIndexAction.itemsSection, beanIndexAction.beanIndex.section.idSection)}" />
 						<h:outputText
-							value="#{mensajeBeanIndex.bean_index_label_sample_weight}:" />
+							value="#{messageBeanIndex.bean_index_label_sample_weight}:" />
 						<h:outputText value="#{beanIndexAction.beanIndex.sampleWeight}" />
 						<h:outputText
-							value="#{mensajeBeanIndex.bean_index_label_cycle_number}:" />
+							value="#{messageBeanIndex.bean_index_label_cycle_number}:" />
 						<h:outputText value="#{beanIndexAction.beanIndex.cycleNumber}" />
-						<h:outputText value="#{mensajeBeanIndex.bean_index_label_date}:" />
+						<h:outputText value="#{messageBeanIndex.bean_index_label_date}:" />
 						<h:outputText value="#{beanIndexAction.beanIndex.dateBean}" />
 					</ui:define>
 					<ui:define name="botones">

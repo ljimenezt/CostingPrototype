@@ -23,15 +23,15 @@
 		</script>
 		<h:form id="formRegisterCycle">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeLifeCycle.cycle_label}"
+				header="#{mensaje.label_registrar} #{messageLifeCycle.cycle_label}"
 				styleClass="anchoUno MinH253P" id="panelCycle">
 				<t:fieldset styleClass="anchoDos BorderW2P">
-					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
+					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop W130P,tdAlignTop">
-						<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
+						<h:outputText value="#{messageLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
 
 						<h:outputText value="" styleClass="required" />
@@ -47,7 +47,7 @@
 							value="#{validacionesAction.getLabel(cycleAction.optionsCropNames,cycleAction.idCropsName)}" />
 						<rich:message for="cropName" />
 
-						<h:outputText value="#{mensajeLifeCycle.crops_label}"
+						<h:outputText value="#{messageLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu id="crop" value="#{cycleAction.idCrops}"
@@ -67,14 +67,14 @@
 				<br />
 				<t:fieldset styleClass="anchoDos BorderW2P"
 					rendered="#{cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}">
-					<legend class="etiquetaTitulo">#{mensajeLifeCycle.cycle_label}</legend>
+					<legend class="etiquetaTitulo">#{messageLifeCycle.cycle_label}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,"
 						rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}">
 
-						<h:outputText value="#{mensajeLifeCycle.activity_names_label}" />
+						<h:outputText value="#{messageLifeCycle.activity_names_label}" />
 						<h:outputText value="#{cycleAction.flagCycle eq true ? '' : '*'}"
 							styleClass="required" />
 						<h:selectOneMenu id="activities"
@@ -129,7 +129,7 @@
 							rendered="#{cycleAction.flagDate eq true}" />
 						<rich:message for="fechaFinal" />
 
-						<h:outputText value="#{mensajeLifeCycle.cycle_label_number}" />
+						<h:outputText value="#{messageLifeCycle.cycle_label_number}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="cycleNumber" maxlength="5" rendered="true"
 							value="#{cycleAction.cycle.cycleNumber}" readonly="true"
@@ -246,7 +246,7 @@
 					<t:fieldset
 						rendered="#{cycleAction.cycle.machineRequired eq true and cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}"
 						styleClass="anchoDos BorderW2P">
-						<legend class="etiquetaTitulo">#{mensajeMachine.machines_label_names_s}</legend>
+						<legend class="etiquetaTitulo">#{messageMachine.machines_label_names_s}</legend>
 						<h:panelGrid columns="4"
 							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
@@ -271,7 +271,7 @@
 				<a:outputPanel id="servicesPanel">
 					<t:fieldset styleClass="anchoDos BorderW2P"
 						rendered="#{cycleAction.cycle.serviceRequired eq true and cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}">
-						<legend class="etiquetaTitulo">#{mensajeServices.service_label_s}</legend>
+						<legend class="etiquetaTitulo">#{messageServices.service_label_s}</legend>
 						<h:panelGrid columns="2" columnClasses="W550P tdAlignTop,">
 
 							<h:panelGrid columns="4"
@@ -279,7 +279,7 @@
 								cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 								columnClasses=" W130P etiquetaTitulo tdAlignTop,,W180P,">
 
-								<h:outputText value="#{mensajeServices.service_type_label}" />
+								<h:outputText value="#{messageServices.service_type_label}" />
 								<h:outputText value="*" styleClass="required" />
 								<h:selectOneMenu id="cmbServicesType"
 									value="#{cycleAction.idServicesType}"
@@ -409,15 +409,15 @@
 					</ui:define>
 
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crop_names_label}:" />
+						<h:outputText value="#{messageLifeCycle.crop_names_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(cycleAction.optionsCropNames,cycleAction.idCropsName)}" />
 
-						<h:outputText value="#{mensajeLifeCycle.crops_label}:" />
+						<h:outputText value="#{messageLifeCycle.crops_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(cycleAction.optionsCrops,cycleAction.idCrops)}" />
 
-						<h:outputText value="#{mensajeLifeCycle.activity_names_label}:" />
+						<h:outputText value="#{messageLifeCycle.activity_names_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(cycleAction.itemsActivityName,cycleAction.cycle.activiyNames.idActivityName)}" />
 
@@ -427,7 +427,7 @@
 						<h:outputText value="#{mensaje.label_fecha_fin}:" />
 						<h:outputText value="#{cycleAction.cycle.finalDateTime}" />
 
-						<h:outputText value="#{mensajeLifeCycle.cycle_label_number}:" />
+						<h:outputText value="#{messageLifeCycle.cycle_label_number}:" />
 						<h:outputText value="#{cycleAction.cycle.cycleNumber}" />
 					</ui:define>
 

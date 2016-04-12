@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="activitiesAndCertificationsAction.addEditActiAndCert(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeLifeCycle.activities_certifications_label" />
+		value="mensaje.label_registrar,messageLifeCycle.activities_certifications_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -22,11 +22,11 @@
 		<t:saveState value="#{activitiesAndCertificationsAction}" />
 		<h:form id="formActCert">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeLifeCycle.activities_certifications_label}"
+				header="#{mensaje.label_registrar} #{messageLifeCycle.activities_certifications_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarActiCert">
 				<h:panelGrid columns="4" columnClasses="tdAlignTop,,,tdAlignTop">
 					<h:outputText
-						value="#{mensajeLifeCycle.activities_certifications_label_certifications}"
+						value="#{messageLifeCycle.activities_certifications_label_certifications}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="certificacion"
@@ -38,7 +38,7 @@
 							value="#{activitiesAndCertificationsAction.itemsCertificationsAndRoles}" />
 					</h:selectOneMenu>
 					<rich:message for="certificacion" />
-					<h:outputText value="#{mensajeLifeCycle.activity_names_label}"
+					<h:outputText value="#{messageLifeCycle.activity_names_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="actividad"
@@ -79,10 +79,10 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeLifeCycle.activities_certifications_label_certifications}:" />
+							value="#{messageLifeCycle.activities_certifications_label_certifications}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(activitiesAndCertificationsAction.itemsCertificationsAndRoles, activitiesAndCertificationsAction.certificationsAndRoles.idCertificactionsAndRoles)}" />
-						<h:outputText value="#{mensajeLifeCycle.activity_names_label}:" />
+						<h:outputText value="#{messageLifeCycle.activity_names_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(activitiesAndCertificationsAction.itemsActivities, activitiesAndCertificationsAction.activityNames.idActivityName)}" />
 					</ui:define>

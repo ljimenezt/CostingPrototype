@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="certificationsAndRolesAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeRecursosHumanos.certifications_and_roles_label_s" />
+		value="mensaje.label_gestionar,messageHumanResources.certifications_and_roles_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{certificationsAndRolesAction}" />
@@ -36,7 +36,7 @@
 
 		<h:form id="formCertificationsAndRoles">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeRecursosHumanos.certifications_and_roles_label_s}"
+				header="#{mensaje.label_listado_de} #{messageHumanResources.certifications_and_roles_label_s}"
 				id="panelCertificationsAndRoles">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -120,7 +120,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="400"
-				header="#{mensaje.button_search} #{mensajeRecursosHumanos.certifications_and_roles_label_s}"
+				header="#{mensaje.button_search} #{messageHumanResources.certifications_and_roles_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

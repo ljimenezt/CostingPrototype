@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="paymentsAction.addEditPayments(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeRecursosHumanos.contract_label" />
+		value="mensaje.label_registrar,messageHumanResources.contract_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -26,7 +26,7 @@
 		<t:saveState value="#{hrAction}" />
 		<h:form id="formPayments">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeRecursosHumanos.payments_label}"
+				header="#{mensaje.label_registrar} #{messageHumanResources.payments_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarPayments">
 				<h:panelGrid columns="2" columnClasses="W70Per,W30Per tdAlignTop">
 					<h:panelGrid columns="4"
@@ -34,7 +34,7 @@
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop,,,tdAlignTop">
 						<h:outputText
-							value="#{mensajeRecursosHumanos.human_resource_label}"
+							value="#{messageHumanResources.human_resource_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
@@ -71,7 +71,7 @@
 						</h:panelGrid>
 						<rich:message for="txtHrs" />
 
-						<h:outputText value="#{mensajeRecursosHumanos.contract_label}"
+						<h:outputText value="#{messageHumanResources.contract_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
@@ -179,7 +179,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupContrato" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{mensajeRecursosHumanos.contract_label_s}">
+				header="#{mensaje.label_listado_de} #{messageHumanResources.contract_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -237,7 +237,7 @@
 								rowClasses="odd-row, even-row">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensajeRecursosHumanos.contract_label_s}" />
+										value="#{messageHumanResources.contract_label_s}" />
 								</f:facet>
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header" />
@@ -293,7 +293,7 @@
 		<h:form id="popupFormHr">
 			<rich:popupPanel id="popupHR" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{mensajeRecursosHumanos.human_resource_label_s}">
+				header="#{mensaje.label_listado_de} #{messageHumanResources.human_resource_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -349,7 +349,7 @@
 								rowClasses="odd-row, even-row">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensajeRecursosHumanos.human_resource_label_s}" />
+										value="#{messageHumanResources.human_resource_label_s}" />
 								</f:facet>
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header" />

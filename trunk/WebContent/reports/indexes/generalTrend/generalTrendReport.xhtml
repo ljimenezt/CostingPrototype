@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="beanIndexGeneralTrend.initializeReport()" />
 	<ui:param name="titulo"
-		value="mensajeReports.reports_label_general_trend" />
+		value="messageReports.reports_label_general_trend" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -39,7 +39,7 @@
 				var data = new google.visualization.DataTable(jsonData);
 
 				var options = {
-					title : '#{mensajeReports.reports_label_general_trend}',
+					title : '#{messageReports.reports_label_general_trend}',
 					titleTextStyle : {
 						color : 'blue',
 						fontSize : 18,
@@ -54,7 +54,7 @@
 						gridlines : {
 							count : 5
 						},
-						title : '#{mensajeReports.reports_label_cycle_number}',
+						title : '#{messageReports.reports_label_cycle_number}',
 						titleTextStyle : {
 							color : 'black',
 							fontSize : 9,
@@ -69,7 +69,7 @@
 						gridlines : {
 							count : 7
 						},
-						title : '#{mensajeReports.reports_label_bean_index_grams}',
+						title : '#{messageReports.reports_label_bean_index_grams}',
 						titleTextStyle : {
 							color : 'black',
 							fontSize : 9,
@@ -94,7 +94,7 @@
 		<t:saveState value="#{beanIndexFiltersAction}" />
 		<t:saveState value="#{generalTrendAction}" />
 		<h:form id="generalTrendForm">
-			<rich:panel header="#{mensajeReports.reports_label_general_trend}"
+			<rich:panel header="#{messageReports.reports_label_general_trend}"
 				styleClass="anchoUno MinH253P" id="panelReporteGeneralTrend">
 				<ui:include src="/reports/indexes/templateSelectCrop.xhtml">
 					<ui:param name="callChart" value="callChartGeneralTrend()" />

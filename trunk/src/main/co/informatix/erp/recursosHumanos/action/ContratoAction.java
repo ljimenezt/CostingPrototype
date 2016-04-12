@@ -149,7 +149,7 @@ public class ContratoAction implements Serializable {
 	public String searchContracts() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		String inModal = ControladorContexto.getParam("param2");

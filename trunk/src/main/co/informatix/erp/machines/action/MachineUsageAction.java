@@ -327,7 +327,7 @@ public class MachineUsageAction implements Serializable {
 	public String consultMachineUsage() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listMachineUsage = new ArrayList<MachineUsage>();
@@ -417,7 +417,7 @@ public class MachineUsageAction implements Serializable {
 	 * activity machine.
 	 */
 	public void calculateMachinesActivities() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensajeMachine");
+		ResourceBundle bundle = ControladorContexto.getBundle("messageMachine");
 		try {
 			listActivityMachineUnique = new ArrayList<ActivityMachine>();
 			if (machineActivityNonDuration()) {
@@ -524,7 +524,7 @@ public class MachineUsageAction implements Serializable {
 	 */
 	public void saveAllocateDepretiation() {
 		ResourceBundle bundleMachine = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		listMachineUsage = new ArrayList<MachineUsage>();
 		String registerMessage = "message_registro_modificar";
@@ -569,7 +569,7 @@ public class MachineUsageAction implements Serializable {
 	public void saveAllocateIsurance() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachine = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		listMachineUsage = new ArrayList<MachineUsage>();
 		String registerMessage = "message_registro_modificar";
 		try {
@@ -609,7 +609,7 @@ public class MachineUsageAction implements Serializable {
 	public void saveAllocateMaintenance() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachine = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		listMachineUsage = new ArrayList<MachineUsage>();
 		String registerMessage = "message_registro_modificar";
 		try {

@@ -13,10 +13,10 @@
 		<a:outputPanel id="outPutBuscarPersonas">
 			<t:fieldset styleClass="BorderW2P">
 				<legend class="etiquetaTitulo">#{mensaje.label_buscar}
-					#{mensajeRecursosHumanos.person_label_s}</legend>
+					#{messageHumanResources.person_label_s}</legend>
 				<h:panelGrid columns="3" cellpadding="7">
 					<h:outputText
-						value="#{mensajeRecursosHumanos.person_message_consult_name_surname_identification}"
+						value="#{messageHumanResources.person_message_consult_name_surname_identification}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="30" maxlength="100" id="txtNombreBuscarPersona"
 						value="#{personaAction.searchFilter}"
@@ -61,7 +61,7 @@
 					rowClasses="odd-row, even-row">
 					<f:facet name="header">
 						<h:outputText
-							value="#{mensajeRecursosHumanos.person_label_list}" />
+							value="#{messageHumanResources.person_label_list}" />
 					</f:facet>
 					<rich:column styleClass="colIconoUno">
 						<f:facet name="header" />

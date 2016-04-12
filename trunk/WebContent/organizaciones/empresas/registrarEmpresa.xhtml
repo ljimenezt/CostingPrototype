@@ -59,12 +59,12 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeOrganizaciones.company_label_message_confirmation}"
+							value="#{messageOrganizations.company_label_message_confirmation}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
 
-						<h:outputText value="#{mensajeOrganizaciones.organization_label}:" />
+						<h:outputText value="#{messageOrganizations.organization_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(empresaAction.itemsOrganizaciones,empresaAction.empresa.organizacion.id)}" />
 
@@ -89,16 +89,16 @@
 						<h:outputText value="#{mensaje.label_movil}:" />
 						<h:outputText value="#{empresaAction.empresa.movil}" />
 
-						<h:outputText value="#{mensajeInformacionBase.country_label}:" />
+						<h:outputText value="#{messageBaseInformation.country_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(empresaAction.itemsPaises,empresaAction.empresa.pais.id)}" />
 
 						<h:outputText
-							value="#{mensajeInformacionBase.department_label}:" />
+							value="#{messageBaseInformation.department_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(empresaAction.itemDepartamentos,empresaAction.empresa.departamento.id)}" />
 
-						<h:outputText value="#{mensajeInformacionBase.municipality_label}:" />
+						<h:outputText value="#{messageBaseInformation.municipality_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(empresaAction.itemsMunicipios,empresaAction.empresa.municipio.id)}" />
 					</ui:define>

@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="maintenanceLinesAction.addEditMaintenanceLines(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeMachine.maintenance_lines_label" />
+		value="mensaje.label_registrar,messageMachine.maintenance_lines_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -32,7 +32,7 @@
 		<t:saveState value="#{maintenanceLinesAction}" />
 		<h:form id="formMaintenanceLines">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeMachine.maintenance_lines_label}"
+				header="#{mensaje.label_registrar} #{messageMachine.maintenance_lines_label}"
 				styleClass="anchoUno MinH253P" id="panelMaintenanceLines">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -40,7 +40,7 @@
 					columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 
 					<h:outputText
-						value="#{mensajeMachine.maintenance_lines_label_machine_name}"
+						value="#{messageMachine.maintenance_lines_label_machine_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="maquina"
@@ -57,7 +57,7 @@
 					<rich:message for="maquina" />
 
 					<h:outputText
-						value="#{mensajeMachine.maintenance_calibration_label}"
+						value="#{messageMachine.maintenance_calibration_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="cmbFechaMaquina"
@@ -82,10 +82,10 @@
 					<rich:message for="txaDescription" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeMachine.maintenance_lines_label_budget_cost}" />
+						value="#{messageMachine.maintenance_lines_label_budget_cost}" />
 					<h:outputText value="" />
 					<h:inputText
-						label="#{mensajeMachine.maintenance_lines_label_budget_cost}"
+						label="#{messageMachine.maintenance_lines_label_budget_cost}"
 						value="#{maintenanceLinesAction.maintenanceLines.costBudget}"
 						styleClass="colNumero" id="txtTotalCostBudget"
 						converterMessage="#{mensaje.message_juego_caracter_numeros}">
@@ -94,10 +94,10 @@
 					<rich:message for="txtTotalCostBudget" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeMachine.maintenance_lines_label_current_cost}" />
+						value="#{messageMachine.maintenance_lines_label_current_cost}" />
 					<h:outputText value="" />
 					<h:inputText
-						label="#{mensajeMachine.maintenance_lines_label_current_cost}"
+						label="#{messageMachine.maintenance_lines_label_current_cost}"
 						value="#{maintenanceLinesAction.maintenanceLines.costActual}"
 						styleClass="colNumero" id="txtCostActual"
 						converterMessage="#{mensaje.message_juego_caracter_numeros}">
@@ -136,25 +136,25 @@
 					<ui:define name="campos">
 
 						<h:outputText
-							value="#{mensajeMachine.maintenance_lines_label_machine_name}:" />
+							value="#{messageMachine.maintenance_lines_label_machine_name}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(maintenanceLinesAction.machineOptions,maintenanceLinesAction.maintenanceLines.machines.idMachine)}" />
 						<h:outputText
-							value="#{mensajeMachine.maintenance_calibration_label}:" />
+							value="#{messageMachine.maintenance_calibration_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(maintenanceLinesAction.machineOptions,maintenanceLinesAction.maintenanceLines.maintenanceAndCalibration.idMaintenance)}" />
 						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
 							value="#{maintenanceLinesAction.maintenanceLines.description}" />
 						<h:outputText
-							value="#{mensajeMachine.maintenance_lines_label_budget_cost}:" />
+							value="#{messageMachine.maintenance_lines_label_budget_cost}:" />
 						<h:outputText
 							value="#{maintenanceLinesAction.maintenanceLines.costBudget}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:outputText>
 						<h:outputText
-							value="#{mensajeMachine.maintenance_lines_label_current_cost}:" />
+							value="#{messageMachine.maintenance_lines_label_current_cost}:" />
 						<h:outputText
 							value="#{maintenanceLinesAction.maintenanceLines.costActual}">
 							<f:convertNumber maxFractionDigits="2" type="currency"

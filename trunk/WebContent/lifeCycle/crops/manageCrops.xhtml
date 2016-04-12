@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="cropsAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeLifeCycle.crops_label_s" />
+		value="mensaje.label_gestionar,messageLifeCycle.crops_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{cropsAction}" />
 		<ui:param name="listaVacia"
@@ -32,14 +32,14 @@
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
 		<h:form id="fromCrops">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeLifeCycle.crops_label_s}"
+				header="#{mensaje.label_listado_de} #{messageLifeCycle.crops_label_s}"
 				id="panelCrops">
 				<br />
 				<h:panelGrid columns="3"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
-					<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
+					<h:outputText value="#{messageLifeCycle.crop_names_label}"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="cropName" value="#{cropsAction.nameCrop}"
 						styleClass="colTextoMediano" required="true">
@@ -71,14 +71,14 @@
 						</a:outputPanel>
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeLifeCycle.crops_label}</f:facet>
+						<f:facet name="header">#{messageLifeCycle.crops_label}</f:facet>
 						<h:commandLink value="#{crops.description}"
 							action="#{cropsAction.addEditCrops(crops)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeLifeCycle.crop_names_label_s}</f:facet>
+						<f:facet name="header">#{messageLifeCycle.crop_names_label_s}</f:facet>
 						<h:outputText value="#{crops.cropNames.cropName}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
@@ -128,7 +128,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="400"
-				header="#{mensaje.button_search} #{mensajeLifeCycle.crops_label_s}"
+				header="#{mensaje.button_search} #{messageLifeCycle.crops_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

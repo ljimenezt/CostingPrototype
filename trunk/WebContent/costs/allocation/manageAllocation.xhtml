@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="allocationAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeCosts.allocation_label_s" />
+		value="mensaje.label_gestionar,messageCosts.allocation_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{allocationAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formAllocation">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeCosts.allocation_label_s}"
+				header="#{mensaje.label_listado_de} #{messageCosts.allocation_label_s}"
 				id="panelAllocation">
 				<rich:message for="tablaAllocation" styleClass="messageInfSpanMsg" />
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
@@ -92,7 +92,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeCosts.allocation_label_s}"
+				header="#{mensaje.button_search} #{messageCosts.allocation_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

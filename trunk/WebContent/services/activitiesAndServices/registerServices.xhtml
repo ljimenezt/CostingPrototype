@@ -38,16 +38,16 @@
 			<rich:panel header="#{mensajeMenu.associate_cycles_label_register}"
 				styleClass="anchoUno MinH253P" id="panelServices">
 				<t:fieldset id="cropInfo">
-					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
+					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label}</legend>
 					<h:panelGrid columns="2" rowClasses="alignTop"
 						columnClasses="columnaIzquierda, columnaDerecha">
-						<h:outputText value="#{mensajeLifeCycle.crop_names_label} :" />
+						<h:outputText value="#{messageLifeCycle.crop_names_label} :" />
 						<h:outputText
 							value="#{activitiesAndServicesAction.crops.cropNames.cropName}" />
 						<h:outputText value="#{mensaje.label_description} :" />
 						<h:outputText
 							value="#{activitiesAndServicesAction.crops.description}" />
-						<h:outputText value="#{mensajeCosts.activities_label} :" />
+						<h:outputText value="#{messageCosts.activities_label} :" />
 						<h:outputText
 							value="#{activitiesAndServicesAction.activities.activityName.activityName}" />
 					</h:panelGrid>
@@ -75,7 +75,7 @@
 							columnClasses="tdAlignTop,,,tdAlignTop">
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeServices.service_type_label}" />
+								value="#{messageServices.service_type_label}" />
 							<h:outputText value="*" styleClass="required" />
 							<h:selectOneMenu value="#{varServices.serviceType.idServiceType}"
 								id="cmbServiceType" required="true"
@@ -155,7 +155,7 @@
 							<rich:message for="txtDurationActual" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeRecursosHumanos.human_resource_label_hour_cost} #{mensaje.label_presupuesto}" />
+								value="#{messageHumanResources.human_resource_label_hour_cost} #{mensaje.label_presupuesto}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.hourCostBudget}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
@@ -165,7 +165,7 @@
 							<rich:message for="txtCostHourBudget" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeRecursosHumanos.human_resource_label_hour_cost} #{mensaje.label_actual}" />
+								value="#{messageHumanResources.human_resource_label_hour_cost} #{mensaje.label_actual}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.hourCostActual}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
@@ -245,13 +245,13 @@
 					</ui:define>
 
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crop_names_label}:" />
+						<h:outputText value="#{messageLifeCycle.crop_names_label}:" />
 						<h:outputText
 							value="#{activitiesAndServicesAction.crops.cropNames.cropName}" />
 						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
 							value="#{activitiesAndServicesAction.crops.description}" />
-						<h:outputText value="#{mensajeCosts.activities_label}:" />
+						<h:outputText value="#{messageCosts.activities_label}:" />
 						<h:outputText
 							value="#{activitiesAndServicesAction.activities.activityName.activityName}" />
 					</ui:define>

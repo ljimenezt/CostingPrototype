@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="activityNamesAction.addModifyActivityNames(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeLifeCycle.activity_names_label" />
+		value="mensaje.label_registrar,messageLifeCycle.activity_names_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -31,7 +31,7 @@
 		<t:saveState value="#{activityNamesAction}" />
 		<h:form id="formActivityNames">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeLifeCycle.activity_names_label}"
+				header="#{mensaje.label_registrar} #{messageLifeCycle.activity_names_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarActivityNames">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="beanIndexAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeBeanIndex.bean_index_label_s" />
+		value="mensaje.label_gestionar,messageBeanIndex.bean_index_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{beanIndexAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formBeanIndex">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeBeanIndex.bean_index_label_s}"
+				header="#{mensaje.label_listado_de} #{messageBeanIndex.bean_index_label_s}"
 				id="pnlBeanIndex">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -57,28 +57,28 @@
 						</a:outputPanel>
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeLifeCycle.crops_label}</f:facet>
+						<f:facet name="header">#{messageLifeCycle.crops_label}</f:facet>
 						<h:commandLink value="#{beanIndex.crops.description}"
 							action="#{beanIndexAction.addEditBeanIndex(beanIndex)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_section}</f:facet>
+						<f:facet name="header">#{messageBeanIndex.bean_index_label_section}</f:facet>
 						<h:outputText value="#{beanIndex.section.name}" />
 					</rich:column>
 					<rich:column styleClass="colNumeroLargo">
-						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_sample_weight}</f:facet>
+						<f:facet name="header">#{messageBeanIndex.bean_index_label_sample_weight}</f:facet>
 						<h:outputText value="#{beanIndex.sampleWeight}">
 							<f:convertNumber pattern="#,##0.00" />
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colNumero">
-						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_cycle_number}</f:facet>
+						<f:facet name="header">#{messageBeanIndex.bean_index_label_cycle_number}</f:facet>
 						<h:outputText value="#{beanIndex.cycleNumber}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensajeBeanIndex.bean_index_label_date}</f:facet>
+						<f:facet name="header">#{messageBeanIndex.bean_index_label_date}</f:facet>
 						<h:outputText value="#{beanIndex.dateBean}">
 							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
@@ -111,7 +111,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="400"
-				header="#{mensaje.button_search} #{mensajeBeanIndex.bean_index_label_s}"
+				header="#{mensaje.button_search} #{messageBeanIndex.bean_index_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -124,7 +124,7 @@
 				</f:facet>
 
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensajeLifeCycle.crops_label}:"
+					<h:outputText value="#{messageLifeCycle.crops_label}:"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="cmbCrops" value="#{beanIndexAction.crop}"
 						onkeypress="return submitByEnter(event, 'formBuscar:btnBuscar')">
@@ -132,7 +132,7 @@
 						<f:selectItems value="#{beanIndexAction.itemsCrops}" />
 					</h:selectOneMenu>
 
-					<h:outputText value="#{mensajeBeanIndex.bean_index_label_section}:"
+					<h:outputText value="#{messageBeanIndex.bean_index_label_section}:"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="cmbSection" value="#{beanIndexAction.section}"
 						onkeypress="return submitByEnter(event, 'formBuscar:btnBuscar')">
@@ -171,17 +171,17 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crops_label}:" />
+						<h:outputText value="#{messageLifeCycle.crops_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(beanIndexAction.itemsCrops,beanIndexAction.beanIndex.crops.idCrop)}" />
 						<h:outputText
-							value="#{mensajeBeanIndex.bean_index_label_section}:" />
+							value="#{messageBeanIndex.bean_index_label_section}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(beanIndexAction.itemsSection,beanIndexAction.beanIndex.section.idSection)}" />
 						<h:outputText
-							value="#{mensajeBeanIndex.bean_index_label_cycle_number}:" />
+							value="#{messageBeanIndex.bean_index_label_cycle_number}:" />
 						<h:outputText value="#{beanIndexAction.beanIndex.cycleNumber}" />
-						<h:outputText value="#{mensajeBeanIndex.bean_index_label_date}:" />
+						<h:outputText value="#{messageBeanIndex.bean_index_label_date}:" />
 						<h:outputText value="#{beanIndexAction.beanIndex.dateBean}" />
 					</ui:define>
 					<ui:define name="botones">

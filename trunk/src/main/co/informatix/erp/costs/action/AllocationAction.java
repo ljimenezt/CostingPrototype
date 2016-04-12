@@ -121,7 +121,7 @@ public class AllocationAction implements Serializable {
 	public String consultAllocation() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleRecursosHumanos = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listAllocation = new ArrayList<Allocation>();

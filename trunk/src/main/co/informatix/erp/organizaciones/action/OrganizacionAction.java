@@ -348,7 +348,7 @@ public class OrganizacionAction implements Serializable {
 	public String consultarOrganizaciones() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleOrg = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		String mensajeBusqueda = "";
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);

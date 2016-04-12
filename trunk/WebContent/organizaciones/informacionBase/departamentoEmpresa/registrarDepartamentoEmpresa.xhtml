@@ -31,7 +31,7 @@
 		<t:saveState value="#{departamentoEmpresaAction}" />
 		<h:form id="frmDepartamento" prependId="false">
 			<rich:panel id="panelFrmDepartamento" styleClass="anchoUno MinH253P"
-				header="#{departamentoEmpresaAction.departamentoEmpresa.id eq null ? mensajeOrganizaciones.department_company_label_register : mensajeOrganizaciones.department_company_label_modify}">
+				header="#{departamentoEmpresaAction.departamentoEmpresa.id eq null ? messageOrganizations.department_company_label_register : messageOrganizations.department_company_label_modify}">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}:</legend>
 					<h:panelGrid id="tablaFrmDepartamento" columns="4" cellpadding="5"
@@ -63,7 +63,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensajeRecursosHumanos.tipo_cargo_label_s}</legend>
+					<legend class="etiquetaTitulo">#{messageHumanResources.tipo_cargo_label_s}</legend>
 					<a:outputPanel id="panelTiposCargo">
 						<h:panelGrid columns="2" columnClasses="top,top">
 							<rich:extendedDataTable
@@ -71,7 +71,7 @@
 								var="tipoCargo" styleClass="H190P W350P" selectionMode="none">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensajeRecursosHumanos.tipo_cargo_label_disponibles}" />
+										value="#{messageHumanResources.tipo_cargo_label_disponibles}" />
 								</f:facet>
 								<rich:column width="300px" styleClass="top">
 									<f:facet name="header">#{mensaje.label_name}</f:facet>
@@ -110,7 +110,7 @@
 								styleClass="H190P W350P" selectionMode="none">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensajeRecursosHumanos.tipo_cargo_label_seleccionados}" />
+										value="#{messageHumanResources.tipo_cargo_label_seleccionados}" />
 								</f:facet>
 								<rich:column width="30px" styleClass="center top">
 									<f:facet name="header">

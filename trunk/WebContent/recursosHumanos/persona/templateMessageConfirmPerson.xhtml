@@ -45,7 +45,7 @@
 						rendered="#{personaAction.person.genero eq 'm'}" />
 
 					<h:outputText
-						value="#{mensajeRecursosHumanos.person_label_date_birth} :" />
+						value="#{messageHumanResources.person_label_date_birth} :" />
 					<h:outputText value="#{personaAction.person.fechaNacimiento}">
 						<f:convertDateTime pattern="MMM dd, yyyy"
 							locale="#{idioma.locale}" />
@@ -66,13 +66,13 @@
 					<h:outputText value="#{mensaje.label_email}:" />
 					<h:outputText value="#{personaAction.person.correo}" />
 
-					<h:outputText value="#{mensajeInformacionBase.country_label}:" />
+					<h:outputText value="#{messageBaseInformation.country_label}:" />
 					<h:outputText
 						value="#{validacionesAction.getLabel(personaAction.itemsCountries,personaAction.person.paisNac.id)}" />
-					<h:outputText value="#{mensajeInformacionBase.department_label}:" />
+					<h:outputText value="#{messageBaseInformation.department_label}:" />
 					<h:outputText
 						value="#{validacionesAction.getLabel(personaAction.itemDepartments,personaAction.person.departamentoNac.id)}" />
-					<h:outputText value="#{mensajeInformacionBase.municipality_label}:" />
+					<h:outputText value="#{messageBaseInformation.municipality_label}:" />
 					<h:outputText
 						value="#{validacionesAction.getLabel(personaAction.itemsMunicipalities,personaAction.person.municipioNac.id)}" />
 				</ui:define>

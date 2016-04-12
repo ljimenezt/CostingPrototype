@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="unitConversionAction.addEditUnitConversion(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeInformacionBase.unit_conversion_label" />
+		value="mensaje.label_registrar,messageBaseInformation.unit_conversion_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -22,7 +22,7 @@
 		<t:saveState value="#{unitConversionAction}" />
 		<h:form id="formUnitConversion">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeInformacionBase.unit_conversion_label}"
+				header="#{mensaje.label_registrar} #{messageBaseInformation.unit_conversion_label}"
 				styleClass="anchoUno MinH253P" id="panelRegisterTypeUnit">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -30,7 +30,7 @@
 					columnClasses="tdAlignTop,,,tdAlignTop">
 
 					<h:outputText
-						value="#{mensajeInformacionBase.unit_conversion_original_unit}"
+						value="#{messageBaseInformation.unit_conversion_original_unit}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="originalUnit"
@@ -45,7 +45,7 @@
 					<rich:message for="originalUnit" />
 
 					<h:outputText
-						value="#{mensajeInformacionBase.unit_conversion_final_unit}"
+						value="#{messageBaseInformation.unit_conversion_final_unit}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="finalUnit"
@@ -59,7 +59,7 @@
 					<rich:message for="finalUnit" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeInformacionBase.unit_conversion_factor}" />
+						value="#{messageBaseInformation.unit_conversion_factor}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText
 						value="#{unitConversionAction.unitConversion.conversionFactor}"
@@ -99,13 +99,13 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeInformacionBase.unit_conversion_original_unit}:" />
+							value="#{messageBaseInformation.unit_conversion_original_unit}:" />
 						<h:outputText value="#{unitConversionAction.originalUnitName}" />
 						<h:outputText
-							value="#{mensajeInformacionBase.unit_conversion_final_unit}:" />
+							value="#{messageBaseInformation.unit_conversion_final_unit}:" />
 						<h:outputText value="#{unitConversionAction.finalUnitName}" />
 						<h:outputText
-							value="#{mensajeInformacionBase.unit_conversion_factor}:" />
+							value="#{messageBaseInformation.unit_conversion_factor}:" />
 						<h:outputText
 							value="#{unitConversionAction.unitConversion.conversionFactor}" />
 					</ui:define>

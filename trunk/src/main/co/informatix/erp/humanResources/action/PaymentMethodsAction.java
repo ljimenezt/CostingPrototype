@@ -122,7 +122,7 @@ public class PaymentMethodsAction implements Serializable {
 	public String searchPaymentMethods() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle paymentMethodsmBundle = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		paymentMethodsList = new ArrayList<PaymentMethods>();

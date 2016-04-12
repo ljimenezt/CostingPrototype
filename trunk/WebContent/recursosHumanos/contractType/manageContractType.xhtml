@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="contractTypeAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeRecursosHumanos.contract_type_label" />
+		value="mensaje.label_gestionar,messageHumanResources.contract_type_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{contractTypeAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formContractType">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeRecursosHumanos.contract_type_label}"
+				header="#{mensaje.label_listado_de} #{messageHumanResources.contract_type_label}"
 				id="panelContractType">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -109,7 +109,7 @@
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
 					<h:outputText
-						value="#{mensajeRecursosHumanos.contract_type_label_name}:"
+						value="#{messageHumanResources.contract_type_label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar" value="#{contractTypeAction.nameSearch}"

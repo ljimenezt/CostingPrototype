@@ -133,7 +133,7 @@ public class MachineTypesAction implements Serializable {
 	public String consultMachineTypes() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listMachineTypes = new ArrayList<MachineTypes>();

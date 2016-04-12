@@ -290,7 +290,7 @@ public class MachinesAction implements Serializable {
 	public String consultMachines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listMachines = new ArrayList<Machines>();

@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="hrTypesAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeRecursosHumanos.human_resource_type_label" />
+		value="mensaje.label_gestionar,messageHumanResources.human_resource_type_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{hrTypesAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formHrTypes">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeRecursosHumanos.human_resource_type_label}"
+				header="#{mensaje.label_listado_de} #{messageHumanResources.human_resource_type_label}"
 				id="panelHrTypes">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -56,7 +56,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeRecursosHumanos.human_resource_type_label_name}</f:facet>
+						<f:facet name="header">#{messageHumanResources.human_resource_type_label_name}</f:facet>
 						<h:commandLink value="#{hrTypes.name}"
 							action="#{hrTypesAction.addEditHrTypes(hrTypes)}"
 							onclick="#{rich:component('statPane')}.show();">
@@ -95,7 +95,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeRecursosHumanos.human_resource_type_label}"
+				header="#{mensaje.button_search} #{messageHumanResources.human_resource_type_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -108,7 +108,7 @@
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
 					<h:outputText
-						value="#{mensajeRecursosHumanos.human_resource_type_label_name}:"
+						value="#{messageHumanResources.human_resource_type_label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar" value="#{hrTypesAction.nameSearch}"

@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="cycleStandardActivitiesAction.addEditCycleStandardActivities(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeCosts.cycle_standard_activities_label" />
+		value="mensaje.label_registrar,messageCosts.cycle_standard_activities_label" />
 	<ui:define name="body">
 		<t:saveState value="#{cycleStandardActivitiesAction}" />
 		<script type="text/javascript"
@@ -22,13 +22,13 @@
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<h:form id="formInicio">
 			<rich:panel
-				header="#{mensajeCosts.cycle_standard_activities_label_define}"
+				header="#{messageCosts.cycle_standard_activities_label_define}"
 				styleClass="anchoUno MinH253P" id="panelCycleStandardActivities">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
-					<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
+					<h:outputText value="#{messageLifeCycle.crop_names_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" styleClass="required" />
 					<h:selectOneMenu id="cropName"
@@ -56,7 +56,7 @@
 								<h:graphicImage value="/img/add_16.png"
 									styleClass="verticalAlignMiddle" />
 								<h:outputText
-									value="#{mensajeCosts.cycle_standard_activities_label_add_activity}" />
+									value="#{messageCosts.cycle_standard_activities_label_add_activity}" />
 							</h:panelGrid>
 							<rich:tooltip layout="block">
 								<h:outputText value="#{mensaje.label_select}" />
@@ -97,41 +97,41 @@
 							</a:commandLink>
 						</rich:column>
 						<rich:column styleClass="colTextoCorto center">
-							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_hr}</f:facet>
+							<f:facet name="header">#{messageCosts.cycle_standard_activities_label_hr}</f:facet>
 							<h:graphicImage value="/img/okPermiso_16.png"
 								rendered="#{cycleStandardActivities.hrRequired eq true}" />
 						</rich:column>
 
 						<rich:column styleClass="colTextoCorto center">
-							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_machine}</f:facet>
+							<f:facet name="header">#{messageCosts.cycle_standard_activities_label_machine}</f:facet>
 							<h:graphicImage value="/img/okPermiso_16.png"
 								rendered="#{cycleStandardActivities.machineRequired eq true}" />
 						</rich:column>
 
 						<rich:column styleClass="colTextoCorto center">
-							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_service}</f:facet>
+							<f:facet name="header">#{messageCosts.cycle_standard_activities_label_service}</f:facet>
 							<h:graphicImage value="/img/okPermiso_16.png"
 								rendered="#{cycleStandardActivities.serviceRequired eq true}" />
 						</rich:column>
 
 						<rich:column styleClass="colTextoCorto center">
-							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_materials}</f:facet>
+							<f:facet name="header">#{messageCosts.cycle_standard_activities_label_materials}</f:facet>
 							<h:graphicImage value="/img/okPermiso_16.png"
 								rendered="#{cycleStandardActivities.materialsRequired eq true}" />
 						</rich:column>
 
 						<rich:column styleClass="colTextoCorto">
-							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_num_sequence}</f:facet>
+							<f:facet name="header">#{messageCosts.cycle_standard_activities_label_num_sequence}</f:facet>
 							<h:outputText value="#{cycleStandardActivities.sequenceNumber}" />
 						</rich:column>
 
 						<rich:column styleClass="colTextoCorto">
-							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_duration}</f:facet>
+							<f:facet name="header">#{messageCosts.cycle_standard_activities_label_duration}</f:facet>
 							<h:outputText value="#{cycleStandardActivities.duration}" />
 						</rich:column>
 
 						<rich:column styleClass="colTextoCorto center">
-							<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_dangerous}</f:facet>
+							<f:facet name="header">#{messageCosts.cycle_standard_activities_label_dangerous}</f:facet>
 							<h:graphicImage value="/img/peligroso_19.png"
 								rendered="#{cycleStandardActivities.dangerous eq true}" />
 						</rich:column>
@@ -165,7 +165,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupActivityNames" autosized="true"
 				domElementAttachment="form"
-				header="#{mensajeLifeCycle.activity_names_label_s}">
+				header="#{messageLifeCycle.activity_names_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -179,7 +179,7 @@
 					<a:outputPanel id="outPutBuscarActivityNames">
 						<t:fieldset styleClass="BorderW2P">
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
-								#{mensajeLifeCycle.activity_names_label_s}</legend>
+								#{messageLifeCycle.activity_names_label_s}</legend>
 							<h:panelGrid columns="3">
 								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
@@ -273,7 +273,7 @@
 		<h:form id="popupFormReg">
 			<rich:popupPanel id="popupRegCycle" autosized="true"
 				domElementAttachment="form" minWidth="250"
-				header="#{mensajeCosts.cycle_standard_activities_register}">
+				header="#{messageCosts.cycle_standard_activities_register}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -293,7 +293,7 @@
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.hrRequired}"
 								id="txtHr" />
 							<h:outputText
-								value="#{mensajeCosts.cycle_standard_activities_label_hr}"
+								value="#{messageCosts.cycle_standard_activities_label_hr}"
 								styleClass="etiquetaTitulo" />
 							<rich:message for="txtHr" />
 
@@ -301,28 +301,28 @@
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.machineRequired}"
 								id="txtMachine" />
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeCosts.cycle_standard_activities_label_machine}" />
+								value="#{messageCosts.cycle_standard_activities_label_machine}" />
 							<rich:message for="txtMachine" />
 
 							<h:selectBooleanCheckbox styleClass="marginCheckbox"
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.serviceRequired}"
 								id="txtService" />
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeCosts.cycle_standard_activities_label_service}" />
+								value="#{messageCosts.cycle_standard_activities_label_service}" />
 							<rich:message for="txtService" />
 
 							<h:selectBooleanCheckbox styleClass="marginCheckbox"
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.materialsRequired}"
 								id="txtMaterials" />
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeCosts.cycle_standard_activities_label_materials}" />
+								value="#{messageCosts.cycle_standard_activities_label_materials}" />
 							<rich:message for="txtMaterials" />
 
 							<h:selectBooleanCheckbox styleClass="marginCheckbox"
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.dangerous}"
 								id="txtDange" />
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeCosts.cycle_standard_activities_label_dangerous}" />
+								value="#{messageCosts.cycle_standard_activities_label_dangerous}" />
 							<rich:message for="txtDange" />
 						</h:panelGrid>
 						<br />
@@ -331,10 +331,10 @@
 							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 							columnClasses="left,">
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeCosts.cycle_standard_activities_label_num_sequence}" />
+								value="#{messageCosts.cycle_standard_activities_label_num_sequence}" />
 							<h:outputText value="" />
 							<h:inputText
-								label="#{mensajeCosts.cycle_standard_activities_label_num_sequence}"
+								label="#{messageCosts.cycle_standard_activities_label_num_sequence}"
 								converterMessage="#{mensaje.message_campo_positivo}"
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.sequenceNumber}"
 								styleClass="colNumeroLargo MP0" id="txtSecNum">
@@ -346,10 +346,10 @@
 							<br />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeCosts.cycle_standard_activities_label_duration}" />
+								value="#{messageCosts.cycle_standard_activities_label_duration}" />
 							<h:outputText value="" />
 							<h:inputText
-								label="#{mensajeCosts.cycle_standard_activities_label_duration}"
+								label="#{messageCosts.cycle_standard_activities_label_duration}"
 								converterMessage="#{mensaje.message_campo_positivo}"
 								value="#{cycleStandardActivitiesAction.cycleStandardActivities.duration}"
 								styleClass="colNumeroLargo MP0" id="txtDuration">
@@ -424,31 +424,31 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_hr}:" />
+							value="#{messageCosts.cycle_standard_activities_label_hr}:" />
 						<h:outputText
 							value="#{cycleStandardActivitiesAction.cycleStandardActivities.hrRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_machine}:" />
+							value="#{messageCosts.cycle_standard_activities_label_machine}:" />
 						<h:outputText
 							value="#{cycleStandardActivitiesAction.cycleStandardActivities.machineRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_service}:" />
+							value="#{messageCosts.cycle_standard_activities_label_service}:" />
 						<h:outputText
 							value="#{cycleStandardActivitiesAction.cycleStandardActivities.serviceRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_materials}:" />
+							value="#{messageCosts.cycle_standard_activities_label_materials}:" />
 						<h:outputText
 							value="#{cycleStandardActivitiesAction.cycleStandardActivities.materialsRequired eq true ? mensaje.label_si : mensaje.label_no}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_num_sequence}:" />
+							value="#{messageCosts.cycle_standard_activities_label_num_sequence}:" />
 						<h:outputText
 							value="#{cycleStandardActivitiesAction.cycleStandardActivities.sequenceNumber}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_duration}:" />
+							value="#{messageCosts.cycle_standard_activities_label_duration}:" />
 						<h:outputText
 							value="#{cycleStandardActivitiesAction.cycleStandardActivities.duration}" />
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_label_dangerous}:" />
+							value="#{messageCosts.cycle_standard_activities_label_dangerous}:" />
 						<h:outputText
 							value="#{cycleStandardActivitiesAction.cycleStandardActivities.dangerous eq true ? mensaje.label_si : mensaje.label_no}" />
 					</ui:define>
@@ -480,7 +480,7 @@
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
 						<h:outputText
-							value="#{mensajeCosts.cycle_standard_activities_remove}"
+							value="#{messageCosts.cycle_standard_activities_remove}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 

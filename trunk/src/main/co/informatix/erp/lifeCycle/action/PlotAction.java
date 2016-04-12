@@ -275,7 +275,7 @@ public class PlotAction implements Serializable {
 	public String consultPlots() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listPlots = new ArrayList<Plot>();
@@ -581,7 +581,7 @@ public class PlotAction implements Serializable {
 				.getContextBean(ValidacionesAction.class);
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		CropsAction crops = ControladorContexto
 				.getContextBean(CropsAction.class);

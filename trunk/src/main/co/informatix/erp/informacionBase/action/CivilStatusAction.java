@@ -122,7 +122,7 @@ public class CivilStatusAction implements Serializable {
 	public String consultCivilStatus() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleGeneral = ControladorContexto
-				.getBundle("mensajeInformacionBase");
+				.getBundle("messageBaseInformation");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listCivilStatus = new ArrayList<CivilStatus>();

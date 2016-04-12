@@ -11,14 +11,14 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="tipoCargoAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensajeRecursosHumanos.tipo_cargo_label_listado" />
+		value="messageHumanResources.tipo_cargo_label_listado" />
 	<ui:define name="body">
 		<h:form id="frmGestionarTipoCargo">
 			<t:saveState value="#{tipoCargoAction}" />
 			<ui:param name="listaVacia"
 				value="#{tipoCargoAction.listaTiposCargo eq null or (empty tipoCargoAction.listaTiposCargo)}" />
 			<rich:panel
-				header="#{mensajeRecursosHumanos.tipo_cargo_label_listado}"
+				header="#{messageHumanResources.tipo_cargo_label_listado}"
 				id="panelTipoCargo" styleClass="anchoUno MinH253P">
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
@@ -107,7 +107,7 @@
 						</c:choose>
 					</rich:column>
 					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensajeRecursosHumanos.tipo_cargo_label_funciones}</f:facet>
+						<f:facet name="header">#{messageHumanResources.tipo_cargo_label_funciones}</f:facet>
 						<h:outputText value="#{tipoCargo.funciones}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
@@ -226,7 +226,7 @@
 
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeRecursosHumanos.tipo_cargo_label_s}"
+				header="#{mensaje.button_search} #{messageHumanResources.tipo_cargo_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"

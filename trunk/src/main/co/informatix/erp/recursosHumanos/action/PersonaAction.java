@@ -398,13 +398,13 @@ public class PersonaAction implements Serializable {
 	 */
 	public String registerPerson(Persona person) {
 		ResourceBundle bundleRecHum = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		this.personsWithoutUser = false;
 		try {
 			fileUploadBean = new FileUploadBean();
 			if (person == null) {
 				labelRichPanel = bundleRecHum.getString("person_label_create");
-				messageMiga = "mensajeRecursosHumanos.person_label_create";
+				messageMiga = "messageHumanResources.person_label_create";
 				this.esEdicion = false;
 				this.person = new Persona();
 				this.uploadPhotoTemporal = true;
@@ -413,7 +413,7 @@ public class PersonaAction implements Serializable {
 				this.person = person;
 				labelRichPanel = bundleRecHum
 						.getString("person_label_edit");
-				messageMiga = "mensajeRecursosHumanos.person_label_edit";
+				messageMiga = "messageHumanResources.person_label_edit";
 				fileUploadBean.setFileName(person.getFoto());
 				this.uploadPhotoTemporal = false;
 			}
@@ -758,7 +758,7 @@ public class PersonaAction implements Serializable {
 	public String consultPersons() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleHumanResources = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		String inModal = ControladorContexto.getParam("param2");

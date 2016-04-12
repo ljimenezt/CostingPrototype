@@ -145,7 +145,7 @@ public class OvertimePaymentRateAction implements Serializable {
 	public String consultOvertimePaymentRate() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle messageRH = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listOvertimePayments = new ArrayList<OvertimePaymentRate>();

@@ -394,7 +394,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 	public String consultCycleStandarActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		cycleStandardsList = new ArrayList<CycleStandardActivities>();
@@ -479,7 +479,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 	public String searchActivityNames() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		activityNamesList = new ArrayList<ActivityNames>();

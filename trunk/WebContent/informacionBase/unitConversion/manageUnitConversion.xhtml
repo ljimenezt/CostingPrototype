@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="unitConversionAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeInformacionBase.unit_conversion_label_s" />
+		value="mensaje.label_gestionar,messageBaseInformation.unit_conversion_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{unitConversionAction}" />
@@ -35,7 +35,7 @@
 
 		<h:form id="formUnitConversion">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeInformacionBase.unit_conversion_label_s}"
+				header="#{mensaje.label_listado_de} #{messageBaseInformation.unit_conversion_label_s}"
 				id="panelUnitConversion">
 
 				<h:panelGrid columns="2"
@@ -43,7 +43,7 @@
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,">
 					<h:outputText
-						value="#{mensajeInformacionBase.unit_conversion_original_unit}"
+						value="#{messageBaseInformation.unit_conversion_original_unit}"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="originalUnitBuscar"
 						value="#{unitConversionAction.originalUnitIdSearch}"
@@ -80,7 +80,7 @@
 						</a:outputPanel>
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeInformacionBase.unit_conversion_original_unit} </f:facet>
+						<f:facet name="header">#{messageBaseInformation.unit_conversion_original_unit} </f:facet>
 						<h:commandLink
 							value="#{unitConversion.unitConversionPk.originalUnit.name}"
 							action="#{unitConversionAction.addEditUnitConversion(unitConversion)}"
@@ -89,14 +89,14 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header"> #{mensajeInformacionBase.unit_conversion_final_unit}</f:facet>
+						<f:facet name="header"> #{messageBaseInformation.unit_conversion_final_unit}</f:facet>
 						<h:outputText
 							value="#{unitConversion.unitConversionPk.finalUnit.name}">
 						</h:outputText>
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeInformacionBase.unit_conversion_factor}</f:facet>
+						<f:facet name="header">#{messageBaseInformation.unit_conversion_factor}</f:facet>
 						<h:outputText value="#{unitConversion.conversionFactor}" />
 					</rich:column>
 
@@ -127,7 +127,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="400"
-				header="#{mensaje.button_search} #{mensajeInformacionBase.unit_conversion_label}"
+				header="#{mensaje.button_search} #{messageBaseInformation.unit_conversion_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -143,7 +143,7 @@
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,">
 					<h:outputText
-						value="#{mensajeInformacionBase.unit_conversion_original_unit}"
+						value="#{messageBaseInformation.unit_conversion_original_unit}"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu
 						value="#{unitConversionAction.originalUnitIdSearch}"
@@ -152,7 +152,7 @@
 						<f:selectItems value="#{unitConversionAction.unitOptions}" />
 					</h:selectOneMenu>
 					<h:outputText
-						value="#{mensajeInformacionBase.unit_conversion_original_unit}"
+						value="#{messageBaseInformation.unit_conversion_original_unit}"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu value="#{unitConversionAction.finalUnitIdSearch}"
 						styleClass="colTextoMediano" required="false">
@@ -192,11 +192,11 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText
-							value="#{mensajeInformacionBase.unit_conversion_original_unit}:" />
+							value="#{messageBaseInformation.unit_conversion_original_unit}:" />
 						<h:outputText
 							value="#{unitConversionAction.unitConversion.unitConversionPk.originalUnit.name}" />
 						<h:outputText
-							value="#{mensajeInformacionBase.unit_conversion_final_unit}:" />
+							value="#{messageBaseInformation.unit_conversion_final_unit}:" />
 						<h:outputText
 							value="#{unitConversionAction.unitConversion.unitConversionPk.finalUnit.name}" />
 					</ui:define>

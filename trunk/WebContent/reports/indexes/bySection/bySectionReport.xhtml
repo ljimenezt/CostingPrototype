@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
 		value="beanIndexGeneralTrend.initializeReportBySection()" />
-	<ui:param name="titulo" value="mensajeReports.reports_label_by_section" />
+	<ui:param name="titulo" value="messageReports.reports_label_by_section" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -38,7 +38,7 @@
 				var data = new google.visualization.DataTable(jsonData);
 
 				var options = {
-					title : '#{mensajeReports.reports_label_by_section}',
+					title : '#{messageReports.reports_label_by_section}',
 					titleTextStyle : {
 						color : 'blue',
 						fontSize : 18,
@@ -53,7 +53,7 @@
 						gridlines : {
 							count : 5
 						},
-						title : '#{mensajeReports.reports_label_cycle_number}',
+						title : '#{messageReports.reports_label_cycle_number}',
 						titleTextStyle : {
 							color : 'black',
 							fontSize : 9,
@@ -68,7 +68,7 @@
 						gridlines : {
 							count : 7
 						},
-						title : '#{mensajeReports.reports_label_bean_index_grams}',
+						title : '#{messageReports.reports_label_bean_index_grams}',
 						titleTextStyle : {
 							color : 'black',
 							fontSize : 9,
@@ -93,7 +93,7 @@
 		<t:saveState value="#{beanIndexFiltersAction}" />
 		<t:saveState value="#{generalTrendAction}" />
 		<h:form id="generalTrendForm">
-			<rich:panel header="#{mensajeReports.reports_label_by_section}"
+			<rich:panel header="#{messageReports.reports_label_by_section}"
 				styleClass="anchoUno MinH253P" id="panelReporteGeneralTrend">
 
 				<ui:include src="/reports/indexes/templateSelectCrop.xhtml">
@@ -105,7 +105,7 @@
 					<h:inputHidden value="#{generalTrendAction.dataBySection}"
 						binding="#{binBySection}" id="inpHiddenGeneralTrend" />
 					<t:fieldset styleClass="BorderW2P" id="fieldSetGeneralTrend">
-						<legend class="etiquetaTitulo">#{mensajeReports.reports_label_by_section}</legend>
+						<legend class="etiquetaTitulo">#{messageReports.reports_label_by_section}</legend>
 						<div id="chart_general_trend"></div>
 					</t:fieldset>
 				</a:outputPanel>

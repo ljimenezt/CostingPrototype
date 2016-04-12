@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="cropNamesAction.addEditCropNames(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeLifeCycle.crop_names_label" />
+		value="mensaje.label_registrar,messageLifeCycle.crop_names_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -30,7 +30,7 @@
 		<t:saveState value="#{cropNamesAction}" />
 		<h:form id="formCropNames">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeLifeCycle.crop_names_label}"
+				header="#{mensaje.label_registrar} #{messageLifeCycle.crop_names_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarCropNames">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -84,7 +84,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crop_names_label}:" />
+						<h:outputText value="#{messageLifeCycle.crop_names_label}:" />
 						<h:outputText value="#{cropNamesAction.cropNames.cropName}" />
 						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText value="#{cropNamesAction.cropNames.description}" />

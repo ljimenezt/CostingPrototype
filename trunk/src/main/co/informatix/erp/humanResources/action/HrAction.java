@@ -421,7 +421,7 @@ public class HrAction implements Serializable {
 	public String searchHrs() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleHumanResources = ControladorContexto
-				.getBundle("mensajeRecursosHumanos");
+				.getBundle("messageHumanResources");
 		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.hrList = new ArrayList<Hr>();

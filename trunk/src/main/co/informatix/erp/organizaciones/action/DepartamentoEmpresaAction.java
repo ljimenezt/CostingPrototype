@@ -285,10 +285,10 @@ public class DepartamentoEmpresaAction implements Serializable {
 						}
 					}
 				}
-				this.mensajeMiga = "mensajeOrganizaciones.departamento_company_label_modify";
+				this.mensajeMiga = "messageOrganizations.departamento_company_label_modify";
 			} else {
 				this.departamentoEmpresa = new DepartamentoEmpresa();
-				this.mensajeMiga = "mensajeOrganizaciones.department_company_label_register";
+				this.mensajeMiga = "messageOrganizations.department_company_label_register";
 			}
 			Collections.sort(listaTipoCargos);
 			Collections.sort(listaTipoCargosSeleccionados);
@@ -520,7 +520,7 @@ public class DepartamentoEmpresaAction implements Serializable {
 		String mensajeBusqueda = "";
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleOrg = ControladorContexto
-				.getBundle("mensajeOrganizaciones");
+				.getBundle("messageOrganizations");
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		try {

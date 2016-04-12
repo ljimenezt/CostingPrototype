@@ -179,7 +179,7 @@ public class BeanIndexAction implements Serializable {
 	public String searchBeanIndex() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleBeanIndex = ControladorContexto
-				.getBundle("mensajeBeanIndex");
+				.getBundle("messageBeanIndex");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.listBeanIndex = new ArrayList<BeanIndex>();
@@ -241,7 +241,7 @@ public class BeanIndexAction implements Serializable {
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder jointSearchMessages) {
 		ResourceBundle bundleCrop = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		if (this.crop != 0 && !"".equals(this.crop)) {
 			queryBuilder.append("WHERE bi.crops.idCrop = :keyword ");
 			SelectItem item = new SelectItem(this.crop, "keyword");
@@ -366,7 +366,7 @@ public class BeanIndexAction implements Serializable {
 	public String deleteBeanIndex() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleCrop = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		try {
 			Crops crop = cropsDao.cropsById(beanIndex.getCrops().getIdCrop());
 			CropNames cropName = cropNamesDao.cropNamesXId(crop.getCropNames()
@@ -408,7 +408,7 @@ public class BeanIndexAction implements Serializable {
 	public String saveBeanIndex() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleCrop = ControladorContexto
-				.getBundle("mensajeLifeCycle");
+				.getBundle("messageLifeCycle");
 		String registerMessage = "message_registro_modificar";
 		try {
 

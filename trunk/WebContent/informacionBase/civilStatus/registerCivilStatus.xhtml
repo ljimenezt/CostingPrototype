@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="civilStatusAction.addEditCivilStatus(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeInformacionBase.civil_status_label" />
+		value="mensaje.label_registrar,messageBaseInformation.civil_status_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -31,7 +31,7 @@
 		<t:saveState value="#{civilStatusAction}" />
 		<h:form id="formCivilStatus">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeInformacionBase.civil_status_label}"
+				header="#{mensaje.label_registrar} #{messageBaseInformation.civil_status_label}"
 				styleClass="anchoUno MinH253P" id="panelCivilStatus">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

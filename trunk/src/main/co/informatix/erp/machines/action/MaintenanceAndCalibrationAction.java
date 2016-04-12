@@ -382,7 +382,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	public String consultMaintenanceAndCalibration() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listMaintenanceAndCalibrations = new ArrayList<MaintenanceAndCalibration>();
@@ -464,7 +464,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 		SimpleDateFormat formats = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
 		ResourceBundle bundleMachineType = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		boolean addFilter = false;
 		if (this.startDateSearch != null && this.endDateSearch != null) {
 			consult.append(addFilter ? "AND " : "WHERE ");
@@ -709,7 +709,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	public void consultMaintenanceLines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachine = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		List<SelectItem> parameters = new ArrayList<SelectItem>();

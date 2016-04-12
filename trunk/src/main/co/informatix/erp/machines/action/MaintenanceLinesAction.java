@@ -170,7 +170,7 @@ public class MaintenanceLinesAction implements Serializable {
 	public String searchMaintenanceLines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		maintenanceLinesList = new ArrayList<MaintenanceLines>();
@@ -324,7 +324,7 @@ public class MaintenanceLinesAction implements Serializable {
 	public String saveMaintenanceLines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachineType = ControladorContexto
-				.getBundle("mensajeMachine");
+				.getBundle("messageMachine");
 		String registerMessage = "message_registro_modificar";
 
 		try {

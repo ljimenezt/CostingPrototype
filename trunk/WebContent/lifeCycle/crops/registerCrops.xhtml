@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="cropsAction.addEditCrops(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeLifeCycle.crops_label" />
+		value="mensaje.label_registrar,messageLifeCycle.crops_label" />
 	<ui:define name="body">
 		<t:saveState value="#{cropsAction}" />
 		<t:saveState value="#{plotAction}" />
@@ -33,13 +33,13 @@
 		</script>
 		<h:form id="formCrops">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeLifeCycle.crops_label}"
+				header="#{mensaje.label_registrar} #{messageLifeCycle.crops_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarCrops">
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos" id="cropData">
 					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
 					<h:panelGrid columns="4" columnClasses=" tdAlignTop, tdAlignTop">
-						<h:outputText value="#{mensajeLifeCycle.crop_names_label}"
+						<h:outputText value="#{messageLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="#{cropsAction.crops.idCrop ne 0 ? '' : '*'}"
 							styleClass="required" />
@@ -61,7 +61,7 @@
 						</a:outputPanel>
 						<rich:message for="cropNames" />
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeLifeCycle.plot_inicial_date}" />
+							value="#{messageLifeCycle.plot_inicial_date}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{cropsAction.crops.initialDate}"
 							showOn="button" navigator="true"
@@ -73,7 +73,7 @@
 						</p:calendar>
 						<rich:message for="fechaInicio" />
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeLifeCycle.plot_final_date}" />
+							value="#{messageLifeCycle.plot_final_date}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{cropsAction.crops.finalDate}" showOn="button"
 							navigator="true" mindate="#{cropsAction.crops.initialDate}"
@@ -91,7 +91,7 @@
 							<f:selectItems value="#{cropsAction.selectYear}" />
 						</h:selectOneMenu>
 						<rich:message for="cropAnyo" />
-						<h:outputText value="#{mensajeLifeCycle.crops_label}"
+						<h:outputText value="#{messageLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputTextarea value="#{cropsAction.crops.description}"
@@ -110,7 +110,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos ">
-					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label_plots_associated}</legend>
+					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label_plots_associated}</legend>
 					<!-- Boton popup -->
 					<div class="W560P">
 						<a:commandLink id="lnkCrops" render="popupForm:popupPlot"
@@ -121,7 +121,7 @@
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 								<h:graphicImage value="/img/plots_16.png"
 									styleClass="verticalAlignMiddle" />
-								<h:outputText value="#{mensajeLifeCycle.plot_label_add}" />
+								<h:outputText value="#{messageLifeCycle.plot_label_add}" />
 							</h:panelGrid>
 							<f:param name="param2" value="si" />
 							<f:setPropertyActionListener value=""
@@ -240,12 +240,12 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensajeLifeCycle.crop_names_label}:" />
+						<h:outputText value="#{messageLifeCycle.crop_names_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(cropsAction.options,cropsAction.crops.cropNames.idCropName)}" />
-						<h:outputText value="#{mensajeLifeCycle.plot_inicial_date}:" />
+						<h:outputText value="#{messageLifeCycle.plot_inicial_date}:" />
 						<h:outputText value="#{cropsAction.crops.initialDate}" />
-						<h:outputText value="#{mensajeLifeCycle.plot_final_date}:" />
+						<h:outputText value="#{messageLifeCycle.plot_final_date}:" />
 						<h:outputText value="#{cropsAction.crops.finalDate}" />
 						<h:outputText value="#{mensaje.label_anyo_registro}:" />
 						<h:outputText
@@ -266,7 +266,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupPlot" autosized="true"
 				domElementAttachment="form"
-				header="#{mensajeLifeCycle.plot_label_s}">
+				header="#{messageLifeCycle.plot_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -280,7 +280,7 @@
 					<a:outputPanel id="outPutSearchPlot">
 						<t:fieldset styleClass="BorderW2P W350P">
 							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
-								#{mensajeLifeCycle.plot_names_label_s}</legend>
+								#{messageLifeCycle.plot_names_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
 								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />

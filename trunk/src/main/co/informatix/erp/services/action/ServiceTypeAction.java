@@ -118,7 +118,7 @@ public class ServiceTypeAction implements Serializable {
 	public String consultServiceType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleServices = ControladorContexto
-				.getBundle("mensajeServices");
+				.getBundle("messageServices");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listServiceType = new ArrayList<ServiceType>();

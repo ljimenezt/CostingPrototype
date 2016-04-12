@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="MachinesAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeMachines.machines_label_types_s" />
+		value="mensaje.label_gestionar,messageMachines.machines_label_types_s" />
 	<ui:define name="body">
 		<t:saveState value="#{machinesAction}" />
 		<ui:param name="listaVacia"
@@ -32,7 +32,7 @@
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
 		<h:form id="formMachines">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensajeMachine.machines_label_list}" id="panelMachines">
+				header="#{messageMachine.machines_label_list}" id="panelMachines">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
@@ -86,12 +86,12 @@
 						</rich:column>
 
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeMachine.machine_types_label}</f:facet>
+							<f:facet name="header">#{messageMachine.machine_types_label}</f:facet>
 							<h:outputText value="#{machines.machineTypes.name}" />
 						</rich:column>
 
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeMachine.machines_label_serial_number}</f:facet>
+							<f:facet name="header">#{messageMachine.machines_label_serial_number}</f:facet>
 							<h:outputText value="#{machines.serialNumber}" />
 						</rich:column>
 
@@ -102,7 +102,7 @@
 						</rich:column>
 
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensajeMachine.fuel_types_label}</f:facet>
+							<f:facet name="header">#{messageMachine.fuel_types_label}</f:facet>
 							<h:outputText
 								value="#{validacionesAction.getLabel(machinesAction.itemsFuelTypes, machines.fuelTypes.idFuelType)}" />
 						</rich:column>
@@ -121,7 +121,7 @@
 						</rich:column>
 
 						<rich:column styleClass="colNumero">
-							<f:facet name="header">#{mensajeMachine.machines_label_fuel_consumption}</f:facet>
+							<f:facet name="header">#{messageMachine.machines_label_fuel_consumption}</f:facet>
 							<h:outputText value="#{machines.fuelConsumption}">
 								<f:convertNumber pattern="#,##0.00" />
 							</h:outputText>
@@ -193,7 +193,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="410"
-				header="#{mensaje.button_search} #{mensajeMachine.machines_label_names}"
+				header="#{mensaje.button_search} #{messageMachine.machines_label_names}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -219,7 +219,7 @@
 						id="txtNombreBuscar" value="#{machinesAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 					<h:outputText
-						value="#{mensajeMachine.machines_label_serial_number}"
+						value="#{messageMachine.machines_label_serial_number}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="20"
 						id="txtSerialNumber" value="#{machinesAction.serialSearch}"

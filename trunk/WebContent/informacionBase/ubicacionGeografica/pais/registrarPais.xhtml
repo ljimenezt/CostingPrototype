@@ -10,11 +10,11 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="paisAction.nuevoPais" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeInformacionBase.country_label" />
+		value="mensaje.label_registrar,messageBaseInformation.country_label" />
 	<ui:define name="body">
 		<h:form id="paisForm">
 			<t:saveState value="#{paisAction}" />
-			<rich:panel header="#{mensajeInformacionBase.country_label}"
+			<rich:panel header="#{messageBaseInformation.country_label}"
 				styleClass="anchoUno MinH230P">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

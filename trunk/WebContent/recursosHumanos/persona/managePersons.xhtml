@@ -10,14 +10,14 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="personaAction.initializeConsultation()" />
 	<ui:param name="titulo"
-		value="mensajeRecursosHumanos.person_label_list" />
+		value="messageHumanResources.person_label_list" />
 	<ui:define name="body">
 		<t:saveState value="#{personaAction}" />
 		<ui:param name="listaVacia"
 			value="#{personaAction.persons eq null or (empty personaAction.persons)}" />
 		<h:form id="formListarUsario">
 			<rich:panel id="personasPanel" styleClass="anchoUno MinH253P"
-				header="#{mensajeRecursosHumanos.person_label_list}">
+				header="#{messageHumanResources.person_label_list}">
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoDos">
 					<h:selectOneRadio value="#{personaAction.vigencia}"
@@ -259,7 +259,7 @@
 		<h:form id="formDetalles">
 			<rich:popupPanel id="PopUpDetalles" modal="true" autosized="true"
 				resizeable="false" styleClass="anchoCuatro"
-				header="#{mensajeRecursosHumanos.person_message_popup_details}">
+				header="#{messageHumanResources.person_message_popup_details}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('PopUpDetalles')}.hide(); return false;">
@@ -295,36 +295,36 @@
 										rendered="#{personaAction.person.genero eq 'm'}" />
 
 									<h:outputText
-										value="#{mensajeRecursosHumanos.person_label_date_birth}:" />
+										value="#{messageHumanResources.person_label_date_birth}:" />
 									<h:outputText value="#{personaAction.person.fechaNacimiento}">
 										<f:convertDateTime pattern="MMM dd, yyyy"
 											locale="#{idioma.locale}" />
 									</h:outputText>
 
 									<h:outputText
-										value="#{mensajeInformacionBase.country_label_birth}:"
+										value="#{messageBaseInformation.country_label_birth}:"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="#{personaAction.person.paisNac.nombre}" />
 
 									<h:outputText
-										value="#{mensajeInformacionBase.department_label_birth}:"
+										value="#{messageBaseInformation.department_label_birth}:"
 										styleClass="etiquetaTitulo" />
 									<h:outputText
 										value="#{personaAction.person.departamentoNac.nombre}" />
 
 									<h:outputText
-										value="#{mensajeInformacionBase.municipality_label_birth}:"
+										value="#{messageBaseInformation.municipality_label_birth}:"
 										styleClass="etiquetaTitulo" />
 									<h:outputText
 										value="#{personaAction.person.municipioNac.nombre}" />
 
 									<h:outputText
-										value="#{mensajeInformacionBase.civil_status_label}:"
+										value="#{messageBaseInformation.civil_status_label}:"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="#{personaAction.person.civilStatus.name}" />
 
 									<h:outputText
-										value="#{mensajeRecursosHumanos.person_label_number_children}:"
+										value="#{messageHumanResources.person_label_number_children}:"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="#{personaAction.person.nroHijos}" />
 
@@ -363,18 +363,18 @@
 								<h:outputText value="#{personaAction.person.movil}" />
 
 								<h:outputText
-									value="#{mensajeInformacionBase.country_label_residence}:"
+									value="#{messageBaseInformation.country_label_residence}:"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="#{personaAction.person.paisRes.nombre}" />
 
 								<h:outputText
-									value="#{mensajeInformacionBase.department_label_residence}:"
+									value="#{messageBaseInformation.department_label_residence}:"
 									styleClass="etiquetaTitulo" />
 								<h:outputText
 									value="#{personaAction.person.departamentoRes.nombre}" />
 
 								<h:outputText
-									value="#{mensajeInformacionBase.municipality_label_residence}:"
+									value="#{messageBaseInformation.municipality_label_residence}:"
 									styleClass="etiquetaTitulo" />
 								<h:outputText
 									value="#{personaAction.person.municipioRes.nombre}" />
@@ -393,7 +393,7 @@
 		</h:form>
 		<h:form id="buscarForm">
 			<rich:popupPanel id="popupBuscar" autosized="true"
-				header="#{mensaje.button_search} #{mensajeRecursosHumanos.person_label}"
+				header="#{mensaje.button_search} #{messageHumanResources.person_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -405,7 +405,7 @@
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
 					<h:outputText
-						value="#{mensajeRecursosHumanos.person_message_consult_name_surname_identification}:"
+						value="#{messageHumanResources.person_message_consult_name_surname_identification}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
 						value="#{personaAction.searchFilter}"

@@ -45,7 +45,7 @@
 			<rich:panel header="#{mensajeMenu.associate_cycles_label_register}"
 				styleClass="anchoUno MinH253P" id="panelAssignActivities">
 				<t:fieldset id="cropInfo" styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensajeLifeCycle.crops_label}</legend>
+					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label}</legend>
 					<h:panelGrid columns="3" columnClasses=",,top">
 
 						<h:panelGrid columns="4"
@@ -53,7 +53,7 @@
 							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 							columnClasses="tdAlignTop,,,tdAlignTop">
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeLifeCycle.crop_names_label}" />
+								value="#{messageLifeCycle.crop_names_label}" />
 							<h:outputText value="*" styleClass="required" />
 							<h:selectOneMenu
 								value="#{activitiesAndServicesAction.crops.cropNames.idCropName}"
@@ -100,7 +100,7 @@
 					<t:fieldset styleClass="BorderW2P anchoDos"
 						rendered="#{activitiesAndServicesAction.crops.cropNames.idCropName ne 0}">
 						<legend class="etiquetaTitulo">#{mensaje.label_listado_de}
-							#{mensajeCosts.activities_label_s}</legend>
+							#{messageCosts.activities_label_s}</legend>
 
 						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 							<ui:param name="tieneVigencia" value="no" />
@@ -129,31 +129,31 @@
 								</rich:tooltip>
 							</rich:column>
 							<rich:column styleClass="colNumero">
-								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_sequence_abbr}</f:facet>
+								<f:facet name="header">#{messageCosts.cycle_standard_activities_label_sequence_abbr}</f:facet>
 								<h:outputText value="#{activities.sequenceNumber}" />
 							</rich:column>
 							<rich:column styleClass="colFechaLarga">
-								<f:facet name="header">#{mensajeCosts.budget_label_start_time}</f:facet>
+								<f:facet name="header">#{messageCosts.budget_label_start_time}</f:facet>
 								<h:outputText value="#{activities.initialDtBudget}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
 										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colFechaLarga">
-								<f:facet name="header">#{mensajeCosts.budget_label_end_time}</f:facet>
+								<f:facet name="header">#{messageCosts.budget_label_end_time}</f:facet>
 								<h:outputText value="#{activities.finalDtBudget}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
 										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colNumero">
-								<f:facet name="header">#{mensajeCosts.budget_label_duration}</f:facet>
+								<f:facet name="header">#{messageCosts.budget_label_duration}</f:facet>
 								<h:outputText value="#{activities.durationBudget}">
 									<f:convertNumber pattern="#,##0.00" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="center colIconoUno">
-								<f:facet name="header">#{mensajeCosts.cycle_standard_activities_label_dangerous}</f:facet>
+								<f:facet name="header">#{messageCosts.cycle_standard_activities_label_dangerous}</f:facet>
 								<h:graphicImage value="/img/peligroso_19.png"
 									rendered="#{actividad.dangerous eq true}" />
 								<rich:tooltip layout="block"
@@ -196,7 +196,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeCosts.activities_label_s}"
+				header="#{mensaje.button_search} #{messageCosts.activities_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

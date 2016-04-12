@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="plotAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeLifeCycle.plot_label_s" />
+		value="mensaje.label_gestionar,messageLifeCycle.plot_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{plotAction}" />
 		<ui:param name="listaVacia"
@@ -33,10 +33,10 @@
 
 		<h:form id="formPlot">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensajeLifeCycle.plot_label_add}" id="panelPlot">
+				header="#{messageLifeCycle.plot_label_add}" id="panelPlot">
 				<t:fieldset styleClass="BorderW2P anchoDos"
 					rendered="#{plotAction.farm ne null and (!empty plotAction.farm)}">
-					<legend class="etiquetaTitulo">#{mensajeLifeCycle.farm_label}</legend>
+					<legend class="etiquetaTitulo">#{messageLifeCycle.farm_label}</legend>
 					<h:panelGrid columns="2" rowClasses="alignTop"
 						columnClasses="columnaIzquierda, columnaDerecha" cellpadding="5"
 						cellspacing="7">
@@ -52,7 +52,7 @@
 					cellpadding="#{propNomina['locate.fields.cellpadding']}"
 					cellspacing="#{propNomina['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
-					<h:outputText value="#{mensajeLifeCycle.farm_label}"
+					<h:outputText value="#{messageLifeCycle.farm_label}"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="farm" value="#{plotAction.nameFarm}"
 						styleClass="colTextoMediano" required="true">
@@ -66,7 +66,7 @@
 				<t:fieldset
 					styleClass="#{plotAction.farmParameter eq true ? 'BorderW2P anchoDos' : 'BorderW0P Padding0P'} ">
 					<legend class="etiquetaTitulo">#{plotAction.farmParameter
-						eq true ? mensajeLifeCycle.plot_label_s : ''}</legend>
+						eq true ? messageLifeCycle.plot_label_s : ''}</legend>
 					<rich:message for="tablaPlot" styleClass="messageInfSpanMsg" />
 					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 						<ui:param name="tieneVigencia" value="no" />
@@ -111,7 +111,7 @@
 							</h:outputText>
 						</rich:column>
 						<rich:column styleClass="colNumero">
-							<f:facet name="header">#{mensajeLifeCycle.plot_numbers_trees}</f:facet>
+							<f:facet name="header">#{messageLifeCycle.plot_numbers_trees}</f:facet>
 							<h:outputText value="#{plot.numberOfTrees}" />
 						</rich:column>
 						<f:facet name="footer">
@@ -142,7 +142,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{mensajeLifeCycle.plot_label_s}"
+				header="#{mensaje.button_search} #{messageLifeCycle.plot_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
