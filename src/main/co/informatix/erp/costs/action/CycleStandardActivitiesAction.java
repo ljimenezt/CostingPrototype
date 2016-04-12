@@ -403,8 +403,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 		StringBuilder joinSearchMessages = new StringBuilder();
 		String searchMessage = "";
 		try {
-			advancedSearchCycleStandar(queryBuilder, parameters, bundle,
-					joinSearchMessages);
+			advancedSearchCycleStandar(queryBuilder, parameters);
 			Long amount = cycleStandardActivitiesDao.quantityCycleStandard(
 					queryBuilder, parameters);
 			if (amount != null) {
@@ -451,21 +450,14 @@ public class CycleStandardActivitiesAction implements Serializable {
 	 *            : query to concatenate.
 	 * @param parameter
 	 *            : list of search parameters.
-	 * @param bundle
-	 *            : access language tags.
-	 * @param joinSearchMessages
-	 *            : Message search.
 	 */
 	private void advancedSearchCycleStandar(StringBuilder query,
-			List<SelectItem> parameter, ResourceBundle bundle,
-			StringBuilder joinSearchMessages) {
-
+			List<SelectItem> parameter) {
 		if (this.idCropNames != 0) {
 			query.append("WHERE cn.idCropName=:idCropName ");
 			SelectItem item = new SelectItem(this.idCropNames, "idCropName");
 			parameter.add(item);
 		}
-
 	}
 
 	/**

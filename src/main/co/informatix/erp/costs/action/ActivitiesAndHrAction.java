@@ -982,11 +982,9 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * @param var
 	 *            : variable that indicates whether the user is editing a record
 	 *            or not.
-	 * 
-	 * @throws Exception
 	 */
 	public void validateWorkLoad(Double durationHrActivity,
-			int humanReosurceId, boolean var) throws Exception {
+			int humanReosurceId, boolean var) {
 		Date activityDate = this.selectedActivity.getInitialDtBudget();
 		Date mindDateTime = ControladorFechas.diaInicialSemana(activityDate);
 		Date maxDateTime = ControladorFechas.diaFinalSemana(activityDate);

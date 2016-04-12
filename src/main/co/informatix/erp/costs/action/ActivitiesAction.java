@@ -236,7 +236,7 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Initialize the activities
+	 * Initialize the activity search values.
 	 * 
 	 * @author Gerardo.Herrera
 	 * 
@@ -253,7 +253,9 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * It queries activities.
+	 * It queries activities information according to entered search values and
+	 * then it puts the resulting records in a paged list, it also builds search
+	 * display messages and handles errors.
 	 * 
 	 * @author Gerardo.Herrera
 	 */
