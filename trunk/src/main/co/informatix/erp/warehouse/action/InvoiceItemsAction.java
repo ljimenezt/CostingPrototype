@@ -1,7 +1,9 @@
 package co.informatix.erp.warehouse.action;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -12,10 +14,15 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 import javax.transaction.UserTransaction;
 
+import co.informatix.erp.lifeCycle.dao.FarmDao;
+import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.warehouse.dao.DepositsDao;
 import co.informatix.erp.warehouse.dao.InvoiceItemsDao;
+import co.informatix.erp.warehouse.dao.MaterialsDao;
+import co.informatix.erp.warehouse.entities.Deposits;
 import co.informatix.erp.warehouse.entities.InvoiceItems;
 import co.informatix.erp.warehouse.entities.Materials;
 import co.informatix.erp.warehouse.entities.PurchaseInvoices;
@@ -33,13 +40,26 @@ public class InvoiceItemsAction implements Serializable {
 
 	@EJB
 	private InvoiceItemsDao invoiceItemsDao;
+	@EJB
+	private FarmDao farmDao;
+	@EJB
+	private DepositsDao depositDao;
+	@EJB
+	private MaterialsDao materialsDao;
 	@Resource
 	private UserTransaction userTransaction;
 
 	private List<InvoiceItems> invoiceItemsList;
+	private List<SelectItem> itemsFarm;
+
 	private Paginador pagination = new Paginador();
 	private PurchaseInvoices invoicesSelected;
 	private InvoiceItems invoiceItem;
+	private Date expirationDate;
+
+	private int idFarm;
+	private double unitCost;
+	private boolean validateConvert;
 
 	/**
 	 * @return invoiceItemsList: invoiceItems list objects
@@ -54,6 +74,21 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void setInvoiceItemsList(List<InvoiceItems> invoiceItemsList) {
 		this.invoiceItemsList = invoiceItemsList;
+	}
+
+	/**
+	 * @return itemsFarm: List of items farm
+	 */
+	public List<SelectItem> getItemsFarm() {
+		return itemsFarm;
+	}
+
+	/**
+	 * @param itemsFarm
+	 *            : List of items farm
+	 */
+	public void setItemsFarm(List<SelectItem> itemsFarm) {
+		this.itemsFarm = itemsFarm;
 	}
 
 	/**
@@ -99,6 +134,66 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void setInvoiceItems(InvoiceItems invoiceItem) {
 		this.invoiceItem = invoiceItem;
+	}
+
+	/**
+	 * @return expirationDate: Expiration date for deposit
+	 */
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	/**
+	 * @param expirationDate
+	 *            : Expiration date for deposit
+	 */
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	/**
+	 * @return idFarm: Identifier farm
+	 */
+	public int getIdFarm() {
+		return idFarm;
+	}
+
+	/**
+	 * @param idFarm
+	 *            : Identifier farm
+	 */
+	public void setIdFarm(int idFarm) {
+		this.idFarm = idFarm;
+	}
+
+	/**
+	 * @return unitCost: Unit cost for deposit
+	 */
+	public double getUnitCost() {
+		return unitCost;
+	}
+
+	/**
+	 * @param unitCost
+	 *            : Unit cost for deposit
+	 */
+	public void setUnitCost(double unitCost) {
+		this.unitCost = unitCost;
+	}
+
+	/**
+	 * @return validateConvert: Flag which displays the popup convert to deposit if 'true'
+	 */
+	public boolean isValidateConvert() {
+		return validateConvert;
+	}
+
+	/**
+	 * @param validateConvert
+	 *            : Flag which displays the popup convert to deposit if 'true'
+	 */
+	public void setValidateConvert(boolean validateConvert) {
+		this.validateConvert = validateConvert;
 	}
 
 	/**
@@ -228,5 +323,96 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void cleanMaterial() {
 		this.invoiceItem.setMaterial(new Materials());
+	}
+
+	/**
+	 * Method that loads a farms list.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @throws Exception
+	 */
+	private void listFarms() throws Exception {
+		this.itemsFarm = new ArrayList<SelectItem>();
+		List<Farm> listFarms = farmDao.farmsList();
+		if (listFarms != null) {
+			for (Farm farms : listFarms) {
+				this.itemsFarm.add(new SelectItem(farms.getIdFarm(), farms
+						.getName()));
+			}
+		}
+	}
+
+	/**
+	 * Load all the data for convert invoice item to deposit
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param invoiceItems
+	 *            : Object invoice items
+	 */
+	public void loadConvertDeposit(InvoiceItems invoiceItems) {
+		try {
+			this.validateConvert = false;
+			boolean depositExist = this.depositDao.existsDeposit(invoiceItems
+					.getMaterial(), invoiceItems.getPurchaseInvoice()
+					.getInvoiceNumber());
+			if (!depositExist) {
+				if (invoiceItems.getQuantity() > 0
+						&& invoiceItems.getTotal() > 0) {
+					this.invoiceItem = invoiceItems;
+					double quantity = invoiceItem.getQuantity()
+							* invoiceItem.getMaterial().getPresentation();
+					this.unitCost = invoiceItem.getTotal() / quantity;
+					listFarms();
+					this.validateConvert = true;
+				} else {
+					ControladorContexto.mensajeInfoEspecifico(
+							"invoice_items_message_convert_deposit",
+							"mensajeWarehouse");
+				}
+			} else {
+				ControladorContexto.mensajeInfoEspecifico(
+						"deposits_message_convert_deposit", "mensajeWarehouse");
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Save deposit from a invoice item.
+	 * 
+	 * @author Gerardo.Herrera
+	 */
+	public void saveConvertToDeposit() {
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		try {
+			Farm farm = farmDao.farmXId(this.idFarm);
+			Materials material = invoiceItem.getMaterial();
+			double quantity = material.getPresentation()
+					* invoiceItem.getQuantity();
+			Deposits deposit = new Deposits();
+			deposit.setDateTime(new Date());
+			deposit.setFarm(farm);
+			deposit.setMaterials(material);
+			deposit.setPurchaseInvoices(invoiceItem.getPurchaseInvoice());
+			deposit.setMeasurementUnits(invoiceItem.getMaterial()
+					.getMeasurementUnits());
+			deposit.setInitialQuantity(quantity);
+			deposit.setActualQuantity(quantity);
+			deposit.setExpireDate(expirationDate);
+			deposit.setTotalCost(invoiceItem.getTotal());
+			deposit.setUnitCost(unitCost);
+			depositDao.saveDeposits(deposit);
+			String format = MessageFormat.format(bundle
+					.getString("deposits_message_convert_deposit_successful"),
+					invoiceItem.getPurchaseInvoice().getInvoiceNumber(),
+					material.getName());
+			ControladorContexto.mensajeInformacion(null, format);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 }

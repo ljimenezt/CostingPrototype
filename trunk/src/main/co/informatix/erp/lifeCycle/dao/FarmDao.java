@@ -190,4 +190,18 @@ public class FarmDao implements Serializable {
 		return q.getResultList();
 
 	}
+
+	/**
+	 * Method to search the Farm for id.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param farmId
+	 *            : Identifier farm
+	 * @return Farm: farm Object
+	 * @throws Exception
+	 */
+	public Farm farmXId(int farmId) throws Exception {
+		return em.find(Farm.class, farmId);
+	}
 }
