@@ -34,10 +34,12 @@ public class Deposits implements Serializable {
 
 	private Date dateTime;
 	private Date expireDate;
+	
 	private Double initialQuantity;
 	private Double actualQuantity;
 	private Double unitCost;
 	private Double totalCost;
+	
 	private String location;
 	private String qualityCertificateLocationLink;
 
