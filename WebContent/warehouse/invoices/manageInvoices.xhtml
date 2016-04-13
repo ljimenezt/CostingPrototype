@@ -22,7 +22,12 @@
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<script type="text/javascript">
-		      $g=jQuery.noConflict();
+		    $g=jQuery.noConflict();
+		    
+			function goUp(){
+				scroll(0,0);
+			}
+		      
 		</script>
 		<ui:param name="listaVacia"
 			value="#{purchaseInvoicesAction.listInovoices eq null or (empty purchaseInvoicesAction.listInovoices)}" />

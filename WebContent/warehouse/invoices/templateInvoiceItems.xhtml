@@ -137,9 +137,24 @@
 					</a:outputPanel>
 				</rich:column>
 
+				<rich:column styleClass="colIcono"
+					rendered="#{purchaseInvoicesAction.flag eq false}">
+					<f:facet name="header"></f:facet>
+					<a:commandLink render="popUpConvert, mensajes"
+						actionListener="#{invoiceItemsAction.loadConvertDeposit(invoiceItems)}"
+						oncomplete="if (#{invoiceItemsAction.validateConvert==true})
+								{#{rich:component('popUpConvert')}.show();} else{ goUp(); }">
+						<h:graphicImage value="/img/convert_16.png" />
+						<rich:tooltip layout="block" styleClass="campoTooltip">
+							<h:outputText
+								value="#{mensajeWarehouse.invoice_items_label_convert_deposit}" />
+						</rich:tooltip>
+					</a:commandLink>
+				</rich:column>
+
 				<f:facet name="footer">
 					<rich:columnGroup rendered="#{listaVaciaA}">
-						<rich:column colspan="11" styleClass="footTabla">
+						<rich:column colspan="12" styleClass="footTabla">
 							<h:outputText
 								value="#{mensaje.message_no_existen_registros_tabla}" />
 						</rich:column>
