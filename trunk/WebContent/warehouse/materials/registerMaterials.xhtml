@@ -340,6 +340,10 @@
 						<h:outputText
 							value="#{mensajeWarehouse.materials_label_presentation}" />
 						<h:outputText value="#{materialsAction.materials.presentation}" />
+						<h:outputText value="#{mensajeWarehouse.measurement_units_label}" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(materialsAction.measureUnitItems,materialsAction.materials.measurementUnits.idMeasurementUnits)}" />
+
 						<h:outputText
 							value="#{mensajeWarehouse.materials_label_responsible}:" />
 						<h:outputText
