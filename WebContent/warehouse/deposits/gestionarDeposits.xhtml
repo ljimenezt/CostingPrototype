@@ -399,8 +399,8 @@
 						<script type="text/javascript">
 						$g = jQuery.noConflict();		
 					</script>
-						<h:panelGrid columns="4" columnClasses="left,W24P,left"
-							cellpadding="5" cellspacing="3">
+						<h:panelGrid columns="4"
+							columnClasses="tdAlignTop H30P,tdAlignTop,,tdAlignTop">
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.materials_label}:" />
@@ -438,15 +438,10 @@
 							<h:outputText
 								value="#{depositsAction.depositDetails.actualQuantity}" />
 							<h:outputText value="" />
-						</h:panelGrid>
-						<br />
-						<h:panelGrid columns="4"
-							columnClasses="left tdAlignTop,W44P tdAlignTop, left"
-							cellpadding="5" cellspacing="3">
+
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.deposits_label_actual_quantity}:" />
 							<h:outputText value="*" styleClass="required" />
-
 							<h:inputText styleClass="colTextoXCorto" required="true"
 								label="#{mensajeWarehouse.deposits_label_actual_quantity}"
 								converterMessage="#{mensaje.message_campo_positivo}"

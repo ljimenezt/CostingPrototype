@@ -271,7 +271,7 @@
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W1000P"
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass="colIconoUno">
-								<a:commandLink
+								<a:commandLink render="popupEliminarListaStandard"
 									oncomplete="#{rich:component('popupEliminarListaStandard')}.show()"
 									actionListener="#{cropActivitiesAction.setRemoveStandard(standardActivities)}">
 									<h:graphicImage value="/img/delete_16.png" />
@@ -721,7 +721,7 @@
 						<h:graphicImage value="/img/close_14.png"
 							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-							onclick="#{rich:component('popupEliminar')}.hide()"
+							onclick="#{rich:component('popupEliminarListaStandard')}.hide()"
 							styleClass="cursor" />
 					</h:panelGroup>
 				</f:facet>
@@ -731,7 +731,12 @@
 							value="#{messageCosts.cycle_standard_activities_remove}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
-
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:"
+							styleClass="etiquetaTitulo" />
+						<h:outputText
+							value="#{cropActivitiesAction.removeStandard.activityNames.activityName}" />
+					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cropActivitiesAction.removeSelected()}"

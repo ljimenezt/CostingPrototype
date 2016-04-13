@@ -172,7 +172,8 @@ public class CycleDao implements Serializable {
 	 * @return Date: Date found with the parameters sent.
 	 * @throws Exception
 	 */
-	public Date consultDateCycle(int idCrop, int idActivity, Date initialDate)
+	public Date consultDateCycle(int idCrop, int idActivity, Date initialDate,
+			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT MAX(c.finalDateTime) FROM Cycle c ");
@@ -181,10 +182,14 @@ public class CycleDao implements Serializable {
 		query.append("WHERE cr.idCrop =:idCrop ");
 		query.append("AND an.idActivityName =:idActivity ");
 		query.append("AND c.finalDateTime>=:initialDate ");
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCrop", idCrop);
 		q.setParameter("idActivity", idActivity);
 		q.setParameter("initialDate", initialDate);
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
 		if (q.getSingleResult() != null) {
 			return (Date) q.getSingleResult();
 		}

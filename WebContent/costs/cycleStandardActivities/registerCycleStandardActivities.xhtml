@@ -77,7 +77,7 @@
 						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 						rowClasses="odd-row, even-row">
 						<rich:column styleClass="colIconoDos">
-							<a:commandLink
+							<a:commandLink render="popupEliminarLista"
 								oncomplete="#{rich:component('popupEliminarLista')}.show()"
 								actionListener="#{cycleStandardActivitiesAction.setDeleteList(cycleStandardActivities)}">
 								<h:graphicImage value="/img/delete_16.png" />
@@ -374,7 +374,7 @@
 		<h:form id="formConfirmActivityNames">
 			<rich:popupPanel id="popUpConfirmActivityNames" modal="true"
 				autosized="true" maxWidth="500"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -473,7 +473,7 @@
 						<h:graphicImage value="/img/close_14.png"
 							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-							onclick="#{rich:component('popupEliminar')}.hide()"
+							onclick="#{rich:component('popupEliminarLista')}.hide()"
 							styleClass="cursor" />
 					</h:panelGroup>
 				</f:facet>
@@ -483,7 +483,11 @@
 							value="#{messageCosts.cycle_standard_activities_remove}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
-
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:" />
+						<h:outputText
+							value="#{cycleStandardActivitiesAction.deleteList.activityNames.activityName}" />
+					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cycleStandardActivitiesAction.deleteSelectedOnes()}"
