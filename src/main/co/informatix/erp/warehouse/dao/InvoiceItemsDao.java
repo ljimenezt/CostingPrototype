@@ -75,6 +75,7 @@ public class InvoiceItemsDao implements Serializable {
 	 * Consult the list of invoices items that comply with the option of force.
 	 * 
 	 * @modify 06/04/2016 Andres.Gomez
+	 * @modify 11/04/2016 Gerardo.Herrera
 	 * 
 	 * @param start
 	 *            : Registry where consultation begins
@@ -96,8 +97,9 @@ public class InvoiceItemsDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT it FROM InvoiceItems it ");
 		query.append("JOIN FETCH it.material m ");
-		query.append("JOIN FETCH m.measurementUnits mu ");
-		query.append("JOIN it.purchaseInvoice pi ");
+		query.append("JOIN FETCH it.purchaseInvoice pi ");
+		query.append("JOIN FETCH m.measurementUnits ");
+		query.append("JOIN FETCH pi.suppliers ");
 		query.append(consult);
 		query.append("ORDER BY m.name ");
 		Query q = em.createQuery(query.toString());

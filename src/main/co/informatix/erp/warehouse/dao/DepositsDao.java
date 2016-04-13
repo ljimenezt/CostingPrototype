@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import co.informatix.erp.warehouse.entities.Deposits;
+import co.informatix.erp.warehouse.entities.Materials;
 
 /**
  * DAO class that establishes the connection between business logic and
@@ -162,6 +163,36 @@ public class DepositsDao implements Serializable {
 		query.append("WHERE d.materials.idMaterial=:idMaterial ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", idMaterial);
+		if (q.getResultList().size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * This method allows consult if there are a deposit with a material and
+	 * invoice specific.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param idMaterial
+	 *            :material identifier to find in the deposit.
+	 * @param numberInvoice
+	 *            : invoice number.
+	 * @return boolean: true if deposit exists and false if deposit doesnt
+	 *         exists.
+	 * @throws Exception
+	 */
+	public boolean existsDeposit(Materials material, String numberInvoice)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT d FROM Deposits d ");
+		query.append("JOIN FETCH d.purchaseInvoices pi ");
+		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		query.append("AND pi.invoiceNumber LIKE :numberInvoice ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idMaterial", material.getIdMaterial());
+		q.setParameter("numberInvoice", numberInvoice);
 		if (q.getResultList().size() > 0) {
 			return true;
 		}
