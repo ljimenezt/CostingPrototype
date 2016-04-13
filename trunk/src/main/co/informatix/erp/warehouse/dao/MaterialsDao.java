@@ -174,21 +174,30 @@ public class MaterialsDao implements Serializable {
 	 *            : Material's presentation.
 	 * @param idMeasurementUnits
 	 *            : Identifier measurement unit
+	 * @param idMaterial
+	 *            : Identifier materials
 	 * @return The matched material or null if there is none.
 	 * @throws Exception
 	 */
 	public Materials materialByNamePresentation(String name,
-			short presentation, int idMeasurementUnits) throws Exception {
+			short presentation, int idMeasurementUnits, int idMaterial)
+			throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT m FROM Materials m ");
 		queryBuilder
 				.append("WHERE m.name=:name AND m.presentation=:presentation ");
 		queryBuilder
-				.append("AND m.measurementUnits.idMeasurementUnits=:idMeasurementUnits");
+				.append("AND m.measurementUnits.idMeasurementUnits=:idMeasurementUnits ");
+		if (idMaterial != 0) {
+			queryBuilder.append("AND m.idMaterial <>:idMaterial ");
+		}
 		Query query = em.createQuery(queryBuilder.toString());
 		query.setParameter("name", name);
 		query.setParameter("presentation", presentation);
 		query.setParameter("idMeasurementUnits", idMeasurementUnits);
+		if (idMaterial != 0) {
+			query.setParameter("idMaterial", idMaterial);
+		}
 		if (query.getResultList().size() > 0) {
 			return (Materials) query.getResultList().get(0);
 		}
