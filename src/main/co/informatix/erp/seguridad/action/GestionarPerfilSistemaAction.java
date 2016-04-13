@@ -62,7 +62,7 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	 * @param perfilSistema
 	 *            : Profile system to be add or edit.
 	 * 
-	 * @return "regProfileSystem":redirected to the template to manage profile
+	 * @return "regProfileSystem":redirected to the template to register profile
 	 *         system.
 	 */
 	public String addEditProfileSystem(PerfilSistema perfilSistema)
@@ -81,8 +81,8 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	/**
 	 * Method used to save or edit profile system.
 	 * 
-	 * @return consultProfileSystem: Profile system redirects to manage the list
-	 *         of updated profile systems.
+	 * @return regProfileSystem: Profile system redirects to updated profile
+	 *         systems.
 	 */
 	public String saveProfileSystem() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
