@@ -1100,6 +1100,8 @@ public class CycleAction implements Serializable {
 		try {
 			ResourceBundle bundle = ControladorContexto
 					.getBundle("mensajeWarehouse");
+			StringBuilder consult = new StringBuilder();
+			List<SelectItem> parameters = new ArrayList<SelectItem>();
 			if (this.cycle.getMaterialsRequired()) {
 				boolean materialFlag = depositsDao
 						.associatedMaterialsDeposits(idMaterials);
@@ -1125,14 +1127,23 @@ public class CycleAction implements Serializable {
 											materialName));
 				}
 			}
-			Date dateInitial = cycleDao.consultDateCycle(this.idCrops,
-					this.cycle.getActiviyNames().getIdActivityName(),
-					this.cycle.getInitialDateTime());
-			if (dateInitial != null) {
-				ControladorContexto.mensajeErrorArg1(
-						"formRegisterCycle:fechaInicio",
-						"cycle_message_must_enter_late_date",
-						"messageLifeCycle", dateInitial);
+
+			if (flagCycle) {
+				consult.append("AND c.idCycle <>:idCycle ");
+				SelectItem item = new SelectItem(cycle.getIdCycle(), "idCycle");
+				parameters.add(item);
+			}
+
+			if (!flagDate) {
+				Date dateInitial = cycleDao.consultDateCycle(this.idCrops,
+						this.cycle.getActiviyNames().getIdActivityName(),
+						this.cycle.getInitialDateTime(), consult, parameters);
+				if (dateInitial != null) {
+					ControladorContexto.mensajeErrorArg1(
+							"formRegisterCycle:fechaInicio",
+							"cycle_message_must_enter_late_date",
+							"messageLifeCycle", dateInitial);
+				}
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

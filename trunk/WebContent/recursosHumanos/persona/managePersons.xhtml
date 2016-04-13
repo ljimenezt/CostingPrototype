@@ -9,8 +9,7 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="personaAction.initializeConsultation()" />
-	<ui:param name="titulo"
-		value="messageHumanResources.person_label_list" />
+	<ui:param name="titulo" value="messageHumanResources.person_label_list" />
 	<ui:define name="body">
 		<t:saveState value="#{personaAction}" />
 		<ui:param name="listaVacia"
@@ -217,7 +216,7 @@
 		<h:form id="formCambioVigencia">
 			<rich:popupPanel id="popupVigencia" modal="true" autosized="true"
 				width="500" domElementAttachment="form"
-				header="#{mensaje.label_confirmacion}">
+				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('popupVigencia')}.hide(); return false;">

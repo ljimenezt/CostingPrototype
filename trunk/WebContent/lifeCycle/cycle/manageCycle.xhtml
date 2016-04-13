@@ -106,7 +106,7 @@
 										<h:outputText value="#{mensaje.label_detalles}" />
 									</rich:tooltip>
 								</a:commandLink>
-								<a:commandLink
+								<a:commandLink render="popupDelete"
 									oncomplete="#{rich:component('popupDelete')}.show()"
 									actionListener="#{cycleAction.setCycle(cycle)}">
 									<h:graphicImage value="/img/delete_16.png" />
@@ -231,7 +231,12 @@
 							value="#{messageCosts.cycle_standard_activities_remove}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
-
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:"
+							styleClass="etiquetaTitulo" />
+						<h:outputText
+							value="#{cycleAction.cycle.activiyNames.activityName}" />
+					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cycleAction.deleteCycle()}"

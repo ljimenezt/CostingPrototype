@@ -99,8 +99,7 @@
 						<p:calendar value="#{cycleAction.cycle.initialDateTime}"
 							rendered="#{cycleAction.flagDate eq false}" pattern="MM/dd/yyyy"
 							id="fechaInicio" required="true" readonlyInput="true"
-							showOn="button" maxdate="#{cycleAction.cycle.finalDateTime}"
-							navigator="true"
+							showOn="button" navigator="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							validator="#{controladorFechas.validarRangoFecha}">
@@ -130,8 +129,10 @@
 						<rich:message for="fechaFinal" />
 
 						<h:outputText value="#{messageLifeCycle.cycle_label_number}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="cycleNumber" maxlength="5" rendered="true"
+						<h:outputText value="#{cycleAction.flagCycle eq true ? '' : '*'}"
+							styleClass="required" />
+						<h:inputText id="cycleNumber" maxlength="5"
+							rendered="#{cycleAction.flagCycle eq false}"
 							value="#{cycleAction.cycle.cycleNumber}" readonly="true"
 							required="true" styleClass="W75P"
 							converterMessage="#{mensaje.message_campo_positivo}"
@@ -139,6 +140,8 @@
 							<f:validateDoubleRange minimum="1" />
 							<f:validateLength maximum="5" />
 						</h:inputText>
+						<h:outputText value="#{cycleAction.cycle.cycleNumber}"
+							rendered="#{cycleAction.flagCycle eq true}" />
 						<rich:message for="cycleNumber" />
 
 						<h:outputText value="#{mensaje.label_material_requerido}" />
