@@ -169,6 +169,10 @@ public class CycleDao implements Serializable {
 	 *            :integer of the activity associated a one cycle.
 	 * @param initialDate
 	 *            :initial date associated a one cycle.
+	 * @param consult
+	 *            : String containing the query why the leak.
+	 * @param parameters
+	 *            :query parameters.
 	 * @return Date: Date found with the parameters sent.
 	 * @throws Exception
 	 */
