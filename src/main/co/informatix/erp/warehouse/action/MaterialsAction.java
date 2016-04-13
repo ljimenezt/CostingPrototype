@@ -539,7 +539,8 @@ public class MaterialsAction implements Serializable {
 			Materials materialAux = materialsDao.materialByNamePresentation(
 					this.materials.getName(), this.materials.getPresentation(),
 					this.materials.getMeasurementUnits()
-							.getIdMeasurementUnits());
+							.getIdMeasurementUnits(), this.materials
+							.getIdMaterial());
 			if (materialAux != null) {
 				ControladorContexto.mensajeErrorEspecifico(
 						"formMaterials:txtNombre",
