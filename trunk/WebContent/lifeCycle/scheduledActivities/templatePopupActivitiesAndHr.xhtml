@@ -11,7 +11,7 @@
 	<h:form id="seleccionarTrabajador">
 		<rich:popupPanel id="popupTrabajador" autosized="true" maxWidth="490"
 			domElementAttachment="form"
-			header="#{messageCosts.activities_and_hr_label_workers} #{mensaje.label_para} #{activitiesAndHrAction.selectedActivity.activityName.activityName}">
+			header="#{messageCosts.activities_and_hr_label_workers} #{mensaje.label_for} #{activitiesAndHrAction.selectedActivity.activityName.activityName}">
 			<f:facet name="controls">
 				<h:panelGroup>
 					<h:graphicImage value="/img/close_14.png"
@@ -33,7 +33,7 @@
 								<h:selectOneMenu id="trabajador"
 									value="#{activitiesAndHrAction.idWorker}" styleClass="W225P"
 									required="true">
-									<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+									<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 									<f:selectItems value="#{activitiesAndHrAction.listTypeWorker}" />
 									<f:ajax event="change"
 										listener="#{activitiesAndHrAction.consultWorkers()}"
@@ -164,7 +164,7 @@
 				<a:outputPanel id="outputAgregarTrabajador">
 					<div align="center">
 						<h:panelGrid columns="3" columnClasses="right, left, left">
-							<h:outputText value="#{mensaje.label_hora_inicio}"
+							<h:outputText value="#{mensaje.label_start_time}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText disabled="true" styleClass="W91P"
 								value="#{activitiesAndHrAction.selectedActivity.initialDtBudget}">
@@ -172,7 +172,7 @@
 									locale="#{idioma.locale}" />
 							</h:inputText>
 							<h:outputText value="" />
-							<h:outputText value="#{mensaje.label_hora_fin}"
+							<h:outputText value="#{mensaje.label_end_time}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText disabled="true" styleClass="W91P"
 								value="#{activitiesAndHrAction.selectedActivity.finalDtBudget}">
@@ -260,9 +260,9 @@
 						</h:panelGrid>
 						<br />
 						<h:panelGrid columns="3" columnClasses=" center, center, center">
-							<h:outputText value="#{mensaje.label_fecha_inicio}"
+							<h:outputText value="#{mensaje.label_start_date}"
 								styleClass="etiquetaTitulo" />
-							<h:outputText value="#{mensaje.label_fecha_fin}"
+							<h:outputText value="#{mensaje.label_end_date}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText
 								value="#{messageCosts.cycle_standard_activities_label_duration}"

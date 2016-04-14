@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="materialsTypeAction.addEditMaterialsType(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeWarehouse.materials_type_label" />
+		value="mensaje.label_register,mensajeWarehouse.materials_type_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -32,7 +32,7 @@
 		<t:saveState value="#{materialsTypeAction}" />
 		<h:form id="formMaterialsType">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeWarehouse.materials_type_label}"
+				header="#{mensaje.label_register} #{mensajeWarehouse.materials_type_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarMaterialsTypes">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

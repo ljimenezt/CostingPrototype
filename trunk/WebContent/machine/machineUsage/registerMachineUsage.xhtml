@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="machineUsageAction.addEditMachineUsage(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageMachine.machine_usage_label" />
+		value="mensaje.label_register,messageMachine.machine_usage_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -24,7 +24,7 @@
 		<ui:param name="anchoTabla" value="anchoDos" />
 		<h:form id="formMachineUsage">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageMachine.machine_usage_label}"
+				header="#{mensaje.label_register} #{messageMachine.machine_usage_label}"
 				styleClass="anchoUno MinH253P" id="pnlRegisterMachineUsage">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_usage}</legend>
@@ -77,7 +77,7 @@
 							rowClasses="odd-row, even-row" footerClass="H130P">
 
 							<rich:column styleClass="colTextoMediano">
-								<f:facet name="header">#{mensaje.label_actividad}</f:facet>
+								<f:facet name="header">#{mensaje.label_activity}</f:facet>
 								<h:outputText
 									value="#{activityMachine.activityMachinePK.activities.activityName.activityName}" />
 							</rich:column>

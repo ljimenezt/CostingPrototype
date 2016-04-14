@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="haciendaAction.agregarEditarHacienda(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageOrganizations.farm_label" />
+		value="mensaje.label_register,messageOrganizations.farm_label" />
 	<ui:define name="body">
 		<t:saveState value="#{haciendaAction}" />
 		<t:saveState value="#{validacionesAction}" />
@@ -23,7 +23,7 @@
 			<rich:panel header="#{messageOrganizations.farm_label}"
 				id="panelHacienda" styleClass="anchoUno">
 				<t:fieldset styleClass="BorderW2P anchoDos" id="fieldSetDatBas">
-					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 
 					<h:inputHidden id="txtContactoHidden"
 						validator="#{encodeFilter.validarScripting}"
@@ -70,7 +70,7 @@
 							<rich:message for="nombre" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_contacto}" />
+								value="#{mensaje.label_contact}" />
 							<h:outputText value="*" styleClass="required" />
 							<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
 								<a:outputPanel id="txtPersona">
@@ -94,7 +94,7 @@
 										styleClass="verticalAlignMiddle" />
 									<rich:tooltip layout="block">
 										<h:outputText
-											value="#{mensaje.label_select} #{mensaje.label_contacto}" />
+											value="#{mensaje.label_select} #{mensaje.label_contact}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</h:panelGrid>
@@ -128,7 +128,7 @@
 							cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
 							cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}">
 							<t:fieldset>
-								<legend class="etiquetaTitulo">#{mensaje.label_foto}</legend>
+								<legend class="etiquetaTitulo">#{mensaje.label_photo}</legend>
 								<h:panelGrid columns="1" cellpadding="0" id="panelFotoHacienda">
 
 									<a:outputPanel
@@ -143,7 +143,7 @@
 														onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
 														styleClass="cursor" />
 													<rich:tooltip layout="block">
-														<h:outputText value="#{mensaje.label_cambiar_img}" />
+														<h:outputText value="#{mensaje.label_change_img}" />
 													</rich:tooltip>
 												</a:commandLink>
 											</div>
@@ -165,7 +165,7 @@
 											styleClass="H200P W290P" />
 										<p:fileUpload id="uploadFileFoto" dragDropSupport="true"
 											rendered="#{haciendaAction.fileNameFoto eq null or empty haciendaAction.fileNameFoto}"
-											label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+											label="#{mensaje.label_select_file}" mode="advanced"
 											auto="true" fileUploadListener="#{haciendaAction.submit}"
 											update=":haciendaForm:panelFotoHacienda"
 											onstart="#{rich:component('statPane')}.show();"
@@ -178,7 +178,7 @@
 										<div class="etiquetaTitulo">
 											<hr />
 											<h:outputText
-												value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
+												value="#{mensaje.label_allowed_ext}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
 											<hr />
 										</div>
 									</a:outputPanel>
@@ -189,7 +189,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos" id="fieldSetUbicacion">
-					<legend class="etiquetaTitulo">#{mensaje.label_ubicacion}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_location}</legend>
 					<h:panelGrid columns="2" columnClasses="W70Per top,W30Per">
 
 						<h:panelGrid columns="4"
@@ -197,7 +197,7 @@
 							cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
 							columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 
-							<h:outputText value="#{mensaje.label_ubicacion}"
+							<h:outputText value="#{mensaje.label_location}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText styleClass="colTextoMediano" maxlength="100"
@@ -280,7 +280,7 @@
 														onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
 														styleClass="cursor" />
 													<rich:tooltip layout="block">
-														<h:outputText value="#{mensaje.label_cambiar_img}" />
+														<h:outputText value="#{mensaje.label_change_img}" />
 													</rich:tooltip>
 												</a:commandLink>
 												<a:commandLink
@@ -292,7 +292,7 @@
 														onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
 														styleClass="cursor" />
 													<rich:tooltip layout="block">
-														<h:outputText value="#{mensaje.label_cambiar_img}" />
+														<h:outputText value="#{mensaje.label_change_img}" />
 													</rich:tooltip>
 												</a:commandLink>
 											</div>
@@ -314,7 +314,7 @@
 											styleClass="H200P W290P" />
 										<p:fileUpload id="uploadFileMapa" dragDropSupport="true"
 											rendered="#{haciendaAction.fileNameMapa eq null or empty haciendaAction.fileNameMapa}"
-											label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+											label="#{mensaje.label_select_file}" mode="advanced"
 											auto="true" fileUploadListener="#{haciendaAction.submit}"
 											update=":haciendaForm:panelMapaHacienda"
 											onstart="#{rich:component('statPane')}.show();"
@@ -327,7 +327,7 @@
 										<div class="etiquetaTitulo">
 											<hr />
 											<h:outputText
-												value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
+												value="#{mensaje.label_allowed_ext}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
 											<hr />
 										</div>
 
@@ -345,7 +345,7 @@
 						cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 
-						<h:outputText value="#{mensaje.label_longitud}"
+						<h:outputText value="#{mensaje.label_length}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colNumero" id="longitud"
@@ -418,7 +418,7 @@
 						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{haciendaAction.hacienda.nombre}" />
 
-						<h:outputText value="#{mensaje.label_contacto}:" />
+						<h:outputText value="#{mensaje.label_contact}:" />
 						<h:outputText
 							value="#{haciendaAction.hacienda.contacto.nombres} #{haciendaAction.hacienda.contacto.apellidos}" />
 

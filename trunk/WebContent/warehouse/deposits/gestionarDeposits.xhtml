@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="depositsAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeWarehouse.deposits_label" />
+		value="mensaje.label_manage,mensajeWarehouse.deposits_label" />
 	<ui:define name="body">
 		<t:saveState value="#{depositsAction}" />
 		<t:saveState value="#{transactionsAction}" />
@@ -50,7 +50,7 @@
 
 		<h:form id="formDeposits">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeWarehouse.deposits_label_s}"
+				header="#{mensaje.label_listing} #{mensajeWarehouse.deposits_label_s}"
 				id="panelDeposits">
 				<t:fieldset styleClass="anchoDos BorderW2P">
 					<legend class="etiquetaTitulo">#{mensajeWarehouse.materials_label}</legend>
@@ -63,7 +63,7 @@
 						<h:outputText value="" />
 						<h:selectOneMenu value="#{depositsAction.idMaterialType}"
 							id="typeMaterial" styleClass="colTextoMediano">
-							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 							<f:selectItems value="#{depositsAction.itemsMaterialType}" />
 							<f:ajax event="change"
 								listener="#{depositsAction.initializeDropDownTypeMaterial(true)}"
@@ -76,7 +76,7 @@
 						<h:outputText value="" />
 						<h:selectOneMenu value="#{depositsAction.idMaterial}"
 							styleClass="colTextoMediano" id="material">
-							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 							<f:selectItems value="#{depositsAction.itemsMaterial}" />
 							<f:ajax event="change" render="formDeposits"
 								listener="#{depositsAction.initializeDropDownTypeMaterial(false)}">
@@ -110,7 +110,7 @@
 										<h:graphicImage value="/img/details_16.png"
 											styleClass="verticalAlignMiddle" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_detalles}" />
+											<h:outputText value="#{mensaje.label_details}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</a:outputPanel>
@@ -236,7 +236,7 @@
 							rowClasses="odd-row, even-row" footerClass="H130P">
 
 							<rich:column styleClass="colFecha">
-								<f:facet name="header">#{mensaje.label_fecha}</f:facet>
+								<f:facet name="header">#{mensaje.label_date}</f:facet>
 								<h:outputText value="#{transaction.dateTime}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />
@@ -256,7 +256,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colNumero">
-								<f:facet name="header">#{mensaje.label_cantidad}</f:facet>
+								<f:facet name="header">#{mensaje.label_quantity}</f:facet>
 								<h:outputText value="#{transaction.quantity}">
 									<f:convertNumber pattern="#,##0.00" />
 								</h:outputText>
@@ -268,12 +268,12 @@
 							</rich:column>
 
 							<rich:column styleClass="colTextoLargo">
-								<f:facet name="header">#{mensaje.label_justificacion}</f:facet>
+								<f:facet name="header">#{mensaje.label_justification}</f:facet>
 								<h:outputText value="#{transaction.justification}" />
 							</rich:column>
 
 							<rich:column styleClass="colTextoCorto">
-								<f:facet name="header">#{mensaje.label_nombre_usuario}</f:facet>
+								<f:facet name="header">#{mensaje.label_user_name}</f:facet>
 								<h:outputText value="#{transaction.userName}" />
 							</rich:column>
 
@@ -305,7 +305,7 @@
 		<h:form id="formDeposit">
 			<rich:popupPanel id="depositDetails" modal="true"
 				domElementAttachment="form" autosized="true" width="1200"
-				maxWidth="1300" header="#{mensaje.label_detalles}">
+				maxWidth="1300" header="#{mensaje.label_details}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -382,7 +382,6 @@
 								</h:outputText>
 							</h:panelGrid>
 						</t:fieldset>
-
 					</a:outputPanel>
 				</a:outputPanel>
 			</rich:popupPanel>
@@ -459,7 +458,7 @@
 							<rich:message for="txtActualQuantity" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_justificacion}:" />
+								value="#{mensaje.label_justification}:" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputTextarea
 								value="#{depositsAction.justificationTransaction}"
@@ -507,7 +506,7 @@
 							value="#{mensajeWarehouse.materials_type_label}" />
 						<h:selectOneMenu value="#{depositsAction.idMaterialType}"
 							id="typeMaterial" styleClass="colTextoMediano">
-							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 							<f:selectItems value="#{depositsAction.itemsMaterialType}" />
 						</h:selectOneMenu>
 
@@ -524,22 +523,23 @@
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_inicio}" />
+							value="#{mensaje.label_start_date}" />
+
 						<p:calendar value="#{depositsAction.dateStartSearch}"
 							showOn="button" navigator="true" id="fechaInicio"
 							pattern="MM/dd/yyyy" readonlyInput="true"
-							label="#{mensaje.label_fecha_inicio}">
+							label="#{mensaje.label_start_date}">
 							<p:ajax event="dateSelect" update="fechFin" />
 						</p:calendar>
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_finalizacion}" />
+							value="#{mensaje.label_end_date}" />
 						<p:calendar value="#{depositsAction.dateEndSearch}"
 							showOn="button" navigator="true"
 							mindate="#{depositsAction.dateStartSearch}" id="fechFin"
 							pattern="MM/dd/yyyy" readonlyInput="true"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
-							label="#{mensaje.label_fecha_finalizacion}">
+							label="#{mensaje.label_end_date}">
 						</p:calendar>
 					</h:panelGrid>
 				</a:outputPanel>
@@ -606,7 +606,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_fecha_inicio}:" />
+						<h:outputText value="#{mensaje.label_start_date}:" />
 						<h:outputText value="#{depositsAction.deposits.dateTime}" />
 					</ui:define>
 					<ui:define name="botones">

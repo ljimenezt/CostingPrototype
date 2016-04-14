@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="haciendaAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageOrganizations.farm_label_s" />
+		value="mensaje.label_manage,messageOrganizations.farm_label_s" />
 	<ui:define name="body">
 		<script src="http://maps.google.com/maps/api/js?sensor=false"
 			type="text/javascript"></script>
@@ -76,7 +76,7 @@
 								actionListener="#{haciendaAction.cargarDetallesHacienda(hacienda)}">
 								<h:graphicImage value="/img/details_16.png" />
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_detalles}" />
+									<h:outputText value="#{mensaje.label_details}" />
 								</rich:tooltip>
 							</a:commandLink>
 						</rich:column>
@@ -99,12 +99,12 @@
 							<h:outputText value="#{hacienda.empresa.nombre}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensaje.label_contacto}</f:facet>
+							<f:facet name="header">#{mensaje.label_contact}</f:facet>
 							<h:outputText
 								value="#{hacienda.contacto.nombres}  #{hacienda.contacto.apellidos}" />
 						</rich:column>
 						<rich:column styleClass="colTextoLargo">
-							<f:facet name="header">#{mensaje.label_ubicacion}</f:facet>
+							<f:facet name="header">#{mensaje.label_location}</f:facet>
 							<h:outputText value="#{hacienda.ubicacion}" />
 						</rich:column>
 						<rich:column styleClass="colTextoCorto">
@@ -179,7 +179,7 @@
 		</h:form>
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupDetalles" autosized="true" maxWidth="700"
-				domElementAttachment="form" header="#{mensaje.label_detalles}">
+				domElementAttachment="form" header="#{mensaje.label_details}">
 				<f:facet name="controls">
 					<h:outputLink value="#"
 						onclick="#{rich:component('popupDetalles')}.hide(); return false;">
@@ -190,7 +190,7 @@
 				</f:facet>
 				<rich:panel id="panelDetalles">
 					<rich:accordion switchType="client">
-						<rich:accordionItem header="#{mensaje.label_datos_basicos}"
+						<rich:accordionItem header="#{mensaje.label_basic_data}"
 							contentClass="H260PImp">
 							<h:panelGrid columns="2" columnClasses="W70Per,W30Per">
 								<h:panelGrid columns="2" cellpadding="5" cellspacing="5"
@@ -206,7 +206,7 @@
 									<h:outputText value="#{mensaje.label_name}:" />
 									<h:outputText value="#{haciendaAction.hacienda.nombre}" />
 
-									<h:outputText value="#{mensaje.label_contacto}:" />
+									<h:outputText value="#{mensaje.label_contact}:" />
 									<h:outputText
 										value="#{haciendaAction.hacienda.contacto.nombres}  #{haciendaAction.hacienda.contacto.apellidos}" />
 
@@ -220,7 +220,7 @@
 								</h:panelGrid>
 								<h:panelGrid columns="1">
 									<t:fieldset styleClass="BorderW2P">
-										<legend class="etiquetaTitulo">#{mensaje.label_foto}</legend>
+										<legend class="etiquetaTitulo">#{mensaje.label_photo}</legend>
 										<h:graphicImage
 											rendered="#{haciendaAction.fileNameFoto != null and !empty haciendaAction.fileNameFoto}"
 											value="#{haciendaAction.carpetaArchivosReal}/#{haciendaAction.fileNameFoto}"
@@ -233,12 +233,12 @@
 								</h:panelGrid>
 							</h:panelGrid>
 						</rich:accordionItem>
-						<rich:accordionItem header="#{mensaje.label_ubicacion}"
+						<rich:accordionItem header="#{mensaje.label_location}"
 							contentClass="H260PImp">
 							<h:panelGrid columns="2" columnClasses="W70Per,W30Per">
 								<h:panelGrid columns="2" cellpadding="5" cellspacing="13"
 									columnClasses="columnaIzquierda, columnaDerecha">
-									<h:outputText value="#{mensaje.label_ubicacion}:" />
+									<h:outputText value="#{mensaje.label_location}:" />
 									<h:outputText value="#{haciendaAction.hacienda.ubicacion}" />
 
 									<h:outputText value="#{messageBaseInformation.country_label}:" />
@@ -277,7 +277,7 @@
 							<h:panelGrid columns="2" columnClasses="W70Per,W30Per">
 								<h:panelGrid columns="2" cellpadding="5" cellspacing="13"
 									columnClasses="columnaIzquierda, columnaDerecha">
-									<h:outputText value="#{mensaje.label_longitud}:" />
+									<h:outputText value="#{mensaje.label_length}:" />
 									<h:outputText value="#{haciendaAction.hacienda.longitud}" />
 
 									<h:outputText value="#{mensaje.label_latitud}:" />

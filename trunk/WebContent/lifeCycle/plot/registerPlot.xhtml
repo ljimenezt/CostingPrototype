@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="plotAction.addEditPlot(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageLifeCycle.plot_label" />
+		value="mensaje.label_register,messageLifeCycle.plot_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -30,7 +30,7 @@
 		<t:saveState value="#{plotAction}" />
 		<h:form id="formPlot">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageLifeCycle.plot_label}"
+				header="#{mensaje.label_register} #{messageLifeCycle.plot_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarPlot">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -63,12 +63,12 @@
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
-					<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}"
+					<h:outputText value="#{mensaje.label_location_map_link}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText value="#{plotAction.plot.locationLinkToMap}"
 						styleClass="colTextoMediano" id="txtLocation" size="41"
-						label="#{mensaje.label_enlace_mapa_ubicacion}"
+						label="#{mensaje.label_location_map_link}"
 						converterMessage="#{mensaje.message_campo_positivo}"
 						maxlength="100">
 						<f:validateDoubleRange minimum="0" />
@@ -135,7 +135,7 @@
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{plotAction.plot.name}" />
-						<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}:" />
+						<h:outputText value="#{mensaje.label_location_map_link}:" />
 						<h:outputText value="#{plotAction.plot.locationLinkToMap}" />
 						<h:outputText value="#{mensaje.label_size}:" />
 						<h:outputText value="#{plotAction.plot.size}" />

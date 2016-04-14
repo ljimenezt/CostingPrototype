@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="plotAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageLifeCycle.plot_label_s" />
+		value="mensaje.label_manage,messageLifeCycle.plot_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{plotAction}" />
 		<ui:param name="listaVacia"
@@ -42,7 +42,7 @@
 						cellspacing="7">
 						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText value="#{plotAction.farm.name}" />
-						<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}: " />
+						<h:outputText value="#{mensaje.label_location_map_link}: " />
 						<h:outputText value="#{plotAction.farm.locationLinkToMap}" />
 					</h:panelGrid>
 				</t:fieldset>
@@ -56,7 +56,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="farm" value="#{plotAction.nameFarm}"
 						styleClass="colTextoMediano" required="true">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 						<f:selectItems value="#{plotAction.optionsFarm}" />
 						<f:ajax event="change" listener="#{plotAction.consultPlots()}"
 							render=":formPlot" />
@@ -101,7 +101,7 @@
 							<h:outputText value="#{plot.description}" />
 						</rich:column>
 						<rich:column styleClass="colNumero">
-							<f:facet name="header">#{mensaje.label_enlace_mapa_ubicacion}</f:facet>
+							<f:facet name="header">#{mensaje.label_location_map_link}</f:facet>
 							<h:outputText value="#{plot.locationLinkToMap}" />
 						</rich:column>
 						<rich:column styleClass="colNumero">

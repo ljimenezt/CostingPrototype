@@ -563,7 +563,6 @@ public class DepositsAction implements Serializable {
 					+ this.invoiceSearch + '"' + " ");
 			queryAdded = true;
 		}
-
 		if (this.dateStartSearch != null || this.dateEndSearch != null) {
 			consult.append(queryAdded ? "AND " : "WHERE ");
 
@@ -582,7 +581,7 @@ public class DepositsAction implements Serializable {
 						"dateStartSearch");
 				parameters.add(item);
 				parameters.add(item);
-				String dateFrom = bundle.getString("label_fecha_inicio") + ": "
+				String dateFrom = bundle.getString("label_start_date") + ": "
 						+ '"' + format.format(this.dateStartSearch) + '"' + " ";
 				unionMessagesSearch.append(dateFrom);
 			}
@@ -590,8 +589,8 @@ public class DepositsAction implements Serializable {
 				SelectItem item2 = new SelectItem(dateEndSearch,
 						"dateEndSearch");
 				parameters.add(item2);
-				String dateTo = bundle.getString("label_fecha_finalizacion")
-						+ ": " + '"' + format.format(dateEndSearch) + '"';
+				String dateTo = bundle.getString("label_end_date") + ": " + '"'
+						+ format.format(dateEndSearch) + '"';
 				unionMessagesSearch.append(dateTo);
 				parameters.add(item2);
 			}

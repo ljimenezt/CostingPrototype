@@ -12,12 +12,12 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:param name="action" value="hrAction.addEditHr(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageHumanResources.human_resource_label" />
+		value="mensaje.label_register,messageHumanResources.human_resource_label" />
 	<ui:define name="body">
 		<t:saveState value="#{hrAction}" />
 		<h:form id="formHr">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageHumanResources.human_resource_label}"
+				header="#{mensaje.label_register} #{messageHumanResources.human_resource_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarHr">
 				<h:panelGrid columns="2"
 					columnClasses="W50Per tdAlignTop,W50Per tdAlignTop">
@@ -55,7 +55,7 @@
 								</h:inputText>
 								<rich:message for="txtApellido" />
 
-								<h:outputLabel value="#{mensaje.label_genero}"
+								<h:outputLabel value="#{mensaje.label_gender}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:selectOneRadio value="#{hrAction.hr.genero}" id="radGenero">
@@ -317,7 +317,7 @@
 								<a:outputPanel>
 									<a:outputPanel>
 										<t:fieldset>
-											<legend class="etiquetaTitulo">#{mensaje.label_foto}</legend>
+											<legend class="etiquetaTitulo">#{mensaje.label_photo}</legend>
 											<h:panelGrid columns="1" cellpadding="0" id="panelFotoHr">
 												<a:outputPanel
 													rendered="#{hrAction.hrPicName != null and !(empty hrAction.hrPicName)}">
@@ -329,7 +329,7 @@
 																	onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 																	onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
 																	styleClass="cursor"
-																	title="#{mensaje.label_cambiar_img}" />
+																	title="#{mensaje.label_change_img}" />
 															</a:commandLink>
 														</div>
 														<h:graphicImage
@@ -348,7 +348,7 @@
 														styleClass="H110P W150P" />
 													<p:fileUpload id="uploadLogo" dragDropSupport="true"
 														rendered="#{hrAction.hrPicName eq null or empty hrAction.hrPicName}"
-														label="#{mensaje.label_seleccione_archivo}"
+														label="#{mensaje.label_select_file}"
 														mode="advanced" auto="true"
 														fileUploadListener="#{hrAction.submit}"
 														update="panelFotoHr"
@@ -358,7 +358,7 @@
 													<div class="etiquetaTitulo">
 														<hr />
 														<h:outputText
-															value="#{mensaje.label_ext_permitida}: #{propPrototipoCostos['locate.ext.permitted.img']}" />
+															value="#{mensaje.label_allowed_ext}: #{propPrototipoCostos['locate.ext.permitted.img']}" />
 														<hr />
 													</div>
 												</a:outputPanel>
@@ -414,7 +414,7 @@
 								</h:inputText>
 								<rich:message for="txtTelefono" />
 
-								<h:outputText value="#{mensaje.label_movil}"
+								<h:outputText value="#{mensaje.label_mobile}"
 									styleClass="etiquetaTitulo" />
 								<h:outputText value="" />
 								<h:inputText value="#{hrAction.hr.movil}" id="txtMovil"
@@ -536,7 +536,7 @@
 						<h:outputText value="#{hrAction.hr.direccion}" />
 						<h:outputText value="#{mensaje.label_telephone_number}:" />
 						<h:outputText value="#{hrAction.hr.telefono}" />
-						<h:outputText value="#{mensaje.label_movil}:" />
+						<h:outputText value="#{mensaje.label_mobile}:" />
 						<h:outputText value="#{hrAction.hr.movil}" />
 						<h:outputText
 							value="#{messageHumanResources.human_resource_label_anual_wage}:" />

@@ -47,7 +47,7 @@
 						<h:outputText value="#{mensaje.label_actual}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
-						<h:outputText value="#{mensaje.label_fecha_inicio}"
+						<h:outputText value="#{mensaje.label_start_date}"
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.initialDateTimeBudget}"
@@ -68,7 +68,7 @@
 								listener="#{recordActivitiesActualsAction.calculateCurrentDuration()}" />
 						</p:calendar>
 						<rich:message for="fechaInicioTimeActual" />
-						<h:outputText value="#{mensaje.label_fecha_fin}"
+						<h:outputText value="#{mensaje.label_end_date}"
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true" styleClass="W108P"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.finalDateTimeBudget}">
@@ -109,7 +109,7 @@
 						</h:inputText>
 						<rich:message for="duration" />
 						<h:outputText
-							value="#{mensaje.label_costo} #{mensaje.label_total}"
+							value="#{mensaje.label_cost} #{mensaje.label_total}"
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true" id="costBudget"
 							value="#{recordActivitiesActualsAction.activitiesAndHr.totalCostBudget}"

@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="cropsAction.addEditCrops(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageLifeCycle.crops_label" />
+		value="mensaje.label_register,messageLifeCycle.crops_label" />
 	<ui:define name="body">
 		<t:saveState value="#{cropsAction}" />
 		<t:saveState value="#{plotAction}" />
@@ -33,11 +33,11 @@
 		</script>
 		<h:form id="formCrops">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageLifeCycle.crops_label}"
+				header="#{mensaje.label_register} #{messageLifeCycle.crops_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarCrops">
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos" id="cropData">
-					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 					<h:panelGrid columns="4" columnClasses=" tdAlignTop, tdAlignTop">
 						<h:outputText value="#{messageLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
@@ -83,7 +83,7 @@
 							<p:ajax event="dateSelect" update="fechaInicio" />
 						</p:calendar>
 						<rich:message for="fechFin" />
-						<h:outputText value="#{mensaje.label_anyo_registro}"
+						<h:outputText value="#{mensaje.label_registration_date}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu id="cropAnyo" value="#{cropsAction.year}">
@@ -164,7 +164,7 @@
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colTextoLargo">
-								<f:facet name="header">#{mensaje.label_enlace_mapa_ubicacion}</f:facet>
+								<f:facet name="header">#{mensaje.label_location_map_link}</f:facet>
 								<h:outputText value="#{plot.locationLinkToMap}" />
 							</rich:column>
 							<f:facet name="footer">
@@ -247,7 +247,7 @@
 						<h:outputText value="#{cropsAction.crops.initialDate}" />
 						<h:outputText value="#{messageLifeCycle.plot_final_date}:" />
 						<h:outputText value="#{cropsAction.crops.finalDate}" />
-						<h:outputText value="#{mensaje.label_anyo_registro}:" />
+						<h:outputText value="#{mensaje.label_registration_date}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(cropsAction.selectYear,cropsAction.year)}" />
 						<h:outputText value="#{mensaje.label_description}:" />
@@ -279,7 +279,7 @@
 				<rich:panel styleClass="H383P fondoAnchoUno W400P">
 					<a:outputPanel id="outPutSearchPlot">
 						<t:fieldset styleClass="BorderW2P W350P">
-							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+							<legend class="etiquetaTitulo">#{mensaje.label_search}
 								#{messageLifeCycle.plot_names_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
 								<h:outputText value="#{mensaje.label_name}"
@@ -336,7 +336,7 @@
 									</h:outputText>
 								</rich:column>
 								<rich:column styleClass="colNumero">
-									<f:facet name="header">#{mensaje.label_enlace_mapa_ubicacion}</f:facet>
+									<f:facet name="header">#{mensaje.label_location_map_link}</f:facet>
 									<h:outputText value="#{plot.locationLinkToMap}" />
 								</rich:column>
 								<f:facet name="footer">

@@ -13,16 +13,16 @@
 	<ui:param name="action"
 		value="maintenanceAndCalibrationAction.addEditMaintenanceAndCalibration(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar, messageMachine.maintenance_calibration_label" />
+		value="mensaje.label_register, messageMachine.maintenance_calibration_label" />
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceAndCalibrationAction}" />
 		<t:saveState value="#{machinesAction}" />
 		<h:form id="formMaintenanceAndCalibration">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageMachine.maintenance_calibration_label}"
+				header="#{mensaje.label_register} #{messageMachine.maintenance_calibration_label}"
 				styleClass="anchoUno MinH253P" id="panelMaintenanceAndCalibration">
 				<t:fieldset styleClass="anchoDos BorderW2P">
-					<legend class="etiquetaTitulo">#{mensaje.label_informacion_maquina}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_machine_information}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
@@ -70,7 +70,7 @@
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop W135P,,W235P,tdAlignTop">
 
-						<h:outputText value="#{mensaje.label_fecha }"
+						<h:outputText value="#{mensaje.label_date}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar readonlyInput="true"
@@ -125,13 +125,13 @@
 					</ui:define>
 					<ui:define name="campos">
 
-						<h:outputText value="#{mensaje.label_tipo_maquina}:" />
+						<h:outputText value="#{mensaje.label_machine_type}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(maintenanceAndCalibrationAction.machinesTypeItems, maintenanceAndCalibrationAction.machineTypes.idMachineType)}" />
 						<h:outputText value="#{messageMachine.insurance_label_machine}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(maintenanceAndCalibrationAction.machinesItems, maintenanceAndCalibrationAction.machines.idMachine)}" />
-						<h:outputText value="#{mensaje.label_fecha}:" />
+						<h:outputText value="#{mensaje.label_date}:" />
 						<h:outputText
 							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}" />
 						<h:outputText

@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="metodoAction.registerMethod(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageSecurity.method_label" />
+		value="mensaje.label_register,messageSecurity.method_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -44,7 +44,7 @@
 						cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop,">
 
-						<h:outputText value="#{mensaje.label_proceso}"
+						<h:outputText value="#{mensaje.label_process}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="txtnombre" maxlength="50" required="true"
@@ -105,7 +105,7 @@
 										styleClass="quitarDecoracionLink" execute="@this">
 										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 											<h:graphicImage value="/img/consultar_16.png" />
-											<h:outputText value="#{mensaje.label_buscar}" />
+											<h:outputText value="#{mensaje.label_search}" />
 										</h:panelGrid>
 									</a:commandLink>
 									<a:commandLink
@@ -195,7 +195,7 @@
 											actionListener="#{metodoAction.addRemoveAllMenus('remove')}">
 											<h:graphicImage value="/img/quitar_16.png" />
 											<rich:tooltip layout="block">
-												<h:outputText value="#{mensaje.label_quitar_todos}" />
+												<h:outputText value="#{mensaje.label_remove_all}" />
 											</rich:tooltip>
 										</a:commandLink>
 									</f:facet>
@@ -203,7 +203,7 @@
 										actionListener="#{metodoAction.addRemoveMenusListSelected('remove',selectedMenu)}">
 										<h:graphicImage value="/img/quitar_16.png" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_quitar}" />
+											<h:outputText value="#{mensaje.label_remove}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>
@@ -255,7 +255,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_proceso}:" />
+						<h:outputText value="#{mensaje.label_process}:" />
 						<h:outputText value="#{metodoAction.method.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
@@ -273,7 +273,7 @@
 		</h:form>
 		<h:form id="popupFormSearch">
 			<rich:popupPanel id="popupSearch" autosized="true"
-				header="#{mensaje.label_criterios_busqueda_label} #{messageSecurity.menu_label_s}"
+				header="#{mensaje.label_search_criteria} #{messageSecurity.menu_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -296,7 +296,7 @@
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.label_buscar}"
+					<a:commandButton value="#{mensaje.label_search}"
 						id="btnBuscarMenus"
 						action="#{metodoAction.searchAvailableMenus()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null} || #{facesContext.maximumSeverity.ordinal == 0}) {#{rich:component('popupSearch')}.hide();}"

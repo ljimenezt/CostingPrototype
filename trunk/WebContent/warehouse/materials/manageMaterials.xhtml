@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="materialsAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeWarehouse.materials_label" />
+		value="mensaje.label_manage,mensajeWarehouse.materials_label" />
 	<ui:define name="body">
 		<t:saveState value="#{materialsAction}" />
 		<ui:param name="listaVacia"
@@ -32,7 +32,7 @@
 		<ui:param name="metodoListarTodos" value="initializeSearch" />
 		<h:form id="formMaterials">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeWarehouse.materials_label_s}"
+				header="#{mensaje.label_listing} #{mensajeWarehouse.materials_label_s}"
 				id="panelMaterials">
 				<br />
 				<h:panelGrid columns="3"
@@ -44,7 +44,7 @@
 					<h:selectOneMenu id="materialType"
 						value="#{materialsAction.idMaterialType}"
 						styleClass="colTextoMediano" required="true">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 						<f:selectItems value="#{materialsAction.materialTypeItems}" />
 						<f:ajax event="change"
 							listener="#{materialsAction.searchMaterials()}"
@@ -156,7 +156,7 @@
 					<h:selectOneMenu id="materialType"
 						value="#{materialsAction.idMaterialType}"
 						styleClass="colTextoMediano" required="true">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 						<f:selectItems value="#{materialsAction.materialTypeItems}" />
 					</h:selectOneMenu>
 

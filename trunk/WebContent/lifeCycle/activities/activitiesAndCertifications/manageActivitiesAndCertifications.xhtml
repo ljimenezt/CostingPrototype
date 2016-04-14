@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="activitiesAndCertificationsAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageLifeCycle.activities_certifications_label" />
+		value="mensaje.label_manage,messageLifeCycle.activities_certifications_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{activitiesAndCertificationsAction}" />
@@ -36,7 +36,7 @@
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
 		<h:form id="formActAndCert">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageCosts.activities_label_s}"
+				header="#{mensaje.label_listing} #{messageCosts.activities_label_s}"
 				id="panelActAndCert">
 				<h:panelGrid columns="4" columnClasses="tdAlignTop,,,">
 					<h:outputText
@@ -47,7 +47,7 @@
 						value="#{activitiesAndCertificationsAction.idCertAndRoles}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 						<f:selectItems
 							value="#{activitiesAndCertificationsAction.itemsCertificationsAndRoles}" />
 						<f:ajax event="change"

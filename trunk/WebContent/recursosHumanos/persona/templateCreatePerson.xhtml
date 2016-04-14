@@ -21,7 +21,7 @@
 			</h:selectOneMenu>
 			<rich:message for="cmbTipoDocumento" />
 
-			<h:outputText value="#{mensaje.label_numero_identificacion}"
+			<h:outputText value="#{mensaje.label_identification_number}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:inputText value="#{personaAction.person.documento}" id="txtId"
@@ -54,7 +54,7 @@
 			</h:inputText>
 			<rich:message for="txtApellido" />
 
-			<h:outputLabel value="#{mensaje.label_genero}"
+			<h:outputLabel value="#{mensaje.label_gender}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
 			<h:selectOneRadio value="#{personaAction.person.genero}"
@@ -177,7 +177,7 @@
 			</h:inputText>
 			<rich:message for="txtFax" />
 
-			<h:outputText value="#{mensaje.label_movil}"
+			<h:outputText value="#{mensaje.label_mobile}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
 			<h:inputText value="#{personaAction.person.movil}" id="txtMovil"
@@ -230,7 +230,7 @@
 		<h:panelGrid columns="1" cellpadding="0"
 			rendered="#{modal ne '1' and modal ne '2'}">
 			<t:fieldset>
-				<legend class="etiquetaTitulo">#{mensaje.label_foto}</legend>
+				<legend class="etiquetaTitulo">#{mensaje.label_photo}</legend>
 				<h:panelGrid columns="1" cellpadding="0" id="panelFoto">
 					<a:outputPanel
 						rendered="#{personaAction.fileUploadBean.fileName != null and !(empty personaAction.fileUploadBean.fileName)}">
@@ -241,7 +241,7 @@
 									<h:graphicImage value="/img/close_14.png" styleClass="cursor"
 										onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 										onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-										title="#{mensaje.label_cambiar_img}" />
+										title="#{mensaje.label_change_img}" />
 								</a:commandLink>
 							</div>
 							<h:graphicImage
@@ -263,7 +263,7 @@
 							styleClass="H200P W290P" />
 						<p:fileUpload id="uploadFile" dragDropSupport="true"
 							rendered="#{personaAction.fileUploadBean.fileName eq null or empty personaAction.fileUploadBean.fileName}"
-							label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+							label="#{mensaje.label_select_file}" mode="advanced"
 							auto="true" fileUploadListener="#{personaAction.submit}"
 							update="panelFoto"
 							onstart="#{rich:component('statPane')}.show();"
@@ -274,7 +274,7 @@
 						<div class="etiquetaTitulo">
 							<hr />
 							<h:outputText
-								value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitted.img']}" />
+								value="#{mensaje.label_allowed_ext}: #{propCacaoSoft['locate.ext.permitted.img']}" />
 							<hr />
 						</div>
 					</a:outputPanel>

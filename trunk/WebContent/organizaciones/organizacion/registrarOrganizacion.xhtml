@@ -11,7 +11,7 @@
 	<ui:param name="action"
 		value="organizacionAction.registrarOrganizacion(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageOrganizations.organization_label" />
+		value="mensaje.label_register,messageOrganizations.organization_label" />
 	<ui:define name="body">
 		<t:saveState value="#{organizacionAction}" />
 		<t:saveState value="#{personaAction}" />
@@ -29,7 +29,7 @@
 				<rich:message for="mensajeNit" />
 				<t:fieldset styleClass="anchoDos BorderW2P">
 					<legend>
-						<a:outputPanel styleClass="etiquetaTitulo">#{mensaje.label_datos_basicos}</a:outputPanel>
+						<a:outputPanel styleClass="etiquetaTitulo">#{mensaje.label_basic_data}</a:outputPanel>
 					</legend>
 					<h:panelGrid columns="2" columnClasses="W70Per top,W30Per">
 						<h:panelGrid columns="4"
@@ -109,7 +109,7 @@
 													<h:graphicImage value="/img/close_14.png"
 														onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 														onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-														styleClass="cursor" title="#{mensaje.label_cambiar_img}" />
+														styleClass="cursor" title="#{mensaje.label_change_img}" />
 												</a:commandLink>
 											</div>
 											<h:graphicImage
@@ -130,7 +130,7 @@
 											styleClass="H200P W290P" />
 										<p:fileUpload id="uploadFile" dragDropSupport="true"
 											rendered="#{organizacionAction.fileUploadBean.fileName eq null or empty organizacionAction.fileUploadBean.fileName}"
-											label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+											label="#{mensaje.label_select_file}" mode="advanced"
 											auto="true" fileUploadListener="#{organizacionAction.submit}"
 											update="panelFoto"
 											onstart="#{rich:component('statPane')}.show();"
@@ -141,7 +141,7 @@
 										<div class="etiquetaTitulo">
 											<hr />
 											<h:outputText
-												value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
+												value="#{mensaje.label_allowed_ext}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
 											<hr />
 										</div>
 									</a:outputPanel>
@@ -164,7 +164,7 @@
 
 		<h:form id="personaForm">
 			<rich:popupPanel id="popUpNuevaPersona" width="690" height="598"
-				header="#{mensaje.label_registrar} #{messageHumanResources.person_label}"
+				header="#{mensaje.label_register} #{messageHumanResources.person_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

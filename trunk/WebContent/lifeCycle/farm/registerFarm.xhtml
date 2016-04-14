@@ -12,12 +12,12 @@
 	xmlns:p="http://primefaces.org/ui">
 	<ui:param name="action" value="farmAction.addEditFarm(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageLifeCycle.farm_label" />
+		value="mensaje.label_register,messageLifeCycle.farm_label" />
 	<ui:define name="body">
 		<t:saveState value="#{farmAction}" />
 		<h:form id="formFarm">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageLifeCycle.farm_label}"
+				header="#{mensaje.label_register} #{messageLifeCycle.farm_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarFarm">
 				<h:panelGrid columns="2" columnClasses="W80Per,W20Per tdAlignTop">
 					<h:panelGrid columns="4"
@@ -34,11 +34,11 @@
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="txtNombre" />
 
-						<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}"
+						<h:outputText value="#{mensaje.label_location_map_link}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText value="#{farmAction.farm.locationLinkToMap}"
-							label="#{mensaje.label_enlace_mapa_ubicacion}"
+							label="#{mensaje.label_location_map_link}"
 							converterMessage="#{mensaje.message_campo_positivo}"
 							styleClass="colTextoMediano" id="txtLocation" size="41"
 							maxlength="100">
@@ -46,7 +46,7 @@
 						</h:inputText>
 						<rich:message for="txtLocation" />
 
-						<h:outputText value="#{mensaje.label_campo_alterno_direccion}"
+						<h:outputText value="#{mensaje.label_another_address}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText value="#{farmAction.farm.otherFieldAddress}"
@@ -117,7 +117,7 @@
 						</h:inputText>
 						<rich:message for="fax" />
 
-						<h:outputText value="#{mensaje.label_movil}"
+						<h:outputText value="#{mensaje.label_mobile}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoCorto" maxlength="20" id="movil"
@@ -180,7 +180,7 @@
 											<h:graphicImage value="/img/close_14.png"
 												onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 												onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-												styleClass="cursor" title="#{mensaje.label_cambiar_img}" />
+												styleClass="cursor" title="#{mensaje.label_change_img}" />
 										</a:commandLink>
 									</div>
 									<h:graphicImage
@@ -199,7 +199,7 @@
 									styleClass="H200P W160P" />
 								<p:fileUpload id="uploadLogo" dragDropSupport="true"
 									rendered="#{farmAction.logoPicName eq null or empty farmAction.logoPicName}"
-									label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+									label="#{mensaje.label_select_file}" mode="advanced"
 									auto="true" fileUploadListener="#{farmAction.submit}"
 									update="panelLogoFarm"
 									onstart="#{rich:component('statPane')}.show();"
@@ -209,7 +209,7 @@
 									styleClass="W100Per">
 									<hr />
 									<h:outputText styleClass="etiquetaTitulo"
-										value="#{mensaje.label_ext_permitida}: #{propPrototipoCostos['locate.ext.permitted.img']} " />
+										value="#{mensaje.label_allowed_ext}: #{propPrototipoCostos['locate.ext.permitted.img']} " />
 									<hr />
 								</h:panelGrid>
 							</a:outputPanel>
@@ -245,9 +245,9 @@
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{farmAction.farm.name}" />
-						<h:outputText value="#{mensaje.label_enlace_mapa_ubicacion}:" />
+						<h:outputText value="#{mensaje.label_location_map_link}:" />
 						<h:outputText value="#{farmAction.farm.locationLinkToMap}" />
-						<h:outputText value="#{mensaje.label_campo_alterno_direccion}:" />
+						<h:outputText value="#{mensaje.label_another_address}:" />
 						<h:outputText value="#{farmAction.farm.otherFieldAddress}" />
 					</ui:define>
 					<ui:define name="botones">

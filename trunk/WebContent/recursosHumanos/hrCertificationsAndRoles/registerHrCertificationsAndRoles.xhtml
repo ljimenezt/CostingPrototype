@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="hrCertificationsAndRolesAction.addEditHrCertRoles(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageHumanResources.hr_certifications_roles_label" />
+		value="mensaje.label_register,messageHumanResources.hr_certifications_roles_label" />
 	<ui:define name="body">
 
 		<script type="text/javascript"
@@ -34,7 +34,7 @@
 		<t:saveState value="#{hrCertificationsAndRolesAction}" />
 		<h:form id="formHrCert">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageHumanResources.hr_certifications_roles_label}"
+				header="#{mensaje.label_register} #{messageHumanResources.hr_certifications_roles_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarHrCert">
 				<a:outputPanel rendered="#{!hrCertificationsAndRolesAction.edit}">
 					<h:panelGrid columns="4"
@@ -80,7 +80,7 @@
 					<h:outputText value=""
 						rendered="#{hrCertificationsAndRolesAction.edit}" />
 
-					<h:outputText value="#{mensaje.label_fecha_inicio}"
+					<h:outputText value="#{mensaje.label_start_date}"
 						styleClass="etiquetaTitulo tdPaddingCR" />
 					<h:outputText value="" />
 					<p:calendar
@@ -94,7 +94,7 @@
 					</p:calendar>
 					<rich:message for="fechaInicio" />
 
-					<h:outputText value="#{mensaje.label_fecha_fin}"
+					<h:outputText value="#{mensaje.label_end_date}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<p:calendar
@@ -147,10 +147,10 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_fecha_inicio}:" />
+						<h:outputText value="#{mensaje.label_start_date}:" />
 						<h:outputText
 							value="#{hrCertificationsAndRolesAction.hrCertificationsAndRoles.releaseDate}" />
-						<h:outputText value="#{mensaje.label_fecha_fin}:" />
+						<h:outputText value="#{mensaje.label_end_date}:" />
 						<h:outputText
 							value="#{hrCertificationsAndRolesAction.hrCertificationsAndRoles.endDate}" />
 						<h:outputText

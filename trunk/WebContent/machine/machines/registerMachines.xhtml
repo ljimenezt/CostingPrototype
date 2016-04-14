@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="machinesAction.addEditMachines(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageMachines.machines_label_types" />
+		value="mensaje.label_register,messageMachines.machines_label_types" />
 	<ui:define name="body">
 
 		<script type="text/javascript"
@@ -25,14 +25,14 @@
 		<t:saveState value="#{machinesAction}" />
 		<h:form id="formMachines">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageMachine.machines_label_names}"
+				header="#{mensaje.label_register} #{messageMachine.machines_label_names}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarMachines">
 				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 					<h:panelGrid columns="4"
 						columnClasses="tdAlignTop W150P,,W185P,tdAlignTop">
 
-						<h:outputText value="#{mensaje.label_tipo_maquina}"
+						<h:outputText value="#{mensaje.label_machine_type}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu id="tipoMaquina" styleClass="colTextoCorto"
@@ -42,7 +42,7 @@
 						</h:selectOneMenu>
 						<rich:message for="tipoMaquina" />
 
-						<h:outputText value="#{mensaje.label_modelo}"
+						<h:outputText value="#{mensaje.label_model}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.name}"
@@ -53,7 +53,7 @@
 						<rich:message for="txtName" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_compra}" />
+							value="#{mensaje.label_purchase_date}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{machinesAction.machines.purchaseDate}"
 							maxdate="#{machinesAction.machines.lastMaintenance}"
@@ -67,7 +67,7 @@
 						<rich:message for="fechcompra" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_ultimo_mantenimiento}" />
+							value="#{mensaje.label_last_maintenance}" />
 						<h:outputText value="" />
 						<p:calendar value="#{machinesAction.machines.lastMaintenance}"
 							validator="#{controladorFechas.validarRangoFecha}"
@@ -168,7 +168,7 @@
 						<h:panelGrid columns="4"
 							columnClasses="tdAlignTop W150P,,W185P,tdAlignTop">
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_tiempo_vida}" />
+								value="#{mensaje.label_years_life}" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText value="#{machinesAction.machines.lifeYears}"
 								required="true" styleClass="colNumero" id="txtTiemVida"
@@ -182,7 +182,7 @@
 							<rich:message for="txtTiemVida" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_valor_residual}" />
+								value="#{mensaje.label_residual_value}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{machinesAction.machines.residualValue}"
 								styleClass="colNumero" id="txtResVal"
@@ -196,7 +196,7 @@
 							<rich:message for="txtResVal" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_inversion}" />
+								value="#{mensaje.label_investment}" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText value="#{machinesAction.machines.investment}"
 								required="true" styleClass="colNumero" id="txtinversion"
@@ -209,7 +209,7 @@
 							<rich:message for="txtinversion" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_depreciacion}" />
+								value="#{mensaje.label_depreciation}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{machinesAction.machines.depreciation}"
 								styleClass="colNumero" id="txtDepre"
@@ -253,20 +253,20 @@
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{machinesAction.machines.name}" />
-						<h:outputText value="#{mensaje.label_tipo_maquina}:" />
+						<h:outputText value="#{mensaje.label_machine_type}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(machinesAction.itemsMachinesType, machinesAction.machines.machineTypes.idMachineType)}" />
-						<h:outputText value="#{mensaje.label_fecha_compra}:" />
+						<h:outputText value="#{mensaje.label_purchase_date}:" />
 						<h:outputText value="#{machinesAction.machines.purchaseDate}" />
-						<h:outputText value="#{mensaje.label_ultimo_mantenimiento}:" />
+						<h:outputText value="#{mensaje.label_last_maintenance}:" />
 						<h:outputText value="#{machinesAction.machines.lastMaintenance}" />
-						<h:outputText value="#{mensaje.label_inversion}:" />
+						<h:outputText value="#{mensaje.label_investment}:" />
 						<h:outputText value="#{machinesAction.machines.investment}" />
-						<h:outputText value="#{mensaje.label_tiempo_vida}:" />
+						<h:outputText value="#{mensaje.label_years_life}:" />
 						<h:outputText value="#{machinesAction.machines.lifeYears}" />
-						<h:outputText value="#{mensaje.label_valor_residual}:" />
+						<h:outputText value="#{mensaje.label_residual_value}:" />
 						<h:outputText value="#{machinesAction.machines.residualValue}" />
-						<h:outputText value="#{mensaje.label_depreciacion}:" />
+						<h:outputText value="#{mensaje.label_depreciation}:" />
 						<h:outputText value="#{machinesAction.machines.depreciation}" />
 						<h:outputText value="#{mensaje.label_horsepower}:" />
 						<h:outputText value="#{machinesAction.machines.horsepower}" />

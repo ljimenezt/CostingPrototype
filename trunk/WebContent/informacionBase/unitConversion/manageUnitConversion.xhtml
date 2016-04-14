@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="unitConversionAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageBaseInformation.unit_conversion_label_s" />
+		value="mensaje.label_manage,messageBaseInformation.unit_conversion_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{unitConversionAction}" />
@@ -35,7 +35,7 @@
 
 		<h:form id="formUnitConversion">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageBaseInformation.unit_conversion_label_s}"
+				header="#{mensaje.label_listing} #{messageBaseInformation.unit_conversion_label_s}"
 				id="panelUnitConversion">
 
 				<h:panelGrid columns="2"
@@ -48,7 +48,7 @@
 					<h:selectOneMenu id="originalUnitBuscar"
 						value="#{unitConversionAction.originalUnitIdSearch}"
 						styleClass="colTextoMediano" required="false">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="" />
 						<f:selectItems value="#{unitConversionAction.unitOptions}" />
 						<f:ajax event="change"
 							listener="#{unitConversionAction.setFinalUnitIdSearch('')}"
@@ -148,7 +148,7 @@
 					<h:selectOneMenu
 						value="#{unitConversionAction.originalUnitIdSearch}"
 						styleClass="colTextoMediano" required="false">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="" />
 						<f:selectItems value="#{unitConversionAction.unitOptions}" />
 					</h:selectOneMenu>
 					<h:outputText
@@ -156,7 +156,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu value="#{unitConversionAction.finalUnitIdSearch}"
 						styleClass="colTextoMediano" required="false">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="" />
 						<f:selectItems value="#{unitConversionAction.unitOptions}" />
 					</h:selectOneMenu>
 				</h:panelGrid>

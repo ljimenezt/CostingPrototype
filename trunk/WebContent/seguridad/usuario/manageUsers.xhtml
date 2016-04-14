@@ -12,7 +12,7 @@
 
 	<ui:param name="action" value="usuarioAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageSecurity.user_label" />
+		value="mensaje.label_manage,messageSecurity.user_label" />
 	<ui:define name="body">
 		<h:form id="usuarioForm">
 			<t:saveState value="#{usuarioAction}" />
@@ -36,7 +36,7 @@
 			<ui:param name="metodoListarTodos" value="initializeSearch" />
 
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{messageSecurity.user_label_s}"
+				header="#{mensaje.label_listing} #{messageSecurity.user_label_s}"
 				id="panelUsuario" styleClass="anchoUno MinH208P">
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
@@ -51,7 +51,7 @@
 							actionListener="#{usuarioAction.seeUserDetails(usuarioList)}">
 							<h:graphicImage value="/img/details_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_detalles}" />
+								<h:outputText value="#{mensaje.label_details}" />
 							</rich:tooltip>
 						</a:commandLink>
 						<h:outputText value="&#32;&#32;&#32;" />
@@ -164,7 +164,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<t:fieldset styleClass="BorderW2P anchoCinco">
-					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 					<h:panelGrid columns="2" cellpadding="5" cellspacing="7"
 						columnClasses="columnaIzquierda, columnaDerecha">
 						<h:outputText value="#{messageSecurity.user_label_name}" />
@@ -183,7 +183,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoCinco">
-					<legend class="etiquetaTitulo">#{mensaje.label_listado_de}
+					<legend class="etiquetaTitulo">#{mensaje.label_listing}
 						#{messageSecurity.role_label_s}</legend>
 					<h:selectOneRadio id="selVigencia"
 						value="#{usuarioAction.userRoleValidity}">
@@ -212,14 +212,14 @@
 									value="#{rolesUsuarioList.rolUsuarioPK.rol.nombre}" />
 							</rich:column>
 							<rich:column width="150px" styleClass="center">
-								<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
 								<h:outputText value="#{rolesUsuarioList.fechaInicioVigencia}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column width="150px" styleClass="center">
-								<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
 								<h:outputText value="#{rolesUsuarioList.fechaFinVigencia}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />

@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="hrTypesAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageHumanResources.human_resource_type_label" />
+		value="mensaje.label_manage,messageHumanResources.human_resource_type_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{hrTypesAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formHrTypes">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageHumanResources.human_resource_type_label}"
+				header="#{mensaje.label_listing} #{messageHumanResources.human_resource_type_label}"
 				id="panelHrTypes">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />

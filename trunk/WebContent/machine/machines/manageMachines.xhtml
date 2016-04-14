@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="MachinesAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageMachine.machines_label_names" />
+		value="mensaje.label_manage,messageMachine.machines_label_names" />
 	<ui:define name="body">
 		<t:saveState value="#{machinesAction}" />
 		<ui:param name="listaVacia"
@@ -37,14 +37,14 @@
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
-					<h:outputText value="#{mensaje.label_tipo_maquina}"
+					<h:outputText value="#{mensaje.label_machine_type}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" styleClass="required" />
 					<h:selectOneMenu id="tipoMaquina"
 						value="#{machinesAction.nameMachines}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 						<f:selectItems value="#{machinesAction.itemsMachinesType}" />
 						<f:ajax event="change"
 							listener="#{machinesAction.consultMachines()}"
@@ -78,7 +78,7 @@
 						</rich:column>
 
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensaje.label_modelo}</f:facet>
+							<f:facet name="header">#{mensaje.label_model}</f:facet>
 							<h:commandLink value="#{machines.name}"
 								action="#{machinesAction.addEditMachines(machines)}"
 								onclick="#{rich:component('statPane')}.show();">
@@ -108,7 +108,7 @@
 						</rich:column>
 
 						<rich:column styleClass="colFecha">
-							<f:facet name="header">#{mensaje.label_ultimo_mantenimiento}</f:facet>
+							<f:facet name="header">#{mensaje.label_last_maintenance}</f:facet>
 							<h:outputText value="#{machines.lastMaintenance}">
 								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 									locale="#{idioma.locale}" />
@@ -128,7 +128,7 @@
 						</rich:column>
 
 						<rich:column styleClass="colValor">
-							<f:facet name="header">#{mensaje.label_inversion}</f:facet>
+							<f:facet name="header">#{mensaje.label_investment}</f:facet>
 							<h:outputText value="#{machines.investment}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
 									minFractionDigits="2" pattern="#,##0.00" />
@@ -136,21 +136,21 @@
 						</rich:column>
 
 						<rich:column styleClass="colNumero">
-							<f:facet name="header">#{mensaje.label_tiempo_vida}</f:facet>
+							<f:facet name="header">#{mensaje.label_years_life}</f:facet>
 							<h:outputText value="#{machines.lifeYears}">
 								<f:convertNumber pattern="#,##0.00" />
 							</h:outputText>
 						</rich:column>
 
 						<rich:column styleClass="colNumero">
-							<f:facet name="header">#{mensaje.label_valor_residual}</f:facet>
+							<f:facet name="header">#{mensaje.label_residual_value}</f:facet>
 							<h:outputText value="#{machines.residualValue}">
 								<f:convertNumber pattern="#,##0.00" />
 							</h:outputText>
 						</rich:column>
 
 						<rich:column styleClass="colValor">
-							<f:facet name="header">#{mensaje.label_depreciacion}</f:facet>
+							<f:facet name="header">#{mensaje.label_depreciation}</f:facet>
 							<h:outputText value="#{machines.depreciation}">
 								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
 									minFractionDigits="2" pattern="#,##0.00" />
@@ -158,7 +158,7 @@
 						</rich:column>
 
 						<rich:column styleClass="colFechaExtraLarga">
-							<f:facet name="header">#{mensaje.label_fecha_compra}</f:facet>
+							<f:facet name="header">#{mensaje.label_purchase_date}</f:facet>
 							<h:outputText value="#{machines.purchaseDate}">
 								<f:convertDateTime pattern="MMM dd, yyyy"
 									locale="#{idioma.locale}" />
@@ -205,7 +205,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_tipo_maquina}"
+					<h:outputText value="#{mensaje.label_machine_type}"
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="tipoMaquina" styleClass="colTextoCorto"
 						value="#{machinesAction.nameMachines}"

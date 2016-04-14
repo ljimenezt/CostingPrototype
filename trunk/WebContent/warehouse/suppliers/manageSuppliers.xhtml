@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="suppliersAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeWarehouse.suppliers_label" />
+		value="mensaje.label_manage,mensajeWarehouse.suppliers_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{suppliersAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formSuppliers">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeWarehouse.suppliers_label}"
+				header="#{mensaje.label_listing} #{mensajeWarehouse.suppliers_label}"
 				id="panelSuppliers">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -75,7 +75,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_codigo_postal}</f:facet>
+						<f:facet name="header">#{mensaje.label_postal_code}</f:facet>
 						<h:outputText value="#{suppliers.postalCode}" />
 					</rich:column>
 
@@ -85,7 +85,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_movil}</f:facet>
+						<f:facet name="header">#{mensaje.label_mobile}</f:facet>
 						<h:outputText value="#{suppliers.phone2}" />
 					</rich:column>
 

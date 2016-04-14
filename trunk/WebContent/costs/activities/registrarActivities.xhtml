@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="activitiesAction.agregarEditarActivities(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageCosts.activities_label" />
+		value="mensaje.label_register,messageCosts.activities_label" />
 	<ui:define name="body">
 		<t:saveState value="#{activitiesAction}" />
 		<t:saveState value="#{activityNamesAction}" />
@@ -26,13 +26,13 @@
 		</script>
 		<h:form id="formActivities">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageCosts.activities_label}"
+				header="#{mensaje.label_register} #{messageCosts.activities_label}"
 				styleClass="anchoUno MinH253P" id="panelActivities">
 				<h:panelGrid columns="3"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,tdAlignTop">
-					<h:outputText value="#{mensaje.label_seleccione_activity_name}"
+					<h:outputText value="#{mensaje.label_select_activity_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
@@ -60,12 +60,12 @@
 							render=":formActivities:txtActivityNames" execute="@this">
 							<h:graphicImage value="/img/editRemove_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_quitar}" />
+								<h:outputText value="#{mensaje.label_remove}" />
 							</rich:tooltip>
 						</a:commandLink>
 						<rich:message for="txtActivityNames" />
 					</h:panelGrid>
-					<h:outputText value="#{mensaje.label_seleccione_certificacion}"
+					<h:outputText value="#{mensaje.label_select_certification}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:panelGrid cellpadding="0" cellspacing="0" columns="2">
@@ -94,13 +94,13 @@
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column rowspan="2">
-							<h:outputText value="#{mensaje.label_hr_requerido}"
+							<h:outputText value="#{mensaje.label_required_hr}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column rowspan="2">
 							<h:inputText value="#{activitiesAction.activities.hrRequired}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtHrRequired" label="#{mensaje.label_hr_requerido}">
+								id="txtHrRequired" label="#{mensaje.label_required_hr}">
 								<f:validateLongRange></f:validateLongRange>
 							</h:inputText>
 							<rich:message for="txtHrRequired" />
@@ -144,7 +144,7 @@
 							<rich:message for="fechaFin" />
 						</p:column>
 						<p:column rowspan="2">
-							<h:outputText value="#{mensaje.label_maquina_requerida}"
+							<h:outputText value="#{mensaje.label_required_machine}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column rowspan="2">
@@ -152,7 +152,7 @@
 								value="#{activitiesAction.activities.machineRequired}"
 								styleClass="colTextoMini" size="41" maxlength="4"
 								id="txtMachineRequiered"
-								label="#{mensaje.label_maquina_requerida}">
+								label="#{mensaje.label_required_machine}">
 								<f:validateLongRange></f:validateLongRange>
 							</h:inputText>
 							<rich:message for="txtMachineRequiered" />
@@ -169,7 +169,7 @@
 							<h:inputText
 								value="#{activitiesAction.activities.durationBudget}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtDuracion" label="#{mensaje.label_duracion_activities}">
+								id="txtDuracion" label="#{mensaje.label_activities_duration}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtDuracion" />
@@ -178,13 +178,13 @@
 
 					<p:row>
 						<p:column>
-							<h:outputText value="#{mensaje.label_hr_costo}"
+							<h:outputText value="#{mensaje.label_hr_cost}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column>
 							<h:inputText value="#{activitiesAction.activities.costHrBudget}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtHrCostoBudget" label="#{mensaje.label_hr_costo}">
+								id="txtHrCostoBudget" label="#{mensaje.label_hr_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtHrCostoBudget" />
@@ -192,13 +192,13 @@
 						<p:column>
 							<h:inputText value="#{activitiesAction.activities.costHrActual}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtHrCostoActual" label="#{mensaje.label_hr_costo}">
+								id="txtHrCostoActual" label="#{mensaje.label_hr_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtHrCostoActual" />
 						</p:column>
 						<p:column rowspan="2">
-							<h:outputText value="#{mensaje.label_servicio_requerido}"
+							<h:outputText value="#{mensaje.label_required_service}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column rowspan="2">
@@ -206,7 +206,7 @@
 								value="#{activitiesAction.activities.serviceRequired}"
 								styleClass="colTextoMini" size="41" maxlength="4"
 								id="txtServiceRequired"
-								label="#{mensaje.label_servicio_requerido}">
+								label="#{mensaje.label_required_service}">
 								<f:validateLongRange></f:validateLongRange>
 							</h:inputText>
 							<rich:message for="txtServiceRequired" />
@@ -215,14 +215,14 @@
 
 					<p:row>
 						<p:column>
-							<h:outputText value="#{mensaje.label_costo_maquina}"
+							<h:outputText value="#{mensaje.label_machine_cost}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column>
 							<h:inputText
 								value="#{activitiesAction.activities.costMachinesEqBudget}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtCostMachineBudget" label="#{mensaje.label_costo_maquina}">
+								id="txtCostMachineBudget" label="#{mensaje.label_machine_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtCostMachineBudget" />
@@ -231,7 +231,7 @@
 							<h:inputText
 								value="#{activitiesAction.activities.costMachinesEqActual}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtCostMachineActual" label="#{mensaje.label_costo_maquina}">
+								id="txtCostMachineActual" label="#{mensaje.label_machine_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtCostMachineActual" />
@@ -240,7 +240,7 @@
 
 					<p:row>
 						<p:column>
-							<h:outputText value="#{mensaje.label_costo_servicio}"
+							<h:outputText value="#{mensaje.label_service_cost}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column>
@@ -248,7 +248,7 @@
 								value="#{activitiesAction.activities.costServicesBudget}"
 								styleClass="colTextoMini" size="41" maxlength="4"
 								id="txtCostServiceBudget"
-								label="#{mensaje.label_costo_servicio}">
+								label="#{mensaje.label_service_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtCostServiceBudget" />
@@ -258,13 +258,13 @@
 								value="#{activitiesAction.activities.costServicesActual}"
 								styleClass="colTextoMini" size="41" maxlength="4"
 								id="txtCostServiceActual"
-								label="#{mensaje.label_costo_servicio}">
+								label="#{mensaje.label_service_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtCostServiceActual" />
 						</p:column>
 						<p:column rowspan="2">
-							<h:outputText value="#{mensaje.label_material_requerido}"
+							<h:outputText value="#{mensaje.label_required_material}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column rowspan="2">
@@ -272,7 +272,7 @@
 								value="#{activitiesAction.activities.materialsRequired}"
 								styleClass="colTextoMini" size="41" maxlength="4"
 								id="txtMaterialRequired"
-								label="#{mensaje.label_material_requerido}">
+								label="#{mensaje.label_required_material}">
 								<f:validateLongRange></f:validateLongRange>
 							</h:inputText>
 							<rich:message for="txtMaterialRequired" />
@@ -281,7 +281,7 @@
 
 					<p:row>
 						<p:column>
-							<h:outputText value="#{mensaje.label_costo_material}"
+							<h:outputText value="#{mensaje.label_material_cost}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column>
@@ -289,7 +289,7 @@
 								value="#{activitiesAction.activities.costMaterialsBudget}"
 								styleClass="colTextoMini" size="41" maxlength="4"
 								id="txtCostMaterialBudget"
-								label="#{mensaje.label_costo_material}">
+								label="#{mensaje.label_material_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtCostMaterialBudget" />
@@ -299,7 +299,7 @@
 								value="#{activitiesAction.activities.costMaterialsActual}"
 								styleClass="colTextoMini" size="41" maxlength="4"
 								id="txtCostMaterialActual"
-								label="#{mensaje.label_costo_material}">
+								label="#{mensaje.label_material_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtCostMaterialActual" />
@@ -308,14 +308,14 @@
 
 					<p:row>
 						<p:column>
-							<h:outputText value="#{mensaje.label_costo_general}"
+							<h:outputText value="#{mensaje.label_general_cost}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column>
 							<h:inputText
 								value="#{activitiesAction.activities.generalCostBudget}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtGeneralCostBudget" label="#{mensaje.label_costo_general}">
+								id="txtGeneralCostBudget" label="#{mensaje.label_general_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtGeneralCostBudget" />
@@ -324,7 +324,7 @@
 							<h:inputText
 								value="#{activitiesAction.activities.generalCostActual}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtGeneralCostActual" label="#{mensaje.label_costo_general}">
+								id="txtGeneralCostActual" label="#{mensaje.label_general_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtGeneralCostActual" />
@@ -334,14 +334,14 @@
 
 					<p:row>
 						<p:column>
-							<h:outputText value="#{mensaje.label_numero_secuencia}"
+							<h:outputText value="#{mensaje.label_sequence_number}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column colspan="2">
 							<h:inputText
 								value="#{activitiesAction.activities.sequenceNumber}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtSequenceNumber" label="#{mensaje.label_numero_secuencia}">
+								id="txtSequenceNumber" label="#{mensaje.label_sequence_number}">
 								<f:validateLongRange></f:validateLongRange>
 							</h:inputText>
 							<rich:message for="txtSequenceNumber" />
@@ -402,7 +402,7 @@
 				<rich:panel styleClass="H373P fondoAnchoUno W580P">
 					<a:outputPanel id="outPutBuscarActivityNames">
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+							<legend class="etiquetaTitulo">#{mensaje.label_search}
 								#{messageLifeCycle.activity_names_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
 								<h:outputText value="#{mensaje.label_name}"

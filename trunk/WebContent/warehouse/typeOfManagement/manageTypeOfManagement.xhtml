@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="typeOfManagementAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeWarehouse.type_management_label" />
+		value="mensaje.label_manage,mensajeWarehouse.type_management_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{typeOfManagementAction}" />
@@ -35,7 +35,7 @@
 
 		<h:form id="formTypeOfManagement">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeWarehouse.type_management_label}"
+				header="#{mensaje.label_listing} #{mensajeWarehouse.type_management_label}"
 				id="panelTypeOfManagement">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />

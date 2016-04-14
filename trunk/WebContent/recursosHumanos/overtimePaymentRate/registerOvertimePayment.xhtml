@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="overtimePaymentRateAction.addEditOvertimePayment(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageHumanResources.overtime_payment_rate_label" />
+		value="mensaje.label_register,messageHumanResources.overtime_payment_rate_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -31,7 +31,7 @@
 		<t:saveState value="#{overtimePaymentRateAction}" />
 		<h:form id="formOvertimePayments">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageHumanResources.overtime_payment_rate_label}"
+				header="#{mensaje.label_register} #{messageHumanResources.overtime_payment_rate_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarOvertimePayments">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

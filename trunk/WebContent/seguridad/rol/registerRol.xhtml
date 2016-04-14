@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="rolAction.addEditRol(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageSecurity.role_label" />
+		value="mensaje.label_register,messageSecurity.role_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -36,7 +36,7 @@
 			<rich:panel header="#{messageSecurity.role_label}"
 				styleClass="anchoUno">
 				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 					<a:outputPanel
 						rendered="#{rolAction.rol.id ne 0 and rolAction.editable ne 'true'}">
 						<hr class="W60Per MarginL0P" />
@@ -101,7 +101,7 @@
 									execute="@this" styleClass="quitarDecoracionLink">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/consultar_16.png" />
-										<h:outputText value="#{mensaje.label_buscar} " />
+										<h:outputText value="#{mensaje.label_search} " />
 									</h:panelGrid>
 								</a:commandLink>
 								<a:commandLink render="panelPermisos" execute="@this"
@@ -121,7 +121,7 @@
 							styleClass="#{listaVaciaPermisos ? 'BCTransparente' : 'dataTable'} anchoTres"
 							rowClasses="odd-row, even-row" footerClass="H130P">
 							<rich:column styleClass="colTextoCorto">
-								<f:facet name="header">#{mensaje.label_proceso}</f:facet>
+								<f:facet name="header">#{mensaje.label_process}</f:facet>
 								<a:outputPanel>
 									<h:outputText value="#{metodoPermisos.nombre}" />
 									<rich:tooltip layout="block">
@@ -295,7 +295,7 @@
 									execute="@this" styleClass="quitarDecoracionLink">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/consultar_16.png" />
-										<h:outputText value="#{mensaje.label_buscar}" />
+										<h:outputText value="#{mensaje.label_search}" />
 									</h:panelGrid>
 								</a:commandLink>
 								<a:commandLink render="panelMenus" execute="@this"
@@ -316,7 +316,7 @@
 								styleClass="#{listaVaciaMenus ? 'BCTransparente' : 'dataTable'} anchoTres"
 								rowClasses="odd-row, even-row" footerClass="H130P">
 								<rich:column styleClass="colIconoUno">
-									<f:facet name="header">#{mensaje.label_visualizar}</f:facet>
+									<f:facet name="header">#{mensaje.label_view}</f:facet>
 									<a:commandLink render="tablaMenus" execute="@this"
 										rendered="#{rolAction.notSelectedMenu(menu.id)}"
 										actionListener="#{rolAction.hideMenuCheck(menu.id,false)}">
@@ -383,7 +383,7 @@
 		<h:form id="popUpForm">
 			<!-- PopUp Buscar Menu -->
 			<rich:popupPanel id="popupBuscarMetodo" autosized="true"
-				header="#{mensaje.label_buscar} #{messageSecurity.permission_label_s}"
+				header="#{mensaje.label_search} #{messageSecurity.permission_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"
@@ -396,7 +396,7 @@
 				<h:panelGrid columns="2"
 					cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
 					cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}">
-					<h:outputText value="#{mensaje.label_proceso}"
+					<h:outputText value="#{mensaje.label_process}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreMetodoBuscar"
 						value="#{metodoAction.nameSearch}"
@@ -418,7 +418,7 @@
 			</rich:popupPanel>
 			<!-- PopUp Buscar Menu Seleccionado -->
 			<rich:popupPanel id="popupBuscarMenuRelacionado" autosized="true"
-				header="#{mensaje.label_buscar} #{messageSecurity.role_label_menus_assigned}"
+				header="#{mensaje.label_search} #{messageSecurity.role_label_menus_assigned}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:outputLink value="#"

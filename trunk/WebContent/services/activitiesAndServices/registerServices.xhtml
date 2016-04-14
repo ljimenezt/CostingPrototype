@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="#{activitiesAndServicesAction.consultActivities()}" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeMenu.activities_services_label" />
+		value="mensaje.label_register,mensajeMenu.activities_services_label" />
 	<ui:define name="body">
 		<t:saveState value="#{activitiesAndServicesAction}" />
 		<t:saveState value="#{encodeFilter}" />
@@ -108,7 +108,7 @@
 							<rich:message for="ckbTaskwork" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_fecha} #{mensaje.label_inicial}" />
+								value="#{mensaje.label_date} #{mensaje.label_initial}" />
 							<h:outputText value="" styleClass="required" />
 							<p:calendar value="#{varServices.initialDt}" showOn="button"
 								navigator="true"
@@ -121,7 +121,7 @@
 							<rich:message for="fechaInicio" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_fecha} #{mensaje.label_final}" />
+								value="#{mensaje.label_date} #{mensaje.label_final}" />
 							<h:outputText value="" styleClass="required" />
 							<p:calendar value="#{varServices.finalDt}" showOn="button"
 								navigator="true" mindate="#{varServices.initialDt}"
@@ -135,7 +135,7 @@
 							<rich:message for="fechFin" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_duracion_activities} #{mensaje.label_presupuesto}" />
+								value="#{mensaje.label_activities_duration} #{mensaje.label_presupuesto}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.durationBudget}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
@@ -145,7 +145,7 @@
 							<rich:message for="txtDurationBudget" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_duracion_activities} #{mensaje.label_actual}" />
+								value="#{mensaje.label_activities_duration} #{mensaje.label_actual}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.durationActual}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"

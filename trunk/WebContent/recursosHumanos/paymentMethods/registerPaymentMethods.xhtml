@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="paymentMethodsAction.addEditPaymentMethods(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageHumanResources.payment_methods_label_s" />
+		value="mensaje.label_register,messageHumanResources.payment_methods_label_s" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -32,7 +32,7 @@
 		<t:saveState value="#{paymentMethodsAction}" />
 		<h:form id="formPaymentMethods">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageHumanResources.payment_methods_label_s}"
+				header="#{mensaje.label_register} #{messageHumanResources.payment_methods_label_s}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarPaymentMethods">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

@@ -418,12 +418,12 @@ public class ActivitiesAction implements Serializable {
 			parameters.add(itemFinal);
 			if (!showSearchMessage) {
 				jointSearchMessages.append(bundle
-						.getString("label_fecha_inicio")
+						.getString("label_start_date")
 						+ ": "
 						+ '"'
 						+ dateFormat.format(this.activities
 								.getInitialDtBudget()) + '"' + " ");
-				jointSearchMessages.append(bundle.getString("label_fecha_fin")
+				jointSearchMessages.append(bundle.getString("label_end_date")
 						+ ": " + '"'
 						+ dateFormat.format(this.activities.getFinalDtBudget())
 						+ '"' + " ");

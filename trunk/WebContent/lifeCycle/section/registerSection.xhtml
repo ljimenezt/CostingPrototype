@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="sectionAction.addEditSection(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageLifeCycle.section_label" />
+		value="mensaje.label_register,messageLifeCycle.section_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -30,7 +30,7 @@
 		<t:saveState value="#{sectionAction}" />
 		<h:form id="formSection">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageLifeCycle.section_label}"
+				header="#{mensaje.label_register} #{messageLifeCycle.section_label}"
 				styleClass="anchoUno MinH253P" id="pnlRegisterSection">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

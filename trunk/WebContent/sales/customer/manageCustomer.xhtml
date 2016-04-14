@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="customerAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeMenu.customer_label" />
+		value="mensaje.label_manage,mensajeMenu.customer_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{customerAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formCustomer">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensaje.label_cliente_s}"
+				header="#{mensaje.label_listing} #{mensaje.label_client_s}"
 				id="panelCustomer">
 				<rich:message for="tablaCustomer" styleClass="messageInfSpanMsg" />
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
@@ -73,7 +73,7 @@
 						<h:outputText value="#{customer.city}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensaje.label_codigo_postal}</f:facet>
+						<f:facet name="header">#{mensaje.label_postal_code}</f:facet>
 						<h:outputText value="#{customer.postalCode}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">

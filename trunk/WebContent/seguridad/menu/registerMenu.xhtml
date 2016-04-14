@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="menuAction.registerMenu(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageSecurity.menu_label" />
+		value="mensaje.label_register,messageSecurity.menu_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -35,7 +35,7 @@
 			<ui:param name="listaVacia1"
 				value="#{menuAction.listIcons eq null or (empty menuAction.listIcons)}" />
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageSecurity.menu_label}"
+				header="#{mensaje.label_register} #{messageSecurity.menu_label}"
 				styleClass="anchoUno">
 				<h:panelGrid columns="4"
 					cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
@@ -88,7 +88,7 @@
 							render=":menuForm:txtMenuPadre" execute="@this">
 							<h:graphicImage value="/img/editRemove_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_quitar}" />
+								<h:outputText value="#{mensaje.label_remove}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</h:panelGrid>
@@ -116,7 +116,7 @@
 							render=":menuForm:txtIcono" execute="@this">
 							<h:graphicImage value="/img/editRemove_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_quitar}" />
+								<h:outputText value="#{mensaje.label_remove}" />
 							</rich:tooltip>
 						</a:commandLink>
 					</h:panelGrid>
@@ -142,7 +142,7 @@
 					</h:selectOneRadio>
 					<rich:message for="rbnVisible" />
 
-					<h:outputText value="#{mensaje.label_fecha_inicio_vigencia}"
+					<h:outputText value="#{mensaje.label_effective_start_date}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar value="#{menuAction.menuAction.fechaInicioVigencia}"
@@ -207,9 +207,9 @@
 					<h:selectOneRadio id="rbnPosicionMarco"
 						value="#{menuAction.menuAction.posicionIzquierda}">
 						<f:selectItem itemValue="true"
-							itemLabel="#{mensaje.label_izquierda}" />
+							itemLabel="#{mensaje.label_left}" />
 						<f:selectItem itemValue="false"
-							itemLabel="#{mensaje.label_derecha}" />
+							itemLabel="#{mensaje.label_right}" />
 					</h:selectOneRadio>
 					<rich:message for="rbnPosicionMarco" />
 
@@ -226,7 +226,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupMenu" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{messageSecurity.menu_label_s}">
+				header="#{mensaje.label_listing} #{messageSecurity.menu_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -279,7 +279,7 @@
 
 			<rich:popupPanel id="popupIconos" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{messageSecurity.icon_label_s}">
+				header="#{mensaje.label_listing} #{messageSecurity.icon_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -294,7 +294,7 @@
 				<rich:panel styleClass="H440P fondoAnchoUno W490P">
 					<a:outputPanel id="outPutBuscarIconos">
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+							<legend class="etiquetaTitulo">#{mensaje.label_search}
 								#{messageSecurity.icon_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
 								<h:outputText value="#{mensaje.label_name}"
@@ -327,7 +327,7 @@
 								footerClass="H130P" rowClasses="odd-row, even-row">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensaje.label_listado_de} #{messageSecurity.icon_label_s}" />
+										value="#{mensaje.label_listing} #{messageSecurity.icon_label_s}" />
 								</f:facet>
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header" />
@@ -341,7 +341,7 @@
 									</a:commandLink>
 								</rich:column>
 								<rich:column styleClass="colTextoCorto">
-									<f:facet name="header">#{mensaje.label_icono}</f:facet>
+									<f:facet name="header">#{mensaje.label_icon}</f:facet>
 									<h:graphicImage rendered="#{iconoList.nombre ne null}"
 										value="#{menuAction.folderFilesIcons}/#{iconoList.nombre}" />
 								</rich:column>

@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="civilStatusAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageBaseInformation.civil_status_label" />
+		value="mensaje.label_manage,messageBaseInformation.civil_status_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{civilStatusAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formEstadoCivil">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageBaseInformation.civil_status_label}"
+				header="#{mensaje.label_listing} #{messageBaseInformation.civil_status_label}"
 				id="panelCivilStatus">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -96,7 +96,7 @@
 		</h:form>
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
-				header="#{mensaje.button_search} #{civil_status_label_nombre}"
+				header="#{mensaje.button_search} #{civil_status_label_name}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>

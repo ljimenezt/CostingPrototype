@@ -12,14 +12,14 @@
 	<ui:param name="action"
 		value="organizacionAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageOrganizations.organization_label" />
+		value="mensaje.label_manage,messageOrganizations.organization_label" />
 	<ui:define name="body">
 		<t:saveState value="#{organizacionAction}" />
 		<h:form id="organizacionForm">
 			<ui:param name="listaVacia"
 				value="#{organizacionAction.organizaciones eq null or (empty organizacionAction.organizaciones)}" />
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{messageOrganizations.organization_label_s}"
+				header="#{mensaje.label_listing} #{messageOrganizations.organization_label_s}"
 				id="panelOrganizacion" styleClass="anchoUno MinH253P">
 
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
@@ -81,7 +81,7 @@
 							actionListener="#{organizacionAction.verDetallesOrganizacion(organizacionList)}">
 							<h:graphicImage value="/img/details_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_detalles}" />
+								<h:outputText value="#{mensaje.label_details}" />
 							</rich:tooltip>
 						</a:commandLink>
 						<h:outputText value="&#32;&#32;&#32;" />
@@ -217,7 +217,7 @@
 				</f:facet>
 				<t:fieldset styleClass="W95Per BorderW2P">
 					<legend>
-						<a:outputPanel styleClass="etiquetaTitulo">#{mensaje.label_datos_basicos}</a:outputPanel>
+						<a:outputPanel styleClass="etiquetaTitulo">#{mensaje.label_basic_data}</a:outputPanel>
 					</legend>
 					<h:panelGrid columns="2" columnClasses="W70Per top,W30Per">
 						<h:panelGrid columns="2"

@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="permisoPersonaEmpresaAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageSecurity.person_permission_company_label" />
+		value="mensaje.label_manage,messageSecurity.person_permission_company_label" />
 	<ui:define name="body">
 		<h:form id="frmGestionarPermisosEmpresa">
 			<ui:param name="listaVacia"
@@ -20,13 +20,13 @@
 			<t:saveState value="#{permisoPersonaEmpresaAction}" />
 			<t:saveState value="#{empresaAction}" />
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_gestionar} #{messageSecurity.person_permission_company_label}">
+				header="#{mensaje.label_manage} #{messageSecurity.person_permission_company_label}">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{messageHumanResources.person_label}</legend>
 					<h:panelGrid columns="2" rowClasses="alignTop"
 						columnClasses="columnaIzquierda, columnaDerecha" cellpadding="5"
 						cellspacing="7">
-						<h:outputText value="#{mensaje.label_identificacion}: " />
+						<h:outputText value="#{mensaje.label_identification}: " />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.documento}" />
 						<h:outputText value="#{mensaje.label_name}: " />
@@ -42,7 +42,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos MinH253P">
-					<legend class="etiquetaTitulo">#{mensaje.label_listado_de}
+					<legend class="etiquetaTitulo">#{mensaje.label_listing}
 						#{messageSecurity.person_permission_company_label}</legend>
 					<a:outputPanel id="panelEmpresaPermiso">
 						<rich:message for="panelEmpresaPermiso" />
@@ -150,14 +150,14 @@
 								<h:outputText value="#{permisoEmpresa.hacienda.nombre}" />
 							</rich:column>
 							<rich:column styleClass="colFecha">
-								<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
 								<h:outputText value="#{permisoEmpresa.fechaInicioVigencia}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colFecha">
-								<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
 								<h:outputText value="#{permisoEmpresa.fechaFinVigencia}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />

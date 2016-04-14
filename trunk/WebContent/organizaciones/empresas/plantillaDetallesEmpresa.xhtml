@@ -24,7 +24,7 @@
 			</f:facet>
 			<rich:panel id="panelDetalles" styleClass="H373P">
 				<rich:accordion switchType="client">
-					<rich:accordionItem header="#{mensaje.label_datos_basicos}"
+					<rich:accordionItem header="#{mensaje.label_basic_data}"
 						contentClass="H260PImp">
 						<h:panelGrid columns="2" columnClasses="W70Per,W30Per">
 							<h:panelGrid columns="2" cellpadding="5" cellspacing="13"
@@ -43,7 +43,7 @@
 								<h:outputText value="#{mensaje.label_telephone_number}:" />
 								<h:outputText value="#{empresaAction.empresa.telefono}" />
 
-								<h:outputText value="#{mensaje.label_movil}:" />
+								<h:outputText value="#{mensaje.label_mobile}:" />
 								<h:outputText value="#{empresaAction.empresa.movil}" />
 							</h:panelGrid>
 							<h:panelGrid columns="1">
@@ -60,7 +60,7 @@
 							</h:panelGrid>
 						</h:panelGrid>
 					</rich:accordionItem>
-					<rich:accordionItem header="#{mensaje.label_ubicacion}"
+					<rich:accordionItem header="#{mensaje.label_location}"
 						contentClass="H260PImp">
 						<h:panelGrid columns="2" cellpadding="5" cellspacing="13"
 							columnClasses="columnaIzquierda, columnaDerecha">

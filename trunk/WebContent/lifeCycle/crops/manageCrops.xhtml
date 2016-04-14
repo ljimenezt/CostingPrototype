@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="cropsAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageLifeCycle.crops_label_s" />
+		value="mensaje.label_manage,messageLifeCycle.crops_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{cropsAction}" />
 		<ui:param name="listaVacia"
@@ -32,7 +32,7 @@
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
 		<h:form id="fromCrops">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageLifeCycle.crops_label_s}"
+				header="#{mensaje.label_listing} #{messageLifeCycle.crops_label_s}"
 				id="panelCrops">
 				<br />
 				<h:panelGrid columns="3"
@@ -43,7 +43,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:selectOneMenu id="cropName" value="#{cropsAction.nameCrop}"
 						styleClass="colTextoMediano" required="true">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 						<f:selectItems value="#{cropsAction.options}" />
 						<f:ajax event="change" listener="#{cropsAction.consultCrops()}"
 							render=":mensajes :fromCrops :mensajeBusqueda" />
@@ -82,21 +82,21 @@
 						<h:outputText value="#{crops.cropNames.cropName}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+						<f:facet name="header">#{mensaje.label_start_date}</f:facet>
 						<h:outputText value="#{crops.initialDate}">
 							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+						<f:facet name="header">#{mensaje.label_end_date}</f:facet>
 						<h:outputText value="#{crops.finalDate}">
 							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colFecha">
-						<f:facet name="header">#{mensaje.label_anyo_registro}</f:facet>
+						<f:facet name="header">#{mensaje.label_registration_date}</f:facet>
 						<h:outputText value="#{crops.registrationYear}">
 							<f:convertDateTime pattern="yyyy" />
 						</h:outputText>
