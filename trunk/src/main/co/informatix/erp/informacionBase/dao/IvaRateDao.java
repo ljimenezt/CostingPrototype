@@ -164,4 +164,36 @@ public class IvaRateDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * Consultation if the percentage of the iva rate there in the database when
+	 * storing or editing.
+	 * 
+	 * @param rate
+	 *            : iva rate percentage to verify.
+	 * @param id
+	 *            : identifier iva rate to verify.
+	 * @return IvaRate: iva rate object found with the search parameters rate
+	 *         and identifier.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public IvaRate rateExists(Double rate, int idIva) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ir FROM IvaRate ir ");
+		query.append("WHERE ir.rate=:rate ");
+		if (idIva != 0) {
+			query.append("AND ir.idIva <>:idIva ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("rate", rate);
+		if (idIva != 0) {
+			q.setParameter("idIva", idIva);
+		}
+		List<IvaRate> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
 }
