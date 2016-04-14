@@ -235,7 +235,7 @@ public class IvaRateAction implements Serializable {
 	}
 
 	/**
-	 * IvaRate redirects to manage the list of updated iva rate.
+	 * Method to delete a iva rate of the database.
 	 * 
 	 * @return consultIvaRate(): Consult the list of iva rate and returns to
 	 *         manage IvaRate.
