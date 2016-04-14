@@ -26,6 +26,8 @@ import co.informatix.erp.humanResources.entities.OvertimePaymentRate;
 @Table(name = "activities_and_hr", schema = "costs")
 public class ActivitiesAndHr implements Serializable, Cloneable {
 
+	private ActivitiesAndHrPK activitiesAndHrPK;
+
 	private Date initialDateTimeActual;
 	private Date initialDateTimeBudget;
 	private Date finalDateTimeActual;
@@ -40,7 +42,6 @@ public class ActivitiesAndHr implements Serializable, Cloneable {
 	private boolean externalService;
 	private boolean taskWork;
 
-	private ActivitiesAndHrPK activitiesAndHrPK;
 	private OvertimePaymentRate overtimePaymentRate;
 
 	/**
@@ -50,6 +51,23 @@ public class ActivitiesAndHr implements Serializable, Cloneable {
 	 */
 	public ActivitiesAndHr() {
 		this.overtimePaymentRate = new OvertimePaymentRate();
+	}
+
+	/**
+	 * @return activitiesAndHrPK: the composite order table key activities and
+	 *         HR
+	 */
+	@EmbeddedId
+	public ActivitiesAndHrPK getActivitiesAndHrPK() {
+		return activitiesAndHrPK;
+	}
+
+	/**
+	 * @param activitiesAndHrPK
+	 *            : the composite order table key activities and HR
+	 */
+	public void setActivitiesAndHrPK(ActivitiesAndHrPK activitiesAndHrPK) {
+		this.activitiesAndHrPK = activitiesAndHrPK;
 	}
 
 	/**
@@ -267,23 +285,6 @@ public class ActivitiesAndHr implements Serializable, Cloneable {
 	 */
 	public void setTaskWork(boolean taskWork) {
 		this.taskWork = taskWork;
-	}
-
-	/**
-	 * @return activitiesAndHrPK: the composite order table key activities and
-	 *         HR
-	 */
-	@EmbeddedId
-	public ActivitiesAndHrPK getActivitiesAndHrPK() {
-		return activitiesAndHrPK;
-	}
-
-	/**
-	 * @param activitiesAndHrPK
-	 *            : the composite order table key activities and HR
-	 */
-	public void setActivitiesAndHrPK(ActivitiesAndHrPK activitiesAndHrPK) {
-		this.activitiesAndHrPK = activitiesAndHrPK;
 	}
 
 	/**

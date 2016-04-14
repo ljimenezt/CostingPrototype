@@ -24,6 +24,8 @@ import co.informatix.erp.warehouse.entities.Transactions;
 @Table(name = "consumable_use", schema = "costs")
 public class ConsumableUse implements Serializable {
 
+	private ConsumableUsePK consumableUsePK;
+	
 	private Double initialLevel;
 	private Double finalLevel;
 	private Double consumptionBudget;
@@ -33,9 +35,23 @@ public class ConsumableUse implements Serializable {
 	private Double totalCostBudget;
 	private Double totalCostActual;
 
-	private ConsumableUsePK ConsumableUsePK;
-
 	private Transactions transactions;
+
+	/**
+	 * @return consumableUsePK: the composite order table key Use consumable.
+	 */
+	@EmbeddedId
+	public ConsumableUsePK getConsumableUsePK() {
+		return consumableUsePK;
+	}
+
+	/**
+	 * @param consumableUsePK
+	 *            : the composite order table key Use consumable.
+	 */
+	public void setConsumableUsePK(ConsumableUsePK consumableUsePK) {
+		this.consumableUsePK = consumableUsePK;
+	}
 
 	/**
 	 * @return initialLevel: Initial level.
@@ -166,26 +182,10 @@ public class ConsumableUse implements Serializable {
 	}
 
 	/**
-	 * @return ConsumableUsePK: the composite order table key Use consumable.
-	 */
-	@EmbeddedId
-	public ConsumableUsePK getConsumableUsePK() {
-		return ConsumableUsePK;
-	}
-
-	/**
-	 * @param consumableUsePK
-	 *            : the composite order table key Use consumable.
-	 */
-	public void setConsumableUsePK(ConsumableUsePK consumableUsePK) {
-		ConsumableUsePK = consumableUsePK;
-	}
-
-	/**
 	 * @return transactions: relationship transactions
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_transaction", referencedColumnName = "idTransaction")
+	@JoinColumn(name = "id_transaction", referencedColumnName = "idTransaction", nullable = false)
 	public Transactions getTransactions() {
 		return transactions;
 	}
@@ -203,7 +203,7 @@ public class ConsumableUse implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((ConsumableUsePK == null) ? 0 : ConsumableUsePK.hashCode());
+				+ ((consumableUsePK == null) ? 0 : consumableUsePK.hashCode());
 		result = prime
 				* result
 				+ ((consumptionActual == null) ? 0 : consumptionActual
@@ -236,10 +236,10 @@ public class ConsumableUse implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ConsumableUse other = (ConsumableUse) obj;
-		if (ConsumableUsePK == null) {
-			if (other.ConsumableUsePK != null)
+		if (consumableUsePK == null) {
+			if (other.consumableUsePK != null)
 				return false;
-		} else if (!ConsumableUsePK.equals(other.ConsumableUsePK))
+		} else if (!consumableUsePK.equals(other.consumableUsePK))
 			return false;
 		if (consumptionActual == null) {
 			if (other.consumptionActual != null)
