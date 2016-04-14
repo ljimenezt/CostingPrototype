@@ -238,7 +238,7 @@ public class TypeUnitAction implements Serializable {
 	}
 
 	/**
-	 * Type Unit redirects to manage the list of updated Type Unit.
+	 * Method to delete a type unit of the database.
 	 * 
 	 * @return consultTypeUnit(): Consult the list of type Unit and returns to
 	 *         manage type Unit.
