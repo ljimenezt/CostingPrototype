@@ -94,7 +94,7 @@
 					<h:selectBooleanCheckbox
 						value="#{perfilSistemaAction.perfilSistema.reportarErrores}"
 						styleClass="marginCheckbox" id="chkReportarErrores">
-						<f:selectItem itemLabel="#{mensaje.label_si}" itemValue="true" />
+						<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 						<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
 					</h:selectBooleanCheckbox>
 					<rich:message for="chkReportarErrores" />
@@ -158,7 +158,7 @@
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_report_errors}:" />
 						<h:outputText
-							value="#{perfilSistemaAction.perfilSistema.reportarErrores eq 'true'? mensaje.label_si:mensaje.label_no}" />
+							value="#{perfilSistemaAction.perfilSistema.reportarErrores eq 'true'? mensaje.label_yes:mensaje.label_no}" />
 
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_mail_report_errors}:" />

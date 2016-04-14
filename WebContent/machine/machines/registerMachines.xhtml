@@ -124,7 +124,7 @@
 							<h:outputText value="*" styleClass="required" />
 							<h:selectOneRadio value="#{machinesAction.machines.fuel}"
 								id="txtFuel" required="true">
-								<f:selectItem itemLabel="#{mensaje.label_si}" itemValue="true" />
+								<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 								<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
 								<a:ajax event="click" render="pnlFuel">
 								</a:ajax>
@@ -274,7 +274,7 @@
 						<h:outputText value="#{machinesAction.machines.kilowatts}" />
 						<h:outputText value="#{mensaje.label_fuel}:" />
 						<h:outputText
-							value="#{machinesAction.machines.fuel eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{machinesAction.machines.fuel eq true ? mensaje.label_yes : mensaje.label_no}" />
 						<h:outputText value="#{messageMachine.fuel_types_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(machinesAction.itemsFuelTypes, machinesAction.machines.fuelTypes.idFuelType)}" />

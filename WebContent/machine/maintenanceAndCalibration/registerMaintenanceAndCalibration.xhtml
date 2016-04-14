@@ -91,7 +91,7 @@
 							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
 							tyleClass="colNumeroLargo"
 							id="txtMachineEquipementInGoodCondition">
-							<f:selectItem itemLabel="#{mensaje.label_si}" itemValue="true" />
+							<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 							<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
 						</h:selectOneRadio>
 						<rich:message for="txtMachineEquipementInGoodCondition" />
@@ -138,7 +138,7 @@
 							value="#{messageMachine.maintenance_calibration_label_good_condition_machines}:" />
 						<h:outputText
 							rendered="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
-							value="#{mensaje.label_si}" />
+							value="#{mensaje.label_yes}" />
 						<h:outputText
 							rendered="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition eq 'false'}"
 							value="#{mensaje.label_no}" />

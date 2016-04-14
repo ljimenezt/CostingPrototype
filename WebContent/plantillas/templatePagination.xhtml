@@ -41,7 +41,7 @@
 			rendered="#{conEstado eq '1'}" />
 	</a:commandLink>
 	<h:outputText
-		value="#{pagination['itemInicial']} ... #{pagination['itemFinal']} #{mensaje.label_de} #{pagination['totalItems']}" />
+		value="#{pagination['itemInicial']} ... #{pagination['itemFinal']} #{mensaje.label_of} #{pagination['totalItems']}" />
 	<a:commandLink id="next#{valId}"
 		disabled="#{pagination['inicio'] + pagination['rango'] ge pagination['totalItems']}"
 		action="#{beanActionParam[metodoActionParam]}" render="#{valReder}"
