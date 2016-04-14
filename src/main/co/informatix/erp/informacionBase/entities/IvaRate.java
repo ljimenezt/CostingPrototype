@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "general", schema = "iva_rate")
+@Table(name = "iva_rate", schema = "general")
 public class IvaRate implements Serializable {
 
 	private int idIva;
