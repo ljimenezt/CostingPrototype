@@ -297,7 +297,8 @@ public class IvaRateAction implements Serializable {
 	}
 
 	/**
-	 * Validates the range of percentage and it validates against XSS.
+	 * Validates the range of percentage, validate the percentage of the iva
+	 * rate, so it is not repeated in the database and it validates against XSS.
 	 * 
 	 * @param context
 	 *            : application context.
@@ -313,6 +314,18 @@ public class IvaRateAction implements Serializable {
 		Double number = (Double) value;
 		String clientId = toValidate.getClientId(context);
 		try {
+			int id = ivaRate.getIdIva();
+			IvaRate ivaRateAux = new IvaRate();
+			ivaRateAux = ivaRateDao.rateExists(number, id);
+			if (ivaRateAux != null) {
+				String messageExistence = "message_ya_existe_verifique";
+				context.addMessage(
+						clientId,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
+								.getString(messageExistence), null));
+				((UIInput) toValidate).setValid(false);
+			}
+
 			if (number != null) {
 				if (number < 0 || number > 100) {
 					String message = "message_add_range_percentage";
