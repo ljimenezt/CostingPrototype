@@ -139,24 +139,21 @@ public class CycleDao implements Serializable {
 	 * @return Cycle: Cycle found with the parameters sent.
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
-	public Cycle consultCycleNumber(int idCrop, int idActivity)
+	public Integer consultCycleNumber(int idCrop, int idActivity)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT c FROM Cycle c ");
-		query.append("WHERE c.initialDateTime =(SELECT MAX(cy.initialDateTime) FROM Cycle cy ");
-		query.append("JOIN cy.crops cr ");
-		query.append("JOIN cy.activiyNames an ");
+		query.append("SELECT MAX(c.cycleNumber) FROM Cycle c ");
+		query.append("JOIN c.activiyNames an ");
+		query.append("JOIN c.crops cr ");
 		query.append("WHERE cr.idCrop =:idCrop ");
-		query.append("AND an.idActivityName =:idActivity) ");
+		query.append("AND an.idActivityName =:idActivity ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCrop", idCrop);
 		q.setParameter("idActivity", idActivity);
-		List<Cycle> results = q.getResultList();
-		if (results.size() > 0) {
-			return results.get(0);
+		if (q.getSingleResult() != null) {
+			return (Integer) q.getSingleResult();
 		}
-		return null;
+		return 0;
 	}
 
 	/**
@@ -169,10 +166,6 @@ public class CycleDao implements Serializable {
 	 *            :integer of the activity associated a one cycle.
 	 * @param initialDate
 	 *            :initial date associated a one cycle.
-	 * @param consult
-	 *            : String containing the query why the leak.
-	 * @param parameters
-	 *            :query parameters.
 	 * @return Date: Date found with the parameters sent.
 	 * @throws Exception
 	 */

@@ -1179,13 +1179,9 @@ public class CycleAction implements Serializable {
 	public void calculateCycleNumber() {
 		try {
 			if (!flagCycle) {
-				Cycle cycleNumber = cycleDao.consultCycleNumber(this.idCrops,
+				int cycleNumber = cycleDao.consultCycleNumber(this.idCrops,
 						cycle.getActiviyNames().getIdActivityName());
-				if (cycleNumber != null) {
-					cycle.setCycleNumber(cycleNumber.getCycleNumber() + 1);
-				} else {
-					cycle.setCycleNumber(1);
-				}
+				cycle.setCycleNumber(cycleNumber + 1);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
