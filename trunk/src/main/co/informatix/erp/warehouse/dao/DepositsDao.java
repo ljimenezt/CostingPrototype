@@ -66,6 +66,7 @@ public class DepositsDao implements Serializable {
 	 * 
 	 * @author Sergio.Ortiz
 	 * @modify 07/03/2016 Gerardo.Herrera
+	 * @modify 14/04/2016 Wilhelm.Boada
 	 * 
 	 * @param start
 	 *            : Registry where consultation begins
@@ -88,7 +89,8 @@ public class DepositsDao implements Serializable {
 		query.append("SELECT d FROM Deposits d ");
 		query.append("JOIN FETCH d.materials m ");
 		query.append("JOIN FETCH m.materialType ");
-		query.append("JOIN FETCH d.purchaseInvoices ");
+		query.append("JOIN FETCH m.measurementUnits ");
+		query.append("JOIN FETCH d.purchaseInvoices p ");
 		query.append(consult);
 		query.append(" ORDER BY d.dateTime");
 		Query q = em.createQuery(query.toString());
@@ -105,6 +107,8 @@ public class DepositsDao implements Serializable {
 	 * or not existing.
 	 * 
 	 * @author Sergio.Ortiz
+	 * @modify 14/04/2016 Wilhelm.Boada
+	 * 
 	 * @param consulta
 	 *            : Query running on SQL.
 	 * @param parametros
@@ -116,6 +120,8 @@ public class DepositsDao implements Serializable {
 			List<SelectItem> parametros) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(d) FROM Deposits d ");
+		query.append("JOIN d.materials m ");
+		query.append("JOIN d.purchaseInvoices p ");
 		query.append(consulta);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parametro : parametros) {

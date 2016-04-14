@@ -116,19 +116,34 @@
 								</a:outputPanel>
 								<a:outputPanel styleClass="MarginL5P">
 									<a:commandLink
-										render="formDeposits, transactionsTable, mensajes"
-										actionListener="#{depositsAction.selectDeposit(deposit)}"
-										action="#{depositsAction.showTransaction()}"
-										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
-										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
-											styleClass="verticalAlignMiddle"
-											rendered="#{deposit.selected eq true}" />
-										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
-											styleClass="verticalAlignMiddle"
-											rendered="#{deposit.selected eq false}" />
+										actionListener="#{depositsAction.setInoviceSupplier(deposit)}"
+										action="#{depositsAction.clearFieldAdjust()}"
+										render="popUpAdjust, formDeposits"
+										oncomplete="#{rich:component('popUpAdjust')}.show();">
+										<h:graphicImage value="/img/adjust_16.png"
+											styleClass="verticalAlignMiddle" />
+										<rich:tooltip layout="block" styleClass="campoTooltip">
+											<h:outputText value="#{mensaje.label_adjust}" />
+										</rich:tooltip>
 									</a:commandLink>
 								</a:outputPanel>
 							</rich:column>
+
+							<rich:column styleClass="colIconoUno">
+								<a:commandLink
+									render="formDeposits, transactionsTable, mensajes"
+									actionListener="#{depositsAction.selectDeposit(deposit)}"
+									action="#{depositsAction.showTransaction()}"
+									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{deposit.selected eq true}" />
+									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{deposit.selected eq false}" />
+								</a:commandLink>
+							</rich:column>
+
 							<rich:column styleClass="colFecha">
 								<f:facet name="header">#{mensaje.label_record_date}</f:facet>
 								<h:outputText value="#{deposit.dateTime}">
@@ -138,13 +153,19 @@
 							</rich:column>
 
 							<rich:column styleClass="colTextoCorto">
-								<f:facet name="header">#{mensajeWarehouse.materials_type_label}</f:facet>
-								<h:outputText value="#{deposit.materials.materialType.name}" />
+								<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
+								<h:outputText value="#{deposit.materials.name}" />
 							</rich:column>
 
 							<rich:column styleClass="colTextoCorto">
-								<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
-								<h:outputText value="#{deposit.materials.name}" />
+								<f:facet name="header">#{mensajeWarehouse.materials_label_presentation}</f:facet>
+								<h:outputText
+									value="#{deposit.materials.presentation} #{deposit.materials.measurementUnits.name}" />
+							</rich:column>
+
+							<rich:column styleClass="colTextoCorto">
+								<f:facet name="header">#{mensajeWarehouse.materials_type_label}</f:facet>
+								<h:outputText value="#{deposit.materials.materialType.name}" />
 							</rich:column>
 
 							<rich:column styleClass="colTextoCorto">
@@ -177,23 +198,9 @@
 								<h:outputText value="#{deposit.purchaseInvoices.invoiceNumber}" />
 							</rich:column>
 
-							<rich:column styleClass="colIconoUno">
-								<f:facet name="header">#{mensaje.label_adjust}</f:facet>
-								<a:commandLink
-									actionListener="#{depositsAction.setInoviceSupplier(deposit)}"
-									action="#{depositsAction.clearFieldAdjust()}"
-									render="popUpAdjust, formDeposits"
-									oncomplete="#{rich:component('popUpAdjust')}.show();">
-									<h:graphicImage value="/img/adjust_16.png" />
-									<rich:tooltip layout="block" styleClass="campoTooltip">
-										<h:outputText value="#{mensaje.label_adjust}" />
-									</rich:tooltip>
-								</a:commandLink>
-							</rich:column>
-
 							<f:facet name="footer">
 								<rich:columnGroup rendered="#{listaVacia}">
-									<rich:column colspan="13" styleClass="footTabla">
+									<rich:column colspan="14" styleClass="footTabla">
 										<h:outputText
 											value="#{mensaje.message_no_existen_registros_tabla}" />
 									</rich:column>
@@ -400,13 +407,13 @@
 						$g = jQuery.noConflict();		
 					</script>
 						<h:panelGrid columns="4"
-							columnClasses="tdAlignTop H30P,tdAlignTop,,tdAlignTop">
+							columnClasses="tdAlignTop H30P,tdAlignTop,,tdAlignTop2">
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.materials_label}:" />
 							<h:outputText value="" />
 							<h:outputText
-								value="#{depositsAction.depositDetails.materials.name}" />
+								value="#{depositsAction.depositDetails.materials.name} #{depositsAction.depositDetails.materials.presentation} #{depositsAction.depositDetails.materials.measurementUnits.name}" />
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
@@ -494,23 +501,41 @@
 					<script type="text/javascript">
 						$g = jQuery.noConflict();
 					</script>
-					<rich:messages id="messagePopUp" styleClass="messageBlock" />
-					<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_inicio}:" />
-						<h:outputText value="*" styleClass="required" />
+							value="#{mensajeWarehouse.materials_type_label}" />
+						<h:selectOneMenu value="#{depositsAction.idMaterialType}"
+							id="typeMaterial" styleClass="colTextoMediano">
+							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+							<f:selectItems value="#{depositsAction.itemsMaterialType}" />
+						</h:selectOneMenu>
+
+						<h:outputText value="#{mensajeWarehouse.materials_label}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText styleClass="colTextoCorto" maxlength="100"
+							id="txtNameSearch" value="#{depositsAction.nameSearch}"
+							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
+
+						<h:outputText value="#{mensajeWarehouse.purchase_invoice_label}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText styleClass="colTextoCorto" maxlength="100"
+							id="txtInvoiceSearch" value="#{depositsAction.invoiceSearch}"
+							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_fecha_inicio}" />
 						<p:calendar value="#{depositsAction.dateStartSearch}"
 							showOn="button" navigator="true" id="fechaInicio"
-							pattern="MM/dd/yyyy" required="true" readonlyInput="true"
+							pattern="MM/dd/yyyy" readonlyInput="true"
 							label="#{mensaje.label_fecha_inicio}">
 							<p:ajax event="dateSelect" update="fechFin" />
 						</p:calendar>
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_finalizacion}:" />
-						<h:outputText value="*" styleClass="required" />
+							value="#{mensaje.label_fecha_finalizacion}" />
 						<p:calendar value="#{depositsAction.dateEndSearch}"
-							showOn="button" navigator="true" required="true"
+							showOn="button" navigator="true"
 							mindate="#{depositsAction.dateStartSearch}" id="fechFin"
 							pattern="MM/dd/yyyy" readonlyInput="true"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
@@ -522,7 +547,7 @@
 				<div class="W350P center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						actionListener="#{depositsAction.consultDeposits}"
-						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
+						oncomplete="{#{rich:component('popupBuscar')}.hide();}"
 						render="panelDeposits, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
 						value="#{mensaje.button_cancel}" />
