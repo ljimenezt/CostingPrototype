@@ -139,6 +139,7 @@ public class MaterialsDao implements Serializable {
 	 * 
 	 * @author Liseth.Jimenez
 	 * @modify Gerardo.Herrera
+	 * @modify 14/04/2016 Wilhelm.Boada
 	 * 
 	 * @param idMaterialType
 	 *            : Materials type identifier to look for in materials.
@@ -150,6 +151,7 @@ public class MaterialsDao implements Serializable {
 			throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT m FROM Materials m ");
+		queryBuilder.append("JOIN FETCH m.measurementUnits ");
 		queryBuilder
 				.append(idMaterialType != 0 ? "WHERE m.materialType.idMaterialsType=:idMaterialType "
 						: "");

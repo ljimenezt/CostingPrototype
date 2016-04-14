@@ -97,6 +97,8 @@ public class DepositsAction implements Serializable {
 	private Double newQuantity;
 
 	private String justificationTransaction;
+	private String nameSearch;
+	private String invoiceSearch;
 
 	private List<Deposits> listDeposits;
 	private List<SelectItem> itemsMaterial;
@@ -357,6 +359,36 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
+	 * @return nameSearch: Material name to search.
+	 */
+	public String getNameSearch() {
+		return nameSearch;
+	}
+
+	/**
+	 * @param nameSearch
+	 *            : Material name to search.
+	 */
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
+	}
+
+	/**
+	 * @return invoiceSearch: Invoice name to search.
+	 */
+	public String getInvoiceSearch() {
+		return invoiceSearch;
+	}
+
+	/**
+	 * @param invoiceSearch
+	 *            : Invoice name to search.
+	 */
+	public void setInvoiceSearch(String invoiceSearch) {
+		this.invoiceSearch = invoiceSearch;
+	}
+
+	/**
 	 * @return idMaterialType : Material type identifier selected in the UI
 	 */
 	public int getIdMaterialType() {
@@ -390,6 +422,7 @@ public class DepositsAction implements Serializable {
 	 * Method to initialize the fields in the search.
 	 * 
 	 * @modify 08/03/2016 Gerardo.Herrera
+	 * @modify 14/04/2016 Wilhelm.Boada
 	 * 
 	 * @return consultDeposits: Deposits consulting method and redirects to the
 	 *         template to manage deposits.
@@ -405,6 +438,8 @@ public class DepositsAction implements Serializable {
 		this.dateStartSearch = null;
 		this.dateEndSearch = null;
 		this.deposits = new Deposits();
+		this.nameSearch = "";
+		this.invoiceSearch = "";
 		try {
 			this.loadMaterialsType();
 			this.loadMaterials();
@@ -472,6 +507,7 @@ public class DepositsAction implements Serializable {
 	 * by the user.
 	 * 
 	 * @modify 01/03/2016 Gerardo.Herrera
+	 * @modify 14/04/2016 Wilhelm.Boada
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -487,6 +523,8 @@ public class DepositsAction implements Serializable {
 			StringBuilder unionMessagesSearch) {
 		SimpleDateFormat format = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
+		ResourceBundle bundleWarehouse = ControladorContexto
+				.getBundle("mensajeWarehouse");
 		boolean queryAdded = false;
 
 		if (this.idMaterialType > 0) {
@@ -498,29 +536,65 @@ public class DepositsAction implements Serializable {
 			queryAdded = true;
 		}
 
-		if (this.idMaterial > 0) {
+		if ((this.nameSearch != null && !"".equals(this.nameSearch))) {
 			consult.append(queryAdded ? "AND " : "WHERE ");
-			consult.append("d.materials.id = :idMaterial ");
-			SelectItem item = new SelectItem(this.idMaterial, "idMaterial");
-			parameters.add(item);
+			consult.append(" UPPER(m.name) LIKE UPPER(:keywordName) ");
+			SelectItem itemNombre = new SelectItem("%" + this.nameSearch + "%",
+					"keywordName");
+			parameters.add(itemNombre);
+			unionMessagesSearch.append(bundleWarehouse
+					.getString("materials_label")
+					+ ": "
+					+ '"'
+					+ this.nameSearch + '"' + " ");
 			queryAdded = true;
 		}
 
-		if (this.dateStartSearch != null && this.dateEndSearch != null) {
+		if ((this.invoiceSearch != null && !"".equals(this.invoiceSearch))) {
 			consult.append(queryAdded ? "AND " : "WHERE ");
-			consult.append("d.dateTime BETWEEN :dateStartSearch AND :dateEndSearch ");
-			SelectItem item = new SelectItem(dateStartSearch, "dateStartSearch");
-			parameters.add(item);
-			SelectItem item2 = new SelectItem(dateEndSearch, "dateEndSearch");
-			parameters.add(item2);
-			String dateFrom = bundle.getString("label_fecha_inicio") + ": "
-					+ '"' + format.format(this.dateStartSearch) + '"' + ", ";
-			unionMessagesSearch.append(dateFrom);
+			consult.append(" UPPER(p.invoiceNumber) LIKE UPPER(:keywordInovice) ");
+			SelectItem itemNombre = new SelectItem("%" + this.invoiceSearch
+					+ "%", "keywordInovice");
+			parameters.add(itemNombre);
+			unionMessagesSearch.append(bundleWarehouse
+					.getString("purchase_invoice_label")
+					+ ": "
+					+ '"'
+					+ this.invoiceSearch + '"' + " ");
+			queryAdded = true;
+		}
 
-			String dateTo = bundle.getString("label_fecha_finalizacion") + ": "
-					+ '"' + format.format(dateEndSearch) + '"';
-			unionMessagesSearch.append(dateTo);
-			parameters.add(item2);
+		if (this.dateStartSearch != null || this.dateEndSearch != null) {
+			consult.append(queryAdded ? "AND " : "WHERE ");
+
+			if (this.dateStartSearch != null && this.dateEndSearch != null) {
+				consult.append("d.dateTime BETWEEN :dateStartSearch AND :dateEndSearch ");
+			}
+			if (this.dateStartSearch != null && this.dateEndSearch == null) {
+				consult.append("d.dateTime >= :dateStartSearch ");
+			}
+			if (this.dateStartSearch == null && this.dateEndSearch != null) {
+				consult.append("d.dateTime <= :dateEndSearch ");
+			}
+
+			if (this.dateStartSearch != null) {
+				SelectItem item = new SelectItem(dateStartSearch,
+						"dateStartSearch");
+				parameters.add(item);
+				parameters.add(item);
+				String dateFrom = bundle.getString("label_fecha_inicio") + ": "
+						+ '"' + format.format(this.dateStartSearch) + '"' + " ";
+				unionMessagesSearch.append(dateFrom);
+			}
+			if (this.dateEndSearch != null) {
+				SelectItem item2 = new SelectItem(dateEndSearch,
+						"dateEndSearch");
+				parameters.add(item2);
+				String dateTo = bundle.getString("label_fecha_finalizacion")
+						+ ": " + '"' + format.format(dateEndSearch) + '"';
+				unionMessagesSearch.append(dateTo);
+				parameters.add(item2);
+			}
 		}
 	}
 
@@ -624,6 +698,7 @@ public class DepositsAction implements Serializable {
 	 * a new deposits.
 	 * 
 	 * @author Liseth.Jimenez
+	 * @modify 14/04/2016 Wilhelm.Boada
 	 * 
 	 * @throws Exception
 	 */
@@ -635,7 +710,9 @@ public class DepositsAction implements Serializable {
 			if (materials != null) {
 				for (Materials material : materials) {
 					this.itemsMaterial.add(new SelectItem(material
-							.getIdMaterial(), material.getName()));
+							.getIdMaterial(), material.getName() + " "
+							+ material.getPresentation() + " "
+							+ material.getMeasurementUnits().getName()));
 				}
 			}
 		} catch (Exception e) {

@@ -164,6 +164,12 @@ table.radio input[type=radio] {
 	padding-right: 5px;
 }
 
+.tdAlignTop2 {
+	vertical-align: top;
+	padding-top: 5px;
+	padding-right: 5px;
+}
+
 /* Estilo para alinear HrCertificationsAndRoles */
 .tdPaddingCR {
 	padding-right: 65px;
