@@ -182,7 +182,8 @@ public class InvoiceItemsAction implements Serializable {
 	}
 
 	/**
-	 * @return validateConvert: Flag which displays the popup convert to deposit if 'true'
+	 * @return validateConvert: Flag which displays the popup convert to deposit
+	 *         if 'true'
 	 */
 	public boolean isValidateConvert() {
 		return validateConvert;
