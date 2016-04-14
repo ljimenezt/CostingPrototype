@@ -224,7 +224,7 @@
 									<h:selectBooleanCheckbox
 										value="#{cycleStandardActivities.seleccionado}"
 										id="txtSeleccionarActividad" required="true">
-										<f:selectItem itemLabel="#{mensaje.label_si}" itemValue="true" />
+										<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 									</h:selectBooleanCheckbox>
 
 								</rich:column>
@@ -426,19 +426,19 @@
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_hr}:" />
 						<h:outputText
-							value="#{cycleStandardActivitiesAction.cycleStandardActivities.hrRequired eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cycleStandardActivitiesAction.cycleStandardActivities.hrRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_machine}:" />
 						<h:outputText
-							value="#{cycleStandardActivitiesAction.cycleStandardActivities.machineRequired eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cycleStandardActivitiesAction.cycleStandardActivities.machineRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_service}:" />
 						<h:outputText
-							value="#{cycleStandardActivitiesAction.cycleStandardActivities.serviceRequired eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cycleStandardActivitiesAction.cycleStandardActivities.serviceRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_materials}:" />
 						<h:outputText
-							value="#{cycleStandardActivitiesAction.cycleStandardActivities.materialsRequired eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cycleStandardActivitiesAction.cycleStandardActivities.materialsRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_num_sequence}:" />
 						<h:outputText
@@ -450,7 +450,7 @@
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_dangerous}:" />
 						<h:outputText
-							value="#{cycleStandardActivitiesAction.cycleStandardActivities.dangerous eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cycleStandardActivitiesAction.cycleStandardActivities.dangerous eq true ? mensaje.label_yes : mensaje.label_no}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}" execute="@form"

@@ -577,19 +577,19 @@
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_hr}:" />
 						<h:outputText
-							value="#{cropActivitiesAction.activities.hrRequired eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cropActivitiesAction.activities.hrRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_machine}:" />
 						<h:outputText
-							value="#{cropActivitiesAction.activities.machineRequired eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cropActivitiesAction.activities.machineRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_service}:" />
 						<h:outputText
-							value="#{cropActivitiesAction.activities.serviceRequired eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cropActivitiesAction.activities.serviceRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_materials}:" />
 						<h:outputText
-							value="#{cropActivitiesAction.activities.materialsRequired eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cropActivitiesAction.activities.materialsRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_num_sequence}:" />
 						<h:outputText
@@ -601,7 +601,7 @@
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_dangerous }:" />
 						<h:outputText
-							value="#{cropActivitiesAction.activities.dangerous eq true ? mensaje.label_si : mensaje.label_no}" />
+							value="#{cropActivitiesAction.activities.dangerous eq true ? mensaje.label_yes : mensaje.label_no}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}" execute="@form"

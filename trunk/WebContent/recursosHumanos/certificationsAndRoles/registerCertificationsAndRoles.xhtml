@@ -55,7 +55,7 @@
 					<h:selectBooleanCheckbox
 						value="#{certificationsAndRolesAction.certificationsAndRoles.certifications}"
 						styleClass="marginCheckbox" id="txtCertifications" required="true">
-						<f:selectItem itemLabel="#{mensaje.label_si}" itemValue="true" />
+						<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 						<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
 					</h:selectBooleanCheckbox>
 					<rich:message for="txtCertifications" />
@@ -66,7 +66,7 @@
 					<h:selectBooleanCheckbox
 						value="#{certificationsAndRolesAction.certificationsAndRoles.role}"
 						styleClass="marginCheckbox" id="txtRole" required="true">
-						<f:selectItem itemLabel="#{mensaje.label_si}" itemValue="true" />
+						<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 						<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
 					</h:selectBooleanCheckbox>
 					<rich:message for="txtRole" />
@@ -77,7 +77,7 @@
 					<h:selectBooleanCheckbox
 						value="#{certificationsAndRolesAction.certificationsAndRoles.dangerous}"
 						styleClass="marginCheckbox" id="txtDangerous" required="true">
-						<f:selectItem itemLabel="#{mensaje.label_si}" itemValue="true" />
+						<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 						<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
 					</h:selectBooleanCheckbox>
 					<rich:message for="txtDangerous" />
@@ -126,13 +126,13 @@
 							value="#{certificationsAndRolesAction.certificationsAndRoles.name}" />
 						<h:outputText value="#{mensaje.label_certifications}:" />
 						<h:outputText
-							value="#{certificationsAndRolesAction.certificationsAndRoles.certifications eq 'true'? mensaje.label_si:mensaje.label_no}" />
+							value="#{certificationsAndRolesAction.certificationsAndRoles.certifications eq 'true'? mensaje.label_yes:mensaje.label_no}" />
 						<h:outputText value="#{mensaje.label_role}:" />
 						<h:outputText
-							value="#{certificationsAndRolesAction.certificationsAndRoles.role eq 'true'? mensaje.label_si:mensaje.label_no}" />
+							value="#{certificationsAndRolesAction.certificationsAndRoles.role eq 'true'? mensaje.label_yes:mensaje.label_no}" />
 						<h:outputText value="#{mensaje.label_dangerous}:" />
 						<h:outputText
-							value="#{certificationsAndRolesAction.certificationsAndRoles.dangerous eq 'true'? mensaje.label_si:mensaje.label_no}" />
+							value="#{certificationsAndRolesAction.certificationsAndRoles.dangerous eq 'true'? mensaje.label_yes:mensaje.label_no}" />
 						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
 							value="#{certificationsAndRolesAction.certificationsAndRoles.description}" />
