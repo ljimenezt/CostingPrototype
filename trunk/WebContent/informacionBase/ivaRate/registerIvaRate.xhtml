@@ -10,7 +10,93 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="ivaRateAction.addEditIvaRate(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_registrar,messageBaseInformation.iva_rate_label" />
 	<ui:define name="body">
 		<t:saveState value="#{ivaRateAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<h:form id="formIvaRate">
+			<rich:panel
+				header="#{mensaje.label_registrar} #{messageBaseInformation.iva_rate_label}"
+				styleClass="anchoUno MinH253P" id="panelRegisterIvaRate">
+				<h:panelGrid columns="4"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,tdAlignTop">
+
+					<h:outputText value="#{mensaje.label_name}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText value="#{ivaRateAction.ivaRate.name}"
+						styleClass="colTextoMediano" id="txtNombre" required="true"
+						size="41" maxlength="100"
+						validator="#{ivaRateAction.validateNameXSS}"
+						requiredMessage="#{mensaje.message_campo_requerido}" />
+					<rich:message for="txtNombre" />
+
+					<h:outputText
+						value="#{messageBaseInformation.iva_rate_label_percentage}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<a:outputPanel>
+						<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+							<h:inputText id="txtRate" maxlength="5" required="true"
+								validator="#{ivaRateAction.validateNumberPercentage}"
+								value="#{ivaRateAction.ivaRate.rate}" styleClass="colValor"
+								requiredMessage="#{mensaje.message_campo_requerido}"
+								converterMessage="#{mensaje.message_campo_positivo}">
+								<f:validateDoubleRange minimum="0" maximum="100" />
+							</h:inputText>
+							<h:outputText value="%" />
+						</h:panelGrid>
+					</a:outputPanel>
+					<rich:message for="txtRate" />
+
+				</h:panelGrid>
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						execute="formIvaRate"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_save}" />
+				</div>
+			</rich:panel>
+		</h:form>
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:" />
+						<h:outputText value="#{ivaRateAction.ivaRate.name}" />
+						<h:outputText
+							value="#{messageBaseInformation.iva_rate_label_percentage}:" />
+						<h:outputText value="#{ivaRateAction.ivaRate.rate}%" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{ivaRateAction.saveIvaRate}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
 	</ui:define>
 </ui:composition>
