@@ -47,6 +47,21 @@
 				styleClass="#{listaVaciaA ? 'BCTransparente W100Per' : 'dataTable'} #{anchoTabla}"
 				rowClasses="odd-row, even-row" footerClass="H130P">
 
+				<rich:column styleClass="colIcono"
+					rendered="#{purchaseInvoicesAction.flag eq false}">
+					<f:facet name="header"></f:facet>
+					<a:commandLink render="popUpConvert, mensajes"
+						actionListener="#{invoiceItemsAction.loadConvertDeposit(invoiceItems)}"
+						oncomplete="if (#{invoiceItemsAction.validateConvert==true})
+								{#{rich:component('popUpConvert')}.show();} else{ goUp(); }">
+						<h:graphicImage value="/img/convert_16.png" />
+						<rich:tooltip layout="block" styleClass="campoTooltip">
+							<h:outputText
+								value="#{mensajeWarehouse.invoice_items_label_convert_deposit}" />
+						</rich:tooltip>
+					</a:commandLink>
+				</rich:column>
+
 				<rich:column styleClass="colTextoExtraLargo">
 					<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
 					<a:commandLink render="popupRegInvoiceItems"
@@ -135,21 +150,6 @@
 							<h:outputText value="#{invoiceItems.note}" />
 						</rich:tooltip>
 					</a:outputPanel>
-				</rich:column>
-
-				<rich:column styleClass="colIcono"
-					rendered="#{purchaseInvoicesAction.flag eq false}">
-					<f:facet name="header"></f:facet>
-					<a:commandLink render="popUpConvert, mensajes"
-						actionListener="#{invoiceItemsAction.loadConvertDeposit(invoiceItems)}"
-						oncomplete="if (#{invoiceItemsAction.validateConvert==true})
-								{#{rich:component('popUpConvert')}.show();} else{ goUp(); }">
-						<h:graphicImage value="/img/convert_16.png" />
-						<rich:tooltip layout="block" styleClass="campoTooltip">
-							<h:outputText
-								value="#{mensajeWarehouse.invoice_items_label_convert_deposit}" />
-						</rich:tooltip>
-					</a:commandLink>
 				</rich:column>
 
 				<f:facet name="footer">
