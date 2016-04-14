@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
+import co.informatix.erp.lifeCycle.entities.Cycle;
 
 /**
  * This class maps the activities table, which contains the information of the
@@ -62,6 +63,7 @@ public class Activities implements Serializable {
 
 	private Crops crop;
 	private ActivityNames activityName;
+	private Cycle cycle;
 
 	/**
 	 * Constructor method.
@@ -510,6 +512,23 @@ public class Activities implements Serializable {
 	 */
 	public void setActivityName(ActivityNames activityName) {
 		this.activityName = activityName;
+	}
+
+	/**
+	 * @return cycle: Cycle related to the activity.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_cycle", referencedColumnName = "idcycle", nullable = false)
+	public Cycle getCycle() {
+		return cycle;
+	}
+
+	/**
+	 * @param cycle
+	 *            : Cycle related to the activity.
+	 */
+	public void setCycle(Cycle cycle) {
+		this.cycle = cycle;
 	}
 
 	@Override

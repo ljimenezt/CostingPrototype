@@ -23,6 +23,8 @@ import javax.persistence.TemporalType;
 @Table(name = "activity_machine", schema = "costs")
 public class ActivityMachine implements Serializable, Cloneable {
 
+	private ActivityMachinePK activityMachinePK;
+
 	private Date initialDateTime;
 	private Date finalDateTime;
 
@@ -37,13 +39,28 @@ public class ActivityMachine implements Serializable, Cloneable {
 	private Double insuranceCostActual;
 	private Double insuranceCostBudget;
 
-	private ActivityMachinePK activityMachinePK;
-
 	/**
 	 * Constructor that initializes the primary key
 	 */
 	public ActivityMachine() {
 		this.activityMachinePK = new ActivityMachinePK();
+	}
+
+	/**
+	 * @return activityMachinePK: object of the activity table composite machine
+	 *         key.
+	 */
+	@EmbeddedId
+	public ActivityMachinePK getActivityMachinePK() {
+		return activityMachinePK;
+	}
+
+	/**
+	 * @param activityMachinePK
+	 *            : object of the activity table composite machine key.
+	 */
+	public void setActivityMachinePK(ActivityMachinePK activityMachinePK) {
+		this.activityMachinePK = activityMachinePK;
 	}
 
 	/**
@@ -239,23 +256,6 @@ public class ActivityMachine implements Serializable, Cloneable {
 	 */
 	public void setInsuranceCostBudget(Double insuranceCostBudget) {
 		this.insuranceCostBudget = insuranceCostBudget;
-	}
-
-	/**
-	 * @return activityMachinePK: object of the activity table composite machine
-	 *         key.
-	 */
-	@EmbeddedId
-	public ActivityMachinePK getActivityMachinePK() {
-		return activityMachinePK;
-	}
-
-	/**
-	 * @param activityMachinePK
-	 *            : object of the activity table composite machine key.
-	 */
-	public void setActivityMachinePK(ActivityMachinePK activityMachinePK) {
-		this.activityMachinePK = activityMachinePK;
 	}
 
 	public ActivityMachine clone() {
