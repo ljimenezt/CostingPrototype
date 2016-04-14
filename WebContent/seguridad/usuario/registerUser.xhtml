@@ -10,7 +10,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="usuarioAction.registerUser(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageSecurity.user_label" />
+		value="mensaje.label_register,messageSecurity.user_label" />
 	<ui:define name="body">
 		<h:form id="usuarioForm" styleClass="edit">
 			<t:saveState value="#{usuarioAction}" />
@@ -24,7 +24,7 @@
 					rendered="#{!usuarioAction.edited}" />
 
 				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propCacaoSoft['locate.fields.cellpadding']}"
 						cellspacing="#{propCacaoSoft['locate.fields.cellspacing']}">
@@ -78,7 +78,7 @@
 						<rich:message for="txtNombreUsuario" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_contrasena}"
+							value="#{mensaje.label_password}"
 							rendered="#{!usuarioAction.edited}" />
 						<h:outputText value="*" styleClass="required"
 							rendered="#{!usuarioAction.edited}" />
@@ -109,7 +109,7 @@
 						<rich:message for="txtPasswordConfirmar"
 							rendered="#{!usuarioAction.edited}" />
 
-						<h:outputText value="#{mensaje.label_contrasena}"
+						<h:outputText value="#{mensaje.label_password}"
 							rendered="#{usuarioAction.edited}" styleClass="etiquetaTitulo" />
 						<h:outputText value="" rendered="#{usuarioAction.edited}" />
 						<a:outputPanel id="outChangePassword">
@@ -139,7 +139,7 @@
 								var="objRol" id="tRoles" styleClass="H190P anchoCinco">
 								<f:facet name="header">
 									<h:outputText
-										value="#{mensaje.label_listado_de} #{messageSecurity.role_label_s}" />
+										value="#{mensaje.label_listing} #{messageSecurity.role_label_s}" />
 								</f:facet>
 								<rich:column width="30px" styleClass="center">
 									<f:facet name="header" />
@@ -151,7 +151,7 @@
 										<f:setPropertyActionListener value="#{objRol}"
 											target="#{usuarioAction.role}" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_asignar}" />
+											<h:outputText value="#{mensaje.label_assign}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</rich:column>
@@ -196,7 +196,7 @@
 											execute="@region">
 											<h:graphicImage value="/img/delete_16.png" />
 											<rich:tooltip layout="block">
-												<h:outputText value="#{mensaje.label_quitar}" />
+												<h:outputText value="#{mensaje.label_remove}" />
 											</rich:tooltip>
 										</a:commandLink>
 										<a:commandLink render=":popupForm:popUpAsignarRol, mensajes"
@@ -218,14 +218,14 @@
 											value="#{rolesUsuarioList.rolUsuarioPK.rol.nombre}" />
 									</rich:column>
 									<rich:column width="150px" styleClass="top center">
-										<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+										<f:facet name="header">#{mensaje.label_start_date}</f:facet>
 										<h:outputText value="#{rolesUsuarioList.fechaInicioVigencia}">
 											<f:convertDateTime pattern="MMM dd, yyyy"
 												locale="#{idioma.locale}" />
 										</h:outputText>
 									</rich:column>
 									<rich:column width="150px" styleClass="top center">
-										<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+										<f:facet name="header">#{mensaje.label_end_date}</f:facet>
 										<h:outputText value="#{rolesUsuarioList.fechaFinVigencia}">
 											<f:convertDateTime pattern="MMM dd, yyyy"
 												locale="#{idioma.locale}" />
@@ -250,20 +250,20 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popUpAsignarRol" autosized="true"
 				domElementAttachment="form">
-				<f:facet name="header">#{mensaje.label_asignar}</f:facet>
+				<f:facet name="header">#{mensaje.label_assign}</f:facet>
 				<br />
 				<rich:messages id="mensajesPopup" styleClass="messageBlock" />
 				<h:panelGrid columns="3" cellpadding="3" cellspacing="4">
-					<h:outputText value="#{mensaje.label_fecha_inicio}"
+					<h:outputText value="#{mensaje.label_start_date}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar onchange="setFocus('popupForm:calFechaInicio_input');"
 						onkeypress="return submitByEnter(event,'popupForm:btnBuscarC')"
 						value="#{usuarioAction.selectStartDate}" id="calFechaInicio"
 						showOn="button" required="true"
-						label="#{mensaje.label_fecha_inicio}" />
+						label="#{mensaje.label_start_date}" />
 
-					<h:outputText value="#{mensaje.label_fecha_fin}"
+					<h:outputText value="#{mensaje.label_end_date}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<p:calendar onchange="setFocus('popupForm:calFechaFin_input');"

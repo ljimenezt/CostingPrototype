@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="maintenanceLinesAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageMachine.maintenance_lines_label" />
+		value="mensaje.label_manage,messageMachine.maintenance_lines_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceLinesAction}" />
@@ -37,7 +37,7 @@
 
 		<h:form id="formMaintenanceLines">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageMachine.maintenance_lines_label}"
+				header="#{mensaje.label_listing} #{messageMachine.maintenance_lines_label}"
 				id="panelMaintenanceLines">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />

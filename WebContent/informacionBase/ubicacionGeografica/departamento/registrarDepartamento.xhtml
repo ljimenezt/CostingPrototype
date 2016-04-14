@@ -11,7 +11,7 @@
 	<ui:param name="action"
 		value="departamentoAction.registrarDepartamento(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageBaseInformation.department_label" />
+		value="mensaje.label_register,messageBaseInformation.department_label" />
 	<ui:define name="body">
 		<h:form id="departamentoForm">
 			<t:saveState value="#{departamentoAction}" />
@@ -44,7 +44,7 @@
 					<rich:message for="nombre" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_codigo_postal}" />
+						value="#{mensaje.label_postal_code}" />
 					<h:outputText value="" />
 					<h:inputText id="txtCodigoPostal" styleClass="colNumero"
 						validatorMessage="#{mensaje.message_campo_positivo}"
@@ -89,7 +89,7 @@
 						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{departamentoAction.departamento.nombre}" />
 
-						<h:outputText value="#{mensaje.label_codigo_postal}:" />
+						<h:outputText value="#{mensaje.label_postal_code}:" />
 						<h:outputText
 							value="#{departamentoAction.departamento.codigoPostal}" />
 					</ui:define>

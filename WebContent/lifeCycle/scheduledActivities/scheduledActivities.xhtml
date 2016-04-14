@@ -41,7 +41,7 @@
 		</script>
 		<h:form id="formScheduledActivities">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageLifeCycle.scheduled_activities_label_budget}"
+				header="#{mensaje.label_register} #{messageLifeCycle.scheduled_activities_label_budget}"
 				styleClass="anchoUno MinH253P" id="panelScheduledActivities">
 				<t:fieldset styleClass="anchoDos BorderW2P">
 					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label}</legend>
@@ -93,12 +93,12 @@
 						<h:selectOneMenu id="activities"
 							value="#{scheduledActivitiesAction.activities.idActivity}"
 							styleClass="colTextoCorto" required="true">
-							<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 							<f:selectItems
 								value="#{scheduledActivitiesAction.optionsActivityName}" />
 						</h:selectOneMenu>
 						<rich:message for="activities" />
-						<h:outputText value="#{mensaje.label_fecha_inicio}"
+						<h:outputText value="#{mensaje.label_start_date}"
 							styleClass="etiquetaTitulo" />
 						<p:calendar
 							value="#{scheduledActivitiesAction.activities.initialDtBudget}"
@@ -111,7 +111,7 @@
 							<p:ajax event="dateSelect" update="fechaFinal" />
 						</p:calendar>
 						<rich:message for="fechaInicio" />
-						<h:outputText value="#{mensaje.label_fecha_fin}"
+						<h:outputText value="#{mensaje.label_end_date}"
 							styleClass="etiquetaTitulo" />
 						<p:calendar
 							value="#{scheduledActivitiesAction.activities.finalDtBudget}"
@@ -287,7 +287,7 @@
 									<h:graphicImage value="/img/workers_16.png"
 										styleClass="verticalAlignMiddle" />
 									<h:outputText
-										value="#{mensaje.label_asignar} #{messageCosts.activities_and_hr_label_workers}" />
+										value="#{mensaje.label_assign} #{messageCosts.activities_and_hr_label_workers}" />
 								</h:panelGrid>
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.label_select}" />
@@ -432,7 +432,7 @@
 									<h:graphicImage value="/img/machines_16.png"
 										styleClass="verticalAlignMiddle" />
 									<h:outputText
-										value="#{mensaje.label_asignar} #{messageMachine.machines_label_names_s}" />
+										value="#{mensaje.label_assign} #{messageMachine.machines_label_names_s}" />
 								</h:panelGrid>
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.label_select}" />

@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="tipoDocumentoAction.consultarTiposDocumento" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageBaseInformation.tipo_documento_label" />
+		value="mensaje.label_manage,messageBaseInformation.tipo_documento_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/validacion.js"></script>
@@ -21,7 +21,7 @@
 			<ui:param name="listaVacia"
 				value="#{tipoDocumentoAction.listaTiposDocumento eq null or (empty tipoDocumentoAction.listaTiposDocumento)}" />
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{messageBaseInformation.tipo_documento_label_s}"
+				header="#{mensaje.label_listing} #{messageBaseInformation.tipo_documento_label_s}"
 				id="panelTipoDocumento" styleClass="anchoUno MinH230P">
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoCinco">

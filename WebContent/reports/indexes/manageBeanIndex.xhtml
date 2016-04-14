@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="beanIndexAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageBeanIndex.bean_index_label_s" />
+		value="mensaje.label_manage,messageBeanIndex.bean_index_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{beanIndexAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formBeanIndex">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageBeanIndex.bean_index_label_s}"
+				header="#{mensaje.label_listing} #{messageBeanIndex.bean_index_label_s}"
 				id="pnlBeanIndex">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />

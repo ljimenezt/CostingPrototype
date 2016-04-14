@@ -216,7 +216,7 @@ public class MetodoAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleSecurity.getString("method_label_s"),
-								bundle.getString("label_proceso") + ": " + '"'
+								bundle.getString("label_process") + ": " + '"'
 										+ this.nameSearch + '"');
 			}
 			validations.setMensajeBusqueda(searchMessage);

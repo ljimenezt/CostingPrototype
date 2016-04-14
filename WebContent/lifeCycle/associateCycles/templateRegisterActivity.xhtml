@@ -16,9 +16,9 @@
 				columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
 
 				<h:outputText styleClass="etiquetaTitulo"
-					value="#{mensaje.label_numero_secuencia}" />
+					value="#{mensaje.label_sequence_number}" />
 				<h:outputText value="" styleClass="required" />
-				<h:inputText label="#{mensaje.label_numero_secuencia}"
+				<h:inputText label="#{mensaje.label_sequence_number}"
 					value="#{cropActivitiesAction.activities.sequenceNumber}"
 					styleClass="colNumero" id="txtSecNum"
 					converterMessage="#{mensaje.message_campo_positivo}"
@@ -95,7 +95,7 @@
 				<h:selectBooleanCheckbox styleClass="marginCheckbox"
 					value="#{cropActivitiesAction.activities.hrRequired}" id="txtHr">
 				</h:selectBooleanCheckbox>
-				<h:outputText value="#{mensaje.label_hr_requerido}"
+				<h:outputText value="#{mensaje.label_required_hr}"
 					styleClass="etiquetaTitulo" />
 				<rich:message for="txtHr" />
 
@@ -104,7 +104,7 @@
 					id="txtMachine">
 				</h:selectBooleanCheckbox>
 				<h:outputText styleClass="etiquetaTitulo"
-					value="#{mensaje.label_maquina_requerida}" />
+					value="#{mensaje.label_required_machine}" />
 				<rich:message for="txtMachine" />
 
 				<h:selectBooleanCheckbox styleClass="marginCheckbox"
@@ -112,7 +112,7 @@
 					id="txtService">
 				</h:selectBooleanCheckbox>
 				<h:outputText styleClass="etiquetaTitulo"
-					value="#{mensaje.label_servicio_requerido}" />
+					value="#{mensaje.label_required_service}" />
 				<rich:message for="txtService" />
 
 				<h:selectBooleanCheckbox styleClass="marginCheckbox"
@@ -120,7 +120,7 @@
 					id="txtMaterials">
 				</h:selectBooleanCheckbox>
 				<h:outputText styleClass="etiquetaTitulo"
-					value="#{mensaje.label_material_requerido}" />
+					value="#{mensaje.label_required_material}" />
 				<rich:message for="txtMaterials" />
 
 				<h:selectBooleanCheckbox styleClass="marginCheckbox"

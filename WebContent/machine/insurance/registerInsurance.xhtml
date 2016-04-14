@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="insuranceAction.agregarEditarInsurance(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageMachine.insurance_label" />
+		value="mensaje.label_register,messageMachine.insurance_label" />
 	<ui:define name="body">
 		<t:saveState value="#{insuranceAction}" />
 		<t:saveState value="#{machinesAction}" />
@@ -34,10 +34,10 @@
 		</script>
 		<h:form id="formInsurance">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageMachine.insurance_label}"
+				header="#{mensaje.label_register} #{messageMachine.insurance_label}"
 				styleClass="anchoUno MinH253P" id="panelInsurance">
 				<t:fieldset styleClass="BorderW2P">
-					<legend class="etiquetaTitulo">#{mensaje.label_informacion_maquina}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_machine_information}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
@@ -92,7 +92,7 @@
 						</h:inputTextarea>
 						<rich:message for="txaDescripcion" />
 
-						<h:outputText value="#{mensaje.label_fecha}"
+						<h:outputText value="#{mensaje.label_date}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{insuranceAction.insurance.dateTime}"
@@ -159,7 +159,7 @@
 					</ui:define>
 					<ui:define name="campos">
 
-						<h:outputText value="#{mensaje.label_tipo_maquina}:" />
+						<h:outputText value="#{mensaje.label_machine_type}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(insuranceAction.machineTypeOption, insuranceAction.machineTypes.idMachineType)}" />
 						<h:outputText value="#{messageMachine.insurance_label_machine}:" />
@@ -167,7 +167,7 @@
 							value="#{validacionesAction.getLabel(insuranceAction.machinesList, insuranceAction.machines.idMachine)}" />
 						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText value="#{insuranceAction.insurance.descripcion}" />
-						<h:outputText value="#{mensaje.label_fecha}:" />
+						<h:outputText value="#{mensaje.label_date}:" />
 						<h:outputText value="#{insuranceAction.insurance.dateTime}" />
 						<h:outputText
 							value="#{messageMachine.insurance_label_total_cost_budget}:" />

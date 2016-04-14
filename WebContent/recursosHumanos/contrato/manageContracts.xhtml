@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="contratoAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageHumanResources.contract_label_s" />
+		value="mensaje.label_manage,messageHumanResources.contract_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{contratoAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formContrato">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageHumanResources.contract_label_s}"
+				header="#{mensaje.label_listing} #{messageHumanResources.contract_label_s}"
 				id="panelContrato">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -73,13 +73,13 @@
 					</rich:column>
 
 					<rich:column styleClass="colIconoCinco">
-						<f:facet name="header">#{mensaje.label_periodo_prueba}</f:facet>
+						<f:facet name="header">#{mensaje.label_trial_period}</f:facet>
 						<h:graphicImage value="/img/okPermiso_16.png"
 							rendered="#{contrato.esPeriodoPrueba eq true}" />
 					</rich:column>
 
 					<rich:column styleClass="colFechaExtraLarga">
-						<f:facet name="header">#{mensaje.label_fecha_fin_contrato}</f:facet>
+						<f:facet name="header">#{mensaje.label_contract_end_date}</f:facet>
 						<h:outputText value="#{contrato.fechaFinContrato}">
 							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />

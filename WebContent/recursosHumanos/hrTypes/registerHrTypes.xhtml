@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="hrTypesAction.addEditHrTypes(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageHumanResources.human_resource_type_label" />
+		value="mensaje.label_register,messageHumanResources.human_resource_type_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -30,7 +30,7 @@
 		<t:saveState value="#{hrTypesAction}" />
 		<h:form id="formHrTypes">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageHumanResources.human_resource_type_label}"
+				header="#{mensaje.label_register} #{messageHumanResources.human_resource_type_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarHrTypes">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

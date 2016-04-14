@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="maintenanceAndCalibrationAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageMachine.maintenance_calibration_label" />
+		value="mensaje.label_manage,messageMachine.maintenance_calibration_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceAndCalibrationAction}" />
@@ -39,11 +39,11 @@
 
 		<h:form id="formMaintenanceAndCalibration">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageMachine.maintenance_calibration_label}"
+				header="#{mensaje.label_listing} #{messageMachine.maintenance_calibration_label}"
 				id="panelMaintenanceAndCalibration">
 
 				<t:fieldset>
-					<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+					<legend class="etiquetaTitulo">#{mensaje.label_search}
 						#{messageMachine.machines_label_names_s}</legend>
 					<h:panelGrid columns="2"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -68,7 +68,7 @@
 									render=":formMaintenanceAndCalibration:modelSearch" />
 							</h:selectOneMenu>
 
-							<h:outputText value="#{mensaje.label_modelo}"
+							<h:outputText value="#{mensaje.label_model}"
 								styleClass="etiquetaTitulo" />
 							<h:selectOneMenu id="modelSearch"
 								value="#{maintenanceAndCalibrationAction.machines.idMachine}">
@@ -140,7 +140,7 @@
 								value="#{maintenanceAndCalibration.machines.machineTypes.name}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{mensaje.label_modelo}</f:facet>
+							<f:facet name="header">#{mensaje.label_model}</f:facet>
 							<h:outputText value="#{maintenanceAndCalibration.machines.name}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
@@ -149,7 +149,7 @@
 								value="#{maintenanceAndCalibration.machines.serialNumber}" />
 						</rich:column>
 						<rich:column styleClass="colFecha">
-							<f:facet name="header">#{mensaje.label_ultimo_mantenimiento}</f:facet>
+							<f:facet name="header">#{mensaje.label_last_maintenance}</f:facet>
 							<h:outputText
 								value="#{maintenanceAndCalibration.machines.lastMaintenance}">
 								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
@@ -214,7 +214,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" width="330" maxWidth="450"
 				height="180"
-				header="#{mensaje.label_listado_de} #{messageMachine.maintenance_lines_label}"
+				header="#{mensaje.label_listing} #{messageMachine.maintenance_lines_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -228,18 +228,18 @@
 				<rich:messages id="messagePopUp" styleClass="messageBlock" />
 				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_fecha_inicio}:" />
+						value="#{mensaje.label_start_date}:" />
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar
 						value="#{maintenanceAndCalibrationAction.startDateSearch}"
 						showOn="button" navigator="true" onSelectUpdate="fechFin"
 						id="fechaInicio" pattern="MM/dd/yyyy" required="true"
-						label="#{mensaje.label_fecha_inicio}">
+						label="#{mensaje.label_start_date}">
 						<p:ajax event="dateSelect" update="formBuscar:fechFin" />
 					</p:calendar>
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_fecha_finalizacion}:" />
+						value="#{mensaje.label_end_date}:" />
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar
 						value="#{maintenanceAndCalibrationAction.endDateSearch}"
@@ -247,7 +247,7 @@
 						mindate="#{maintenanceAndCalibrationAction.startDateSearch}"
 						id="fechFin" pattern="MM/dd/yyyy"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
-						label="#{mensaje.label_fecha_finalizacion}" />
+						label="#{mensaje.label_end_date}" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
@@ -263,7 +263,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupMaintenance" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{messageMachine.maintenance_lines_label}">
+				header="#{mensaje.label_listing} #{messageMachine.maintenance_lines_label}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<a:commandLink action="consultarMaintenanceAndCalibration"
@@ -279,7 +279,7 @@
 				<rich:panel styleClass="H360P fondoAnchoUno W580P">
 					<a:outputPanel id="outPutSearchMaintenanceLine">
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensaje.label_buscar}</legend>
+							<legend class="etiquetaTitulo">#{mensaje.label_search}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
 								<h:outputText value="#{mensaje.label_description}"
 									styleClass="etiquetaTitulo" />

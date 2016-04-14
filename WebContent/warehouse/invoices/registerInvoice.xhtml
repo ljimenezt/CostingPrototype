@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="purchaseInvoicesAction.addEditInvoices(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeWarehouse.purchase_invoice_label" />
+		value="mensaje.label_register,mensajeWarehouse.purchase_invoice_label" />
 	<ui:define name="body">
 		<t:saveState value="#{purchaseInvoicesAction}" />
 		<t:saveState value="#{invoiceItemsAction}" />
@@ -35,7 +35,7 @@
 		</script>
 		<h:form id="formInvoices">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeWarehouse.purchase_invoice_label}"
+				header="#{mensaje.label_register} #{mensajeWarehouse.purchase_invoice_label}"
 				styleClass="anchoUno MinH253P" id="panelPurchaseInvoices">
 				<t:fieldset styleClass="BorderW2P anchoDos ">
 					<legend class="etiquetaTitulo">#{mensaje.label_group}</legend>
@@ -255,7 +255,7 @@
 									<p:fileUpload id="uploadDocument" dragDropSupport="true"
 										styleClass="sytleButtonUpload"
 										rendered="#{purchaseInvoicesAction.nameDocument eq null or empty purchaseInvoicesAction.nameDocument}"
-										label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+										label="#{mensaje.label_select_file}" mode="advanced"
 										auto="true"
 										fileUploadListener="#{purchaseInvoicesAction.submit}"
 										update="pnlDocumentInvoice"
@@ -266,7 +266,7 @@
 										styleClass="W100Per">
 										<hr />
 										<h:outputText styleClass="etiquetaTitulo"
-											value="#{mensaje.label_ext_permitida}: #{propPrototipoCostos['locate.ext.permitted.doc.pdf.img']} " />
+											value="#{mensaje.label_allowed_ext}: #{propPrototipoCostos['locate.ext.permitted.doc.pdf.img']} " />
 										<hr />
 									</h:panelGrid>
 								</a:outputPanel>

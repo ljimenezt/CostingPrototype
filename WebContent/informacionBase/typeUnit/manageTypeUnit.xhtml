@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="typeUnitAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageBaseInformation.type_unit_label" />
+		value="mensaje.label_manage,messageBaseInformation.type_unit_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{typeUnitAction}" />
@@ -36,7 +36,7 @@
 
 		<h:form id="formTypeUnit">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageBaseInformation.type_unit_label}"
+				header="#{mensaje.label_listing} #{messageBaseInformation.type_unit_label}"
 				id="panelTypeUnit">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />

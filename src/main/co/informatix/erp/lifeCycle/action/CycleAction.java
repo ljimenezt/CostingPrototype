@@ -932,11 +932,11 @@ public class CycleAction implements Serializable {
 			SelectItem item2 = new SelectItem(finalDateSearch,
 					"finalDateSearch");
 			parameters.add(item2);
-			String dateFrom = bundle.getString("label_fecha_inicio") + ": "
+			String dateFrom = bundle.getString("label_start_date") + ": "
 					+ '"' + formato.format(this.initialDateSearch) + '"' + " ";
 			unionMessagesSearch.append(dateFrom);
 
-			String dateTo = bundle.getString("label_fecha_finalizacion") + ": "
+			String dateTo = bundle.getString("label_end_date") + ": "
 					+ '"' + formato.format(finalDateSearch) + '"' + " ";
 			unionMessagesSearch.append(dateTo);
 		}

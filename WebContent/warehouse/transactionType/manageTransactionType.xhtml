@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="transactionTypeAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeWarehouse.transactionType_label" />
+		value="mensaje.label_manage,mensajeWarehouse.transactionType_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{transactionTypeAction}" />
@@ -44,7 +44,7 @@
 
 		<h:form id="formTransactionType">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeWarehouse.transactionType_label}"
+				header="#{mensaje.label_listing} #{mensajeWarehouse.transactionType_label}"
 				id="panelTransactionType">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />

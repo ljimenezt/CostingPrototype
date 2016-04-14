@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="measurementUnitsAction.addEditMeasurementUnits(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeWarehouse.measurement_units_label" />
+		value="mensaje.label_register,mensajeWarehouse.measurement_units_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -32,7 +32,7 @@
 		<t:saveState value="#{measurementUnitsAction}" />
 		<h:form id="formMeasurementUnits">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeWarehouse.measurement_units_label}"
+				header="#{mensaje.label_register} #{mensajeWarehouse.measurement_units_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarMeasurementUnit">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

@@ -15,7 +15,7 @@
 		disabled="#{pagination['inicio'] - pagination['rango'] lt 0}"
 		action="#{beanActionParam[metodoActionParam]}" execute="@this">
 		<h:graphicImage value="/img/first_24X12.png"
-			title="#{mensaje.label_primero}" />
+			title="#{mensaje.label_first}" />
 		<f:setPropertyActionListener value="f"
 			target="#{pagination['opcion']}" />
 		<f:param name="param2" value="#{valParam2}"
@@ -30,7 +30,7 @@
 		action="#{beanActionParam[metodoActionParam]}" render="#{valReder}"
 		execute="@this">
 		<h:graphicImage value="/img/previous_24X12.png"
-			title="#{mensaje.label_anterior}" />
+			title="#{mensaje.label_previous}" />
 		<f:setPropertyActionListener value="p"
 			target="#{pagination['opcion']}" />
 		<f:param name="param2" value="#{valParam2}"
@@ -47,7 +47,7 @@
 		action="#{beanActionParam[metodoActionParam]}" render="#{valReder}"
 		execute="@this">
 		<h:graphicImage value="/img/next_24X12.png"
-			title="#{mensaje.label_siguiente}" />
+			title="#{mensaje.label_label_next}" />
 		<f:setPropertyActionListener value="n"
 			target="#{pagination['opcion']}" />
 		<f:param name="param2" value="#{valParam2}"
@@ -62,7 +62,7 @@
 		action="#{beanActionParam[metodoActionParam]}" render="#{valReder}"
 		execute="@this">
 		<h:graphicImage value="/img/last_24X12.png"
-			title="#{mensaje.label_utimo}" />
+			title="#{mensaje.label_last}" />
 		<f:setPropertyActionListener value="l"
 			target="#{pagination['opcion']}" />
 		<f:param name="param2" value="#{valParam2}"

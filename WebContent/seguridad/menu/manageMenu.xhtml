@@ -12,7 +12,7 @@
 
 	<ui:param name="action" value="menuAction.consultMenus()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageSecurity.menu_label_s" />
+		value="mensaje.label_manage,messageSecurity.menu_label_s" />
 	<ui:define name="body">
 		<h:form id="frmMenu">
 			<t:saveState value="#{menuAction}" />
@@ -36,7 +36,7 @@
 			<ui:param name="tieneVigencia" value="no" />
 
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{messageSecurity.menu_label_s}"
+				header="#{mensaje.label_listing} #{messageSecurity.menu_label_s}"
 				id="panelMenu" styleClass="anchoUno MinH208P">
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
@@ -56,7 +56,7 @@
 						</a:commandLink>
 					</rich:column>
 					<rich:column styleClass="colIconoUno">
-						<f:facet name="header">#{mensaje.label_icono}</f:facet>
+						<f:facet name="header">#{mensaje.label_icon}</f:facet>
 						<h:graphicImage
 							rendered="#{menuList.icono ne null and menuList.icono.nombre ne null}"
 							value="#{menuAction.folderFilesIcons}/#{menuList.icono.nombre}" />

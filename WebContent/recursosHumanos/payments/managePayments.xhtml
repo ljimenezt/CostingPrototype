@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="paymentsAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageHumanResources.payments_label_s" />
+		value="mensaje.label_manage,messageHumanResources.payments_label_s" />
 
 	<ui:define name="body">
 		<script type="text/javascript"
@@ -41,7 +41,7 @@
 
 		<h:form id="formPayments">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageHumanResources.payments_label_s}"
+				header="#{mensaje.label_listing} #{messageHumanResources.payments_label_s}"
 				id="panelPayments">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -75,7 +75,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensaje.label_persona_responsable}</f:facet>
+						<f:facet name="header">#{mensaje.label_person_in_charge}</f:facet>
 						<h:outputText value="#{payments.contract.persona.nombreCompleto}" />
 					</rich:column>
 

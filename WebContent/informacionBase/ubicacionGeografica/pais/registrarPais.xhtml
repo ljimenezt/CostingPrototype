@@ -10,7 +10,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="paisAction.nuevoPais" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageBaseInformation.country_label" />
+		value="mensaje.label_register,messageBaseInformation.country_label" />
 	<ui:define name="body">
 		<h:form id="paisForm">
 			<t:saveState value="#{paisAction}" />
@@ -31,7 +31,7 @@
 					<rich:message for="txtNombre" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_codigo_postal}" />
+						value="#{mensaje.label_postal_code}" />
 					<h:outputText value="" />
 					<h:inputText id="txtCodigoPostal" styleClass="colNumero"
 						value="#{paisAction.pais.codigoPostal}">
@@ -40,7 +40,7 @@
 					<rich:message for="txtCodigoPostal" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_abreviatura}" />
+						value="#{mensaje.label_abbreviation}" />
 					<h:outputText value="" />
 					<h:inputText id="txtAbreviatura" styleClass="colNumero"
 						value="#{paisAction.pais.abreviatura}">
@@ -77,7 +77,7 @@
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{paisAction.pais.nombre}" />
-						<h:outputText value="#{mensaje.label_codigo_postal}:" />
+						<h:outputText value="#{mensaje.label_postal_code}:" />
 						<h:outputText value="#{paisAction.pais.codigoPostal}" />
 					</ui:define>
 					<ui:define name="botones">

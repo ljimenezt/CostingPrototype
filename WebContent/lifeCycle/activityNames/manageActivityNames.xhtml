@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="activityNamesAction.initializeQuery" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageLifeCycle.activity_names_label_s" />
+		value="mensaje.label_manage,messageLifeCycle.activity_names_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{activityNamesAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formActivityNames">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageLifeCycle.activity_names_label_s}"
+				header="#{mensaje.label_listing} #{messageLifeCycle.activity_names_label_s}"
 				id="panelActivityNames">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -57,7 +57,7 @@
 					</rich:column>
 
 					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensaje.label_nombre_actividad}</f:facet>
+						<f:facet name="header">#{mensaje.label_activity_name}</f:facet>
 						<h:commandLink value="#{activityNames.activityName}"
 							action="#{activityNamesAction.addModifyActivityNames(activityNames)}"
 							onclick="#{rich:component('statPane')}.show();">
@@ -108,7 +108,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_nombre_actividad}:"
+					<h:outputText value="#{mensaje.label_activity_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
 						id="txtNombreBuscar" value="#{activityNamesAction.nameSearch}"

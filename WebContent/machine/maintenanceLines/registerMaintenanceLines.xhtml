@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="maintenanceLinesAction.addEditMaintenanceLines(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageMachine.maintenance_lines_label" />
+		value="mensaje.label_register,messageMachine.maintenance_lines_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -32,7 +32,7 @@
 		<t:saveState value="#{maintenanceLinesAction}" />
 		<h:form id="formMaintenanceLines">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageMachine.maintenance_lines_label}"
+				header="#{mensaje.label_register} #{messageMachine.maintenance_lines_label}"
 				styleClass="anchoUno MinH253P" id="panelMaintenanceLines">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

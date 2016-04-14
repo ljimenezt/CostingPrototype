@@ -11,7 +11,7 @@
 	<ui:param name="action"
 		value="municipioAction.registrarMunicipio(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageBaseInformation.municipality_label" />
+		value="mensaje.label_register,messageBaseInformation.municipality_label" />
 	<ui:define name="body">
 		<h:form id="municipioForm">
 			<t:saveState value="#{municipioAction}" />
@@ -64,7 +64,7 @@
 					<rich:message for="txtNombre" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_codigo_postal}" />
+						value="#{mensaje.label_postal_code}" />
 					<h:outputText value="" />
 					<h:inputText id="txtCodigoPostal" styleClass="colNumero"
 						validatorMessage="#{mensaje.message_campo_positivo}"
@@ -114,7 +114,7 @@
 						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText value="#{municipioAction.municipio.nombre}" />
 
-						<h:outputText value="#{mensaje.label_codigo_postal}:" />
+						<h:outputText value="#{mensaje.label_postal_code}:" />
 						<h:outputText value="#{municipioAction.municipio.codigoPostal}" />
 					</ui:define>
 					<ui:define name="botones">

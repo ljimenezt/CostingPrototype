@@ -91,7 +91,7 @@
 								</a:outputPanel>
 							</rich:column>
 							<rich:column styleClass="colIconoUno">
-								<f:facet name="header">#{mensaje.label_predeterminada}</f:facet>
+								<f:facet name="header">#{mensaje.label_default}</f:facet>
 								<h:graphicImage rendered="#{permisoEmpresa.predeterminado}"
 									value="/img/okPermiso_16.png" />
 							</rich:column>
@@ -108,14 +108,14 @@
 								<h:outputText value="#{permisoEmpresa.hacienda.nombre}" />
 							</rich:column>
 							<rich:column styleClass="colFecha">
-								<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
 								<h:outputText value="#{permisoEmpresa.fechaInicioVigencia}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="colFecha">
-								<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
 								<h:outputText value="#{permisoEmpresa.fechaFinVigencia}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />

@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="departamentoAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageBaseInformation.department_label" />
+		value="mensaje.label_manage,messageBaseInformation.department_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/validacion.js"></script>
@@ -21,7 +21,7 @@
 			<ui:param name="listaVacia"
 				value="#{departamentoAction.listaDepartamentos eq null or (empty departamentoAction.listaDepartamentos)}" />
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{messageBaseInformation.department_label_s}"
+				header="#{mensaje.label_listing} #{messageBaseInformation.department_label_s}"
 				id="panelDepartamento" styleClass="anchoUno MinH230P">
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
@@ -113,7 +113,7 @@
 						</c:choose>
 					</rich:column>
 					<rich:column styleClass="colNumero">
-						<f:facet name="header">#{mensaje.label_codigo_postal}</f:facet>
+						<f:facet name="header">#{mensaje.label_postal_code}</f:facet>
 						<h:outputText value="#{departamento.codigoPostal}" />
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">

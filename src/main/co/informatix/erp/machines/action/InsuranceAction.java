@@ -315,11 +315,11 @@ public class InsuranceAction implements Serializable {
 			parameters.add(item);
 			SelectItem item2 = new SelectItem(lastDaySearch, "fechaFinBuscar");
 			parameters.add(item2);
-			String dateFrom = bundle.getString("label_fecha_inicio") + ": "
+			String dateFrom = bundle.getString("label_start_date") + ": "
 					+ '"' + format.format(this.initDaySearch) + '"' + ", ";
 			jointSearchMessages.append(dateFrom);
 
-			String dateTo = bundle.getString("label_fecha_finalizacion") + ": "
+			String dateTo = bundle.getString("label_end_date") + ": "
 					+ '"' + format.format(lastDaySearch) + '"';
 			jointSearchMessages.append(dateTo);
 			parameters.add(item2);

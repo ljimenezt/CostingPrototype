@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="metodoAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageSecurity.method_label" />
+		value="mensaje.label_manage,messageSecurity.method_label" />
 	<ui:define name="body">
 		<h:form id="frmMetodo">
 			<t:saveState value="#{metodoAction}" />
@@ -35,7 +35,7 @@
 			<ui:param name="tieneVigencia" value="no" />
 
 			<rich:panel
-				header="#{mensaje.label_listado_de} #{messageSecurity.method_label_s}"
+				header="#{mensaje.label_listing} #{messageSecurity.method_label_s}"
 				id="panelMetodo" styleClass="anchoUno MinH208P">
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
@@ -54,7 +54,7 @@
 						</a:commandLink>
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensaje.label_proceso}</f:facet>
+						<f:facet name="header">#{mensaje.label_process}</f:facet>
 						<c:choose>
 							<c:when
 								test="#{identity.autorizado('metodoAction','A') or identity.autorizado('metodoAction','U')}">
@@ -117,7 +117,7 @@
 				<rich:messages id="mensajesPopup" styleClass="messageBlock" />
 				<br />
 				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
-					<h:outputText value="#{mensaje.label_proceso}:"
+					<h:outputText value="#{mensaje.label_process}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
 						value="#{metodoAction.nameSearch}"
@@ -154,7 +154,7 @@
 					</ui:define>
 					<ui:define name="campos">
 
-						<h:outputText value="#{mensaje.label_proceso}:" />
+						<h:outputText value="#{mensaje.label_process}:" />
 						<h:outputText value="#{metodoAction.method.nombre}" />
 
 						<h:outputText value="#{messageSecurity.method_label_name}:" />

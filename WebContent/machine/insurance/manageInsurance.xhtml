@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="insuranceAction.initializeSearch" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageMachine.insurance_label" />
+		value="mensaje.label_manage,messageMachine.insurance_label" />
 	<ui:define name="body">
 		<t:saveState value="#{insuranceAction}" />
 		<script type="text/javascript"
@@ -42,7 +42,7 @@
 
 		<h:form id="formInsurance">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageMachine.insurance_label}"
+				header="#{mensaje.label_listing} #{messageMachine.insurance_label}"
 				id="panelInsurance">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -103,7 +103,7 @@
 							</a:outputPanel>
 						</rich:column>
 						<rich:column styleClass="colFecha">
-							<f:facet name="header">#{mensaje.label_fecha}</f:facet>
+							<f:facet name="header">#{mensaje.label_date}</f:facet>
 							<h:commandLink
 								actionListener="#{insuranceAction.setInsurance(insurance)}"
 								action="#{insuranceAction.addEditInsurance(insurance)}"
@@ -179,24 +179,24 @@
 					<rich:messages id="messagePopUp" styleClass="messageBlock" />
 					<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_inicio}:" />
+							value="#{mensaje.label_start_date}:" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{insuranceAction.initDaySearch}"
 							showOn="button" navigator="true" id="fechaInicio"
 							pattern="MM/dd/yyyy" required="true"
-							label="#{mensaje.label_fecha_inicio}">
+							label="#{mensaje.label_start_date}">
 							<p:ajax event="dateSelect" update="fechFin" />
 						</p:calendar>
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_finalizacion}:" />
+							value="#{mensaje.label_end_date}:" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{insuranceAction.lastDaySearch}"
 							showOn="button" navigator="true" required="true"
 							mindate="#{insuranceAction.initDaySearch}" id="fechFin"
 							pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
-							label="#{mensaje.label_fecha_finalizacion}">
+							label="#{mensaje.label_end_date}">
 						</p:calendar>
 					</h:panelGrid>
 				</a:outputPanel>
@@ -230,7 +230,7 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_fecha}:" />
+						<h:outputText value="#{mensaje.label_date}:" />
 						<h:outputText value="#{insuranceAction.insurance.dateTime}" />
 					</ui:define>
 					<ui:define name="botones">

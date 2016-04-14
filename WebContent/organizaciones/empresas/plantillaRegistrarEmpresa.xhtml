@@ -20,7 +20,7 @@
 		}	
 	</script>
 	<t:fieldset styleClass="BorderW2P" id="fieldSetDatos">
-		<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+		<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 
 		<h:panelGrid columns="2" columnClasses="W70Per,W30Per tdAlignTop">
 			<h:panelGrid columns="4"
@@ -105,7 +105,7 @@
 				</h:inputText>
 				<rich:message for="fax" />
 
-				<h:outputText value="#{mensaje.label_movil}"
+				<h:outputText value="#{mensaje.label_mobile}"
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="" />
 				<h:inputText styleClass="colTextoCorto" maxlength="20" id="movil"
@@ -164,7 +164,7 @@
 										<h:graphicImage value="/img/close_14.png"
 											onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 											onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-											styleClass="cursor" title="#{mensaje.label_cambiar_img}" />
+											styleClass="cursor" title="#{mensaje.label_change_img}" />
 									</a:commandLink>
 								</div>
 								<h:graphicImage
@@ -185,7 +185,7 @@
 								styleClass="H200P W290P" />
 							<p:fileUpload id="uploadLogo" dragDropSupport="true"
 								rendered="#{empresaAction.nombreFotoLogo eq null or empty empresaAction.nombreFotoLogo}"
-								label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+								label="#{mensaje.label_select_file}" mode="advanced"
 								auto="true" fileUploadListener="#{empresaAction.submit}"
 								update="panelFotoEmpresa"
 								onstart="#{rich:component('statPane')}.show();"
@@ -194,7 +194,7 @@
 							<div class="etiquetaTitulo">
 								<hr />
 								<h:outputText
-									value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
+									value="#{mensaje.label_allowed_ext}: #{propCacaoSoft['locate.ext.permitidas.img']}" />
 								<hr />
 							</div>
 						</a:outputPanel>

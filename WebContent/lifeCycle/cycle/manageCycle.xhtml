@@ -103,7 +103,7 @@
 									oncomplete="#{rich:component('PopUpDetails')}.show()">
 									<h:graphicImage value="/img/details_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_detalles}" />
+										<h:outputText value="#{mensaje.label_details}" />
 									</rich:tooltip>
 								</a:commandLink>
 								<a:commandLink render="popupDelete"
@@ -131,7 +131,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colFechaLarga">
-								<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
 								<h:outputText value="#{cycle.initialDateTime}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />
@@ -139,7 +139,7 @@
 							</rich:column>
 
 							<rich:column styleClass="colFechaLarga">
-								<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
 								<h:outputText value="#{cycle.finalDateTime}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />
@@ -199,7 +199,7 @@
 		<h:form id="popupFormRegStandard">
 			<rich:popupPanel id="popupRegStandarActivity" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_registrar} #{messageCosts.activities_label}"
+				header="#{mensaje.label_register} #{messageCosts.activities_label}"
 				styleClass="H340P fondoAnchoUno W250P">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -278,18 +278,18 @@
 
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_inicio}:" />
+							value="#{mensaje.label_start_date}:" />
 						<h:outputText value="" styleClass="required" />
 						<p:calendar value="#{cycleAction.initialDateSearch}"
 							showOn="button" navigator="true" onSelectUpdate="fechFin"
 							id="fechaInicio" pattern="MM/dd/yyyy"
-							label="#{mensaje.label_fecha_inicio}">
+							label="#{mensaje.label_start_date}">
 							<p:ajax process="@form" event="dateSelect"
 								update="formSearch:pnSearch" />
 						</p:calendar>
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_finalizacion}:" />
+							value="#{mensaje.label_end_date}:" />
 						<h:outputText value="*" styleClass="required"
 							rendered="#{cycleAction.initialDateSearch ne null}" />
 						<h:outputText value=""
@@ -300,7 +300,7 @@
 							mindate="#{cycleAction.initialDateSearch}" id="fechFin"
 							pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'formSearch:btnBuscar')"
-							label="#{mensaje.label_fecha_finalizacion}" />
+							label="#{mensaje.label_end_date}" />
 
 					</h:panelGrid>
 				</a:outputPanel>

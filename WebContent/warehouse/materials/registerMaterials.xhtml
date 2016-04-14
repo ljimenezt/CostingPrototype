@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="materialsAction.addEditMaterials(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeWarehouse.materials_label_s" />
+		value="mensaje.label_register,mensajeWarehouse.materials_label_s" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -24,10 +24,10 @@
 		</script>
 		<h:form id="formMaterials">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeWarehouse.materials_label_s}"
+				header="#{mensaje.label_register} #{mensajeWarehouse.materials_label_s}"
 				styleClass="anchoUno MinH253P" id="panelMaterials">
 				<t:fieldset styleClass="BorderW2P anchoDos ">
-					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
@@ -140,7 +140,7 @@
 								execute="@this">
 								<h:graphicImage value="/img/editRemove_16.png" />
 								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_quitar}" />
+									<h:outputText value="#{mensaje.label_remove}" />
 								</rich:tooltip>
 							</a:commandLink>
 							<h:inputHidden
@@ -241,7 +241,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos ">
-					<legend class="etiquetaTitulo">#{mensaje.label_clasificacion}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_clasification}</legend>
 					<h:panelGrid columns="12" cellpadding="3" cellspacing="3">
 
 						<h:outputText styleClass="etiquetaTitulo"
@@ -374,7 +374,7 @@
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupResponsable" autosized="true"
 				domElementAttachment="form"
-				header="#{mensaje.label_listado_de} #{messageHumanResources.human_resource_label_s}">
+				header="#{mensaje.label_listing} #{messageHumanResources.human_resource_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -387,7 +387,7 @@
 				<rich:panel styleClass="H360P fondoAnchoUno W580P">
 					<a:outputPanel id="outPutBuscarResponsable">
 						<t:fieldset styleClass="BorderW2P">
-							<legend class="etiquetaTitulo">#{mensaje.label_buscar}
+							<legend class="etiquetaTitulo">#{mensaje.label_search}
 								#{mensajeNombre.tipo_concepto_label_s}</legend>
 							<h:panelGrid columns="3" cellpadding="7">
 								<h:outputText value="#{mensaje.label_name}"

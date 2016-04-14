@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="customerAction.addEditCustomer(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,mensajeMenu.customer_label" />
+		value="mensaje.label_register,mensajeMenu.customer_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -20,7 +20,7 @@
 		<t:saveState value="#{customerAction}" />
 		<h:form id="formCustomer">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{mensajeMenu.customer_label}"
+				header="#{mensaje.label_register} #{mensajeMenu.customer_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarCustomer">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -60,7 +60,7 @@
 					</h:inputText>
 					<rich:message for="txtCity" />
 
-					<h:outputText value="#{mensaje.label_codigo_postal}"
+					<h:outputText value="#{mensaje.label_postal_code}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText value="#{customerAction.customer.postalCode}"
@@ -80,7 +80,7 @@
 					</h:inputText>
 					<rich:message for="txtTelefono" />
 
-					<h:outputText value="#{mensaje.label_movil}"
+					<h:outputText value="#{mensaje.label_mobile}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputText value="#{customerAction.customer.phone2}"
@@ -134,7 +134,7 @@
 						<h:outputText value="#{customerAction.customer.address}" />
 						<h:outputText value="#{mensajeWarehouse.suppliers_label_city}:" />
 						<h:outputText value="#{customerAction.customer.city}" />
-						<h:outputText value="#{mensaje.label_codigo_postal}:" />
+						<h:outputText value="#{mensaje.label_postal_code}:" />
 						<h:outputText value="#{customerAction.customer.postalCode}" />
 						<h:outputText value="#{mensaje.label_telephone_number}:" />
 						<h:outputText value="#{customerAction.customer.phone}" />

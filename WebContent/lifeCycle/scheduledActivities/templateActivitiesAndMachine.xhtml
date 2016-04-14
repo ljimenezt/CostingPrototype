@@ -11,7 +11,7 @@
 	<h:form id="selectMachines">
 		<rich:popupPanel id="popupMachines" autosized="true" maxWidth="430"
 			domElementAttachment="form"
-			header="#{messageMachine.machines_label_names_s} #{mensaje.label_para} #{scheduledActivitiesAction.selectedActivity.activityName.activityName}">
+			header="#{messageMachine.machines_label_names_s} #{mensaje.label_for} #{scheduledActivitiesAction.selectedActivity.activityName.activityName}">
 			<f:facet name="controls">
 				<h:panelGroup>
 					<h:graphicImage value="/img/close_14.png"
@@ -32,7 +32,7 @@
 								<h:selectOneMenu id="machine"
 									value="#{machinesAction.nameMachines}" styleClass="W225P"
 									required="true">
-									<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+									<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 									<f:selectItems
 										value="#{scheduledActivitiesAction.itemsMachineTypes}" />
 									<f:ajax event="change"
@@ -148,7 +148,7 @@
 				<a:outputPanel id="outputAddMachine">
 					<div align="center">
 						<h:panelGrid columns="3" columnClasses="right, left, left">
-							<h:outputText value="#{mensaje.label_hora_inicio}"
+							<h:outputText value="#{mensaje.label_start_time}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText disabled="true" styleClass="W91P"
 								value="#{activitiesAction.selectedActivities.initialDtBudget}">
@@ -156,7 +156,7 @@
 									locale="#{idioma.locale}" />
 							</h:inputText>
 							<h:outputText value="" />
-							<h:outputText value="#{mensaje.label_hora_fin}"
+							<h:outputText value="#{mensaje.label_end_time}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText disabled="true" styleClass="W91P"
 								value="#{activitiesAction.selectedActivities.finalDtBudget}">

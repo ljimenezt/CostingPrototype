@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="purchaseInvoicesAction.searchInitialize" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,mensajeWarehouse.purchase_invoice_label" />
+		value="mensaje.label_manage,mensajeWarehouse.purchase_invoice_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{purchaseInvoicesAction}" />
@@ -49,7 +49,7 @@
 
 		<h:form id="formPurchaseInvoices">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{mensajeWarehouse.purchase_invoice_label_s}"
+				header="#{mensaje.label_listing} #{mensajeWarehouse.purchase_invoice_label_s}"
 				id="panelPurchaseInvoices">
 				<a:outputPanel>
 					<script type="text/javascript">
@@ -83,7 +83,7 @@
 								<a:outputPanel rendered="#{invoice.invoiceDocumentLink ne null}">
 									<rich:tooltip layout="block"
 										rendered="#{invoice.invoiceDocumentLink ne null}">
-										<h:outputText value="#{mensaje.label_descargar}" />
+										<h:outputText value="#{mensaje.label_download}" />
 									</rich:tooltip>
 									<a target="_blank"
 										href="#{request.contextPath}#{purchaseInvoicesAction.pathLocation}/#{invoice.invoiceDocumentLink}"><h:graphicImage
@@ -231,19 +231,19 @@
 						<h:outputText value="" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_inicio}" />
+							value="#{mensaje.label_start_date}" />
 						<h:outputText value="" />
 						<p:calendar value="#{purchaseInvoicesAction.initialDateSearch}"
 							readonlyInput="true" showOn="button" navigator="true"
 							onSelectUpdate="endDate" id="startDate" pattern="MM/dd/yyyy"
-							label="#{mensaje.label_fecha_inicio}">
+							label="#{mensaje.label_start_date}">
 							<p:ajax process="@form" event="dateSelect"
 								update="formSearch:outPutSearch" />
 						</p:calendar>
 						<h:outputText value="" />
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_fecha_finalizacion}" />
+							value="#{mensaje.label_end_date}" />
 						<h:outputText value="*" styleClass="required"
 							rendered="#{purchaseInvoicesAction.initialDateSearch ne null}" />
 						<h:outputText value=""
@@ -255,7 +255,7 @@
 							mindate="#{purchaseInvoicesAction.initialDateSearch}"
 							id="endDate" pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'popupSearch:btnSearch')"
-							label="#{mensaje.label_fecha_finalizacion}" />
+							label="#{mensaje.label_end_date}" />
 					</h:panelGrid>
 				</a:outputPanel>
 				<br />

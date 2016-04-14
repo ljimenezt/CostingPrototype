@@ -474,11 +474,11 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			parameters.add(item);
 			SelectItem item2 = new SelectItem(endDateSearch, "endDateSearch");
 			parameters.add(item2);
-			String dateFrom = bundle.getString("label_fecha_inicio") + ": "
+			String dateFrom = bundle.getString("label_start_date") + ": "
 					+ '"' + formats.format(this.startDateSearch) + '"' + " ";
 			unionMessagesSearch.append(dateFrom);
 
-			String dateTo = bundle.getString("label_fecha_finalizacion") + ": "
+			String dateTo = bundle.getString("label_end_date") + ": "
 					+ '"' + formats.format(endDateSearch) + '"' + " ";
 			unionMessagesSearch.append(dateTo);
 		}
@@ -517,7 +517,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 				SelectItem itemMachine = new SelectItem(idMachineSearch,
 						"idMachineSearch");
 				parameters.add(itemMachine);
-				String machineName = bundle.getString("label_modelo") + ": "
+				String machineName = bundle.getString("label_model") + ": "
 						+ '"' + modelSearchMachine.getName() + '"' + " ";
 				unionMessagesSearch.append(machineName);
 			} catch (Exception e) {

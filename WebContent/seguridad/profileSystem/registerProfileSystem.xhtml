@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="perfilSistemaAction.addEditProfileSystem(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageSecurity.profile_system_label" />
+		value="mensaje.label_register,messageSecurity.profile_system_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -32,7 +32,7 @@
 		<t:saveState value="#{perfilSistemaAction}" />
 		<h:form id="formProfileSystem">
 			<rich:panel
-				header="#{mensaje.label_registrar} #{messageSecurity.profile_system_label}"
+				header="#{mensaje.label_register} #{messageSecurity.profile_system_label}"
 				styleClass="anchoUno MinH253P" id="panelProfileSystem">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -53,7 +53,7 @@
 					<rich:message for="txtEmailServerUser" />
 
 					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensaje.label_contrasena}" />
+						value="#{mensaje.label_password}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret id="txtEmailServerPassword" required="true"
 						styleClass="colTextoLargo" maxlength="99" redisplay="true"

@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="iconoAction.registerIcon(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_registrar,messageSecurity.icon_label" />
+		value="mensaje.label_register,messageSecurity.icon_label" />
 	<ui:define name="body">
 		<h:form id="iconoForm">
 			<t:saveState value="#{iconoAction}" />
@@ -58,7 +58,7 @@
 											onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
 											styleClass="cursor" />
 										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_cambiar_img}" />
+											<h:outputText value="#{mensaje.label_change_img}" />
 										</rich:tooltip>
 									</a:commandLink>
 								</div>
@@ -80,7 +80,7 @@
 								styleClass="H200P W290P" />
 							<p:fileUpload id="uploadFile" dragDropSupport="true"
 								rendered="#{iconoAction.fileUploadBean.fileName eq null or empty iconoAction.fileUploadBean.fileName}"
-								label="#{mensaje.label_seleccione_archivo}" mode="advanced"
+								label="#{mensaje.label_select_file}" mode="advanced"
 								auto="true" fileUploadListener="#{iconoAction.submit}"
 								update=":iconoForm"
 								onstart="#{rich:component('statPane')}.show();"
@@ -90,7 +90,7 @@
 							<div class="etiquetaTitulo">
 								<hr />
 								<h:outputText
-									value="#{mensaje.label_ext_permitida}: #{propCacaoSoft['locate.ext.permitted.img']}" />
+									value="#{mensaje.label_allowed_ext}: #{propCacaoSoft['locate.ext.permitted.img']}" />
 								<hr />
 							</div>
 						</a:outputPanel>

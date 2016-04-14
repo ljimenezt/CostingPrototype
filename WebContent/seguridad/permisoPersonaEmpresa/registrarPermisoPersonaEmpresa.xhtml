@@ -22,7 +22,7 @@
 						columnClasses="columnaIzquierda, columnaDerecha" cellpadding="5"
 						cellspacing="7">
 
-						<h:outputText value="#{mensaje.label_identificacion}: " />
+						<h:outputText value="#{mensaje.label_identification}: " />
 						<h:outputText
 							value="#{permisoPersonaEmpresaAction.persona.documento}" />
 
@@ -59,7 +59,7 @@
 							styleClass="H190P W900P">
 							<f:facet name="header">
 								<h:outputText
-									value="#{mensaje.label_listado_de} #{messageOrganizations.company_label_s}" />
+									value="#{mensaje.label_listing} #{messageOrganizations.company_label_s}" />
 							</f:facet>
 							<rich:column width="30px" styleClass="center top">
 								<a:commandLink
@@ -116,7 +116,7 @@
 									oncomplete="#{rich:component('popupValidarQuitar')}.show()">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_quitar}" />
+										<h:outputText value="#{mensaje.label_remove}" />
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
@@ -129,7 +129,7 @@
 								<h:outputText value="#{permisoPersonaEmpresa.hacienda.nombre}" />
 							</rich:column>
 							<rich:column styleClass="center top" width="150px">
-								<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
 								<h:outputText
 									value="#{permisoPersonaEmpresa.fechaInicioVigencia}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
@@ -137,7 +137,7 @@
 								</h:outputText>
 							</rich:column>
 							<rich:column styleClass="center top" width="150px">
-								<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
 								<h:outputText value="#{permisoPersonaEmpresa.fechaFinVigencia}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />
@@ -185,15 +185,15 @@
 							value="#{permisoPersonaEmpresaAction.itemsHaciendasEmpresa}" />
 					</h:selectOneMenu>
 
-					<h:outputText value="#{mensaje.label_fecha_inicio}"
+					<h:outputText value="#{mensaje.label_start_date}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar readOnlyInputText="true"
 						value="#{permisoPersonaEmpresaAction.permisoPersonaEmpresa.fechaInicioVigencia}"
 						id="calFechaInicio" showOn="button" required="true"
-						onSelectUpdate="calFechaFin" label="#{mensaje.label_fecha_inicio}" />
+						onSelectUpdate="calFechaFin" label="#{mensaje.label_start_date}" />
 
-					<h:outputText value="#{mensaje.label_fecha_fin}"
+					<h:outputText value="#{mensaje.label_end_date}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<p:calendar readOnlyInputText="true"

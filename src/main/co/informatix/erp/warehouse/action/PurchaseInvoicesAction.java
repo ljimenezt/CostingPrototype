@@ -541,7 +541,7 @@ public class PurchaseInvoicesAction implements Serializable {
 				SelectItem item = new SelectItem(initialDateSearch,
 						"initialDateSearch");
 				parameters.add(item);
-				String dateFrom = bundle.getString("label_fecha_inicio") + ": "
+				String dateFrom = bundle.getString("label_start_date") + ": "
 						+ '"' + formatDate.format(this.initialDateSearch) + '"'
 						+ " ";
 				unionSearchMessages.append(dateFrom);
@@ -550,7 +550,7 @@ public class PurchaseInvoicesAction implements Serializable {
 				SelectItem item2 = new SelectItem(finalDateSearch,
 						"finalDateSearch");
 				parameters.add(item2);
-				String dateTo = bundle.getString("label_fecha_finalizacion")
+				String dateTo = bundle.getString("label_end_date")
 						+ ": " + '"' + formatDate.format(finalDateSearch) + '"'
 						+ " ";
 				unionSearchMessages.append(dateTo);

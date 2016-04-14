@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="hrCertificationsAndRolesAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageHumanResources.hr_certifications_roles_label" />
+		value="mensaje.label_manage,messageHumanResources.hr_certifications_roles_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{hrCertificationsAndRolesAction}" />
@@ -35,7 +35,7 @@
 
 		<h:form id="formHrCertRol">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageHumanResources.hr_certifications_roles_label}"
+				header="#{mensaje.label_listing} #{messageHumanResources.hr_certifications_roles_label}"
 				id="panelHrCertRol">
 				<h:panelGrid columns="3"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -49,7 +49,7 @@
 						value="#{hrCertificationsAndRolesAction.idCertificationsAndRoles}"
 						styleClass="colTextoMediano" required="true"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_todos}" itemValue="0" />
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 						<f:selectItems
 							value="#{hrCertificationsAndRolesAction.itemsCertificationsAndRoles}" />
 						<f:ajax event="change"
@@ -96,12 +96,12 @@
 							</rich:column>
 
 							<rich:column styleClass="colFechaLarga">
-								<f:facet name="header">#{mensaje.label_fecha_inicio}</f:facet>
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
 								<h:outputText value="#{hrCertRol.releaseDate}" />
 							</rich:column>
 
 							<rich:column styleClass="colFechaLarga">
-								<f:facet name="header">#{mensaje.label_fecha_fin}</f:facet>
+								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
 								<h:outputText value="#{hrCertRol.endDate}" />
 							</rich:column>
 

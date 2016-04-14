@@ -377,7 +377,7 @@ public class MachinesAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_modelo") + ": "
+			unionMessagesSearch.append(bundle.getString("label_model") + ": "
 					+ '"' + this.nameSearch + '"');
 			if (this.nameMachines != 0) {
 				consult.append("AND mt.idMachineType = :keyword1 ");
@@ -442,7 +442,7 @@ public class MachinesAction implements Serializable {
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_modelo") + ": "
+			unionMessagesSearch.append(bundle.getString("label_model") + ": "
 					+ '"' + this.nameSearch + '"');
 			seleccion = true;
 		}

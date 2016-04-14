@@ -82,7 +82,7 @@
 							render="popupDetalles">
 							<h:graphicImage value="/img/details_16.png" />
 							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_detalles}" />
+								<h:outputText value="#{mensaje.label_details}" />
 							</rich:tooltip>
 						</a:commandLink>
 						<h:outputText value="&#32;&#32;&#32;" />
@@ -200,7 +200,7 @@
 
 			<!-- Pantalla emergente para detalles -->
 			<rich:popupPanel id="popupDetalles" modal="true" autosized="true"
-				resizeable="false" header="#{mensaje.label_detalles}" width="450">
+				resizeable="false" header="#{mensaje.label_details}" width="450">
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -209,7 +209,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<t:fieldset styleClass="BorderW2P">
-					<legend class="etiquetaTitulo">#{mensaje.label_datos_basicos}</legend>
+					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 					<h:panelGrid columns="2" cellpadding="5" cellspacing="7"
 						columnClasses="columnaIzquierda, columnaDerecha">
 
@@ -230,7 +230,7 @@
 						value="#{departamentoEmpresaAction.departamentoEmpresa.tipoCargos}"
 						var="tipoCargoObj" id="tipoCargoSelect" styleClass="H190P W400P">
 						<f:facet name="header">
-								#{mensaje.label_listado_de} #{messageHumanResources.tipo_cargo_label_s}
+								#{mensaje.label_listing} #{messageHumanResources.tipo_cargo_label_s}
 							</f:facet>
 						<rich:column styleClass="W180P">
 							<f:facet name="header">#{mensaje.label_name}</f:facet>

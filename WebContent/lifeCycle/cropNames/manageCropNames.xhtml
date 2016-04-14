@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="cropNamesAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_gestionar,messageLifeCycle.crop_names_label_s" />
+		value="mensaje.label_manage,messageLifeCycle.crop_names_label_s" />
 
 	<ui:define name="body">
 		<t:saveState value="#{cropNamesAction}" />
@@ -34,7 +34,7 @@
 
 		<h:form id="formCropNames">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listado_de} #{messageLifeCycle.crop_names_label_s}"
+				header="#{mensaje.label_listing} #{messageLifeCycle.crop_names_label_s}"
 				id="panelCropNames">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
