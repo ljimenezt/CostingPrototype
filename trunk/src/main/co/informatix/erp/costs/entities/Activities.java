@@ -518,7 +518,7 @@ public class Activities implements Serializable {
 	 * @return cycle: Cycle related to the activity.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_cycle", referencedColumnName = "idcycle", nullable = false)
+	@JoinColumn(name = "id_cycle", referencedColumnName = "idcycle")
 	public Cycle getCycle() {
 		return cycle;
 	}
