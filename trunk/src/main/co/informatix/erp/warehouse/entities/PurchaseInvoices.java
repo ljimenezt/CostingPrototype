@@ -211,7 +211,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return iva: Gets iva of the purchase invoices
 	 */
-	@Column(name = "iva", nullable = false)
+	@Column(name = "iva")
 	public double getiva() {
 		return iva;
 	}
@@ -291,6 +291,8 @@ public class PurchaseInvoices implements Serializable {
 						.hashCode());
 		result = prime * result
 				+ ((invoiceNumber == null) ? 0 : invoiceNumber.hashCode());
+		temp = Double.doubleToLongBits(iva);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		temp = Double.doubleToLongBits(packaging);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -333,6 +335,8 @@ public class PurchaseInvoices implements Serializable {
 			if (other.invoiceNumber != null)
 				return false;
 		} else if (!invoiceNumber.equals(other.invoiceNumber))
+			return false;
+		if (Double.doubleToLongBits(iva) != Double.doubleToLongBits(other.iva))
 			return false;
 		if (note == null) {
 			if (other.note != null)
