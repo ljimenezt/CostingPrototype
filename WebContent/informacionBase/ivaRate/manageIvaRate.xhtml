@@ -16,7 +16,7 @@
 		<t:saveState value="#{ivaRateAction}" />
 		<ui:param name="listaVacia"
 			value="#{ivaRateAction.listIvaRates eq null or (empty ivaRateAction.listIvaRates )}" />
-		<ui:param name="anchoTabla" value="anchoSeis" />
+		<ui:param name="anchoTabla" value="anchoSiete" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{ivaRateAction}" />
 		<ui:param name="renderLista" value="panelIvaRate vigenciaPopup" />
@@ -54,7 +54,7 @@
 							</a:commandLink>
 						</a:outputPanel>
 					</rich:column>
-					<rich:column styleClass="colTextoXCorto">
+					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<h:commandLink value="#{ivaRate.name}"
 							action="#{ivaRateAction.addEditIvaRate(ivaRate)}"
