@@ -277,8 +277,7 @@ public class IvaRateAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = ivaRate.getIdIva();
-			IvaRate ivaRateAux = new IvaRate();
-			ivaRateAux = ivaRateDao.nameExists(name, id);
+			IvaRate ivaRateAux = ivaRateDao.nameExists(name, id);
 			if (ivaRateAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
@@ -315,8 +314,7 @@ public class IvaRateAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = ivaRate.getIdIva();
-			IvaRate ivaRateAux = new IvaRate();
-			ivaRateAux = ivaRateDao.rateExists(number, id);
+			IvaRate ivaRateAux = ivaRateDao.rateExists(number, id);
 			if (ivaRateAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(

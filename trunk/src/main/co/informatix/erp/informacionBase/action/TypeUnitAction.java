@@ -281,8 +281,7 @@ public class TypeUnitAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = typeUnit.getId();
-			TypeUnit typeUnitAux = new TypeUnit();
-			typeUnitAux = typeUnitDao.nameExists(name, id);
+			TypeUnit typeUnitAux = typeUnitDao.nameExists(name, id);
 			if (typeUnitAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
