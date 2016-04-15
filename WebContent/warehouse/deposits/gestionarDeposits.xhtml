@@ -333,7 +333,7 @@
 									value="#{depositsAction.purchaseInvoice.suppliers.name}" />
 
 								<h:outputText styleClass="etiquetaTitulo"
-									value="#{mensaje.label_fecha} #{mensajeWarehouse.purchase_invoice_label}:" />
+									value="#{mensaje.label_date} #{mensajeWarehouse.purchase_invoice_label}:" />
 								<h:outputText value="#{depositsAction.purchaseInvoice.dateTime}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 										locale="#{idioma.locale}" />
@@ -412,27 +412,31 @@
 								value="#{mensajeWarehouse.materials_label}:" />
 							<h:outputText value="" />
 							<h:outputText
-								value="#{depositsAction.depositDetails.materials.name} #{depositsAction.depositDetails.materials.presentation} #{depositsAction.depositDetails.materials.measurementUnits.name}" />
+								value="#{depositsAction.depositDetails.materials.name} #{depositsAction.depositDetails.materials.presentation} #{depositsAction.depositDetails.materials.measurementUnits.name}"
+								styleClass="PaddingL6P" />
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.purchase_invoice_label}:" />
 							<h:outputText value="" />
 							<h:outputText
-								value="#{depositsAction.depositDetails.purchaseInvoices.invoiceNumber}" />
+								value="#{depositsAction.depositDetails.purchaseInvoices.invoiceNumber}"
+								styleClass="PaddingL6P" />
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.deposits_label_initial_quantity_actual}:" />
 							<h:outputText value="" />
 							<h:outputText
-								value="#{depositsAction.depositDetails.initialQuantity}" />
+								value="#{depositsAction.depositDetails.initialQuantity}"
+								styleClass="PaddingL6P" />
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_total_cost}:" />
 							<h:outputText value="" />
-							<h:outputText value="#{depositsAction.depositDetails.totalCost}">
+							<h:outputText value="#{depositsAction.depositDetails.totalCost}"
+								styleClass="PaddingL6P">
 								<f:convertNumber maxFractionDigits="2" type="currency"
 									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:outputText>
@@ -442,7 +446,8 @@
 								value="#{mensajeWarehouse.deposits_label_recorded_quantity}:" />
 							<h:outputText value="" />
 							<h:outputText
-								value="#{depositsAction.depositDetails.actualQuantity}" />
+								value="#{depositsAction.depositDetails.actualQuantity}"
+								styleClass="PaddingL6P" />
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
