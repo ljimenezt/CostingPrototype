@@ -287,8 +287,8 @@
 								label="#{messageCosts.budget_label_duration}" required="true"
 								validator="#{scheduledActivitiesAction.validateDuration}"
 								value="#{scheduledActivitiesAction.activityMachine.durationBudget}"
-								requiredMessage="#{mensaje.message_duration_requerido}"
-								converterMessage="#{mensaje.message_duration_caracter_numeros}"
+								requiredMessage="#{mensaje.message_required_duration}"
+								converterMessage="#{mensaje.message_duration_numbers}"
 								styleClass="W125P">
 								<f:attribute name="flag" value="si" />
 								<f:ajax event="blur"

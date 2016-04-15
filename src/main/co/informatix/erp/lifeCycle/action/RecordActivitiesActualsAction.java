@@ -722,7 +722,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 								this.activitiesAndHr.getFinalDateTimeActual());
 				if (duration >= 0) {
 					if (duration.compareTo(activityDuration) > 0) {
-						String message = "message_duracion_actividad";
+						String message = "message_activity_duration";
 						ControladorContexto.mensajeErrorEspecifico(clientId,
 								message, "mensaje");
 						((UIInput) toValidate).setValid(false);
@@ -742,7 +742,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 						}
 					}
 				} else {
-					String message = "message_campo_mayor_igual_cero";
+					String message = "message_greater_equal_cero";
 					ControladorContexto.mensajeErrorEspecifico(clientId,
 							message, "mensaje");
 					((UIInput) toValidate).setValid(false);
@@ -780,13 +780,13 @@ public class RecordActivitiesActualsAction implements Serializable {
 						.restarFechas(startDate, endFate);
 				if (durationActivity >= 0) {
 					if (duration.compareTo(durationActivity) > 0) {
-						String message = "message_duracion_actividad";
+						String message = "message_activity_duration";
 						ControladorContexto.mensajeErrorEspecifico(clientId,
 								message, "mensaje");
 						((UIInput) toValidate).setValid(false);
 					}
 				} else {
-					String message = "message_campo_mayor_igual_cero";
+					String message = "message_greater_equal_cero";
 					ControladorContexto.mensajeErrorEspecifico(clientId,
 							message, "mensaje");
 					((UIInput) toValidate).setValid(false);

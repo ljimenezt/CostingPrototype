@@ -444,7 +444,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 				ControladorContexto
 						.mensajeInformacion(
 								null,
-								bundle.getString("message_no_existe_actividades_relacionadas"));
+								bundle.getString("message_no_related_activity"));
 				this.listActivities = new ArrayList<Activities>();
 			} else if (listActivities == null || listActivities.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,

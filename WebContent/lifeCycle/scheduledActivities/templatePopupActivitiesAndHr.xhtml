@@ -103,16 +103,16 @@
 											<rich:column colspan="5" styleClass="footTabla">
 												<h:outputText
 													rendered="#{activitiesAndHrAction.messageWorkersAvailability eq propPrototipoCostos['locate.activitiesandhr.hr.certified'] and activitiesAndHrAction.workers eq null}"
-													value="#{mensaje.message_personal_certifies_no_disponible}" />
+													value="#{mensaje.message_certified_person_reschedule_activity}" />
 												<h:outputText
 													rendered="#{activitiesAndHrAction.messageWorkersAvailability eq propPrototipoCostos['locate.activitiesandhr.certified'] and activitiesAndHrAction.workers eq null}"
-													value="#{mensaje.message_personal_certified}" />
+													value="#{mensaje.message_certified_personnel}" />
 												<h:outputText
 													rendered="#{activitiesAndHrAction.messageWorkersAvailability eq null}"
 													value="#{mensaje.message_personal_not_exists}" />
 												<h:outputText
 													rendered="#{activitiesAndHrAction.messageWorkersAvailability eq propPrototipoCostos['locate.activitiesandhr.hr.certified.maternity'] and activitiesAndHrAction.workers eq null}"
-													value="#{mensaje.message_personal_certified_maternity}" />
+													value="#{mensaje.message_certified_personnel_maternity}" />
 											</rich:column>
 										</rich:columnGroup>
 									</f:facet>
@@ -292,8 +292,8 @@
 									listener="#{activitiesAndHrAction.calculateDuration()}" />
 							</p:calendar>
 							<h:inputText id="duracionBudgetEditar" required="true"
-								requiredMessage="#{mensaje.message_duration_requerido}"
-								converterMessage="#{mensaje.message_duration_caracter_numeros}"
+								requiredMessage="#{mensaje.message_required_duration}"
+								converterMessage="#{mensaje.message_duration_numbers}"
 								validator="#{activitiesAndHrAction.validate}"
 								value="#{activitiesAndHrAction.activitiesAndHr.durationBudget}"
 								styleClass="W125P">
