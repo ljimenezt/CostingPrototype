@@ -38,7 +38,8 @@
 				<br />
 				<t:fieldset styleClass="BorderW2P anchoDos" id="cropData">
 					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
-					<h:panelGrid columns="4" columnClasses=" tdAlignTop, tdAlignTop">
+					<h:panelGrid columns="4"
+						columnClasses=" tdAlignTop,tdAlignTop,,tdAlignTop">
 						<h:outputText value="#{messageLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="#{cropsAction.crops.idCrop ne 0 ? '' : '*'}"
