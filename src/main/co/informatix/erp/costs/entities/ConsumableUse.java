@@ -25,7 +25,7 @@ import co.informatix.erp.warehouse.entities.Transactions;
 public class ConsumableUse implements Serializable {
 
 	private ConsumableUsePK consumableUsePK;
-	
+
 	private Double initialLevel;
 	private Double finalLevel;
 	private Double consumptionBudget;
