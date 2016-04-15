@@ -599,8 +599,8 @@ W705P {
 	padding: 0px !important;
 }
 
-.PaddingL19P {
-	padding-left: 19px;
+.PaddingL6P {
+	padding-left: 6px;
 }
 
 .PaddingL10P {
@@ -609,6 +609,10 @@ W705P {
 
 .PaddingL17P {
 	padding-left: 17px;
+}
+
+.PaddingL19P {
+	padding-left: 19px;
 }
 
 .PaddingT6P {
