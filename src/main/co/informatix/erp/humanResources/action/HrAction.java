@@ -696,8 +696,7 @@ public class HrAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = hr.getIdHr();
-			Hr hrAux = new Hr();
-			hrAux = hrDao.fullNameExists(name, lastName, id);
+			Hr hrAux = hrDao.fullNameExists(name, lastName, id);
 			if (hrAux != null) {
 				String existenceMessage = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,

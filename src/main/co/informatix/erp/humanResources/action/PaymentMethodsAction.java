@@ -282,8 +282,8 @@ public class PaymentMethodsAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = paymentMethods.getIdPaymentMethod();
-			PaymentMethods auxPaymentMethods = new PaymentMethods();
-			auxPaymentMethods = paymentMethodsDao.nameExists(name, id);
+			PaymentMethods auxPaymentMethods = paymentMethodsDao.nameExists(
+					name, id);
 			if (auxPaymentMethods != null) {
 				String existenceMessage = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,

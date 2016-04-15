@@ -232,8 +232,7 @@ public class HrTypesAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = hrTypes.getIdHrType();
-			HrTypes auxHrTypes = new HrTypes();
-			auxHrTypes = hrTypesDao.nameExists(name, id);
+			HrTypes auxHrTypes = hrTypesDao.nameExists(name, id);
 			if (auxHrTypes != null) {
 				String existenceMessage = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,
@@ -289,7 +288,7 @@ public class HrTypesAction implements Serializable {
 			hrTypesDao.deleteHrTypes(hrTypes);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
-					hrTypes.getIdHrType()));
+					hrTypes.getName()));
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),

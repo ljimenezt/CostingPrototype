@@ -229,8 +229,7 @@ public class ContractTypeAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = contractType.getId();
-			ContractType contractTypeAux = new ContractType();
-			contractTypeAux = contractTypeDao.nameExists(name, id);
+			ContractType contractTypeAux = contractTypeDao.nameExists(name, id);
 			if (contractTypeAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,
