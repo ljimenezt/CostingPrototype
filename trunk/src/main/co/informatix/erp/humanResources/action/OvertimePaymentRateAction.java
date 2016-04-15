@@ -344,9 +344,8 @@ public class OvertimePaymentRateAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = overtimePaymentRate.getOvertimepaymentid();
-			OvertimePaymentRate overtimePaymentRateTypeAux = new OvertimePaymentRate();
-			overtimePaymentRateTypeAux = overtimePaymentRateDao.nameExists(
-					name, id);
+			OvertimePaymentRate overtimePaymentRateTypeAux = overtimePaymentRateDao
+					.nameExists(name, id);
 			if (overtimePaymentRateTypeAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,
