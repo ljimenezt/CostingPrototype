@@ -39,6 +39,7 @@ public class PurchaseInvoices implements Serializable {
 	private double packaging;
 	private double taxes;
 	private double discount;
+	private double iva;
 	private String note;
 	private String invoiceDocumentLink;
 	private boolean selected;
@@ -205,6 +206,22 @@ public class PurchaseInvoices implements Serializable {
 	 */
 	public void setDiscount(double discount) {
 		this.discount = discount;
+	}
+
+	/**
+	 * @return iva: Gets iva of the purchase invoices
+	 */
+	@Column(name = "iva", nullable = false)
+	public double getiva() {
+		return iva;
+	}
+
+	/**
+	 * @param iva
+	 *            :Sets iva of the purchase invoices
+	 */
+	public void setIva(double iva) {
+		this.iva = iva;
 	}
 
 	/**

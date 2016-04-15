@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import co.informatix.erp.informacionBase.entities.IvaRate;
+
 /**
  * Class that contains the records of InvoiceItems.
  * 
@@ -34,8 +36,10 @@ public class InvoiceItems implements Serializable, Cloneable {
 	private double discount;
 	private double unitCost;
 	private double total;
+	private double iva;
 	private PurchaseInvoices purchaseInvoice;
 	private Materials material;
+	private IvaRate ivaRate;
 
 	/**
 	 * @return idInvoiceItem: Invoice item Identifier.
@@ -216,6 +220,22 @@ public class InvoiceItems implements Serializable, Cloneable {
 	}
 
 	/**
+	 * @return iva: Invoice item iva.
+	 */
+	@Column(name = "iva", nullable = false)
+	public double getIva() {
+		return iva;
+	}
+
+	/**
+	 * @param iva
+	 *            : Invoice item iva.
+	 */
+	public void setIva(double iva) {
+		this.iva = iva;
+	}
+
+	/**
 	 * @return purchaseInvoice: Purchase invoice to which the invoice item
 	 *         belong.
 	 */
@@ -248,6 +268,23 @@ public class InvoiceItems implements Serializable, Cloneable {
 	 */
 	public void setMaterial(Materials material) {
 		this.material = material;
+	}
+
+	/**
+	 * @return ivaRate: ivaRate to which the invoice item belong.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_iva_rate", referencedColumnName = "id_iva", nullable = false)
+	public IvaRate getIvaRate() {
+		return ivaRate;
+	}
+
+	/**
+	 * @param ivaRate
+	 *            : ivaRate to which the invoice item belong.
+	 */
+	public void setIvaRate(IvaRate ivaRate) {
+		this.ivaRate = ivaRate;
 	}
 
 	@Override
