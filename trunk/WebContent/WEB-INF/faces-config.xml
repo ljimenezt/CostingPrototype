@@ -138,7 +138,7 @@
 			<var>messageBeanIndex</var>
 		</resource-bundle>
 		<resource-bundle>
-			<base-name>idiomaInformacionBase/idioma</base-name>
+			<base-name>idiomaJarSecurity/idioma</base-name>
 			<var>mensajeInformacionBase</var>
 		</resource-bundle>
 	</application>
