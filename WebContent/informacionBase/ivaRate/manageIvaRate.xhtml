@@ -16,7 +16,7 @@
 		<t:saveState value="#{ivaRateAction}" />
 		<ui:param name="listaVacia"
 			value="#{ivaRateAction.listIvaRates eq null or (empty ivaRateAction.listIvaRates )}" />
-		<ui:param name="anchoTabla" value="anchoCuatro" />
+		<ui:param name="anchoTabla" value="anchoSeis" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{ivaRateAction}" />
 		<ui:param name="renderLista" value="panelIvaRate vigenciaPopup" />
@@ -54,7 +54,7 @@
 							</a:commandLink>
 						</a:outputPanel>
 					</rich:column>
-					<rich:column styleClass="colTextoMediano">
+					<rich:column styleClass="colTextoXCorto">
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<h:commandLink value="#{ivaRate.name}"
 							action="#{ivaRateAction.addEditIvaRate(ivaRate)}"
@@ -62,7 +62,7 @@
 						</h:commandLink>
 					</rich:column>
 
-					<rich:column styleClass="colValor">
+					<rich:column styleClass="colValorMini">
 						<f:facet name="header">#{messageBaseInformation.iva_rate_label_percentage}</f:facet>
 						<h:outputText value="#{ivaRate.rate}%">
 							<f:convertNumber type="percent" />
