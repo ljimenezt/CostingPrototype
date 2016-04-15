@@ -852,13 +852,13 @@ public class ScheduledActivitiesAction implements Serializable {
 		}
 		if (duration > 0 && duration != null) {
 			if (duration.compareTo(durationActivity) > 0) {
-				String message = "message_duracion_actividad";
+				String message = "message_activity_duration";
 				ControladorContexto.mensajeErrorEspecifico(clientId, message,
 						"mensaje");
 				((UIInput) toValidate).setValid(false);
 			}
 		} else {
-			String message = "message_duration_mayor_cero";
+			String message = "message_greater_zero";
 			ControladorContexto.mensajeErrorEspecifico(clientId, message,
 					"mensaje");
 			((UIInput) toValidate).setValid(false);

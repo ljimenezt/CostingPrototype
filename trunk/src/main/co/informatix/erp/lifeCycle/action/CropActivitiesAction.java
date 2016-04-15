@@ -890,7 +890,7 @@ public class CropActivitiesAction implements Serializable {
 					&& !"".equals(unionMessagesSearch.toString())) {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
-								.getString("message_no_existe_actividades_relacionadas"),
+								.getString("message_no_related_activity"),
 								unionMessagesSearch);
 				this.listActivities = new ArrayList<Activities>();
 			} else if (listActivities == null || listActivities.size() <= 0) {
@@ -971,7 +971,7 @@ public class CropActivitiesAction implements Serializable {
 				ControladorContexto
 						.mensajeInformacion(
 								null,
-								bundle.getString("message_no_existe_actividades_standard_relacionadas"));
+								bundle.getString("message_no_related_standard_activities"));
 			}
 			initializeListStandardCycle();
 		} catch (Exception e) {
@@ -1040,14 +1040,14 @@ public class CropActivitiesAction implements Serializable {
 					durationActivity = (Double) ControladorFechas.restarFechas(
 							initialDate, finalDate);
 					if (duration.compareTo(durationActivity) > 0) {
-						String mensaje = "message_duracion_actividad";
+						String mensaje = "message_activity_duration";
 						context.addMessage(clientId,
 								new FacesMessage(FacesMessage.SEVERITY_ERROR,
 										bundle.getString(mensaje), null));
 						((UIInput) toValidate).setValid(false);
 					}
 				} else {
-					String mensaje = "message_duration_mayor_cero";
+					String mensaje = "message_greater_zero";
 					context.addMessage(clientId,
 							new FacesMessage(FacesMessage.SEVERITY_ERROR,
 									bundle.getString(mensaje), null));

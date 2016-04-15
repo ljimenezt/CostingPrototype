@@ -304,7 +304,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 	 */
 	public String saveCycleStandardActivities() throws Exception {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String registerMessage = "message_registro_guardar_actividades";
+		String registerMessage = "message_saved_activity";
 		boolean exists;
 		try {
 			Object cropNameString = ValidacionesAction.getLabel(

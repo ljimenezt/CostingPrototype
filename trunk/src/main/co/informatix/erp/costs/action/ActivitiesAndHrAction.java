@@ -938,7 +938,7 @@ public class ActivitiesAndHrAction implements Serializable {
 		try {
 			if (duration > 0) {
 				if (duration.compareTo(durationActivity) > 0) {
-					String message = "message_duracion_actividad";
+					String message = "message_activity_duration";
 					ControladorContexto.mensajeErrorEspecifico(clientId,
 							message, "mensaje");
 					((UIInput) toValidate).setValid(false);
@@ -958,7 +958,7 @@ public class ActivitiesAndHrAction implements Serializable {
 					}
 				}
 			} else {
-				String message = "message_duration_mayor_cero";
+				String message = "message_greater_zero";
 				ControladorContexto.mensajeErrorEspecifico(clientId, message,
 						"mensaje");
 				((UIInput) toValidate).setValid(false);

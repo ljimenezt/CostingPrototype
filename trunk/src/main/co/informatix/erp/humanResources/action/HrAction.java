@@ -1172,7 +1172,7 @@ public class HrAction implements Serializable {
 	 * @author Gerardo.Herrera
 	 */
 	public void assignMaternityBreastFeeding() {
-		if (hr.getGenero().equals(Constantes.GENERO) && hr.getGenero() != null) {
+		if (hr.getGenero() != null && Constantes.GENERO.equals(hr.getGenero())) {
 			hr.setMaternityBreastFeeding(false);
 		}
 	}
