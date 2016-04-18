@@ -522,11 +522,7 @@ public class PurchaseInvoicesAction implements Serializable {
 		}
 
 		if ((this.searchNumber != null && !"".equals(this.searchNumber))) {
-			if (flag) {
-				consult.append("AND ");
-			} else {
-				consult.append("WHERE ");
-			}
+			consult.append(flag ? "AND " : "WHERE ");
 			consult.append(" UPPER(pi.invoiceNumber) LIKE UPPER(:keywordNumber) ");
 			SelectItem itemNombre = new SelectItem("%" + this.searchNumber
 					+ "%", "keywordNumber");
@@ -540,11 +536,7 @@ public class PurchaseInvoicesAction implements Serializable {
 		}
 
 		if (this.initialDateSearch != null || this.finalDateSearch != null) {
-			if (flag) {
-				consult.append("AND ");
-			} else {
-				consult.append("WHERE ");
-			}
+			consult.append(flag ? "AND " : "WHERE ");
 			if (this.initialDateSearch != null && this.finalDateSearch != null) {
 				consult.append("pi.dateTime BETWEEN :initialDateSearch AND :finalDateSearch ");
 			}
@@ -572,7 +564,6 @@ public class PurchaseInvoicesAction implements Serializable {
 				unionSearchMessages.append(dateTo);
 			}
 		}
-		flag = false;
 	}
 
 	/**

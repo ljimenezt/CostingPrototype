@@ -212,49 +212,38 @@
 		     			 $g=jQuery.noConflict();
 					</script>
 					<rich:messages id="messagePopUp" styleClass="messageBlock" />
-					<h:panelGrid columns="4" cellpadding="0">
+					<h:panelGrid columns="2" cellpadding="0">
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_number}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
 						<h:inputText size="30" maxlength="100" id="txtSearchNumber"
 							value="#{purchaseInvoicesAction.searchNumber}"
-							onkeypress="return submitByEnter(event,'popupSearch:btnSearch)" />
-						<h:outputText value="" />
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')" />
 
 						<h:outputText value="#{mensajeWarehouse.suppliers_label_name}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
 						<h:inputText size="30" maxlength="100" id="txtSearchSupplier"
 							value="#{purchaseInvoicesAction.searchSupplier}"
-							onkeypress="return submitByEnter(event,'popupSearch:btnSearch')" />
-						<h:outputText value="" />
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_start_date}" />
-						<h:outputText value="" />
 						<p:calendar value="#{purchaseInvoicesAction.initialDateSearch}"
 							readonlyInput="true" showOn="button" navigator="true"
 							onSelectUpdate="endDate" id="startDate" pattern="MM/dd/yyyy"
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
 							label="#{mensaje.label_start_date}">
 							<p:ajax process="@form" event="dateSelect"
 								update="formSearch:outPutSearch" />
 						</p:calendar>
-						<h:outputText value="" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_end_date}" />
-						<h:outputText value="*" styleClass="required"
-							rendered="#{purchaseInvoicesAction.initialDateSearch ne null}" />
-						<h:outputText value=""
-							rendered="#{purchaseInvoicesAction.initialDateSearch eq null}" />
 						<p:calendar value="#{purchaseInvoicesAction.finalDateSearch}"
-							readonlyInput="true"
-							disabled="#{purchaseInvoicesAction.initialDateSearch eq null}"
-							showOn="button" navigator="true" required="true"
+							readonlyInput="true" showOn="button" navigator="true"
 							mindate="#{purchaseInvoicesAction.initialDateSearch}"
 							id="endDate" pattern="MM/dd/yyyy"
-							onkeypress="return submitByEnter(event,'popupSearch:btnSearch')"
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
 							label="#{mensaje.label_end_date}" />
 					</h:panelGrid>
 				</a:outputPanel>
