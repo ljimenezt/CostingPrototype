@@ -429,7 +429,7 @@
 					<br />
 					<t:fieldset styleClass="BorderW2P">
 						<legend class="etiquetaTitulo">#{mensajeWarehouse.materials_label}</legend>
-						<h:panelGrid columns="4" columnClasses="W85P left,W16P,left,">
+						<h:panelGrid columns="4" columnClasses="W85P left,W16P right,left,">
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.materials_label}:" />
@@ -439,13 +439,13 @@
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_cantidad}:" />
+								value="#{mensaje.label_quantity}:" />
 							<h:outputText value="" />
 							<h:inputText readonly="true" styleClass="colTextoXCorto"
 								value="#{invoiceItemsAction.invoiceItems.quantity}" />
 							<h:outputText value="" />
 
-							<h:outputText styleClass="etiquetaTitulo" 
+							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeMenu.type_unit_label}:" />
 							<h:outputText value="" />
 							<h:inputText readonly="true" styleClass="colTextoXCorto"

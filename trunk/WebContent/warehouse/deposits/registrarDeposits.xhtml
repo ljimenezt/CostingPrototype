@@ -58,8 +58,7 @@
 							</a:commandLink>
 							<h:outputText value="&#32;&#32;&#32;" />
 							<a:commandLink actionListener="#{depositsAction.cleanInvoice()}"
-								render=":formDeposits:txtInvoiceNumber, :formDeposits:txtSupplier, :formDeposits:txtInvoiceNumber2"
-								execute="@this">
+								render="@form" execute="@this">
 								<h:graphicImage value="/img/editRemove_16.png" />
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.label_remove}" />
@@ -79,136 +78,119 @@
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
-				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
-					<h:panelGrid columns="4"
-						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="W98P tdAlignTop,,W290P,tdAlignTop">
+				<a:outputPanel id="depositDetails"
+					rendered="#{depositsAction.deposits.purchaseInvoices.invoiceNumber ne null and (!empty depositsAction.deposits.purchaseInvoices.invoiceNumber)}">
+					<t:fieldset styleClass="BorderW2P anchoDos">
+						<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
+						<h:panelGrid columns="4"
+							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+							columnClasses="W98P tdAlignTop,,W290P,tdAlignTop">
 
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeWarehouse.materials_type_label}" />
-						<h:outputText value="" styleClass="required" />
-						<h:selectOneMenu value="#{depositsAction.idMaterialType}"
-							id="materialsType">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-								itemValue="0" />
-							<f:selectItems value="#{depositsAction.itemsMaterialType}" />
-							<f:ajax event="change"
-								listener="#{depositsAction.loadMaterials()}"
-								render=":formDeposits:materials" />
-						</h:selectOneMenu>
-						<rich:message for="materialsType" />
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeWarehouse.materials_label}" />
+							<h:outputText value="*" styleClass="required" />
+							<h:selectOneMenu
+								value="#{depositsAction.deposits.materials.idMaterial}"
+								id="materials">
+								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+									itemValue="0" />
+								<f:selectItems value="#{depositsAction.itemsMaterial}" />
+								<f:ajax event="change"
+									listener="#{depositsAction.loadDataMaterial}"
+									render="depositDetails" />
+							</h:selectOneMenu>
+							<rich:message for="materials" />
 
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeWarehouse.materials_label}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu
-							value="#{depositsAction.deposits.materials.idMaterial}"
-							id="materials">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-								itemValue="0" />
-							<f:selectItems value="#{depositsAction.itemsMaterial}" />
-						</h:selectOneMenu>
-						<rich:message for="materials" />
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_quantity}" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText value="#{depositsAction.deposits.initialQuantity}"
+								id="initialQuantity" maxlength="25" readonly="true"
+								label="#{mensaje.label_quantity}"
+								converterMessage="#{mensaje.message_campo_positivo}">
+								<f:validateDoubleRange minimum="1" />
+								<f:validateLength maximum="25" />
+								<a:ajax execute="initialQuantity, totalCost"
+									listener="#{depositsAction.calculateUnitCost()}"
+									render="unitCost" />
+							</h:inputText>
+							<rich:message for="initialQuantity" />
 
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{messageBaseInformation.measurent_unit_label}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu
-							value="#{depositsAction.deposits.measurementUnits.idMeasurementUnits}"
-							id="measurementUnits">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-								itemValue="0" />
-							<f:selectItems value="#{depositsAction.itemsMeasurementUnits}" />
-						</h:selectOneMenu>
-						<rich:message for="measurementUnits" />
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_total_cost}" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText value="#{depositsAction.deposits.totalCost}"
+								id="totalCost" maxlength="25" readonly="true"
+								label="#{mensaje.label_total_cost}"
+								converterMessage="#{mensaje.message_campo_positivo}">
+								<f:validateDoubleRange minimum="1" />
+								<a:ajax execute="initialQuantity, totalCost"
+									listener="#{depositsAction.calculateUnitCost()}"
+									render="unitCost" />
+							</h:inputText>
+							<rich:message for="totalCost" />
 
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_quantity}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:inputText value="#{depositsAction.deposits.initialQuantity}"
-							id="initialQuantity" maxlength="25"
-							label="#{mensaje.label_quantity}"
-							converterMessage="#{mensaje.message_campo_positivo}">
-							<f:validateDoubleRange minimum="1" />
-							<f:validateLength maximum="25" />
-							<a:ajax execute="initialQuantity, totalCost"
-								listener="#{depositsAction.calculateUnitCost()}"
-								render="unitCost" />
-						</h:inputText>
-						<rich:message for="initialQuantity" />
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_unit_cost}" />
+							<h:outputText value="" styleClass="required" />
+							<h:inputText value="#{depositsAction.deposits.unitCost}"
+								id="unitCost" maxlength="25" readonly="true"
+								label="#{mensaje.label_unit_cost}">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:inputText>
+							<rich:message for="unitCost" />
 
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_total_cost}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:inputText value="#{depositsAction.deposits.totalCost}"
-							id="totalCost" maxlength="25" label="#{mensaje.label_total_cost}"
-							converterMessage="#{mensaje.message_campo_positivo}">
-							<f:validateDoubleRange minimum="1" />
-							<a:ajax execute="initialQuantity, totalCost"
-								listener="#{depositsAction.calculateUnitCost()}"
-								render="unitCost" />
-						</h:inputText>
-						<rich:message for="totalCost" />
+							<h:outputText value="#{mensaje.label_purchase_date}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<p:calendar value="#{depositsAction.deposits.dateTime}"
+								showOn="button" navigator="true"
+								converterMessage="#{mensaje.message_validar_formato_fecha}"
+								id="datePurchase" pattern="MM/dd/yyyy" readonlyInput="true"
+								validator="#{controladorFechas.validarRangoFecha}"
+								label="#{mensaje.label_purchase_date}">
+								<p:ajax event="dateSelect" update="dateExpire" />
+								<f:attribute name="validarHora" value="si" />
+							</p:calendar>
+							<rich:message for="datePurchase" />
 
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_unit_cost}" />
-						<h:outputText value="" styleClass="required" />
-						<h:inputText value="#{depositsAction.unitCost}" id="unitCost"
-							maxlength="25" readonly="true" label="#{mensaje.label_unit_cost}">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
-						</h:inputText>
-						<rich:message for="unitCost" />
+							<h:outputText value="#{mensaje.label_expiration_date}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<p:calendar value="#{depositsAction.deposits.expireDate}"
+								showOn="button" navigator="true"
+								converterMessage="#{mensaje.message_validar_formato_fecha}"
+								id="dateExpire" pattern="MM/dd/yyyy" readonlyInput="true"
+								mindate="#{depositsAction.deposits.dateTime}">
+								<p:ajax event="dateSelect" update="datePurchase" />
+								<f:attribute name="validarHora" value="si" />
+							</p:calendar>
+							<rich:message for="dateExpire" />
 
-						<h:outputText value="#{mensaje.label_purchase_date}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<p:calendar value="#{depositsAction.deposits.dateTime}"
-							showOn="button" navigator="true"
-							converterMessage="#{mensaje.message_validar_formato_fecha}"
-							id="datePurchase" pattern="MM/dd/yyyy" readonlyInput="true"
-							validator="#{controladorFechas.validarRangoFecha}"
-							label="#{mensaje.label_purchase_date}">
-							<p:ajax event="dateSelect" update="dateExpire" />
-							<f:attribute name="validarHora" value="si" />
-						</p:calendar>
-						<rich:message for="datePurchase" />
-
-						<h:outputText value="#{mensaje.label_expiration_date}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
-						<p:calendar value="#{depositsAction.deposits.expireDate}"
-							showOn="button" navigator="true"
-							converterMessage="#{mensaje.message_validar_formato_fecha}"
-							id="dateExpire" pattern="MM/dd/yyyy" readonlyInput="true"
-							mindate="#{depositsAction.deposits.dateTime}">
-							<p:ajax event="dateSelect" update="datePurchase" />
-							<f:attribute name="validarHora" value="si" />
-						</p:calendar>
-						<rich:message for="dateExpire" />
-
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensajeMenu.farms_label}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu value="#{depositsAction.deposits.farm.idFarm}"
-							id="farm">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-								itemValue="0" />
-							<f:selectItems value="#{depositsAction.itemsFarm}" />
-						</h:selectOneMenu>
-						<rich:message for="farm" />
-					</h:panelGrid>
-				</t:fieldset>
-				<br />
-				<div align="center">
-					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
-						execute="formDeposits"
-						actionListener="#{depositsAction.validateRequired()}"
-						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						value="#{mensaje.button_save}" />
-				</div>
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeMenu.farms_label}" />
+							<h:outputText value="*" styleClass="required" />
+							<h:selectOneMenu value="#{depositsAction.deposits.farm.idFarm}"
+								id="farm">
+								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+									itemValue="0" />
+								<f:selectItems value="#{depositsAction.itemsFarm}" />
+							</h:selectOneMenu>
+							<rich:message for="farm" />
+						</h:panelGrid>
+					</t:fieldset>
+					<br />
+					<div align="center">
+						<a:commandButton
+							render="formConfirmar:popUpConfirmar,formGenerico"
+							execute="formDeposits"
+							actionListener="#{depositsAction.validateRequired()}"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+							value="#{mensaje.button_save}" />
+					</div>
+				</a:outputPanel>
 			</rich:panel>
 			<h:inputHidden
 				value="#{depositsAction.deposits.purchaseInvoices.invoiceNumber}"
@@ -239,10 +221,6 @@
 
 						<h:outputText value="#{mensaje.label_quantity}:" />
 						<h:outputText value="#{depositsAction.deposits.initialQuantity}" />
-
-						<h:outputText value="#{mensajeMenu.measurent_unit_label}:" />
-						<h:outputText
-							value="#{validacionesAction.getLabel(depositsAction.itemsMeasurementUnits,depositsAction.deposits.measurementUnits.idMeasurementUnits)}" />
 
 						<h:outputText value="#{mensaje.label_total_cost}:" />
 						<h:outputText value="#{depositsAction.deposits.totalCost}">
@@ -375,7 +353,7 @@
 							<rich:column styleClass="colIconoUno">
 								<f:facet name="header" />
 								<a:commandLink
-									render=":formDeposits:txtInvoiceNumber, :formDeposits:txtSupplier, :formDeposits:txtInvoiceNumber2, :formDeposits:materials"
+									render="formDeposits, :formDeposits:txtInvoiceNumber, :formDeposits:txtSupplier, :formDeposits:txtInvoiceNumber2, :formDeposits:materials"
 									actionListener="#{depositsAction.loadInvoice(invoice)}"
 									oncomplete="#{rich:component('popupInvoice')}.hide();">
 									<h:graphicImage value="/img/add_16.png" />
