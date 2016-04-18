@@ -134,4 +134,33 @@ public class InvoiceItemsDao implements Serializable {
 		return (Object[]) q.getSingleResult();
 	}
 
+	/**
+	 * Consult the invoice item from purchase invoice and material.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param invoiceNumber
+	 *            : Invoice number.
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @return invoiceItems: invoice item.
+	 */
+	@SuppressWarnings("unchecked")
+	public InvoiceItems invoiceItemByMaterial(String invoiceNumber,
+			int idMaterial) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ii FROM InvoiceItems ii ");
+		query.append("JOIN FETCH ii.purchaseInvoice pi ");
+		query.append("WHERE pi.invoiceNumber LIKE :invoiceNumber ");
+		query.append("AND ii.material.idMaterial = :idMaterial ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("invoiceNumber", invoiceNumber);
+		q.setParameter("idMaterial", idMaterial);
+		List<InvoiceItems> invoiceItems = q.getResultList();
+		if (invoiceItems.size() > 1) {
+			return null;
+		}
+		return invoiceItems.get(0);
+	}
+
 }

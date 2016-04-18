@@ -28,6 +28,7 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.DepositsDao;
+import co.informatix.erp.warehouse.dao.InvoiceItemsDao;
 import co.informatix.erp.warehouse.dao.MaterialsDao;
 import co.informatix.erp.warehouse.dao.MaterialsTypeDao;
 import co.informatix.erp.warehouse.dao.MeasurementUnitsDao;
@@ -36,6 +37,7 @@ import co.informatix.erp.warehouse.dao.SuppliersDao;
 import co.informatix.erp.warehouse.dao.TransactionTypeDao;
 import co.informatix.erp.warehouse.dao.TransactionsDao;
 import co.informatix.erp.warehouse.entities.Deposits;
+import co.informatix.erp.warehouse.entities.InvoiceItems;
 import co.informatix.erp.warehouse.entities.Materials;
 import co.informatix.erp.warehouse.entities.MaterialsType;
 import co.informatix.erp.warehouse.entities.MeasurementUnits;
@@ -76,6 +78,8 @@ public class DepositsAction implements Serializable {
 	private TransactionsDao transactionsDao;
 	@EJB
 	private TransactionTypeDao transactionTypeDao;
+	@EJB
+	private InvoiceItemsDao invoiceItemsDao;
 	@Resource
 	private UserTransaction userTransaction;
 	@Inject
@@ -722,6 +726,8 @@ public class DepositsAction implements Serializable {
 	/**
 	 * Method used to save or edit the deposits
 	 * 
+	 * @modify 15/04/2016 Gerardo.Herrera
+	 * 
 	 * @return consultDeposits: Redirects to manage deposits with a list of
 	 *         updated deposits
 	 */
@@ -729,8 +735,11 @@ public class DepositsAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String mensajeRegistro = "message_registro_modificar";
 		try {
-			deposits.setActualQuantity(deposits.getInitialQuantity());
-			deposits.setUnitCost(unitCost);
+			Materials material = materialsDao
+					.consultMaterialsById(this.deposits.getMaterials()
+							.getIdMaterial());
+			deposits.getMeasurementUnits().setIdMeasurementUnits(
+					material.getMeasurementUnits().getIdMeasurementUnits());
 			if (deposits.getIdDeposit() != 0) {
 				depositsDao.editDeposits(deposits);
 			} else {
@@ -788,15 +797,93 @@ public class DepositsAction implements Serializable {
 	}
 
 	/**
-	 * This method allows to set a value of purchase invoice for deposits
+	 * This method allows to set a value of purchase invoice for deposits and
+	 * load all the materials associated
 	 * 
 	 * @author Liseth.Jimenez
+	 * @modify 15/04/2016 Gerardo.Herrera
 	 * 
 	 * @param purchaseInvoices
 	 *            : Purchase Invoice for a deposits
 	 */
 	public void loadInvoice(PurchaseInvoices purchaseInvoices) {
+		this.deposits = new Deposits();
 		this.deposits.setPurchaseInvoices(purchaseInvoices);
+		try {
+			itemsMaterial = new ArrayList<SelectItem>();
+			List<Materials> materials = materialsDao
+					.materialsXInvoicePurchase(purchaseInvoices);
+			if (materials != null) {
+				for (Materials material : materials) {
+					this.itemsMaterial.add(new SelectItem(material
+							.getIdMaterial(), material.getName() + " "
+							+ material.getPresentation() + " "
+							+ material.getMeasurementUnits().getName()));
+				}
+			}
+			cleanDeposits();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method load the information into deposit associated to item invoice
+	 * 
+	 * @author Gerardo.Herrera
+	 */
+	public void loadDataMaterial() {
+		try {
+			boolean existsDeposit = depositsDao.existsDeposit(this.deposits
+					.getMaterials(), this.deposits.getPurchaseInvoices()
+					.getInvoiceNumber());
+			if (this.deposits.getMaterials().getIdMaterial() != 0
+					&& !existsDeposit) {
+				InvoiceItems invoiceItem = invoiceItemsDao
+						.invoiceItemByMaterial(this.deposits
+								.getPurchaseInvoices().getInvoiceNumber(),
+								this.deposits.getMaterials().getIdMaterial());
+				if (invoiceItem != null) {
+					Materials material = materialsDao
+							.consultMaterialsById(this.deposits.getMaterials()
+									.getIdMaterial());
+					double quantity = material.getPresentation()
+							* invoiceItem.getQuantity();
+					this.deposits.setActualQuantity(quantity);
+					this.deposits.setInitialQuantity(quantity);
+					this.deposits
+							.setUnitCost(invoiceItem.getTotal() / quantity);
+					this.deposits.setTotalCost(invoiceItem.getTotal());
+					this.deposits.setDateTime(this.deposits
+							.getPurchaseInvoices().getDateTime());
+				}
+			} else {
+				cleanDeposits();
+				if (existsDeposit
+						&& this.deposits.getMaterials().getIdMaterial() != 0) {
+					ResourceBundle bundle = ControladorContexto
+							.getBundle("mensajeWarehouse");
+					ControladorContexto.mensajeError("formDeposits:materials",
+							bundle.getString("deposits_message_exists"));
+				}
+			}
+
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Clean deposit fields
+	 * 
+	 * @author Gerardo.Herrera
+	 */
+	private void cleanDeposits() {
+		this.deposits.setActualQuantity(null);
+		this.deposits.setInitialQuantity(null);
+		this.deposits.setUnitCost(null);
+		this.deposits.setTotalCost(null);
+		this.deposits.setDateTime(null);
 	}
 
 	/**
@@ -806,6 +893,7 @@ public class DepositsAction implements Serializable {
 	 */
 	public void cleanInvoice() {
 		this.deposits.setPurchaseInvoices(new PurchaseInvoices());
+		cleanDeposits();
 	}
 
 	/**
@@ -984,10 +1072,6 @@ public class DepositsAction implements Serializable {
 		}
 		if (this.deposits.getMaterials().getIdMaterial() == 0) {
 			ControladorContexto.mensajeRequeridos("formDeposits:materials");
-		}
-		if (this.deposits.getMeasurementUnits().getIdMeasurementUnits() == 0) {
-			ControladorContexto
-					.mensajeRequeridos("formDeposits:measurementUnits");
 		}
 		if (this.deposits.getInitialQuantity() == null) {
 			ControladorContexto
