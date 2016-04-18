@@ -120,9 +120,9 @@ public class PaymentsAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of contracts.
+	 * Consult the list of payments.
 	 * 
-	 * @return "gesPayments": redirects to the template to manage contracts.
+	 * @return "gesPayments": redirects to the template to manage payments.
 	 */
 	public String consultPayments() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -200,16 +200,14 @@ public class PaymentsAction implements Serializable {
 	/**
 	 * This method fills the various objects associated with a payment.
 	 * 
+	 * @modify 18/04/2016 Wilhelm.Boada
+	 * 
 	 * @throws Exception
 	 */
 	public void loadDetailsPayments() throws Exception {
-		List<Payments> payments = new ArrayList<Payments>();
 		if (this.listPayments != null) {
-			payments.addAll(this.listPayments);
-			this.listPayments = new ArrayList<Payments>();
-			for (Payments payment : payments) {
+			for (Payments payment : listPayments) {
 				loadDetailsPayment(payment);
-				this.listPayments.add(payment);
 			}
 		}
 	}
