@@ -662,8 +662,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * Assigns the name of human resources to process validation, not to be
-	 * repeated in the database.
+	 * This method allows to assign name to human resource
 	 * 
 	 * @author Dario.Lopez
 	 * 
@@ -725,7 +724,7 @@ public class HrAction implements Serializable {
 		boolean picChanged = false;
 		String picNameDelete = null;
 		try {
-			/* No son campos requeridos */
+			/* These fields are not required */
 			if (this.hr.getDepartamentoNacimiento().getId() == 0) {
 				this.hr.setDepartamentoNacimiento(null);
 			}
@@ -984,15 +983,15 @@ public class HrAction implements Serializable {
 	/**
 	 * This method fills the various objects associated with a human resource.
 	 * 
+	 * @modify 18/04/2016 Wilhelm.Boada
+	 * 
 	 * @throws Exception
 	 */
 	private void loadHrDetails() throws Exception {
-		List<Hr> humanResources = new ArrayList<Hr>();
-		humanResources.addAll(this.hrList);
-		this.hrList = new ArrayList<Hr>();
-		for (Hr hr : humanResources) {
-			loadHrDetails(hr);
-			this.hrList.add(hr);
+		if (this.hrList != null) {
+			for (Hr hr : hrList) {
+				loadHrDetails(hr);
+			}
 		}
 	}
 
