@@ -107,7 +107,7 @@ public class InvoiceItemsDao implements Serializable {
 		query.append("SELECT it FROM InvoiceItems it ");
 		query.append("JOIN FETCH it.material m ");
 		query.append("JOIN FETCH it.purchaseInvoice pi ");
-		query.append("JOIN FETCH it.ivaRate i ");
+		query.append("LEFT JOIN FETCH it.ivaRate i ");
 		query.append("JOIN FETCH m.measurementUnits ");
 		query.append("JOIN FETCH pi.suppliers ");
 		query.append(consult);
