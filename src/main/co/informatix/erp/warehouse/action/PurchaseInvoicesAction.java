@@ -9,16 +9,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.transaction.UserTransaction;
 
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -34,7 +40,7 @@ import co.informatix.erp.warehouse.entities.Suppliers;
  * purchase invoices.
  * 
  * @author Liseth.Jimenez
- * @modify 28/03/2016 Andres.Gomez
+ * @modify 18/04/2016 Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -50,6 +56,8 @@ public class PurchaseInvoicesAction implements Serializable {
 	private InvoiceItemsDao invoiceItemsDao;
 	@EJB
 	private FileUploadBean fileUploadBean;
+	@Resource
+	private UserTransaction userTransaction;
 
 	private String searchNumber;
 	private String searchSupplier;
@@ -374,6 +382,15 @@ public class PurchaseInvoicesAction implements Serializable {
 	}
 
 	/**
+	 * This method allow get the current date.
+	 * 
+	 * @return Date: current date
+	 */
+	public Date getMaxDate() {
+		return new Date();
+	}
+
+	/**
 	 * Method to initialize the fields in the search.
 	 * 
 	 * @modify 29/03/2016 Wilhelm.Boada
@@ -550,9 +567,8 @@ public class PurchaseInvoicesAction implements Serializable {
 				SelectItem item2 = new SelectItem(finalDateSearch,
 						"finalDateSearch");
 				parameters.add(item2);
-				String dateTo = bundle.getString("label_end_date")
-						+ ": " + '"' + formatDate.format(finalDateSearch) + '"'
-						+ " ";
+				String dateTo = bundle.getString("label_end_date") + ": " + '"'
+						+ formatDate.format(finalDateSearch) + '"' + " ";
 				unionSearchMessages.append(dateTo);
 			}
 		}
@@ -583,6 +599,7 @@ public class PurchaseInvoicesAction implements Serializable {
 				this.invoices = new PurchaseInvoices();
 				this.invoices.setSuppliers(new Suppliers());
 				this.nameDocument = null;
+				invoiceItemsAction.cleanLists();
 			}
 			this.loadDocumentTemporal = true;
 			this.flag = true;
@@ -600,6 +617,8 @@ public class PurchaseInvoicesAction implements Serializable {
 		this.invoiceItemsAction = ControladorContexto
 				.getContextBean(InvoiceItemsAction.class);
 		invoiceItemsAction.setInvoiceItemsList(new ArrayList<InvoiceItems>());
+		invoiceItemsAction
+				.setSubListInvoiceItems(new ArrayList<InvoiceItems>());
 	}
 
 	/**
@@ -769,10 +788,13 @@ public class PurchaseInvoicesAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String mensajeRegistro = "message_registro_modificar";
 		String param2 = ControladorContexto.getParam("param2");
-		boolean desdeModal = (param2 != null && Constantes.SI.equals(param2)) ? true
+		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
 				: false;
+		InvoiceItemsAction invoiceItemsAction = ControladorContexto
+				.getContextBean(InvoiceItemsAction.class);
 		ControladorContexto.quitarFacesMessages();
 		try {
+			userTransaction.begin();
 			if (!flag) {
 				this.invoices = this.invoicesActualSelected;
 			} else {
@@ -803,13 +825,21 @@ public class PurchaseInvoicesAction implements Serializable {
 				mensajeRegistro = "message_registro_guardar";
 				purchaseInvoicesDao.saveInvoices(this.invoices);
 			}
+			invoiceItemsAction.setInvoicesSelected(this.invoices);
+			invoiceItemsAction.saveUpdateInvoiceItem();
+			userTransaction.commit();
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(mensajeRegistro),
 					invoices.getInvoiceNumber()));
 		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception exception2) {
+				ControladorContexto.mensajeError(exception2);
+			}
 			ControladorContexto.mensajeError(e);
 		}
-		if (desdeModal) {
+		if (fromModal) {
 			return "";
 		} else if (!flag) {
 			return consultInvoices();
@@ -887,6 +917,69 @@ public class PurchaseInvoicesAction implements Serializable {
 					.getIdPurchaseInvoice()) {
 				listInovoices.set(value, invoicesActualSelected);
 			}
+		}
+	}
+
+	/**
+	 * To validate the name of the allocation, to not repeat in the database and
+	 * validates against XSS.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param context
+	 *            : Application context.
+	 * 
+	 * @param toValidate
+	 *            : Validate component.
+	 * @param value
+	 *            : Field value is validated.
+	 */
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			int idSupplier = invoices.getSuppliers().getIdSupplier();
+			if (invoices.getIdPurchaseInvoice() == 0) {
+				if (purchaseInvoicesDao.nameExists(name, idSupplier)) {
+					String messageExistence = "message_ya_existe_verifique";
+					ControladorContexto.mensajeErrorEspecifico(clientId,
+							messageExistence, "mensaje");
+					((UIInput) toValidate).setValid(false);
+				}
+				if (!EncodeFilter.validarXSS(name, clientId,
+						"locate.regex.letras.numeros")) {
+					((UIInput) toValidate).setValid(false);
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Validates fields that are required in view of registering a new invoice
+	 * Item.
+	 */
+	public void validateFields() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		if (this.invoices.getDateTime() == null) {
+			ControladorContexto.mensajeRequeridos("formInvoices:dateInvoice");
+		}
+		if (this.invoices.getSuppliers().getIdSupplier() == 0) {
+			ControladorContexto.mensajeRequeridos("formInvoices:supplier");
+		}
+		if (("").equals(this.invoices.getInvoiceNumber())) {
+			ControladorContexto.mensajeRequeridos("formInvoices:txtNumInv");
+		}
+		if (this.invoices.getSubtotal() <= 0) {
+			ControladorContexto.mensajeError(null,
+					"formInvoices:subTotalValue",
+					bundle.getString("message_campo_mayo_cero"));
+		}
+		if (this.invoices.getTotalValueActual() <= 0) {
+			ControladorContexto.mensajeError(null, "formInvoices:totalValue",
+					bundle.getString("message_campo_mayo_cero"));
 		}
 	}
 

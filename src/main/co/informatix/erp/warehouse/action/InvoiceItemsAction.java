@@ -16,7 +16,6 @@ import javax.transaction.UserTransaction;
 
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
-import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.warehouse.dao.DepositsDao;
@@ -31,6 +30,7 @@ import co.informatix.erp.warehouse.entities.PurchaseInvoices;
  * This class is all related logic with the management of invoice items
  * 
  * @author Wilhelm.Boada
+ * @modify 18/04/2016 Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -40,6 +40,7 @@ public class InvoiceItemsAction implements Serializable {
 
 	@EJB
 	private InvoiceItemsDao invoiceItemsDao;
+
 	@EJB
 	private FarmDao farmDao;
 	@EJB
@@ -49,7 +50,11 @@ public class InvoiceItemsAction implements Serializable {
 	@Resource
 	private UserTransaction userTransaction;
 
+	private List<InvoiceItems> invoiceItemsListEdit;
+	private List<InvoiceItems> invoiceItemsListAdd;
 	private List<InvoiceItems> invoiceItemsList;
+	private List<InvoiceItems> invoiceItemsRemoves;
+	private List<InvoiceItems> subListInvoiceItems;
 	private List<SelectItem> itemsFarm;
 
 	private Paginador pagination = new Paginador();
@@ -60,6 +65,10 @@ public class InvoiceItemsAction implements Serializable {
 	private int idFarm;
 	private double unitCost;
 	private boolean validateConvert;
+	private boolean isEdit;
+	private boolean editTemp = false;;
+	private int index;
+	private int indexTemp;
 
 	/**
 	 * @return invoiceItemsList: invoiceItems list objects
@@ -74,6 +83,38 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void setInvoiceItemsList(List<InvoiceItems> invoiceItemsList) {
 		this.invoiceItemsList = invoiceItemsList;
+	}
+
+	/**
+	 * @return invoiceItemsRemoves : invoiceItems list objects to remove
+	 */
+	public List<InvoiceItems> getInvoiceItemsRemoves() {
+		return invoiceItemsRemoves;
+	}
+
+	/**
+	 * @param invoiceItemsRemoves
+	 *            :invoiceItems list objects to remove
+	 */
+	public void setInvoiceItemsRemoves(List<InvoiceItems> invoiceItemsRemoves) {
+		this.invoiceItemsRemoves = invoiceItemsRemoves;
+	}
+
+	/**
+	 * @return subListInvoiceItems: list of Invoice Items that stores a sublist
+	 *         for managing Pager.
+	 */
+	public List<InvoiceItems> getSubListInvoiceItems() {
+		return subListInvoiceItems;
+	}
+
+	/**
+	 * @param subListInvoiceItems
+	 *            :list of Invoice Items that stores a sublist for managing
+	 *            Pager.
+	 */
+	public void setSubListInvoiceItems(List<InvoiceItems> subListInvoiceItems) {
+		this.subListInvoiceItems = subListInvoiceItems;
 	}
 
 	/**
@@ -104,6 +145,36 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	/**
+	 * @return invoiceItemsListEdit :invoiceItems temporal list objects to edit
+	 */
+	public List<InvoiceItems> getInvoiceItemsListEdit() {
+		return invoiceItemsListEdit;
+	}
+
+	/**
+	 * @param invoiceItemsListEdit
+	 *            :invoiceItems temporal list objects to edit
+	 */
+	public void setInvoiceItemsListEdit(List<InvoiceItems> invoiceItemsListEdit) {
+		this.invoiceItemsListEdit = invoiceItemsListEdit;
+	}
+
+	/**
+	 * @return invoiceItemsListAdd: invoiceItems temporal list objects to add
+	 */
+	public List<InvoiceItems> getInvoiceItemsListAdd() {
+		return invoiceItemsListAdd;
+	}
+
+	/**
+	 * @param invoiceItemsListAdd
+	 *            : invoiceItems temporal list objects to add
+	 */
+	public void setInvoiceItemsListAdd(List<InvoiceItems> invoiceItemsListAdd) {
+		this.invoiceItemsListAdd = invoiceItemsListAdd;
 	}
 
 	/**
@@ -204,13 +275,33 @@ public class InvoiceItemsAction implements Serializable {
 	 *            :invoiceItem are adding or editing
 	 */
 	public void addEditInvoiceItems(InvoiceItems invoiceItem) {
-
 		if (invoiceItem != null) {
 			this.invoiceItem = invoiceItem.clone();
+			this.isEdit = true;
+			if (invoiceItem.getIdInvoiceItem() != 0) {
+				index = this.invoiceItemsListEdit.indexOf(this.invoiceItem);
+			} else {
+				index = this.invoiceItemsListAdd.indexOf(this.invoiceItem);
+				editTemp = true;
+			}
+			indexTemp = this.invoiceItemsList.indexOf(this.invoiceItem);
 		} else {
 			this.invoiceItem = new InvoiceItems();
 			this.invoiceItem.setMaterial(new Materials());
+			this.isEdit = false;
 		}
+	}
+
+	/**
+	 * This method allows to clean lists and initialize
+	 * 
+	 */
+	public void cleanLists() {
+		invoiceItemsList = new ArrayList<InvoiceItems>();
+		invoiceItemsListEdit = new ArrayList<InvoiceItems>();
+		invoiceItemsListAdd = new ArrayList<InvoiceItems>();
+		invoiceItemsRemoves = new ArrayList<InvoiceItems>();
+		subListInvoiceItems = new ArrayList<InvoiceItems>();
 	}
 
 	/**
@@ -219,8 +310,8 @@ public class InvoiceItemsAction implements Serializable {
 	 * @modify 06/04/2016 Andres.Gomez
 	 */
 	public void consultInvoiceItems() {
+		cleanLists();
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		invoiceItemsList = new ArrayList<InvoiceItems>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
 		StringBuilder allMessageSearch = new StringBuilder();
@@ -229,18 +320,15 @@ public class InvoiceItemsAction implements Serializable {
 					allMessageSearch);
 			Long quantity = invoiceItemsDao.quantityInvoiceItems(consult,
 					parameters);
-			if (quantity != null) {
-				pagination.paginarRangoDefinido(quantity, 5);
-			}
 			if (quantity != null && quantity > 0) {
 				this.invoiceItemsList = invoiceItemsDao.consultInvoiceItems(
-						pagination.getInicio(), pagination.getRango(), consult,
-						parameters);
+						consult, parameters);
+				this.invoiceItemsListEdit.addAll(this.invoiceItemsList);
+				initializeList();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-
 	}
 
 	/**
@@ -273,37 +361,31 @@ public class InvoiceItemsAction implements Serializable {
 	}
 
 	/**
-	 * Method used to save or edit the invoiceItem
+	 * Method used to save edit or remove the invoiceItem
 	 * 
 	 * @modify 06/04/2016 Andres.Gomez
 	 * 
 	 */
 	public void saveUpdateInvoiceItem() {
-		String param2 = ControladorContexto.getParam("param2");
-		boolean desdeModal = (param2 != null && Constantes.SI.equals(param2)) ? true
-				: false;
-		PurchaseInvoicesAction purchaseInvoicesAction = ControladorContexto
-				.getContextBean(PurchaseInvoicesAction.class);
 		try {
-			if (desdeModal) {
-				purchaseInvoicesAction.saveInvoices();
-				invoicesSelected = purchaseInvoicesAction.getInvoices();
+			if (this.invoiceItemsListAdd.size() > 0) {
+				for (InvoiceItems invoiceItem : this.invoiceItemsListAdd) {
+					invoiceItem.setPurchaseInvoice(invoicesSelected);
+					invoiceItemsDao.saveInvoiceItem(invoiceItem);
+				}
 			}
-			userTransaction.begin();
-			if (invoiceItem.getIdInvoiceItem() != 0) {
-				invoiceItemsDao.editInvoiceItem(invoiceItem);
-			} else {
-				invoiceItem.setPurchaseInvoice(invoicesSelected);
-				invoiceItemsDao.saveInvoiceItem(invoiceItem);
+			if (this.invoiceItemsListEdit.size() > 0) {
+				for (InvoiceItems invoiceItem : this.invoiceItemsListEdit) {
+					invoiceItemsDao.editInvoiceItem(invoiceItem);
+				}
+			}
+			if (this.invoiceItemsRemoves.size() > 0) {
+				for (InvoiceItems invoiceItem : this.invoiceItemsRemoves) {
+					invoiceItemsDao.removeInvoiceItems(invoiceItem);
+				}
 			}
 			consultInvoiceItems();
-			userTransaction.commit();
 		} catch (Exception e) {
-			try {
-				this.userTransaction.rollback();
-			} catch (Exception exception2) {
-				ControladorContexto.mensajeError(exception2);
-			}
 			ControladorContexto.mensajeError(e);
 		}
 	}
@@ -416,4 +498,151 @@ public class InvoiceItemsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
+	/**
+	 * This method allow calculate the total according with the values that user
+	 * enter in the view
+	 * 
+	 */
+	public void calculateTotal() {
+		double quantity = this.invoiceItem.getQuantity();
+		double costUnit = this.invoiceItem.getUnitCost();
+		if (costUnit > 0) {
+			double subTotal = quantity * costUnit;
+			this.invoiceItem.setSubTotal(subTotal);
+		}
+		double shipping = this.invoiceItem.getShipping();
+		double taxes = this.invoiceItem.getTaxes();
+		double packaging = this.invoiceItem.getPackaging();
+		double handling = this.invoiceItem.getHandling();
+		double discount = this.invoiceItem.getDiscount();
+		double sum = (shipping + taxes + packaging + handling) - (discount);
+		double total = this.invoiceItem.getSubTotal() + sum;
+		this.invoiceItem.setTotal(total);
+	}
+
+	/**
+	 * This method allow add the invoice item in a list to show and save if the
+	 * purchase invoice is saved
+	 * 
+	 */
+	public void addTemporalList() {
+		try {
+			if (isEdit) {
+				if (editTemp) {
+					this.invoiceItemsListAdd.set(index, this.invoiceItem);
+				} else {
+					this.invoiceItemsListEdit.set(index, this.invoiceItem);
+				}
+				this.invoiceItemsList.set(indexTemp, this.invoiceItem);
+			} else {
+				this.invoiceItemsListAdd.add(this.invoiceItem);
+				this.invoiceItemsList.add(this.invoiceItem);
+			}
+			this.invoiceItem = new InvoiceItems();
+			initializeList();
+
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows calculate temporal values in the purchase invoice
+	 * 
+	 */
+	public void calculateTemporalValues() {
+		PurchaseInvoicesAction invoicesAction = ControladorContexto
+				.getContextBean(PurchaseInvoicesAction.class);
+		PurchaseInvoices invoices = invoicesAction.getInvoices();
+		double subtotal = 0d;
+		double shipping = 0d;
+		double packaging = 0d;
+		double taxes = 0d;
+		double discount = 0d;
+		double totalValueActual = 0d;
+		for (InvoiceItems items : invoiceItemsList) {
+			subtotal += items.getSubTotal();
+			shipping += items.getShipping();
+			packaging += items.getPackaging();
+			taxes += items.getTaxes();
+			discount += items.getDiscount();
+			totalValueActual += items.getTotal();
+		}
+		invoices.setSubtotal(subtotal);
+		invoices.setShipping(shipping);
+		invoices.setPackaging(packaging);
+		invoices.setTaxes(taxes);
+		invoices.setDiscount(discount);
+		invoices.setTotalValueActual(totalValueActual);
+		invoicesAction.setInvoices(invoices);
+	}
+
+	/**
+	 * This method allows remove the invoice item in the list of the purchase
+	 * items.
+	 * 
+	 */
+	public void removeInvoiceItem() {
+		int idInvoice = this.invoiceItem.getIdInvoiceItem();
+		if (idInvoice != 0) {
+			this.invoiceItemsRemoves.add(this.invoiceItem);
+			this.invoiceItemsListEdit.remove(this.invoiceItem);
+			this.invoiceItemsList.remove(this.invoiceItem);
+		} else {
+			this.invoiceItemsListAdd.remove(this.invoiceItem);
+			this.invoiceItemsList.remove(this.invoiceItem);
+		}
+		this.invoiceItem = new InvoiceItems();
+		initializeList();
+	}
+
+	/**
+	 * Pager manages the activities list
+	 * 
+	 */
+	public void initializeList() {
+		subListInvoiceItems = new ArrayList<InvoiceItems>();
+		subListInvoiceItems.addAll(this.invoiceItemsList);
+		Long cantidadPaginador = (long) this.subListInvoiceItems.size();
+		try {
+			this.pagination.paginarRangoDefinido(cantidadPaginador, 5);
+			int inicial = this.pagination.getItemInicial() - 1;
+			int fin = this.pagination.getItemFinal();
+			this.subListInvoiceItems = this.subListInvoiceItems.subList(
+					inicial, fin);
+			calculateTemporalValues();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Validates fields that are required in view of registering a new invoice
+	 * Item.
+	 */
+	public void validateFields() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		if (this.invoiceItem.getQuantity() <= 0) {
+			ControladorContexto.mensajeError(null,
+					"formRegInvoiceItems:quantityItem",
+					bundle.getString("message_campo_mayo_cero"));
+		}
+		if (this.invoiceItem.getUnitCost() <= 0) {
+			ControladorContexto.mensajeError(null,
+					"formRegInvoiceItems:unitCostItem",
+					bundle.getString("message_campo_mayo_cero"));
+		}
+		if (this.invoiceItem.getSubTotal() <= 0) {
+			ControladorContexto.mensajeError(null,
+					"formRegInvoiceItems:subTotalItem",
+					bundle.getString("message_campo_mayo_cero"));
+		}
+		if (this.invoiceItem.getTotal() <= 0) {
+			ControladorContexto.mensajeError(null,
+					"formRegInvoiceItems:totalItem",
+					bundle.getString("message_campo_mayo_cero"));
+		}
+	}
+
 }

@@ -24,14 +24,6 @@
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<script type="text/javascript">
 			$g=jQuery.noConflict();
-			$g(document).ready(function(){    
-				  $g('#formInvoices\\:txaDescription').maxlength({   
-				    events: [],     
-				    max: 200,    
-				    feedbackText: "#{mensaje.label_characters_left}",  
-				    showFeedback: 'active'    
-				  }); 
-			});		
 		</script>
 		<h:form id="formInvoices">
 			<rich:panel
@@ -48,11 +40,11 @@
 								value="#{mensajeWarehouse.purchase_invoice_label_date}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<p:calendar required="true" readonlyInput="true"
-								requiredMessage="#{mensaje.message_campo_requerido}"
+							<p:calendar readonlyInput="true"
 								value="#{purchaseInvoicesAction.invoices.dateTime}"
 								styleClass="W100P" id="dateInvoice" showOn="button"
-								navigator="true" pattern="MM/dd/yyyy HH:mm"
+								maxdate="#{purchaseInvoicesAction.maxDate}" navigator="true"
+								pattern="MM/dd/yyyy HH:mm"
 								converterMessage="#{mensaje.message_validar_formato_fecha}" />
 							<rich:message for="dateInvoice" />
 
@@ -61,11 +53,12 @@
 							<h:outputText value="*" styleClass="required" />
 							<h:selectOneMenu
 								value="#{purchaseInvoicesAction.invoices.suppliers.idSupplier}"
-								id="supplier" required="true"
-								requiredMessage="#{mensaje.message_campo_requerido}">
+								id="supplier">
 								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 									itemValue="0" />
 								<f:selectItems value="#{purchaseInvoicesAction.itemsSupplier}" />
+								<f:ajax event="change"
+									listener="#{purchaseInvoicesAction.invoices.suppliers.setIdSupplier(purchaseInvoicesAction.invoices.suppliers.idSupplier)}" />
 							</h:selectOneMenu>
 							<rich:message for="supplier" />
 
@@ -75,18 +68,17 @@
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText
 								value="#{purchaseInvoicesAction.invoices.invoiceNumber}"
-								styleClass="colTextoMediano" id="txtNumInv" required="true"
-								size="50" maxlength="50"
-								validator="#{encodeFilter.validarScripting}"
+								styleClass="W108P" id="txtNumInv" size="50"
+								validator="#{purchaseInvoicesAction.validateNameXSS}"
+								maxlength="50"
 								requiredMessage="#{mensaje.message_campo_requerido}" />
 							<rich:message for="txtNumInv" />
 
 							<h:outputText value="#{mensaje.label_subtotal}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="subTotalValue" required="true"
+							<h:inputText readonly="true" id="subTotalValue"
 								value="#{purchaseInvoicesAction.invoices.subtotal}"
-								requiredMessage="#{mensaje.message_campo_requerido}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
 								<f:convertNumber maxFractionDigits="2" type="currency"
@@ -98,9 +90,8 @@
 								value="#{mensajeWarehouse.purchase_invoice_label_taxes}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="taxes" required="true"
+							<h:inputText readonly="true" id="taxes"
 								value="#{purchaseInvoicesAction.invoices.taxes}"
-								requiredMessage="#{mensaje.message_campo_requerido}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
 								<f:convertNumber maxFractionDigits="2" type="currency"
@@ -112,9 +103,8 @@
 								value="#{mensajeWarehouse.purchase_invoice_label_shipping}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="shipping" required="true"
+							<h:inputText readonly="true" id="shipping"
 								value="#{purchaseInvoicesAction.invoices.shipping}"
-								requiredMessage="#{mensaje.message_campo_requerido}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
 								<f:convertNumber maxFractionDigits="2" type="currency"
@@ -126,9 +116,8 @@
 								value="#{mensajeWarehouse.purchase_invoice_label_packaging}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="packaging" required="true"
+							<h:inputText readonly="true" id="packaging"
 								value="#{purchaseInvoicesAction.invoices.packaging}"
-								requiredMessage="#{mensaje.message_campo_requerido}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
 								<f:convertNumber maxFractionDigits="2" type="currency"
@@ -140,9 +129,8 @@
 								value="#{mensajeWarehouse.purchase_invoice_label_discount}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="discount" required="true"
+							<h:inputText readonly="true" id="discount"
 								value="#{purchaseInvoicesAction.invoices.discount}"
-								requiredMessage="#{mensaje.message_campo_requerido}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
 								<f:convertNumber maxFractionDigits="2" type="currency"
@@ -153,9 +141,8 @@
 							<h:outputText value="#{mensaje.label_total}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="totalValue" required="true"
+							<h:inputText readonly="true" id="totalValue"
 								value="#{purchaseInvoicesAction.invoices.totalValueActual}"
-								requiredMessage="#{mensaje.message_campo_requerido}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
 								<f:convertNumber maxFractionDigits="2" type="currency"
@@ -170,11 +157,9 @@
 								styleClass="colTextoMedianoTextArea" id="txaDescription"
 								validator="#{encodeFilter.validarScripting}"
 								requiredMessage="#{mensaje.message_campo_requerido}">
-								<f:validateLength maximum="200" />
 							</h:inputTextarea>
 							<rich:message for="txaDescription" />
 						</h:panelGrid>
-
 
 
 						<t:fieldset styleClass="W166P">
@@ -283,6 +268,7 @@
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
 						execute="formInvoices"
+						actionListener="#{purchaseInvoicesAction.validateFields()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>
@@ -311,13 +297,11 @@
 						<h:outputText value="#{purchaseInvoicesAction.invoices.dateTime}" />
 						<h:outputText value="#{mensajeWarehouse.suppliers_label}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(purchaseInvoicesAction.itemsSupplier,purchaseInvoicesAction.invoices.idPurchaseInvoice)}" />
+							value="#{validacionesAction.getLabel(purchaseInvoicesAction.itemsSupplier,purchaseInvoicesAction.invoices.suppliers.idSupplier)}" />
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_number}:" />
 						<h:outputText
 							value="#{purchaseInvoicesAction.invoices.invoiceNumber}" />
-						<h:outputText value="#{mensaje.label_document}:" />
-						<h:outputText value="#{purchaseInvoicesAction.nameDocument}" />
 						<h:outputText value="#{mensaje.label_note}:" />
 						<h:outputText value="#{purchaseInvoicesAction.invoices.note}" />
 
