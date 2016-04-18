@@ -131,7 +131,7 @@
 
 							<rich:column styleClass="colIconoUno">
 								<a:commandLink
-									render="formDeposits, transactionsTable, mensajes"
+									render="formDeposits, transactionsTable"
 									actionListener="#{depositsAction.selectDeposit(deposit)}"
 									action="#{depositsAction.showTransaction()}"
 									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
