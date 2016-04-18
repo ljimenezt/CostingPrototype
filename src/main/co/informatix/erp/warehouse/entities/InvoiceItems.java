@@ -36,7 +36,6 @@ public class InvoiceItems implements Serializable, Cloneable {
 	private double discount;
 	private double unitCost;
 	private double total;
-	private double iva;
 	private PurchaseInvoices purchaseInvoice;
 	private Materials material;
 	private IvaRate ivaRate;
@@ -220,22 +219,6 @@ public class InvoiceItems implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return iva: Invoice item iva.
-	 */
-	@Column(name = "iva")
-	public double getIva() {
-		return iva;
-	}
-
-	/**
-	 * @param iva
-	 *            : Invoice item iva.
-	 */
-	public void setIva(double iva) {
-		this.iva = iva;
-	}
-
-	/**
 	 * @return purchaseInvoice: Purchase invoice to which the invoice item
 	 *         belong.
 	 */
@@ -307,8 +290,6 @@ public class InvoiceItems implements Serializable, Cloneable {
 		temp = Double.doubleToLongBits(handling);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + idInvoiceItem;
-		temp = Double.doubleToLongBits(iva);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		temp = Double.doubleToLongBits(packaging);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -343,8 +324,6 @@ public class InvoiceItems implements Serializable, Cloneable {
 				.doubleToLongBits(other.handling))
 			return false;
 		if (idInvoiceItem != other.idInvoiceItem)
-			return false;
-		if (Double.doubleToLongBits(iva) != Double.doubleToLongBits(other.iva))
 			return false;
 		if (note == null) {
 			if (other.note != null)
