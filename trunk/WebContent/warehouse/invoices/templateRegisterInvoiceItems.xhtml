@@ -7,7 +7,9 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	<h:body>
-
+		<t:saveState value="#{purchaseInvoicesAction}" />
+		<t:saveState value="#{invoiceItemsAction}" />
+		<t:saveState value="#{materialsAction}" />
 		<h:form id="formRegInvoiceItems">
 			<rich:popupPanel id="popupRegInvoiceItems" autosized="true"
 				domElementAttachment="form" styleClass="H340P fondoAnchoUno W550P"
@@ -22,15 +24,7 @@
 					</h:panelGroup>
 				</f:facet>
 				<script type="text/javascript">
-			$g=jQuery.noConflict();
-			$g(document).ready(function(){    
-				  $g('#formRegInvoiceItems\\:noteItem').maxlength({   
-				    events: [],     
-				    max: 200,    
-				    feedbackText: "#{mensaje.label_characters_left}",  
-				    showFeedback: 'active'    
-				  }); 
-			});		
+			$g=jQuery.noConflict();	
 			</script>
 				<t:fieldset styleClass="BorderW2P">
 					<h:panelGrid columns="4"
@@ -39,8 +33,8 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:panelGrid columns="4" cellpadding="0" cellspacing="0">
-							<h:inputText styleClass="colTextoMediano"
-								value="#{invoiceItemsAction.invoiceItems.material.name}"
+							<h:inputText styleClass="colTextoCorto"
+								value="#{invoiceItemsAction.invoiceItems.material.name} #{invoiceItemsAction.invoiceItems.material.presentation eq 0 ? '' : invoiceItemsAction.invoiceItems.material.presentation  } #{invoiceItemsAction.invoiceItems.material.measurementUnits.name}"
 								id="txtMaterial2" readonly="true" required="true"
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								validator="#{encodeFilter.validarScripting}" />
@@ -77,17 +71,38 @@
 						<h:inputText value="#{invoiceItemsAction.invoiceItems.quantity}"
 							styleClass="W108P" id="quantityItem" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}" />
+							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							<f:ajax event="change" execute="@form"
+								listener="#{invoiceItemsAction.calculateTotal()}"
+								render=":formRegInvoiceItems:subTotalItem :formRegInvoiceItems:totalItem" />
+						</h:inputText>
 						<rich:message for="quantityItem" />
+
+						<h:outputText value="#{mensaje.label_unit_cost}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="unitCostItem" required="true"
+							value="#{invoiceItemsAction.invoiceItems.unitCost}"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
+							styleClass="W108P">
+							<f:ajax event="change" execute="@form"
+								listener="#{invoiceItemsAction.calculateTotal()}"
+								render=":formRegInvoiceItems:subTotalItem :formRegInvoiceItems:totalItem" />
+						</h:inputText>
+						<rich:message for="unitCostItem" />
 
 						<h:outputText value="#{mensaje.label_subtotal}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="subTotalItem" required="true"
+						<h:inputText id="subTotalItem" required="true" readonly="true"
 							value="#{invoiceItemsAction.invoiceItems.subTotal}"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
+							<f:ajax event="change" execute="@form"
+								listener="#{invoiceItemsAction.calculateTotal()}"
+								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
 						<rich:message for="subTotalItem" />
 
@@ -100,6 +115,9 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
+							<f:ajax event="change" execute="@form"
+								listener="#{invoiceItemsAction.calculateTotal()}"
+								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
 						<rich:message for="shippingItem" />
 
@@ -112,6 +130,9 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
+							<f:ajax event="change" execute="@form"
+								listener="#{invoiceItemsAction.calculateTotal()}"
+								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
 						<rich:message for="taxesItem" />
 
@@ -124,6 +145,9 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
+							<f:ajax event="change" execute="@form"
+								listener="#{invoiceItemsAction.calculateTotal()}"
+								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
 						<rich:message for="packagingItem" />
 
@@ -136,6 +160,9 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
+							<f:ajax event="change" execute="@form"
+								listener="#{invoiceItemsAction.calculateTotal()}"
+								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
 						<rich:message for="handlingItem" />
 
@@ -148,6 +175,9 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
+							<f:ajax event="change" execute="@form"
+								listener="#{invoiceItemsAction.calculateTotal()}"
+								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
 						<rich:message for="discountItem" />
 
@@ -155,23 +185,13 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="totalItem" required="true"
-							value="#{invoiceItemsAction.invoiceItems.total}"
+							value="#{invoiceItemsAction.invoiceItems.total}" readonly="true"
+							validator="#{invoiceItemsAction.validateFields()}"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
 						</h:inputText>
 						<rich:message for="totalItem" />
-
-						<h:outputText value="#{mensaje.label_unit_cost}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="unitCostItem" required="true"
-							value="#{invoiceItemsAction.invoiceItems.unitCost}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}"
-							styleClass="W108P">
-						</h:inputText>
-						<rich:message for="unitCostItem" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_note}" />
@@ -179,7 +199,6 @@
 						<h:inputTextarea value="#{invoiceItemsAction.invoiceItems.note}"
 							styleClass="colTextoMedianoTextArea" id="noteItem"
 							validator="#{encodeFilter.validarScripting}">
-							<f:validateLength maximum="200" />
 						</h:inputTextarea>
 						<rich:message for="noteItem" />
 
@@ -192,8 +211,9 @@
 					<div align="center">
 						<h:panelGrid columns="2" columnClasses="right W106P, center">
 							<a:commandButton value="#{mensaje.button_save}"
+								actionListener="#{invoiceItemsAction.validateFields()}"
 								execute="formRegInvoiceItems"
-								render="formConfirmActual:popUpConfirmActual,formGenerico"
+								render="formConfirmActual:popUpConfirmActual"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmActual')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
@@ -230,35 +250,58 @@
 							value="#{invoiceItemsAction.invoiceItems.material.name}" />
 						<h:outputText value="#{mensaje.label_quantity}:" />
 						<h:outputText value="#{invoiceItemsAction.invoiceItems.quantity}" />
+						<h:outputText value="#{mensaje.label_unit_cost}:" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.unitCost}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText value="#{mensaje.label_subtotal}:" />
-						<h:outputText value="#{invoiceItemsAction.invoiceItems.subTotal}" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.subTotal}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_shipping}:" />
-						<h:outputText value="#{invoiceItemsAction.invoiceItems.shipping}" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.shipping}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_taxes}:" />
-						<h:outputText value="#{invoiceItemsAction.invoiceItems.taxes}" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.taxes}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_packaging}:" />
-						<h:outputText value="#{invoiceItemsAction.invoiceItems.packaging}" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.packaging}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText
 							value="#{mensajeWarehouse.invoice_items_label_handling}:" />
-						<h:outputText value="#{invoiceItemsAction.invoiceItems.handling}" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.handling}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_discount}:" />
-						<h:outputText value="#{invoiceItemsAction.invoiceItems.discount}" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.discount}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText value="#{mensaje.label_total}:" />
-						<h:outputText value="#{invoiceItemsAction.invoiceItems.total}" />
-						<h:outputText value="#{mensaje.label_unit_cost}:" />
-						<h:outputText value="#{invoiceItemsAction.invoiceItems.unitCost}" />
+						<h:outputText value="#{invoiceItemsAction.invoiceItems.total}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText value="#{mensaje.label_note}:" />
 						<h:outputText value="#{invoiceItemsAction.invoiceItems.note}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{purchaseInvoicesAction.saveInvoices()}"
-							actionListener="#{invoiceItemsAction.saveUpdateInvoiceItem()}"
-							onclick="#{rich:component('popUpConfirmActual')}.hide(); #{rich:component('statPane')}.show();">
+							action="#{invoiceItemsAction.addTemporalList()}"
+							oncomplete="#{rich:component('popUpConfirmActual')}.hide(); {rich:component('popupRegInvoiceItems')}.hide(); ">
 							<f:param name="param2" value="si" />
 						</h:commandButton>
 						<a:commandButton value="#{mensaje.button_cancel}"
@@ -358,7 +401,8 @@
 							</rich:column>
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensaje.label_name}</f:facet>
-								<h:outputText value="#{material.name}" />
+								<h:outputText
+									value="#{material.name} #{material.presentation} #{material.measurementUnits.name}" />
 							</rich:column>
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensajeWarehouse.materials_label_responsible}</f:facet>

@@ -20,6 +20,7 @@ import co.informatix.erp.warehouse.dao.MaterialsDao;
 import co.informatix.erp.warehouse.dao.MaterialsTypeDao;
 import co.informatix.erp.warehouse.dao.MeasurementUnitsDao;
 import co.informatix.erp.warehouse.dao.TypeOfManagementDao;
+import co.informatix.erp.warehouse.entities.InvoiceItems;
 import co.informatix.erp.warehouse.entities.Materials;
 import co.informatix.erp.warehouse.entities.MaterialsType;
 import co.informatix.erp.warehouse.entities.MeasurementUnits;
@@ -54,6 +55,7 @@ public class MaterialsAction implements Serializable {
 	private Materials materials;
 
 	private List<Materials> materialsList;
+	private List<Materials> materialSelected;
 	private List<SelectItem> materialTypeItems;
 	private List<SelectItem> measureUnitItems;
 	private List<SelectItem> managementTypeItems;
@@ -138,6 +140,21 @@ public class MaterialsAction implements Serializable {
 	}
 
 	/**
+	 * @return materialSelected: List of materials that is selected by user.
+	 */
+	public List<Materials> getMaterialSelected() {
+		return materialSelected;
+	}
+
+	/**
+	 * @param materialSelected
+	 *            :List of materials that is selected by user.
+	 */
+	public void setMaterialSelected(List<Materials> materialSelected) {
+		this.materialSelected = materialSelected;
+	}
+
+	/**
 	 * @return materialTypeItems: List of items of the types of materials to be
 	 *         loaded into the combo in the user interface.
 	 */
@@ -218,10 +235,29 @@ public class MaterialsAction implements Serializable {
 		fromModal = (param2 != null && "si".equals(param2)) ? true : false;
 		this.idMaterialType = 0;
 		this.nameSearch = "";
-		if (!fromModal) {
+		if (fromModal) {
+			loadListMaterialSelected();
+		} else {
 			this.materials = null;
 		}
 		return searchMaterials();
+	}
+
+	/**
+	 * This method allows load the list that user already selected
+	 */
+	private void loadListMaterialSelected() {
+		InvoiceItemsAction invoiceItemsAction = ControladorContexto
+				.getContextBean(InvoiceItemsAction.class);
+		List<InvoiceItems> invoiceItemsList = new ArrayList<InvoiceItems>();
+		materialSelected = new ArrayList<Materials>();
+		invoiceItemsList = invoiceItemsAction.getInvoiceItemsList();
+		if (invoiceItemsList != null && invoiceItemsList.size() > 0) {
+			for (InvoiceItems invoiceItem : invoiceItemsList) {
+				Materials material = invoiceItem.getMaterial();
+				materialSelected.add(material);
+			}
+		}
 	}
 
 	/**
@@ -332,6 +368,7 @@ public class MaterialsAction implements Serializable {
 				queryBuilder.append("AND ");
 			} else {
 				queryBuilder.append("WHERE ");
+				flag = true;
 			}
 			queryBuilder.append("UPPER(m.name) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
@@ -339,6 +376,15 @@ public class MaterialsAction implements Serializable {
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
+		}
+		if (fromModal) {
+			if (materialSelected != null && materialSelected.size() > 0) {
+				queryBuilder.append(flag ? "AND " : "WHERE ");
+				queryBuilder.append("m NOT IN (:materialSelected) ");
+				SelectItem item = new SelectItem(this.materialSelected,
+						"materialSelected");
+				parameters.add(item);
+			}
 		}
 		flag = false;
 	}
@@ -478,7 +524,6 @@ public class MaterialsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-
 		return searchMaterials();
 	}
 
@@ -492,7 +537,6 @@ public class MaterialsAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String registerMessage = "message_registro_modificar";
 		try {
-
 			if (materials.getIdMaterial() != 0) {
 				materialsDao.editMaterials(materials);
 			} else {

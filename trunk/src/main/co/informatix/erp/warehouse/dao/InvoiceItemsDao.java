@@ -46,6 +46,19 @@ public class InvoiceItemsDao implements Serializable {
 	}
 
 	/**
+	 * Eliminates a invoiceItem of the BD.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param invoiceItem
+	 *            : Eliminate invoiceItem.
+	 * @throws Exception
+	 */
+	public void removeInvoiceItems(InvoiceItems invoiceItem) throws Exception {
+		em.remove(em.merge(invoiceItem));
+	}
+
+	/**
 	 * Returns the number of existing invoices items in the database that are
 	 * existing or not existing.
 	 * 
@@ -91,9 +104,8 @@ public class InvoiceItemsDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<InvoiceItems> consultInvoiceItems(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
+	public List<InvoiceItems> consultInvoiceItems(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT it FROM InvoiceItems it ");
 		query.append("JOIN FETCH it.material m ");
@@ -106,7 +118,6 @@ public class InvoiceItemsDao implements Serializable {
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
-		q.setFirstResult(start).setMaxResults(range);
 		return q.getResultList();
 	}
 
