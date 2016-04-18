@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import co.informatix.erp.warehouse.entities.Materials;
+import co.informatix.erp.warehouse.entities.PurchaseInvoices;
 
 /**
  * DAO class that establishes the connection between business logic and
@@ -231,6 +232,31 @@ public class MaterialsDao implements Serializable {
 			return (Materials) q.getResultList().get(0);
 		}
 		return null;
+	}
+
+	/**
+	 * This method consult the material for invoice purchase.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param purchaseInvoice
+	 *            : Purchase invoice object
+	 * 
+	 * @return List<Materials>: List of materials.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Materials> materialsXInvoicePurchase(
+			PurchaseInvoices purchaseInvoice) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT m FROM Materials m ");
+		query.append("JOIN FETCH m.measurementUnits ");
+		query.append("WHERE m IN ");
+		query.append("(SELECT m FROM InvoiceItems ii JOIN ii.material m WHERE ii.purchaseInvoice = :purchaseInvoice ) ");
+		query.append("ORDER BY m.name");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("purchaseInvoice", purchaseInvoice);
+		return q.getResultList();
 	}
 
 }
