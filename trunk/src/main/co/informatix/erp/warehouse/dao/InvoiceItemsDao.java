@@ -90,10 +90,6 @@ public class InvoiceItemsDao implements Serializable {
 	 * @modify 06/04/2016 Andres.Gomez
 	 * @modify 11/04/2016 Gerardo.Herrera
 	 * 
-	 * @param start
-	 *            : Registry where consultation begins
-	 * @param range
-	 *            : Range of records
 	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user
