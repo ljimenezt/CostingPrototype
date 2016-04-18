@@ -89,6 +89,7 @@ public class InvoiceItemsDao implements Serializable {
 	 * 
 	 * @modify 06/04/2016 Andres.Gomez
 	 * @modify 11/04/2016 Gerardo.Herrera
+	 * @modify 18/04/2016 Wilhelm.Boada
 	 * 
 	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
@@ -106,6 +107,7 @@ public class InvoiceItemsDao implements Serializable {
 		query.append("SELECT it FROM InvoiceItems it ");
 		query.append("JOIN FETCH it.material m ");
 		query.append("JOIN FETCH it.purchaseInvoice pi ");
+		query.append("JOIN FETCH it.ivaRate i ");
 		query.append("JOIN FETCH m.measurementUnits ");
 		query.append("JOIN FETCH pi.suppliers ");
 		query.append(consult);

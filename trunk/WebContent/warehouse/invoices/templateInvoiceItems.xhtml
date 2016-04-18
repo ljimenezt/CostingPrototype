@@ -136,6 +136,11 @@
 				</rich:column>
 
 				<rich:column styleClass="colValorLargo">
+					<f:facet name="header">#{messageBaseInformation.iva_rate_label}</f:facet>
+					<h:outputText value="#{invoiceItems.ivaRate.rate}" />
+				</rich:column>
+
+				<rich:column styleClass="colValorLargo">
 					<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
 					<h:outputText value="#{invoiceItems.subTotal}">
 						<f:convertNumber maxFractionDigits="2" type="currency"
