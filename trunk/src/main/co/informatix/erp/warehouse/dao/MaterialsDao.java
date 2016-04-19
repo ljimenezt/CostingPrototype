@@ -252,7 +252,9 @@ public class MaterialsDao implements Serializable {
 		query.append("SELECT m FROM Materials m ");
 		query.append("JOIN FETCH m.measurementUnits ");
 		query.append("WHERE m IN ");
-		query.append("(SELECT m FROM InvoiceItems ii JOIN ii.material m WHERE ii.purchaseInvoice = :purchaseInvoice ) ");
+		query.append("(SELECT m FROM InvoiceItems ii ");
+		query.append("JOIN ii.material m ");
+		query.append("WHERE ii.purchaseInvoice = :purchaseInvoice) ");
 		query.append("ORDER BY m.name");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("purchaseInvoice", purchaseInvoice);
