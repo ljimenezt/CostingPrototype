@@ -109,7 +109,7 @@ public class PaymentsAction implements Serializable {
 
 	/**
 	 * Method to initialize the parameters of the search and load initial list
-	 * of contracts.
+	 * of payments.
 	 * 
 	 * @return consultPayments: method that consults the payments, and takes the
 	 *         user to the payments management template.
