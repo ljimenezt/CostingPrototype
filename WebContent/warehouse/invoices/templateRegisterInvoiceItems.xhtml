@@ -106,6 +106,21 @@
 						</h:inputText>
 						<rich:message for="subTotalItem" />
 
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageBaseInformation.iva_rate_label}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu
+							value="#{invoiceItemsAction.invoiceItems.ivaRate.idIva}"
+							id="ivaRate">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
+							<f:selectItems value="#{invoiceItemsAction.itemsIva}" />
+							<f:ajax event="change"
+								listener="#{invoiceItemsAction.calculateTotal()}"
+								render=":formRegInvoiceItems:totalItem :formRegInvoiceItems:taxesItem" />
+						</h:selectOneMenu>
+						<rich:message for="ivaRate" />
+
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_shipping}"
 							styleClass="etiquetaTitulo" />
@@ -126,7 +141,7 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="taxesItem" required="true"
-							value="#{invoiceItemsAction.invoiceItems.taxes}"
+							value="#{invoiceItemsAction.invoiceItems.taxes}" readonly="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
@@ -259,6 +274,11 @@
 						<h:outputText value="#{invoiceItemsAction.invoiceItems.subTotal}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
+						<h:outputText value="#{messageBaseInformation.iva_rate_label}:" />
+						<h:outputText
+							value="#{invoiceItemsAction.invoiceItems.ivaRate.rate}">
+
 						</h:outputText>
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_shipping}:" />
@@ -540,7 +560,8 @@
 							<h:outputText value="" />
 							<p:calendar value="#{invoiceItemsAction.expirationDate}"
 								styleClass="W90P" showOn="button" navigator="true"
-								pattern="MM/dd/yyyy" mindate="#{invoiceItemsAction.invoiceItems.purchaseInvoice.dateTime}" />
+								pattern="MM/dd/yyyy"
+								mindate="#{invoiceItemsAction.invoiceItems.purchaseInvoice.dateTime}" />
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"

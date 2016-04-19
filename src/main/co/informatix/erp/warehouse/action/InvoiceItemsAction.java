@@ -14,6 +14,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 import javax.transaction.UserTransaction;
 
+import co.informatix.erp.informacionBase.dao.IvaRateDao;
+import co.informatix.erp.informacionBase.entities.IvaRate;
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.utils.ControladorContexto;
@@ -30,7 +32,7 @@ import co.informatix.erp.warehouse.entities.PurchaseInvoices;
  * This class is all related logic with the management of invoice items
  * 
  * @author Wilhelm.Boada
- * @modify 18/04/2016 Andres.Gomez
+ * @modify 19/04/2016 Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -47,6 +49,8 @@ public class InvoiceItemsAction implements Serializable {
 	private DepositsDao depositDao;
 	@EJB
 	private MaterialsDao materialsDao;
+	@EJB
+	private IvaRateDao ivaRateDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -56,6 +60,7 @@ public class InvoiceItemsAction implements Serializable {
 	private List<InvoiceItems> invoiceItemsRemoves;
 	private List<InvoiceItems> subListInvoiceItems;
 	private List<SelectItem> itemsFarm;
+	private List<SelectItem> itemsIva;
 
 	private Paginador pagination = new Paginador();
 	private PurchaseInvoices invoicesSelected;
@@ -130,6 +135,21 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void setItemsFarm(List<SelectItem> itemsFarm) {
 		this.itemsFarm = itemsFarm;
+	}
+
+	/**
+	 * @return itemsIva: list of the IVA rate
+	 */
+	public List<SelectItem> getItemsIva() {
+		return itemsIva;
+	}
+
+	/**
+	 * @param itemsIva
+	 *            : list of the IVA rate
+	 */
+	public void setItemsIva(List<SelectItem> itemsIva) {
+		this.itemsIva = itemsIva;
 	}
 
 	/**
@@ -275,20 +295,26 @@ public class InvoiceItemsAction implements Serializable {
 	 *            :invoiceItem are adding or editing
 	 */
 	public void addEditInvoiceItems(InvoiceItems invoiceItem) {
-		if (invoiceItem != null) {
-			this.invoiceItem = invoiceItem.clone();
-			this.isEdit = true;
-			if (invoiceItem.getIdInvoiceItem() != 0) {
-				index = this.invoiceItemsListEdit.indexOf(this.invoiceItem);
+		try {
+			loadIvaRate();
+			if (invoiceItem != null) {
+				this.invoiceItem = invoiceItem.clone();
+				this.isEdit = true;
+				if (invoiceItem.getIdInvoiceItem() != 0) {
+					index = this.invoiceItemsListEdit.indexOf(this.invoiceItem);
+				} else {
+					index = this.invoiceItemsListAdd.indexOf(this.invoiceItem);
+					editTemp = true;
+				}
+				indexTemp = this.invoiceItemsList.indexOf(this.invoiceItem);
 			} else {
-				index = this.invoiceItemsListAdd.indexOf(this.invoiceItem);
-				editTemp = true;
+				this.invoiceItem = new InvoiceItems();
+				this.invoiceItem.setMaterial(new Materials());
+				this.invoiceItem.setIvaRate(new IvaRate());
+				this.isEdit = false;
 			}
-			indexTemp = this.invoiceItemsList.indexOf(this.invoiceItem);
-		} else {
-			this.invoiceItem = new InvoiceItems();
-			this.invoiceItem.setMaterial(new Materials());
-			this.isEdit = false;
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
@@ -508,20 +534,32 @@ public class InvoiceItemsAction implements Serializable {
 	 * 
 	 */
 	public void calculateTotal() {
-		double quantity = this.invoiceItem.getQuantity();
-		double costUnit = this.invoiceItem.getUnitCost();
-		if (costUnit > 0) {
-			double subTotal = quantity * costUnit;
-			this.invoiceItem.setSubTotal(subTotal);
+		try {
+			double quantity = this.invoiceItem.getQuantity();
+			double costUnit = this.invoiceItem.getUnitCost();
+			if (costUnit > 0 && quantity > 0) {
+				double subTotal = quantity * costUnit;
+				this.invoiceItem.setSubTotal(subTotal);
+				double shipping = this.invoiceItem.getShipping();
+				double taxes = 0d;
+				int idIvaRate = this.invoiceItem.getIvaRate().getIdIva();
+				if (idIvaRate != 0) {
+					IvaRate ivaRate = ivaRateDao.ivaRateXId(idIvaRate);
+					this.invoiceItem.setIvaRate(ivaRate);
+					taxes = subTotal * (ivaRate.getRate() / 100);
+					this.invoiceItem.setTaxes(taxes);
+				}
+				double packaging = this.invoiceItem.getPackaging();
+				double handling = this.invoiceItem.getHandling();
+				double discount = this.invoiceItem.getDiscount();
+				double sum = (shipping + taxes + packaging + handling)
+						- (discount);
+				double total = this.invoiceItem.getSubTotal() + sum;
+				this.invoiceItem.setTotal(total);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
-		double shipping = this.invoiceItem.getShipping();
-		double taxes = this.invoiceItem.getTaxes();
-		double packaging = this.invoiceItem.getPackaging();
-		double handling = this.invoiceItem.getHandling();
-		double discount = this.invoiceItem.getDiscount();
-		double sum = (shipping + taxes + packaging + handling) - (discount);
-		double total = this.invoiceItem.getSubTotal() + sum;
-		this.invoiceItem.setTotal(total);
 	}
 
 	/**
@@ -646,6 +684,44 @@ public class InvoiceItemsAction implements Serializable {
 					"formRegInvoiceItems:totalItem",
 					bundle.getString("message_campo_mayo_cero"));
 		}
+		if (this.invoiceItem.getShipping() < 0) {
+			ControladorContexto.mensajeError(null,
+					"formRegInvoiceItems:shippingItem",
+					bundle.getString("message_campo_positivo"));
+		}
+		if (this.invoiceItem.getPackaging() < 0) {
+			ControladorContexto.mensajeError(null,
+					"formRegInvoiceItems:packagingItem",
+					bundle.getString("message_campo_positivo"));
+		}
+		if (this.invoiceItem.getHandling() < 0) {
+			ControladorContexto.mensajeError(null,
+					"formRegInvoiceItems:handlingItem",
+					bundle.getString("message_campo_positivo"));
+		}
+		if (this.invoiceItem.getDiscount() < 0) {
+			ControladorContexto.mensajeError(null,
+					"formRegInvoiceItems:discountItem",
+					bundle.getString("message_campo_positivo"));
+		}
+
 	}
 
+	/**
+	 * This method allows you to load the IVA rate in interface for registering
+	 * a new invoice items.
+	 * 
+	 * 
+	 * @throws Exception
+	 */
+	private void loadIvaRate() throws Exception {
+		itemsIva = new ArrayList<SelectItem>();
+		List<IvaRate> ivaRateList = ivaRateDao.consultIvaRate();
+		if (ivaRateList != null) {
+			for (IvaRate ivaRate : ivaRateList) {
+				itemsIva.add(new SelectItem(ivaRate.getIdIva(), ivaRate
+						.getName()));
+			}
+		}
+	}
 }

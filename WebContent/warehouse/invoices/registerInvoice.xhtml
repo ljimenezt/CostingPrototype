@@ -18,6 +18,7 @@
 		<t:saveState value="#{purchaseInvoicesAction}" />
 		<t:saveState value="#{invoiceItemsAction}" />
 		<t:saveState value="#{materialsAction}" />
+		<t:saveState value="#{controladorFechas}" />
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
@@ -43,8 +44,8 @@
 							<p:calendar readonlyInput="true"
 								value="#{purchaseInvoicesAction.invoices.dateTime}"
 								styleClass="W100P" id="dateInvoice" showOn="button"
-								maxdate="#{purchaseInvoicesAction.maxDate}" navigator="true"
-								pattern="MM/dd/yyyy HH:mm"
+								maxdate="#{controladorFechas.fechaActual()}" navigator="true"
+								pattern="MM/dd/yyyy"
 								converterMessage="#{mensaje.message_validar_formato_fecha}" />
 							<rich:message for="dateInvoice" />
 
