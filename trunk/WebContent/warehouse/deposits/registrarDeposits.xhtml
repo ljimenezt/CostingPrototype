@@ -124,6 +124,8 @@
 								id="totalCost" maxlength="25" readonly="true"
 								label="#{mensaje.label_total_cost}"
 								converterMessage="#{mensaje.message_campo_positivo}">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
 								<f:validateDoubleRange minimum="1" />
 								<a:ajax execute="initialQuantity, totalCost"
 									listener="#{depositsAction.calculateUnitCost()}"
@@ -145,15 +147,15 @@
 							<h:outputText value="#{mensaje.label_purchase_date}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<p:calendar value="#{depositsAction.deposits.dateTime}"
-								showOn="button" navigator="true"
+							<h:inputText value="#{depositsAction.deposits.dateTime}"
+								readonly="true"
 								converterMessage="#{mensaje.message_validar_formato_fecha}"
-								id="datePurchase" pattern="MM/dd/yyyy" readonlyInput="true"
+								id="datePurchase"
 								validator="#{controladorFechas.validarRangoFecha}"
 								label="#{mensaje.label_purchase_date}">
-								<p:ajax event="dateSelect" update="dateExpire" />
-								<f:attribute name="validarHora" value="si" />
-							</p:calendar>
+								<f:convertDateTime pattern="MMM dd, yyyy"
+									locale="#{idioma.locale}" />
+							</h:inputText>
 							<rich:message for="datePurchase" />
 
 							<h:outputText value="#{mensaje.label_expiration_date}"

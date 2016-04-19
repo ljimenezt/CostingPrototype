@@ -489,10 +489,13 @@ public class InvoiceItemsAction implements Serializable {
 			deposit.setTotalCost(invoiceItem.getTotal());
 			deposit.setUnitCost(unitCost);
 			depositDao.saveDeposits(deposit);
+			String messageMaterial = material.getName() + " "
+					+ material.getPresentation() + " "
+					+ material.getMeasurementUnits().getName();
 			String format = MessageFormat.format(bundle
 					.getString("deposits_message_convert_deposit_successful"),
 					invoiceItem.getPurchaseInvoice().getInvoiceNumber(),
-					material.getName());
+					messageMaterial);
 			ControladorContexto.mensajeInformacion(null, format);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
