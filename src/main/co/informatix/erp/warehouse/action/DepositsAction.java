@@ -852,12 +852,14 @@ public class DepositsAction implements Serializable {
 	 * This method load the information into deposit associated to item invoice
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 19/04/2016 Wilhelm.Boada
 	 */
 	public void loadDataMaterial() {
 		try {
 			this.existsDeposit = depositsDao.existsDeposit(this.deposits
 					.getMaterials(), this.deposits.getPurchaseInvoices()
-					.getInvoiceNumber());
+					.getInvoiceNumber(), this.deposits.getPurchaseInvoices()
+					.getSuppliers().getIdSupplier());
 			if (this.deposits.getMaterials().getIdMaterial() != 0
 					&& !existsDeposit) {
 				InvoiceItems invoiceItem = invoiceItemsDao
