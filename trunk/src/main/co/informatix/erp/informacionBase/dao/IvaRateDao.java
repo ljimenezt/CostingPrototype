@@ -51,6 +51,20 @@ public class IvaRateDao implements Serializable {
 	}
 
 	/**
+	 * Method to search the IvaRate for id.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param ivaRate
+	 *            : Identifier ivaRate
+	 * @return IvaRate: ivaRate Object
+	 * @throws Exception
+	 */
+	public IvaRate ivaRateXId(int ivaRate) throws Exception {
+		return em.find(IvaRate.class, ivaRate);
+	}
+
+	/**
 	 * This method of consultation with a range determining iva rate sent as a
 	 * parameter and filtering the information by the values sent search.
 	 * 

@@ -382,15 +382,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	}
 
 	/**
-	 * This method allow get the current date.
-	 * 
-	 * @return Date: current date
-	 */
-	public Date getMaxDate() {
-		return new Date();
-	}
-
-	/**
 	 * Method to initialize the fields in the search.
 	 * 
 	 * @modify 29/03/2016 Wilhelm.Boada
