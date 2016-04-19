@@ -54,7 +54,7 @@ public class Constantes implements Serializable {
 	}
 
 	/* Adjust to deposit */
-	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE = 22;
+	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE = 1;
 
 	/* Organizations */
 	public static final String CARPETA_ARCHIVOS_ORGANIZACIONES = PropertiesManager
