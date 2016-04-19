@@ -112,6 +112,7 @@ public class DepositsAction implements Serializable {
 
 	private int idMaterialType;
 	private int idMaterial;
+	private boolean existsDeposit;
 
 	/**
 	 * @return pagination: The paging controller object.
@@ -420,6 +421,21 @@ public class DepositsAction implements Serializable {
 	 */
 	public void setIdMaterial(int idMaterial) {
 		this.idMaterial = idMaterial;
+	}
+
+	/**
+	 * @return existsDeposit: Flag for deposits exists
+	 */
+	public boolean isExistsDeposit() {
+		return existsDeposit;
+	}
+
+	/**
+	 * @param existsDeposit
+	 *            : Flag for deposits exists
+	 */
+	public void setExistsDeposit(boolean existsDeposit) {
+		this.existsDeposit = existsDeposit;
 	}
 
 	/**
@@ -732,8 +748,9 @@ public class DepositsAction implements Serializable {
 	 *         updated deposits
 	 */
 	public String saveDeposits() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		String mensajeRegistro = "deposits_message_save_succesful";
 		try {
 			Materials material = materialsDao
 					.consultMaterialsById(this.deposits.getMaterials()
@@ -743,11 +760,15 @@ public class DepositsAction implements Serializable {
 			if (deposits.getIdDeposit() != 0) {
 				depositsDao.editDeposits(deposits);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
+				mensajeRegistro = "deposits_message_save_succesful";
 				depositsDao.saveDeposits(deposits);
 			}
+			String messageMaterial = material.getName() + " "
+					+ material.getPresentation() + " "
+					+ material.getMeasurementUnits().getName();
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), deposits.getDateTime()));
+					bundle.getString(mensajeRegistro), messageMaterial,
+					deposits.getPurchaseInvoices().getInvoiceNumber()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -834,7 +855,7 @@ public class DepositsAction implements Serializable {
 	 */
 	public void loadDataMaterial() {
 		try {
-			boolean existsDeposit = depositsDao.existsDeposit(this.deposits
+			this.existsDeposit = depositsDao.existsDeposit(this.deposits
 					.getMaterials(), this.deposits.getPurchaseInvoices()
 					.getInvoiceNumber());
 			if (this.deposits.getMaterials().getIdMaterial() != 0
@@ -1061,9 +1082,11 @@ public class DepositsAction implements Serializable {
 	 * This method allows validate the required fields.
 	 * 
 	 * @author Wilhelm.Boada
+	 * @modify 19/04/2016 Gerardo.Herrera
 	 */
 	public void validateRequired() {
-
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeWarehouse");
 		if (this.deposits.getPurchaseInvoices().getInvoiceNumber() == null
 				|| "".equals(this.deposits.getPurchaseInvoices()
 						.getInvoiceNumber())) {
@@ -1072,6 +1095,10 @@ public class DepositsAction implements Serializable {
 		}
 		if (this.deposits.getMaterials().getIdMaterial() == 0) {
 			ControladorContexto.mensajeRequeridos("formDeposits:materials");
+		}
+		if (existsDeposit && this.deposits.getMaterials().getIdMaterial() != 0) {
+			ControladorContexto.mensajeError("formDeposits:materials",
+					bundle.getString("deposits_message_exists"));
 		}
 		if (this.deposits.getInitialQuantity() == null) {
 			ControladorContexto

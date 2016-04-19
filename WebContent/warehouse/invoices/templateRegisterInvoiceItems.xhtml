@@ -473,27 +473,14 @@
 					<br />
 					<t:fieldset styleClass="BorderW2P">
 						<legend class="etiquetaTitulo">#{mensajeWarehouse.materials_label}</legend>
-						<h:panelGrid columns="4" columnClasses="W85P left,W16P right,left,">
+						<h:panelGrid columns="4"
+							columnClasses="W85P left,W16P right,left,">
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensajeWarehouse.materials_label}:" />
 							<h:outputText value="" />
 							<h:inputText readonly="true"
 								value="#{invoiceItemsAction.invoiceItems.material.name}" />
-							<h:outputText value="" />
-
-							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_quantity}:" />
-							<h:outputText value="" />
-							<h:inputText readonly="true" styleClass="colTextoXCorto"
-								value="#{invoiceItemsAction.invoiceItems.quantity}" />
-							<h:outputText value="" />
-
-							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensajeMenu.type_unit_label}:" />
-							<h:outputText value="" />
-							<h:inputText readonly="true" styleClass="colTextoXCorto"
-								value="#{invoiceItemsAction.invoiceItems.material.measurementUnits.name}" />
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
@@ -504,10 +491,34 @@
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensajeMenu.type_unit_label}:" />
+							<h:outputText value="" />
+							<h:inputText readonly="true" styleClass="colTextoXCorto"
+								value="#{invoiceItemsAction.invoiceItems.material.measurementUnits.name}" />
+							<h:outputText value="" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_quantity}:" />
+							<h:outputText value="" />
+							<h:inputText readonly="true" styleClass="colTextoXCorto"
+								value="#{invoiceItemsAction.invoiceItems.quantity}" />
+							<h:outputText value="" />
+
+							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_total_cost}:" />
 							<h:outputText value="" />
 							<h:inputText readonly="true" styleClass="colTextoXCorto"
 								value="#{invoiceItemsAction.invoiceItems.total}">
+								<f:convertNumber maxFractionDigits="2" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:inputText>
+							<h:outputText value="" />
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_unit_cost}" />
+							<h:outputText value="" />
+							<h:inputText readonly="true" styleClass="colTextoXCorto"
+								value="#{invoiceItemsAction.unitCost}">
 								<f:convertNumber maxFractionDigits="2" type="currency"
 									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
@@ -529,7 +540,7 @@
 							<h:outputText value="" />
 							<p:calendar value="#{invoiceItemsAction.expirationDate}"
 								styleClass="W90P" showOn="button" navigator="true"
-								pattern="MM/dd/yyyy" />
+								pattern="MM/dd/yyyy" mindate="#{invoiceItemsAction.invoiceItems.purchaseInvoice.dateTime}" />
 							<h:outputText value="" />
 
 							<h:outputText styleClass="etiquetaTitulo"
@@ -537,16 +548,6 @@
 							<h:outputText value="" />
 							<h:inputText readonly="true" styleClass="colTextoXCorto"
 								value="#{invoiceItemsAction.invoiceItems.purchaseInvoice.dateTime}" />
-							<h:outputText value="" />
-
-							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_unit_cost}" />
-							<h:outputText value="" />
-							<h:inputText readonly="true" styleClass="colTextoXCorto"
-								value="#{invoiceItemsAction.unitCost}">
-								<f:convertNumber maxFractionDigits="2" type="currency"
-									currencySymbol="$" locale="#{idioma.locale}" />
-							</h:inputText>
 							<h:outputText value="" />
 
 						</h:panelGrid>
