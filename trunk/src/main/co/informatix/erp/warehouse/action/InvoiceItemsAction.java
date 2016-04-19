@@ -456,6 +456,7 @@ public class InvoiceItemsAction implements Serializable {
 	 * Load all the data for convert invoice item to deposit
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 19/04/2016 Wilhelm.Boada
 	 * 
 	 * @param invoiceItems
 	 *            : Object invoice items
@@ -465,7 +466,8 @@ public class InvoiceItemsAction implements Serializable {
 			this.validateConvert = false;
 			boolean depositExist = this.depositDao.existsDeposit(invoiceItems
 					.getMaterial(), invoiceItems.getPurchaseInvoice()
-					.getInvoiceNumber());
+					.getInvoiceNumber(), invoiceItems.getPurchaseInvoice()
+					.getSuppliers().getIdSupplier());
 			if (!depositExist) {
 				if (invoiceItems.getQuantity() > 0
 						&& invoiceItems.getTotal() > 0) {

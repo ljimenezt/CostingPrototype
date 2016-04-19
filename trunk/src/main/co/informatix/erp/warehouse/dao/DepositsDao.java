@@ -180,6 +180,7 @@ public class DepositsDao implements Serializable {
 	 * invoice specific.
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 19/04/2016 Wilhelm.Boada
 	 * 
 	 * @param idMaterial
 	 *            :material identifier to find in the deposit.
@@ -189,15 +190,17 @@ public class DepositsDao implements Serializable {
 	 *         exists.
 	 * @throws Exception
 	 */
-	public boolean existsDeposit(Materials material, String numberInvoice)
-			throws Exception {
+	public boolean existsDeposit(Materials material, String numberInvoice,
+			int idSupplier) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT d FROM Deposits d ");
 		query.append("JOIN FETCH d.purchaseInvoices pi ");
 		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		query.append("AND pi.suppliers.idSupplier=:idSupplier ");
 		query.append("AND pi.invoiceNumber LIKE :numberInvoice ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", material.getIdMaterial());
+		q.setParameter("idSupplier", idSupplier);
 		q.setParameter("numberInvoice", numberInvoice);
 		if (q.getResultList().size() > 0) {
 			return true;
