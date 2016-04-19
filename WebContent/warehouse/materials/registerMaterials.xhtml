@@ -62,6 +62,7 @@
 						<h:inputText value="#{materialsAction.materials.presentation}"
 							styleClass="colTextoXCorto" id="txtPresentation" required="true"
 							size="41" maxlength="5"
+							converterMessage="#{mensaje.message_campo_positivo}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateLength maximum="5" />
 							<f:validateLongRange minimum="1" />
