@@ -68,8 +68,7 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{invoiceItemsAction.invoiceItems.quantity}"
-							styleClass="W108P" id="quantityItem" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}"
+							styleClass="W108P" id="quantityItem"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
@@ -80,9 +79,8 @@
 						<h:outputText value="#{mensaje.label_unit_cost}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="unitCostItem" required="true"
+						<h:inputText id="unitCostItem"
 							value="#{invoiceItemsAction.invoiceItems.unitCost}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
 							<f:ajax event="change" execute="@form"
@@ -94,9 +92,8 @@
 						<h:outputText value="#{mensaje.label_subtotal}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="subTotalItem" required="true" readonly="true"
+						<h:inputText id="subTotalItem" readonly="true"
 							value="#{invoiceItemsAction.invoiceItems.subTotal}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
 							<f:ajax event="change" execute="@form"
@@ -123,9 +120,8 @@
 							value="#{mensajeWarehouse.purchase_invoice_label_shipping}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="shippingItem" required="true"
+						<h:inputText id="shippingItem"
 							value="#{invoiceItemsAction.invoiceItems.shipping}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
 							<f:ajax event="change" execute="@form"
@@ -138,11 +134,9 @@
 							value="#{mensajeWarehouse.purchase_invoice_label_taxes}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="taxesItem" required="true"
+						<h:inputText id="taxesItem" styleClass="W108P"
 							value="#{invoiceItemsAction.invoiceItems.taxes}" readonly="true"
-							requiredMessage="#{mensaje.message_campo_requerido}"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}"
-							styleClass="W108P">
+							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
@@ -153,11 +147,9 @@
 							value="#{mensajeWarehouse.purchase_invoice_label_packaging}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="packagingItem" required="true"
+						<h:inputText id="packagingItem" styleClass="W108P"
 							value="#{invoiceItemsAction.invoiceItems.packaging}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}"
-							styleClass="W108P">
+							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
@@ -168,11 +160,9 @@
 							value="#{mensajeWarehouse.invoice_items_label_handling}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="handlingItem" required="true"
+						<h:inputText id="handlingItem" styleClass="W108P"
 							value="#{invoiceItemsAction.invoiceItems.handling}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}"
-							styleClass="W108P">
+							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
@@ -183,9 +173,8 @@
 							value="#{mensajeWarehouse.purchase_invoice_label_discount}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="discountItem" required="true"
+						<h:inputText id="discountItem"
 							value="#{invoiceItemsAction.invoiceItems.discount}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
 							<f:ajax event="change" execute="@form"
@@ -197,12 +186,10 @@
 						<h:outputText value="#{mensaje.label_total}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="totalItem" required="true"
+						<h:inputText id="totalItem" styleClass="W108P"
 							value="#{invoiceItemsAction.invoiceItems.total}" readonly="true"
 							validator="#{invoiceItemsAction.validateFields()}"
-							requiredMessage="#{mensaje.message_campo_requerido}"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}"
-							styleClass="W108P">
+							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 						</h:inputText>
 						<rich:message for="totalItem" />
 
@@ -218,8 +205,7 @@
 					</h:panelGrid>
 					<h:inputHidden
 						value="#{invoiceItemsAction.invoiceItems.material.name}"
-						id="txtMaterial" required="true"
-						requiredMessage="#{mensaje.message_campo_requerido}" />
+						id="txtMaterial" />
 					<br />
 					<div align="center">
 						<h:panelGrid columns="2" columnClasses="right W106P, center">
