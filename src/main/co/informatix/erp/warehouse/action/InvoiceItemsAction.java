@@ -351,11 +351,17 @@ public class InvoiceItemsAction implements Serializable {
 						invoiceItems.getPurchaseInvoice().getInvoiceNumber(),
 						invoiceItems.getPurchaseInvoice().getSuppliers()
 								.getIdSupplier())) {
-					ControladorContexto
-							.mensajeError(
-									null,
-									"formInvoices:pnlInvoice",
-									bundle.getString("deposits_message_convert_deposit"));
+					String format = MessageFormat.format(bundle
+							.getString("deposits_message_convert_deposit"),
+							invoiceItems.getMaterial().getName()
+									+ " "
+									+ invoiceItems.getMaterial()
+											.getPresentation()
+									+ " "
+									+ invoiceItems.getMaterial()
+											.getMeasurementUnits().getName());
+					ControladorContexto.mensajeError(null,
+							"formInvoices:pnlInvoice", format);
 				}
 			}
 		} catch (Exception e) {
