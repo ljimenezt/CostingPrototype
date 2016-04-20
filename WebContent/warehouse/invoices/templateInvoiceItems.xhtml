@@ -12,35 +12,40 @@
 			<legend class="etiquetaTitulo">#{mensajeWarehouse.purchase_invoice_label_items}</legend>
 			<ui:param name="listaVaciaA"
 				value="#{invoiceItemsAction.invoiceItemsList.size() eq 0 or (invoiceItemsAction.invoiceItemsList eq null)}" />
-			<div align="right">
-				<h:panelGrid id="pnlButtons" cellpadding="0" cellspacing="0">
-					<a:commandLink id="lnkActivityNames"
-						rendered="#{purchaseInvoicesAction.flag eq true}"
-						styleClass="quitarDecoracionLink" execute="formInvoices"
-						actionListener="#{invoiceItemsAction.addEditInvoiceItems(null)}"
-						render=":formRegInvoiceItems:popupRegInvoiceItems"
-						oncomplete="#{rich:component('popupRegInvoiceItems')}.show()">
+			<h:panelGrid id="pnlButtons" cellpadding="0" cellspacing="0"
+				columns="2" columnClasses="W880P left,right W98P"
+				width="#{anchoTabla}">
+				<rich:message for="invoiceItemsTable" />
+				<a:commandLink id="lnkActivityNames"
+					rendered="#{purchaseInvoicesAction.flag eq true}"
+					styleClass="quitarDecoracionLink" execute="formInvoices"
+					actionListener="#{invoiceItemsAction.addEditInvoiceItems(null)}"
+					render=":formRegInvoiceItems:popupRegInvoiceItems"
+					oncomplete="#{rich:component('popupRegInvoiceItems')}.show()">
+					<div align="right">
 						<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 							<h:graphicImage value="/img/add_16.png"
 								styleClass="verticalAlignMiddle" />
 							<h:outputText
 								value="#{mensaje.button_add} #{mensajeWarehouse.invoice_items_label}" />
 						</h:panelGrid>
-					</a:commandLink>
-					<a:commandLink rendered="#{purchaseInvoicesAction.flag eq false}"
-						styleClass="quitarDecoracionLink"
-						actionListener="#{purchaseInvoicesAction.saveInvoices()}"
-						action="#{purchaseInvoicesAction.selectInvoiceCalculate()}"
-						render="panelPurchaseInvoices, mensajes, mensajeBusqueda">
+					</div>
+				</a:commandLink>
+				<a:commandLink rendered="#{purchaseInvoicesAction.flag eq false}"
+					styleClass="quitarDecoracionLink"
+					actionListener="#{purchaseInvoicesAction.saveInvoices()}"
+					action="#{purchaseInvoicesAction.selectInvoiceCalculate()}"
+					render="panelPurchaseInvoices, mensajes, mensajeBusqueda">
+					<div align="right">
 						<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 							<h:graphicImage value="/img/calculateUsage_16.png"
 								styleClass="verticalAlignMiddle" />
 							<h:outputText
 								value="#{mensajeWarehouse.invoice_items_button_reconcile}" />
 						</h:panelGrid>
-					</a:commandLink>
-				</h:panelGrid>
-			</div>
+					</div>
+				</a:commandLink>
+			</h:panelGrid>
 			<rich:dataTable value="#{invoiceItemsAction.subListInvoiceItems}"
 				id="invoiceItemsTable" var="invoiceItems"
 				styleClass="#{listaVaciaA ? 'BCTransparente W100Per' : 'dataTable'} #{anchoTabla}"
@@ -59,10 +64,11 @@
 				<rich:column styleClass="colIcono"
 					rendered="#{purchaseInvoicesAction.flag eq false}">
 					<f:facet name="header"></f:facet>
-					<a:commandLink render="popUpConvert, mensajes"
+					<a:commandLink
+						render="popUpConvert, mensajes, formPurchaseInvoices"
 						actionListener="#{invoiceItemsAction.loadConvertDeposit(invoiceItems)}"
 						oncomplete="if (#{invoiceItemsAction.validateConvert==true})
-								{#{rich:component('popUpConvert')}.show();} else{ goUp(); }">
+								{#{rich:component('popUpConvert')}.show();}">
 						<h:graphicImage value="/img/convert_16.png" />
 						<rich:tooltip layout="block" styleClass="campoTooltip">
 							<h:outputText

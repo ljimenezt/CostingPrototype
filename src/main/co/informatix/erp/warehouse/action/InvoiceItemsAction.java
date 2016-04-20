@@ -71,7 +71,8 @@ public class InvoiceItemsAction implements Serializable {
 	private double unitCost;
 	private boolean validateConvert;
 	private boolean isEdit;
-	private boolean editTemp = false;;
+	private boolean editTemp = false;
+	private boolean depositExist = false;
 	private int index;
 	private int indexTemp;
 
@@ -289,6 +290,21 @@ public class InvoiceItemsAction implements Serializable {
 	}
 
 	/**
+	 * @return depositExist: Flag for exists deposits
+	 */
+	public boolean isDepositExist() {
+		return depositExist;
+	}
+
+	/**
+	 * @param depositExist
+	 *            : Flag for exists deposits
+	 */
+	public void setDepositExist(boolean depositExist) {
+		this.depositExist = depositExist;
+	}
+
+	/**
 	 * Method to edit or create a new invoiceItem.
 	 * 
 	 * @param invoiceItem
@@ -462,9 +478,11 @@ public class InvoiceItemsAction implements Serializable {
 	 *            : Object invoice items
 	 */
 	public void loadConvertDeposit(InvoiceItems invoiceItems) {
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeWarehouse");
 		try {
 			this.validateConvert = false;
-			boolean depositExist = this.depositDao.existsDeposit(invoiceItems
+			this.depositExist = this.depositDao.existsDeposit(invoiceItems
 					.getMaterial(), invoiceItems.getPurchaseInvoice()
 					.getInvoiceNumber(), invoiceItems.getPurchaseInvoice()
 					.getSuppliers().getIdSupplier());
@@ -478,13 +496,22 @@ public class InvoiceItemsAction implements Serializable {
 					listFarms();
 					this.validateConvert = true;
 				} else {
-					ControladorContexto.mensajeInfoEspecifico(
-							"invoice_items_message_convert_deposit",
-							"mensajeWarehouse");
+					ControladorContexto
+							.mensajeInformacion(
+									"formPurchaseInvoices:invoiceItemsTable",
+									bundle.getString("invoice_items_message_convert_deposit"));
 				}
 			} else {
-				ControladorContexto.mensajeInfoEspecifico(
-						"deposits_message_convert_deposit", "mensajeWarehouse");
+				String format = MessageFormat.format(
+						bundle.getString("deposits_message_convert_deposit"),
+						invoiceItems.getMaterial().getName()
+								+ " "
+								+ invoiceItems.getMaterial().getPresentation()
+								+ " "
+								+ invoiceItems.getMaterial()
+										.getMeasurementUnits().getName());
+				ControladorContexto.mensajeInformacion(
+						"formPurchaseInvoices:invoiceItemsTable", format);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
