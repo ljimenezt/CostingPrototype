@@ -32,7 +32,7 @@ import co.informatix.erp.warehouse.entities.PurchaseInvoices;
  * This class is all related logic with the management of invoice items
  * 
  * @author Wilhelm.Boada
- * @modify 19/04/2016 Andres.Gomez
+ * @modify 20/04/2016 Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -316,6 +316,9 @@ public class InvoiceItemsAction implements Serializable {
 			if (invoiceItem != null) {
 				this.invoiceItem = invoiceItem.clone();
 				this.isEdit = true;
+				if (this.invoiceItem.getIvaRate() == null) {
+					this.invoiceItem.setIvaRate(new IvaRate());
+				}
 				if (invoiceItem.getIdInvoiceItem() != 0) {
 					index = this.invoiceItemsListEdit.indexOf(this.invoiceItem);
 				} else {
@@ -332,6 +335,33 @@ public class InvoiceItemsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * This method allows verify if the material of the invoice item is already
+	 * set at the deposit
+	 * 
+	 */
+	public void validateInvoiceItemsToEdit(InvoiceItems invoiceItems) {
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		try {
+			if (invoiceItems.getIdInvoiceItem() != 0) {
+				if (depositDao.existsDeposit(invoiceItems.getMaterial(),
+						invoiceItems.getPurchaseInvoice().getInvoiceNumber(),
+						invoiceItems.getPurchaseInvoice().getSuppliers()
+								.getIdSupplier())) {
+					ControladorContexto
+							.mensajeError(
+									null,
+									"formInvoices:pnlInvoice",
+									bundle.getString("deposits_message_convert_deposit"));
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+
 	}
 
 	/**
@@ -412,12 +442,19 @@ public class InvoiceItemsAction implements Serializable {
 		try {
 			if (this.invoiceItemsListAdd.size() > 0) {
 				for (InvoiceItems invoiceItem : this.invoiceItemsListAdd) {
+					if (invoiceItem.getIvaRate().getIdIva() == 0) {
+						invoiceItem.setIvaRate(null);
+					}
 					invoiceItem.setPurchaseInvoice(invoicesSelected);
 					invoiceItemsDao.saveInvoiceItem(invoiceItem);
 				}
 			}
 			if (this.invoiceItemsListEdit.size() > 0) {
 				for (InvoiceItems invoiceItem : this.invoiceItemsListEdit) {
+					if (invoiceItem.getIvaRate() == null
+							|| invoiceItem.getIvaRate().getIdIva() == 0) {
+						invoiceItem.setIvaRate(null);
+					}
 					invoiceItemsDao.editInvoiceItem(invoiceItem);
 				}
 			}
@@ -693,6 +730,10 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void validateFields() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		if (this.invoiceItem.getMaterial().getIdMaterial() == 0) {
+			ControladorContexto
+					.mensajeRequeridos("formRegInvoiceItems:txtMaterial");
+		}
 		if (this.invoiceItem.getQuantity() <= 0) {
 			ControladorContexto.mensajeError(null,
 					"formRegInvoiceItems:quantityItem",

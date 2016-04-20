@@ -40,7 +40,7 @@ import co.informatix.erp.warehouse.entities.Suppliers;
  * purchase invoices.
  * 
  * @author Liseth.Jimenez
- * @modify 18/04/2016 Andres.Gomez
+ * @modify 20/04/2016 Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -922,18 +922,22 @@ public class PurchaseInvoicesAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int idSupplier = invoices.getSuppliers().getIdSupplier();
-			if (invoices.getIdPurchaseInvoice() == 0) {
-				if (purchaseInvoicesDao.nameExists(name, idSupplier)) {
+			PurchaseInvoices auxInvoice = purchaseInvoicesDao.nameExists(name,
+					idSupplier);
+			if (auxInvoice != null) {
+				if (invoices.getIdPurchaseInvoice() != auxInvoice
+						.getIdPurchaseInvoice()) {
 					String messageExistence = "message_ya_existe_verifique";
 					ControladorContexto.mensajeErrorEspecifico(clientId,
 							messageExistence, "mensaje");
 					((UIInput) toValidate).setValid(false);
 				}
-				if (!EncodeFilter.validarXSS(name, clientId,
-						"locate.regex.letras.numeros")) {
-					((UIInput) toValidate).setValid(false);
-				}
 			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
