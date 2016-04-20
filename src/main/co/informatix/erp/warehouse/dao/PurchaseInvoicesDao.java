@@ -126,11 +126,11 @@ public class PurchaseInvoicesDao implements Serializable {
 	 *            : number of the invoice to verify.
 	 * @param idSupplier
 	 *            :identifier of supplier associated with the purchase invoice
-	 * @return boolean: Returns true if the relationship exists, false
-	 *         otherwise.
+	 * @return PurchaseInvoices: Returns object of the purchase invoices.
 	 * @throws Exception
 	 */
-	public boolean nameExists(String invoiceNumber, int idSupplier)
+	@SuppressWarnings("unchecked")
+	public PurchaseInvoices nameExists(String invoiceNumber, int idSupplier)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT pi FROM PurchaseInvoices pi ");
@@ -140,9 +140,10 @@ public class PurchaseInvoicesDao implements Serializable {
 		Query q = em.createQuery(query.toString());
 		q.setParameter("invoiceNumber", invoiceNumber).setParameter(
 				"idSupplier", idSupplier);
-		if (q.getResultList().size() > 0) {
-			return true;
+		List<PurchaseInvoices> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
 		}
-		return false;
+		return null;
 	}
 }

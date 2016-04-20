@@ -35,8 +35,7 @@
 						<h:panelGrid columns="4" cellpadding="0" cellspacing="0">
 							<h:inputText styleClass="colTextoCorto"
 								value="#{invoiceItemsAction.invoiceItems.material.name} #{invoiceItemsAction.invoiceItems.material.presentation eq 0 ? '' : invoiceItemsAction.invoiceItems.material.presentation  } #{invoiceItemsAction.invoiceItems.material.measurementUnits.name}"
-								id="txtMaterial2" readonly="true" required="true"
-								requiredMessage="#{mensaje.message_campo_requerido}"
+								id="txtMaterial2" readonly="true"
 								validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkMaterial" render=":popupForm:popupMaterial"
 								actionListener="#{materialsAction.initializeSearch}"
@@ -74,7 +73,7 @@
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
-								render=":formRegInvoiceItems:subTotalItem :formRegInvoiceItems:totalItem" />
+								render=":formRegInvoiceItems:subTotalItem :formRegInvoiceItems:totalItem :formRegInvoiceItems:taxesItem" />
 						</h:inputText>
 						<rich:message for="quantityItem" />
 
@@ -88,7 +87,7 @@
 							styleClass="W108P">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
-								render=":formRegInvoiceItems:subTotalItem :formRegInvoiceItems:totalItem" />
+								render=":formRegInvoiceItems:subTotalItem :formRegInvoiceItems:totalItem :formRegInvoiceItems:taxesItem" />
 						</h:inputText>
 						<rich:message for="unitCostItem" />
 
@@ -108,12 +107,11 @@
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageBaseInformation.iva_rate_label}" />
-						<h:outputText value="*" styleClass="required" />
+						<h:outputText value="" styleClass="required" />
 						<h:selectOneMenu
 							value="#{invoiceItemsAction.invoiceItems.ivaRate.idIva}"
 							id="ivaRate">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
 							<f:selectItems value="#{invoiceItemsAction.itemsIva}" />
 							<f:ajax event="change"
 								listener="#{invoiceItemsAction.calculateTotal()}"
