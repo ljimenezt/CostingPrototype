@@ -186,6 +186,8 @@ public class DepositsDao implements Serializable {
 	 *            :material identifier to find in the deposit.
 	 * @param numberInvoice
 	 *            : invoice number.
+	 * @param idSupplier
+	 *            :supplier identifier belonging to a purchase invoice.
 	 * @return boolean: true if deposit exists and false if deposit doesnt
 	 *         exists.
 	 * @throws Exception
