@@ -227,8 +227,7 @@ public class CivilStatusAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = civilStatus.getId();
-			CivilStatus civilStatusAux = new CivilStatus();
-			civilStatusAux = civilStatusDao.nameExist(name, id);
+			CivilStatus civilStatusAux = civilStatusDao.nameExist(name, id);
 			if (civilStatusAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,
