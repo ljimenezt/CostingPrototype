@@ -203,7 +203,7 @@ public class Hr implements Serializable {
 	/**
 	 * @return birthDate: date of birth of human resources
 	 */
-	@Column(name = "birth_date")
+	@Column(name = "birth_date", nullable = false)
 	@Temporal(TemporalType.DATE)
 	public Date getBirthDate() {
 		return birthDate;
