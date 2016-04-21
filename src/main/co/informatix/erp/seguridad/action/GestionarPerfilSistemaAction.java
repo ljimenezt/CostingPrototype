@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
@@ -15,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
 import co.informatix.erp.seguridad.dao.GestionarPerfilSistemaDao;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.SecureIdentityLoginModule;
@@ -65,15 +65,16 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	 * @return "regProfileSystem":redirected to the template to register profile
 	 *         system.
 	 */
-	public String addEditProfileSystem(PerfilSistema perfilSistema)
-			throws Exception {
-		perfilSistema = perfilSistemaDao.findProfileSystem();
-		if (perfilSistema != null) {
-			this.perfilSistema = perfilSistema;
-
-		} else {
-			this.perfilSistema = new PerfilSistema();
-
+	public String addEditProfileSystem(PerfilSistema perfilSistema) {
+		try {
+			perfilSistema = perfilSistemaDao.findProfileSystem();
+			if (perfilSistema != null) {
+				this.perfilSistema = perfilSistema;
+			} else {
+				this.perfilSistema = new PerfilSistema();
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 		return "regProfileSystem";
 	}
@@ -120,7 +121,6 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	public void validateMultipleEmails(FacesContext context,
 			UIComponent toValidate, Object value) {
 		String clientId = toValidate.getClientId(context);
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String email = (String) value;
 		try {
 			if (email != "") {
@@ -128,11 +128,9 @@ public class GestionarPerfilSistemaAction implements Serializable {
 				for (int i = 0; i < test.length; i++) {
 					if (!EncodeFilter.validarXSS(test[i].trim(), clientId,
 							"locate.regex.email")) {
-						((UIInput) toValidate).setValid(false);
-						String message = "message_add_email";
-						context.addMessage(clientId,
-								new FacesMessage(FacesMessage.SEVERITY_ERROR,
-										bundle.getString(message), null));
+						ControladorContexto.mensajeErrorEspecifico(
+								"formProfileSystem:txaEmailReportarErrores",
+								"message_add_email", "mensaje");
 						((UIInput) toValidate).setValid(false);
 						break;
 					}
@@ -156,16 +154,16 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	 */
 	public void validateNumberOfPort(FacesContext context,
 			UIComponent toValidate, Object value) {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		Integer number = (Integer) value;
 		String clientId = toValidate.getClientId(context);
 		try {
 			if (number != null) {
-				if (number < 1 || number > 65535) {
-					String message = "message_add_range_invalid_port";
-					context.addMessage(clientId,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR,
-									bundle.getString(message), null));
+				if (number < Constantes.PUERTO_INICIAL
+						|| number > Constantes.PUERTO_FINAL) {
+					ControladorContexto.mensajeErrorArg1(
+							"formProfileSystem:txtPort",
+							"message_add_range_number", "mensaje",
+							Constantes.PUERTO_INICIAL, Constantes.PUERTO_FINAL);
 					((UIInput) toValidate).setValid(false);
 				}
 				if (!EncodeFilter.validarXSS(Integer.toString(number),
@@ -173,7 +171,6 @@ public class GestionarPerfilSistemaAction implements Serializable {
 					((UIInput) toValidate).setValid(false);
 				}
 			}
-
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

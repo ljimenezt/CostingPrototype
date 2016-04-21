@@ -344,4 +344,13 @@ public class Constantes implements Serializable {
 	public static final String FILE_EXT_PDF = "pdf";
 	public static final String FILE_EXT_DOCX = "docx";
 	public static final String FILE_EXT_DOC = "doc";
+
+	/* Security */
+	public static final int PUERTO_INICIAL = 1;
+	public static final int PUERTO_FINAL = 65535;
+	
+	/* Information Base */
+	public static final int IVA_INICIAL = 0;
+	public static final int IVA_FINAL = 100;
+	
 }
