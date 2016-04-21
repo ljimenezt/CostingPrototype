@@ -32,7 +32,7 @@ import co.informatix.erp.warehouse.entities.PurchaseInvoices;
  * This class is all related logic with the management of invoice items
  * 
  * @author Wilhelm.Boada
- * @modify 20/04/2016 Andres.Gomez
+ * @modify 21/04/2016 Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -340,6 +340,9 @@ public class InvoiceItemsAction implements Serializable {
 	/**
 	 * This method allows verify if the material of the invoice item is already
 	 * set at the deposit
+	 * 
+	 * @param invoiceItems
+	 *            : Invoice items to validate if is already created
 	 * 
 	 */
 	public void validateInvoiceItemsToEdit(InvoiceItems invoiceItems) {
