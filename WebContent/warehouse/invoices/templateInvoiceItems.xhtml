@@ -148,7 +148,8 @@
 					<rich:column styleClass="colValorLargo">
 						<f:facet name="header">#{messageBaseInformation.iva_rate_label}</f:facet>
 						<h:outputText
-							value="#{invoiceItems.ivaRate.rate != null ?invoiceItems.ivaRate.rate: 0 }">
+							value="#{invoiceItems.ivaRate.rate != null ?invoiceItems.ivaRate.rate/100 : 0 }">
+							<f:convertNumber type="percent" />
 						</h:outputText>
 					</rich:column>
 
