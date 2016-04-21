@@ -237,6 +237,7 @@ public class MaterialsAction implements Serializable {
 		this.nameSearch = "";
 		if (fromModal) {
 			loadListMaterialSelected();
+			pagerForm = new Paginador();
 		} else {
 			this.materials = null;
 		}

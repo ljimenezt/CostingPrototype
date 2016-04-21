@@ -68,7 +68,8 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{invoiceItemsAction.invoiceItems.quantity}"
-							styleClass="W108P" id="quantityItem"
+							styleClass="W108P" id="quantityItem" required="true"
+							label="#{mensaje.label_quantity}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
@@ -79,10 +80,10 @@
 						<h:outputText value="#{mensaje.label_unit_cost}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="unitCostItem"
+						<h:inputText id="unitCostItem" required="true"
 							value="#{invoiceItemsAction.invoiceItems.unitCost}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
-							styleClass="W108P">
+							label="#{mensaje.label_unit_cost}" styleClass="W108P">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:subTotalItem :formRegInvoiceItems:totalItem :formRegInvoiceItems:taxesItem" />
@@ -120,10 +121,11 @@
 							value="#{mensajeWarehouse.purchase_invoice_label_shipping}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="shippingItem"
+						<h:inputText id="shippingItem" required="true"
 							value="#{invoiceItemsAction.invoiceItems.shipping}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
-							styleClass="W108P">
+							styleClass="W108P"
+							label="#{mensajeWarehouse.purchase_invoice_label_shipping}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
@@ -149,7 +151,9 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="packagingItem" styleClass="W108P"
 							value="#{invoiceItemsAction.invoiceItems.packaging}"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
+							required="true"
+							label="#{mensajeWarehouse.purchase_invoice_label_packaging}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
@@ -162,7 +166,9 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="handlingItem" styleClass="W108P"
 							value="#{invoiceItemsAction.invoiceItems.handling}"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
+							required="true"
+							label="#{mensajeWarehouse.invoice_items_label_handling}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
@@ -176,7 +182,8 @@
 						<h:inputText id="discountItem"
 							value="#{invoiceItemsAction.invoiceItems.discount}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
-							styleClass="W108P">
+							styleClass="W108P" required="true"
+							label="#{mensajeWarehouse.purchase_invoice_label_discount}">
 							<f:ajax event="change" execute="@form"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
@@ -205,7 +212,8 @@
 					</h:panelGrid>
 					<h:inputHidden
 						value="#{invoiceItemsAction.invoiceItems.material.name}"
-						id="txtMaterial" />
+						id="txtMaterial" required="true"
+						label="#{mensajeWarehouse.materials_label}" />
 					<br />
 					<div align="center">
 						<h:panelGrid columns="2" columnClasses="right W106P, center">
@@ -261,8 +269,8 @@
 						</h:outputText>
 						<h:outputText value="#{messageBaseInformation.iva_rate_label}:" />
 						<h:outputText
-							value="#{invoiceItemsAction.invoiceItems.ivaRate.rate}">
-
+							value="#{invoiceItemsAction.invoiceItems.ivaRate.rate / 100}">
+							<f:convertNumber type="percent" />
 						</h:outputText>
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_shipping}:" />
@@ -544,7 +552,7 @@
 							<h:outputText value="" />
 							<p:calendar value="#{invoiceItemsAction.expirationDate}"
 								styleClass="W90P" showOn="button" navigator="true"
-								pattern="MM/dd/yyyy" readonlyInput="true" 
+								pattern="MM/dd/yyyy" readonlyInput="true"
 								mindate="#{invoiceItemsAction.invoiceItems.purchaseInvoice.dateTime}" />
 							<h:outputText value="" />
 
