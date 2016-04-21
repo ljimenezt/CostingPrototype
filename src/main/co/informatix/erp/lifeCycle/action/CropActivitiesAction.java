@@ -1021,6 +1021,8 @@ public class CropActivitiesAction implements Serializable {
 	/**
 	 * Validate the date to add the max hour in the end date
 	 * 
+	 * @modify 21/04/2016 Wilhelm.Boada
+	 * 
 	 */
 	public void validateMaxDate() {
 		if (this.activities.getInitialDtBudget() != null) {
@@ -1031,6 +1033,7 @@ public class CropActivitiesAction implements Serializable {
 			cal.set(Calendar.HOUR_OF_DAY, 23);
 			cal.set(Calendar.MINUTE, 59);
 			maxDate = cal.getTime();
+			this.activities.setFinalDtBudget(null);
 		}
 	}
 

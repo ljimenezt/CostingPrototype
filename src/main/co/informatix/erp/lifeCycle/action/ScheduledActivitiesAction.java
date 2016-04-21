@@ -668,6 +668,8 @@ public class ScheduledActivitiesAction implements Serializable {
 	/**
 	 * Select and deselect the machines in a list.
 	 * 
+	 * @modify 21/04/2016 Wilhelm.Boada
+	 * 
 	 * @param machine
 	 *            : Machine object.
 	 */
@@ -677,8 +679,21 @@ public class ScheduledActivitiesAction implements Serializable {
 			this.machine = machine;
 			this.activityMachine = new ActivityMachine();
 			if (!machine.isSelection()) {
-				this.activityMachine.setDurationBudget(this.activitiesAction
-						.getSelectedActivities().getDurationBudget());
+				if (this.activitiesAction.getSelectedActivities()
+						.getDurationBudget() != null) {
+					this.activityMachine
+							.setDurationBudget(this.activitiesAction
+									.getSelectedActivities()
+									.getDurationBudget());
+				} else {
+					this.activityMachine.setDurationBudget(ControladorFechas
+							.restarFechas(this.activitiesAction
+									.getSelectedActivities()
+									.getInitialDtBudget(),
+									this.activitiesAction
+											.getSelectedActivities()
+											.getFinalDtBudget()));
+				}
 			} else {
 				ActivityMachine activityMachine = new ActivityMachine();
 				ActivityMachinePK activitiesMachinesPK = new ActivityMachinePK();
