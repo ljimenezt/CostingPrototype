@@ -18,6 +18,7 @@ import javax.faces.model.SelectItem;
 
 import co.informatix.erp.informacionBase.dao.IvaRateDao;
 import co.informatix.erp.informacionBase.entities.IvaRate;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
@@ -199,7 +200,7 @@ public class IvaRateAction implements Serializable {
 	 * 
 	 * @return "regIvaRate":redirected to the template to manage iva rate.
 	 */
-	public String addEditIvaRate(IvaRate ivaRate) throws Exception {
+	public String addEditIvaRate(IvaRate ivaRate) {
 		if (ivaRate != null) {
 			this.ivaRate = ivaRate;
 		} else {
@@ -325,11 +326,11 @@ public class IvaRateAction implements Serializable {
 			}
 
 			if (number != null) {
-				if (number < 0 || number > 100) {
-					String message = "message_add_range_percentage";
-					context.addMessage(clientId,
-							new FacesMessage(FacesMessage.SEVERITY_ERROR,
-									bundle.getString(message), null));
+				if (number < Constantes.IVA_INICIAL || number > Constantes.IVA_FINAL) {
+					ControladorContexto.mensajeErrorArg1(
+							"formIvaRate:txtRate",
+							"message_add_range_number", "mensaje",
+							Constantes.IVA_INICIAL, Constantes.IVA_FINAL);
 					((UIInput) toValidate).setValid(false);
 				}
 				if (!EncodeFilter.validarXSS(Double.toString(number), clientId,

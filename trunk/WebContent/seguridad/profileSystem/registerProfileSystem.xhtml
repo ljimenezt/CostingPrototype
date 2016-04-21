@@ -19,7 +19,6 @@
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<script type="text/javascript">
-		
 			$(document).ready(function(){    
 				  $('#formProfileSystem\\:txaEmailReportarErrores').maxlength({   
 				    events: [],     
@@ -37,7 +36,7 @@
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-					columnClasses="tdAlignTop,,,">
+					columnClasses="tdAlignTop,,,tdAlignTop">
 
 					<h:outputText value="#{messageSecurity.user_label}"
 						styleClass="etiquetaTitulo" />
@@ -144,22 +143,18 @@
 						<h:outputText value="#{messageSecurity.user_label}:" />
 						<h:outputText
 							value="#{perfilSistemaAction.perfilSistema.emailServerUser}" />
-
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_port}:" />
 						<h:outputText
 							value="#{perfilSistemaAction.perfilSistema.emailServerPort}" />
-
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_server_host}:" />
 						<h:outputText
 							value="#{perfilSistemaAction.perfilSistema.emailServerHost}" />
-
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_report_errors}:" />
 						<h:outputText
 							value="#{perfilSistemaAction.perfilSistema.reportarErrores eq 'true'? mensaje.label_yes:mensaje.label_no}" />
-
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_mail_report_errors}:" />
 						<h:outputText
