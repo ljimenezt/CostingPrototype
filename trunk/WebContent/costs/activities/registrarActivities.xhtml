@@ -86,7 +86,7 @@
 						<p:column>
 						</p:column>
 						<p:column>
-							<h:outputText value="#{mensaje.label_presupuesto}"
+							<h:outputText value="#{mensaje.label_budget}"
 								styleClass="etiquetaTitulo" />
 						</p:column>
 						<p:column>
@@ -247,8 +247,7 @@
 							<h:inputText
 								value="#{activitiesAction.activities.costServicesBudget}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtCostServiceBudget"
-								label="#{mensaje.label_service_cost}">
+								id="txtCostServiceBudget" label="#{mensaje.label_service_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtCostServiceBudget" />
@@ -257,8 +256,7 @@
 							<h:inputText
 								value="#{activitiesAction.activities.costServicesActual}"
 								styleClass="colTextoMini" size="41" maxlength="4"
-								id="txtCostServiceActual"
-								label="#{mensaje.label_service_cost}">
+								id="txtCostServiceActual" label="#{mensaje.label_service_cost}">
 								<f:validateDoubleRange></f:validateDoubleRange>
 							</h:inputText>
 							<rich:message for="txtCostServiceActual" />

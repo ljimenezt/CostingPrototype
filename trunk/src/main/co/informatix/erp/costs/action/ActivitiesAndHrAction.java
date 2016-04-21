@@ -681,6 +681,8 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * Adds a list of workers who are selected validating age and time of
 	 * motherhood.
 	 * 
+	 * @modify 21/04/2016 Wilhelm.Boada
+	 * 
 	 * @param selectedWorker
 	 *            : Human Resource object type.
 	 */
@@ -693,8 +695,15 @@ public class ActivitiesAndHrAction implements Serializable {
 		try {
 			worker = selectedWorker;
 			if (!selectedWorker.isSeleccionado()) {
-				activitiesAndHr.setDurationBudget(selectedActivity
-						.getDurationBudget());
+				if (selectedActivity.getDurationBudget() != null) {
+					activitiesAndHr.setDurationBudget(selectedActivity
+							.getDurationBudget());
+				} else {
+					activitiesAndHr.setDurationBudget(ControladorFechas
+							.restarFechas(
+									selectedActivity.getInitialDtBudget(),
+									selectedActivity.getFinalDtBudget()));
+				}
 			} else {
 				ActivitiesAndHr actividadesHr = new ActivitiesAndHr();
 				for (ActivitiesAndHr actividadHr : listActivitiesAndHr) {

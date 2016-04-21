@@ -41,7 +41,7 @@
 					<h:panelGrid columns="4"
 						columnClasses="right W91P, tdAlignTop center, tdAlignTop left W150P, tdAlignTop verticalAlignMiddle ">
 						<h:outputText value="" />
-						<h:outputText value="#{mensaje.label_presupuesto}"
+						<h:outputText value="#{mensaje.label_budget}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="#{mensaje.label_actual}"
 							styleClass="etiquetaTitulo" />
@@ -107,8 +107,7 @@
 								render="formAgregarActivitiesAndHr:outPutAgregarActivitiesAndHr" />
 						</h:inputText>
 						<rich:message for="duration" />
-						<h:outputText
-							value="#{mensaje.label_cost} #{mensaje.label_total}"
+						<h:outputText value="#{mensaje.label_cost} #{mensaje.label_total}"
 							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true" id="costBudget"
 							value="#{hrReportingActualsAction.activitiesAndHr.totalCostBudget}"
