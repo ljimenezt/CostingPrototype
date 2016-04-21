@@ -888,10 +888,9 @@ public class CropActivitiesAction implements Serializable {
 			setClean(false);
 			if ((listActivities == null || listActivities.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
-				mensajeBusqueda = MessageFormat
-						.format(bundle
-								.getString("message_no_related_activity"),
-								unionMessagesSearch);
+				mensajeBusqueda = MessageFormat.format(
+						bundle.getString("message_no_related_activity"),
+						unionMessagesSearch);
 				this.listActivities = new ArrayList<Activities>();
 			} else if (listActivities == null || listActivities.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
@@ -946,12 +945,12 @@ public class CropActivitiesAction implements Serializable {
 			SelectItem item2 = new SelectItem(finalDateSearch,
 					"finalDateSearch");
 			parameters.add(item2);
-			String dateFrom = bundle.getString("label_start_date") + ": "
-					+ '"' + formato.format(this.initialDateSearch) + '"' + " ";
+			String dateFrom = bundle.getString("label_start_date") + ": " + '"'
+					+ formato.format(this.initialDateSearch) + '"' + " ";
 			unionMessagesSearch.append(dateFrom);
 
-			String dateTo = bundle.getString("label_end_date") + ": "
-					+ '"' + formato.format(finalDateSearch) + '"' + " ";
+			String dateTo = bundle.getString("label_end_date") + ": " + '"'
+					+ formato.format(finalDateSearch) + '"' + " ";
 			unionMessagesSearch.append(dateTo);
 		}
 
@@ -968,10 +967,8 @@ public class CropActivitiesAction implements Serializable {
 					.queryCycleStandardActivities(idCropName);
 			if (listCycleStandardActivities == null
 					|| listCycleStandardActivities.size() <= 0) {
-				ControladorContexto
-						.mensajeInformacion(
-								null,
-								bundle.getString("message_no_related_standard_activities"));
+				ControladorContexto.mensajeInformacion(null, bundle
+						.getString("message_no_related_standard_activities"));
 			}
 			initializeListStandardCycle();
 		} catch (Exception e) {
@@ -980,20 +977,44 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Valid dates view, when the start date is entered you must enter the end
-	 * date.
+	 * This method allows validate that the activity dates are in the range of
+	 * dates crop.
 	 * 
 	 * @author Mabell.Boada
+	 * @modify 20/04/2016 Wilhelm.Boada
 	 * 
 	 */
 	public void validateDates() {
-		if (activities.getInitialDtBudget() != null
-				&& activities.getFinalDtBudget() == null) {
-			ControladorContexto.mensajeRequeridos("popupFormReg:fechaFin");
-		}
-		if (activities.getFinalDtBudget() != null
-				&& activities.getInitialDtBudget() == null) {
-			ControladorContexto.mensajeRequeridos("popupFormReg:fechaInicio");
+		try {
+			Crops crop = cropsDao.cropsXID(activities.getCrop().getIdCrop());
+			Date date = ControladorFechas.formatearFecha(
+					activities.getInitialDtBudget(),
+					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+
+			if (date.before(crop.getInitialDate())
+					|| date.after(crop.getFinalDate())) {
+				ControladorContexto.mensajeErrorArg1(
+						"popupFormReg:fechaInicio",
+						"message_validate_dates_range", "mensaje",
+						ControladorFechas.formatDate(crop.getInitialDate(),
+								Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME),
+						ControladorFechas.formatDate(crop.getFinalDate(),
+								Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME));
+			}
+			date = ControladorFechas.formatearFecha(
+					activities.getFinalDtBudget(),
+					Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
+			if (date.before(crop.getInitialDate())
+					|| date.after(crop.getFinalDate())) {
+				ControladorContexto.mensajeErrorArg1("popupFormReg:fechaFin",
+						"message_validate_dates_range", "mensaje",
+						ControladorFechas.formatDate(crop.getInitialDate(),
+								Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME),
+						ControladorFechas.formatDate(crop.getFinalDate(),
+								Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME));
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
