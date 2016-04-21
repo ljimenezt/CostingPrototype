@@ -381,11 +381,10 @@ public class UnitConversionAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleGeneral = ControladorContexto
 				.getBundle("messageBaseInformation");
-
 		try {
 			String messageLog = "message_registro_guardar";
-			String originalUnit;
-			String finalUnit;
+			String originalUnit = "";
+			String finalUnit = "";
 
 			if (this.edited == true) {
 				messageLog = "message_registro_modificar";
