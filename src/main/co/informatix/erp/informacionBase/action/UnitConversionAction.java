@@ -334,8 +334,7 @@ public class UnitConversionAction implements Serializable {
 	 * @return "regUnitConversion": It redirects to the template to manage unit
 	 *         conversions.
 	 */
-	public String addEditUnitConversion(UnitConversion unitConversion)
-			throws Exception {
+	public String addEditUnitConversion(UnitConversion unitConversion) {
 		if (unitConversion != null) {
 			this.unitConversion = unitConversion;
 			this.originalUnitName = this.unitConversion.getUnitConversionPk()

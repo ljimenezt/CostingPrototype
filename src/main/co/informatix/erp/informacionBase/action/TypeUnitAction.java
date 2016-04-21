@@ -200,7 +200,7 @@ public class TypeUnitAction implements Serializable {
 	 * 
 	 * @return "regTypeUnit":redirected to the template to manage Type Unit.
 	 */
-	public String addEditTypeUnit(TypeUnit typeUnit) throws Exception {
+	public String addEditTypeUnit(TypeUnit typeUnit) {
 		if (typeUnit != null) {
 			this.typeUnit = typeUnit;
 
