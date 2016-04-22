@@ -326,9 +326,9 @@ public class IvaRateAction implements Serializable {
 			}
 
 			if (number != null) {
-				if (number < Constantes.IVA_INITIAL || number > Constantes.IVA_FINAL) {
-					ControladorContexto.mensajeErrorArg1(
-							"formIvaRate:txtRate",
+				if (number < Constantes.IVA_INITIAL
+						|| number > Constantes.IVA_FINAL) {
+					ControladorContexto.mensajeErrorArg1("formIvaRate:txtRate",
 							"message_add_range_number", "mensaje",
 							Constantes.IVA_INITIAL, Constantes.IVA_FINAL);
 					((UIInput) toValidate).setValid(false);
