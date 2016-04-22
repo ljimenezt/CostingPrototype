@@ -71,7 +71,7 @@
 							styleClass="W108P" id="quantityItem" required="true"
 							label="#{mensaje.label_quantity}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
-							<f:ajax event="change" execute="@form"
+							<f:ajax event="change" execute="@this"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:subTotalItem :formRegInvoiceItems:totalItem :formRegInvoiceItems:taxesItem" />
 						</h:inputText>
@@ -84,7 +84,7 @@
 							value="#{invoiceItemsAction.invoiceItems.unitCost}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							label="#{mensaje.label_unit_cost}" styleClass="W108P">
-							<f:ajax event="change" execute="@form"
+							<f:ajax event="change" execute="@this"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:subTotalItem :formRegInvoiceItems:totalItem :formRegInvoiceItems:taxesItem" />
 						</h:inputText>
@@ -97,7 +97,7 @@
 							value="#{invoiceItemsAction.invoiceItems.subTotal}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P">
-							<f:ajax event="change" execute="@form"
+							<f:ajax event="change" execute="@this"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
@@ -126,7 +126,7 @@
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P"
 							label="#{mensajeWarehouse.purchase_invoice_label_shipping}">
-							<f:ajax event="change" execute="@form"
+							<f:ajax event="change" execute="@this"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
@@ -139,7 +139,7 @@
 						<h:inputText id="taxesItem" styleClass="W108P"
 							value="#{invoiceItemsAction.invoiceItems.taxes}" readonly="true"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
-							<f:ajax event="change" execute="@form"
+							<f:ajax event="change" execute="@this"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
@@ -154,7 +154,7 @@
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							required="true"
 							label="#{mensajeWarehouse.purchase_invoice_label_packaging}">
-							<f:ajax event="change" execute="@form"
+							<f:ajax event="change" execute="@this"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
@@ -169,7 +169,7 @@
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							required="true"
 							label="#{mensajeWarehouse.invoice_items_label_handling}">
-							<f:ajax event="change" execute="@form"
+							<f:ajax event="change" execute="@this"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
@@ -184,7 +184,7 @@
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							styleClass="W108P" required="true"
 							label="#{mensajeWarehouse.purchase_invoice_label_discount}">
-							<f:ajax event="change" execute="@form"
+							<f:ajax event="change" execute="@this"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
 						</h:inputText>
