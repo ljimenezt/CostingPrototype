@@ -162,7 +162,8 @@ public class BeanIndexAction implements Serializable {
 	/**
 	 * This method allow initialize the needles variables to create a report.
 	 * 
-	 * @return rptGeneralTrend : Display the view to manage the report.
+	 * @return searchBeanIndex: consult bean index and display the view to
+	 *         manage the report.
 	 */
 	public String initializeSearch() {
 		this.section = 0;
@@ -282,8 +283,7 @@ public class BeanIndexAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void loadDetailsBeanIndex() throws Exception {
-		List<BeanIndex> listBeanI = new ArrayList<BeanIndex>();
-		listBeanI.addAll(this.listBeanIndex);
+		List<BeanIndex> listBeanI = this.listBeanIndex;
 		this.listBeanIndex = new ArrayList<BeanIndex>();
 		for (BeanIndex beanIndex : listBeanI) {
 			int idBeanIndex = beanIndex.getIdBeanIndex();
