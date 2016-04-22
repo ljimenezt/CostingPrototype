@@ -61,7 +61,6 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	 * 
 	 * @param perfilSistema
 	 *            : Profile system to be add or edit.
-	 * 
 	 * @return "regProfileSystem":redirected to the template to register profile
 	 *         system.
 	 */
@@ -112,7 +111,6 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
@@ -146,7 +144,6 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
