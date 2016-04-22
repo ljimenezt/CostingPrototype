@@ -20,7 +20,7 @@
 					<rich:message for="invoiceItemsTable" />
 					<a:commandLink id="lnkActivityNames"
 						rendered="#{purchaseInvoicesAction.flag eq true}"
-						styleClass="quitarDecoracionLink" execute="formInvoices"
+						styleClass="quitarDecoracionLink" execute="@this"
 						actionListener="#{invoiceItemsAction.addEditInvoiceItems(null)}"
 						render=":formRegInvoiceItems:popupRegInvoiceItems"
 						oncomplete="#{rich:component('popupRegInvoiceItems')}.show()">
