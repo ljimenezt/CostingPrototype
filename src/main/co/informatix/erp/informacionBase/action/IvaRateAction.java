@@ -326,11 +326,11 @@ public class IvaRateAction implements Serializable {
 			}
 
 			if (number != null) {
-				if (number < Constantes.IVA_INICIAL || number > Constantes.IVA_FINAL) {
+				if (number < Constantes.IVA_INITIAL || number > Constantes.IVA_FINAL) {
 					ControladorContexto.mensajeErrorArg1(
 							"formIvaRate:txtRate",
 							"message_add_range_number", "mensaje",
-							Constantes.IVA_INICIAL, Constantes.IVA_FINAL);
+							Constantes.IVA_INITIAL, Constantes.IVA_FINAL);
 					((UIInput) toValidate).setValid(false);
 				}
 				if (!EncodeFilter.validarXSS(Double.toString(number), clientId,

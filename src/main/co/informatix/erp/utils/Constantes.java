@@ -346,11 +346,15 @@ public class Constantes implements Serializable {
 	public static final String FILE_EXT_DOC = "doc";
 
 	/* Security */
-	public static final int PUERTO_INICIAL = 1;
-	public static final int PUERTO_FINAL = 65535;
-	
+	public static final int START_PORT = Integer.parseInt(PropertiesManager
+			.getProperty("locate.size.start.port"));
+	public static final int FINAL_PORT = Integer.parseInt(PropertiesManager
+			.getProperty("locate.size.final.port"));
+
 	/* Information Base */
-	public static final int IVA_INICIAL = 0;
-	public static final int IVA_FINAL = 100;
-	
+	public static final int IVA_INITIAL = Integer.parseInt(PropertiesManager
+			.getProperty("locate.size.iva.initial"));
+	public static final int IVA_FINAL = Integer.parseInt(PropertiesManager
+			.getProperty("locate.size.iva.final"));
+
 }
