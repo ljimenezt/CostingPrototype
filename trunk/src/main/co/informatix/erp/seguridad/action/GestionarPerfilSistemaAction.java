@@ -158,12 +158,12 @@ public class GestionarPerfilSistemaAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			if (number != null) {
-				if (number < Constantes.PUERTO_INICIAL
-						|| number > Constantes.PUERTO_FINAL) {
+				if (number < Constantes.START_PORT
+						|| number > Constantes.FINAL_PORT) {
 					ControladorContexto.mensajeErrorArg1(
 							"formProfileSystem:txtPort",
 							"message_add_range_number", "mensaje",
-							Constantes.PUERTO_INICIAL, Constantes.PUERTO_FINAL);
+							Constantes.START_PORT, Constantes.FINAL_PORT);
 					((UIInput) toValidate).setValid(false);
 				}
 				if (!EncodeFilter.validarXSS(Integer.toString(number),
