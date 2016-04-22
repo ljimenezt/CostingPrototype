@@ -990,16 +990,19 @@ public class CropActivitiesAction implements Serializable {
 			Date date = ControladorFechas.formatearFecha(
 					activities.getInitialDtBudget(),
 					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
-
+			String dateInitial = ControladorFechas.formatDate(
+					crop.getInitialDate(),
+					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+			String dateFinal = ControladorFechas.formatDate(
+					crop.getFinalDate(),
+					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
 			if (date.before(crop.getInitialDate())
 					|| date.after(crop.getFinalDate())) {
+
 				ControladorContexto.mensajeErrorArg1(
 						"popupFormReg:fechaInicio",
-						"message_validate_dates_range", "mensaje",
-						ControladorFechas.formatDate(crop.getInitialDate(),
-								Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME),
-						ControladorFechas.formatDate(crop.getFinalDate(),
-								Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME));
+						"message_validate_dates_range", "mensaje", dateInitial,
+						dateFinal);
 			}
 			date = ControladorFechas.formatearFecha(
 					activities.getFinalDtBudget(),
@@ -1007,11 +1010,8 @@ public class CropActivitiesAction implements Serializable {
 			if (date.before(crop.getInitialDate())
 					|| date.after(crop.getFinalDate())) {
 				ControladorContexto.mensajeErrorArg1("popupFormReg:fechaFin",
-						"message_validate_dates_range", "mensaje",
-						ControladorFechas.formatDate(crop.getInitialDate(),
-								Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME),
-						ControladorFechas.formatDate(crop.getFinalDate(),
-								Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME));
+						"message_validate_dates_range", "mensaje", dateInitial,
+						dateFinal);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

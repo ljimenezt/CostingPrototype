@@ -3,6 +3,7 @@ package co.informatix.erp.lifeCycle.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -686,13 +687,13 @@ public class ScheduledActivitiesAction implements Serializable {
 									.getSelectedActivities()
 									.getDurationBudget());
 				} else {
-					this.activityMachine.setDurationBudget(ControladorFechas
-							.restarFechas(this.activitiesAction
-									.getSelectedActivities()
-									.getInitialDtBudget(),
-									this.activitiesAction
-											.getSelectedActivities()
-											.getFinalDtBudget()));
+					Date initialDate = this.activitiesAction
+							.getSelectedActivities().getInitialDtBudget();
+					Date finalDate = this.activitiesAction
+							.getSelectedActivities().getFinalDtBudget();
+					Double duration = ControladorFechas.restarFechas(
+							initialDate, finalDate);
+					this.activityMachine.setDurationBudget(duration);
 				}
 			} else {
 				ActivityMachine activityMachine = new ActivityMachine();
