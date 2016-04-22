@@ -177,7 +177,7 @@
 								<h:outputText value="#{deposit.materials.activeIngredients}" />
 							</rich:column>
 
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensajeWarehouse.deposits_label_real_quantity_actual}</f:facet>
 								<h:outputText value="#{deposit.actualQuantity}">
 									<f:convertNumber pattern="#,##0.00" />
@@ -254,7 +254,7 @@
 									value="#{transaction.activities.activityName.activityName}" />
 							</rich:column>
 
-							<rich:column styleClass="colNumero">
+							<rich:column styleClass="colvalor">
 								<f:facet name="header">#{mensaje.label_quantity}</f:facet>
 								<h:outputText value="#{transaction.quantity}">
 									<f:convertNumber pattern="#,##0.00" />
