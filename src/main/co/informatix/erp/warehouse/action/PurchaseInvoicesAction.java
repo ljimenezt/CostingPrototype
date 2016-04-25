@@ -987,6 +987,8 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void validateFields() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		InvoiceItemsAction invoiceItemsAction = ControladorContexto
+				.getContextBean(InvoiceItemsAction.class);
 		if (this.invoices.getDateTime() == null) {
 			ControladorContexto.mensajeRequeridos("formInvoices:dateInvoice");
 		}
@@ -996,14 +998,9 @@ public class PurchaseInvoicesAction implements Serializable {
 		if (("").equals(this.invoices.getInvoiceNumber())) {
 			ControladorContexto.mensajeRequeridos("formInvoices:txtNumInv");
 		}
-		if (this.invoices.getSubtotal() <= 0) {
-			ControladorContexto.mensajeError(null,
-					"formInvoices:subTotalValue",
-					bundle.getString("message_campo_mayo_cero"));
-		}
-		if (this.invoices.getTotalValueActual() <= 0) {
-			ControladorContexto.mensajeError(null, "formInvoices:totalValue",
-					bundle.getString("message_campo_mayo_cero"));
+		if (invoiceItemsAction.getInvoiceItemsList().size() <= 0) {
+			ControladorContexto.mensajeError(null, null,
+					bundle.getString("message_select_one_invoice_item"));
 		}
 	}
 
