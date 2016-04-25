@@ -280,12 +280,12 @@ public class BeanIndexAction implements Serializable {
 	 * This method fills the different objects that are associated with a bean
 	 * index.
 	 * 
+	 * @modify 25/04/2016 Jhair.Leal
+	 * 
 	 * @throws Exception
 	 */
 	private void loadDetailsBeanIndex() throws Exception {
-		List<BeanIndex> listBeanI = this.listBeanIndex;
-		this.listBeanIndex = new ArrayList<BeanIndex>();
-		for (BeanIndex beanIndex : listBeanI) {
+		for (BeanIndex beanIndex : listBeanIndex) {
 			int idBeanIndex = beanIndex.getIdBeanIndex();
 			Crops crops = (Crops) beanIndexDao.queryObjectBeanIndex("crops",
 					idBeanIndex);
@@ -293,7 +293,6 @@ public class BeanIndexAction implements Serializable {
 					"section", idBeanIndex);
 			beanIndex.setCrops(crops);
 			beanIndex.setSection(section);
-			this.listBeanIndex.add(beanIndex);
 		}
 	}
 
