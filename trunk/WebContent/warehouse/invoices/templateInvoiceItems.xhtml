@@ -22,7 +22,7 @@
 						rendered="#{purchaseInvoicesAction.flag eq true}"
 						styleClass="quitarDecoracionLink" execute="@form"
 						actionListener="#{invoiceItemsAction.addEditInvoiceItems(null)}"
-						render=":formRegInvoiceItems:popupRegInvoiceItems"
+						render=":formRegInvoiceItems:popupRegInvoiceItems, mensajes, mensajeBusqueda"
 						oncomplete="#{rich:component('popupRegInvoiceItems')}.show()">
 						<div align="right">
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
