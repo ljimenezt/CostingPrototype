@@ -260,7 +260,7 @@
 
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupInvoice" autosized="true"
-				styleClass="H502P fondoAnchoUno W580P" domElementAttachment="form"
+				styleClass="H510P fondoAnchoUno W580P" domElementAttachment="form"
 				header="#{mensaje.label_listing} #{mensajeWarehouse.purchase_invoice_label_s}">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -288,8 +288,7 @@
 							<h:selectOneMenu id="cmbSuppliers"
 								value="#{purchaseInvoicesAction.idSupplier}"
 								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')">
-								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-									itemValue="0" />
+								<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 								<f:selectItems value="#{purchaseInvoicesAction.itemsSupplier}" />
 							</h:selectOneMenu>
 
@@ -336,16 +335,18 @@
 					<ui:param name="listEmpty"
 						value="#{purchaseInvoicesAction.listInovoices eq null or (empty purchaseInvoicesAction.listInovoices)}" />
 					<div align="right" class="W560P">
-						<a:commandLink render="outPutSearchInvoice"
-							styleClass="quitarDecoracionLink"
-							action="#{purchaseInvoicesAction.searchInitialize}"
-							actionListener="#{purchaseInvoicesAction.setSearchNumber(null)}">
-							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-								<h:graphicImage value="/img/listarTodos_16.png" />
-								<h:outputText value="#{mensaje.button_list_all}" />
-							</h:panelGrid>
-							<f:param name="param2" value="si" />
-						</a:commandLink>
+						<h:panelGrid>
+							<a:commandLink render="outPutSearchInvoice"
+								styleClass="quitarDecoracionLink"
+								action="#{purchaseInvoicesAction.searchInitialize}"
+								actionListener="#{purchaseInvoicesAction.setSearchNumber(null)}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/listarTodos_16.png" />
+									<h:outputText value="#{mensaje.button_list_all}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+						</h:panelGrid>
 					</div>
 					<a:outputPanel id="outputInvoices">
 						<rich:dataTable value="#{purchaseInvoicesAction.listInovoices}"
