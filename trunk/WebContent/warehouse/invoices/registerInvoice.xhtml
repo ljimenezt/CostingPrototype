@@ -20,6 +20,8 @@
 		<t:saveState value="#{materialsAction}" />
 		<t:saveState value="#{controladorFechas}" />
 		<script type="text/javascript"
+			src="#{request.contextPath}/js/validacion.js"></script>
+		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
@@ -267,10 +269,11 @@
 				</ui:include>
 				<br />
 				<div align="center">
-					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+					<a:commandButton
+						render="formConfirmar:popUpConfirmar,formGenerico, mensajes, mensajeBusqueda"
 						execute="formInvoices"
 						actionListener="#{purchaseInvoicesAction.validateFields()}"
-						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); scrollUp(); }"
 						value="#{mensaje.button_save}" />
 				</div>
 			</rich:panel>

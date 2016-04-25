@@ -70,7 +70,7 @@ function controladorUpload(idForm, ancla) {
 	var idAncla = document.getElementById(valAncla);
 	if (idAncla != undefined && idAncla != '') {
 		anyadirAncla(idForm, valAncla);
-	}	
+	}
 	document.getElementById(idForm + ':upload').click();
 }
 
@@ -93,11 +93,11 @@ function configUpload(idForm, ancla, maxSize) {
 	var uploadFile = document.getElementById(idForm + ':uploadFile');
 	uploadFile.removeAttribute("onchange");
 	if (verificIE()) {
-		uploadFile.setAttribute("onchange", "checkFileSize(this, '"+ maxSize +"' , '" 
-				+ idForm + "', '" + ancla + "');");
+		uploadFile.setAttribute("onchange", "checkFileSize(this, '" + maxSize
+				+ "' , '" + idForm + "', '" + ancla + "');");
 	} else {
-		uploadFile['onchange'] = new Function("checkFileSize(this, '" + maxSize + "', '" 
-				+ idForm + "', '" + ancla + "');");
+		uploadFile['onchange'] = new Function("checkFileSize(this, '" + maxSize
+				+ "', '" + idForm + "', '" + ancla + "');");
 	}
 	uploadFile.click();
 }
@@ -151,21 +151,21 @@ function verificIE() {
  *            El id del elemento para establecer el foco.
  */
 function setFocus(id) {
-    var element = document.getElementById(id);
-    var idHidden;
-    if (element && element.focus) {
-    	element.focus();
-    	var idConFoco = document.activeElement.id;
-    	if(idConFoco != id) {
-    		if(element.type == 'hidden') {
-    			idHidden = id + '2';
-    			if(document.getElementById(idHidden) != undefined) {
-        			id = idHidden;
-    			}
-    		}
-            document.getElementById(id).scrollIntoView(true);
-    	}
-    }
+	var element = document.getElementById(id);
+	var idHidden;
+	if (element && element.focus) {
+		element.focus();
+		var idConFoco = document.activeElement.id;
+		if (idConFoco != id) {
+			if (element.type == 'hidden') {
+				idHidden = id + '2';
+				if (document.getElementById(idHidden) != undefined) {
+					id = idHidden;
+				}
+			}
+			document.getElementById(id).scrollIntoView(true);
+		}
+	}
 }
 
 /**
@@ -177,14 +177,14 @@ function setFocus(id) {
  *            radio que se quiere seleccionar.
  */
 function extendDataTableSelectOneRadio(radio) {
-    var id = radio.name.substring(radio.name.lastIndexOf(':'));
-    var el = radio.form.elements;
-    for (var i = 0; i != el.length; i++) {
-        if (el[i].name.substring(el[i].name.lastIndexOf(':')) == id) {
-            el[i].checked = false;
-        }
-    }
-      radio.checked = true;
+	var id = radio.name.substring(radio.name.lastIndexOf(':'));
+	var el = radio.form.elements;
+	for (var i = 0; i != el.length; i++) {
+		if (el[i].name.substring(el[i].name.lastIndexOf(':')) == id) {
+			el[i].checked = false;
+		}
+	}
+	radio.checked = true;
 }
 
 /**
@@ -215,15 +215,15 @@ function clickButton(idButton) {
  *            id del panel donde se quiere anclar luego de cargar el archivo.
  */
 function checkFileSize(inputFile, maxSize, idForm, ancla) {
-    var max = maxSize * 1024 * 1024;
-    if(inputFile.files) {
-	    if (inputFile.files[0].size > max) {
-	        inputFile.value = null;
-	        clickButton('formGenerico:buttonValidateSizeFile');
-	    } else {
-	    	controladorUpload(idForm, ancla);
-	    }
-    }
+	var max = maxSize * 1024 * 1024;
+	if (inputFile.files) {
+		if (inputFile.files[0].size > max) {
+			inputFile.value = null;
+			clickButton('formGenerico:buttonValidateSizeFile');
+		} else {
+			controladorUpload(idForm, ancla);
+		}
+	}
 }
 
 /**
@@ -276,24 +276,30 @@ function setFocusPopUp() {
 
 /**
  * Funcion que limpia el foco despues de hacer click en botones tipo submit.
- *
+ * 
  */
-$(function(){
+$(function() {
 
-	  $( 'input:submit' ).click(function( event ) {
-			 $('input:submit').blur();   		 	
-				});
+	$('input:submit').click(function(event) {
+		$('input:submit').blur();
+	});
 });
-
-
 
 /**
  * Funcion que impide envio de formulario con tecla enter.
- *
+ * 
  */
 $(document).on('keyup keypress', 'form input[type="text"]', function(e) {
-	  if(e.which == 13) {
-	    e.preventDefault();
-	    return false;
-	  }
-	});
+	if (e.which == 13) {
+		e.preventDefault();
+		return false;
+	}
+});
+
+/**
+ * This function make the scroll to initial position
+ * 
+ */
+function scrollUp() {
+	scroll(0, 0);
+}
