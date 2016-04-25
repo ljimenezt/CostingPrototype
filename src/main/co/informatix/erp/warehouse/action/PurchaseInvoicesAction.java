@@ -420,6 +420,7 @@ public class PurchaseInvoicesAction implements Serializable {
 			this.invoicesActualSelected = null;
 			this.invoices = new PurchaseInvoices();
 			this.flag = false;
+			this.idSupplier = 0;
 
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
