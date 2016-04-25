@@ -285,9 +285,13 @@
 
 							<h:outputText value="#{mensajeWarehouse.suppliers_label_name}"
 								styleClass="etiquetaTitulo" />
-							<h:inputText size="30" maxlength="100" id="txtSearchSupplier"
-								value="#{purchaseInvoicesAction.searchSupplier}"
-								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
+							<h:selectOneMenu id="cmbSuppliers"
+								value="#{purchaseInvoicesAction.idSupplier}"
+								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')">
+								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+									itemValue="0" />
+								<f:selectItems value="#{purchaseInvoicesAction.itemsSupplier}" />
+							</h:selectOneMenu>
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_start_date}" />

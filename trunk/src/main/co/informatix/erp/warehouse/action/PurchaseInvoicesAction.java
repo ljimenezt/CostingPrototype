@@ -84,6 +84,8 @@ public class PurchaseInvoicesAction implements Serializable {
 	private Paginador pagerForm = new Paginador();
 	private Paginador pagination = new Paginador();
 
+	private int idSupplier;
+
 	/**
 	 * 
 	 * @return fileUploadBean: Variable that gets the object for uploading
@@ -363,6 +365,21 @@ public class PurchaseInvoicesAction implements Serializable {
 	}
 
 	/**
+	 * @return idSupplier: Supplier identifier.
+	 */
+	public int getIdSupplier() {
+		return idSupplier;
+	}
+
+	/**
+	 * @param idSupplier
+	 *            : Supplier identifier.
+	 */
+	public void setIdSupplier(int idSupplier) {
+		this.idSupplier = idSupplier;
+	}
+
+	/**
 	 * @return folderFileTemporal: path of the temporary folder where the
 	 *         document of the cycle are loaded.
 	 */
@@ -390,17 +407,23 @@ public class PurchaseInvoicesAction implements Serializable {
 	 *         load the template with the information found
 	 */
 	public String searchInitialize() {
-		if (ControladorContexto.getFacesContext() != null) {
-			this.invoiceItemsAction = ControladorContexto
-					.getContextBean(InvoiceItemsAction.class);
+		try {
+			loadSuppliers();
+			if (ControladorContexto.getFacesContext() != null) {
+				this.invoiceItemsAction = ControladorContexto
+						.getContextBean(InvoiceItemsAction.class);
+			}
+			this.searchNumber = "";
+			this.searchSupplier = "";
+			this.initialDateSearch = null;
+			this.finalDateSearch = null;
+			this.invoicesActualSelected = null;
+			this.invoices = new PurchaseInvoices();
+			this.flag = false;
+
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
-		this.searchNumber = "";
-		this.searchSupplier = "";
-		this.initialDateSearch = null;
-		this.finalDateSearch = null;
-		this.invoicesActualSelected = null;
-		this.invoices = new PurchaseInvoices();
-		this.flag = false;
 		return consultInvoices();
 	}
 
@@ -509,6 +532,21 @@ public class PurchaseInvoicesAction implements Serializable {
 					+ ": "
 					+ '"'
 					+ this.searchSupplier + '"' + " ");
+			flag = true;
+		}
+
+		if (this.idSupplier != 0) {
+			consult.append(flag ? "AND " : "WHERE ");
+			consult.append("s.idSupplier = :keyword3 ");
+			SelectItem item = new SelectItem(this.idSupplier, "keyword3");
+			parameters.add(item);
+			String supplierName = (String) ValidacionesAction.getLabel(
+					itemsSupplier, this.idSupplier);
+			unionSearchMessages.append(bundleWarehouse
+					.getString("suppliers_label_name")
+					+ ": "
+					+ '"'
+					+ supplierName + '"' + " ");
 			flag = true;
 		}
 
