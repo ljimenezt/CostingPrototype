@@ -555,6 +555,14 @@ public class DepositsAction implements Serializable {
 			parameters.add(item);
 			queryAdded = true;
 		}
+		
+		if (this.idMaterial > 0) {
+			consult.append(queryAdded ? "AND " : "WHERE ");
+			consult.append("d.materials.id = :idMaterial ");
+			SelectItem item = new SelectItem(this.idMaterial, "idMaterial");
+			parameters.add(item);
+			queryAdded = true;
+		}
 
 		if ((this.nameSearch != null && !"".equals(this.nameSearch))) {
 			consult.append(queryAdded ? "AND " : "WHERE ");
