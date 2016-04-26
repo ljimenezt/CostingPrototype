@@ -89,6 +89,8 @@ public class UnitConversionDao implements Serializable {
 	 * This method queries unit conversions according to some search values and
 	 * retrieves a specified record range of the query.
 	 * 
+	 * @modify 25/04/2016 Jhair.Leal
+	 * 
 	 * @param start
 	 *            : First record to retrieved.
 	 * @param range
@@ -105,10 +107,10 @@ public class UnitConversionDao implements Serializable {
 	public List<UnitConversion> queryUnitConversion(int start, int range,
 			StringBuilder query, List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder
-				.append("SELECT uc FROM UnitConversion uc JOIN FETCH uc.unitConversionPk pk ");
-		queryBuilder
-				.append("JOIN FETCH pk.originalUnit JOIN FETCH pk.finalUnit ");
+		queryBuilder.append("SELECT uc FROM UnitConversion uc ");
+		queryBuilder.append("JOIN FETCH uc.unitConversionPk pk ");
+		queryBuilder.append("JOIN FETCH pk.originalUnit ");
+		queryBuilder.append("JOIN FETCH pk.finalUnit ");
 		queryBuilder.append(query);
 		queryBuilder.append("ORDER BY uc.unitConversionPk.originalUnit.name ");
 		Query q = em.createQuery(queryBuilder.toString());
@@ -129,6 +131,8 @@ public class UnitConversionDao implements Serializable {
 	 * measurement units that correspond to the originalUnit's id and
 	 * finalUnit's id parameters.
 	 * 
+	 * @modify 25/04/2016 Jhair.Leal
+	 * 
 	 * @param originalUnitId
 	 *            : Identifier of the measurement unit that corresponds to the
 	 *            original unit in the conversion
@@ -144,10 +148,10 @@ public class UnitConversionDao implements Serializable {
 			throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT uc FROM UnitConversion uc ");
-		queryBuilder
-				.append("WHERE uc.unitConversionPk.originalUnit.idMeasurementUnits=:originalUnitId ");
-		queryBuilder
-				.append("AND uc.unitConversionPk.finalUnit.idMeasurementUnits=:finalUnitId");
+		queryBuilder.append("WHERE uc.unitConversionPk.originalUnit");
+		queryBuilder.append(".idMeasurementUnits=:originalUnitId ");
+		queryBuilder.append("AND uc.unitConversionPk.finalUnit");
+		queryBuilder.append(".idMeasurementUnits=:finalUnitId");
 		Query query = em.createQuery(queryBuilder.toString());
 		query.setParameter("originalUnitId", originalUnitId);
 		query.setParameter("finalUnitId", finalUnitId);
