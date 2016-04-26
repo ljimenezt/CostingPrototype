@@ -130,7 +130,7 @@ public class ActivityNamesAction implements Serializable {
 	 * 
 	 * @modify Johnatan.Naranjo 22/04/2015
 	 * 
-	 * @return retorno: redirects to the template name to manage activities or
+	 * @return result: redirects to the template name to manage activity names or
 	 *         POPUP
 	 */
 	public String queryActivityNames() {
@@ -253,8 +253,7 @@ public class ActivityNamesAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = activityNames.getIdActivityName();
-			ActivityNames activityNamesAux = new ActivityNames();
-			activityNamesAux = activityNamesDao.nameExists(nombre, id);
+			ActivityNames activityNamesAux = activityNamesDao.nameExists(nombre, id);
 			if (activityNamesAux != null) {
 				String existenceMessage = "message_ya_existe_verifique";
 				context.addMessage(

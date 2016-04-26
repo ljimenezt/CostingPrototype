@@ -395,13 +395,12 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * Initializes the necessary variables for the current Human resources
-	 * management report.
+	 * Initializes the necessary variables for the management actual activities
 	 * 
 	 * @modify 22/03/2016 Andres.Gomez
 	 * 
-	 * @return regHrReportingActuals: redirected to the template record
-	 *         activities and human resources (actuals)
+	 * @return recordActivitiesActuals: redirected to the management to keep
+	 *         actual activities
 	 */
 	public String initializeRecordActual() {
 		try {

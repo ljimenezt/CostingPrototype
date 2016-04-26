@@ -565,8 +565,7 @@ public class CropActivitiesAction implements Serializable {
 			} else {
 				idCropsName = idCropNamesSearch;
 			}
-			List<Crops> listCropsCurrent;
-			listCropsCurrent = cropsDao
+			List<Crops> listCropsCurrent = cropsDao
 					.consultCropNamesCropsCurrent(idCropsName);
 			if (listCropsCurrent != null) {
 				for (Crops crops : listCropsCurrent) {
@@ -1026,7 +1025,6 @@ public class CropActivitiesAction implements Serializable {
 	 */
 	public void validateMaxDate() {
 		if (this.activities.getInitialDtBudget() != null) {
-			this.maxDate = new Date();
 			maxDate = activities.getInitialDtBudget();
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(maxDate);
@@ -1055,13 +1053,12 @@ public class CropActivitiesAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 
 		Double duration = (Double) value;
-		Double durationActivity;
 		Date initialDate = this.activities.getInitialDtBudget();
 		Date finalDate = this.activities.getFinalDtBudget();
 		try {
 			if (duration != null) {
 				if (duration > 0) {
-					durationActivity = (Double) ControladorFechas.restarFechas(
+					Double durationActivity = (Double) ControladorFechas.restarFechas(
 							initialDate, finalDate);
 					if (duration.compareTo(durationActivity) > 0) {
 						String mensaje = "message_activity_duration";
