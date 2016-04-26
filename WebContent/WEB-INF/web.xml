@@ -77,7 +77,7 @@
 			/recursosHumanos/certificationsAndRoles/faces-config-certificationsAndRoles.xml,
 			/recursosHumanos/paymentMethods/faces-config-paymentMethods.xml,
 			/recursosHumanos/contractType/faces-config-contractType.xml,
-			/recursosHumanos/contrato/faces-config-contrato.xml,
+			/recursosHumanos/contract/faces-config-contract.xml,
 			/recursosHumanos/hrCertificationsAndRoles/faces-config-hrCertificationsAndRoles.xml,
 			/recursosHumanos/payments/faces-config-payments.xml,
 			/recursosHumanos/overtimePaymentRate/faces-config-overtimePayment.xml,

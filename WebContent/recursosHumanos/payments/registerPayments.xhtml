@@ -22,7 +22,7 @@
 		      $g=jQuery.noConflict();	
 		</script>
 		<t:saveState value="#{paymentsAction}" />
-		<t:saveState value="#{contratoAction}" />
+		<t:saveState value="#{contractAction}" />
 		<t:saveState value="#{hrAction}" />
 		<h:form id="formPayments">
 			<rich:panel
@@ -84,14 +84,14 @@
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								required="true" validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkContrato" render=":popupForm:popupContrato"
-								actionListener="#{contratoAction.initializeSearch}"
+								actionListener="#{contractAction.initializeSearch}"
 								execute="@this"
 								oncomplete="#{rich:component('popupContrato')}.show(); setFocus('popupForm:txtNombreBuscar');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />
 								<f:param name="param2" value="si" />
 								<f:setPropertyActionListener value=""
-									target="#{contratoAction.nameSearch}" />
+									target="#{contractAction.nameSearch}" />
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
@@ -198,10 +198,10 @@
 								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-									value="#{contratoAction.nameSearch}"
+									value="#{contractAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-									actionListener="#{contratoAction.searchContracts}"
+									actionListener="#{contractAction.searchContracts}"
 									render="outputContrato, outPutBuscarContrato">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
@@ -217,12 +217,12 @@
 						<br />
 
 						<ui:param name="listaVacia"
-							value="#{contratoAction.contractList eq null or (empty contratoAction.contractList )}" />
+							value="#{contractAction.contractList eq null or (empty contractAction.contractList )}" />
 						<div align="right" class="W560P">
 							<a:commandLink render="outPutBuscarContrato"
 								styleClass="quitarDecoracionLink"
-								action="#{contratoAction.searchContracts}"
-								actionListener="#{contratoAction.setNameSearch(null)}">
+								action="#{contractAction.searchContracts}"
+								actionListener="#{contractAction.setNameSearch(null)}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/listarTodos_16.png" />
 									<h:outputText value="#{mensaje.button_list_all}" />
@@ -231,7 +231,7 @@
 							</a:commandLink>
 						</div>
 						<a:outputPanel id="outputContrato">
-							<rich:dataTable value="#{contratoAction.contractList}"
+							<rich:dataTable value="#{contractAction.contractList}"
 								var="contrato" id="tcontrato" footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 								rowClasses="odd-row, even-row">
@@ -280,7 +280,7 @@
 										<ui:param name="conParam2" value="1" />
 										<ui:param name="pager" value="pagination" />
 										<ui:param name="valReder" value=":popupForm:outputContrato" />
-										<ui:param name="beanActionParam" value="#{contratoAction}" />
+										<ui:param name="beanActionParam" value="#{contractAction}" />
 										<ui:param name="metodoActionParam" value="searchContracts" />
 									</ui:include>
 								</div>

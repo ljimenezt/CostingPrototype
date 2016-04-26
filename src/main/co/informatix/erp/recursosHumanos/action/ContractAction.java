@@ -14,7 +14,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
-import co.informatix.erp.recursosHumanos.dao.ContratoDao;
+import co.informatix.erp.recursosHumanos.dao.ContractDao;
 import co.informatix.erp.recursosHumanos.entities.Contrato;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.utils.Constantes;
@@ -35,10 +35,10 @@ import co.informatix.security.action.IdentityAction;
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class ContratoAction implements Serializable {
+public class ContractAction implements Serializable {
 
 	@EJB
-	private ContratoDao contratoDao;
+	private ContractDao contractDao;
 	@Inject
 	private IdentityAction identity;
 
@@ -160,10 +160,10 @@ public class ContratoAction implements Serializable {
 		String searchMessage = "";
 		boolean fromModal = (inModal != null && Constantes.SI.equals(inModal)) ? true
 				: false;
-		String returns = fromModal ? "" : "gesContrato";
+		String returns = fromModal ? "" : "manContract";
 		try {
 			advancedSearch(queryBuilder, parameters, bundle, jointSearchMessage);
-			Long amount = contratoDao.amountContracts(queryBuilder, parameters);
+			Long amount = contractDao.amountContracts(queryBuilder, parameters);
 			if (amount != null) {
 				if (fromModal) {
 					pagination.paginarRangoDefinido(amount, 5);
@@ -171,7 +171,7 @@ public class ContratoAction implements Serializable {
 					pagination.paginar(amount);
 				}
 			}
-			contractList = contratoDao.searchContracts(pagination.getInicio(),
+			contractList = contractDao.searchContracts(pagination.getInicio(),
 					pagination.getRango(), queryBuilder, parameters);
 			if ((contractList == null || contractList.size() <= 0)
 					&& !"".equals(jointSearchMessage.toString())) {
@@ -213,7 +213,6 @@ public class ContratoAction implements Serializable {
 	 *            : Context to access language tags.
 	 * @param unionMessagesSearch
 	 *            : Search message.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -235,7 +234,7 @@ public class ContratoAction implements Serializable {
 	 * @param contract
 	 *            : Contract to add or edit.
 	 * 
-	 * @return "regContrato": Redirects to the template to register a contract.
+	 * @return "regContract": Redirects to the template to register a contract.
 	 * @throws Exception
 	 */
 	public String addEditContract(Contrato contract) throws Exception {
@@ -246,7 +245,7 @@ public class ContratoAction implements Serializable {
 			this.contract = new Contrato();
 			this.contract.setPersona(new Persona());
 		}
-		return "regContrato";
+		return "regContract";
 	}
 
 	/**
@@ -275,7 +274,7 @@ public class ContratoAction implements Serializable {
 	 */
 	public void loadContractDetails(Contrato contract) throws Exception {
 		int contractId = contract.getId();
-		Persona person = (Persona) this.contratoDao.searchContract("persona",
+		Persona person = (Persona) this.contractDao.searchContract("persona",
 				contractId);
 		contract.setPersona(person);
 	}
@@ -289,7 +288,7 @@ public class ContratoAction implements Serializable {
 	public String deleteContract() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			contratoDao.deleteContract(contract);
+			contractDao.deleteContract(contract);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"), contract
 							.getPersona().getNombres()));
@@ -332,12 +331,12 @@ public class ContratoAction implements Serializable {
 		String key = bundle.getString("message_registro_modificar");
 		try {
 			if (this.contract.getId() != 0) {
-				contratoDao.editContract(contract);
+				contractDao.editContract(contract);
 			} else {
 				key = bundle.getString("message_registro_guardar");
 				this.contract.setFechaCreacion(new Date());
 				this.contract.setUserName(identity.getUserName());
-				contratoDao.saveContract(contract);
+				contractDao.saveContract(contract);
 			}
 			this.nameSearch = "";
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
