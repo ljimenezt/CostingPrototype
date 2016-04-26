@@ -210,15 +210,18 @@
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_number}"
 							styleClass="etiquetaTitulo" />
-						<h:inputText size="30" maxlength="100" id="txtSearchNumber"
-							value="#{purchaseInvoicesAction.searchNumber}"
+						<h:inputText maxlength="100" id="txtSearchNumber"
+							styleClass="W170P" value="#{purchaseInvoicesAction.searchNumber}"
 							onkeypress="return submitByEnter(event,'formSearch:btnSearch')" />
 
 						<h:outputText value="#{mensajeWarehouse.suppliers_label_name}"
 							styleClass="etiquetaTitulo" />
-						<h:inputText size="30" maxlength="100" id="txtSearchSupplier"
-							value="#{purchaseInvoicesAction.searchSupplier}"
-							onkeypress="return submitByEnter(event,'formSearch:btnSearch')" />
+						<h:selectOneMenu id="cmbSuppliers" styleClass="W170P"
+							value="#{purchaseInvoicesAction.idSupplier}"
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')">
+							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
+							<f:selectItems value="#{purchaseInvoicesAction.itemsSupplier}" />
+						</h:selectOneMenu>
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_start_date}" />
