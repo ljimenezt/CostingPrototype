@@ -441,7 +441,6 @@ public class ScheduledActivitiesAction implements Serializable {
 						.getContextBean(ActivitiesAction.class);
 			}
 			eraseActivities();
-			this.crops = new Crops();
 			this.activities = new Activities();
 			this.cropNames = new CropNames();
 			this.machine = new Machines();
@@ -449,7 +448,7 @@ public class ScheduledActivitiesAction implements Serializable {
 				this.activitiesAction.setListActivities(null);
 			this.machinesAction = new MachinesAction();
 			this.setSelectedActivity(null);
-			crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
+			this.crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 			if (crops != null) {
 				idCropName = crops.getCropNames().getIdCropName();
 				idCrop = crops.getIdCrop();

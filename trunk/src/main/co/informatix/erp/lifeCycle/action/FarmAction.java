@@ -245,11 +245,11 @@ public class FarmAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of estates.
+	 * Consult the list of farms.
 	 * 
 	 * @modify 09/03/2016 Sergio.Gelves
 	 * 
-	 * @return "gesFarm": Redirects to the template to manage the estates.
+	 * @return "gesFarm": Redirects to manage farms.
 	 */
 	public String searchFarms() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -460,8 +460,7 @@ public class FarmAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = farm.getIdFarm();
-			Farm auxFarm = new Farm();
-			auxFarm = farmDao.nameExists(name, id);
+			Farm auxFarm = farmDao.nameExists(name, id);
 			if (auxFarm != null) {
 				String existenceMessage = "message_ya_existe_verifique";
 				context.addMessage(

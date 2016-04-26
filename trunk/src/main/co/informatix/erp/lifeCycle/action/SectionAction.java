@@ -226,8 +226,7 @@ public class SectionAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = section.getIdSection();
-			Section sectionAux = new Section();
-			sectionAux = sectionDao.nameExist(name, id);
+			Section sectionAux = sectionDao.nameExist(name, id);
 			if (sectionAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(

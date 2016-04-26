@@ -234,8 +234,7 @@ public class CropNamesAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = cropNames.getIdCropName();
-			CropNames cropNamesAux = new CropNames();
-			cropNamesAux = cropNamesDao.nameExists(name, id);
+			CropNames cropNamesAux = cropNamesDao.nameExists(name, id);
 			if (cropNamesAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
