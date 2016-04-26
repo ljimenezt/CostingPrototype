@@ -125,7 +125,7 @@ public class ActivityNamesAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of the names of the activities to show either a POPUP or
+	 * Consult the activity names list to show either a POPUP or
 	 * in management
 	 * 
 	 * @modify Johnatan.Naranjo 22/04/2015
