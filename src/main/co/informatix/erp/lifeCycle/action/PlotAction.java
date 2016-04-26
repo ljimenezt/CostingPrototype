@@ -388,11 +388,9 @@ public class PlotAction implements Serializable {
 	 * @throws Exception
 	 */
 	public void loadDetailsPlot() throws Exception {
-		List<Plot> plots = new ArrayList<Plot>();
 		if (this.listPlots != null) {
-			plots.addAll(this.listPlots);
 			this.listPlots = new ArrayList<Plot>();
-			for (Plot plot : plots) {
+			for (Plot plot : this.listPlots) {
 				Farm farm = (Farm) this.plotDao.consultObjectPlot("farm",
 						plot.getIdPlot());
 				plot.setFarm(farm);
@@ -470,8 +468,7 @@ public class PlotAction implements Serializable {
 		try {
 			int id = plot.getIdPlot();
 			int idFarm = farm.getIdFarm();
-			Plot plotAux = new Plot();
-			plotAux = plotDao.nameExist(name, id, idFarm);
+			Plot plotAux = plotDao.nameExist(name, id, idFarm);
 			if (plotAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
