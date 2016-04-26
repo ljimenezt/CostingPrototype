@@ -331,47 +331,53 @@ public class FarmAction implements Serializable {
 	 *            : Property that you are adding or editing.
 	 * 
 	 * @return "regFarm": Redirects to the record template farm.
-	 * @throws Exception
 	 */
-	public String addEditFarm(Farm farm) throws Exception {
-		if (farm != null) {
-			this.farm = farm;
-			// Managing fetch.LAZY for foreign keys
-			if (this.farm.getPais() != null) {
-				Pais knownCountry = paisDao.consultarPais(farm.getPais()
-						.getId());
-				this.farm.setPais(knownCountry);
-			} else {
-				this.farm.setPais(new Pais());
-			}
-			if (this.farm.getDepartamento() != null) {
-				Departamento knownDepartment = departamentoDao
-						.consultarDepartamentoXId(farm.getDepartamento()
-								.getId());
-				this.farm.setDepartamento(knownDepartment);
-			} else {
-				this.farm.setDepartamento(new Departamento());
-			}
-			if (this.farm.getMunicipio() != null) {
-				Municipio knownMunicipality = municipioDao
-						.consultarMunicipio(farm.getMunicipio().getId());
-				this.farm.setMunicipio(knownMunicipality);
-			} else {
-				this.farm.setMunicipio(new Municipio());
-			}
+	public String addEditFarm(Farm farm) {
+		try {
+			if (farm != null) {
+				this.farm = farm;
+				// Managing fetch.LAZY for foreign keys
+				if (this.farm.getPais() != null) {
+					Pais knownCountry;
 
-			this.logoPicName = this.farm.getLogo();
-			this.temporalPicLoading = false;
-		} else {
-			this.farm = new Farm();
-			this.farm.setPais(new Pais());
-			this.farm.setDepartamento(new Departamento());
-			this.farm.setMunicipio(new Municipio());
-			this.logoPicName = null;
-			this.fileUploadBean = new FileUploadBean();
-			this.temporalPicLoading = true;
+					knownCountry = paisDao
+							.consultarPais(farm.getPais().getId());
+
+					this.farm.setPais(knownCountry);
+				} else {
+					this.farm.setPais(new Pais());
+				}
+				if (this.farm.getDepartamento() != null) {
+					Departamento knownDepartment = departamentoDao
+							.consultarDepartamentoXId(farm.getDepartamento()
+									.getId());
+					this.farm.setDepartamento(knownDepartment);
+				} else {
+					this.farm.setDepartamento(new Departamento());
+				}
+				if (this.farm.getMunicipio() != null) {
+					Municipio knownMunicipality = municipioDao
+							.consultarMunicipio(farm.getMunicipio().getId());
+					this.farm.setMunicipio(knownMunicipality);
+				} else {
+					this.farm.setMunicipio(new Municipio());
+				}
+
+				this.logoPicName = this.farm.getLogo();
+				this.temporalPicLoading = false;
+			} else {
+				this.farm = new Farm();
+				this.farm.setPais(new Pais());
+				this.farm.setDepartamento(new Departamento());
+				this.farm.setMunicipio(new Municipio());
+				this.logoPicName = null;
+				this.fileUploadBean = new FileUploadBean();
+				this.temporalPicLoading = true;
+			}
+			loadComboBoxes();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
-		loadComboBoxes();
 		return "regFarm";
 	}
 
@@ -570,7 +576,7 @@ public class FarmAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void loadFarmDetails() throws Exception {
+	private void loadFarmDetails() throws Exception {
 		List<Farm> farms = new ArrayList<Farm>();
 		farms.addAll(this.farmsList);
 		this.farmsList = new ArrayList<Farm>();
@@ -589,7 +595,7 @@ public class FarmAction implements Serializable {
 	 *            : Farm to which the details will be loaded.
 	 * @throws Exception
 	 */
-	public void loadFarmDetails(Farm farm) throws Exception {
+	private void loadFarmDetails(Farm farm) throws Exception {
 		int farmId = farm.getIdFarm();
 		Pais country = (Pais) this.farmDao.searchFarmObject("pais", farmId);
 		Departamento department = (Departamento) this.farmDao.searchFarmObject(
