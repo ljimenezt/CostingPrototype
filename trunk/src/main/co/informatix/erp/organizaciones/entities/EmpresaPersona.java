@@ -41,7 +41,6 @@ public class EmpresaPersona implements Serializable {
 	private Empresa empresa;
 	private Hacienda hacienda;
 	private TipoCargo tipoCargo;
-	private DepartamentoEmpresa departamenteoEmpresa;
 
 	/**
 	 * 
@@ -223,25 +222,6 @@ public class EmpresaPersona implements Serializable {
 	 */
 	public void setTipoCargo(TipoCargo tipoCargo) {
 		this.tipoCargo = tipoCargo;
-	}
-
-	/**
-	 * @return departamenteoEmpresa: Reference to the department of the company
-	 *         to which the person belongs.
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_departamento_empresa", referencedColumnName = "id", nullable = true)
-	public DepartamentoEmpresa getDepartamenteoEmpresa() {
-		return departamenteoEmpresa;
-	}
-
-	/**
-	 * @param departamenteoEmpresa
-	 *            :Reference to the department of the company to which the
-	 *            person belongs.
-	 */
-	public void setDepartamenteoEmpresa(DepartamentoEmpresa departamenteoEmpresa) {
-		this.departamenteoEmpresa = departamenteoEmpresa;
 	}
 
 	@Override

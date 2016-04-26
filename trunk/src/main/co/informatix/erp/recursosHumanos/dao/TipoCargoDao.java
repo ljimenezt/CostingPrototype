@@ -7,7 +7,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import co.informatix.erp.organizaciones.entities.DepartamentoEmpresa;
 import co.informatix.erp.recursosHumanos.entities.TipoCargo;
 
 /**
@@ -178,29 +177,4 @@ public class TipoCargoDao implements Serializable {
 	public TipoCargo consultarTipoCargo(int id) throws Exception {
 		return em.find(TipoCargo.class, id);
 	}
-
-	/**
-	 * This method consultation types of jobs belonging to a department of the
-	 * company
-	 * 
-	 * @author marisol.calderon
-	 * 
-	 * @param departamentoEmpresa
-	 *            : departamentoEmpresa object for which you want to filter the
-	 *            types of jobs.
-	 * @return List<TipoCargo>: list of objects with existing types of jobs.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<TipoCargo> tipoCargoXDepartamentoEmpresa(
-			DepartamentoEmpresa departamentoEmpresa) throws Exception {
-		return em
-				.createQuery(
-						"SELECT detc.llavePrimaria.tipoCargo FROM DepartamentoEmpresaTipoCargo detc "
-								+ "WHERE detc.llavePrimaria.departamentoEmpresa=:departamentoEmpresa "
-								+ "AND detc.fechaFinVigencia IS NULL")
-				.setParameter("departamentoEmpresa", departamentoEmpresa)
-				.getResultList();
-	}
-
 }
