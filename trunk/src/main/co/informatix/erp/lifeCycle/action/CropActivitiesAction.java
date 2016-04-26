@@ -666,7 +666,7 @@ public class CropActivitiesAction implements Serializable {
 	 * @throws Exception
 	 * 
 	 */
-	public String addEditActivities() throws Exception {
+	private String addEditActivities() throws Exception {
 		cleanActivities();
 		fillCropNames();
 		initializeActivities();
@@ -773,10 +773,8 @@ public class CropActivitiesAction implements Serializable {
 	 * 
 	 * @param listActivityNames
 	 *            : Name list of activities.
-	 * @throws Exception
 	 */
-	public void generateListActivities(List<ActivityNames> listActivityNames)
-			throws Exception {
+	public void generateListActivities(List<ActivityNames> listActivityNames) {
 		String param2 = ControladorContexto.getParam("param2");
 		boolean desdeModal = (param2 != null && Constantes.SI.equals(param2)) ? true
 				: false;
@@ -784,12 +782,7 @@ public class CropActivitiesAction implements Serializable {
 		this.activities = new Activities();
 		this.activities.setActivityName(this.activityNames);
 		this.activities.setCrop(getCrops());
-		if (this.listActivities == null) {
-			this.listActivities = new ArrayList<Activities>();
-		}
-		this.listActivities.add(this.activities);
 		this.pagination = new Paginador();
-		initializeList();
 	}
 
 	/**
@@ -977,13 +970,14 @@ public class CropActivitiesAction implements Serializable {
 
 	/**
 	 * This method allows validate that the activity dates are in the range of
-	 * dates crop.
+	 * dates crop and valid the date of the activity to add is not repeated for
+	 * the same crop
 	 * 
 	 * @author Mabell.Boada
 	 * @modify 20/04/2016 Wilhelm.Boada
 	 * 
 	 */
-	public void validateDates() {
+	public void validateDatesAllowed() {
 		try {
 			Crops crop = cropsDao.cropsXID(activities.getCrop().getIdCrop());
 			Date date = ControladorFechas.formatearFecha(
@@ -995,6 +989,7 @@ public class CropActivitiesAction implements Serializable {
 			String dateFinal = ControladorFechas.formatDate(
 					crop.getFinalDate(),
 					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+			boolean flagDate = false;
 			if (date.before(crop.getInitialDate())
 					|| date.after(crop.getFinalDate())) {
 
@@ -1011,6 +1006,30 @@ public class CropActivitiesAction implements Serializable {
 				ControladorContexto.mensajeErrorArg1("popupFormReg:fechaFin",
 						"message_validate_dates_range", "mensaje", dateInitial,
 						dateFinal);
+			}
+			int idActivity = this.activities.getIdActivity();
+			int idActivityName = this.activities.getActivityName()
+					.getIdActivityName();
+			for (Activities activity : this.listActivities) {
+				int idActivityList = activity.getIdActivity();
+				int idActivityNameList = activity.getActivityName()
+						.getIdActivityName();
+				Date dateS = ControladorFechas.formatearFecha(
+						activity.getInitialDtBudget(),
+						Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+				if (dateS.equals(this.activities.getInitialDtBudget())
+						&& idActivityName == idActivityNameList
+						&& idActivity != idActivityList) {
+					flagDate = true;
+					break;
+				}
+			}
+			if (flagDate) {
+				ControladorContexto
+						.mensajeErrorEspecifico(
+								"popupFormReg:fechaInicio",
+								"activities_message_can_not_register_activities_same_date",
+								"messageCosts");
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -1058,8 +1077,8 @@ public class CropActivitiesAction implements Serializable {
 		try {
 			if (duration != null) {
 				if (duration > 0) {
-					Double durationActivity = (Double) ControladorFechas.restarFechas(
-							initialDate, finalDate);
+					Double durationActivity = (Double) ControladorFechas
+							.restarFechas(initialDate, finalDate);
 					if (duration.compareTo(durationActivity) > 0) {
 						String mensaje = "message_activity_duration";
 						context.addMessage(clientId,
@@ -1115,6 +1134,19 @@ public class CropActivitiesAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * This method allows add a activity on the activities list
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void addActivity() {
+		if (this.listActivities == null) {
+			this.listActivities = new ArrayList<Activities>();
+		}
+		this.listActivities.add(this.activities);
+		initializeList();
 	}
 
 }

@@ -605,7 +605,8 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}" execute="@form"
-							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupFormReg')}.hide();" />
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupFormReg')}.hide();"
+							action="#{cropActivitiesAction.addActivity()}" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
