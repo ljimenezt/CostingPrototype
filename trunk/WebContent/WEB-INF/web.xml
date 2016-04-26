@@ -48,9 +48,9 @@
 			/WEB-INF/faces-config.xml,
 			
 			/informacionBase/tipoDocumento/faces-config-tipoDocumento.xml,
-			/informacionBase/ubicacionGeografica/pais/faces-config-pais.xml,
-			/informacionBase/ubicacionGeografica/departamento/faces-config-departamento.xml,
-			/informacionBase/ubicacionGeografica/municipio/faces-config-municipio.xml,
+			/informacionBase/geographicLocation/country/faces-config-country.xml,
+			/informacionBase/geographicLocation/department/faces-config-department.xml,
+			/informacionBase/geographicLocation/municipality/faces-config-municipality.xml,
 			/informacionBase/civilStatus/faces-config-civilStatus.xml,
 			/informacionBase/typeUnit/faces-config-typeUnit.xml,
 			/informacionBase/unitConversion/faces-config-unit-conversion.xml,

@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesPais</from-outcome>
-			<to-view-id>/informacionBase/ubicacionGeografica/pais/gestionarPaises.xhtml</to-view-id>
+			<to-view-id>/informacionBase/geographicLocation/country/manageCountries.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regPais</from-outcome>
-			<to-view-id>/informacionBase/ubicacionGeografica/pais/registrarPais.xhtml</to-view-id>
+			<to-view-id>/informacionBase/geographicLocation/country/registerCountry.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

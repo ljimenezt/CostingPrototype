@@ -9,14 +9,14 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesMunicipio</from-outcome>
-			<to-view-id>/informacionBase/ubicacionGeografica/municipio/gestionarMunicipio.xhtml</to-view-id>
+			<to-view-id>/informacionBase/geographicLocation/municipality/manageMunicipality.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regMunicipio</from-outcome>
-			<to-view-id>/informacionBase/ubicacionGeografica/municipio/registrarMunicipio.xhtml</to-view-id>
+			<to-view-id>/informacionBase/geographicLocation/municipality/registerMunicipality.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 </faces-config>
