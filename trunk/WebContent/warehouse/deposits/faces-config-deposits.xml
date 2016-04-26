@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesDeposits</from-outcome>
-			<to-view-id>/warehouse/deposits/gestionarDeposits.xhtml</to-view-id>
+			<to-view-id>/warehouse/deposits/manageDeposits.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regDeposits</from-outcome>
-			<to-view-id>/warehouse/deposits/registrarDeposits.xhtml</to-view-id>
+			<to-view-id>/warehouse/deposits/registerDeposits.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
