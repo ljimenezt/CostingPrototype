@@ -9,23 +9,23 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="contratoAction.initializeSearch" />
+	<ui:param name="action" value="contractAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="mensaje.label_manage,messageHumanResources.contract_label_s" />
 
 	<ui:define name="body">
-		<t:saveState value="#{contratoAction}" />
+		<t:saveState value="#{contractAction}" />
 		<ui:param name="listaVacia"
-			value="#{contratoAction.contractList eq null or (empty contratoAction.contractList)}" />
+			value="#{contractAction.contractList eq null or (empty contractAction.contractList)}" />
 		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
-		<ui:param name="actionLista" value="#{contratoAction}" />
+		<ui:param name="actionLista" value="#{contractAction}" />
 		<ui:param name="renderLista" value="panelContrato vigenciaPopup" />
 		<ui:param name="metodoLista" value="searchContracts" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
-		<ui:param name="nombreAction" value="contratoAction" />
+		<ui:param name="nombreAction" value="contractAction" />
 		<ui:param name="metodoNuevo" value="addEditContract" />
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
@@ -39,17 +39,17 @@
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
-				<rich:dataTable value="#{contratoAction.contractList}"
+				<rich:dataTable value="#{contractAction.contractList}"
 					var="contrato"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 
 					<rich:column styleClass="colIconoAjustable"
-						rendered="#{contratoAction.valid eq 'si' and (identity.autorizado('contratoAction','A') or identity.autorizado('contratoAction','U'))}">
+						rendered="#{contractAction.valid eq 'si' and (identity.autorizado('contractAction','A') or identity.autorizado('contractAction','U'))}">
 						<a:outputPanel
-							rendered="#{(identity.autorizado('contratoAction','A') or identity.autorizado('contratoAction','D'))}">
+							rendered="#{(identity.autorizado('contractAction','A') or identity.autorizado('contractAction','D'))}">
 							<a:commandLink render="popupEliminar"
-								actionListener="#{contratoAction.setContract(contrato)}"
+								actionListener="#{contractAction.setContract(contrato)}"
 								oncomplete="#{rich:component('popupEliminar')}.show()">
 								<h:graphicImage value="/img/delete_16.png" />
 								<rich:tooltip layout="block">
@@ -62,7 +62,7 @@
 					<rich:column styleClass="colTextoLargo">
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<h:commandLink value="#{contrato.persona.nombreCompleto}"
-							action="#{contratoAction.addEditContract(contrato)}"
+							action="#{contractAction.addEditContract(contrato)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
@@ -112,7 +112,7 @@
 					<div class="#{anchoTabla} center inBlock">
 						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valReder" value="panelContrato" />
-							<ui:param name="beanActionParam" value="#{contratoAction}" />
+							<ui:param name="beanActionParam" value="#{contractAction}" />
 							<ui:param name="metodoActionParam" value="searchContracts" />
 						</ui:include>
 					</div>
@@ -136,13 +136,13 @@
 					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{contratoAction.nameSearch}"
+						id="txtNombreBuscar" value="#{contractAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						actionListener="#{contratoAction.searchContracts()}"
+						actionListener="#{contractAction.searchContracts()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelContrato, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -170,11 +170,11 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{contratoAction.contract.persona.nombres}" />
+						<h:outputText value="#{contractAction.contract.persona.nombres}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{contratoAction.deleteContract()}"
+							actionListener="#{contractAction.deleteContract()}"
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="panelContrato, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"

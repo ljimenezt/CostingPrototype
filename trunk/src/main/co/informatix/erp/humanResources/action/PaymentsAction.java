@@ -15,7 +15,7 @@ import javax.faces.model.SelectItem;
 import co.informatix.erp.humanResources.dao.PaymentsDao;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.humanResources.entities.Payments;
-import co.informatix.erp.recursosHumanos.dao.ContratoDao;
+import co.informatix.erp.recursosHumanos.dao.ContractDao;
 import co.informatix.erp.recursosHumanos.entities.Contrato;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.utils.ControladorContexto;
@@ -37,7 +37,7 @@ public class PaymentsAction implements Serializable {
 	@EJB
 	private PaymentsDao paymentsDao;
 	@EJB
-	private ContratoDao contratoDao;
+	private ContractDao contractDao;
 
 	private List<Payments> listPayments;
 	private Payments payments;
@@ -225,7 +225,7 @@ public class PaymentsAction implements Serializable {
 				"contract", idPayment);
 		Hr hr = (Hr) this.paymentsDao.consultObjectPayments("hr", idPayment);
 		int idContract = contract.getId();
-		Persona person = (Persona) this.contratoDao.searchContract("persona",
+		Persona person = (Persona) this.contractDao.searchContract("persona",
 				idContract);
 		contract.setPersona(person);
 		payment.setContract(contract);

@@ -7,16 +7,16 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesContrato</from-outcome>
-			<to-view-id>/recursosHumanos/contrato/manageContracts.xhtml</to-view-id>
+			<from-outcome>manContract</from-outcome>
+			<to-view-id>/recursosHumanos/contract/manageContracts.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regContrato</from-outcome>
-			<to-view-id>/recursosHumanos/contrato/registerContract.xhtml</to-view-id>
+			<from-outcome>regContract</from-outcome>
+			<to-view-id>/recursosHumanos/contract/registerContract.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

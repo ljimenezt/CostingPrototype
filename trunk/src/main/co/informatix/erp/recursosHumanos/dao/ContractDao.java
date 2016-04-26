@@ -16,11 +16,10 @@ import co.informatix.erp.recursosHumanos.entities.Contrato;
  * management. Contracts are handled in the payroll of the company.
  * 
  * @author Andres.Gomez
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class ContratoDao implements Serializable {
+public class ContractDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
