@@ -60,7 +60,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	private UserTransaction userTransaction;
 
 	private String searchNumber;
-	private String searchSupplier;
 	private String nameDocument;
 	private String folderFileTemporal;
 	private String locationServer;
@@ -118,23 +117,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public void setSearchNumber(String searchNumber) {
 		this.searchNumber = searchNumber;
-	}
-
-	/**
-	 * @return searchSupplier: gets the supplier name by which you want to
-	 *         consult purchases invoices
-	 */
-	public String getSearchSupplier() {
-		return searchSupplier;
-	}
-
-	/**
-	 * @param searchSupplier
-	 *            : gets the supplier name by which you want to consult
-	 *            purchases invoices
-	 */
-	public void setSearchSupplier(String searchSupplier) {
-		this.searchSupplier = searchSupplier;
 	}
 
 	/**
@@ -414,7 +396,6 @@ public class PurchaseInvoicesAction implements Serializable {
 						.getContextBean(InvoiceItemsAction.class);
 			}
 			this.searchNumber = "";
-			this.searchSupplier = "";
 			this.initialDateSearch = null;
 			this.finalDateSearch = null;
 			this.invoicesActualSelected = null;
@@ -522,17 +503,17 @@ public class PurchaseInvoicesAction implements Serializable {
 		SimpleDateFormat formatDate = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
 
-		if ((this.searchSupplier != null && !"".equals(this.searchSupplier))) {
-			consult.append("WHERE ");
-			consult.append(" UPPER(s.name) LIKE UPPER(:keywordSupplier) ");
-			SelectItem itemNombre = new SelectItem("%" + this.searchSupplier
-					+ "%", "keywordSupplier");
+		if ((this.searchNumber != null && !"".equals(this.searchNumber))) {
+			consult.append(flag ? "AND " : "WHERE ");
+			consult.append(" UPPER(pi.invoiceNumber) LIKE UPPER(:keywordNumber) ");
+			SelectItem itemNombre = new SelectItem("%" + this.searchNumber
+					+ "%", "keywordNumber");
 			parameters.add(itemNombre);
 			unionSearchMessages.append(bundleWarehouse
-					.getString("suppliers_label_name")
+					.getString("purchase_invoice_label_number")
 					+ ": "
 					+ '"'
-					+ this.searchSupplier + '"' + " ");
+					+ this.searchNumber + '"' + " ");
 			flag = true;
 		}
 
@@ -548,20 +529,6 @@ public class PurchaseInvoicesAction implements Serializable {
 					+ ": "
 					+ '"'
 					+ supplierName + '"' + " ");
-			flag = true;
-		}
-
-		if ((this.searchNumber != null && !"".equals(this.searchNumber))) {
-			consult.append(flag ? "AND " : "WHERE ");
-			consult.append(" UPPER(pi.invoiceNumber) LIKE UPPER(:keywordNumber) ");
-			SelectItem itemNombre = new SelectItem("%" + this.searchNumber
-					+ "%", "keywordNumber");
-			parameters.add(itemNombre);
-			unionSearchMessages.append(bundleWarehouse
-					.getString("purchase_invoice_label_number")
-					+ ": "
-					+ '"'
-					+ this.searchNumber + '"' + " ");
 			flag = true;
 		}
 
