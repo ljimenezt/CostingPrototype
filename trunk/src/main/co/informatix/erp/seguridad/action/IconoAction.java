@@ -597,13 +597,13 @@ public class IconoAction implements Serializable {
 	/**
 	 * Method to remove the icons that are not associated with a menu
 	 * 
+	 * @modify 25/04/2016 Mabell.Boada
+	 * 
 	 * @return consultIcons(): icons consulting method and returns to the
 	 *         management of the icons
 	 */
 	public String deleteIcon() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeguridad = ControladorContexto
-				.getBundle("messageSecurity");
 		boolean exist = false;
 		try {
 			if (this.icon != null) {
@@ -620,18 +620,12 @@ public class IconoAction implements Serializable {
 				}
 				if (exist) {
 					deleteFileReal(icon.getNombre());
-					icon.setUserName(identity.getUserName());
-					iconoDao.removeIcon(icon);
-					ControladorContexto.mensajeInformacion(null, MessageFormat
-							.format(bundle
-									.getString("message_registro_eliminar"),
-									icon.getNombre()));
-				} else {
-					ControladorContexto
-							.mensajeError(MessageFormat.format(bundleSeguridad
-									.getString("icon_message_not_exist"), icon
-									.getNombre()));
 				}
+				icon.setUserName(identity.getUserName());
+				iconoDao.removeIcon(icon);
+				ControladorContexto.mensajeInformacion(null, MessageFormat
+						.format(bundle.getString("message_registro_eliminar"),
+								icon.getNombre()));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
