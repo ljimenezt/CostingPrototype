@@ -807,7 +807,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public String saveInvoices() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
+		String mensajeRegistro = "message_purchase_invoice_modify";
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
 				: false;
@@ -843,7 +843,7 @@ public class PurchaseInvoicesAction implements Serializable {
 				calculateValuesInvoices();
 				purchaseInvoicesDao.editInvoices(this.invoices);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
+				mensajeRegistro = "message_purchase_invoice_save";
 				purchaseInvoicesDao.saveInvoices(this.invoices);
 			}
 			invoiceItemsAction.setInvoicesSelected(this.invoices);
