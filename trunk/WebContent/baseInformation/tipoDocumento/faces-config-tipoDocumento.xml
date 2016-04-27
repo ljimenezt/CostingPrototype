@@ -7,17 +7,16 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesPais</from-outcome>
-			<to-view-id>/informacionBase/geographicLocation/country/manageCountries.xhtml</to-view-id>
+			<from-outcome>gesTipoDocumento</from-outcome>
+			<to-view-id>/baseInformation/tipoDocumento/gestionarTiposDocumento.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regPais</from-outcome>
-			<to-view-id>/informacionBase/geographicLocation/country/registerCountry.xhtml</to-view-id>
+			<from-outcome>regTipoDocumento</from-outcome>
+			<to-view-id>/baseInformation/tipoDocumento/registrarTipoDocumento.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-
 </faces-config>

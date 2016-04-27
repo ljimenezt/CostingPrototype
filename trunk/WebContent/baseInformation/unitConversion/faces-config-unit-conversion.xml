@@ -7,16 +7,16 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesCivilEst</from-outcome>
-			<to-view-id>/informacionBase/civilStatus/manageCivilStatus.xhtml</to-view-id>
+			<from-outcome>manUnitConversion</from-outcome>
+			<to-view-id>/baseInformation/unitConversion/manageUnitConversion.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regCivilEst</from-outcome>
-			<to-view-id>/informacionBase/civilStatus/registerCivilStatus.xhtml</to-view-id>
+			<from-outcome>regUnitConversion</from-outcome>
+			<to-view-id>/baseInformation/unitConversion/registerUnitConversion.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

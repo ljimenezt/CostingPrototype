@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>manTypeUnit</from-outcome>
-			<to-view-id>/informacionBase/typeUnit/manageTypeUnit.xhtml</to-view-id>
+			<to-view-id>/baseInformation/typeUnit/manageTypeUnit.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regTypeUnit</from-outcome>
-			<to-view-id>/informacionBase/typeUnit/registerTypeUnit.xhtml</to-view-id>
+			<to-view-id>/baseInformation/typeUnit/registerTypeUnit.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
