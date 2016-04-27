@@ -125,13 +125,12 @@ public class ActivityNamesAction implements Serializable {
 	}
 
 	/**
-	 * Consult the activity names list to show either a POPUP or
-	 * in management
+	 * Consult the activity names list to show either a POPUP or in management
 	 * 
 	 * @modify Johnatan.Naranjo 22/04/2015
 	 * 
-	 * @return result: redirects to the template name to manage activity names or
-	 *         POPUP
+	 * @return result: redirects to the template name to manage activity names
+	 *         or POPUP
 	 */
 	public String queryActivityNames() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -253,7 +252,8 @@ public class ActivityNamesAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = activityNames.getIdActivityName();
-			ActivityNames activityNamesAux = activityNamesDao.nameExists(nombre, id);
+			ActivityNames activityNamesAux = activityNamesDao.nameExists(
+					nombre, id);
 			if (activityNamesAux != null) {
 				String existenceMessage = "message_ya_existe_verifique";
 				context.addMessage(
