@@ -451,7 +451,7 @@ public class UsuarioAction implements Serializable {
 	 * Allows users to consult existing database as may be in force or not in
 	 * force.
 	 * 
-	 * @return gesUsuario: Navigation rule that redirects to the Manage user
+	 * @return manUser: Navigation rule that redirects to the Manage user
 	 *         template.
 	 */
 	public String searchUsers() {
@@ -498,7 +498,7 @@ public class UsuarioAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesUsuario";
+		return "manUser";
 	}
 
 	/**
@@ -507,7 +507,7 @@ public class UsuarioAction implements Serializable {
 	 * 
 	 * @param user
 	 *            : User to register or edit.
-	 * @return regUsuario: Rule navigation page that redirects to the user
+	 * @return regUser: Rule navigation page that redirects to the user
 	 *         registering template, which is loaded into editing or empty to
 	 *         add a new user.
 	 */
@@ -530,7 +530,7 @@ public class UsuarioAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "regUsuario";
+		return "regUser";
 	}
 
 	/**
@@ -718,7 +718,7 @@ public class UsuarioAction implements Serializable {
 			}
 			ControladorContexto.quitarFacesMessages();
 			ControladorContexto.mensajeError(e);
-			return "regUsuario";
+			return "regUser";
 		}
 		return initializeSearch();
 	}

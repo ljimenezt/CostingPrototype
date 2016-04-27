@@ -7,16 +7,24 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesMetodo</from-outcome>
-			<to-view-id>/seguridad/metodo/manageMethods.xhtml</to-view-id>
+			<from-outcome>manUser</from-outcome>
+			<to-view-id>/seguridad/user/manageUsers.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regMetodo</from-outcome>
-			<to-view-id>/seguridad/metodo/registerMethod.xhtml</to-view-id>
+			<from-outcome>regUser</from-outcome>
+			<to-view-id>/seguridad/user/registerUser.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>changePassword</from-outcome>
+			<to-view-id>/seguridad/user/changePassword.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
