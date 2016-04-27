@@ -4,20 +4,19 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
       http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
 	version="2.2">
-	<navigation-rule>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>gesMetodo</from-outcome>
-			<to-view-id>/seguridad/method/manageMethods.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regMetodo</from-outcome>
-			<to-view-id>/seguridad/method/registerMethod.xhtml</to-view-id>
+			<from-outcome>gesRol</from-outcome>
+			<to-view-id>/security/rol/manageRoles.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>regRol</from-outcome>
+			<to-view-id>/security/rol/registerRol.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>

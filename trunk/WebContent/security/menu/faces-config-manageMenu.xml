@@ -4,27 +4,20 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
       http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
 	version="2.2">
+
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>manUser</from-outcome>
-			<to-view-id>/seguridad/user/manageUsers.xhtml</to-view-id>
+			<from-outcome>gesMenus</from-outcome>
+			<to-view-id>/security/menu/manageMenu.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regUser</from-outcome>
-			<to-view-id>/seguridad/user/registerUser.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-
-	<navigation-rule>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>changePassword</from-outcome>
-			<to-view-id>/seguridad/user/changePassword.xhtml</to-view-id>
+			<from-outcome>regMenu</from-outcome>
+			<to-view-id>/security/menu/registerMenu.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

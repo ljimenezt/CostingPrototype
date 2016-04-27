@@ -4,19 +4,12 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee 
       http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
 	version="2.2">
-
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesRol</from-outcome>
-			<to-view-id>/seguridad/rol/manageRoles.xhtml</to-view-id>
+			<from-outcome>regProfileSystem</from-outcome>
+			<to-view-id>/security/profileSystem/registerProfileSystem.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
-	<navigation-rule>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>regRol</from-outcome>
-			<to-view-id>/seguridad/rol/registerRol.xhtml</to-view-id>
-		</navigation-case>
-	</navigation-rule>
+	
 </faces-config>
