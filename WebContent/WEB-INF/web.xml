@@ -47,14 +47,14 @@
 		<param-value>
 			/WEB-INF/faces-config.xml,
 			
-			/informacionBase/tipoDocumento/faces-config-tipoDocumento.xml,
-			/informacionBase/geographicLocation/country/faces-config-country.xml,
-			/informacionBase/geographicLocation/department/faces-config-department.xml,
-			/informacionBase/geographicLocation/municipality/faces-config-municipality.xml,
-			/informacionBase/civilStatus/faces-config-civilStatus.xml,
-			/informacionBase/typeUnit/faces-config-typeUnit.xml,
-			/informacionBase/unitConversion/faces-config-unit-conversion.xml,
-			/informacionBase/ivaRate/faces-config-ivaRate.xml,
+			/baseInformation/tipoDocumento/faces-config-tipoDocumento.xml,
+			/baseInformation/geographicLocation/country/faces-config-country.xml,
+			/baseInformation/geographicLocation/department/faces-config-department.xml,
+			/baseInformation/geographicLocation/municipality/faces-config-municipality.xml,
+			/baseInformation/civilStatus/faces-config-civilStatus.xml,
+			/baseInformation/typeUnit/faces-config-typeUnit.xml,
+			/baseInformation/unitConversion/faces-config-unit-conversion.xml,
+			/baseInformation/ivaRate/faces-config-ivaRate.xml,
 			
             /organizaciones/empresas/faces-config-empresas.xml,
             /organizaciones/organizacion/faces-config-organizacion.xml,

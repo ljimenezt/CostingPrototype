@@ -7,16 +7,16 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>manIvaRate</from-outcome>
-			<to-view-id>/informacionBase/ivaRate/manageIvaRate.xhtml</to-view-id>
+			<from-outcome>gesCivilEst</from-outcome>
+			<to-view-id>/baseInformation/civilStatus/manageCivilStatus.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regIvaRate</from-outcome>
-			<to-view-id>/informacionBase/ivaRate/registerIvaRate.xhtml</to-view-id>
+			<from-outcome>regCivilEst</from-outcome>
+			<to-view-id>/baseInformation/civilStatus/registerCivilStatus.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
