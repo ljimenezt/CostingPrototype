@@ -1010,26 +1010,28 @@ public class CropActivitiesAction implements Serializable {
 			int idActivity = this.activities.getIdActivity();
 			int idActivityName = this.activities.getActivityName()
 					.getIdActivityName();
-			for (Activities activity : this.listActivities) {
-				int idActivityList = activity.getIdActivity();
-				int idActivityNameList = activity.getActivityName()
-						.getIdActivityName();
-				Date dateS = ControladorFechas.formatearFecha(
-						activity.getInitialDtBudget(),
-						Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
-				if (dateS.equals(this.activities.getInitialDtBudget())
-						&& idActivityName == idActivityNameList
-						&& idActivity != idActivityList) {
-					flagDate = true;
-					break;
+			if (this.listActivities != null) {
+				for (Activities activity : this.listActivities) {
+					int idActivityList = activity.getIdActivity();
+					int idActivityNameList = activity.getActivityName()
+							.getIdActivityName();
+					Date dateS = ControladorFechas.formatearFecha(
+							activity.getInitialDtBudget(),
+							Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+					if (dateS.equals(this.activities.getInitialDtBudget())
+							&& idActivityName == idActivityNameList
+							&& idActivity != idActivityList) {
+						flagDate = true;
+						break;
+					}
 				}
-			}
-			if (flagDate) {
-				ControladorContexto
-						.mensajeErrorEspecifico(
-								"popupFormReg:fechaInicio",
-								"activities_message_can_not_register_activities_same_date",
-								"messageCosts");
+				if (flagDate) {
+					ControladorContexto
+							.mensajeErrorEspecifico(
+									"popupFormReg:fechaInicio",
+									"activities_message_can_not_register_activities_same_date",
+									"messageCosts");
+				}
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -1145,7 +1147,9 @@ public class CropActivitiesAction implements Serializable {
 		if (this.listActivities == null) {
 			this.listActivities = new ArrayList<Activities>();
 		}
-		this.listActivities.add(this.activities);
+		if (this.activities.getIdActivity() == 0) {
+			this.listActivities.add(this.activities);
+		}
 		initializeList();
 	}
 
