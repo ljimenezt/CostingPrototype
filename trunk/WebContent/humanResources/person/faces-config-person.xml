@@ -4,17 +4,18 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee        http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
 
 	<navigation-rule>
-
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesTipoCargo</from-outcome>
-			<to-view-id>/recursosHumanos/informacionBase/tipoCargo/gestionarTipoCargo.xhtml</to-view-id>
+			<from-outcome>regPersona</from-outcome>
+			<to-view-id>/humanResources/person/registerPerson.xhtml</to-view-id>
 		</navigation-case>
 
+
 		<navigation-case>
-			<from-outcome>regTipoCargo</from-outcome>
-			<to-view-id>/recursosHumanos/informacionBase/tipoCargo/registrarTipoCargo.xhtml</to-view-id>
+			<from-outcome>gesPersonas</from-outcome>
+			<to-view-id>/humanResources/person/managePersons.xhtml</to-view-id>
 		</navigation-case>
+
 	</navigation-rule>
 
 </faces-config>

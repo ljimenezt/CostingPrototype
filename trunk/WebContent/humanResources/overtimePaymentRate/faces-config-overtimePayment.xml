@@ -7,16 +7,16 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesPayments</from-outcome>
-			<to-view-id>/recursosHumanos/payments/managePayments.xhtml</to-view-id>
+			<from-outcome>gesOvertimePayment</from-outcome>
+			<to-view-id>/humanResources/overtimePaymentRate/manageOvertimePayment.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regPayments</from-outcome>
-			<to-view-id>/recursosHumanos/payments/registerPayments.xhtml</to-view-id>
+			<from-outcome>regOvertimePayment</from-outcome>
+			<to-view-id>/humanResources/overtimePaymentRate/registerOvertimePayment.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
