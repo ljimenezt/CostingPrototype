@@ -388,7 +388,7 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void loadDetailsPlot() throws Exception {
+	private void loadDetailsPlot() throws Exception {
 		if (this.listPlots != null) {
 			for (Plot plot : this.listPlots) {
 				Farm farm = (Farm) this.plotDao.consultObjectPlot("farm",
