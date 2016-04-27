@@ -384,17 +384,16 @@ public class PlotAction implements Serializable {
 	 * This method fills the various objects associated with a plot.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 27/04/2016 Gerardo.Herrera
 	 * 
 	 * @throws Exception
 	 */
 	public void loadDetailsPlot() throws Exception {
 		if (this.listPlots != null) {
-			this.listPlots = new ArrayList<Plot>();
 			for (Plot plot : this.listPlots) {
 				Farm farm = (Farm) this.plotDao.consultObjectPlot("farm",
 						plot.getIdPlot());
 				plot.setFarm(farm);
-				this.listPlots.add(plot);
 			}
 		}
 	}
