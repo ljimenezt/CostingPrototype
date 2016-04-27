@@ -64,7 +64,6 @@ public class CycleAction implements Serializable {
 	private Paginador pagination = new Paginador();
 	private Cycle cycle;
 	private Crops crops;
-	private String nameSearch;
 	private String nameDocument;
 	private String folderFile;
 	private String folderFileTemporal;
@@ -278,21 +277,6 @@ public class CycleAction implements Serializable {
 	 */
 	public void setCrops(Crops crops) {
 		this.crops = crops;
-	}
-
-	/**
-	 * @return nameSearch: Gets the search parameter in the system.
-	 */
-	public String getNameSearch() {
-		return nameSearch;
-	}
-
-	/**
-	 * @param nameSearch
-	 *            :Sets the search parameter in the system.
-	 */
-	public void setNameSearch(String nameSearch) {
-		this.nameSearch = nameSearch;
 	}
 
 	/**
@@ -584,7 +568,7 @@ public class CycleAction implements Serializable {
 	 * This method allows initialize all the cycle.
 	 */
 	public void initializeSearch() {
-		this.nameSearch = "";
+		this.idActivitiesName = 0;
 		this.initialDateSearch = null;
 		this.finalDateSearch = null;
 		this.cycle = new Cycle();
@@ -615,6 +599,7 @@ public class CycleAction implements Serializable {
 				initializeSearch();
 			}
 			this.flagCrops = false;
+			loadActivities();
 			loadCropNames();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -915,30 +900,54 @@ public class CycleAction implements Serializable {
 			StringBuilder unionMessagesSearch) {
 		SimpleDateFormat formato = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
+		ResourceBundle bundleLifeCycle = ControladorContexto
+				.getBundle("messageLifeCycle");
 
-		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("AND UPPER(an.activityName) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
-					"keyword");
+		if (this.idActivitiesName != 0) {
+			consult.append("AND an.idActivityName = :idActivitiesName ");
+			SelectItem item = new SelectItem(this.idActivitiesName,
+					"idActivitiesName");
 			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_name") + ": "
-					+ '"' + this.nameSearch + '"');
+			String activityName = (String) ValidacionesAction.getLabel(
+					itemsActivityName, this.idActivitiesName);
+			unionMessagesSearch.append(bundleLifeCycle
+					.getString("cycle_label_type")
+					+ ": "
+					+ '"'
+					+ activityName
+					+ '"' + " ");
 		}
-		if (this.initialDateSearch != null && this.finalDateSearch != null) {
-			consult.append("AND c.initialDateTime BETWEEN :initialDateSearch AND :finalDateSearch ");
-			SelectItem item = new SelectItem(initialDateSearch,
-					"initialDateSearch");
-			parameters.add(item);
-			SelectItem item2 = new SelectItem(finalDateSearch,
-					"finalDateSearch");
-			parameters.add(item2);
-			String dateFrom = bundle.getString("label_start_date") + ": "
-					+ '"' + formato.format(this.initialDateSearch) + '"' + " ";
-			unionMessagesSearch.append(dateFrom);
+		if (this.initialDateSearch != null || this.finalDateSearch != null) {
 
-			String dateTo = bundle.getString("label_end_date") + ": "
-					+ '"' + formato.format(finalDateSearch) + '"' + " ";
-			unionMessagesSearch.append(dateTo);
+			if (this.initialDateSearch != null && this.finalDateSearch != null) {
+				consult.append("AND c.initialDateTime BETWEEN :initialDateSearch AND :finalDateSearch ");
+			}
+
+			if (this.initialDateSearch != null && this.finalDateSearch == null) {
+				consult.append("AND c.initialDateTime >= :initialDateSearch ");
+			}
+			if (this.initialDateSearch == null && this.finalDateSearch != null) {
+				consult.append("AND c.initialDateTime <= :finalDateSearch ");
+			}
+
+			if (this.initialDateSearch != null) {
+				SelectItem item = new SelectItem(initialDateSearch,
+						"initialDateSearch");
+				parameters.add(item);
+				String dateFrom = bundle.getString("label_start_date") + ": "
+						+ '"' + formato.format(this.initialDateSearch) + '"'
+						+ " ";
+				unionMessagesSearch.append(dateFrom);
+			}
+
+			if (this.finalDateSearch != null) {
+				SelectItem item2 = new SelectItem(finalDateSearch,
+						"finalDateSearch");
+				parameters.add(item2);
+				String dateTo = bundle.getString("label_end_date") + ": " + '"'
+						+ formato.format(finalDateSearch) + '"' + " ";
+				unionMessagesSearch.append(dateTo);
+			}
 		}
 
 	}
@@ -1093,10 +1102,11 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * This method allows validate the materials quantity in the deposit.
+	 * This method allows validate the materials quantity in the deposit and
+	 * valid the date of the cycle to add is not repeated for the same crop.
 	 * 
 	 */
-	public void validateQuantityMaterials() {
+	public void validateQuantityMaterialsAndDatesAllows() {
 		try {
 			ResourceBundle bundle = ControladorContexto
 					.getBundle("mensajeWarehouse");

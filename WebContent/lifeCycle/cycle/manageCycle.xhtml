@@ -130,7 +130,7 @@
 								<h:outputText value="#{cycle.cycleNumber}" />
 							</rich:column>
 
-							<rich:column styleClass="colFechaLarga">
+							<rich:column styleClass="colFechaExtraLarga">
 								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
 								<h:outputText value="#{cycle.initialDateTime}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
@@ -138,7 +138,7 @@
 								</h:outputText>
 							</rich:column>
 
-							<rich:column styleClass="colFechaLarga">
+							<rich:column styleClass="colFechaExtraLarga">
 								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
 								<h:outputText value="#{cycle.finalDateTime}">
 									<f:convertDateTime pattern="MMM dd, yyyy"
@@ -268,18 +268,18 @@
 					<script type="text/javascript">
 				$g=jQuery.noConflict();
     			</script>
-					<h:panelGrid columns="3" cellpadding="2" cellspacing="2">
-						<h:outputText value="#{messageLifeCycle.cycle_label_type}:"
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<h:outputText value="#{messageLifeCycle.cycle_label_type}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
-						<h:inputText styleClass="colTextoMediano" maxlength="100"
-							id="txtNameSearch" value="#{cycleAction.nameSearch}"
-							onkeypress="return submitByEnter(event,'formSearch:btnBuscar')" />
-
+						<h:selectOneMenu id="cmbActivities"
+							value="#{cycleAction.idActivitiesName}"
+							onkeypress="return submitByEnter(event,'formSearch:btnBuscar')">
+							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
+							<f:selectItems value="#{cycleAction.itemsActivityName}" />
+						</h:selectOneMenu>
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_start_date}:" />
-						<h:outputText value="" styleClass="required" />
+							value="#{mensaje.label_start_date}" />
 						<p:calendar value="#{cycleAction.initialDateSearch}"
 							showOn="button" navigator="true" onSelectUpdate="fechFin"
 							id="fechaInicio" pattern="MM/dd/yyyy"
@@ -289,16 +289,10 @@
 						</p:calendar>
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_end_date}:" />
-						<h:outputText value="*" styleClass="required"
-							rendered="#{cycleAction.initialDateSearch ne null}" />
-						<h:outputText value=""
-							rendered="#{cycleAction.initialDateSearch eq null}" />
-						<p:calendar value="#{cycleAction.finalDateSearch}"
-							disabled="#{cycleAction.initialDateSearch eq null}"
-							showOn="button" navigator="true" required="true"
-							mindate="#{cycleAction.initialDateSearch}" id="fechFin"
-							pattern="MM/dd/yyyy"
+							value="#{mensaje.label_end_date}" />
+						<p:calendar value="#{cycleAction.finalDateSearch}" showOn="button"
+							navigator="true" mindate="#{cycleAction.initialDateSearch}"
+							id="fechFin" pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'formSearch:btnBuscar')"
 							label="#{mensaje.label_end_date}" />
 
