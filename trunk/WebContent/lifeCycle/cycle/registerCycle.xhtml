@@ -74,7 +74,7 @@
 						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,"
 						rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}">
 
-						<h:outputText value="#{messageLifeCycle.activity_names_label}" />
+						<h:outputText value="#{messageLifeCycle.cycle_label_type}" />
 						<h:outputText value="#{cycleAction.flagCycle eq true ? '' : '*'}"
 							styleClass="required" />
 						<h:selectOneMenu id="activities"
@@ -385,7 +385,7 @@
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
-						actionListener="#{cycleAction.validateQuantityMaterials()}"
+						actionListener="#{cycleAction.validateQuantityMaterialsAndDatesAllows()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>
