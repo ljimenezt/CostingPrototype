@@ -7,16 +7,16 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesOvertimePayment</from-outcome>
-			<to-view-id>/recursosHumanos/overtimePaymentRate/manageOvertimePayment.xhtml</to-view-id>
+			<from-outcome>gesHrCertRoles</from-outcome>
+			<to-view-id>/humanResources/hrCertificationsAndRoles/manageHrCertificationsAndRoles.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regOvertimePayment</from-outcome>
-			<to-view-id>/recursosHumanos/overtimePaymentRate/registerOvertimePayment.xhtml</to-view-id>
+			<from-outcome>regHrCertRoles</from-outcome>
+			<to-view-id>/humanResources/hrCertificationsAndRoles/registerHrCertificationsAndRoles.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 

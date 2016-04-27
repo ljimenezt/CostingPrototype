@@ -7,16 +7,16 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesHrCertRoles</from-outcome>
-			<to-view-id>/recursosHumanos/hrCertificationsAndRoles/manageHrCertificationsAndRoles.xhtml</to-view-id>
+			<from-outcome>manContract</from-outcome>
+			<to-view-id>/humanResources/contract/manageContracts.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regHrCertRoles</from-outcome>
-			<to-view-id>/recursosHumanos/hrCertificationsAndRoles/registerHrCertificationsAndRoles.xhtml</to-view-id>
+			<from-outcome>regContract</from-outcome>
+			<to-view-id>/humanResources/contract/registerContract.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
