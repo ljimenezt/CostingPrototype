@@ -394,7 +394,7 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @param person
 	 *            : Person edited in edit mode.
-	 * @return regPersona: Navigation rule that directs the person form.
+	 * @return regPerson: Navigation rule that directs the person form.
 	 */
 	public String registerPerson(Persona person) {
 		ResourceBundle bundleRecHum = ControladorContexto
@@ -421,7 +421,7 @@ public class PersonaAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "regPersona";
+		return "regPerson";
 	}
 
 	/**
@@ -616,7 +616,7 @@ public class PersonaAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		PerfilUsuarioAction userProfileAction = ControladorContexto
 				.getContextBean(PerfilUsuarioAction.class);
-		String exit = "regPersona";
+		String exit = "regPerson";
 		String messageInfo = "message_registro_modificar";
 		String namePhotoRemove = null;
 		String nameShow = "";
@@ -770,7 +770,7 @@ public class PersonaAction implements Serializable {
 		String messageSearch = "";
 		boolean fromModal = (inModal != null && Constantes.SI.equals(inModal)) ? true
 				: false;
-		String back = fromModal ? "" : "gesPersonas";
+		String back = fromModal ? "" : "manPersons";
 		try {
 			if (!fromModal)
 				personsWithoutUser = false;

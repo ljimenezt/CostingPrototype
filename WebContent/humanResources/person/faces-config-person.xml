@@ -6,13 +6,13 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regPersona</from-outcome>
+			<from-outcome>regPerson</from-outcome>
 			<to-view-id>/humanResources/person/registerPerson.xhtml</to-view-id>
 		</navigation-case>
 
 
 		<navigation-case>
-			<from-outcome>gesPersonas</from-outcome>
+			<from-outcome>manPersons</from-outcome>
 			<to-view-id>/humanResources/person/managePersons.xhtml</to-view-id>
 		</navigation-case>
 
