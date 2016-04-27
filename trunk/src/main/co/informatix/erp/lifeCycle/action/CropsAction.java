@@ -534,30 +534,21 @@ public class CropsAction implements Serializable {
 	 * 
 	 */
 	public void requiredOk() {
-		try {
-			if (crops.getCropNames().getIdCropName() == 0
-					|| "".equals(crops.getCropNames().getIdCropName())) {
-				ControladorContexto.mensajeRequeridos("formCrops:cropNames");
-			}
-			if (crops.getInitialDate() == null
-					|| "".equals(crops.getInitialDate())) {
-				ControladorContexto.mensajeRequeridos("formCrops:fechaInicio");
-			}
-			if (crops.getFinalDate() == null || "".equals(crops.getFinalDate())) {
-				ControladorContexto.mensajeRequeridos("formCrops:fechFin");
-			}
-
-			if (this.year == null || "".equals(this.year)) {
-				ControladorContexto.mensajeRequeridos("formCrops:cropAnyo");
-			}
-
-			if (crops.getDescription() == null
-					|| "".equals(crops.getDescription())) {
-				ControladorContexto
-						.mensajeRequeridos("formCrops:txtDescripcion");
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
+		if (crops.getCropNames().getIdCropName() == 0
+				|| "".equals(crops.getCropNames().getIdCropName())) {
+			ControladorContexto.mensajeRequeridos("formCrops:cropNames");
+		}
+		if (crops.getInitialDate() == null || "".equals(crops.getInitialDate())) {
+			ControladorContexto.mensajeRequeridos("formCrops:fechaInicio");
+		}
+		if (crops.getFinalDate() == null || "".equals(crops.getFinalDate())) {
+			ControladorContexto.mensajeRequeridos("formCrops:fechFin");
+		}
+		if (this.year == null || "".equals(this.year)) {
+			ControladorContexto.mensajeRequeridos("formCrops:cropAnyo");
+		}
+		if (crops.getDescription() == null || "".equals(crops.getDescription())) {
+			ControladorContexto.mensajeRequeridos("formCrops:txtDescripcion");
 		}
 	}
 
@@ -621,9 +612,9 @@ public class CropsAction implements Serializable {
 		Calendar year = new GregorianCalendar();
 		selectYear = new ArrayList<SelectItem>();
 		int dateYear = year.get(Calendar.YEAR);
-		for (int i = 2000; i <= dateYear; i++) {
-			String fecha = "" + i;
-			selectYear.add(new SelectItem(i, fecha));
+		for (int i = Constantes.INITIAL_YEAR; i <= dateYear; i++) {
+			String date = "" + i;
+			selectYear.add(new SelectItem(i, date));
 		}
 	}
 

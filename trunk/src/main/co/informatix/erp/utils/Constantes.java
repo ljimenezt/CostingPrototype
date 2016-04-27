@@ -357,4 +357,7 @@ public class Constantes implements Serializable {
 	public static final int IVA_FINAL = Integer.parseInt(PropertiesManager
 			.getProperty("locate.size.iva.final"));
 
+	/* Crop Initial Year */
+	public static final int INITIAL_YEAR = 2000;
+
 }

@@ -57,8 +57,6 @@ public class FarmAction implements Serializable {
 	@EJB
 	private MunicipioDao municipioDao;
 
-	private List<Farm> farmsList;
-
 	private Farm farm;
 	private Paginador pagination = new Paginador();
 
@@ -68,25 +66,10 @@ public class FarmAction implements Serializable {
 	private String logoPicName;
 	private boolean temporalPicLoading;
 
+	private List<Farm> farmsList;
 	private List<SelectItem> countryItems;
 	private List<SelectItem> departmentItems;
 	private List<SelectItem> municipalityItems;
-
-	/**
-	 * @return List<Farm>: List of farms that are displayed in the user
-	 *         interface.
-	 */
-	public List<Farm> getFarmsList() {
-		return farmsList;
-	}
-
-	/**
-	 * @param farmsList
-	 *            : List of farms that are displayed in the user interface.
-	 */
-	public void setFarmsList(List<Farm> farmsList) {
-		this.farmsList = farmsList;
-	}
 
 	/**
 	 * Gets data of a farm.
@@ -136,6 +119,22 @@ public class FarmAction implements Serializable {
 	 */
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
+	}
+
+	/**
+	 * @return List<Farm>: List of farms that are displayed in the user
+	 *         interface.
+	 */
+	public List<Farm> getFarmsList() {
+		return farmsList;
+	}
+
+	/**
+	 * @param farmsList
+	 *            : List of farms that are displayed in the user interface.
+	 */
+	public void setFarmsList(List<Farm> farmsList) {
+		this.farmsList = farmsList;
 	}
 
 	/**
