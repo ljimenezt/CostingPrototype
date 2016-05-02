@@ -551,7 +551,7 @@ public class PlotAction implements Serializable {
 		listPlotsSelected = new ArrayList<Plot>();
 		try {
 			for (Plot plot : listPlotDate) {
-				if (plot.isSeleccionado()) {
+				if (plot.isSelected()) {
 					this.listPlotsSelected.add(plot);
 				}
 			}

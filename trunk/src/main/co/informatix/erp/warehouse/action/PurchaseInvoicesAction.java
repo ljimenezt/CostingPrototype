@@ -807,7 +807,6 @@ public class PurchaseInvoicesAction implements Serializable {
 				this.invoices.setInvoiceDocumentLink(nameDocument);
 			}
 			if (this.invoices.getIdPurchaseInvoice() != 0) {
-				calculateValuesInvoices();
 				purchaseInvoicesDao.editInvoices(this.invoices);
 			} else {
 				mensajeRegistro = "message_purchase_invoice_save";
@@ -895,16 +894,23 @@ public class PurchaseInvoicesAction implements Serializable {
 	/**
 	 * This method allows set the invoice selected in the invoices list
 	 * 
+	 * @modify 02/05/2016 Andres.Gomez
 	 * @author Wilhelm.Boada
 	 * 
 	 */
 	public void selectInvoiceCalculate() {
-		for (PurchaseInvoices invoice : listInovoices) {
-			int value = listInovoices.indexOf(invoice);
-			if (invoice.getIdPurchaseInvoice() == invoicesActualSelected
-					.getIdPurchaseInvoice()) {
-				listInovoices.set(value, invoicesActualSelected);
+		try {
+			calculateValuesInvoices();
+			saveInvoices();
+			for (PurchaseInvoices invoice : listInovoices) {
+				int value = listInovoices.indexOf(invoice);
+				if (invoice.getIdPurchaseInvoice() == invoicesActualSelected
+						.getIdPurchaseInvoice()) {
+					listInovoices.set(value, invoicesActualSelected);
+				}
 			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
@@ -970,6 +976,30 @@ public class PurchaseInvoicesAction implements Serializable {
 			ControladorContexto.mensajeError(null, null,
 					bundle.getString("message_select_one_invoice_item"));
 		}
+		if (this.invoices.getSubtotal() == 0) {
+			ControladorContexto.mensajeError(null,
+					"formInvoices:subTotalValue",
+					bundle.getString("message_campo_mayo_cero"));
+		}
+		if (this.invoices.getTotalValueActual() == 0) {
+			ControladorContexto.mensajeError(null, "formInvoices:totalValue",
+					bundle.getString("message_campo_mayo_cero"));
+		}
+		if (this.invoices.getTaxes() < 0) {
+			ControladorContexto.mensajeError(null, "formInvoices:taxes",
+					bundle.getString("message_campo_positivo"));
+		}
+		if (this.invoices.getShipping() < 0) {
+			ControladorContexto.mensajeError(null, "formInvoices:shipping",
+					bundle.getString("message_campo_positivo"));
+		}
+		if (this.invoices.getPackaging() < 0) {
+			ControladorContexto.mensajeError(null, "formInvoices:packaging",
+					bundle.getString("message_campo_positivo"));
+		}
+		if (this.invoices.getDiscount() < 0) {
+			ControladorContexto.mensajeError(null, "formInvoices:discount",
+					bundle.getString("message_campo_positivo"));
+		}
 	}
-
 }

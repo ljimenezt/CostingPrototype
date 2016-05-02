@@ -30,7 +30,7 @@ public class Plot implements Serializable {
 	private Double size;
 	private Integer numberOfTrees;
 	private Farm farm;
-	private boolean seleccionado;
+	private boolean selected;
 
 	/**
 	 * @return idPlot: plot identifier
@@ -150,19 +150,19 @@ public class Plot implements Serializable {
 	}
 
 	/**
-	 * @return seleccionado: object selected from a list of plot
+	 * @return selected: object selected from a list of plot
 	 */
 	@Transient
-	public boolean isSeleccionado() {
-		return seleccionado;
+	public boolean isSelected() {
+		return selected;
 	}
 
 	/**
-	 * @param seleccionado
+	 * @param selected
 	 *            : object selected from a list of plot
 	 */
-	public void setSeleccionado(boolean seleccionado) {
-		this.seleccionado = seleccionado;
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override

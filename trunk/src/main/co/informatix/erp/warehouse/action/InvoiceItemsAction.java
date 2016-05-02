@@ -664,37 +664,6 @@ public class InvoiceItemsAction implements Serializable {
 	}
 
 	/**
-	 * This method allows calculate temporal values in the purchase invoice
-	 * 
-	 */
-	public void calculateTemporalValues() {
-		PurchaseInvoicesAction invoicesAction = ControladorContexto
-				.getContextBean(PurchaseInvoicesAction.class);
-		PurchaseInvoices invoices = invoicesAction.getInvoices();
-		double subtotal = 0d;
-		double shipping = 0d;
-		double packaging = 0d;
-		double taxes = 0d;
-		double discount = 0d;
-		double totalValueActual = 0d;
-		for (InvoiceItems items : invoiceItemsList) {
-			subtotal += items.getSubTotal();
-			shipping += items.getShipping();
-			packaging += items.getPackaging();
-			taxes += items.getTaxes();
-			discount += items.getDiscount();
-			totalValueActual += items.getTotal();
-		}
-		invoices.setSubtotal(subtotal);
-		invoices.setShipping(shipping);
-		invoices.setPackaging(packaging);
-		invoices.setTaxes(taxes);
-		invoices.setDiscount(discount);
-		invoices.setTotalValueActual(totalValueActual);
-		invoicesAction.setInvoices(invoices);
-	}
-
-	/**
 	 * This method allows remove the invoice item in the list of the purchase
 	 * items.
 	 * 
@@ -727,7 +696,6 @@ public class InvoiceItemsAction implements Serializable {
 			int fin = this.pagination.getItemFinal();
 			this.subListInvoiceItems = this.subListInvoiceItems.subList(
 					inicial, fin);
-			calculateTemporalValues();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
