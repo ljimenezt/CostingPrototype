@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="cycleAction.initializeCycle(null)" />
+	<ui:param name="action" value="cycleAction.initializeCycle()" />
 	<ui:param name="titulo" value="mensajeMenu.cycle_label_management" />
 	<ui:define name="body">
 		<ui:param name="listaVacia"
@@ -29,6 +29,7 @@
 		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
 		<ui:param name="popupBuscar" value="popupSearch" />
 		<ui:param name="metodoListarTodos" value="initializeSearch" />
+		<ui:param name="metodoBuscar" value="searchCycles" />
 
 		<t:saveState value="#{cycleAction}" />
 		<script type="text/javascript"

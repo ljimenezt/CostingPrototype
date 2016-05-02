@@ -161,11 +161,15 @@ public class CycleDao implements Serializable {
 	 * and activity.
 	 * 
 	 * @param idCrop
-	 *            :integer of the crop associated a one cycle.
+	 *            :crop identifier associated to a cycle.
 	 * @param idActivity
-	 *            :integer of the activity associated a one cycle.
+	 *            :activity identifier associated to a cycle.
 	 * @param initialDate
-	 *            :initial date associated a one cycle.
+	 *            :initial date associated to a cycle.
+	 * @param consult
+	 *            : Query records depending on the user selected parameter.
+	 * @param parameters
+	 *            : consult parameters.
 	 * @return Date: Date found with the parameters sent.
 	 * @throws Exception
 	 */

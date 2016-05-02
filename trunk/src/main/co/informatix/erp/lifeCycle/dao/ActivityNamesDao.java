@@ -282,4 +282,46 @@ public class ActivityNamesDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * This method queries the names of the activities associated with a crop.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idCrop
+	 *            : Culture identifier.
+	 * @return List<ActivityNames>: List of activity names.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivityNames> queryActivityNames(int idCrop) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT DISTINCT c.activiyNames FROM Cycle c ");
+		query.append("JOIN c.activiyNames an ");
+		query.append("WHERE c.crops.idCrop =:idCrop ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idCrop", idCrop);
+		query.append("ORDER BY an.activityName ASC ");
+		List<ActivityNames> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * Method that I see all ActivityNames object and stores it in a list
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @return List<ActivityNames>: List of activity names.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivityNames> activityNamesList() throws Exception {
+		Query q = em
+				.createQuery("SELECT a FROM ActivityNames a ORDER BY a.activityName ");
+		return q.getResultList();
+
+	}
+
 }
