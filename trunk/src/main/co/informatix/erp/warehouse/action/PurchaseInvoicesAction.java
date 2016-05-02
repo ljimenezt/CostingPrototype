@@ -634,7 +634,9 @@ public class PurchaseInvoicesAction implements Serializable {
 		String location = Constantes.RUTA_UPLOADFILE_GLASFISH
 				+ folderFileTemporal;
 		File fileTemp = new File(locationServer + "/" + nameDocument);
-		FileUploadBean.fileCopyLocationReal(fileTemp, location);
+		if (fileTemp.exists()) {
+			FileUploadBean.fileCopyLocationReal(fileTemp, location);
+		}
 	}
 
 	/**
@@ -862,8 +864,10 @@ public class PurchaseInvoicesAction implements Serializable {
 		String location = Constantes.RUTA_UPLOADFILE_GLASFISH
 				+ folderFileTemporal + "/" + nameDocument;
 		File fileTemp = new File(location);
-		FileUploadBean.fileCopyLocationReal(fileTemp, locationServer);
-		FileUploadBean.fileCopyLocationReal(fileTemp, locationLocal);
+		if (fileTemp.exists()) {
+			FileUploadBean.fileCopyLocationReal(fileTemp, locationServer);
+			FileUploadBean.fileCopyLocationReal(fileTemp, locationLocal);
+		}
 	}
 
 	/**
@@ -873,7 +877,8 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void calculateValuesInvoices() throws Exception {
-		int idPurchaseInvoice = this.invoices.getIdPurchaseInvoice();
+		int idPurchaseInvoice = this.invoicesActualSelected
+				.getIdPurchaseInvoice();
 		Object[] values = invoiceItemsDao.consultValuesItems(idPurchaseInvoice);
 		if (values[0] != null) {
 			double subtotal = (double) values[0];
@@ -882,12 +887,12 @@ public class PurchaseInvoicesAction implements Serializable {
 			double taxes = (double) values[3];
 			double discount = (double) values[4];
 			double totalValueActual = (double) values[5];
-			this.invoices.setSubtotal(subtotal);
-			this.invoices.setShipping(shipping);
-			this.invoices.setPackaging(packaging);
-			this.invoices.setTaxes(taxes);
-			this.invoices.setDiscount(discount);
-			this.invoices.setTotalValueActual(totalValueActual);
+			this.invoicesActualSelected.setSubtotal(subtotal);
+			this.invoicesActualSelected.setShipping(shipping);
+			this.invoicesActualSelected.setPackaging(packaging);
+			this.invoicesActualSelected.setTaxes(taxes);
+			this.invoicesActualSelected.setDiscount(discount);
+			this.invoicesActualSelected.setTotalValueActual(totalValueActual);
 		}
 	}
 

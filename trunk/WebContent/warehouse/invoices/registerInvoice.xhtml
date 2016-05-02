@@ -80,12 +80,10 @@
 							<h:outputText value="#{mensaje.label_subtotal}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="subTotalValue"
+							<h:inputText id="subTotalValue"
 								value="#{purchaseInvoicesAction.invoices.subtotal}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
-								<f:convertNumber maxFractionDigits="2" type="currency"
-									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="subTotalValue" />
 
@@ -93,12 +91,10 @@
 								value="#{mensajeWarehouse.purchase_invoice_label_taxes}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="taxes"
+							<h:inputText id="taxes"
 								value="#{purchaseInvoicesAction.invoices.taxes}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
-								<f:convertNumber maxFractionDigits="2" type="currency"
-									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="taxes" />
 
@@ -106,12 +102,10 @@
 								value="#{mensajeWarehouse.purchase_invoice_label_shipping}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="shipping"
+							<h:inputText id="shipping"
 								value="#{purchaseInvoicesAction.invoices.shipping}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
-								<f:convertNumber maxFractionDigits="2" type="currency"
-									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="shipping" />
 
@@ -119,12 +113,10 @@
 								value="#{mensajeWarehouse.purchase_invoice_label_packaging}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="packaging"
+							<h:inputText id="packaging"
 								value="#{purchaseInvoicesAction.invoices.packaging}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
-								<f:convertNumber maxFractionDigits="2" type="currency"
-									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="packaging" />
 
@@ -132,24 +124,20 @@
 								value="#{mensajeWarehouse.purchase_invoice_label_discount}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="discount"
+							<h:inputText id="discount"
 								value="#{purchaseInvoicesAction.invoices.discount}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
-								<f:convertNumber maxFractionDigits="2" type="currency"
-									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="discount" />
 
 							<h:outputText value="#{mensaje.label_total}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText readonly="true" id="totalValue"
+							<h:inputText id="totalValue"
 								value="#{purchaseInvoicesAction.invoices.totalValueActual}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
-								<f:convertNumber maxFractionDigits="2" type="currency"
-									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="totalValue" />
 
