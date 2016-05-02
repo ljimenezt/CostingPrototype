@@ -15,8 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import co.informatix.erp.recursosHumanos.entities.Contrato;
-
 /**
  * Class containing the record of payments (payments) and the relationship with
  * the contracts and hr.
@@ -41,7 +39,7 @@ public class Payments implements Serializable {
 	private Double netAmount;
 	private Double grossAmount;
 
-	private Contrato contract;
+	private Contract contract;
 	private Hr hr;
 
 	/**
@@ -184,7 +182,7 @@ public class Payments implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idcontract", referencedColumnName = "id", nullable = false)
-	public Contrato getContract() {
+	public Contract getContract() {
 		return contract;
 	}
 
@@ -192,7 +190,7 @@ public class Payments implements Serializable {
 	 * @param contract
 	 *            : Contract related to the payment order.
 	 */
-	public void setContract(Contrato contract) {
+	public void setContract(Contract contract) {
 		this.contract = contract;
 	}
 

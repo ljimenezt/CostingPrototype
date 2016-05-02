@@ -1,4 +1,4 @@
-package co.informatix.erp.recursosHumanos.dao;
+package co.informatix.erp.humanResources.dao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,13 +9,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import co.informatix.erp.recursosHumanos.entities.Contrato;
+import co.informatix.erp.humanResources.entities.Contract;
 
 /**
  * DAO Class that establishes the connection between business logic and database
  * management. Contracts are handled in the payroll of the company.
  * 
- * @author Andres.Gomez
  */
 @SuppressWarnings("serial")
 @Stateless
@@ -31,7 +30,7 @@ public class ContractDao implements Serializable {
 	 *            : Contract to keep.
 	 * @throws Exception
 	 */
-	public void saveContract(Contrato contract) throws Exception {
+	public void saveContract(Contract contract) throws Exception {
 		em.persist(contract);
 	}
 
@@ -42,7 +41,7 @@ public class ContractDao implements Serializable {
 	 *            : Contract edited.
 	 * @throws Exception
 	 */
-	public void editContract(Contrato contract) throws Exception {
+	public void editContract(Contract contract) throws Exception {
 		em.merge(contract);
 	}
 
@@ -53,7 +52,7 @@ public class ContractDao implements Serializable {
 	 *            : Contract to remove.
 	 * @throws Exception
 	 */
-	public void deleteContract(Contrato contract) throws Exception {
+	public void deleteContract(Contract contract) throws Exception {
 		em.remove(em.merge(contract));
 	}
 
@@ -72,7 +71,7 @@ public class ContractDao implements Serializable {
 			throws Exception {
 		List<Object> result = (List<Object>) em
 				.createQuery(
-						"SELECT c." + objectName + " FROM Contrato c "
+						"SELECT c." + objectName + " FROM Contract c "
 								+ "WHERE c.id=:idContrato")
 				.setParameter("idContrato", contractId).getResultList();
 		if (result.size() > 0) {
@@ -95,7 +94,7 @@ public class ContractDao implements Serializable {
 	public Long amountContracts(StringBuilder query, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT COUNT(c) FROM Contrato c ");
+		queryBuilder.append("SELECT COUNT(c) FROM Contract c ");
 		queryBuilder.append(query);
 		Query result = em.createQuery(queryBuilder.toString());
 		for (SelectItem parameter : parameters) {
@@ -116,14 +115,14 @@ public class ContractDao implements Serializable {
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return List<Contrato>: Contracts list.
+	 * @return List<Contract>: Contracts list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Contrato> searchContracts(int first, int range,
+	public List<Contract> searchContracts(int first, int range,
 			StringBuilder query, List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT c FROM Contrato c ");
+		queryBuilder.append("SELECT c FROM Contract c ");
 		queryBuilder.append(query);
 		queryBuilder.append("ORDER BY c.id ");
 		Query resultQuery = em.createQuery(queryBuilder.toString());
@@ -132,7 +131,7 @@ public class ContractDao implements Serializable {
 					.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		resultQuery.setFirstResult(first).setMaxResults(range);
-		List<Contrato> resultList = resultQuery.getResultList();
+		List<Contract> resultList = resultQuery.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
