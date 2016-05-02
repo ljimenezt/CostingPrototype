@@ -273,7 +273,7 @@ public class MachinesAction implements Serializable {
 	 */
 	public void initializeMachines() {
 		setState(true);
-		this.nameSearch="";
+		this.nameSearch = "";
 		this.pagination.setOpcion('f');
 		consultMachines();
 	}
@@ -471,15 +471,13 @@ public class MachinesAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void loadDetailsMachines() throws Exception {
-		List<Machines> machines = new ArrayList<Machines>();
-		machines.addAll(this.listMachines);
-		this.listMachines = new ArrayList<Machines>();
-		for (Machines machine : machines) {
-			int idMachine = machine.getIdMachine();
-			FuelTypes fuelTypes = (FuelTypes) this.machinesDao
-					.consultObjectMachines("fuelTypes", idMachine);
-			machine.setFuelTypes(fuelTypes);
-			this.listMachines.add(machine);
+		if (this.listMachines != null) {
+			for (Machines machine : this.listMachines) {
+				int idMachine = machine.getIdMachine();
+				FuelTypes fuelTypes = (FuelTypes) this.machinesDao
+						.consultObjectMachines("fuelTypes", idMachine);
+				machine.setFuelTypes(fuelTypes);
+			}
 		}
 	}
 

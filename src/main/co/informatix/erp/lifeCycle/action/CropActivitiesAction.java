@@ -703,7 +703,7 @@ public class CropActivitiesAction implements Serializable {
 			if (this.listActivityNames != null
 					&& this.listActivityNames.size() > 0) {
 				for (ActivityNames activityNames : this.listActivityNames) {
-					if (activityNames.isSeleccionado()) {
+					if (activityNames.isSelected()) {
 						listActivityNames.remove(activityNames);
 						break;
 					}

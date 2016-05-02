@@ -24,7 +24,7 @@ public class ActivityNames implements Serializable {
 	private int idActivityName;
 	private String activityName;
 	private String description;
-	private boolean seleccionado = false;
+	private boolean selected = false;
 
 	/**
 	 * @return idActivityName: Activity_names identifier table.
@@ -81,8 +81,8 @@ public class ActivityNames implements Serializable {
 	 *         activities, used by the management CycleStandardActivities
 	 */
 	@Transient
-	public boolean isSeleccionado() {
-		return seleccionado;
+	public boolean isSelected() {
+		return selected;
 	}
 
 	/**
@@ -91,8 +91,8 @@ public class ActivityNames implements Serializable {
 	 *            activities, used by the management CycleStandardActivities
 	 * 
 	 */
-	public void setSeleccionado(boolean seleccionado) {
-		this.seleccionado = seleccionado;
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override

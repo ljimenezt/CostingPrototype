@@ -571,17 +571,16 @@ public class FarmAction implements Serializable {
 	/**
 	 * This method fills the various objects associated to a farm.
 	 * 
+	 * @modify 02/05/2016 Andres.Gomez
 	 * @author Cristhian.Pico
 	 * 
 	 * @throws Exception
 	 */
 	private void loadFarmDetails() throws Exception {
-		List<Farm> farms = new ArrayList<Farm>();
-		farms.addAll(this.farmsList);
-		this.farmsList = new ArrayList<Farm>();
-		for (Farm farm : farms) {
-			loadFarmDetails(farm);
-			this.farmsList.add(farm);
+		if (this.farmsList != null) {
+			for (Farm farm : this.farmsList) {
+				loadFarmDetails(farm);
+			}
 		}
 	}
 

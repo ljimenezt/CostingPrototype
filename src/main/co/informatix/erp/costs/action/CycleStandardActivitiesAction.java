@@ -355,7 +355,7 @@ public class CycleStandardActivitiesAction implements Serializable {
 			cycleStandardActivitiesList.clear();
 			this.cropNames = cropNamesDao.cropNamesXId(idCropNames);
 			for (ActivityNames activityName : activityNamesList) {
-				if (activityName.isSeleccionado()) {
+				if (activityName.isSelected()) {
 					CycleStandardActivities cycleStandardActivities = new CycleStandardActivities();
 					cycleStandardActivities.setActivityNames(activityName);
 					cycleStandardActivitiesList.add(cycleStandardActivities);
