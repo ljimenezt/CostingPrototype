@@ -137,18 +137,6 @@ public class CropsDao implements Serializable {
 	}
 
 	/**
-	 * Method allows us to obtain the identifier given harvest.
-	 * 
-	 * @param id
-	 *            : identifier crop we want to find.
-	 * @return Crops: crop we found.
-	 * @throws Exception
-	 */
-	public Crops cropsXID(int id) throws Exception {
-		return em.find(Crops.class, id);
-	}
-
-	/**
 	 * This method returns a list of all harvests name crops that are in place.
 	 * 
 	 * @author Andres.Gomez

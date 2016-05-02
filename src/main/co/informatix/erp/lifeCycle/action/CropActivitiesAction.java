@@ -979,7 +979,7 @@ public class CropActivitiesAction implements Serializable {
 	 */
 	public void validateDatesAllowed() {
 		try {
-			Crops crop = cropsDao.cropsXID(activities.getCrop().getIdCrop());
+			Crops crop = cropsDao.cropsById(activities.getCrop().getIdCrop());
 			Date date = ControladorFechas.formatearFecha(
 					activities.getInitialDtBudget(),
 					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);

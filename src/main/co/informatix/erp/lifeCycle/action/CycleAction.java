@@ -31,6 +31,7 @@ import co.informatix.erp.services.dao.ServiceTypeDao;
 import co.informatix.erp.services.entities.ServiceType;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -72,9 +73,11 @@ public class CycleAction implements Serializable {
 	private Date finalDateSearch;
 	private boolean loadDocumentTemporal;
 	private boolean iconPdf;
+	private boolean flag;
 	private boolean flagCrops;
 	private boolean flagCycle;
 	private boolean flagDate;
+	private boolean flagActivityNames;
 	private int idCrops;
 	private int idCropsName;
 	private int idMaterialsType;
@@ -568,11 +571,19 @@ public class CycleAction implements Serializable {
 	 * This method allows initialize all the cycle.
 	 */
 	public void initializeSearch() {
+		searchCycles();
+		consultCycles();
+	}
+
+	/**
+	 * This method allows initialize and clean the values of the search cycle.
+	 */
+	public void searchCycles() {
 		this.idActivitiesName = 0;
 		this.initialDateSearch = null;
 		this.finalDateSearch = null;
-		this.cycle = new Cycle();
-		consultCycles();
+		this.flagActivityNames = false;
+		loadActivities();
 	}
 
 	/**
@@ -580,26 +591,22 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @modify 22/03/2016 Andres.Gomez
 	 * 
-	 * @param cycle
-	 *            :Object of cycle are adding or editing.
-	 * 
 	 * @return gesCycle: Template redirects to management Cycle.
 	 * 
 	 */
-	public String initializeCycle(Cycle cycle) {
+	public String initializeCycle() {
 		try {
-			if (cycle != null) {
+			if (flag) {
 				crops = cropsDao.cropsById(cycle.getCrops().getIdCrop());
 			} else {
 				crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 			}
 			this.idCrops = crops.getIdCrop();
 			this.idCropsName = crops.getCropNames().getIdCropName();
-			if (crops != null) {
-				initializeSearch();
-			}
+			this.cycle = null;
 			this.flagCrops = false;
-			loadActivities();
+			flag = false;
+			initializeSearch();
 			loadCropNames();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -620,34 +627,21 @@ public class CycleAction implements Serializable {
 	 */
 	public String addEditCycles(Cycle cycle) {
 		try {
-			this.crops = new Crops();
-			this.crops.setCropNames(new CropNames());
+			clearFields();
 			if (cycle != null) {
 				this.cycle = cycle;
-				this.idCrops = this.cycle.getCrops().getIdCrop();
-				this.crops = cropsDao.cropsById(idCrops);
-				this.idCropsName = this.crops.getCropNames().getIdCropName();
 				loadCombos();
 				this.flagCycle = true;
 				this.flagDate = cycleDao.consultCycleByIdCropsAndIdActivity(
-						this.idCrops, this.cycle.getActiviyNames()
+						idCrops, this.cycle.getActiviyNames()
 								.getIdActivityName(), this.cycle
 								.getInitialDateTime());
 			} else {
-				if (this.idCrops == 0 && this.idCropsName == 0) {
-					this.crops = cropsDao
-							.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
-					this.idCrops = this.getCrops().getIdCrop();
-					this.idCropsName = this.getCrops().getCropNames()
-							.getIdCropName();
-				}
-				this.cycle = new Cycle();
-				this.cycle.setActiviyNames(new ActivityNames());
 				this.flagCycle = false;
 				this.flagDate = false;
 			}
 			this.flagCrops = false;
-			clearFields();
+			this.flagActivityNames = true;
 			loadActivities();
 			loadCropNames();
 		} catch (Exception e) {
@@ -660,16 +654,29 @@ public class CycleAction implements Serializable {
 	 * This method allows clean the fields.
 	 * 
 	 */
-	private void clearFields() {
-		this.idMachinesType = 0;
-		this.idMaterials = 0;
-		this.idMaterialsType = 0;
-		this.idServicesType = 0;
-		this.quantity = 0;
-		this.units = "";
-		this.quote = 0;
-		this.nameDocument = null;
-		this.loadDocumentTemporal = true;
+	public void clearFields() {
+		try {
+			if (idCrops == 0) {
+				crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
+				this.idCrops = crops.getIdCrop();
+				this.idCropsName = crops.getCropNames().getIdCropName();
+			} else {
+				crops = cropsDao.cropsById(idCrops);
+			}
+			this.cycle = new Cycle();
+			this.cycle.setActiviyNames(new ActivityNames());
+			this.idMachinesType = 0;
+			this.idMaterials = 0;
+			this.idMaterialsType = 0;
+			this.idServicesType = 0;
+			this.quantity = 0;
+			this.units = "";
+			this.quote = 0;
+			this.nameDocument = null;
+			this.loadDocumentTemporal = true;
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 
 	/**
@@ -801,10 +808,15 @@ public class CycleAction implements Serializable {
 	public void loadActivities() {
 		try {
 			itemsActivityName = new ArrayList<SelectItem>();
-			List<ActivityNames> tiposActivityNames = activityNamesDao
-					.queryActivityNamesXCrop(this.idCrops);
-			if (tiposActivityNames != null) {
-				for (ActivityNames activitiesName : tiposActivityNames) {
+			List<ActivityNames> ActivityNamesList = new ArrayList<ActivityNames>();
+			if (flagActivityNames) {
+				ActivityNamesList = activityNamesDao.activityNamesList();
+			} else {
+				ActivityNamesList = activityNamesDao
+						.queryActivityNames(this.idCrops);
+			}
+			if (ActivityNamesList != null) {
+				for (ActivityNames activitiesName : ActivityNamesList) {
 					itemsActivityName.add(new SelectItem(activitiesName
 							.getIdActivityName(), activitiesName
 							.getActivityName()));
@@ -998,7 +1010,7 @@ public class CycleAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return initializeCycle(this.cycle);
+		return initializeCycle();
 	}
 
 	/**
@@ -1012,13 +1024,14 @@ public class CycleAction implements Serializable {
 		String mensajeRegistro = "message_registro_modificar";
 
 		try {
-			this.crops.setIdCrop(this.idCrops);
-			this.cycle.setCrops(this.crops);
+			flag = true;
 			if (cycle.getIdCycle() != 0) {
 				cycleDao.editCycle(cycle);
 			} else {
-				mensajeRegistro = "message_registro_guardar";
+				this.cycle.setCrops(new Crops());
+				this.cycle.getCrops().setIdCrop(this.idCrops);
 				cycleDao.saveCycle(cycle);
+				mensajeRegistro = "message_registro_guardar";
 			}
 			String activitisName = (String) ValidacionesAction.getLabel(
 					itemsActivityName, cycle.getActiviyNames()
@@ -1028,7 +1041,7 @@ public class CycleAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return initializeCycle(cycle);
+		return initializeCycle();
 	}
 
 	/**
@@ -1112,6 +1125,12 @@ public class CycleAction implements Serializable {
 					.getBundle("mensajeWarehouse");
 			StringBuilder consult = new StringBuilder();
 			List<SelectItem> parameters = new ArrayList<SelectItem>();
+			String dateStart = ControladorFechas.formatDate(
+					crops.getInitialDate(),
+					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+			String dateFinal = ControladorFechas.formatDate(
+					crops.getFinalDate(),
+					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
 			if (this.cycle.getMaterialsRequired()) {
 				boolean materialFlag = depositsDao
 						.associatedMaterialsDeposits(idMaterials);
@@ -1138,6 +1157,22 @@ public class CycleAction implements Serializable {
 				}
 			}
 
+			if (cycle.getInitialDateTime().before(crops.getInitialDate())
+					|| cycle.getInitialDateTime().after(crops.getFinalDate())) {
+
+				ControladorContexto.mensajeErrorArg1(
+						"formRegisterCycle:fechaInicio",
+						"message_validate_dates_range", "mensaje", dateStart,
+						dateFinal);
+			}
+			if (cycle.getFinalDateTime().before(crops.getInitialDate())
+					|| cycle.getFinalDateTime().after(crops.getFinalDate())) {
+				ControladorContexto.mensajeErrorArg1(
+						"formRegisterCycle:fechaFinal",
+						"message_validate_dates_range", "mensaje", dateStart,
+						dateFinal);
+			}
+
 			if (flagCycle) {
 				consult.append("AND c.idCycle <>:idCycle ");
 				SelectItem item = new SelectItem(cycle.getIdCycle(), "idCycle");
@@ -1149,10 +1184,12 @@ public class CycleAction implements Serializable {
 						this.cycle.getActiviyNames().getIdActivityName(),
 						this.cycle.getInitialDateTime(), consult, parameters);
 				if (dateInitial != null) {
+					dateStart = ControladorFechas.formatDate(dateInitial,
+							Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
 					ControladorContexto.mensajeErrorArg1(
 							"formRegisterCycle:fechaInicio",
 							"cycle_message_must_enter_late_date",
-							"messageLifeCycle", dateInitial);
+							"messageLifeCycle", dateStart);
 				}
 			}
 		} catch (Exception e) {

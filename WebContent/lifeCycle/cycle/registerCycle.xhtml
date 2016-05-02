@@ -55,7 +55,7 @@
 							styleClass="colTextoMediano" required="true">
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{cycleAction.optionsCrops}" />
-							<f:ajax event="change" listener="#{cycleAction.loadActivities()}"
+							<f:ajax event="change" listener="#{cycleAction.clearFields()}"
 								render="formRegisterCycle" />
 						</h:selectOneMenu>
 						<h:outputText rendered="#{cycleAction.flagCycle eq true}"
@@ -71,8 +71,7 @@
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,"
-						rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}">
+						columnClasses=" W130P etiquetaTitulo tdAlignTop,,,">
 
 						<h:outputText value="#{messageLifeCycle.cycle_label_type}" />
 						<h:outputText value="#{cycleAction.flagCycle eq true ? '' : '*'}"
@@ -82,8 +81,7 @@
 							value="#{cycleAction.cycle.activiyNames.idActivityName}"
 							styleClass="colTextoCorto" required="true"
 							validator="#{validacionesAction.validarComboRequerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-								itemValue="0" />
+							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 							<f:selectItems value="#{cycleAction.itemsActivityName}" />
 							<f:ajax event="change"
 								listener="#{cycleAction.calculateCycleNumber()}" render="@form" />
