@@ -12,12 +12,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import co.informatix.erp.humanResources.dao.ContractDao;
 import co.informatix.erp.humanResources.dao.PaymentsDao;
+import co.informatix.erp.humanResources.entities.Contract;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.humanResources.entities.Payments;
-import co.informatix.erp.recursosHumanos.dao.ContractDao;
-import co.informatix.erp.recursosHumanos.entities.Contrato;
-import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -215,21 +214,25 @@ public class PaymentsAction implements Serializable {
 	/**
 	 * Method of uploading the details of payment.
 	 * 
+	 * @modify 28/04/2016 Mabell.Boada
+	 * 
 	 * @param payment
 	 *            : payment which will carry the details.
 	 * @throws Exception
 	 */
 	public void loadDetailsPayment(Payments payment) throws Exception {
 		int idPayment = payment.getIdPayment();
-		Contrato contract = (Contrato) this.paymentsDao.consultObjectPayments(
+		Contract contract = (Contract) this.paymentsDao.consultObjectPayments(
 				"contract", idPayment);
 		Hr hr = (Hr) this.paymentsDao.consultObjectPayments("hr", idPayment);
-		int idContract = contract.getId();
-		Persona person = (Persona) this.contractDao.searchContract("persona",
-				idContract);
-		contract.setPersona(person);
-		payment.setContract(contract);
-		payment.setHr(hr);
+		if (contract != null) {
+			int idContract = contract.getId();
+			Hr hrCont = (Hr) this.contractDao.searchContract("hr", idContract);
+			contract.setHr(hrCont);
+			payment.setContract(contract);
+			payment.setHr(hr);
+		}
+
 	}
 
 	/**
@@ -260,6 +263,8 @@ public class PaymentsAction implements Serializable {
 	/**
 	 * Method to edit or create a new payment.
 	 * 
+	 * @modify 28/04/2016 Mabell.Boada
+	 * 
 	 * @param payments
 	 *            : payment is to add or edit.
 	 * @return "regPayments": redirected to the template record payments.
@@ -272,8 +277,8 @@ public class PaymentsAction implements Serializable {
 			} else {
 				this.payments = new Payments();
 				this.payments.setHr(new Hr());
-				Contrato contract = new Contrato();
-				contract.setPersona(new Persona());
+				Contract contract = new Contract();
+				contract.setHr(new Hr());
 				this.payments.setContract(contract);
 			}
 		} catch (Exception e) {
@@ -287,7 +292,7 @@ public class PaymentsAction implements Serializable {
 	 * Method for cleaning the contract associated with the payment.
 	 */
 	public void cleanContract() {
-		this.payments.setContract(new Contrato());
+		this.payments.setContract(new Contract());
 	}
 
 	/**
@@ -296,7 +301,7 @@ public class PaymentsAction implements Serializable {
 	 * @param contract
 	 *            : object selected contract.
 	 */
-	public void loadContract(Contrato contract) {
+	public void loadContract(Contract contract) {
 		this.payments.setContract(contract);
 	}
 

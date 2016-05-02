@@ -20,7 +20,7 @@
 		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{contractAction}" />
-		<ui:param name="renderLista" value="panelContrato vigenciaPopup" />
+		<ui:param name="renderLista" value="panelContract vigenciaPopup" />
 		<ui:param name="metodoLista" value="searchContracts" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
@@ -28,19 +28,19 @@
 		<ui:param name="nombreAction" value="contractAction" />
 		<ui:param name="metodoNuevo" value="addEditContract" />
 		<ui:param name="parametroNuevo" value="#{null}" />
-		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
-		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
+		<ui:param name="popupBuscar" value="popupSearch" />
 		<ui:param name="metodoListarTodos" value="initializeSearch" />
 
-		<h:form id="formContrato">
+		<h:form id="formContract">
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listing} #{messageHumanResources.contract_label_s}"
-				id="panelContrato">
+				id="panelContract">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
 				</ui:include>
 				<rich:dataTable value="#{contractAction.contractList}"
-					var="contrato"
+					var="contract"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 
@@ -48,9 +48,9 @@
 						rendered="#{contractAction.valid eq 'si' and (identity.autorizado('contractAction','A') or identity.autorizado('contractAction','U'))}">
 						<a:outputPanel
 							rendered="#{(identity.autorizado('contractAction','A') or identity.autorizado('contractAction','D'))}">
-							<a:commandLink render="popupEliminar"
-								actionListener="#{contractAction.setContract(contrato)}"
-								oncomplete="#{rich:component('popupEliminar')}.show()">
+							<a:commandLink render="popupDelete"
+								actionListener="#{contractAction.setContract(contract)}"
+								oncomplete="#{rich:component('popupDelete')}.show()">
 								<h:graphicImage value="/img/delete_16.png" />
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.button_remove}" />
@@ -61,26 +61,26 @@
 
 					<rich:column styleClass="colTextoLargo">
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
-						<h:commandLink value="#{contrato.persona.nombreCompleto}"
-							action="#{contractAction.addEditContract(contrato)}"
+						<h:commandLink value="#{contract.hr.name}"
+							action="#{contractAction.addEditContract(contract)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
 
 					<rich:column styleClass="colTextoExtraLargo">
 						<f:facet name="header">#{mensaje.label_observations}</f:facet>
-						<h:outputText value="#{contrato.observaciones}" />
+						<h:outputText value="#{contract.observations}" />
 					</rich:column>
 
 					<rich:column styleClass="colIconoCinco">
 						<f:facet name="header">#{mensaje.label_trial_period}</f:facet>
 						<h:graphicImage value="/img/okPermiso_16.png"
-							rendered="#{contrato.esPeriodoPrueba eq true}" />
+							rendered="#{contract.isTestPeriod}" />
 					</rich:column>
 
 					<rich:column styleClass="colFechaExtraLarga">
 						<f:facet name="header">#{mensaje.label_contract_end_date}</f:facet>
-						<h:outputText value="#{contrato.fechaFinContrato}">
+						<h:outputText value="#{contract.contractEndDate}">
 							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
 						</h:outputText>
@@ -88,7 +88,7 @@
 
 					<rich:column styleClass="colFechaExtraLarga">
 						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
-						<h:outputText value="#{contrato.fechaCreacion}">
+						<h:outputText value="#{contract.created}">
 							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
 						</h:outputText>
@@ -111,7 +111,7 @@
 					<br />
 					<div class="#{anchoTabla} center inBlock">
 						<ui:include src="/plantillas/templatePagination.xhtml">
-							<ui:param name="valReder" value="panelContrato" />
+							<ui:param name="valReder" value="panelContract" />
 							<ui:param name="beanActionParam" value="#{contractAction}" />
 							<ui:param name="metodoActionParam" value="searchContracts" />
 						</ui:include>
@@ -119,8 +119,8 @@
 				</a:outputPanel>
 			</rich:panel>
 		</h:form>
-		<h:form id="formBuscar">
-			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="342"
+		<h:form id="formSearch">
+			<rich:popupPanel id="popupSearch" autosized="true" maxWidth="342"
 				header="#{mensaje.button_search} #{messageHumanResources.contract_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
@@ -128,7 +128,7 @@
 						<h:graphicImage value="/img/close_14.png"
 							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-							onclick="#{rich:component('popupBuscar')}.hide()"
+							onclick="#{rich:component('popupSearch')}.hide()"
 							styleClass="cursor" />
 					</h:panelGroup>
 				</f:facet>
@@ -136,22 +136,22 @@
 					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" maxlength="100"
-						id="txtNombreBuscar" value="#{contractAction.nameSearch}"
-						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
+						id="txtNameSearch" value="#{contractAction.nameSearch}"
+						onkeypress="return submitByEnter(event,'formSearch:btnSearch')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
-					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+					<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
 						actionListener="#{contractAction.searchContracts()}"
-						oncomplete="#{rich:component('popupBuscar')}.hide();"
-						render="panelContrato, mensajes, mensajeBusqueda" />
-					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						oncomplete="#{rich:component('popupSearch')}.hide();"
+						render="panelContract, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
 						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
 		</h:form>
 		<h:form>
-			<rich:popupPanel id="popupEliminar" keepVisualState="true"
+			<rich:popupPanel id="popupDelete" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
 				header="#{mensaje.label_confirmation}">
 				<f:facet name="controls">
@@ -159,7 +159,7 @@
 						<h:graphicImage value="/img/close_14.png"
 							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-							onclick="#{rich:component('popupEliminar')}.hide()"
+							onclick="#{rich:component('popupDelete')}.hide()"
 							styleClass="cursor" />
 					</h:panelGroup>
 				</f:facet>
@@ -170,15 +170,15 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{contractAction.contract.persona.nombres}" />
+						<h:outputText value="#{contractAction.contract.hr.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{contractAction.deleteContract()}"
-							onclick="#{rich:component('popupEliminar')}.hide()"
-							render="panelContrato, mensajes, mensajeBusqueda" />
+							onclick="#{rich:component('popupDelete')}.hide()"
+							render="panelContract, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"
-							onclick="#{rich:component('popupEliminar')}.hide()" />
+							onclick="#{rich:component('popupDelete')}.hide()" />
 					</ui:define>
 				</ui:decorate>
 			</rich:popupPanel>
