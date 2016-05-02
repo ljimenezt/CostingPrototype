@@ -34,8 +34,6 @@
 						</div>
 					</a:commandLink>
 					<a:commandLink rendered="#{purchaseInvoicesAction.flag eq false}"
-						styleClass="quitarDecoracionLink"
-						actionListener="#{purchaseInvoicesAction.saveInvoices()}"
 						action="#{purchaseInvoicesAction.selectInvoiceCalculate()}"
 						render="panelPurchaseInvoices, mensajes, mensajeBusqueda">
 						<div align="right">
