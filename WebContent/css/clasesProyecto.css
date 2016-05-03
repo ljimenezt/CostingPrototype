@@ -23,10 +23,6 @@
 	width: 977px;
 }
 
-.pisar-active-row {
-	background: none !important;
-}
-
 .message li {
 	background: no-repeat left center;
 	padding-top: 3px;
@@ -75,15 +71,6 @@
 .errors {
 	color: #FF0000; /*Rojo*/
 	vertical-align: middle;
-}
-
-.errorImport {
-	display: inline;
-	color: #FF0000; /*Rojo*/
-}
-
-img.errors {
-	padding-right: 5px;
 }
 
 .errors input,.errors textarea,.errors select {
@@ -226,53 +213,10 @@ table.radio input[type=radio] {
 }
 
 /* Estilo que se usa para ajustar el alto de un input que se encuentre dentro de un ExtendDataTable*/
-.inputExtendDataTable {
-	height: 11px !important;
-	margin-bottom: 0 !important;
-	margin-left: -8px !important;
-	margin-right: 0 !important;
-	margin-top: -3px !important;
-	width: 80px !important;
-}
-
-.inputExtendDataTable2 {
-	margin: 0px !important;
-	height: 11px !important;
-}
-
-.selectExtendDataTable {
-	margin: 0px !important;
-	height: 16px !important;
-	width: 100px !important;
-}
-
-.radioExtendDataTable {
-	margin: -5px !important;
-	width: 55px !important;
-}
-
-.radioExtendDataTablePredeterminado {
-	margin: -5px !important;
-	width: 100px !important;
-}
-
-.radioExtendDataTableActivo {
-	margin: -5px !important;
-	width: 45px !important;
-}
 
 /* Estilo que se usa para ajustar el alto de un input que se encuentre dentro de un DataTable*/
-.inputDataTable {
-	margin: 0px !important;
-	height: 15px !important;
-	width: 80px !important;
-}
 
 /* Estilo que se usa para ajustar el alto de un input que se encuentre dentro de un ExtendDataTable colocando el ancho con otro estilo*/
-.inputExtendDataTableGen {
-	height: 15px !important;
-	margin: 0px !important;
-}
 
 /* Estilo que se usa para mostrar los mensajes en bloque (uno debajo del otro) que se encuentran en la parte superior del formulario o lista */
 .messageBlock span {
@@ -280,25 +224,10 @@ table.radio input[type=radio] {
 }
 
 /* Estilo que se usa para mostrar el archivo que se carga con color y alineacion */
-.uploadImgFile {
-	background-color: #DCDCDC; /*Gris claro*/
-	color: #FFFFFF; /*Gris claro*/
-	margin: 0 25px;
-	padding: 5px;
-}
 
 /* Estilo que se usa para mostrar en bloque con prioridad (important) */
-.inBlockImp {
-	display: inline-block !important;
-}
+
 /* Estilo que se usa para la imagen de cerrar en la carga de archivos */
-.closeImgFile {
-	background-color: #333333; /*Gris oscuro*/
-	color: #FFFFFF; /*Gris claro*/
-	opacity: 0.5;
-	padding: 5px;
-	position: absolute;
-}
 
 /* ESTILOS PARA MOSTRAR LA INFORMACION DE DETALLE */
 .columnaIzquierda {
@@ -335,16 +264,8 @@ table.radio input[type=radio] {
 	padding-left: 1px;
 }
 
-.F12p {
-	font-size: 12px;
-}
-
 .F20p {
 	font-size: 20px;
-}
-
-.F30p {
-	font-size: 30px;
 }
 
 /* ANCHOS EN LOS PANELES, FILSET O TABLAS */
@@ -362,19 +283,6 @@ table.radio input[type=radio] {
 	background-repeat: repeat-y;
 	background-repeat: repeat-x;
 	vertical-align: top;
-}
-
-.anchoMaximoIzquierda {
-	max-width: 100%;
-	vertical-align: top;
-	width: auto;
-	text-align: right;
-}
-
-.anchoMaximo {
-	max-width: 100%;
-	vertical-align: top;
-	width: auto;
 }
 
 .anchoDos {
@@ -397,11 +305,6 @@ table.radio input[type=radio] {
 	vertical-align: top;
 }
 
-.anchoDetallesRevision {
-	width: 680px;
-	vertical-align: top;
-}
-
 .anchoSeis {
 	width: 530px;
 	vertical-align: top;
@@ -412,11 +315,6 @@ table.radio input[type=radio] {
 	vertical-align: top;
 }
 
-.anchoOcho {
-	width: 300px;
-	vertical-align: top;
-}
-
 /* Tabla pequenya*/
 .anchoNueve {
 	width: 200px;
@@ -424,27 +322,13 @@ table.radio input[type=radio] {
 }
 
 /*Utilizado para tamanyo de panel con scroll en criterio de facturacion*/
-.panelScroll {
-	width: 580px;
-	height: 400px;
-	overflow: scroll;
-}
 
 /*Utilizado para tamanyo de panel en un popup*/
-.panelScrollPopup {
-	max-height: 200px;
-	overflow: auto;
-	width: 350px;
-}
+
 /*Utilizado para tamanyo de panel en un popup*/
-.panelScrollPopupY {
-	overflow-y: auto;
-	overflow-x: hidden;
-}
+
 /*Utilizado para ocultar overflow*/
-.scrollHidden {
-	overflow: hidden;
-}
+
 /* ESTILOS PARA LOS ICONOS DE LAS COLUMNAS DE LAS TABLAS */
 .colIconoUno {
 	width: 22px;
@@ -460,12 +344,6 @@ table.radio input[type=radio] {
 
 .colIconoTres {
 	width: 66px;
-	vertical-align: top;
-	text-align: center;
-}
-
-.colIconoCuatro {
-	width: 88px;
 	vertical-align: top;
 	text-align: center;
 }
@@ -505,11 +383,6 @@ table.radio input[type=radio] {
 }
 
 /* Estilos para las columnas o campos texto que son identificadores de un objeto */
-.colIdentificador {
-	width: 10px;
-	vertical-align: top;
-	text-align: left;
-}
 
 /* Estilos para las columnas o campos texto que son caracteres */
 .colTextoMini {
@@ -519,11 +392,7 @@ table.radio input[type=radio] {
 }
 
 /* Estilos para las columnas o campos texto que son caracteres */
-.colTextoMiniCorto {
-	width: 130px;
-	vertical-align: top;
-	text-align: left;
-}
+
 
 /* Estilos para las columnas o campos texto que son caracteres */
 .colTextoXCorto {
@@ -540,11 +409,6 @@ table.radio input[type=radio] {
 }
 
 /* Estilos para las columnas en los reportes */
-.colTextoCortoReportes {
-	width: 150px;
-	vertical-align: middle;
-	text-align: left;
-}
 
 /* Estilos para las columnas o campos texto que son caracteres */
 .colTextoMediano {
@@ -575,25 +439,12 @@ table.radio input[type=radio] {
 }
 
 /* Estilos para las imagenes de los hierros */
-.tamanoHierro {
-	width: 50px;
-	height: 50px;
-}
 
 /* Estilos para los campos tipo textArea */
-.colTextoCortoTextArea {
-	height: 80px;
-	width: 150px;
-}
 
 .colTextoMedianoTextArea {
 	height: 80px;
 	width: 225px;
-}
-
-.colTextoLargoTextArea {
-	height: 80px;
-	width: 300px;
 }
 
 .colTextoExtraLargoTextArea {
@@ -654,36 +505,14 @@ table.radio input[type=radio] {
 }
 
 /* Estilo para las columas o campos texto de tipo hora */
-.colHora {
-	width: 80px;
-	vertical-align: top;
-	text-align: center;
-}
 
 /* Estilo para las columas con checks */
-.colCheck {
-	width: 20px;
-	vertical-align: top;
-	text-align: center;
-}
+
 /* FIN ESTILOS TEXTOS O CAMPOS DE LA TABLA */
 
 /* Estilo para el encabezado */
-.encabezado {
-	height: 118px;
-	background-image: url('../img/encabezado.jpg');
-	background-repeat: repeat-none;
-	vertical-align: middle;
-}
 
 /* Estilo usado en los arboles */
-.nodo {
-	font-family: Arial, Verdana, sans-serif;
-	font-size: 11px;
-	color: #006600;
-	font-weight: bold;
-	vertical-align: top;
-}
 
 /* Tipos de letras */
 .FontFamilyArial {
@@ -699,14 +528,6 @@ table.radio input[type=radio] {
 	color: #C0C0C0;
 }
 
-.backgroundBlanco {
-	background: white;
-}
-
-.backgroundRosado {
-	background: #FFE4E4
-}
-
 /* ESTILOS DE LA CEBRA EN LAS TABLAS */
 .even-row {
 	background-color: #E1E1E1;
@@ -720,10 +541,6 @@ table.radio input[type=radio] {
 	background-color: #CCCCCC;
 }
 
-.select-row {
-	background-color: #AFEEEE;
-}
-
 .dataTable {
 	
 }
@@ -731,10 +548,6 @@ table.radio input[type=radio] {
 
 /* ESTILOS DE LA MIGA DE PAN */
 /* Estilo que carga la imagen de la miga */
-.backGroundImgMigaPan {
-	background: url("../img/migaPan_10X1400.png") repeat-x scroll 0 0
-		#D8D8D8;
-}
 
 /* Estilo de tamaño y letra de la miga */
 .migaPan {
@@ -749,10 +562,6 @@ table.radio input[type=radio] {
 }
 
 /* Estilo usado los titulos de la informacion general*/
-.tituloInfoGeneral {
-	font-weight: bold;
-	font-size: 16px;
-}
 
 .messagePortalWeb {
 	padding: 5px;
@@ -790,32 +599,11 @@ table.radio input[type=radio] {
 	background-image: url(../img/warn_16.png);
 }
 
-.fileInputOcultar {
-	visibility: hidden;
-	position: absolute;
-	top: 0;
-	left: -5000px;
-}
-
-.resaltarInformacion {
-	border-style: solid;
-	border-width: 1px;
-	border-color: #C0C0C0; /*Gris*/
-}
-
 .MP0 {
 	margin: 0px !important;
 }
 
 /*estilos para icono de ordenamiento*/
-.FL {
-	float: left;
-	overflow: hidden;
-}
-
-.ML80Per {
-	margin-left: 80%;
-}
 
 /*Estilos del Nuevo Menu*/
 .tablaIconoTexto {
@@ -940,29 +728,11 @@ table.radio input[type=radio] {
 	padding-top: 6px;
 }
 
-.W401P span.rf-msgs-inf {
-	width: 401px;
-}
-
-.W480P span.rf-msgs-inf {
-	width: 480px;
-}
-
-.W531P span.rf-msgs-inf {
-	width: 531px;
-}
-
 .W550P span.rf-msgs-inf {
 	width: 550px;
 }
 
-.W620P span.rf-msgs-inf {
-	width: 620px;
-}
 
-.W630P span.rf-msgs-inf {
-	width: 630px;
-}
 
 /* Fin estilos nuevos buscadores*/
 
@@ -988,18 +758,9 @@ table.radio input[type=radio] {
 	color: #000000; /*Negro*/
 }
 /* FIN Estilos botones graficos para el menu de seleccion de idiomas y skin */
-.backPurple {
-	background-color: #8EABC3 !important;
-}
 
-.alignTxtLabel {
-	margin-left: 7px;
-	font-weight: bold;
-}
 
-.backInfo {
-	background-color: infobackground !important;
-}
+
 
 .messageInfSpanMsg span.rf-msg-inf {
 	background-color: #FDF9F4 !important; /*Amarillo Claro*/
