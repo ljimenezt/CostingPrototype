@@ -260,7 +260,6 @@ public class ContractAction implements Serializable {
 		if (this.contractList != null) {
 			for (Contract contract : this.contractList) {
 				loadContractDetails(contract);
-				this.contractList.add(contract);
 			}
 		}
 	}
