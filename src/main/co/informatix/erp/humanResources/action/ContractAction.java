@@ -257,11 +257,8 @@ public class ContractAction implements Serializable {
 	 * @throws Exception
 	 */
 	public void loadContractsDetails() throws Exception {
-		List<Contract> contracts = new ArrayList<Contract>();
 		if (this.contractList != null) {
-			contracts.addAll(this.contractList);
-			this.contractList = new ArrayList<Contract>();
-			for (Contract contract : contracts) {
+			for (Contract contract : this.contractList) {
 				loadContractDetails(contract);
 				this.contractList.add(contract);
 			}
