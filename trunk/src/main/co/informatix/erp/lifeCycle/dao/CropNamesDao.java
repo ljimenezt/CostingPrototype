@@ -153,6 +153,7 @@ public class CropNamesDao implements Serializable {
 	 * CropNames method that queries the object and saves it to a list
 	 * 
 	 * @author Mabell.Boada
+	 * 
 	 * @return List<CropNames>: List of crops
 	 * @throws Exception
 	 */
@@ -168,6 +169,7 @@ public class CropNamesDao implements Serializable {
 	 * CropNames method that queries the object by its ID
 	 * 
 	 * @author Mabell.Boada
+	 * 
 	 * @param id
 	 *            : Identifier harvest to consult
 	 * @return: CropName object found with the search parameter identifier
