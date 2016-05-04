@@ -302,9 +302,9 @@ public class ActivityNamesDao implements Serializable {
 		query.append("SELECT DISTINCT an.idActivityName FROM Cycle c ");
 		query.append("JOIN c.activiyNames an ");
 		query.append("WHERE c.crops.idCrop =:idCrop ) ");
+		query.append("ORDER BY a.activityName ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCrop", idCrop);
-		query.append("ORDER BY a.activityName ");
 		List<ActivityNames> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
