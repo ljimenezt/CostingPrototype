@@ -813,7 +813,7 @@ public class CycleAction implements Serializable {
 				ActivityNamesList = activityNamesDao.activityNamesList();
 			} else {
 				ActivityNamesList = activityNamesDao
-						.queryActivityNames(this.idCrops);
+						.queryActivityNamesInCycles(this.idCrops);
 			}
 			if (ActivityNamesList != null) {
 				for (ActivityNames activitiesName : ActivityNamesList) {

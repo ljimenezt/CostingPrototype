@@ -283,24 +283,28 @@ public class ActivityNamesDao implements Serializable {
 	}
 
 	/**
-	 * This method queries the names of the activities associated with a crop.
+	 * This method allows consult the ActivityNames list that is associated to a
+	 * crop and are registered in cycles.
 	 * 
 	 * @author Wilhelm.Boada
 	 * 
 	 * @param idCrop
 	 *            : Culture identifier.
-	 * @return List<ActivityNames>: List of activity names.
+	 * @return List<ActivityNames>: ActivityNames list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivityNames> queryActivityNames(int idCrop) throws Exception {
+	public List<ActivityNames> queryActivityNamesInCycles(int idCrop)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT DISTINCT c.activiyNames FROM Cycle c ");
+		query.append("SELECT a FROM ActivityNames a ");
+		query.append("WHERE a.idActivityName IN ( ");
+		query.append("SELECT DISTINCT an.idActivityName FROM Cycle c ");
 		query.append("JOIN c.activiyNames an ");
-		query.append("WHERE c.crops.idCrop =:idCrop ");
+		query.append("WHERE c.crops.idCrop =:idCrop ) ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCrop", idCrop);
-		query.append("ORDER BY an.activityName ASC ");
+		query.append("ORDER BY a.activityName ");
 		List<ActivityNames> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
