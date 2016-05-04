@@ -1010,15 +1010,18 @@ public class CropActivitiesAction implements Serializable {
 			int idActivity = this.activities.getIdActivity();
 			int idActivityName = this.activities.getActivityName()
 					.getIdActivityName();
+			Date activitiesDate = ControladorFechas.formatearFecha(
+					this.activities.getInitialDtBudget(),
+					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
 			if (this.listActivities != null) {
 				for (Activities activity : this.listActivities) {
 					int idActivityList = activity.getIdActivity();
 					int idActivityNameList = activity.getActivityName()
 							.getIdActivityName();
-					Date dateS = ControladorFechas.formatearFecha(
+					Date activityDate = ControladorFechas.formatearFecha(
 							activity.getInitialDtBudget(),
 							Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
-					if (dateS.equals(this.activities.getInitialDtBudget())
+					if (activityDate.equals(activitiesDate)
 							&& idActivityName == idActivityNameList
 							&& idActivity != idActivityList) {
 						flagDate = true;
