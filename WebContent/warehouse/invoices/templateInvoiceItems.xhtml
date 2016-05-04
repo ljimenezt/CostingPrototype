@@ -33,7 +33,7 @@
 							</h:panelGrid>
 						</div>
 					</a:commandLink>
-					<a:commandLink rendered="#{purchaseInvoicesAction.flag eq false}"
+					<a:commandLink styleClass="quitarDecoracionLink" rendered="#{purchaseInvoicesAction.flag eq false}"
 						action="#{purchaseInvoicesAction.selectInvoiceCalculate()}"
 						render="panelPurchaseInvoices, mensajes, mensajeBusqueda">
 						<div align="right">
