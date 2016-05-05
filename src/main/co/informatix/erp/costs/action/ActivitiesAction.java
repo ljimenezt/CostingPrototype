@@ -33,6 +33,7 @@ import co.informatix.erp.utz.entities.CertificationsAndRoles;
  * database.
  * 
  * @author Johnatan.Naranjo
+ * @modify 04/05/2016 Gerardo.Herrera
  * 
  */
 @SuppressWarnings("serial")
@@ -51,11 +52,13 @@ public class ActivitiesAction implements Serializable {
 	private int idCrop;
 	private boolean reportingActuals = false;
 	private boolean sort;
+	private boolean flagCropActivities = false;
 
 	private ActivitiesAndCertifications activitiesAndCertifications;
 	private Activities activities;
 	private Crops crops;
 	private Activities selectedActivities;
+	private String nameSearch;
 	private Paginador pager = new Paginador();
 
 	private List<SelectItem> itemsCertificationsAndRoles;
@@ -108,6 +111,21 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
+	 * @return flagCropActivities: Flag for activities query
+	 */
+	public boolean isFlagCropActivities() {
+		return flagCropActivities;
+	}
+
+	/**
+	 * @param flagCropActivities
+	 *            : Flag for activities query
+	 */
+	public void setFlagCropActivities(boolean flagCropActivities) {
+		this.flagCropActivities = flagCropActivities;
+	}
+
+	/**
 	 * @return activities: object containing activity data.
 	 */
 	public Activities getActivities() {
@@ -150,6 +168,21 @@ public class ActivitiesAction implements Serializable {
 	 */
 	public void setSelectedActivities(Activities selectedActivities) {
 		this.selectedActivities = selectedActivities;
+	}
+
+	/**
+	 * @return nameSearch: Activity name for search.
+	 */
+	public String getNameSearch() {
+		return nameSearch;
+	}
+
+	/**
+	 * @param nameSearch
+	 *            : Activity name for search.
+	 */
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
@@ -244,11 +277,20 @@ public class ActivitiesAction implements Serializable {
 	 *            : activities object.
 	 * @param idCrop
 	 *            : crop identifier.
+	 * @param paginador
+	 *            : Objeto paginador
 	 */
-	public void initializeActivities(Activities activity, int idCrop) {
+	public void initializeActivities(Activities activity, int idCrop,
+			Paginador paginador) {
 		this.activities = activity;
 		this.idCrop = idCrop;
-		this.pager = new Paginador();
+		this.nameSearch = "";
+		if (paginador == null) {
+			this.pager = new Paginador();
+			flagCropActivities = false;
+		} else {
+			this.pager = paginador;
+		}
 		searchActivities();
 	}
 
@@ -274,18 +316,14 @@ public class ActivitiesAction implements Serializable {
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
 				: false;
-		sort = false;
 		try {
-			advancedSearch(query, parameters, bundle, bundleCostos,
-					unionMessagesSearch, fromModal, order);
-			Long quantity = activitiesDao.amountActivities(query, parameters);
-			order.setLength(0);
 			sort = true;
 			advancedSearch(query, parameters, bundle, bundleCostos,
 					unionMessagesSearch, fromModal, order);
+			Long quantity = activitiesDao.amountActivities(query, parameters);
 			query.append(order);
 			if (quantity != null) {
-				if (quantity > 5) {
+				if (!flagCropActivities) {
 					pager.paginarRangoDefinido(quantity, 5);
 				} else {
 					pager.paginar(quantity);
@@ -355,14 +393,6 @@ public class ActivitiesAction implements Serializable {
 		boolean showSearchMessage = false;
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE);
-		if (queryBuilder.length() > 0) {
-			queryBuilder.setLength(0);
-			queryBuilder.append("JOIN FETCH ");
-		} else {
-			queryBuilder.append("JOIN ");
-			showSearchMessage = true;
-		}
-		queryBuilder.append("a.activityName an ");
 		if (this.activities.getIdActivity() != 0 && this.activities != null) {
 			queryBuilder.append(selection ? "AND " : "WHERE ");
 			queryBuilder.append("an.idActivityName = :keywordActivity ");
@@ -381,6 +411,18 @@ public class ActivitiesAction implements Serializable {
 						+ " ");
 			selection = true;
 		}
+
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			queryBuilder.append(selection ? "AND " : "WHERE ");
+			queryBuilder.append("UPPER(an.activityName) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
+					"keyword");
+			parameters.add(item);
+			jointSearchMessages.append(bundle.getString("label_name") + ": "
+					+ '"' + this.nameSearch + '"' + " ");
+			selection = true;
+		}
+
 		if (this.activities.getDescription() != null
 				&& !"".equals(this.activities.getDescription())) {
 			queryBuilder.append(selection ? "AND " : "WHERE ");
@@ -398,6 +440,7 @@ public class ActivitiesAction implements Serializable {
 						+ this.activities.getDescription() + '"' + " ");
 			selection = true;
 		}
+
 		if (this.activities.getInitialDtBudget() != null
 				&& this.activities.getFinalDtBudget() != null) {
 			Calendar cal = Calendar.getInstance();
@@ -417,8 +460,7 @@ public class ActivitiesAction implements Serializable {
 			parameters.add(itemInitial);
 			parameters.add(itemFinal);
 			if (!showSearchMessage) {
-				jointSearchMessages.append(bundle
-						.getString("label_start_date")
+				jointSearchMessages.append(bundle.getString("label_start_date")
 						+ ": "
 						+ '"'
 						+ dateFormat.format(this.activities
@@ -430,6 +472,7 @@ public class ActivitiesAction implements Serializable {
 			}
 			selection = true;
 		}
+
 		if (this.idCrop != 0) {
 			queryBuilder.append(selection ? "AND " : "WHERE ");
 			queryBuilder.append("a.crop.idCrop = :keywordIdCrop ");
@@ -437,6 +480,7 @@ public class ActivitiesAction implements Serializable {
 			parameters.add(item);
 			selection = true;
 		}
+
 		if (fromModal) {
 			queryBuilder.append(selection ? "AND " : "WHERE ");
 			queryBuilder.append("(a IN ");
@@ -447,12 +491,16 @@ public class ActivitiesAction implements Serializable {
 			queryBuilder.append("JOIN am.activityMachinePK.activities ac)) ");
 			selection = true;
 		}
-		if (!fromModal) {
+
+		if (!fromModal && !flagCropActivities) {
 			queryBuilder.append("AND a.generalCostActual IS NULL ");
 		}
-		queryBuilder.append(selection ? "AND " : "WHERE ");
-		queryBuilder.append("(a.machineRequired = true ");
-		queryBuilder.append("OR a.hrRequired = true ) ");
+
+		if (!flagCropActivities) {
+			queryBuilder.append(selection ? "AND " : "WHERE ");
+			queryBuilder.append("(a.machineRequired = true ");
+			queryBuilder.append("OR a.hrRequired = true ) ");
+		}
 
 		if (sort) {
 			ControllerSortField controllerSortField = ControladorContexto

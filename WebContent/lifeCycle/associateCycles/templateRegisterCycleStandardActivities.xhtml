@@ -82,9 +82,8 @@
 			<br />
 			<div align="center">
 				<a:commandButton
-					render=":formConfirmarStandard:popUpConfirmarStandard,formGenerico"
-					execute="@form"
-					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmarStandard')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+					render="txStandardActivities, paginationActivitiesStandarCycle"
+					oncomplete="#{rich:component('popupRegStandarActivity')}.hide();"
 					value="#{mensaje.button_save}" />
 			</div>
 		</a:outputPanel>

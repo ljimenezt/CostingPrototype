@@ -142,7 +142,7 @@
 							value="#{mensaje.label_show} #{messageCosts.activities_label_s}"
 							disabled="#{recordActivitiesActualsAction.idCrop eq 0 or recordActivitiesActualsAction.idCropName eq 0}"
 							render="formHrReporting, mensajes, mensajeBusqueda"
-							actionListener="#{activitiesAction.initializeActivities(recordActivitiesActualsAction.activities, recordActivitiesActualsAction.idCrop)}"
+							actionListener="#{activitiesAction.initializeActivities(recordActivitiesActualsAction.activities, recordActivitiesActualsAction.idCrop, null)}"
 							action="#{recordActivitiesActualsAction.assignActivities}"
 							execute="formHrReporting">
 							<f:param name="param2" value="si" />

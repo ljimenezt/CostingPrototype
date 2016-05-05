@@ -16,13 +16,13 @@
 		value="mensaje.label_register,mensajeMenu.associate_cycles_label_register" />
 	<ui:define name="body">
 		<ui:param name="listaVacia"
-			value="#{cropActivitiesAction.listActivities eq null or (empty cropActivitiesAction.listActivities)}" />
+			value="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}" />
 		<ui:param name="anchoTabla" value="anchoNueve" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{cropActivitiesAction}" />
 		<ui:param name="renderLista"
-			value=":formBuscar:popupBuscar txActivities" />
-		<ui:param name="metodoLista" value="consultActivities" />
+			value=":formBuscar:popupBuscar pnlActivities" />
+		<ui:param name="metodoLista" value="initializeActivities" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
@@ -120,10 +120,10 @@
 								</a:commandLink>
 								<a:commandLink id="lnkActivityStandard"
 									styleClass="quitarDecoracionLink"
-									render="formStandardActivities, mensajes"
+									render="popupCycleStandarActivities"
 									action="#{cropActivitiesAction.consultStandardActivities}"
 									actionListener="#{cropActivitiesAction.setIdCropName(cropActivitiesAction.crops.cropNames.idCropName)}"
-									execute="@form">
+									oncomplete="#{rich:component('popupCycleStandarActivities')}.show();">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/addList_16.png"
 											styleClass="verticalAlignMiddle" />
@@ -140,12 +140,11 @@
 								<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 									<ui:param name="tieneVigencia" value="no" />
 									<ui:param name="ocultarNuevo" value="si" />
-									<ui:param name="pager" value="paginationListActivities" />
 								</ui:include>
 							</h:panelGrid>
 						</div>
 
-						<rich:dataTable value="#{cropActivitiesAction.listActivities}"
+						<rich:dataTable value="#{activitiesAction.listActivities}"
 							var="activities" id="txActivities" footerClass="H130P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W1000P"
 							rowClasses="odd-row, even-row">
@@ -245,161 +244,157 @@
 							</f:facet>
 						</rich:dataTable>
 
-						<a:outputPanel id="paginationActivities">
-							<div class="anchoDos center inBlock">
+						<a:outputPanel id="paginationActivities" rendered="#{!listaVacia}">
+							<div class="W1000P center inBlock">
 								<ui:include src="/plantillas/templatePagination.xhtml">
-									<ui:param name="pager" value="paginationListActivities" />
+									<ui:param name="pager" value="pager" />
 									<ui:param name="valReder"
 										value="txActivities, paginationActivities" />
-									<ui:param name="beanActionParam"
-										value="#{cropActivitiesAction}" />
-									<ui:param name="metodoActionParam" value="consultActivities" />
+									<ui:param name="beanActionParam" value="#{activitiesAction}" />
+									<ui:param name="metodoActionParam" value="searchActivities" />
 								</ui:include>
 							</div>
 						</a:outputPanel>
 					</t:fieldset>
 				</a:outputPanel>
-				<br />
-				<a:outputPanel id="formStandardActivities">
-					<t:fieldset styleClass="BorderW2P"
-						rendered="#{cropActivitiesAction.listCycleStandardActivities ne null and (!empty cropActivitiesAction.listCycleStandardActivities)}">
-						<legend class="etiquetaTitulo">#{messageCosts.cycle_standard_activities_label}</legend>
-						<rich:dataTable
-							value="#{cropActivitiesAction.subListCycleStandardActivities}"
-							var="standardActivities" id="txStandardActivities"
-							footerClass="H130P"
-							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W1000P"
-							rowClasses="odd-row, even-row">
-							<rich:column styleClass="colIconoUno">
-								<a:commandLink render="popupEliminarListaStandard"
-									oncomplete="#{rich:component('popupEliminarListaStandard')}.show()"
-									actionListener="#{cropActivitiesAction.setRemoveStandard(standardActivities)}">
-									<h:graphicImage value="/img/delete_16.png" />
-									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.button_remove}" />
-									</rich:tooltip>
-								</a:commandLink>
-							</rich:column>
-							<rich:column width="100px">
-								<f:facet name="header">#{mensaje.label_name}</f:facet>
-								<a:commandLink id="linkRegStandard"
-									render="popupFormRegStandard:popupRegStandarActivity" value=""
-									execute="@form"
-									actionListener="#{cropActivitiesAction.setCycleStandardActivities(standardActivities)}"
-									oncomplete="#{rich:component('popupRegStandarActivity')}.show(); setFocus('popupFormReg');">
-									<h:outputText
-										value="#{standardActivities.activityNames.activityName}" />
-								</a:commandLink>
-							</rich:column>
-							<rich:column styleClass="colTextoMini center">
-								<f:facet name="header">#{mensaje.label_required_hr}</f:facet>
-								<h:graphicImage value="/img/okPermiso_16.png"
-									rendered="#{standardActivities.hrRequired eq true}" />
-							</rich:column>
-							<rich:column styleClass="colTextoMini center">
-								<f:facet name="header">#{mensaje.label_required_machine}</f:facet>
-								<h:graphicImage value="/img/okPermiso_16.png"
-									rendered="#{standardActivities.machineRequired eq true}" />
-							</rich:column>
-							<rich:column styleClass="colTextoMini center">
-								<f:facet name="header">#{mensaje.label_required_service}</f:facet>
-								<h:graphicImage value="/img/okPermiso_16.png"
-									rendered="#{standardActivities.serviceRequired eq true}" />
-							</rich:column>
-							<rich:column styleClass="colTextoMini center">
-								<f:facet name="header">#{mensaje.label_required_material}</f:facet>
-								<h:graphicImage value="/img/okPermiso_16.png"
-									rendered="#{standardActivities.materialsRequired eq true}" />
-							</rich:column>
-							<rich:column styleClass="colTextoMini">
-								<f:facet name="header">#{mensaje.label_sequence_number}</f:facet>
-								<h:outputText value="#{standardActivities.sequenceNumber}" />
-							</rich:column>
-							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensaje.label_hr_cost}</f:facet>
-								<h:outputText value="#{standardActivities.costHrHa}">
-									<f:convertNumber locale="#{idioma.locale}"
-										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
-								</h:outputText>
-							</rich:column>
-							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensaje.label_machine_cost}</f:facet>
-								<h:outputText value="#{standardActivities.costMachinesEqHa}">
-									<f:convertNumber locale="#{idioma.locale}"
-										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
-								</h:outputText>
-							</rich:column>
-							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensaje.label_service_cost}</f:facet>
-								<h:outputText value="#{standardActivities.costServicesHa}">
-									<f:convertNumber locale="#{idioma.locale}"
-										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
-								</h:outputText>
-							</rich:column>
-							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensaje.label_material_cost}</f:facet>
-								<h:outputText value="#{standardActivities.costMaterialsHa}">
-									<f:convertNumber locale="#{idioma.locale}"
-										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
-								</h:outputText>
-							</rich:column>
-							<rich:column styleClass="colValor">
-								<f:facet name="header">#{mensaje.label_general_cost}</f:facet>
-								<h:outputText value="#{standardActivities.generalCostHa}">
-									<f:convertNumber locale="#{idioma.locale}"
-										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
-								</h:outputText>
-							</rich:column>
-							<rich:column styleClass="colNumeroMini">
-								<f:facet name="header">#{mensaje.label_activities_duration}</f:facet>
-								<h:outputText value="#{standardActivities.duration}" />
-							</rich:column>
-							<rich:column styleClass="colTextoMini center">
-								<f:facet name="header">#{mensaje.label_dangerous}</f:facet>
-								<h:graphicImage value="/img/peligroso_19.png"
-									rendered="#{standardActivities.dangerous eq true}" />
-								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_dangerous}" />
-								</rich:tooltip>
-							</rich:column>
-						</rich:dataTable>
-						<a:outputPanel id="paginationActivitiesStandarCycle">
-							<div class="anchoDos center inBlock">
-								<ui:include src="/plantillas/templatePagination.xhtml">
-									<ui:param name="valId" value="2" />
-									<ui:param name="pager"
-										value="paginationActivitiesStandardCycle" />
-									<ui:param name="valReder"
-										value="txStandardActivities, paginationActivitiesStandarCycle" />
-									<ui:param name="beanActionParam"
-										value="#{cropActivitiesAction}" />
-									<ui:param name="metodoActionParam"
-										value="initializeListStandardCycle" />
-								</ui:include>
-							</div>
-						</a:outputPanel>
-					</t:fieldset>
-				</a:outputPanel>
-
-				<br />
-				<div align="center">
-					<h:panelGrid columns="2">
-						<a:commandButton
-							render="formGenerico, formAssignActivities, mensajes"
-							rendered="#{cropActivitiesAction.crops.idCrop ne 0}"
-							id="btnRegresar" execute="@form"
-							actionListener="#{cropActivitiesAction.addEditCropActivities(null)}"
-							value="#{mensaje.button_back}" />
-						<a:commandButton render="formAssignActivities, mensajes"
-							id="btnSeleccionar"
-							actionListener="#{cropActivitiesAction.saveCropActivities()}"
-							execute="@form"
-							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-							value="#{mensaje.button_save}" />
-					</h:panelGrid>
-				</div>
 			</rich:panel>
 		</h:form>
+
+		<h:form id="formCycleStandarActivities">
+			<rich:popupPanel id="popupCycleStandarActivities" autosized="true"
+				domElementAttachment="form"
+				header="#{messageCosts.cycle_standard_activities_label}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupCycleStandarActivities')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:panel styleClass="H300P fondoAnchoUno">
+					<rich:dataTable
+						value="#{cropActivitiesAction.subListCycleStandardActivities}"
+						var="standardActivities" id="txStandardActivities"
+						footerClass="H130P"
+						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W1000P"
+						rowClasses="odd-row, even-row">
+						<rich:column styleClass="colIconoUno">
+							<a:commandLink
+								render="txStandardActivities, paginationActivitiesStandarCycle"
+								actionListener="#{cropActivitiesAction.removeStandardActivities(standardActivities)}">
+								<h:graphicImage value="/img/delete_16.png" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.button_remove}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</rich:column>
+						<rich:column width="100px">
+							<f:facet name="header">#{mensaje.label_name}</f:facet>
+							<a:commandLink id="linkRegStandard"
+								render="popupFormRegStandard:popupRegStandarActivity" value=""
+								execute="@form"
+								actionListener="#{cropActivitiesAction.setCycleStandardActivities(standardActivities)}"
+								oncomplete="#{rich:component('popupRegStandarActivity')}.show(); setFocus('popupFormReg');">
+								<h:outputText
+									value="#{standardActivities.activityNames.activityName}" />
+							</a:commandLink>
+						</rich:column>
+						<rich:column styleClass="colTextoMini center">
+							<f:facet name="header">#{mensaje.label_required_hr}</f:facet>
+							<h:graphicImage value="/img/okPermiso_16.png"
+								rendered="#{standardActivities.hrRequired eq true}" />
+						</rich:column>
+						<rich:column styleClass="colTextoMini center">
+							<f:facet name="header">#{mensaje.label_required_machine}</f:facet>
+							<h:graphicImage value="/img/okPermiso_16.png"
+								rendered="#{standardActivities.machineRequired eq true}" />
+						</rich:column>
+						<rich:column styleClass="colTextoMini center">
+							<f:facet name="header">#{mensaje.label_required_service}</f:facet>
+							<h:graphicImage value="/img/okPermiso_16.png"
+								rendered="#{standardActivities.serviceRequired eq true}" />
+						</rich:column>
+						<rich:column styleClass="colTextoMini center">
+							<f:facet name="header">#{mensaje.label_required_material}</f:facet>
+							<h:graphicImage value="/img/okPermiso_16.png"
+								rendered="#{standardActivities.materialsRequired eq true}" />
+						</rich:column>
+						<rich:column styleClass="colTextoMini">
+							<f:facet name="header">#{mensaje.label_sequence_number}</f:facet>
+							<h:outputText value="#{standardActivities.sequenceNumber}" />
+						</rich:column>
+						<rich:column styleClass="colValor">
+							<f:facet name="header">#{mensaje.label_hr_cost}</f:facet>
+							<h:outputText value="#{standardActivities.costHrHa}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colValor">
+							<f:facet name="header">#{mensaje.label_machine_cost}</f:facet>
+							<h:outputText value="#{standardActivities.costMachinesEqHa}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colValor">
+							<f:facet name="header">#{mensaje.label_service_cost}</f:facet>
+							<h:outputText value="#{standardActivities.costServicesHa}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colValor">
+							<f:facet name="header">#{mensaje.label_material_cost}</f:facet>
+							<h:outputText value="#{standardActivities.costMaterialsHa}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colValor">
+							<f:facet name="header">#{mensaje.label_general_cost}</f:facet>
+							<h:outputText value="#{standardActivities.generalCostHa}">
+								<f:convertNumber locale="#{idioma.locale}" maxFractionDigits="2"
+									minFractionDigits="2" pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colNumeroMini">
+							<f:facet name="header">#{mensaje.label_activities_duration}</f:facet>
+							<h:outputText value="#{standardActivities.duration}" />
+						</rich:column>
+						<rich:column styleClass="colTextoMini center">
+							<f:facet name="header">#{mensaje.label_dangerous}</f:facet>
+							<h:graphicImage value="/img/peligroso_19.png"
+								rendered="#{standardActivities.dangerous eq true}" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_dangerous}" />
+							</rich:tooltip>
+						</rich:column>
+					</rich:dataTable>
+					<a:outputPanel id="paginationActivitiesStandarCycle">
+						<div class="W1000P center inBlock">
+							<ui:include src="/plantillas/templatePagination.xhtml">
+								<ui:param name="valId" value="2" />
+								<ui:param name="pager" value="paginationActivitiesStandardCycle" />
+								<ui:param name="valReder"
+									value="txStandardActivities, paginationActivitiesStandarCycle" />
+								<ui:param name="beanActionParam" value="#{cropActivitiesAction}" />
+								<ui:param name="metodoActionParam"
+									value="initializeListStandardCycle" />
+							</ui:include>
+							<br /> <br />
+							<a:commandButton render="formAssignActivities, mensajes"
+								id="btnSeleccionar" execute="@form"
+								oncomplete="#{rich:component('popUpConfirmCycleStandardActivities')}.show();"
+								value="#{mensaje.button_save}" />
+						</div>
+					</a:outputPanel>
+				</rich:panel>
+			</rich:popupPanel>
+		</h:form>
+
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupActivityNames" autosized="true"
 				domElementAttachment="form"
@@ -433,7 +428,7 @@
 						</t:fieldset>
 						<br />
 						<rich:messages for="tActivityNames"
-							styleClass="messageInfSpan W511P" />
+							styleClass="messageInfSpan W560P" />
 						<br />
 						<ui:param name="listaVacia"
 							value="#{cropActivitiesAction.listActivityNames eq null or (empty cropActivitiesAction.listActivityNames)}" />
@@ -458,14 +453,13 @@
 									<f:facet name="header" />
 									<a:commandLink
 										render="formActivities, mensajes, popupFormReg:popupRegActivity "
-										action="#{cropActivitiesAction.generateListActivities(cropActivitiesAction.listActivityNames)}"
+										action="#{cropActivitiesAction.generateListActivities()}"
 										oncomplete="#{rich:component('popupRegActivity')}.show(); #{rich:component('popupActivityNames')}.hide();"
 										actionListener="#{cropActivitiesAction.setActivityNames(activityNames)}">
 										<h:graphicImage value="/img/add_16.png" />
 										<rich:tooltip layout="block">
 											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
-										<f:param name="param2" value="si" />
 									</a:commandLink>
 								</rich:column>
 								<rich:column styleClass="colTextoMediano">
@@ -509,6 +503,7 @@
 				</rich:panel>
 			</rich:popupPanel>
 		</h:form>
+
 		<h:form id="popupFormReg">
 			<rich:popupPanel id="popupRegActivity" autosized="true"
 				domElementAttachment="form" minHeight="370"
@@ -538,6 +533,7 @@
 					src="/lifeCycle/associateCycles/templateRegisterActivity.xhtml" />
 			</rich:popupPanel>
 		</h:form>
+
 		<h:form id="popupFormRegStandard">
 			<rich:popupPanel id="popupRegStandarActivity" autosized="true"
 				domElementAttachment="form"
@@ -556,6 +552,7 @@
 					src="/lifeCycle/associateCycles/templateRegisterCycleStandardActivities.xhtml" />
 			</rich:popupPanel>
 		</h:form>
+
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
 				maxWidth="500" header="#{mensaje.label_confirmation}">
@@ -604,15 +601,17 @@
 							value="#{cropActivitiesAction.activities.dangerous eq true ? mensaje.label_yes : mensaje.label_no}" />
 					</ui:define>
 					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_accept}" execute="@form"
-							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupFormReg')}.hide();"
-							action="#{cropActivitiesAction.addActivity()}" />
+						<a:commandButton value="#{mensaje.button_accept}"
+							actionListener="#{cropActivitiesAction.saveCropActivities()}"
+							execute="@form" render="@form"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupFormReg')}.hide();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
+
 		<h:form id="formConfirmarStandard">
 			<rich:popupPanel id="popUpConfirmarStandard" modal="true"
 				autosized="true" maxWidth="500"
@@ -663,13 +662,44 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}" execute="@form"
-							onclick="#{rich:component('popUpConfirmarStandard')}.hide(); #{rich:component('popupFormRegStandard')}.hide();" />
+							onclick="#{rich:component('popUpConfirmarStandard')}.hide(); #{rich:component('popupFormRegStandard')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmarStandard')}.hide()" />
 					</ui:define>
 				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
+
+		<h:form id="formConfirmCycleStandarActivities">
+			<rich:popupPanel id="popUpConfirmCycleStandardActivities"
+				modal="true" autosized="true" maxWidth="500"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmCycleStandardActivities')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							render="formAssignActivities, mensajes"
+							actionListener="#{cropActivitiesAction.saveActivitiesStandard()}"
+							onclick="#{rich:component('popUpConfirmCycleStandardActivities')}.hide(); #{rich:component('popupCycleStandarActivities')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmCycleStandardActivities')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
 		<h:form>
 			<rich:popupPanel id="popupEliminarLista" keepVisualState="true"
 				autosized="true" domElementAttachment="form"
@@ -706,7 +736,7 @@
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{cropActivitiesAction.removeSelected()}"
-							onclick="#{rich:component('popupEliminarLista')}.hide()"
+							onclick="#{rich:component('popupEliminarLista')}.hide();"
 							render="pnlActivities, mensajes" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupEliminarLista')}.hide()" />
@@ -749,6 +779,7 @@
 				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
+
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" width="400" maxWidth="710"
 				height="205"
@@ -774,14 +805,14 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoMediano" maxlength="100"
-							id="txtNombreBuscar" value="#{cropActivitiesAction.nameSearch}"
+							id="txtNombreBuscar" value="#{activitiesAction.nameSearch}"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_start_date}:" />
 						<h:outputText value="" styleClass="required" />
-						<p:calendar value="#{cropActivitiesAction.initialDateSearch}"
+						<p:calendar value="#{activitiesAction.activities.initialDtBudget}"
 							showOn="button" navigator="true" onSelectUpdate="fechFin"
 							id="fechaInicio" pattern="MM/dd/yyyy"
 							label="#{mensaje.label_start_date}">
@@ -792,11 +823,11 @@
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_end_date}:" />
 						<h:outputText value="*" styleClass="required"
-							rendered="#{cropActivitiesAction.initialDateSearch ne null}" />
+							rendered="#{activitiesAction.activities.initialDtBudget ne null}" />
 						<h:outputText value="" styleClass="required"
-							rendered="#{cropActivitiesAction.initialDateSearch eq null}" />
-						<p:calendar value="#{cropActivitiesAction.finalDateSearch}"
-							disabled="#{cropActivitiesAction.initialDateSearch eq null}"
+							rendered="#{activitiesAction.activities.finalDtBudget eq null}" />
+						<p:calendar value="#{activitiesAction.activities.finalDtBudget}"
+							disabled="#{activitiesAction.activities.initialDtBudget eq null}"
 							showOn="button" navigator="true" required="true"
 							mindate="#{cropActivitiesAction.initialDateSearch}" id="fechFin"
 							pattern="MM/dd/yyyy"
@@ -809,7 +840,7 @@
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						execute="@form"
-						actionListener="#{cropActivitiesAction.consultActivities}"
+						actionListener="#{activitiesAction.searchActivities()}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
 						render="pnlActivities, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -817,6 +848,7 @@
 				</div>
 			</rich:popupPanel>
 		</h:form>
+
 		<h:form id="formDetalles">
 			<rich:popupPanel id="PopUpDetalles" autosized="true"
 				domElementAttachment="form" styleClass="H340P fondoAnchoUno W250"

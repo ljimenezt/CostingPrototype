@@ -64,6 +64,7 @@ public class ActivitiesDao implements Serializable {
 	 * the records with search values.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 04/05/2016 Gerardo.Herrera
 	 * 
 	 * @param query
 	 *            : String containing the query why the leak.
@@ -76,6 +77,8 @@ public class ActivitiesDao implements Serializable {
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT COUNT(a) FROM Activities a ");
+		queryBuilder.append("JOIN a.activityName an ");
+		queryBuilder.append("JOIN a.crop c ");
 		queryBuilder.append(query);
 		Query q = em.createQuery(queryBuilder.toString());
 		for (SelectItem parameter : parameters) {
@@ -89,6 +92,7 @@ public class ActivitiesDao implements Serializable {
 	 * it filters the records with search values.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 04/05/2016 Gerardo.Herrera
 	 * 
 	 * @param start
 	 *            : The first record that is retrieved from the result.
@@ -107,6 +111,8 @@ public class ActivitiesDao implements Serializable {
 			StringBuilder query, List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT a FROM  Activities a ");
+		queryBuilder.append("JOIN FETCH a.activityName an ");
+		queryBuilder.append("JOIN a.crop c ");
 		queryBuilder.append(query);
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parametro : parameters) {

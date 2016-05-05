@@ -2,13 +2,13 @@ package co.informatix.erp.lifeCycle.action;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.application.FacesMessage;
@@ -18,7 +18,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.transaction.UserTransaction;
 
+import co.informatix.erp.costs.action.ActivitiesAction;
 import co.informatix.erp.costs.dao.ActivitiesDao;
 import co.informatix.erp.costs.dao.CycleStandardActivitiesDao;
 import co.informatix.erp.costs.entities.Activities;
@@ -41,6 +43,7 @@ import co.informatix.erp.utils.ValidacionesAction;
  * crop.
  * 
  * @author Andres.Gomez
+ * @modify 29/04/2016 Gerardo.Herrera
  * 
  */
 @SuppressWarnings("serial")
@@ -57,19 +60,18 @@ public class CropActivitiesAction implements Serializable {
 	private ActivityNamesDao activityNamesDao;
 	@EJB
 	private CycleStandardActivitiesDao cycleStandardActivitiesDao;
+	@Resource
+	private UserTransaction userTransaction;
 
 	private List<Activities> listActivities;
 	private List<ActivityNames> listActivityNames;
 	private List<CycleStandardActivities> listCycleStandardActivities;
 	private List<SelectItem> optionsCropNames;
 	private List<SelectItem> optionsCrops;
-	private List<Activities> subListActivities;
 	private List<CycleStandardActivities> subListCycleStandardActivities;
 
 	private Paginador pagination = new Paginador();
-	private Paginador paginationActivities = new Paginador();
 	private Paginador paginationActivitiesStandardCycle = new Paginador();
-	private Paginador paginationListActivities = new Paginador();
 
 	private Activities activities;
 	private Activities removeList;
@@ -168,22 +170,6 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return subListActivities: list of activities that stores a sublist for
-	 *         managing Pager
-	 */
-	public List<Activities> getSubListActivities() {
-		return subListActivities;
-	}
-
-	/**
-	 * @param subListActivities
-	 *            : list of activities that stores a sublist for managing Pager.
-	 */
-	public void setSubListActivities(List<Activities> subListActivities) {
-		this.subListActivities = subListActivities;
-	}
-
-	/**
 	 * @return subListCycleStandardActivities: list of cycle standard activities
 	 *         that stores a sublist for managing Pager.
 	 */
@@ -217,21 +203,6 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return paginationActivities: Management paged list of activities.
-	 */
-	public Paginador getPaginationActivities() {
-		return paginationActivities;
-	}
-
-	/**
-	 * @param paginationActivities
-	 *            : Management paged list of activities.
-	 */
-	public void setPaginationActivities(Paginador paginationActivities) {
-		this.paginationActivities = paginationActivities;
-	}
-
-	/**
 	 * @return paginationActivitiesStandardCycle: Management paged list of
 	 *         activities standard cycle.
 	 */
@@ -246,22 +217,6 @@ public class CropActivitiesAction implements Serializable {
 	public void setpaginationActivitiesStandardCycle(
 			Paginador paginationActivitiesStandardCycle) {
 		this.paginationActivitiesStandardCycle = paginationActivitiesStandardCycle;
-	}
-
-	/**
-	 * @return paginationListActivities: Management paged list of activities.
-	 * 
-	 */
-	public Paginador getPaginationListActivities() {
-		return paginationListActivities;
-	}
-
-	/**
-	 * @param paginationListActivities
-	 *            :Management paged list of activities.
-	 */
-	public void setPaginationListActivities(Paginador paginationListActivities) {
-		this.paginationListActivities = paginationListActivities;
 	}
 
 	/**
@@ -581,6 +536,8 @@ public class CropActivitiesAction implements Serializable {
 	/**
 	 * Method allows you to save or edit an activity assigned to a crop.
 	 * 
+	 * @modify 27/04/2016 Gerardo.Herrera
+	 * 
 	 * @return addEditActivities: Method to edit or create a new assignment of
 	 *         activities.
 	 * @throws Exception
@@ -590,18 +547,50 @@ public class CropActivitiesAction implements Serializable {
 		try {
 			String outTxtEdit = "";
 			String outTxtSave = "";
-			String outStandardSave = "";
-			for (Activities activities : this.listActivities) {
-				if (activities.getIdActivity() != 0) {
-					outTxtEdit += activities.getActivityName()
-							.getActivityName() + ", ";
-					activitiesDao.editActivities(activities);
-				} else {
-					outTxtSave += activities.getActivityName()
-							.getActivityName() + ", ";
-					activitiesDao.saveActivities(activities);
-				}
+
+			if (activities.getIdActivity() != 0) {
+				outTxtEdit += activities.getActivityName().getActivityName()
+						+ ", ";
+				activitiesDao.editActivities(activities);
+			} else {
+				outTxtSave += activities.getActivityName().getActivityName()
+						+ ", ";
+				activitiesDao.saveActivities(activities);
 			}
+
+			if (outTxtEdit.length() > 0) {
+				ControladorContexto.mensajeInformacion(null, MessageFormat
+						.format(bundle.getString("message_registro_modificar"),
+								outTxtEdit));
+			}
+			if (outTxtSave.length() > 0) {
+				ControladorContexto.mensajeInformacion(null, MessageFormat
+						.format(bundle.getString("message_registro_guardar"),
+								outTxtSave));
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return addEditActivities();
+	}
+
+	/**
+	 * Save all the standard activities into activities table
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @return addEditActivities: Method to edit or create a new assignment of
+	 *         activities
+	 */
+	public String saveActivitiesStandard() throws Exception {
+		ValidacionesAction validations = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String outStandardSave = "";
+		String saveMessage = "";
+		try {
+			Crops crops = cropsDao.cropsById(this.crops.getIdCrop());
+			this.userTransaction.begin();
 			if (this.listCycleStandardActivities.size() != 0) {
 				for (CycleStandardActivities cycleStandardActivities : this.listCycleStandardActivities) {
 					Activities activities = new Activities();
@@ -632,27 +621,27 @@ public class CropActivitiesAction implements Serializable {
 							.getGeneralCostHa());
 					activities.setDangerous(cycleStandardActivities
 							.getDangerous());
+					activities.setInitialDtBudget(crops.getInitialDate());
+					activities.setFinalDtBudget(crops.getFinalDate());
 					activitiesDao.saveActivities(activities);
 					outStandardSave += cycleStandardActivities
 							.getActivityNames().getActivityName() + ", ";
 				}
+				if (outStandardSave.length() > 0) {
+					saveMessage = MessageFormat.format(null, MessageFormat
+							.format(bundle
+									.getString("message_registro_guardar"),
+									outStandardSave));
+				}
 			}
-			if (outTxtEdit.length() > 0) {
-				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString("message_registro_modificar"),
-								outTxtEdit));
-			}
-			if (outTxtSave.length() > 0) {
-				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString("message_registro_guardar"),
-								outTxtSave));
-			}
-			if (outStandardSave.length() > 0) {
-				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString("message_registro_guardar"),
-								outStandardSave));
-			}
+			this.userTransaction.commit();
+			validations.setMensajeBusqueda(saveMessage);
 		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception e1) {
+				ControladorContexto.printErrorLog(e1);
+			}
 			ControladorContexto.mensajeError(e);
 		}
 		return addEditActivities();
@@ -770,11 +759,8 @@ public class CropActivitiesAction implements Serializable {
 	 * Activities.
 	 * 
 	 * @modify 14/01/2016 Wilhelm.Boada
-	 * 
-	 * @param listActivityNames
-	 *            : Name list of activities.
 	 */
-	public void generateListActivities(List<ActivityNames> listActivityNames) {
+	public void generateListActivities() {
 		String param2 = ControladorContexto.getParam("param2");
 		boolean desdeModal = (param2 != null && Constantes.SI.equals(param2)) ? true
 				: false;
@@ -793,32 +779,13 @@ public class CropActivitiesAction implements Serializable {
 	public void removeSelected() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			for (CycleStandardActivities cycleStandardActivities : this.listCycleStandardActivities) {
-				if (cycleStandardActivities.equals(removeStandard)) {
-					listCycleStandardActivities.remove(removeStandard);
-					break;
-				}
-			}
-			for (Activities activities : this.listActivities) {
-				if (activities.equals(removeList)) {
-					activitiesDao.deleteActivities(removeList);
-					listActivities.remove(removeList);
-					break;
-				}
-			}
 			if (removeList != null) {
+				activitiesDao.deleteActivities(removeList);
 				ControladorContexto
 						.mensajeInformacion(null, MessageFormat.format(
 								bundle.getString("message_registro_eliminar"),
 								removeList.getActivityName().getActivityName()));
-				initializeList();
-			}
-			if (removeStandard != null) {
-				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString("message_registro_eliminar"),
-								removeStandard.getActivityNames()
-										.getActivityName()));
-				initializeListStandardCycle();
+				initializeActivities();
 			}
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
@@ -845,107 +812,11 @@ public class CropActivitiesAction implements Serializable {
 		this.nameSearch = "";
 		this.initialDateSearch = null;
 		this.finalDateSearch = null;
-		consultActivities();
-	}
-
-	/**
-	 * See the list of activities depending on the crop.
-	 */
-	public void consultActivities() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("messageLifeCycle");
-		ValidacionesAction validations = ControladorContexto
-				.getContextBean(ValidacionesAction.class);
-		List<SelectItem> parameters = new ArrayList<SelectItem>();
-		StringBuilder consult = new StringBuilder();
-		StringBuilder unionMessagesSearch = new StringBuilder();
-		String mensajeBusqueda = "";
-		try {
-			int idCrops = this.crops.getIdCrop();
-			advanceSearchActivities(consult, parameters, bundle,
-					unionMessagesSearch);
-			Long amount = activitiesDao.amountActivitiesCrop(consult,
-					parameters, idCrops);
-			if (amount != null) {
-				paginationListActivities.paginar(amount);
-			}
-			this.listActivities = activitiesDao.queryActivitiesByCrop(
-					paginationListActivities.getInicio(),
-					paginationListActivities.getRango(), consult, parameters,
-					idCrops);
-			if (!clean) {
-				this.listCycleStandardActivities = new ArrayList<CycleStandardActivities>();
-			}
-			setClean(false);
-			if ((listActivities == null || listActivities.size() <= 0)
-					&& !"".equals(unionMessagesSearch.toString())) {
-				mensajeBusqueda = MessageFormat.format(
-						bundle.getString("message_no_related_activity"),
-						unionMessagesSearch);
-				this.listActivities = new ArrayList<Activities>();
-			} else if (listActivities == null || listActivities.size() <= 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMessagesSearch.toString())) {
-				mensajeBusqueda = MessageFormat
-						.format(bundle
-								.getString("message_existen_registros_criterio_busqueda"),
-								bundleLifeCycle
-										.getString("activity_names_label_s"),
-								unionMessagesSearch);
-			}
-			validations.setMensajeBusqueda(mensajeBusqueda);
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * This method build the query to the advanced search also allows messages
-	 * to display build depending on the search criteria selected by the user.
-	 * 
-	 * @param consult
-	 *            : query to concatenate
-	 * @param parameters
-	 *            : list of search parameters.
-	 * @param bundle
-	 *            :access language tags
-	 * @param unionMessagesSearch
-	 *            : message search
-	 * 
-	 */
-	private void advanceSearchActivities(StringBuilder consult,
-			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
-		SimpleDateFormat formato = new SimpleDateFormat(
-				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
-
-		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("AND UPPER(an.activityName) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
-					"keyword");
-			parameters.add(item);
-			unionMessagesSearch.append(bundle.getString("label_name") + ": "
-					+ '"' + this.nameSearch + '"');
-		}
-		if (this.initialDateSearch != null && this.finalDateSearch != null) {
-			consult.append("AND a.initialDtBudget BETWEEN :initialDateSearch AND :finalDateSearch ");
-			SelectItem item = new SelectItem(initialDateSearch,
-					"initialDateSearch");
-			parameters.add(item);
-			SelectItem item2 = new SelectItem(finalDateSearch,
-					"finalDateSearch");
-			parameters.add(item2);
-			String dateFrom = bundle.getString("label_start_date") + ": " + '"'
-					+ formato.format(this.initialDateSearch) + '"' + " ";
-			unionMessagesSearch.append(dateFrom);
-
-			String dateTo = bundle.getString("label_end_date") + ": " + '"'
-					+ formato.format(finalDateSearch) + '"' + " ";
-			unionMessagesSearch.append(dateTo);
-		}
-
+		ActivitiesAction activitiesAction = ControladorContexto
+				.getContextBean(ActivitiesAction.class);
+		activitiesAction.setFlagCropActivities(true);
+		activitiesAction.initializeActivities(new Activities(),
+				crops.getIdCrop(), pagination);
 	}
 
 	/**
@@ -966,6 +837,17 @@ public class CropActivitiesAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * Remove cycle standard activities of the list
+	 * 
+	 * @author Gerardo.Herrrera
+	 */
+	public void removeStandardActivities(
+			CycleStandardActivities cycleStandardActivities) {
+		listCycleStandardActivities.remove(cycleStandardActivities);
+		initializeListStandardCycle();
 	}
 
 	/**
@@ -1013,8 +895,10 @@ public class CropActivitiesAction implements Serializable {
 			Date activitiesDate = ControladorFechas.formatearFecha(
 					this.activities.getInitialDtBudget(),
 					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
-			if (this.listActivities != null) {
-				for (Activities activity : this.listActivities) {
+			ActivitiesAction activitiesAction = ControladorContexto
+					.getContextBean(ActivitiesAction.class);
+			if (activitiesAction.getListActivities() != null) {
+				for (Activities activity : activitiesAction.getListActivities()) {
 					int idActivityList = activity.getIdActivity();
 					int idActivityNameList = activity.getActivityName()
 							.getIdActivityName();
@@ -1105,24 +989,6 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Pager manages the activities list.
-	 * 
-	 * @author Gerardo.Herrera
-	 */
-	public void initializeList() {
-		Long cantidadPaginador = (long) listActivities.size();
-		try {
-			this.paginationActivities
-					.paginarRangoDefinido(cantidadPaginador, 5);
-			int inicial = paginationActivities.getItemInicial() - 1;
-			int fin = paginationActivities.getItemFinal();
-			this.subListActivities = listActivities.subList(inicial, fin);
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
 	 * Pager manages the standard cycle activities list.
 	 * 
 	 * @author Gerardo.Herrera
@@ -1139,21 +1005,6 @@ public class CropActivitiesAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-	}
-
-	/**
-	 * This method allows add a activity on the activities list
-	 * 
-	 * @author Wilhelm.Boada
-	 */
-	public void addActivity() {
-		if (this.listActivities == null) {
-			this.listActivities = new ArrayList<Activities>();
-		}
-		if (this.activities.getIdActivity() == 0) {
-			this.listActivities.add(this.activities);
-		}
-		initializeList();
 	}
 
 }
