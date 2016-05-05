@@ -355,7 +355,7 @@ public class ActivitiesAction implements Serializable {
 								bundleCostos.getString("activities_label_s"),
 								unionMessagesSearch);
 			}
-			validations.setMensajeBusqueda(searchMessage);
+				validations.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
