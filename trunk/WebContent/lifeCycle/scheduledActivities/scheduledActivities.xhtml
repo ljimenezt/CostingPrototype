@@ -140,7 +140,7 @@
 							rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}"
 							disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
 							render="formScheduledActivities, mensajes, mensajeBusqueda"
-							actionListener="#{activitiesAction.initializeActivities(scheduledActivitiesAction.activities, scheduledActivitiesAction.idCrop)}"
+							actionListener="#{activitiesAction.initializeActivities(scheduledActivitiesAction.activities, scheduledActivitiesAction.idCrop, null)}"
 							execute="formScheduledActivities"
 							value="#{mensaje.label_show} #{messageCosts.activities_label_s}">
 						</a:commandButton>
