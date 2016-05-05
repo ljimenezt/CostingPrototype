@@ -583,11 +583,8 @@ public class CropActivitiesAction implements Serializable {
 	 *         activities
 	 */
 	public String saveActivitiesStandard() throws Exception {
-		ValidacionesAction validations = ControladorContexto
-				.getContextBean(ValidacionesAction.class);
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String outStandardSave = "";
-		String saveMessage = "";
 		try {
 			Crops crops = cropsDao.cropsById(this.crops.getIdCrop());
 			this.userTransaction.begin();
@@ -630,8 +627,9 @@ public class CropActivitiesAction implements Serializable {
 			}
 			this.userTransaction.commit();
 			if (outStandardSave.length() > 0) {
-				ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-						bundle.getString("message_registro_guardar"), outStandardSave));
+				ControladorContexto.mensajeInformacion(null, MessageFormat
+						.format(bundle.getString("message_registro_guardar"),
+								outStandardSave));
 			}
 		} catch (Exception e) {
 			try {
