@@ -627,15 +627,12 @@ public class CropActivitiesAction implements Serializable {
 					outStandardSave += cycleStandardActivities
 							.getActivityNames().getActivityName() + ", ";
 				}
-				if (outStandardSave.length() > 0) {
-					saveMessage = MessageFormat.format(null, MessageFormat
-							.format(bundle
-									.getString("message_registro_guardar"),
-									outStandardSave));
-				}
 			}
 			this.userTransaction.commit();
-			validations.setMensajeBusqueda(saveMessage);
+			if (outStandardSave.length() > 0) {
+				ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+						bundle.getString("message_registro_guardar"), outStandardSave));
+			}
 		} catch (Exception e) {
 			try {
 				this.userTransaction.rollback();
