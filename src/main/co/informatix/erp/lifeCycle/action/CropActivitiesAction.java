@@ -507,6 +507,16 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
+	 * Clean crop filter when the user selected a new plantation
+	 */
+	public void cleanFilterCrop() {
+		if (crops != null) {
+			crops.setIdCrop(0);
+			fillCropNamesCrop();
+		}
+	}
+
+	/**
 	 * Method allows complete the list of crops harvested after the name
 	 * selected.
 	 * 
