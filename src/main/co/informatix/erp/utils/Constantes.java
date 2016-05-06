@@ -360,4 +360,12 @@ public class Constantes implements Serializable {
 	/* Crop Initial Year */
 	public static final int INITIAL_YEAR = 2000;
 
+	/* Purchase Invoice Values */
+	public static final String PURCHASE_SUBTOTAL = "Subtotal";
+	public static final String PURCHASE_SHIPPING = "Shipping";
+	public static final String PURCHASE_PACKAGING = "Packaging";
+	public static final String PURCHASE_TAXES = "Taxes";
+	public static final String PURCHASE_DISCOUNT = "Discount";
+	public static final String PURCHASE_TOTAL = "Total";
+
 }
