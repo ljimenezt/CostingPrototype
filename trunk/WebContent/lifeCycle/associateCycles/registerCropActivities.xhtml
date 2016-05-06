@@ -50,33 +50,30 @@
 				styleClass="anchoExtend MinH253P" id="panelAssignActivities">
 				<t:fieldset styleClass="BorderW2P">
 					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label}</legend>
-					<h:panelGrid columns="4"
+					<h:panelGrid columns="2"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop,,,">
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageLifeCycle.crop_names_label}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}"
+						<h:selectOneMenu
 							value="#{cropActivitiesAction.crops.cropNames.idCropName}"
 							id="cmbCropNames" styleClass="W250P">
 							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
 							<f:selectItems value="#{cropActivitiesAction.optionsCropNames}" />
 							<f:ajax event="change"
-								listener="#{cropActivitiesAction.fillCropNamesCrop()}"
-								render=":formAssignActivities:cmbCrops" />
+								listener="#{cropActivitiesAction.cleanFilterCrop()}"
+								render=":formAssignActivities:cmbCrops :formAssignActivities">
+							</f:ajax>
 							<f:attribute name="tipo" value="Int" />
 						</h:selectOneMenu>
-						<rich:message for="cmbCropNames" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_description}" />
-						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu value="#{cropActivitiesAction.crops.idCrop}"
-							id="cmbCrops" required="true" styleClass="W250P"
-							requiredMessage="#{mensaje.message_campo_requerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
+							id="cmbCrops"  styleClass="W250P">
+							<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+								itemValue="0" />
 							<f:selectItems value="#{cropActivitiesAction.optionsCrops}" />
 							<f:ajax event="change"
 								listener="#{cropActivitiesAction.initializeActivities()}"
@@ -84,11 +81,11 @@
 								execute="@form" />
 							<f:attribute name="tipo" value="Int" />
 						</h:selectOneMenu>
-						<rich:message for="cmbCrops" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
-				<a:outputPanel id="pnlActivities">
+				<a:outputPanel id="pnlActivities"
+					rendered="#{cropActivitiesAction.crops.idCrop ne 0}">
 					<script type="text/javascript">
 						$g=jQuery.noConflict();
 					</script>
