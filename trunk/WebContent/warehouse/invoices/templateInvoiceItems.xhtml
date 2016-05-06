@@ -34,7 +34,7 @@
 						</div>
 					</a:commandLink>
 					<a:commandLink styleClass="quitarDecoracionLink" rendered="#{purchaseInvoicesAction.flag eq false}"
-						action="#{purchaseInvoicesAction.selectInvoiceCalculate()}"
+						action="#{purchaseInvoicesAction.calculateValuesInvoices()}"
 						render="panelPurchaseInvoices, mensajes, mensajeBusqueda">
 						<div align="right">
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
