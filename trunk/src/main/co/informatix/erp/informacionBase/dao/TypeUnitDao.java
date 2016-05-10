@@ -110,19 +110,6 @@ public class TypeUnitDao implements Serializable {
 	}
 
 	/**
-	 * Consult the types of type unit.
-	 * 
-	 * @return List<TypeUnit>: List of type units.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<TypeUnit> consultTypeUnit() throws Exception {
-		return em.createQuery(
-				"SELECT tu FROM TypeUnit tu " + "ORDER BY tu.name ")
-				.getResultList();
-	}
-
-	/**
 	 * Delete a TypeUnit in the database.
 	 * 
 	 * @param typeUnit
