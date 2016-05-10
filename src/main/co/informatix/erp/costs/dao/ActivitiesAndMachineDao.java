@@ -124,21 +124,6 @@ public class ActivitiesAndMachineDao implements Serializable {
 	}
 
 	/**
-	 * This method searches the relationship between the machine and the
-	 * activity by Id.
-	 * 
-	 * @param activityMachinePK
-	 *            : primary key of the ActivityMachine entity.
-	 * 
-	 * @return ActivityMachine object type or null if not found.
-	 * @throws Exception
-	 */
-	public ActivityMachine activitiesAndMachineXId(
-			ActivityMachinePK activityMachinePK) throws Exception {
-		return em.find(ActivityMachine.class, activityMachinePK);
-	}
-
-	/**
 	 * Method that consult all activity and machine object and stores it in a
 	 * list
 	 * 

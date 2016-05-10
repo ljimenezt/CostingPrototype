@@ -59,18 +59,6 @@ public class MachineUsageDao implements Serializable {
 	}
 
 	/**
-	 * Query the machine usage according to an identifier.
-	 * 
-	 * @param machineUsage
-	 *            : Identifier of the machine usage to find.
-	 * @return machineUsage: Object found with the identifier.
-	 * @throws Exception
-	 */
-	public MachineUsage machineUsageById(int machineUsage) throws Exception {
-		return em.find(MachineUsage.class, machineUsage);
-	}
-
-	/**
 	 * Returns the number of machine usages in the database; its information is
 	 * filtered with search values.
 	 * 
