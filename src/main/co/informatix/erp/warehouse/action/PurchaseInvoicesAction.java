@@ -876,99 +876,87 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void calculateValuesInvoices() throws Exception {
-		ResourceBundle bundle = ControladorContexto
-				.getBundle("mensajeWarehouse");
-		int idPurchaseInvoice = this.invoicesActualSelected
-				.getIdPurchaseInvoice();
-		Object[] values = invoiceItemsDao.consultValuesItems(idPurchaseInvoice);
-		if (values[0] != null) {
-			String message = "";
-			boolean flag = false;
-
-			double subtotal = (double) values[0];
-			double shipping = (double) values[1];
-			double packaging = (double) values[2];
-			double taxes = (double) values[3];
-			double discount = (double) values[4];
-			double totalValue = (double) values[5];
-
-			double pSubtotal = this.invoicesActualSelected.getSubtotal();
-			double pShipping = this.invoicesActualSelected.getShipping();
-			double pPackaging = this.invoicesActualSelected.getPackaging();
-			double pTaxes = this.invoicesActualSelected.getTaxes();
-			double pDiscount = this.invoicesActualSelected.getDiscount();
-			double pTotalValue = this.invoicesActualSelected
-					.getTotalValueActual();
-
-			int checkSubtotal = Double.compare(subtotal, pSubtotal);
-			int checkShipping = Double.compare(shipping, pShipping);
-			int checkPackaging = Double.compare(packaging, pPackaging);
-			int checkTaxes = Double.compare(taxes, pTaxes);
-			int checkDiscount = Double.compare(discount, pDiscount);
-			int checkTotalValue = Double.compare(totalValue, pTotalValue);
-
-			if (checkSubtotal != 0) {
-				message += Constantes.PURCHASE_SUBTOTAL;
-				flag = true;
-			}
-			if (checkShipping != 0) {
-				message += flag ? ", " : "";
-				message += Constantes.PURCHASE_SHIPPING;
-				flag = true;
-			}
-			if (checkPackaging != 0) {
-				message += flag ? ", " : "";
-				message += Constantes.PURCHASE_PACKAGING;
-				flag = true;
-			}
-			if (checkTaxes != 0) {
-				message += flag ? ", " : "";
-				message += Constantes.PURCHASE_TAXES;
-				flag = true;
-			}
-			if (checkDiscount != 0) {
-				message += flag ? ", " : "";
-				message += Constantes.PURCHASE_DISCOUNT;
-				flag = true;
-			}
-			if (checkTotalValue != 0) {
-				message += flag ? ", " : "";
-				message += Constantes.PURCHASE_TOTAL;
-				flag = true;
-			}
-			if (flag) {
-				String format = MessageFormat
-						.format(bundle
-								.getString("purchase_invoice_message_validate_reconcile"),
-								message);
-				ControladorContexto.mensajeInformacion(
-						"formPurchaseInvoices:invoiceItemsTable", format);
-			} else {
-				ControladorContexto
-						.mensajeInformacion(
-								"formPurchaseInvoices:invoiceItemsTable",
-								bundle.getString("purchase_invoice_message_reconcile_successfull"));
-			}
-		}
-	}
-
-	/**
-	 * This method allows set the invoice selected in the invoices list
-	 * 
-	 * @modify 02/05/2016 Andres.Gomez
-	 * @author Wilhelm.Boada
-	 * 
-	 */
-	public void selectInvoiceCalculate() {
+	public void calculateValuesInvoices() {
 		try {
-			calculateValuesInvoices();
-			saveInvoices();
-			for (PurchaseInvoices invoice : listInovoices) {
-				int value = listInovoices.indexOf(invoice);
-				if (invoice.getIdPurchaseInvoice() == invoicesActualSelected
-						.getIdPurchaseInvoice()) {
-					listInovoices.set(value, invoicesActualSelected);
+			ResourceBundle bundleWarehouse = ControladorContexto
+					.getBundle("mensajeWarehouse");
+			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+			int idPurchaseInvoice = this.invoicesActualSelected
+					.getIdPurchaseInvoice();
+			Object[] values = invoiceItemsDao
+					.consultValuesItems(idPurchaseInvoice);
+			if (values[0] != null) {
+				String message = "";
+				boolean flag = false;
+
+				double subtotal = (double) values[0];
+				double shipping = (double) values[1];
+				double packaging = (double) values[2];
+				double taxes = (double) values[3];
+				double discount = (double) values[4];
+				double totalValue = (double) values[5];
+
+				double pSubtotal = this.invoicesActualSelected.getSubtotal();
+				double pShipping = this.invoicesActualSelected.getShipping();
+				double pPackaging = this.invoicesActualSelected.getPackaging();
+				double pTaxes = this.invoicesActualSelected.getTaxes();
+				double pDiscount = this.invoicesActualSelected.getDiscount();
+				double pTotalValue = this.invoicesActualSelected
+						.getTotalValueActual();
+
+				int checkSubtotal = Double.compare(subtotal, pSubtotal);
+				int checkShipping = Double.compare(shipping, pShipping);
+				int checkPackaging = Double.compare(packaging, pPackaging);
+				int checkTaxes = Double.compare(taxes, pTaxes);
+				int checkDiscount = Double.compare(discount, pDiscount);
+				int checkTotalValue = Double.compare(totalValue, pTotalValue);
+
+				if (checkSubtotal != 0) {
+					message += bundle.getString("label_subtotal");
+					flag = true;
+				}
+				if (checkShipping != 0) {
+					message += flag ? ", " : "";
+					message += bundleWarehouse
+							.getString("purchase_invoice_label_shipping");
+					flag = true;
+				}
+				if (checkPackaging != 0) {
+					message += flag ? ", " : "";
+					message += bundleWarehouse
+							.getString("purchase_invoice_label_packaging");
+					flag = true;
+				}
+				if (checkTaxes != 0) {
+					message += flag ? ", " : "";
+					message += bundleWarehouse
+							.getString("purchase_invoice_label_taxes");
+					flag = true;
+				}
+				if (checkDiscount != 0) {
+					message += flag ? ", " : "";
+					message += bundleWarehouse
+							.getString("purchase_invoice_label_discount");
+					flag = true;
+				}
+				if (checkTotalValue != 0) {
+					message += flag ? ", " : "";
+					message += bundle.getString("label_total");
+					flag = true;
+				}
+				if (flag) {
+					String format = MessageFormat
+							.format(bundleWarehouse
+									.getString("purchase_invoice_message_validate_reconcile"),
+									message);
+					ControladorContexto.mensajeInformacion(
+							"formPurchaseInvoices:invoiceItemsTable", format);
+				} else {
+					ControladorContexto
+							.mensajeInformacion(
+									"formPurchaseInvoices:invoiceItemsTable",
+									bundleWarehouse
+											.getString("purchase_invoice_message_reconcile_successfull"));
 				}
 			}
 		} catch (Exception e) {
