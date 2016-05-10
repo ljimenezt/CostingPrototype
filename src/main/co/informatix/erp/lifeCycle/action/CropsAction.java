@@ -452,8 +452,8 @@ public class CropsAction implements Serializable {
 				plotSave.setIdPlot(saveData.getIdClase());
 				if (Constantes.QUERY_DELETE.equals(action)) {
 					CropsPlots cropsPlotsSave = cropsPlotsDao
-							.consultarCropsPlots(crops, plotSave);
-					cropsPlotsDao.eliminarCropsPlots(cropsPlotsSave);
+							.consultCropsPlots(crops, plotSave);
+					cropsPlotsDao.deleteCropsPlots(cropsPlotsSave);
 				} else {
 					if (Constantes.QUERY_INSERT.equals(action)) {
 						saveCropsPlot(plotSave);
@@ -478,7 +478,7 @@ public class CropsAction implements Serializable {
 		cropsPlotsPK.setCrops(crops);
 		cropsPlotsPK.setPlot(plot);
 		cropsPlots.setCropsPlotsPK(cropsPlotsPK);
-		cropsPlotsDao.guardarCropsPlots(cropsPlots);
+		cropsPlotsDao.saveCropsPlots(cropsPlots);
 
 	}
 

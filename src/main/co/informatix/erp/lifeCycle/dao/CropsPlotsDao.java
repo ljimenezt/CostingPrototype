@@ -32,7 +32,7 @@ public class CropsPlotsDao implements Serializable {
 	 *            : relationship to save crops and plots.
 	 * @throws Exception
 	 */
-	public void guardarCropsPlots(CropsPlots cropsPlots) throws Exception {
+	public void saveCropsPlots(CropsPlots cropsPlots) throws Exception {
 		em.persist(cropsPlots);
 	}
 
@@ -43,7 +43,7 @@ public class CropsPlotsDao implements Serializable {
 	 *            : plot associated crop eliminate
 	 * @throws Exception
 	 */
-	public void eliminarCropsPlots(CropsPlots cropsPlots) throws Exception {
+	public void deleteCropsPlots(CropsPlots cropsPlots) throws Exception {
 		em.remove(em.merge(cropsPlots));
 	}
 
@@ -58,7 +58,7 @@ public class CropsPlotsDao implements Serializable {
 	 * @return CropsPlots and plot found by crops.
 	 * @throws Exception
 	 */
-	public CropsPlots consultarCropsPlots(Crops crops, Plot plot)
+	public CropsPlots consultCropsPlots(Crops crops, Plot plot)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT cp FROM CropsPlots cp ");
