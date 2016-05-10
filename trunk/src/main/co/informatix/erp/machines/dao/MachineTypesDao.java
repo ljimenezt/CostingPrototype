@@ -157,7 +157,7 @@ public class MachineTypesDao implements Serializable {
 	 * @author Sergio.Ortiz
 	 * @modify 15/03/2016 Wilhelm.Boada
 	 * 
-	 * @return MachineTypes: MachineTypes object type
+	 * @return List<MachineTypes>: MachineTypes List
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
