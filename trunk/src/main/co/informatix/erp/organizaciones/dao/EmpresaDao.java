@@ -1,7 +1,6 @@
 package co.informatix.erp.organizaciones.dao;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -304,31 +303,6 @@ public class EmpresaDao implements Serializable {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Method for consulting companies with access permissions a person has on
-	 * the system.
-	 * 
-	 * @author marisol.calderon
-	 * 
-	 * @param documentoPersona
-	 *            : person document in session.
-	 * @return Companies in which the person has access.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Empresa> consultarEmpresasConPermisosAccesoUsuario(
-			String documentoPersona) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT DISTINCT ppe.empresa FROM PermisoPersonaEmpresa ppe ");
-		query.append("WHERE ppe.persona.documento=:documentoPersona ");
-		query.append("AND (ppe.fechaFinVigencia IS NULL ");
-		query.append("OR ppe.fechaFinVigencia >= :fechaActual) ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("documentoPersona", documentoPersona);
-		q.setParameter("fechaActual", new Date());
-		return q.getResultList();
 	}
 
 }

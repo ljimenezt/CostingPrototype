@@ -27,6 +27,23 @@ public class MachineUsage implements Serializable {
 	private MachineUsagePK machineUsagePK;
 
 	/**
+	 * @return machineUsagePK: object containing the composite key machine usage
+	 *         table
+	 */
+	@EmbeddedId
+	public MachineUsagePK getMachineUsagePK() {
+		return machineUsagePK;
+	}
+
+	/**
+	 * @param machineUsagePK
+	 *            :object containing the composite key machine usage table
+	 */
+	public void setMachineUsagePK(MachineUsagePK machineUsagePK) {
+		this.machineUsagePK = machineUsagePK;
+	}
+
+	/**
 	 * Empty constructor to initialize the primary key of the entity.
 	 */
 	public MachineUsage() {
@@ -95,23 +112,6 @@ public class MachineUsage implements Serializable {
 	 */
 	public void setHourlyDepreciation(Double hourlyDepreciation) {
 		this.hourlyDepreciation = hourlyDepreciation;
-	}
-
-	/**
-	 * @return machineUsagePK: object containing the composite key machine usage
-	 *         table
-	 */
-	@EmbeddedId
-	public MachineUsagePK getMachineUsagePK() {
-		return machineUsagePK;
-	}
-
-	/**
-	 * @param machineUsagePK
-	 *            :object containing the composite key machine usage table
-	 */
-	public void setMachineUsagePK(MachineUsagePK machineUsagePK) {
-		this.machineUsagePK = machineUsagePK;
 	}
 
 	@Override

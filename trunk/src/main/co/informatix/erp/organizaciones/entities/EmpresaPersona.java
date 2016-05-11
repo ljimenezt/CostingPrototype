@@ -190,7 +190,7 @@ public class EmpresaPersona implements Serializable {
 	 *         but for the company.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_hacienda", referencedColumnName = "id", nullable = true)
+	@JoinColumn(name = "id_farm", referencedColumnName = "id", nullable = true)
 	public Hacienda getHacienda() {
 		return hacienda;
 	}
