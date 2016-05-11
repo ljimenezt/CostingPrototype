@@ -404,28 +404,4 @@ public class HaciendaDao implements Serializable {
 		return q.getResultList();
 	}
 
-	/**
-	 * Method that allows check the list of farms associated with a specific
-	 * document.
-	 * 
-	 * @author Cristhian.Pico
-	 * 
-	 * @param idDocumento
-	 *            : id of the document to which you want to see the farms.
-	 * @return List<Hacienda>: List of farms associated with the document or
-	 *         null if there are no records.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Hacienda> consultarDocumentosHacienda(int idDocumento)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT df.llavePrimariaDocumentoHacienda.hacienda FROM DocumentoHacienda df ");
-		query.append("JOIN FETCH df.llavePrimariaDocumentoHacienda ");
-		query.append("WHERE df.llavePrimariaDocumentoHacienda.documento.id = :idDocumento ");
-		query.append("AND df.fechaFinVigencia IS NULL ");
-		Query q = em.createQuery(query.toString());
-		q.setParameter("idDocumento", idDocumento);
-		return q.getResultList();
-	}
 }
