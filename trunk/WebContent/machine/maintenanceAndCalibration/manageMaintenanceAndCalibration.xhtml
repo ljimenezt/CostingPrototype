@@ -17,6 +17,7 @@
 
 	<ui:define name="body">
 		<t:saveState value="#{maintenanceAndCalibrationAction}" />
+		<t:saveState value="#{maintenanceLinesAction}" />
 		<ui:param name="listaVacia"
 			value="#{maintenanceAndCalibrationAction.listMaintenanceAndCalibrations eq null 
 			or (empty maintenanceAndCalibrationAction.listMaintenanceAndCalibrations)}" />
@@ -114,13 +115,14 @@
 								rendered="#{(identity.autorizado('maintenanceAndCalibrationAction','A') or identity.autorizado('maintenanceAndCalibrationAction','D'))}">
 								<a:commandLink render=":popupForm:popupMaintenance"
 									actionListener="#{maintenanceAndCalibrationAction.setMaintenanceAndCalibration(maintenanceAndCalibration)}"
-									action="#{maintenanceAndCalibrationAction.initializeSearchMaintenanceLine()}"
+									action="#{maintenanceLinesAction.initializeSearchMaintenanceLine(maintenanceAndCalibration.idMaintenance)}"
 									oncomplete="#{rich:component('popupMaintenance')}.show()">
 									<h:graphicImage value="/img/maintenance_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText
 											value="#{messageMachine.maintenance_lines_label}" />
 									</rich:tooltip>
+									<f:param name="param2" value="si" />
 								</a:commandLink>
 							</a:outputPanel>
 						</rich:column>
@@ -284,10 +286,10 @@
 								<h:outputText value="#{mensaje.label_description}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNameSearch"
-									value="#{maintenanceAndCalibrationAction.nameSearch}"
+									value="#{maintenanceLinesAction.descriptionSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
 								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-									actionListener="#{maintenanceAndCalibrationAction.consultMaintenanceLines}"
+									actionListener="#{maintenanceLinesAction.searchMaintenanceLines()}"
 									render="outPutSearchMaintenanceLine">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
@@ -298,7 +300,7 @@
 							styleClass="messageInfSpan W511P" />
 						<br />
 						<ui:param name="listaVacia"
-							value="#{maintenanceAndCalibrationAction.listMaintenanceLines eq null or (empty maintenanceAndCalibrationAction.listMaintenanceLines)}" />
+							value="#{maintenanceLinesAction.maintenanceLinesList eq null or (empty maintenanceLinesAction.maintenanceLinesList)}" />
 						<div align="right" class="W560P">
 							<h:panelGrid columns="2">
 								<a:commandLink render="popupMaintenanceLine"
@@ -312,8 +314,8 @@
 								</a:commandLink>
 								<a:commandLink render="outPutSearchMaintenanceLine"
 									styleClass="quitarDecoracionLink"
-									action="#{maintenanceAndCalibrationAction.consultMaintenanceLines}"
-									actionListener="#{maintenanceAndCalibrationAction.setNameSearch(null)}">
+									action="#{maintenanceLinesAction.searchMaintenanceLines}"
+									actionListener="#{maintenanceLinesAction.setDescriptionSearch(null)}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/listarTodos_16.png" />
 										<h:outputText value="#{mensaje.button_list_all}" />
@@ -323,7 +325,7 @@
 						</div>
 						<a:outputPanel id="outputMaintenanceLine">
 							<rich:dataTable
-								value="#{maintenanceAndCalibrationAction.listMaintenanceLines}"
+								value="#{maintenanceLinesAction.maintenanceLinesList}"
 								var="maintenanceLines" id="tMaintenance" footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 								rowClasses="odd-row, even-row">
@@ -366,13 +368,13 @@
 							<a:outputPanel rendered="#{!listaVacia}">
 								<div class="W560P center inBlock">
 									<ui:include src="/plantillas/templatePagination.xhtml">
-										<ui:param name="pager" value="paginationMaintenance" />
+										<ui:param name="pager" value="pagination" />
 										<ui:param name="valReder"
 											value=":popupForm:outputMaintenanceLine" />
 										<ui:param name="beanActionParam"
-											value="#{maintenanceAndCalibrationAction}" />
+											value="#{maintenanceLinesAction}" />
 										<ui:param name="metodoActionParam"
-											value="consultMaintenanceLines" />
+											value="searchMaintenanceLines" />
 									</ui:include>
 								</div>
 							</a:outputPanel>
