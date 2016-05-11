@@ -240,8 +240,7 @@ public class MachineTypesAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = machineTypes.getIdMachineType();
-			MachineTypes machineTypesAux = new MachineTypes();
-			machineTypesAux = machineTypesDao.nameExists(name, id);
+			MachineTypes machineTypesAux = machineTypesDao.nameExists(name, id);
 			if (machineTypesAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(

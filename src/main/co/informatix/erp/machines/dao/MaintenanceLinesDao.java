@@ -53,6 +53,8 @@ public class MaintenanceLinesDao implements Serializable {
 	 * Returns the amount of maintenance lines in the database; they are
 	 * filtered with search values.
 	 * 
+	 * @modify 11/05/2016 Wilhelm.Boada
+	 * 
 	 * @param query
 	 *            : String that contains the query where properties have
 	 *            filters.
@@ -65,6 +67,8 @@ public class MaintenanceLinesDao implements Serializable {
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT COUNT(ml) FROM MaintenanceLines ml ");
+		queryBuilder.append("JOIN ml.maintenanceAndCalibration mc ");
+		queryBuilder.append("JOIN  ml.machines m ");
 		queryBuilder.append(query);
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parameter : parameters) {
@@ -77,6 +81,8 @@ public class MaintenanceLinesDao implements Serializable {
 	/**
 	 * This method queries maintenance lines with a certain range and they are
 	 * filtered with search values.
+	 * 
+	 * @modify 11/05/2016 Wilhelm.Boada
 	 * 
 	 * @param start
 	 *            : First record of the query result that is retrieved.
@@ -94,8 +100,8 @@ public class MaintenanceLinesDao implements Serializable {
 			StringBuilder query, List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT ml FROM MaintenanceLines ml ");
-		queryBuilder.append("JOIN FETCH ml.machines ");
-		queryBuilder.append("JOIN FETCH ml.maintenanceAndCalibration ");
+		queryBuilder.append("JOIN FETCH ml.machines m ");
+		queryBuilder.append("JOIN FETCH ml.maintenanceAndCalibration mc ");
 		queryBuilder.append(query);
 		queryBuilder.append("ORDER BY ml.description ");
 		Query q = em.createQuery(queryBuilder.toString());
@@ -109,81 +115,4 @@ public class MaintenanceLinesDao implements Serializable {
 		}
 		return null;
 	}
-
-	/**
-	 * Returns the amount of maintenance lines in the database for a known
-	 * maintenanceAndCalibration identifier, but it is done without a JOIN
-	 * FETCH.
-	 * 
-	 * @author Andres.Gomez
-	 * 
-	 * @param query
-	 *            : String containing the query that has filters.
-	 * @param parameters
-	 *            : Query parameters.
-	 * @param idMaintenance
-	 *            : Identifier of the maintenance lines to search.
-	 * @return Long: Amount of lines Maintenance records found.
-	 * @throws Exception
-	 */
-	public Long amountMaintenanceLines(StringBuilder query,
-			List<SelectItem> parameters, int idMaintenance) throws Exception {
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT COUNT(ml) FROM MaintenanceLines ml ");
-		queryBuilder.append("JOIN ml.maintenanceAndCalibration mc ");
-		queryBuilder.append("WHERE mc.idMaintenance =:idMaintenance ");
-		queryBuilder.append(query);
-		Query queryResult = em.createQuery(queryBuilder.toString());
-		queryResult.setParameter("idMaintenance", idMaintenance);
-		for (SelectItem parameter : parameters) {
-			queryResult
-					.setParameter(parameter.getLabel(), parameter.getValue());
-		}
-		return (Long) queryResult.getSingleResult();
-	}
-
-	/**
-	 * Method that queries all activity and machine objects and it stores them
-	 * in a list.
-	 * 
-	 * @author Andres.Gomez
-	 * 
-	 * @param start
-	 *            : First record of the query result that is retrieved.
-	 * @param range
-	 *            : Range of records.
-	 * @param query
-	 *            : Query records depending on the user selected parameter.
-	 * @param parameters
-	 *            : Query parameters.
-	 * @param idMaintenance
-	 *            : identifier of the maintenance line to search.
-	 * 
-	 * @return List<MaintenanceLines>: Maintenance Lines list.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<MaintenanceLines> listMaintenanceLinesXCalibration(int start,
-			int range, StringBuilder query, List<SelectItem> parameters,
-			int idMaintenance) throws Exception {
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT ml FROM MaintenanceLines ml ");
-		queryBuilder.append("JOIN FETCH ml.maintenanceAndCalibration mc ");
-		queryBuilder.append("JOIN FETCH ml.machines m ");
-		queryBuilder.append("WHERE mc.idMaintenance =:idMaintenance ");
-		queryBuilder.append(query);
-		Query queryResult = em.createQuery(queryBuilder.toString());
-		queryResult.setParameter("idMaintenance", idMaintenance);
-		for (SelectItem parameter : parameters) {
-			queryResult
-					.setParameter(parameter.getLabel(), parameter.getValue());
-		}
-		queryResult.setFirstResult(start).setMaxResults(range);
-		List<MaintenanceLines> resultList = queryResult.getResultList();
-		if (resultList.size() > 0) {
-			return resultList;
-		}
-		return null;
-	}
-
 }

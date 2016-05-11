@@ -217,7 +217,7 @@ public class MachinesAction implements Serializable {
 	 * @modify 28/05/2015 Mabell.Boada
 	 * @modify 19/08/2015 Andres.Gomez
 	 * 
-	 * @return gesMachines: Returns to the template management.
+	 * @return consultMachines(): Returns to the template management.
 	 */
 	public String searchInitialization() {
 		nameSearch = "";
@@ -421,6 +421,11 @@ public class MachinesAction implements Serializable {
 	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of search parameters.
+	 * @param bundle
+	 *            :access language tags.
+	 * @param unionMessagesSearch
+	 *            : message search.
+	 * 
 	 */
 	private void advancedSearchActivityMachine(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,

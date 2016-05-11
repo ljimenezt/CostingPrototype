@@ -25,6 +25,7 @@ import co.informatix.erp.machines.dao.MaintenanceAndCalibrationDao;
 import co.informatix.erp.machines.entities.MachineUsage;
 import co.informatix.erp.machines.entities.Machines;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
@@ -54,8 +55,8 @@ public class MachineUsageAction implements Serializable {
 	private List<ActivityMachine> listActivityMachines;
 	private List<ActivityMachine> subListActivityMachines;
 	private List<ActivityMachine> listActivityMachineUnique;
-	private ArrayList<SelectItem> itemsMachines;
 	private List<Integer> itemsYears;
+	private ArrayList<SelectItem> itemsMachines;
 	private HashMap<Integer, Machines> machineUnique;
 
 	private MachineUsage machineUsage;
@@ -63,10 +64,10 @@ public class MachineUsageAction implements Serializable {
 	private Paginador paginationActivity = new Paginador();
 
 	private String nameSearch;
+	private Double currentDuration;
 	private int nameMachine;
 	private int year;
 	private boolean edit;
-	private Double currentDuration;
 
 	/**
 	 * @return listMachineUsage: List of the machine usages shown in the user
@@ -134,6 +135,21 @@ public class MachineUsageAction implements Serializable {
 	}
 
 	/**
+	 * @return itemsYears: List of year items to selected in the view.
+	 */
+	public List<Integer> getItemsYears() {
+		return itemsYears;
+	}
+
+	/**
+	 * @param itemsYears
+	 *            : List of year items to selected in the view.
+	 */
+	public void setItemsYears(List<Integer> itemsYears) {
+		this.itemsYears = itemsYears;
+	}
+
+	/**
 	 * @return itemsMachines: List of machine items to selected the machines
 	 *         usage.
 	 */
@@ -147,21 +163,6 @@ public class MachineUsageAction implements Serializable {
 	 */
 	public void setItemsMachines(ArrayList<SelectItem> itemsMachines) {
 		this.itemsMachines = itemsMachines;
-	}
-
-	/**
-	 * @return itemsYears: List of year items to selected in the view.
-	 */
-	public List<Integer> getItemsYears() {
-		return itemsYears;
-	}
-
-	/**
-	 * @param itemsYears
-	 *            : List of year items to selected in the view.
-	 */
-	public void setItemsYears(List<Integer> itemsYears) {
-		this.itemsYears = itemsYears;
 	}
 
 	/**
@@ -241,6 +242,23 @@ public class MachineUsageAction implements Serializable {
 	}
 
 	/**
+	 * @return currentDuration: Double number to get the current duration of the
+	 *         machine usage.
+	 */
+	public Double getCurrentDuration() {
+		return currentDuration;
+	}
+
+	/**
+	 * @param currentDuration
+	 *            :Double number to set the current duration of the machine
+	 *            usage.
+	 */
+	public void setCurrentDuration(Double currentDuration) {
+		this.currentDuration = currentDuration;
+	}
+
+	/**
 	 * @return nameMachine: Machine name to search.
 	 */
 	public int getNameMachine() {
@@ -288,23 +306,6 @@ public class MachineUsageAction implements Serializable {
 	}
 
 	/**
-	 * @return currentDuration: Double number to get the current duration of the
-	 *         machine usage.
-	 */
-	public Double getCurrentDuration() {
-		return currentDuration;
-	}
-
-	/**
-	 * @param currentDuration
-	 *            :Double number to set the current duration of the machine
-	 *            usage.
-	 */
-	public void setCurrentDuration(Double currentDuration) {
-		this.currentDuration = currentDuration;
-	}
-
-	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of the machine usage.
 	 * 
@@ -320,6 +321,8 @@ public class MachineUsageAction implements Serializable {
 
 	/**
 	 * Query the list of the machine usages to show in the view.
+	 * 
+	 * @modify 06/05/2016 Wilhelm.Boada
 	 * 
 	 * @return "gesMachineUsage": Redirects to the template to manage the
 	 *         machine usage.
@@ -366,7 +369,7 @@ public class MachineUsageAction implements Serializable {
 				loadDetailsMachines();
 			}
 			loadComboMachine();
-			loadComboYear();
+			itemsYears = ControladorFechas.loadYears();
 			validation.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -736,6 +739,8 @@ public class MachineUsageAction implements Serializable {
 	/**
 	 * Method to edit or create new machine usage.
 	 * 
+	 * @modify 06/05/2016 Wilhelm.Boada
+	 * 
 	 * @param machineUsage
 	 *            : Machine usage that you are adding or editing.
 	 * 
@@ -751,26 +756,11 @@ public class MachineUsageAction implements Serializable {
 				this.machineUsage = new MachineUsage();
 			}
 			loadComboMachine();
-			loadComboYear();
+			itemsYears = ControladorFechas.loadYears();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 		return "regMachineUsage";
-	}
-
-	/**
-	 * Method that allows check the year to fill the combo of the user
-	 * interface.
-	 * 
-	 * @throws Exception
-	 */
-	private void loadComboYear() throws Exception {
-		itemsYears = new ArrayList<Integer>();
-		int i;
-		int yearCurrent = Calendar.getInstance().get(Calendar.YEAR);
-		for (i = 2000; i <= yearCurrent; i++) {
-			itemsYears.add(i);
-		}
 	}
 
 	/**

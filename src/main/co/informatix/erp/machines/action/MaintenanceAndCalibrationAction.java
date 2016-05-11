@@ -42,7 +42,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	private List<MaintenanceAndCalibration> listMaintenanceAndCalibrations;
 	private List<SelectItem> machinesItems;
 	private List<SelectItem> machinesTypeItems;
-	private List<MaintenanceLines> listMaintenanceLines;
 
 	private Paginador pagination = new Paginador();
 	private Paginador paginationMaintenance = new Paginador();
@@ -52,6 +51,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	private MachineTypes machineTypes;
 	private MachineTypes machineTypesConsult;
 	private MaintenanceLines maintenanceLines;
+	private MaintenanceLinesAction maintenanceLinesAction;
 
 	private Date startDateSearch;
 	private Date endDateSearch;
@@ -115,24 +115,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 */
 	public void setMachinesTypeItems(List<SelectItem> machinesTypeItems) {
 		this.machinesTypeItems = machinesTypeItems;
-	}
-
-	/**
-	 * @return listMaintenanceLines: List of maintenance lines associated to one
-	 *         maintenance and calibration.
-	 */
-	public List<MaintenanceLines> getListMaintenanceLines() {
-		return listMaintenanceLines;
-	}
-
-	/**
-	 * @param listMaintenanceLines
-	 *            :List of maintenance lines associated to one maintenance and
-	 *            calibration.
-	 */
-	public void setListMaintenanceLines(
-			List<MaintenanceLines> listMaintenanceLines) {
-		this.listMaintenanceLines = listMaintenanceLines;
 	}
 
 	/**
@@ -457,10 +439,11 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
+	 * @throws Exception
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
+			StringBuilder unionMessagesSearch) throws Exception {
 		SimpleDateFormat formats = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
 		ResourceBundle bundleMachineType = ControladorContexto
@@ -474,55 +457,47 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			parameters.add(item);
 			SelectItem item2 = new SelectItem(endDateSearch, "endDateSearch");
 			parameters.add(item2);
-			String dateFrom = bundle.getString("label_start_date") + ": "
-					+ '"' + formats.format(this.startDateSearch) + '"' + " ";
+			String dateFrom = bundle.getString("label_start_date") + ": " + '"'
+					+ formats.format(this.startDateSearch) + '"' + " ";
 			unionMessagesSearch.append(dateFrom);
 
-			String dateTo = bundle.getString("label_end_date") + ": "
-					+ '"' + formats.format(endDateSearch) + '"' + " ";
+			String dateTo = bundle.getString("label_end_date") + ": " + '"'
+					+ formats.format(endDateSearch) + '"' + " ";
 			unionMessagesSearch.append(dateTo);
 		}
 
 		if (this.machineTypes != null
 				&& this.machineTypes.getIdMachineType() > 0) {
-			try {
-				int idMachineType = this.machineTypes.getIdMachineType();
-				MachineTypes machineTypeSearchMachine = machineTypesDao
-						.machineTypeXId(idMachineType);
-				consult.append(addFilter ? "AND " : "WHERE ");
-				addFilter = true;
-				consult.append("m.machineTypes.idMachineType = :idMachineType ");
-				SelectItem itemMachineType = new SelectItem(idMachineType,
-						"idMachineType");
-				parameters.add(itemMachineType);
-				String machineTypeName = bundleMachineType
-						.getString("machines_label_types")
-						+ ": "
-						+ '"'
-						+ machineTypeSearchMachine.getName() + '"' + " ";
-				unionMessagesSearch.append(machineTypeName);
-			} catch (Exception e) {
-				ControladorContexto.mensajeError(e);
-			}
+			int idMachineType = this.machineTypes.getIdMachineType();
+			MachineTypes machineTypeSearchMachine = machineTypesDao
+					.machineTypeXId(idMachineType);
+			consult.append(addFilter ? "AND " : "WHERE ");
+			addFilter = true;
+			consult.append("m.machineTypes.idMachineType = :idMachineType ");
+			SelectItem itemMachineType = new SelectItem(idMachineType,
+					"idMachineType");
+			parameters.add(itemMachineType);
+			String machineTypeName = bundleMachineType
+					.getString("machines_label_types")
+					+ ": "
+					+ '"'
+					+ machineTypeSearchMachine.getName() + '"' + " ";
+			unionMessagesSearch.append(machineTypeName);
 		}
 
 		if (this.machines != null && this.machines.getIdMachine() > 0) {
-			try {
-				int idMachineSearch = this.machines.getIdMachine();
-				Machines modelSearchMachine = machinesDao
-						.machinesXId(idMachineSearch);
-				consult.append(addFilter ? "AND " : "WHERE ");
-				addFilter = true;
-				consult.append("m.idMachine = :idMachineSearch  ");
-				SelectItem itemMachine = new SelectItem(idMachineSearch,
-						"idMachineSearch");
-				parameters.add(itemMachine);
-				String machineName = bundle.getString("label_model") + ": "
-						+ '"' + modelSearchMachine.getName() + '"' + " ";
-				unionMessagesSearch.append(machineName);
-			} catch (Exception e) {
-				ControladorContexto.mensajeError(e);
-			}
+			int idMachineSearch = this.machines.getIdMachine();
+			Machines modelSearchMachine = machinesDao
+					.machinesXId(idMachineSearch);
+			consult.append(addFilter ? "AND " : "WHERE ");
+			addFilter = true;
+			consult.append("m.idMachine = :idMachineSearch  ");
+			SelectItem itemMachine = new SelectItem(idMachineSearch,
+					"idMachineSearch");
+			parameters.add(itemMachine);
+			String machineName = bundle.getString("label_model") + ": " + '"'
+					+ modelSearchMachine.getName() + '"' + " ";
+			unionMessagesSearch.append(machineName);
 		}
 
 		if (this.serialNumberSearch != null
@@ -689,105 +664,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	}
 
 	/**
-	 * This method allows initialize the class variables and consult the
-	 * maintenance line.
-	 * 
-	 * @author Andres.Gomez
-	 */
-	public void initializeSearchMaintenanceLine() {
-		this.nameSearch = "";
-		consultMaintenanceLines();
-	}
-
-	/**
-	 * This method allows consult the maintenance line referenced to maintenance
-	 * and calibration.
-	 * 
-	 * @author Andres.Gomez
-	 * 
-	 */
-	public void consultMaintenanceLines() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleMachine = ControladorContexto
-				.getBundle("messageMachine");
-		ValidacionesAction validations = ControladorContexto
-				.getContextBean(ValidacionesAction.class);
-		List<SelectItem> parameters = new ArrayList<SelectItem>();
-		StringBuilder consult = new StringBuilder();
-		StringBuilder unionMessageSearch = new StringBuilder();
-		String messageSearch = "";
-		this.listMaintenanceLines = new ArrayList<MaintenanceLines>();
-		try {
-			searchAvance(consult, parameters, bundle, unionMessageSearch);
-			int idMaintenance = this.maintenanceAndCalibration
-					.getIdMaintenance();
-			Long amount = maintenanceLinesDao.amountMaintenanceLines(consult,
-					parameters, idMaintenance);
-			if (amount != null) {
-				paginationMaintenance.paginarRangoDefinido(amount, 5);
-			}
-			listMaintenanceLines = maintenanceLinesDao
-					.listMaintenanceLinesXCalibration(
-							paginationMaintenance.getInicio(),
-							paginationMaintenance.getRango(), consult,
-							parameters, idMaintenance);
-			if ((listMaintenanceLines == null || listMaintenanceLines.size() <= 0)
-					&& !"".equals(unionMessageSearch.toString())) {
-				messageSearch = MessageFormat
-						.format(bundle
-								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMessageSearch);
-			} else if (listMaintenanceLines == null
-					|| listMaintenanceLines.size() <= 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMessageSearch.toString())) {
-				messageSearch = MessageFormat
-						.format(bundle
-								.getString("message_existen_registros_criterio_busqueda"),
-								bundleMachine
-										.getString("maintenance_lines_label"),
-								unionMessageSearch);
-			}
-			validations.setMensajeBusqueda(messageSearch);
-			if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-				ControladorContexto.mensajeInformacion(
-						"popupForm:tMaintenance", messageSearch);
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * This method allows build a query depending if the nameSearch is not null.
-	 * 
-	 * @author Andres.Gomez
-	 * 
-	 * @param consult
-	 *            :query to concatenate.
-	 * @param parameters
-	 *            : list of search parameters.
-	 * @param bundle
-	 *            :access language tags.
-	 * @param unionMessageSearch
-	 *            : message search.
-	 * 
-	 */
-	private void searchAvance(StringBuilder consult,
-			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessageSearch) {
-		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("AND UPPER(ml.description) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
-					"keyword");
-			parameters.add(item);
-			unionMessageSearch.append(bundle.getString("label_description")
-					+ ": " + '"' + this.nameSearch + '"');
-		}
-	}
-
-	/**
 	 * Method to edit or create a new line maintenance.
 	 * 
 	 * @author Andres.Gomez
@@ -812,9 +688,13 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * Method used to save or edit lines maintenance.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 11/05/2016 Wilhelm.Boada
+	 * 
+	 * @param maintenanceLinesList
+	 *            :maintenanceLines List are adding or editing.
 	 * 
 	 */
-	public void saveMaintenanceLines() {
+	public void saveMaintenanceLines(List<MaintenanceLines> maintenanceLinesList) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageLog = "message_registro_modificar";
 		SimpleDateFormat formats = new SimpleDateFormat(
@@ -828,8 +708,8 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			}
 			Double costBudget = 0d;
 			Double costActual = 0d;
-			if (listMaintenanceLines != null) {
-				for (MaintenanceLines mLines : listMaintenanceLines) {
+			if (maintenanceLinesList != null) {
+				for (MaintenanceLines mLines : maintenanceLinesList) {
 					if (mLines.getCostBudget() != null) {
 						costBudget += mLines.getCostBudget();
 					}
@@ -851,7 +731,9 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			ControladorContexto.mensajeInformacion("popupForm:tMaintenance",
 					MessageFormat.format(bundle.getString(messageLog),
 							maintenanceLines.getDescription()));
-			consultMaintenanceLines();
+			this.maintenanceLinesAction = ControladorContexto
+					.getContextBean(MaintenanceLinesAction.class);
+			this.maintenanceLinesAction.searchMaintenanceLines();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

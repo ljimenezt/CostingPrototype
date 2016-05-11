@@ -141,7 +141,7 @@
 				</ui:define>
 				<ui:define name="botones">
 					<a:commandButton value="#{mensaje.button_accept}"
-						actionListener="#{maintenanceAndCalibrationAction.saveMaintenanceLines()}"
+						actionListener="#{maintenanceAndCalibrationAction.saveMaintenanceLines(maintenanceLinesAction.maintenanceLinesList)}"
 						onclick="#{rich:component('confirmationPopUp')}.hide(); #{rich:component('popupMaintenanceLine')}.hide(); #{rich:component('statPane')}.show();"
 						render="popupForm:outPutSearchMaintenanceLine " />
 					<a:commandButton value="#{mensaje.button_cancel}"

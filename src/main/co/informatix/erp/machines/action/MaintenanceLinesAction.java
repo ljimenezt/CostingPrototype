@@ -42,6 +42,10 @@ public class MaintenanceLinesAction implements Serializable {
 	private MaintenanceLines maintenanceLines;
 
 	private String machineNameSearch;
+	private String descriptionSearch;
+
+	private int idMaintenance;
+	private boolean fromModal;
 
 	@EJB
 	private MaintenanceLinesDao maintenanceLinesDao;
@@ -103,8 +107,7 @@ public class MaintenanceLinesAction implements Serializable {
 	}
 
 	/**
-	 * @return pagination: Gets the paged list of maintenance lines that may be
-	 *         in the view.
+	 * @return pagination: gets the paged list of maintenance lines.
 	 */
 	public Paginador getPagination() {
 		return pagination;
@@ -112,8 +115,7 @@ public class MaintenanceLinesAction implements Serializable {
 
 	/**
 	 * @param pagination
-	 *            : Sets the paged list of maintenance lines that may be in the
-	 *            view.
+	 *            :sets the paged list of maintenance lines.
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
@@ -150,19 +152,52 @@ public class MaintenanceLinesAction implements Serializable {
 	}
 
 	/**
+	 * @return descriptionSearch: Gets the search parameter.
+	 */
+	public String getDescriptionSearch() {
+		return descriptionSearch;
+	}
+
+	/**
+	 * @param descriptionSearch
+	 *            : Sets the search parameter.
+	 */
+	public void setDescriptionSearch(String descriptionSearch) {
+		this.descriptionSearch = descriptionSearch;
+	}
+
+	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of maintenance lines.
+	 * 
+	 * @modify 11/05/2016 Wilhelm.Boada
 	 * 
 	 * @return searchMaintenanceLines: Look for maintenance lines, and it
 	 *         redirects to the template management
 	 */
 	public String initializeSearch() {
 		machineNameSearch = "";
+		descriptionSearch = "";
+		fromModal = false;
+		pagination = new Paginador();
 		return searchMaintenanceLines();
 	}
 
 	/**
+	 * This method allows initialize the class variables and consult the
+	 * maintenance line.
+	 * 
+	 * @author Andres.Gomez
+	 */
+	public String initializeSearchMaintenanceLine(int idMaintenance) {
+		this.idMaintenance = idMaintenance;
+		return initializeSearch();
+	}
+
+	/**
 	 * Look for the list of existing maintenance lines.
+	 * 
+	 * @modify 11/05/2016 Wilhelm.Boada
 	 * 
 	 * @return gesMaintLin: Navigation rule that redirects to manage maintenance
 	 *         lines.
@@ -178,19 +213,30 @@ public class MaintenanceLinesAction implements Serializable {
 		StringBuilder queryBuilder = new StringBuilder();
 		StringBuilder jointSearchMessages = new StringBuilder();
 		String searchMessage = "";
+		String param2 = ControladorContexto.getParam("param2");
+		if (!fromModal) {
+			fromModal = (param2 != null && "si".equals(param2)) ? true : false;
+		}
+		String giveBack = fromModal ? "" : "gesMaintLin";
+		Long amount;
 		try {
+			if (!fromModal) {
+				this.idMaintenance = 0;
+			}
 			loadMachineCombos();
 			advancedSearch(queryBuilder, parameters, bundle,
 					jointSearchMessages);
-			Long amount = maintenanceLinesDao.maintenanceLinesAmount(
-					queryBuilder, parameters);
-			if (amount != null) {
+			amount = maintenanceLinesDao.maintenanceLinesAmount(queryBuilder,
+					parameters);
+
+			if (fromModal && amount != null) {
+				pagination.paginarRangoDefinido(amount, 5);
+			} else if (amount != null) {
 				pagination.paginar(amount);
 			}
 			maintenanceLinesList = maintenanceLinesDao.queryMaintenanceLines(
 					pagination.getInicio(), pagination.getRango(),
 					queryBuilder, parameters);
-
 			if ((maintenanceLinesList == null || maintenanceLinesList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {
 				searchMessage = MessageFormat
@@ -210,10 +256,17 @@ public class MaintenanceLinesAction implements Serializable {
 								jointSearchMessages);
 			}
 			validation.setMensajeBusqueda(searchMessage);
+			if (fromModal) {
+				if (this.descriptionSearch != null
+						&& !"".equals(this.descriptionSearch)) {
+					ControladorContexto.mensajeInformacion(
+							"popupForm:tMaintenance", searchMessage);
+				}
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesMaintLin";
+		return giveBack;
 	}
 
 	/**
@@ -289,6 +342,8 @@ public class MaintenanceLinesAction implements Serializable {
 	 * messages depending on the search criteria selected by the user, a machine
 	 * name.
 	 * 
+	 * @modify 11/05/2016 Wilhelm.Boada
+	 * 
 	 * @param queryBuilder
 	 *            : Query to concatenate
 	 * @param parameters
@@ -301,15 +356,33 @@ public class MaintenanceLinesAction implements Serializable {
 	private void advancedSearch(StringBuilder queryBuilder,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder jointSearchMessages) {
+
+		if (this.idMaintenance != 0) {
+			queryBuilder.append("WHERE mc.idMaintenance =:idMaintenance ");
+			SelectItem item = new SelectItem(this.idMaintenance,
+					"idMaintenance");
+			parameters.add(item);
+		}
 		if (this.machineNameSearch != null
 				&& !"".equals(this.machineNameSearch)) {
-			queryBuilder.append("JOIN  ml.machines m ");
-			queryBuilder.append("WHERE UPPER(m.name)=UPPER(:nombreMaquina )");
-			SelectItem item = new SelectItem(this.machineNameSearch,
-					"nombreMaquina");
+			queryBuilder
+					.append("WHERE UPPER(m.name) LIKE UPPER(:machineNameSearch)");
+			SelectItem item = new SelectItem(
+					"%" + this.machineNameSearch + "%", "machineNameSearch");
 			parameters.add(item);
 			jointSearchMessages.append(bundle.getString("label_name") + ": "
 					+ '"' + this.machineNameSearch + '"');
+		}
+
+		if (this.descriptionSearch != null
+				&& !"".equals(this.descriptionSearch)) {
+			queryBuilder
+					.append("AND UPPER(ml.description) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem(
+					"%" + this.descriptionSearch + "%", "keyword");
+			parameters.add(item);
+			jointSearchMessages.append(bundle.getString("label_description")
+					+ ": " + '"' + this.descriptionSearch + '"');
 		}
 	}
 

@@ -231,8 +231,7 @@ public class FuelTypesAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = fuelTypes.getIdFuelType();
-			FuelTypes fuelTypesAux = new FuelTypes();
-			fuelTypesAux = fuelTypesDao.nameTypeFuelExists(name, id);
+			FuelTypes fuelTypesAux = fuelTypesDao.nameTypeFuelExists(name, id);
 			if (fuelTypesAux != null) {
 				String messageExists = "message_ya_existe_verifique";
 				context.addMessage(

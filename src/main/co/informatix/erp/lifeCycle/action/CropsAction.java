@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -28,6 +27,7 @@ import co.informatix.erp.lifeCycle.entities.CropsPlotsPK;
 import co.informatix.erp.lifeCycle.entities.Plot;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.utils.ValidacionesAction.DatosGuardar;
@@ -61,10 +61,10 @@ public class CropsAction implements Serializable {
 	private List<Crops> listCrops;
 	private List<Plot> listPlotsAsocciates;
 	private List<SelectItem> options;
-	private List<SelectItem> selectYear;
+	private List<Integer> selectYear;
 	private Paginador pagination = new Paginador();
 	private String nameSearch;
-	private String year;
+	private int year;
 	private int nameCrop;
 
 	/**
@@ -175,7 +175,7 @@ public class CropsAction implements Serializable {
 	/**
 	 * @return year: year to validate the crop records.
 	 */
-	public String getYear() {
+	public int getYear() {
 		return year;
 	}
 
@@ -184,7 +184,7 @@ public class CropsAction implements Serializable {
 	 *            : year to validate the crop records.
 	 * 
 	 */
-	public void setYear(String year) {
+	public void setYear(int year) {
 		this.year = year;
 	}
 
@@ -207,7 +207,7 @@ public class CropsAction implements Serializable {
 	/**
 	 * @return selectYear: list where you load the years from 2000.
 	 */
-	public List<SelectItem> getSelectYear() {
+	public List<Integer> getSelectYear() {
 		return selectYear;
 	}
 
@@ -215,7 +215,7 @@ public class CropsAction implements Serializable {
 	 * @param selectYear
 	 *            : list where you load the years from 2000.
 	 */
-	public void setSelectYear(List<SelectItem> selectYear) {
+	public void setSelectYear(List<Integer> selectYear) {
 		this.selectYear = selectYear;
 	}
 
@@ -345,6 +345,7 @@ public class CropsAction implements Serializable {
 	 * Method to edit or create a new crop.
 	 * 
 	 * @modify 03/06/2015 Sergio.Ortiz
+	 * @modify 06/05/2016 Wilhelm.Boada
 	 * 
 	 * @param crops
 	 *            :crop to be add or edit.
@@ -355,7 +356,7 @@ public class CropsAction implements Serializable {
 	public String addEditCrops(Crops crops) {
 		try {
 			listCropNames();
-			selectYear();
+			selectYear = ControladorFechas.loadYears();
 			if (crops != null) {
 				this.crops = crops;
 				plotsAssociates(this.crops);
@@ -363,16 +364,15 @@ public class CropsAction implements Serializable {
 				if (date != null) {
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(date);
-					int year = cal.get(Calendar.YEAR);
-					setYear(String.valueOf(year));
+					year = cal.get(Calendar.YEAR);
 				} else {
-					setYear("");
+					year = 0;
 				}
 			} else {
 				this.crops = new Crops();
 				this.crops.setCropNames(new CropNames());
 				this.listPlotsAsocciates = new ArrayList<Plot>();
-				setYear("");
+				year = 0;
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -384,6 +384,7 @@ public class CropsAction implements Serializable {
 	 * Method used to save or edit crops.
 	 * 
 	 * @modify 25/05/2015 Sergio.Ortiz
+	 * @modify 06/05/2016 Wilhelm.Boada
 	 * 
 	 * @return consultCrops: Redirects to manage crops with the list of crops
 	 *         updated.
@@ -392,12 +393,11 @@ public class CropsAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageLog = "message_registro_modificar";
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy");
-		String dateString = getYear();
 		Date dateConverted = null;
 		try {
-			if ((dateString != null) && (!"".equals(dateString))) {
+			if (year != 0) {
 				try {
-					dateConverted = formatter.parse(dateString);
+					dateConverted = formatter.parse(String.valueOf(year));
 				} catch (ParseException ex) {
 					dateConverted = null;
 				}
@@ -531,6 +531,7 @@ public class CropsAction implements Serializable {
 	 * 
 	 * @author Sergio.Ortiz
 	 * @modify 24/06/2015 Gerardo.Herrera
+	 * @modify 06/05/2016 Wilhelm.Boada
 	 * 
 	 */
 	public void requiredOk() {
@@ -544,7 +545,7 @@ public class CropsAction implements Serializable {
 		if (crops.getFinalDate() == null || "".equals(crops.getFinalDate())) {
 			ControladorContexto.mensajeRequeridos("formCrops:fechFin");
 		}
-		if (this.year == null || "".equals(this.year)) {
+		if (this.year == 0) {
 			ControladorContexto.mensajeRequeridos("formCrops:cropAnyo");
 		}
 		if (crops.getDescription() == null || "".equals(crops.getDescription())) {
@@ -600,21 +601,6 @@ public class CropsAction implements Serializable {
 				this.listPlotsAsocciates.remove(plotRemove);
 				break;
 			}
-		}
-	}
-
-	/**
-	 * Method to load the years from 2000 through the current year.
-	 * 
-	 * @author Sergio.Ortiz
-	 */
-	private void selectYear() {
-		Calendar year = new GregorianCalendar();
-		selectYear = new ArrayList<SelectItem>();
-		int dateYear = year.get(Calendar.YEAR);
-		for (int i = Constantes.INITIAL_YEAR; i <= dateYear; i++) {
-			String date = "" + i;
-			selectYear.add(new SelectItem(i, date));
 		}
 	}
 
