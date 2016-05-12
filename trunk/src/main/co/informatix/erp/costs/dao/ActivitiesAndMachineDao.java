@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import co.informatix.erp.costs.entities.ActivityMachine;
-import co.informatix.erp.costs.entities.ActivityMachinePK;
 
 /**
  * DAO class that establishes the connection between business logic and data
