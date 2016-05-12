@@ -16,23 +16,23 @@
 							styleClass="ocultar" />
 						<h:selectOneMenu value="#{sesionEmpresa.id}" styleClass="ocultar"
 							onchange="document.getElementById('formBotonesGraficosEmp:buttonCargar').click()">
-							<f:selectItems value="#{sesionEmpresa.itemsEmpresas}" />
+							<f:selectItems value="#{sesionEmpresa.itemsCompanies}" />
 						</h:selectOneMenu>
 
 						<h:outputText value="#{messageOrganizations.farm_label}: "
 							styleClass="ocultar" />
-						<h:selectOneMenu value="#{sesionEmpresa.idHacienda}"
+						<h:selectOneMenu value="#{sesionEmpresa.idFarm}"
 							styleClass="ocultar"
 							onchange="document.getElementById('formBotonesGraficosEmp:buttonAsignar').click()">
-							<f:selectItems value="#{sesionEmpresa.itemsHaciendas}" />
+							<f:selectItems value="#{sesionEmpresa.itemsFarms}" />
 						</h:selectOneMenu>
 
 						<h:commandButton id="buttonCargar" styleClass="ocultar"
 							onclick="#{rich:component('statPane')}.show();"
-							action="#{sesionEmpresa.cargarComboHaciendasSesion('0')}" />
+							action="#{sesionEmpresa.loadComboFarmsSession('0')}" />
 						<h:commandButton id="buttonAsignar" styleClass="ocultar"
 							onclick="#{rich:component('statPane')}.show();"
-							action="#{sesionEmpresa.asignarEmpresaHacienda()}" />
+							action="#{sesionEmpresa.assignCompanyFarm()}" />
 					</a:outputPanel>
 				</h:form>
 			</rich:toolbarGroup>

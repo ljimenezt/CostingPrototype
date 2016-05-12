@@ -1061,7 +1061,7 @@ public class UsuarioAction implements Serializable {
 			user.setPassword(newPassword);
 			user.setUserName(identity.getUserName());
 			usuarioDao.editUser(user);
-			empresaHaciendaSesion.limpiarEmpresaSesion();
+			empresaHaciendaSesion.cleanCompanySession();
 			identity.logout(true);
 			String format = MessageFormat.format(bundleSecurity
 					.getString("user_message_password_change_successful"), user

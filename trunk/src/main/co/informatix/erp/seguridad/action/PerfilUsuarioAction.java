@@ -275,7 +275,7 @@ public class PerfilUsuarioAction implements Serializable {
 				}
 				permisoPersonaEmpresa.setUserName(identity.getUserName());
 				permisoPersonaEmpresa.setPredeterminado(true);
-				permisoPersonaEmpresaAction.validarNulos(permisoPersonaEmpresa);
+				permisoPersonaEmpresaAction.nullValidate(permisoPersonaEmpresa);
 				permisoPersonaEmpresaDao
 						.modificarPermisoPersonaEmpresa(permisoPersonaEmpresa);
 				this.userTransaction.commit();
