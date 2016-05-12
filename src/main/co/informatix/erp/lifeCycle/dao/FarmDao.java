@@ -1,6 +1,7 @@
 package co.informatix.erp.lifeCycle.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -203,5 +204,35 @@ public class FarmDao implements Serializable {
 	 */
 	public Farm farmXId(int farmId) throws Exception {
 		return em.find(Farm.class, farmId);
+	}
+
+	/**
+	 * Method that allows check the properties of a company with access
+	 * permissions a person has on the system.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idCompany
+	 *            : company id in session.
+	 * @param idPersonSession
+	 *            : identifier of the person in session at which it is consulted
+	 *            by the farms that have permission to access.
+	 * @return List of farms to which the company has access.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Farm> consultFarmsWithPermissionAccessCompany(int idCompany,
+			int idPersonSession) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT DISTINCT ppe.farm FROM PermisoPersonaEmpresa ppe ");
+		query.append("WHERE ppe.empresa.id=:idCompany ");
+		query.append("AND ppe.persona.id = :idPersonSession ");
+		query.append("AND (ppe.fechaFinVigencia IS NULL ");
+		query.append("OR ppe.fechaFinVigencia >= :actualDate) ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idCompany", idCompany);
+		q.setParameter("idPersonSession", idPersonSession);
+		q.setParameter("actualDate", new Date());
+		return q.getResultList();
 	}
 }

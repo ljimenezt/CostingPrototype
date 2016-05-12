@@ -7,7 +7,7 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:a="http://richfaces.org/a4j"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="permisoPersonaEmpresaAction.inicializarBusqueda()" />
+		value="permisoPersonaEmpresaAction.initializeSearch()" />
 	<ui:param name="titulo"
 		value="messageSecurity.person_permission_company_label_associate" />
 	<ui:define name="body">
@@ -49,10 +49,10 @@
 								value="#{mensaje.label_identification} / #{mensaje.label_name}: "
 								styleClass="etiquetaTitulo" />
 							<h:inputText id="txtBuscarEmpresa"
-								value="#{permisoPersonaEmpresaAction.empresaBuscar}" />
+								value="#{permisoPersonaEmpresaAction.searchCompany}" />
 							<a:commandButton value="#{mensaje.button_search}"
 								execute="empresas" render="empresas, mensajes"
-								actionListener="#{permisoPersonaEmpresaAction.buscarEmpresas()}" />
+								actionListener="#{permisoPersonaEmpresaAction.searchCompanies()}" />
 						</h:panelGrid>
 						<rich:extendedDataTable
 							value="#{permisoPersonaEmpresaAction.empresas}" var="empresa"
@@ -64,8 +64,8 @@
 							<rich:column width="30px" styleClass="center top">
 								<a:commandLink
 									render=":popupForm:popUpPermisosAEmpresa, mensajes"
-									actionListener="#{permisoPersonaEmpresaAction.setEmpresaSeleccionada(empresa)}"
-									action="#{permisoPersonaEmpresaAction.controladorListaPermisos('newPermiso', null)}"
+									actionListener="#{permisoPersonaEmpresaAction.setSelectedCompany(empresa)}"
+									action="#{permisoPersonaEmpresaAction.controllerListPermission('newPermiso', null)}"
 									oncomplete="#{rich:component('popUpPermisosAEmpresa')}.show()">
 									<h:graphicImage value="/img/add_16.png" />
 									<rich:tooltip layout="block">
@@ -100,7 +100,7 @@
 					<a:outputPanel id="extDTPermisoPersonaEmpresa">
 						<rich:message for="extDTPermisoPersonaEmpresa" />
 						<rich:extendedDataTable
-							value="#{permisoPersonaEmpresaAction.listaPermisoPersonaEmpresaTemp}"
+							value="#{permisoPersonaEmpresaAction.listPermisoPersonaEmpresaTemp}"
 							var="permisoPersonaEmpresa" id="permisoPersonaEmpresaSelect"
 							styleClass="H190P W900P">
 							<f:facet name="header">
@@ -126,7 +126,7 @@
 							</rich:column>
 							<rich:column styleClass="top" width="250px">
 								<f:facet name="header">#{messageOrganizations.farm_label}</f:facet>
-								<h:outputText value="#{permisoPersonaEmpresa.hacienda.nombre}" />
+								<h:outputText value="#{permisoPersonaEmpresa.farm.name}" />
 							</rich:column>
 							<rich:column styleClass="center top" width="150px">
 								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
@@ -149,7 +149,7 @@
 				<br />
 				<div class="center inBlock W100Per">
 					<a:commandButton value="#{mensaje.button_save}"
-						actionListener="#{permisoPersonaEmpresaAction.validarPermisosEmpresasSeleccionado()}"
+						actionListener="#{permisoPersonaEmpresaAction.validatePermissionCompaniesSelected()}"
 						render="formGenerico,popupConfirmar"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupConfirmar')}.show();}
 						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
@@ -177,12 +177,12 @@
 					<h:outputText value="#{messageOrganizations.farm_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
-					<h:selectOneMenu value="#{permisoPersonaEmpresaAction.idHacienda}"
+					<h:selectOneMenu value="#{permisoPersonaEmpresaAction.idFarm}"
 						id="cmbHacienda" required="true"
 						label="#{messageOrganizations.farm_label}">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
 						<f:selectItems
-							value="#{permisoPersonaEmpresaAction.itemsHaciendasEmpresa}" />
+							value="#{permisoPersonaEmpresaAction.itemsFarmsCompany}" />
 					</h:selectOneMenu>
 
 					<h:outputText value="#{mensaje.label_start_date}"
@@ -206,7 +206,7 @@
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_accept}"
-						actionListener="#{permisoPersonaEmpresaAction.controladorListaPermisos('addPermiso', null)}"
+						actionListener="#{permisoPersonaEmpresaAction.controllerListPermission('addPermiso', null)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpPermisosAEmpresa')}.hide();}"
 						render=":frmAsociarPermisos:empresas, :frmAsociarPermisos:extDTPermisoPersonaEmpresa, mensajes" />
 					<h:commandButton value="#{mensaje.button_cancel}">
@@ -244,11 +244,11 @@
 						<h:outputText value="#{messageOrganizations.farm_label}:"
 							styleClass="etiquetaTitulo" />
 						<h:outputText
-							value="#{permisoPersonaEmpresaAction.permisoPersonaEmpresa.hacienda.nombre}" />
+							value="#{permisoPersonaEmpresaAction.permisoPersonaEmpresa.farm.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}" execute="@this"
-							actionListener="#{permisoPersonaEmpresaAction.controladorListaPermisos('borrar', permisoPersonaEmpresaAction.permisoPersonaEmpresa)}"
+							actionListener="#{permisoPersonaEmpresaAction.controllerListPermission('borrar', permisoPersonaEmpresaAction.permisoPersonaEmpresa)}"
 							onclick="#{rich:component('popupValidarQuitar')}.hide()"
 							render=":frmAsociarPermisos:empresas, :frmAsociarPermisos:extDTPermisoPersonaEmpresa, mensajes" />
 						<a:commandButton value="#{mensaje.button_cancel}" execute="@this"
@@ -279,7 +279,7 @@
 					</ui:define>
 					<ui:define name="tabla">
 						<rich:extendedDataTable
-							value="#{permisoPersonaEmpresaAction.listaPermisoPersonaEmpresaTemp}"
+							value="#{permisoPersonaEmpresaAction.listPermisoPersonaEmpresaTemp}"
 							var="permisoPersonaEmpTemp" id="tablaConfirm" styleClass="H130P">
 							<rich:column width="300px">
 								<f:facet name="header">
@@ -291,13 +291,13 @@
 								<f:facet name="header">
 									<h:outputText value="#{messageOrganizations.farm_label}" />
 								</f:facet>
-								<h:outputText value="#{permisoPersonaEmpTemp.hacienda.nombre}" />
+								<h:outputText value="#{permisoPersonaEmpTemp.farm.name}" />
 							</rich:column>
 						</rich:extendedDataTable>
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{permisoPersonaEmpresaAction.guardarPermisoPersonaEmpresa}"
+							action="#{permisoPersonaEmpresaAction.savePermissionPersonCompany}"
 							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 
 						<a:commandButton value="#{mensaje.button_cancel}"

@@ -15,8 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizaciones.entities.Empresa;
-import co.informatix.erp.organizaciones.entities.Hacienda;
 import co.informatix.erp.organizaciones.entities.Sucursal;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 
@@ -43,7 +43,7 @@ public class PermisoPersonaEmpresa implements Serializable {
 	private Empresa empresa;
 	private Persona persona;
 	private Sucursal sucursal;
-	private Hacienda hacienda;
+	private Farm farm;
 
 	/**
 	 * @return id: identifier permit for the person in the company.
@@ -206,22 +206,22 @@ public class PermisoPersonaEmpresa implements Serializable {
 	}
 
 	/**
-	 * @return hacienda: farm to which the person has permission to view the
+	 * @return farm: farm to which the person has permission to view the
 	 *         information.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_hacienda", referencedColumnName = "id", nullable = false)
-	public Hacienda getHacienda() {
-		return hacienda;
+	@JoinColumn(name = "id_farm", referencedColumnName = "idfarm", nullable = false)
+	public Farm getFarm() {
+		return farm;
 	}
 
 	/**
-	 * @param hacienda
+	 * @param farm
 	 *            : farm to which the person has permission to view the
 	 *            information.
 	 */
-	public void setHacienda(Hacienda hacienda) {
-		this.hacienda = hacienda;
+	public void setFarm(Farm farm) {
+		this.farm = farm;
 	}
 
 	@Override

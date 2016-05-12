@@ -10,8 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizaciones.entities.Empresa;
-import co.informatix.erp.organizaciones.entities.Hacienda;
 import co.informatix.erp.organizaciones.entities.Sucursal;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
@@ -117,6 +117,8 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	 * Method that allows consulting information in the relationships you have
 	 * the permiso_persona_empresa the table.
 	 * 
+	 * @modify 04/05/2016 Wilhelm.Boada
+	 * 
 	 * @param permisoPersonaEmpresa
 	 *            : covered by the permit of the person in the company.
 	 * @return permisoPersonaEmpresa: The found object information detail to
@@ -132,8 +134,8 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 				Constantes.PERSONA, id);
 		Sucursal sucursal = (Sucursal) consultarObjetoPermisoPersonaEmpresa(
 				Constantes.SUCURSAL, id);
-		Hacienda hacienda = (Hacienda) consultarObjetoPermisoPersonaEmpresa(
-				Constantes.HACIENDA, id);
+		Farm farm = (Farm) consultarObjetoPermisoPersonaEmpresa(
+				Constantes.Farm, id);
 		permisoPersonaEmpresa.setEmpresa(empresa);
 		permisoPersonaEmpresa.setPersona(persona);
 		if (sucursal != null) {
@@ -141,10 +143,10 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 		} else {
 			permisoPersonaEmpresa.setSucursal(new Sucursal());
 		}
-		if (hacienda != null) {
-			permisoPersonaEmpresa.setHacienda(hacienda);
+		if (farm != null) {
+			permisoPersonaEmpresa.setFarm(farm);
 		} else {
-			permisoPersonaEmpresa.setHacienda(new Hacienda());
+			permisoPersonaEmpresa.setFarm(new Farm());
 		}
 		return permisoPersonaEmpresa;
 	}
@@ -235,31 +237,33 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	 * Method that checks whether a farm is the default in the company to the
 	 * permissions of a user.
 	 * 
-	 * @param idPersona
+	 * @modify 04/05/2016 Wilhelm.Boada
+	 * 
+	 * @param idPerson
 	 *            : ID of the person to verify
-	 * @param idEmpresa
+	 * @param idCompany
 	 *            : Company ID to verify
-	 * @param idHacienda
+	 * @param idFarm
 	 *            : ID to verify the farm
 	 * @return True if the property is predetermined, False otherwise.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean haciendaPredeterminada(int idPersona, int idEmpresa,
-			int idHacienda) throws Exception {
+	public boolean haciendaPredeterminada(int idPerson, int idCompany,
+			int idFarm) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ppe.empresa FROM PermisoPersonaEmpresa ppe ");
-		query.append("WHERE ppe.persona.id=:idPersona ");
-		query.append("AND  ppe.empresa.id = :idEmpresa ");
-		query.append("AND  ppe.hacienda.id = :idHacienda ");
+		query.append("WHERE ppe.persona.id=:idPerson ");
+		query.append("AND  ppe.empresa.id = :idCompany ");
+		query.append("AND  ppe.farm.idFarm = :idFarm ");
 		query.append("AND  ppe.predeterminado IS TRUE ");
 		query.append("AND (ppe.fechaFinVigencia IS NULL ");
-		query.append("OR ppe.fechaFinVigencia >= :fechaActual) ");
+		query.append("OR ppe.fechaFinVigencia >= :currentDate) ");
 		Query q = em.createQuery(query.toString());
-		q.setParameter("idPersona", idPersona);
-		q.setParameter("idHacienda", idHacienda);
-		q.setParameter("idEmpresa", idEmpresa);
-		q.setParameter("fechaActual", new Date());
+		q.setParameter("idPerson", idPerson);
+		q.setParameter("idFarm", idFarm);
+		q.setParameter("idCompany", idCompany);
+		q.setParameter("currentDate", new Date());
 		List<Empresa> empresas = q.getResultList();
 		if (empresas != null && empresas.size() > 0) {
 			return true;

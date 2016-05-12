@@ -13,10 +13,10 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 
+import co.informatix.erp.lifeCycle.dao.FarmDao;
+import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizaciones.dao.EmpresaDao;
-import co.informatix.erp.organizaciones.dao.HaciendaDao;
 import co.informatix.erp.organizaciones.entities.Empresa;
-import co.informatix.erp.organizaciones.entities.Hacienda;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.seguridad.dao.PermisoPersonaEmpresaDao;
 import co.informatix.erp.seguridad.dao.UsuarioDao;
@@ -39,14 +39,14 @@ import co.informatix.erp.utils.ControladorContexto;
 @SessionScoped
 public class SesionEmpresaAction implements Serializable {
 
-	private List<SelectItem> itemsEmpresas;
-	private List<SelectItem> itemsHaciendas;
-	protected String nombre;
-	protected String nombreHacienda;
-	private String cargar;
+	private List<SelectItem> itemsCompanies;
+	private List<SelectItem> itemsFarms;
+	protected String name;
+	protected String nameFarm;
+	private String load;
 	protected int id;
-	protected int idHacienda;
-	protected int idPersonaSesion;
+	protected int idFarm;
+	protected int idPersonSession;
 
 	@EJB
 	protected EmpresaDao empresaDao;
@@ -55,7 +55,7 @@ public class SesionEmpresaAction implements Serializable {
 	@EJB
 	private UsuarioDao usuarioDao;
 	@EJB
-	private HaciendaDao haciendaDao;
+	private FarmDao farmDao;
 	@EJB
 	private PermisoPersonaEmpresaDao permisoPersonaEmpresaDao;
 
@@ -80,73 +80,73 @@ public class SesionEmpresaAction implements Serializable {
 
 	/**
 	 * 
-	 * @return nombre: Returns the name of the company in session at which it
+	 * @return name: Returns the name of the company in session at which it
 	 *         makes the management of information in the system.
 	 */
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * @param nombre
+	 * @param name
 	 *            : Returns the name of the company in session at which it makes
 	 *            the management of information in the system.
 	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
 	 * Returns the list of companies to which the user may manage the
 	 * information.
 	 * 
-	 * @return itemsEmpresas: items of the companies with access permissions,
+	 * @return itemsCompanies: items of the companies with access permissions,
 	 *         which are displayed in the combo in the user interface.
 	 */
-	public List<SelectItem> getItemsEmpresas() {
-		return itemsEmpresas;
+	public List<SelectItem> getItemsCompanies() {
+		return itemsCompanies;
 	}
 
 	/**
-	 * @return itemsHaciendas: items farms with access permissions, which are
+	 * @return itemsFarms: items farms with access permissions, which are
 	 *         displayed in the combo in the user interface.
 	 */
-	public List<SelectItem> getItemsHaciendas() {
-		return itemsHaciendas;
+	public List<SelectItem> getItemsFarms() {
+		return itemsFarms;
 	}
 
 	/**
-	 * @return idHacienda: id farm in session at which the information system is
+	 * @return idFarm: id farm in session at which the information system is
 	 *         loaded.
 	 */
-	public int getIdHacienda() {
-		return idHacienda;
+	public int getIdFarm() {
+		return idFarm;
 	}
 
 	/**
-	 * @param idHacienda
+	 * @param idFarm
 	 *            : id farm in session at which the information system is
 	 *            loaded.
 	 */
-	public void setIdHacienda(int idHacienda) {
-		this.idHacienda = idHacienda;
+	public void setIdFarm(int idFarm) {
+		this.idFarm = idFarm;
 	}
 
 	/**
-	 * @return nombreHacienda: the name of the farm in session at which it will
-	 *         load your information.
+	 * @return nameFarm: the name of the farm in session at which it will load
+	 *         your information.
 	 */
-	public String getNombreHacienda() {
-		return nombreHacienda;
+	public String getNameFarm() {
+		return nameFarm;
 	}
 
 	/**
-	 * @param nombreHacienda
+	 * @param nameFarm
 	 *            : the name of the farm in session at which it will load your
 	 *            information.
 	 */
-	public void setNombreHacienda(String nombreHacienda) {
-		this.nombreHacienda = nombreHacienda;
+	public void setNameFarm(String nameFarm) {
+		this.nameFarm = nameFarm;
 	}
 
 	/**
@@ -155,53 +155,53 @@ public class SesionEmpresaAction implements Serializable {
 	 * 
 	 * @author Fredy.Vera
 	 * 
-	 * @return cargar: Variable required to execute the method of consulting the
+	 * @return load: Variable required to execute the method of consulting the
 	 *         user companies.
 	 */
-	public String getCargar() {
-		return cargar;
+	public String getLoad() {
+		return load;
 	}
 
 	/**
 	 * Method to load the combo of the estates leaving a default session.
 	 * 
 	 * @author marisol.calderon
+	 * @modify 04/05/2016 Wilhelm.Boada
 	 * 
-	 * @param idEmpresa
+	 * @param idCompany
 	 *            : company id to load the farms.
 	 * 
-	 * @return asignarEmpresaHacienda: method that assigns the company and the
-	 *         farm in session and returns to the starting template or home
-	 *         system.
+	 * @return assignCompanyFarm: method that assigns the company and the farm
+	 *         in session and returns to the starting template or home system.
 	 */
-	public String cargarComboHaciendasSesion(int idEmpresa) {
+	public String loadComboFarmsSession(int idCompany) {
 		try {
-			itemsHaciendas = new ArrayList<SelectItem>();
-			if (idEmpresa == 0) {
-				idEmpresa = this.id;
+			itemsFarms = new ArrayList<SelectItem>();
+			if (idCompany == 0) {
+				idCompany = this.id;
 			}
-			List<Hacienda> haciendasEmpresa = haciendaDao
-					.consultarHaciendasConPermisosAccesoEmpresa(idEmpresa,
-							this.idPersonaSesion);
-			if (haciendasEmpresa != null && haciendasEmpresa.size() > 0) {
-				Collections.sort(haciendasEmpresa);
-				for (Hacienda hacienda : haciendasEmpresa) {
-					itemsHaciendas.add(new SelectItem(hacienda.getId(),
-							hacienda.getNombre()));
-					this.idHacienda = hacienda.getId();
-					this.nombreHacienda = hacienda.getNombre();
+			List<Farm> farmsCompany = farmDao
+					.consultFarmsWithPermissionAccessCompany(idCompany,
+							this.idPersonSession);
+			if (farmsCompany != null && farmsCompany.size() > 0) {
+				Collections.sort(farmsCompany);
+				for (Farm farm : farmsCompany) {
+					itemsFarms.add(new SelectItem(farm.getIdFarm(), farm
+							.getName()));
+					this.idFarm = farm.getIdFarm();
+					this.nameFarm = farm.getName();
 				}
-				if (haciendasEmpresa.size() == 1) {
-					this.idHacienda = haciendasEmpresa.get(0).getId();
-					this.nombreHacienda = haciendasEmpresa.get(0).getNombre();
+				if (farmsCompany.size() == 1) {
+					this.idFarm = farmsCompany.get(0).getIdFarm();
+					this.nameFarm = farmsCompany.get(0).getName();
 				} else {
-					for (Hacienda hacienda : haciendasEmpresa) {
-						boolean haciendaPredeterminada = permisoPersonaEmpresaDao
-								.haciendaPredeterminada(idPersonaSesion, id,
-										hacienda.getId());
-						if (haciendaPredeterminada) {
-							this.idHacienda = hacienda.getId();
-							this.nombreHacienda = hacienda.getNombre();
+					for (Farm farm : farmsCompany) {
+						boolean defaultFarm = permisoPersonaEmpresaDao
+								.haciendaPredeterminada(idPersonSession, id,
+										farm.getIdFarm());
+						if (defaultFarm) {
+							this.idFarm = farm.getIdFarm();
+							this.nameFarm = farm.getName();
 							break;
 						}
 					}
@@ -210,7 +210,7 @@ public class SesionEmpresaAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return asignarEmpresaHacienda();
+		return assignCompanyFarm();
 	}
 
 	/**
@@ -218,23 +218,25 @@ public class SesionEmpresaAction implements Serializable {
 	 * manage their information.
 	 * 
 	 * @author marisol.calderon
+	 * @modify 04/05/2016 Wilhelm.Boada
+	 * 
 	 * @return urlHome: variable redirect navigation allowing the startup
 	 *         screen.
 	 */
-	public String asignarEmpresaHacienda() {
+	public String assignCompanyFarm() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
 			Empresa empresa = empresaDao.obtenerEmpresa(this.id);
-			Hacienda hacienda = haciendaDao.consultarHacienda(this.idHacienda);
-			if (empresa != null && hacienda != null) {
-				this.nombre = empresa.getNombre();
-				this.nombreHacienda = hacienda.getNombre();
+			Farm farm = farmDao.farmXId(this.idFarm);
+			if (empresa != null && farm != null) {
+				this.name = empresa.getNombre();
+				this.nameFarm = farm.getName();
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle
 								.getString("message_cambio_empresa_hacienda"),
-								this.nombre, this.nombreHacienda));
+								this.name, this.nameFarm));
 			} else {
-				limpiarEmpresaSesion();
+				cleanCompanySession();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -245,14 +247,14 @@ public class SesionEmpresaAction implements Serializable {
 	/**
 	 * Cleaning method that allows the company variables in session.
 	 */
-	public void limpiarEmpresaSesion() {
-		this.itemsEmpresas = new ArrayList<SelectItem>();
-		this.itemsHaciendas = new ArrayList<SelectItem>();
-		this.nombre = "";
+	public void cleanCompanySession() {
+		this.itemsCompanies = new ArrayList<SelectItem>();
+		this.itemsFarms = new ArrayList<SelectItem>();
+		this.name = "";
 		this.id = 0;
-		this.idHacienda = 0;
-		this.idPersonaSesion = 0;
-		this.nombreHacienda = "";
+		this.idFarm = 0;
+		this.idPersonSession = 0;
+		this.nameFarm = "";
 	}
 
 	/**

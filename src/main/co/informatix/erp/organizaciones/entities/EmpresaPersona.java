@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.recursosHumanos.entities.TipoCargo;
 
@@ -39,7 +40,7 @@ public class EmpresaPersona implements Serializable {
 
 	private Persona persona;
 	private Empresa empresa;
-	private Hacienda hacienda;
+	private Farm farm;
 	private TipoCargo tipoCargo;
 
 	/**
@@ -185,24 +186,24 @@ public class EmpresaPersona implements Serializable {
 	}
 
 	/**
-	 * @return hacienda: ID of the farm if you work exclusively on a farm,
-	 *         whether it is null is because not directly working on the farm
-	 *         but for the company.
+	 * @return farm: ID of the farm if you work exclusively on a farm, whether
+	 *         it is null is because not directly working on the farm but for
+	 *         the company.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_farm", referencedColumnName = "id", nullable = true)
-	public Hacienda getHacienda() {
-		return hacienda;
+	@JoinColumn(name = "id_farm", referencedColumnName = "idfarm", nullable = true)
+	public Farm getFarm() {
+		return farm;
 	}
 
 	/**
-	 * @param hacienda
+	 * @param farm
 	 *            :ID of the farm if you work exclusively on a farm, whether it
 	 *            is null is because not directly working on the farm but for
 	 *            the company.
 	 */
-	public void setHacienda(Hacienda hacienda) {
-		this.hacienda = hacienda;
+	public void setFarm(Farm farm) {
+		this.farm = farm;
 	}
 
 	/**

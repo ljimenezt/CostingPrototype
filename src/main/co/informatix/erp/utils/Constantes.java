@@ -306,6 +306,7 @@ public class Constantes implements Serializable {
 	public static final String PERSONA = "persona";
 	public static final String SUCURSAL = "sucursal";
 	public static final String HACIENDA = "hacienda";
+	public static final String Farm = "farm";
 	public static final String MEASUREMENTUNITS = "measurementUnits";
 
 	/* Permits */

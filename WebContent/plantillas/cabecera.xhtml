@@ -23,7 +23,7 @@
 			<rich:toolbarGroup location="right">
 				<h:form rendered="#{autenticado}">
 					<h:commandLink onclick="#{rich:component('statPane')}.show();"
-						actionListener="#{sesionEmpresa.limpiarEmpresaSesion()}"
+						actionListener="#{sesionEmpresa.cleanCompanySession()}"
 						action="#{identity.logout(true)}"
 						styleClass="linkGrapButtons colorBlanco">
 						<h:panelGrid styleClass="tablaIconoTextoHeader" columns="2">

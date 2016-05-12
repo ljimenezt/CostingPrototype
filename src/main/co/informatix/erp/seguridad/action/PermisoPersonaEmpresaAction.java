@@ -15,12 +15,12 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
+import co.informatix.erp.lifeCycle.dao.FarmDao;
+import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizaciones.action.EmpresaAction;
 import co.informatix.erp.organizaciones.dao.EmpresaDao;
-import co.informatix.erp.organizaciones.dao.HaciendaDao;
 import co.informatix.erp.organizaciones.dao.SucursalDao;
 import co.informatix.erp.organizaciones.entities.Empresa;
-import co.informatix.erp.organizaciones.entities.Hacienda;
 import co.informatix.erp.organizaciones.entities.Sucursal;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.dao.PermisoPersonaEmpresaDao;
@@ -53,7 +53,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	@EJB
 	private SucursalDao sucursalDao;
 	@EJB
-	private HaciendaDao haciendaDao;
+	private FarmDao farmDao;
 
 	@Inject
 	private IdentityAction identity;
@@ -63,24 +63,24 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	private Paginador pagination = new Paginador();
 	private PermisoPersonaEmpresa permisoPersonaEmpresa;
 	private Persona persona;
-	private Empresa empresaSeleccionada;
+	private Empresa selectedCompany;
 
-	private List<PermisoPersonaEmpresa> listaPermisoPersonaEmpresa;
-	private List<PermisoPersonaEmpresa> listaPermisoPersonaEmpresaTemp;
+	private List<PermisoPersonaEmpresa> listPermisoPersonaEmpresa;
+	private List<PermisoPersonaEmpresa> listPermisoPersonaEmpresaTemp;
 	private List<Empresa> empresas;
 
-	private List<SelectItem> itemsSucursalEmpresa;
-	private List<SelectItem> itemsHaciendasEmpresa;
-	private List<SelectItem> itemsSucursales;
-	private List<SelectItem> itemsHaciendas;
+	private List<SelectItem> itemsBranchOfficesCompany;
+	private List<SelectItem> itemsFarmsCompany;
+	private List<SelectItem> itemsBranchOffices;
+	private List<SelectItem> itemsFarms;
 
-	private String empresaBuscar;
-	private String empresaBuscarGestion;
-	private String vigencia = Constantes.SI;
-	private int idSucursal;
-	private int idHacienda;
-	private int idSucursalBuscar;
-	private int idHaciendaBuscar;
+	private String searchCompany;
+	private String searchCompanyManage;
+	private String validity = Constantes.SI;
+	private int idBranchOffice;
+	private int idFarm;
+	private int idSearchBranchOffice;
+	private int idFarmSearch;
 
 	/**
 	 * @return pagination: Object pager functions from the list of companies
@@ -100,35 +100,35 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	}
 
 	/**
-	 * @return listaPermisoPersonaEmpresa: list of companies to which the person
+	 * @return listPermisoPersonaEmpresa: list of companies to which the person
 	 *         has access.
 	 */
-	public List<PermisoPersonaEmpresa> getListaPermisoPersonaEmpresa() {
-		return listaPermisoPersonaEmpresa;
+	public List<PermisoPersonaEmpresa> getListPermisoPersonaEmpresa() {
+		return listPermisoPersonaEmpresa;
 	}
 
 	/**
-	 * @param listaPermisoPersonaEmpresa
+	 * @param listPermisoPersonaEmpresa
 	 *            : list of companies to which the person has access.
 	 */
-	public void setListaPermisoPersonaEmpresa(
-			List<PermisoPersonaEmpresa> listaPermisoPersonaEmpresa) {
-		this.listaPermisoPersonaEmpresa = listaPermisoPersonaEmpresa;
+	public void setListPermisoPersonaEmpresa(
+			List<PermisoPersonaEmpresa> listPermisoPersonaEmpresa) {
+		this.listPermisoPersonaEmpresa = listPermisoPersonaEmpresa;
 	}
 
 	/**
-	 * @return empresaBuscar: word by which companies want to search.
+	 * @return searchCompany: word by which companies want to search.
 	 */
-	public String getEmpresaBuscar() {
-		return empresaBuscar;
+	public String getSearchCompany() {
+		return searchCompany;
 	}
 
 	/**
-	 * @param empresaBuscar
+	 * @param searchCompany
 	 *            : word by which companies want to search.
 	 */
-	public void setEmpresaBuscar(String empresaBuscar) {
-		this.empresaBuscar = empresaBuscar;
+	public void setsearchCompany(String searchCompany) {
+		this.searchCompany = searchCompany;
 	}
 
 	/**
@@ -167,21 +167,21 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	}
 
 	/**
-	 * @return listaPermisoPersonaEmpresaTemp: Temporary list of the selected to
+	 * @return listPermisoPersonaEmpresaTemp: Temporary list of the selected to
 	 *         give businesses access to a person.
 	 */
-	public List<PermisoPersonaEmpresa> getListaPermisoPersonaEmpresaTemp() {
-		return listaPermisoPersonaEmpresaTemp;
+	public List<PermisoPersonaEmpresa> getListPermisoPersonaEmpresaTemp() {
+		return listPermisoPersonaEmpresaTemp;
 	}
 
 	/**
-	 * @param listaPermisoPersonaEmpresaTemp
+	 * @param listPermisoPersonaEmpresaTemp
 	 *            : Temporary list of the selected to give businesses access to
 	 *            a person.
 	 */
-	public void setListaPermisoPersonaEmpresaTemp(
-			List<PermisoPersonaEmpresa> listaPermisoPersonaEmpresaTemp) {
-		this.listaPermisoPersonaEmpresaTemp = listaPermisoPersonaEmpresaTemp;
+	public void setListPermisoPersonaEmpresaTemp(
+			List<PermisoPersonaEmpresa> listPermisoPersonaEmpresaTemp) {
+		this.listPermisoPersonaEmpresaTemp = listPermisoPersonaEmpresaTemp;
 	}
 
 	/**
@@ -203,166 +203,165 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	}
 
 	/**
-	 * @return itemsSucursalEmpresa: Items branch of the company that are shown
-	 *         in the combo of the user interface.
+	 * @return itemsBranchOfficesCompany: Items branch of the company that are
+	 *         shown in the combo of the user interface.
 	 */
-	public List<SelectItem> getItemsSucursalEmpresa() {
-		return itemsSucursalEmpresa;
+	public List<SelectItem> getItemsBranchOfficesCompany() {
+		return itemsBranchOfficesCompany;
 	}
 
 	/**
-	 * @return itemsHaciendasEmpresa: items from the farm of the company is
-	 *         selected to associate permissions to the person.
+	 * @return itemsFarmsCompany: items from the farm of the company is selected
+	 *         to associate permissions to the person.
 	 */
-	public List<SelectItem> getItemsHaciendasEmpresa() {
-		return itemsHaciendasEmpresa;
+	public List<SelectItem> getItemsFarmsCompany() {
+		return itemsFarmsCompany;
 	}
 
 	/**
-	 * @return itemsHaciendas: farms items shown in the search combo in the user
+	 * @return itemsFarms: farms items shown in the search combo in the user
 	 *         interface.
 	 */
-	public List<SelectItem> getItemsHaciendas() {
-		return itemsHaciendas;
+	public List<SelectItem> getItemsFarms() {
+		return itemsFarms;
 	}
 
 	/**
-	 * @return itemsSucursales: branch items shown in the search combo in the
+	 * @return itemsBranchOffices: branch items shown in the search combo in the
 	 *         user interface.
 	 */
-	public List<SelectItem> getItemsSucursales() {
-		return itemsSucursales;
+	public List<SelectItem> getItemsBranchOffices() {
+		return itemsBranchOffices;
 	}
 
 	/**
-	 * @return vigencia: allows gets the selected value 'yes' of existing and
+	 * @return validity: allows gets the selected value 'yes' of existing and
 	 *         'no' for not applicable
 	 */
-	public String getVigencia() {
-		return vigencia;
+	public String getValidity() {
+		return validity;
 	}
 
 	/**
-	 * @param vigencia
+	 * @param validity
 	 *            : allows gets the selected value 'yes' of existing and 'no'
 	 *            for not applicable
 	 */
-	public void setVigencia(String vigencia) {
-		this.vigencia = vigencia;
+	public void setValidity(String validity) {
+		this.validity = validity;
 	}
 
 	/**
-	 * @return empresaBuscarGestion: variable which the company seeks from
+	 * @return searchCompanyManage: variable which the company seeks from
 	 *         management of permits.
 	 */
-	public String getEmpresaBuscarGestion() {
-		return empresaBuscarGestion;
+	public String getSearchCompanyManage() {
+		return searchCompanyManage;
 	}
 
 	/**
-	 * @param empresaBuscarGestion
+	 * @param searchCompanyManage
 	 *            : variable which the company seeks from management of permits.
 	 */
-	public void setEmpresaBuscarGestion(String empresaBuscarGestion) {
-		this.empresaBuscarGestion = empresaBuscarGestion;
+	public void setSearchCompanyManage(String searchCompanyManage) {
+		this.searchCompanyManage = searchCompanyManage;
 	}
 
 	/**
-	 * @return idSucursal: id of the branch that selects the user permissions
-	 *         associated with the company.
+	 * @return idBranchOffice: id of the branch that selects the user
+	 *         permissions associated with the company.
 	 */
-	public int getIdSucursal() {
-		return idSucursal;
+	public int getIdBranchOffice() {
+		return idBranchOffice;
 	}
 
 	/**
-	 * @param idSucursal
+	 * @param idBranchOffice
 	 *            : id of the branch that selects the user permissions
 	 *            associated with the company.
 	 */
-	public void setIdSucursal(int idSucursal) {
-		this.idSucursal = idSucursal;
+	public void setIdBranchOffice(int idBranchOffice) {
+		this.idBranchOffice = idBranchOffice;
 	}
 
 	/**
-	 * @return idHacienda: id of the farm that selects the user permissions to
+	 * @return idFarm: id of the farm that selects the user permissions to
 	 *         associate with the company.
 	 */
-	public int getIdHacienda() {
-		return idHacienda;
+	public int getIdFarm() {
+		return idFarm;
 	}
 
 	/**
-	 * @param idHacienda
+	 * @param idFarm
 	 *            : id of the farm that selects the user permissions to
 	 *            associate with the company.
 	 */
-	public void setIdHacienda(int idHacienda) {
-		this.idHacienda = idHacienda;
+	public void setIdFarm(int idFarm) {
+		this.idFarm = idFarm;
 	}
 
 	/**
-	 * @return idSucursalBuscar: id of the branch in which the company wants to
-	 *         consult partnered with permissions to the person.
+	 * @return idSearchBranchOffice: id of the branch in which the company wants
+	 *         to consult partnered with permissions to the person.
 	 */
-	public int getIdSucursalBuscar() {
-		return idSucursalBuscar;
+	public int getIdSearchBranchOffice() {
+		return idSearchBranchOffice;
 	}
 
 	/**
-	 * @param idSucursalBuscar
+	 * @param idSearchBranchOffice
 	 *            : id of the branch in which the company wants to consult
 	 *            partnered with permissions to the person.
 	 */
-	public void setIdSucursalBuscar(int idSucursalBuscar) {
-		this.idSucursalBuscar = idSucursalBuscar;
+	public void setIdSearchBranchOffice(int idSearchBranchOffice) {
+		this.idSearchBranchOffice = idSearchBranchOffice;
 	}
 
 	/**
-	 * @return idHaciendaBuscar: id of the farm for which you want to consult
-	 *         the company that was associated with the individual permissions.
+	 * @return idFarmSearch: id of the farm for which you want to consult the
+	 *         company that was associated with the individual permissions.
 	 */
-	public int getIdHaciendaBuscar() {
-		return idHaciendaBuscar;
+	public int getIdFarmSearch() {
+		return idFarmSearch;
 	}
 
 	/**
-	 * @param idHaciendaBuscar
+	 * @param idFarmSearch
 	 *            : id of the farm for which you want to consult the company
 	 *            that was associated with the individual permissions.
 	 */
-	public void setIdHaciendaBuscar(int idHaciendaBuscar) {
-		this.idHaciendaBuscar = idHaciendaBuscar;
+	public void setIdFarmSearch(int idFarmSearch) {
+		this.idFarmSearch = idFarmSearch;
 	}
 
 	/**
-	 * @return empresaSeleccionada: company is selected to associate
-	 *         permissions.
+	 * @return selectedCompany: company is selected to associate permissions.
 	 */
-	public Empresa getEmpresaSeleccionada() {
-		return empresaSeleccionada;
+	public Empresa getSelectedCompany() {
+		return selectedCompany;
 	}
 
 	/**
-	 * @param empresaSeleccionada
+	 * @param selectedCompany
 	 *            : company is selected to associate permissions.
 	 */
-	public void setEmpresaSeleccionada(Empresa empresaSeleccionada) {
-		this.empresaSeleccionada = empresaSeleccionada;
+	public void setSelectedCompany(Empresa selectedCompany) {
+		this.selectedCompany = selectedCompany;
 	}
 
 	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of permissions person company.
 	 * 
-	 * @return consultarPermisoPersonaEmpresa: method consulting firms with
+	 * @return consultPermissionPersonCompany: method consulting firms with
 	 *         access rights of the person and load management template.
 	 */
-	public String inicializarBusqueda() {
-		this.empresaBuscarGestion = "";
-		this.idSucursalBuscar = 0;
-		this.idHaciendaBuscar = 0;
-		return consultarPermisoPersonaEmpresa();
+	public String initializeSearch() {
+		this.searchCompanyManage = "";
+		this.idSearchBranchOffice = 0;
+		this.idFarmSearch = 0;
+		return consultPermissionPersonCompany();
 	}
 
 	/**
@@ -371,54 +370,53 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * @return gesPermisoPersonaEmpresa: navigation rule load the template for
 	 *         managing access permissions per person.
 	 */
-	public String consultarPermisoPersonaEmpresa() {
+	public String consultPermissionPersonCompany() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSeguridad = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
-		listaPermisoPersonaEmpresa = new ArrayList<PermisoPersonaEmpresa>();
+		listPermisoPersonaEmpresa = new ArrayList<PermisoPersonaEmpresa>();
 		List<PermisoPersonaEmpresa> listPermisoPersonaEmpresaTemp = new ArrayList<PermisoPersonaEmpresa>();
-		List<SelectItem> parametros = new ArrayList<SelectItem>();
-		StringBuilder consulta = new StringBuilder();
-		StringBuilder unionMensajesBusqueda = new StringBuilder();
-		String mensajeBusqueda = "";
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
 		String panelId = "frmGestionarPermisosEmpresa:panelEmpresaPermiso";
 		try {
 			if (persona != null) {
-				busquedaAvanzada(consulta, parametros, bundle,
-						unionMensajesBusqueda);
+				advanceSearch(consult, parameters, bundle, unionMessagesSearch);
 				pagination.paginar(permisoPersonaEmpresaDao
-						.cantidadEmpresasAccesoPersona(consulta, parametros));
+						.cantidadEmpresasAccesoPersona(consult, parameters));
 				listPermisoPersonaEmpresaTemp = permisoPersonaEmpresaDao
-						.consultarEmpresasAccesoPersona(consulta, parametros,
+						.consultarEmpresasAccesoPersona(consult, parameters,
 								pagination.getInicio(), pagination.getRango());
 				if ((listPermisoPersonaEmpresaTemp == null || listPermisoPersonaEmpresaTemp
 						.size() <= 0)
-						&& !"".equals(unionMensajesBusqueda.toString())) {
-					mensajeBusqueda = MessageFormat
+						&& !"".equals(unionMessagesSearch.toString())) {
+					messageSearch = MessageFormat
 							.format(bundle
 									.getString("message_no_existen_registros_criterio_busqueda"),
-									unionMensajesBusqueda);
+									unionMessagesSearch);
 				} else if (listPermisoPersonaEmpresaTemp == null
 						|| listPermisoPersonaEmpresaTemp.size() <= 0) {
 					ControladorContexto.mensajeInformacion(panelId,
 							bundle.getString("message_no_existen_registros"));
-				} else if (!"".equals(unionMensajesBusqueda.toString())) {
-					mensajeBusqueda = MessageFormat
+				} else if (!"".equals(unionMessagesSearch.toString())) {
+					messageSearch = MessageFormat
 							.format(bundle
 									.getString("message_existen_registros_criterio_busqueda"),
-									bundleSeguridad
+									bundleSecurity
 											.getString("person_permission_company_label"),
-									unionMensajesBusqueda);
+									unionMessagesSearch);
 				}
-				if (!"".equals(mensajeBusqueda)) {
+				if (!"".equals(messageSearch)) {
 					ControladorContexto.mensajeInformacion(panelId,
-							mensajeBusqueda);
+							messageSearch);
 				}
-				detallesPermisoPersonaEmpresa(listPermisoPersonaEmpresaTemp);
-				cargarCombos();
+				detailsPermissionPersonCompany(listPermisoPersonaEmpresaTemp);
+				loadCombos();
 			} else {
 				ControladorContexto
-						.mensajeError(bundleSeguridad
+						.mensajeError(bundleSecurity
 								.getString("person_permission_company_message_validate_select_user"));
 			}
 		} catch (Exception e) {
@@ -432,6 +430,8 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
 	 * 
+	 * @modify 04/05/2016 Wilhelm.Boada
+	 * 
 	 * @param consult
 	 *            : query to concatenate
 	 * @param parameters
@@ -441,58 +441,59 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * @param unionMessagesSearch
 	 *            : message search
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advanceSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		ResourceBundle bundleOrg = ControladorContexto
 				.getBundle("messageOrganizations");
-		boolean seAgregoMens = false;
+		boolean messageAdd = false;
 		String comaEspacio = ", ";
 
-		consult.append("WHERE ppe.persona.id=:idPersona ");
-		SelectItem itemPer = new SelectItem(persona.getId(), "idPersona");
+		consult.append("WHERE ppe.persona.id=:idPerson ");
+		SelectItem itemPer = new SelectItem(persona.getId(), "idPerson");
 		parameters.add(itemPer);
 
-		if (Constantes.NOT.equals(vigencia)) {
+		if (Constantes.NOT.equals(validity)) {
 			consult.append("AND (ppe.fechaFinVigencia IS NOT NULL ");
-			consult.append("AND ppe.fechaFinVigencia <= :fechaActual) ");
-		} else if (Constantes.SI.equals(vigencia)) {
+			consult.append("AND ppe.fechaFinVigencia <= :actualDate) ");
+		} else if (Constantes.SI.equals(validity)) {
 			consult.append("AND (ppe.fechaFinVigencia IS NULL ");
-			consult.append("OR ppe.fechaFinVigencia > :fechaActual) ");
+			consult.append("OR ppe.fechaFinVigencia > :actualDate) ");
 		}
-		SelectItem itemVig = new SelectItem(new Date(), "fechaActual");
+		SelectItem itemVig = new SelectItem(new Date(), "actualDate");
 		parameters.add(itemVig);
 
-		if (idSucursalBuscar != 0) {
-			SelectItem item = new SelectItem(idSucursalBuscar, "idSucursal");
-			consult.append("AND ppe.sucursal.id=:idSucursal ");
+		if (idSearchBranchOffice != 0) {
+			SelectItem item = new SelectItem(idSearchBranchOffice,
+					"idSearchBranchOffice");
+			consult.append("AND ppe.sucursal.id=:idSearchBranchOffice ");
 			parameters.add(item);
-			String nombreSucursal = (String) ValidacionesAction.getLabel(
-					itemsSucursales, idSucursalBuscar);
+			String branchOfficeName = (String) ValidacionesAction.getLabel(
+					itemsBranchOffices, idSearchBranchOffice);
 			unionMessagesSearch.append(bundleOrg.getString("branch_label")
-					+ ": " + '"' + nombreSucursal + '"');
-			seAgregoMens = true;
+					+ ": " + '"' + branchOfficeName + '"');
+			messageAdd = true;
 		}
-		if (idHaciendaBuscar != 0) {
-			SelectItem item = new SelectItem(idHaciendaBuscar, "idHacienda");
-			consult.append("AND ppe.hacienda.id=:idHacienda ");
+		if (idFarmSearch != 0) {
+			SelectItem item = new SelectItem(idFarmSearch, "idFarm");
+			consult.append("AND ppe.farm.idFarm=:idFarm ");
 			parameters.add(item);
-			String nombreHacienda = (String) ValidacionesAction.getLabel(
-					itemsHaciendas, idHaciendaBuscar);
-			unionMessagesSearch.append((seAgregoMens ? comaEspacio : "")
-					+ bundleOrg.getString("farm_label") + ": " + '"'
-					+ nombreHacienda + '"');
-			seAgregoMens = true;
+			String farmName = (String) ValidacionesAction.getLabel(itemsFarms,
+					idFarmSearch);
+			unionMessagesSearch.append((messageAdd ? comaEspacio : "")
+					+ bundleOrg.getString("farm_label") + ": " + '"' + farmName
+					+ '"');
+			messageAdd = true;
 		}
-		if (this.empresaBuscarGestion != null
-				&& !"".equals(this.empresaBuscarGestion)) {
-			SelectItem item = new SelectItem("%" + empresaBuscarGestion + "%",
+		if (this.searchCompanyManage != null
+				&& !"".equals(this.searchCompanyManage)) {
+			SelectItem item = new SelectItem("%" + searchCompanyManage + "%",
 					"keyword");
 			consult.append("AND UPPER(ppe.empresa.nombre) LIKE UPPER(:keyword) ");
 			parameters.add(item);
-			unionMessagesSearch.append((seAgregoMens ? comaEspacio : "")
+			unionMessagesSearch.append((messageAdd ? comaEspacio : "")
 					+ bundle.getString("label_name") + ": " + '"'
-					+ this.empresaBuscarGestion + '"');
+					+ this.searchCompanyManage + '"');
 		}
 	}
 
@@ -504,7 +505,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 *            : Listed companies with access to the system of the person.
 	 * @throws Exception
 	 */
-	private void detallesPermisoPersonaEmpresa(
+	private void detailsPermissionPersonCompany(
 			List<PermisoPersonaEmpresa> listPermisoPersonaEmpresaTemp)
 			throws Exception {
 		if (listPermisoPersonaEmpresaTemp != null) {
@@ -516,7 +517,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 				Empresa empresaPermiso = permisoPersonaEmpresa.getEmpresa();
 				empresaAction.cargarDetallesUnaEmpresa(empresaPermiso);
 				permisoPersonaEmpresa.setEmpresa(empresaPermiso);
-				listaPermisoPersonaEmpresa.add(permisoPersonaEmpresa);
+				listPermisoPersonaEmpresa.add(permisoPersonaEmpresa);
 			}
 		}
 	}
@@ -527,11 +528,11 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * @return navigation rule that loads the template to permit registration of
 	 *         the individual companies.
 	 */
-	public String nuevoPermisoPersonaEmpresa() {
+	public String newPermissionPersonCompany() {
 		try {
 			empresas = new ArrayList<Empresa>();
-			listaPermisoPersonaEmpresaTemp = new ArrayList<PermisoPersonaEmpresa>();
-			cargarCombos();
+			listPermisoPersonaEmpresaTemp = new ArrayList<PermisoPersonaEmpresa>();
+			loadCombos();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -542,11 +543,10 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * This method looks for a list of companies search parameter system (ILS /
 	 * name).
 	 */
-	public void buscarEmpresas() {
+	public void searchCompanies() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			empresas = new ArrayList<Empresa>();
-			empresas = empresaDao.buscarEmpresaXNombreONit(empresaBuscar);
+			empresas = empresaDao.buscarEmpresaXNombreONit(searchCompany);
 			if (empresas == null || empresas.size() <= 0) {
 				ControladorContexto.mensajeInformacion(
 						"frmAsociarPermisos:empresas",
@@ -566,56 +566,58 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	/**
 	 * Ends the validity of the access permission of the person to the company.
 	 * 
-	 * @param vigente
+	 * @param validity
 	 *            : value that indicates whether the term begins or ends
 	 * @return consultation existing records and returns to the management of
 	 *         the company permits.
 	 */
-	public String cambiarVigenciaPermisosEmpresa(boolean vigente) {
+	public String changeValidityPermissionCompany(boolean validity) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeCambioVigencia = "message_fin_vigencia_satisfactorio";
+		String messageChangeValidity = "message_fin_vigencia_satisfactorio";
 		try {
 			if (permisoPersonaEmpresa != null) {
-				validarNulos(permisoPersonaEmpresa);
+				nullValidate(permisoPersonaEmpresa);
 				permisoPersonaEmpresa.setUserName(identity.getUserName());
-				if (vigente) {
+				if (validity) {
 					permisoPersonaEmpresa.setPredeterminado(false);
 					permisoPersonaEmpresa.setFechaFinVigencia(new Date());
 				} else {
-					mensajeCambioVigencia = "message_inicio_vigencia_satisfactorio";
+					messageChangeValidity = "message_inicio_vigencia_satisfactorio";
 					permisoPersonaEmpresa.setFechaFinVigencia(null);
 				}
 				permisoPersonaEmpresaDao
 						.modificarPermisoPersonaEmpresa(permisoPersonaEmpresa);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString(mensajeCambioVigencia)
+						.format(bundle.getString(messageChangeValidity)
 								+ ": {0}", this.permisoPersonaEmpresa
 								.getEmpresa().getNombre()));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarPermisoPersonaEmpresa();
+		return consultPermissionPersonCompany();
 	}
 
 	/**
 	 * Allows to validate the records that the object instance is beginning but
 	 * his id is 0 or null, if null if so assigned to permisoPersonaEmpresa.
 	 * 
+	 * @modify 04/05/2016 Wilhelm.Boada
+	 * 
 	 * @param permisoPersonaEmpresaVal
 	 *            : null object to validate.
 	 */
-	public void validarNulos(PermisoPersonaEmpresa permisoPersonaEmpresaVal) {
+	public void nullValidate(PermisoPersonaEmpresa permisoPersonaEmpresaVal) {
 		if (permisoPersonaEmpresaVal != null) {
 			Sucursal sucursal = permisoPersonaEmpresaVal.getSucursal();
-			Hacienda hacienda = permisoPersonaEmpresaVal.getHacienda();
+			Farm farm = permisoPersonaEmpresaVal.getFarm();
 			if (sucursal != null
 					&& (sucursal.getId() == null || (sucursal.getId() != null && sucursal
 							.getId() == 0))) {
 				permisoPersonaEmpresaVal.setSucursal(null);
 			}
-			if (hacienda != null && hacienda.getId() == 0) {
-				permisoPersonaEmpresaVal.setHacienda(null);
+			if (farm != null && farm.getIdFarm() == 0) {
+				permisoPersonaEmpresaVal.setFarm(null);
 			}
 		}
 	}
@@ -624,54 +626,55 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * This method saves the information of the companies with the person and
 	 * the assigned permissions.
 	 * 
+	 * @modify 04/05/2016 Wilhelm.Boada
 	 * 
-	 * @return consultarPermisoPersonaEmpresa: method consulting firms with
+	 * @return consultPermissionPersonCompany: method consulting firms with
 	 *         access rights of the person and load management template.
 	 */
-	public String guardarPermisoPersonaEmpresa() {
-		ResourceBundle bundleSeguridad = ControladorContexto
+	public String savePermissionPersonCompany() {
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
 		try {
-			if (listaPermisoPersonaEmpresaTemp != null) {
+			if (listPermisoPersonaEmpresaTemp != null) {
 				this.userTransaction.begin();
-				String nombrePersona = persona.getNombres() + " "
+				String personName = persona.getNombres() + " "
 						+ persona.getApellidos();
-				StringBuilder msgEmpresasHaciendas = new StringBuilder();
-				String mensajeHaciendaEmpresa = "person_permission_company_message_associate_company_farm";
-				for (PermisoPersonaEmpresa permisoPersonaEmpresaAdd : listaPermisoPersonaEmpresaTemp) {
-					boolean predeterminado = permisoPersonaEmpresaAdd
+				StringBuilder messageCompaniesFarms = new StringBuilder();
+				String messageFarmCompany = "person_permission_company_message_associate_company_farm";
+				for (PermisoPersonaEmpresa permisoPersonaEmpresaAdd : listPermisoPersonaEmpresaTemp) {
+					boolean predetermined = permisoPersonaEmpresaAdd
 							.isPredeterminado();
-					PermisoPersonaEmpresa permisoPredeterminado = permisoPersonaEmpresaDao
+					PermisoPersonaEmpresa predeterminedPermision = permisoPersonaEmpresaDao
 							.consultarExistePredeterminado(persona
 									.getDocumento());
-					if (predeterminado && permisoPredeterminado != null) {
-						permisoPredeterminado.setPredeterminado(false);
+					if (predetermined && predeterminedPermision != null) {
+						predeterminedPermision.setPredeterminado(false);
 						permisoPersonaEmpresaDao
-								.modificarPermisoPersonaEmpresa(permisoPredeterminado);
+								.modificarPermisoPersonaEmpresa(predeterminedPermision);
 					}
-					validarNulos(permisoPersonaEmpresaAdd);
+					nullValidate(permisoPersonaEmpresaAdd);
 					permisoPersonaEmpresaAdd.setFechaCreacion(new Date());
 					permisoPersonaEmpresaAdd
 							.setUserName(identity.getUserName());
 					permisoPersonaEmpresaDao
 							.guardarPermisoPersonaEmpresa(permisoPersonaEmpresaAdd);
-					if (msgEmpresasHaciendas.length() > 1) {
-						msgEmpresasHaciendas.append(", ");
+					if (messageCompaniesFarms.length() > 1) {
+						messageCompaniesFarms.append(", ");
 					}
-					String nitEmpresa = permisoPersonaEmpresaAdd.getEmpresa()
+					String nitCompany = permisoPersonaEmpresaAdd.getEmpresa()
 							.getNit();
-					String nombreHacienda = permisoPersonaEmpresaAdd
-							.getHacienda().getNombre();
+					String nameFarm = permisoPersonaEmpresaAdd.getFarm()
+							.getName();
 					String msg = MessageFormat.format(
-							bundleSeguridad.getString(mensajeHaciendaEmpresa),
-							nitEmpresa, nombreHacienda);
-					msgEmpresasHaciendas.append(msg);
+							bundleSecurity.getString(messageFarmCompany),
+							nitCompany, nameFarm);
+					messageCompaniesFarms.append(msg);
 				}
 				this.userTransaction.commit();
 				String format = MessageFormat
-						.format(bundleSeguridad
+						.format(bundleSecurity
 								.getString("person_permission_company_message_associate_company"),
-								nombrePersona, msgEmpresasHaciendas);
+								personName, messageCompaniesFarms);
 				ControladorContexto.mensajeInformacion(null, format);
 			}
 		} catch (Exception e) {
@@ -682,31 +685,32 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarPermisoPersonaEmpresa();
+		return consultPermissionPersonCompany();
 	}
 
 	/**
 	 * Loads charges combo items to relate to a person in a company
 	 * 
+	 * @modify 04/05/2016 Wilhelm.Boada
+	 * 
 	 * @throws Exception
 	 */
-	private void cargarCombos() throws Exception {
-		itemsSucursales = new ArrayList<SelectItem>();
+	private void loadCombos() throws Exception {
+		itemsBranchOffices = new ArrayList<SelectItem>();
 		List<Sucursal> sucursalesVigentes = sucursalDao
 				.consultarSucursalesVigentes();
 		if (sucursalesVigentes != null) {
 			for (Sucursal sucursal : sucursalesVigentes) {
-				itemsSucursales.add(new SelectItem(sucursal.getId(), sucursal
-						.getNombre()));
+				itemsBranchOffices.add(new SelectItem(sucursal.getId(),
+						sucursal.getNombre()));
 			}
 		}
-		itemsHaciendas = new ArrayList<SelectItem>();
-		List<Hacienda> haciendasVigentes = haciendaDao
-				.consultarHaciendasVigentes();
-		if (haciendasVigentes != null) {
-			for (Hacienda hacienda : haciendasVigentes) {
-				itemsHaciendas.add(new SelectItem(hacienda.getId(), hacienda
-						.getNombre()));
+		itemsFarms = new ArrayList<SelectItem>();
+		List<Farm> farmsCurrent = farmDao.farmsList();
+		if (farmsCurrent != null) {
+			for (Farm farm : farmsCurrent) {
+				itemsFarms
+						.add(new SelectItem(farm.getIdFarm(), farm.getName()));
 			}
 		}
 	}
@@ -715,50 +719,51 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * Allows to control the addition and subtraction of companies in the list
 	 * of companies with access rights of the individual.
 	 * 
-	 * @param opcion
+	 * @modify 04/05/2016 Wilhelm.Boada
+	 * 
+	 * @param option
 	 *            : Option to know that is made in the list: add, delete, or
 	 *            create a new one.
 	 * @param objPermisoPersonaEmpresa
 	 *            : Object of company permission person you want to remove from
 	 *            the list.
 	 */
-	public void controladorListaPermisos(String opcion,
+	public void controllerListPermission(String option,
 			PermisoPersonaEmpresa objPermisoPersonaEmpresa) {
-		ResourceBundle bundleSeguridad = ControladorContexto
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
 		try {
-			if (Constantes.NEW_PERMISO.equals(opcion)) {
+			if (Constantes.NEW_PERMISO.equals(option)) {
 				this.permisoPersonaEmpresa = new PermisoPersonaEmpresa();
 				this.permisoPersonaEmpresa.setSucursal(new Sucursal());
-				this.permisoPersonaEmpresa.setHacienda(new Hacienda());
+				this.permisoPersonaEmpresa.setFarm(new Farm());
 				this.permisoPersonaEmpresa.setPersona(persona);
-				this.permisoPersonaEmpresa.setEmpresa(empresaSeleccionada);
-				cargarCombosEmpresa(empresaSeleccionada);
-				idSucursal = 0;
-				idHacienda = 0;
-			} else if (Constantes.ADD_PERMISO.equals(opcion)) {
-				String mensaje = "person_permission_company_label_associated";
-				if (idSucursal != 0) {
-					mensaje = "person_permission_company_label_associated_branch";
+				this.permisoPersonaEmpresa.setEmpresa(selectedCompany);
+				loadCombosCompany(selectedCompany);
+				idBranchOffice = 0;
+				idFarm = 0;
+			} else if (Constantes.ADD_PERMISO.equals(option)) {
+				String message = "person_permission_company_label_associated";
+				if (idBranchOffice != 0) {
+					message = "person_permission_company_label_associated_branch";
 					Sucursal sucursal = sucursalDao
-							.consultarSucursal(idSucursal);
+							.consultarSucursal(idBranchOffice);
 					permisoPersonaEmpresa.setSucursal(sucursal);
-				} else if (idHacienda != 0) {
-					mensaje = "person_permission_company_label_associated_farm";
-					Hacienda hacienda = haciendaDao
-							.consultarHaciendaPorId(idHacienda);
-					permisoPersonaEmpresa.setHacienda(hacienda);
+				} else if (idFarm != 0) {
+					message = "person_permission_company_label_associated_farm";
+					Farm farm = farmDao.farmXId(idFarm);
+					permisoPersonaEmpresa.setFarm(farm);
 				}
-				if (!validarExistePermisoAsociado(this.empresaSeleccionada,
-						permisoPersonaEmpresa.getHacienda(),
+				if (!validateExistsPermissionAssociated(this.selectedCompany,
+						permisoPersonaEmpresa.getFarm(),
 						permisoPersonaEmpresa.getSucursal())) {
-					listaPermisoPersonaEmpresaTemp.add(permisoPersonaEmpresa);
+					listPermisoPersonaEmpresaTemp.add(permisoPersonaEmpresa);
 				} else {
 					ControladorContexto.mensajeError("popupForm:mensajesPopup",
-							bundleSeguridad.getString(mensaje));
+							bundleSecurity.getString(message));
 				}
-			} else if (Constantes.BORRAR_PERMISO.equals(opcion)) {
-				listaPermisoPersonaEmpresaTemp.remove(objPermisoPersonaEmpresa);
+			} else if (Constantes.BORRAR_PERMISO.equals(option)) {
+				listPermisoPersonaEmpresaTemp.remove(objPermisoPersonaEmpresa);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -770,71 +775,72 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * list of permits with the same branch or property and that this force,
 	 * then the boolean value true is sent to not be added again.
 	 * 
+	 * @modify 04/05/2016 Wilhelm.Boada
+	 * 
 	 * @param empresaSel
 	 *            : company selected to associate permissions.
-	 * @param hacienda
+	 * @param farm
 	 *            : Selected finance company.
 	 * @param sucursal
 	 *            : Selected branch of the company.
 	 * @return boolean to true if it is already associated or false otherwise.
 	 */
-	private boolean validarExistePermisoAsociado(Empresa empresaSel,
-			Hacienda hacienda, Sucursal sucursal) {
-		if (listaPermisoPersonaEmpresaTemp != null) {
-			for (PermisoPersonaEmpresa permPersonaEmp : listaPermisoPersonaEmpresaTemp) {
-				Empresa empresaList = permPersonaEmp.getEmpresa();
-				Hacienda haciendaList = permPersonaEmp.getHacienda();
+	private boolean validateExistsPermissionAssociated(Empresa empresaSel,
+			Farm farm, Sucursal sucursal) {
+		if (listPermisoPersonaEmpresaTemp != null) {
+			for (PermisoPersonaEmpresa permPersonaEmp : listPermisoPersonaEmpresaTemp) {
+				Empresa companyList = permPersonaEmp.getEmpresa();
+				Farm farmList = permPersonaEmp.getFarm();
 				Sucursal sucursalList = permPersonaEmp.getSucursal();
 				if (sucursal != null && sucursal.getId() != null
 						&& sucursalList != null
 						&& sucursalList.equals(sucursal)
-						&& empresaList.equals(empresaSel)) {
+						&& companyList.equals(empresaSel)) {
 					return true;
 
 				}
-				if (hacienda != null && hacienda.getId() != 0
-						&& haciendaList != null
-						&& haciendaList.equals(hacienda)
-						&& empresaList.equals(empresaSel)) {
+				if (farm != null && farm.getIdFarm() != 0 && farmList != null
+						&& farmList.equals(farm)
+						&& companyList.equals(empresaSel)) {
 					return true;
 				}
-				if ((hacienda == null || hacienda.getId() == 0)
+				if ((farm == null || farm.getIdFarm() == 0)
 						&& (sucursal == null || sucursal.getId() == null || sucursal
 								.getId() == 0)
-						&& empresaList.equals(empresaSel)) {
+						&& companyList.equals(empresaSel)) {
 					return true;
 				}
 			}
 		}
-		if (listaPermisoPersonaEmpresa != null) {
-			for (PermisoPersonaEmpresa permisoPerEmp : listaPermisoPersonaEmpresa) {
-				Date fechaFinVigencia = permisoPerEmp.getFechaFinVigencia();
+		if (listPermisoPersonaEmpresa != null) {
+			for (PermisoPersonaEmpresa permisoPerEmp : listPermisoPersonaEmpresa) {
+				Date endDateValidity = permisoPerEmp.getFechaFinVigencia();
 				Empresa empresaList = permisoPerEmp.getEmpresa();
 				Sucursal sucursalList = permisoPerEmp.getSucursal();
-				Hacienda haciendaList = permisoPerEmp.getHacienda();
+				Farm farmList = permisoPerEmp.getFarm();
 				if (sucursal != null
 						&& sucursal.getId() != null
 						&& sucursalList != null
 						&& sucursalList.equals(sucursal)
 						&& empresaList.equals(empresaSel)
-						&& (fechaFinVigencia == null || fechaFinVigencia
+						&& (endDateValidity == null || endDateValidity
 								.after(new Date()))) {
 					return true;
 				}
-				if (hacienda != null
-						&& hacienda.getId() != 0
-						&& haciendaList != null
-						&& haciendaList.equals(hacienda)
+				if (farm != null
+						&& farm.getIdFarm() != 0
+						&& farmList != null
+						&& farmList.equals(farm)
 						&& empresaList.equals(empresaSel)
-						&& (fechaFinVigencia == null || fechaFinVigencia
+						&& (endDateValidity == null || endDateValidity
 								.after(new Date()))) {
 					return true;
 				}
-				if ((hacienda == null || hacienda.getId() == 0)
+				if ((farm == null || farm.getIdFarm() == 0)
 						&& (sucursal == null || sucursal.getId() == null || sucursal
 								.getId() == 0)
 						&& empresaList.equals(empresaSel)
-						&& (fechaFinVigencia == null || fechaFinVigencia
+						&& (endDateValidity == null || endDateValidity
 								.after(new Date()))) {
 					return true;
 				}
@@ -847,29 +853,23 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * Method of uploading the information combo branches and farm combo in the
 	 * user interface.
 	 * 
+	 * @modify 02/05/2016 Wilhelm.Boada
+	 * 
 	 * @param empresaSelect
 	 *            : Selected business listing to which you are charged combo
 	 *            branches and farms.
 	 * @throws Exception
 	 */
-	private void cargarCombosEmpresa(Empresa empresaSelect) throws Exception {
-		itemsSucursalEmpresa = new ArrayList<SelectItem>();
-		itemsHaciendasEmpresa = new ArrayList<SelectItem>();
+	private void loadCombosCompany(Empresa empresaSelect) throws Exception {
+		itemsBranchOfficesCompany = new ArrayList<SelectItem>();
+		itemsFarmsCompany = new ArrayList<SelectItem>();
 		if (empresaSelect != null) {
 			List<Sucursal> sucursalesEmpresa = sucursalDao
 					.consultarSucursalesXEmpresa(empresaSelect.getId());
 			if (sucursalesEmpresa != null) {
 				for (Sucursal sucursal : sucursalesEmpresa) {
-					itemsSucursalEmpresa.add(new SelectItem(sucursal.getId(),
-							sucursal.getNombre()));
-				}
-			}
-			List<Hacienda> haciendasPorIdEmpresa = haciendaDao
-					.buscarHaciendasPorIdEmpresa(empresaSelect.getId());
-			if (haciendasPorIdEmpresa != null) {
-				for (Hacienda hacienda : haciendasPorIdEmpresa) {
-					itemsHaciendasEmpresa.add(new SelectItem(hacienda.getId(),
-							hacienda.getNombre()));
+					itemsBranchOfficesCompany.add(new SelectItem(sucursal
+							.getId(), sucursal.getNombre()));
 				}
 			}
 		}
@@ -879,15 +879,15 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 * Method for validating the selection of at least one company, to be
 	 * associate access permissions to the person.
 	 */
-	public void validarPermisosEmpresasSeleccionado() {
-		ResourceBundle bundleSeguridad = ControladorContexto
+	public void validatePermissionCompaniesSelected() {
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
-		if (listaPermisoPersonaEmpresaTemp == null
-				|| listaPermisoPersonaEmpresaTemp.size() <= 0) {
+		if (listPermisoPersonaEmpresaTemp == null
+				|| listPermisoPersonaEmpresaTemp.size() <= 0) {
 			ControladorContexto
 					.mensajeError(
 							"frmAsociarPermisos:extDTPermisoPersonaEmpresa",
-							bundleSeguridad
+							bundleSecurity
 									.getString("person_permission_company_message_validate_select_company"));
 		}
 	}

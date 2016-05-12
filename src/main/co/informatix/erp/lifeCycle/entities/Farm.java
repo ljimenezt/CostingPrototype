@@ -25,7 +25,7 @@ import co.informatix.erp.informacionBase.entities.Pais;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "farm", schema = "life_cycle")
-public class Farm implements Serializable {
+public class Farm implements Serializable, Comparable<Farm>, Cloneable {
 	private int idFarm;
 	private String name;
 	private Double locationLinkToMap;
@@ -297,6 +297,20 @@ public class Farm implements Serializable {
 	 */
 	public void setMunicipio(Municipio municipio) {
 		this.municipio = municipio;
+	}
+
+	@Override
+	public int compareTo(Farm farm) {
+		return name.compareTo(farm.getName());
+	}
+
+	public Farm clone() {
+		Object clone = null;
+		try {
+			clone = super.clone();
+		} catch (CloneNotSupportedException e) {
+		}
+		return (Farm) clone;
 	}
 
 	@Override

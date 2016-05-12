@@ -11,7 +11,7 @@
 	<ui:define name="body">
 		<t:saveState value="#{loginAction}" />
 		<h:form>
-			<h:inputHidden value="#{sesionEmpresa.cargar}"
+			<h:inputHidden value="#{sesionEmpresa.load}"
 				rendered="#{identity ne null and identity.autenticado}" />
 			<rich:panel styleClass="anchoUno MinH253P">
 				<h1>#{mensaje.label_welcome_to} #{mensaje.label_system_name}</h1>
