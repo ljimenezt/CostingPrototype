@@ -27,6 +27,13 @@ public class MachineUsage implements Serializable {
 	private MachineUsagePK machineUsagePK;
 
 	/**
+	 * Empty constructor to initialize the primary key of the entity.
+	 */
+	public MachineUsage() {
+		this.machineUsagePK = new MachineUsagePK();
+	}
+
+	/**
 	 * @return machineUsagePK: object containing the composite key machine usage
 	 *         table
 	 */
@@ -41,13 +48,6 @@ public class MachineUsage implements Serializable {
 	 */
 	public void setMachineUsagePK(MachineUsagePK machineUsagePK) {
 		this.machineUsagePK = machineUsagePK;
-	}
-
-	/**
-	 * Empty constructor to initialize the primary key of the entity.
-	 */
-	public MachineUsage() {
-		this.machineUsagePK = new MachineUsagePK();
 	}
 
 	/**
