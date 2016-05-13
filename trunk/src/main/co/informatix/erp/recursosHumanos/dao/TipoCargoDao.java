@@ -28,7 +28,6 @@ public class TipoCargoDao implements Serializable {
 	 * 
 	 * @author Liseth.Jimenez
 	 * 
-	 * 
 	 * @param condicionVigencia
 	 *            : sets the condition of validity (existing or not existing)
 	 *            records on request.
