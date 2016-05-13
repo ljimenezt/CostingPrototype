@@ -176,35 +176,6 @@ public class PersonaDao implements Serializable {
 	}
 
 	/**
-	 * It queries some specified person properties and retrieves them in an
-	 * array.
-	 * 
-	 * @param idPerson
-	 *            : id entity of the person to consult.
-	 * @return Array Object with the information related to the person
-	 *         identifier.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public Persona queryPersonalInfo(int idPerson) throws Exception {
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT p FROM Persona p ");
-		queryBuilder
-				.append("JOIN FETCH p.paisNac pn JOIN FETCH p.departamentoNac dn JOIN FETCH p.tipoDocumento td ");
-		queryBuilder
-				.append("JOIN FETCH p.municipioNac mn JOIN FETCH p.paisRes pr JOIN FETCH p.departamentoRes dr ");
-		queryBuilder.append("JOIN FETCH p.municipioRes mr ");
-		queryBuilder.append("WHERE p.id=:idPerson ");
-		Query queryResult = em.createQuery(queryBuilder.toString());
-		queryResult.setParameter("idPerson", idPerson);
-		List<Persona> resultList = queryResult.getResultList();
-		if (resultList.size() > 0) {
-			return (Persona) resultList.get(0);
-		}
-		return null;
-	}
-
-	/**
 	 * This method validates whether currently existing document of a person
 	 * when register or edit
 	 * 
