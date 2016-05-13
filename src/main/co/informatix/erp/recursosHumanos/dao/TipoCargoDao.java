@@ -52,18 +52,18 @@ public class TipoCargoDao implements Serializable {
 	}
 
 	/**
-	 * @author Liseth.Jimenez
+	 * Allows to consult to the database a list of types of functions that take
+	 * his name as a parameter sent word 'variableBuscar'
 	 * 
-	 *         Allows to consult to the database a list of types of functions
-	 *         that take his name as a parameter sent word 'variableBuscar'
+	 * @author Liseth.Jimenez
 	 * 
 	 * @param start
 	 *            Starting the record
 	 * @param range
 	 *            End in the range of records to check
-	 * @param condicionVigencia
+	 * @param validityCondition
 	 *            sets the condition of validity of the records to see
-	 * @param variableBuscar
+	 * @param variableSearch
 	 *            Word you want to search the records of types of jobs
 	 * @return List<TipoCargo> Word you want to search the records of types of
 	 *         jobs
@@ -71,15 +71,15 @@ public class TipoCargoDao implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<TipoCargo> buscarTiposCargo(int start, int range,
-			String condicionVigencia, String variableBuscar) throws Exception {
+			String validityCondition, String variableSearch) throws Exception {
 		return em
 				.createQuery(
 						"SELECT tc FROM TipoCargo tc "
 								+ "WHERE (UPPER(tc.nombre) LIKE UPPER (:keyword) "
 								+ " OR UPPER(tc.funciones) LIKE UPPER (:keyword)) "
 								+ " AND tc.fechaFinVigencia "
-								+ condicionVigencia + " ORDER BY tc.nombre")
-				.setParameter("keyword", "%" + variableBuscar + "%")
+								+ validityCondition + " ORDER BY tc.nombre")
+				.setParameter("keyword", "%" + variableSearch + "%")
 				.setFirstResult(start).setMaxResults(range).getResultList();
 	}
 
@@ -150,31 +150,5 @@ public class TipoCargoDao implements Serializable {
 	public void modificarTipoCargo(TipoCargo tipoCargo) throws Exception {
 		em.merge(tipoCargo);
 		em.flush();
-	}
-
-	/**
-	 * Consult the types of job that are current
-	 * 
-	 * @return List<TipoCargo>: list of types of job
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<TipoCargo> consultarTiposCargo() throws Exception {
-		return em.createQuery(
-				"SELECT tc FROM TipoCargo tc "
-						+ "WHERE tc.fechaFinVigencia IS NULL "
-						+ "ORDER BY tc.nombre ").getResultList();
-	}
-
-	/**
-	 * Method to query a type of jobs by identifier.
-	 * 
-	 * @param id
-	 *            : type identifier jobs
-	 * @return TipoCargo: TipoCargo object found or null if not present.
-	 * @throws Exception
-	 */
-	public TipoCargo consultarTipoCargo(int id) throws Exception {
-		return em.find(TipoCargo.class, id);
 	}
 }
