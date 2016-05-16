@@ -226,25 +226,23 @@ public class GestionarMenuAction implements Serializable {
 	 * Initializes the name in the search menu.
 	 * 
 	 * @author Adonay.Mantilla
+	 * @modify 16/05/2016 Wilhelm.Boada
 	 * 
 	 * @return consultMenus(): Consult the menus in the system and returns to
 	 *         the management template with search results.
 	 */
 	public String searchInitialization() {
-		try {
-			initialData();
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
+		initialData();
 		return consultMenus();
 	}
 
 	/**
 	 * Method that allows you to load the initial data.
 	 * 
-	 * @throws Exception
+	 * @modify 16/05/2016 Wilhelm.Boada
+	 * 
 	 */
-	public void initialData() throws Exception {
+	public void initialData() {
 		this.nameSearch = "";
 		this.fromRol = false;
 		pagination = new Paginador();
@@ -430,13 +428,15 @@ public class GestionarMenuAction implements Serializable {
 	/**
 	 * Allows upload details sent as a parameter menu.
 	 * 
+	 * @modify 16/05/2016 Wilhelm.Boada
+	 * 
 	 * @param menu
 	 *            : Menu sent to load the details.
 	 * 
 	 * @return Menu item loaded with details.
 	 * @throws Exception
 	 */
-	public Menu loadDetailsMenu(Menu menu) throws Exception {
+	private Menu loadDetailsMenu(Menu menu) throws Exception {
 		convertNameMenuDescript(menu);
 		Icono icon = menu.getIcono();
 		if (icon != null) {
