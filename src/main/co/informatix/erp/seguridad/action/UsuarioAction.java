@@ -812,13 +812,14 @@ public class UsuarioAction implements Serializable {
 	/**
 	 * Check that the password is valid.
 	 * 
+	 * @author Oscar.Amaya
+	 * 
 	 * @param context
 	 *            : application context.
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
 	 *            : field value to be valid.
-	 * @author Oscar.Amaya
 	 */
 	public void validatePassword(FacesContext context, UIComponent toValidate,
 			Object value) {
