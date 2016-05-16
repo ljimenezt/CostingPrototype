@@ -349,12 +349,12 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * It initializes search parameters and load the initial list of role types.
+	 * It initializes search parameters and load the initial list of roles.
 	 * 
 	 * @author Liseth Jimenez
 	 * 
-	 * @return searchRoles: navigation rule that redirects to the product
-	 *         management roles template.
+	 * @return searchRoles(): Consult a list of roles and redirects to the rol
+	 *         management.
 	 */
 	public String initializeSearch() {
 		this.nameSearch = "";
@@ -660,14 +660,13 @@ public class RolAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			Rol rolAux = new Rol();
-			String result = "";
 
 			if (rol.getId() != 0) {
 				rolAux = rolDao.updateNameExists(name, rol.getId());
 			} else {
 				rolAux = rolDao.nameExists(name);
 			}
-			result = validateValidity(result, rolAux);
+			String result = validateValidity("", rolAux);
 
 			if (Constantes.VIGENTE.equals(result)) {
 				ControladorContexto.mensajeErrorEspecifico(clientId,

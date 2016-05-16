@@ -408,7 +408,7 @@ public class GestionarMenuAction implements Serializable {
 	 * Allows you to load the list of menus with information from parents, this
 	 * allows do Join in the main query.
 	 * 
-	 * @param listMenusInfo
+	 * @param listMenusTemporal
 	 *            : temporary list with the initial information to be loaded.
 	 * @return List<Menu> : list of the information menus to load in the view.
 	 * @throws Exception

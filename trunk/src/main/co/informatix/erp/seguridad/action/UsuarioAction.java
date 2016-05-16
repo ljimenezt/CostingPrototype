@@ -440,7 +440,8 @@ public class UsuarioAction implements Serializable {
 	 * 
 	 * @author Liseth.Jimenez
 	 * 
-	 * @return Navigation rule that redirects to the Manage user template.
+	 * @return searchUsers(): Consult a list of users and redirects to the
+	 *         Manage user template.
 	 */
 	public String initializeSearch() {
 		this.nameSearch = "";
@@ -780,14 +781,13 @@ public class UsuarioAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			Usuario userNAme = new Usuario();
-			String result = "";
 
 			if (edited) {
 				userNAme = usuarioDao.userNameExists(name, user.getId());
 			} else {
 				userNAme = usuarioDao.userNameExists(name);
 			}
-			result = checkValidity(userNAme);
+			String result = checkValidity(userNAme);
 			if (Constantes.VIGENTE.equals(result)) {
 				ControladorContexto.mensajeErrorEspecifico(clientId,
 						"message_ya_existe_verifique", "mensaje");
