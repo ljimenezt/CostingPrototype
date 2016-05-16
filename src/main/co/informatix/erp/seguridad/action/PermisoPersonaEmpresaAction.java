@@ -375,7 +375,6 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
 		listPermisoPersonaEmpresa = new ArrayList<PermisoPersonaEmpresa>();
-		List<PermisoPersonaEmpresa> listPermisoPersonaEmpresaTemp = new ArrayList<PermisoPersonaEmpresa>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
@@ -386,7 +385,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 				advanceSearch(consult, parameters, bundle, unionMessagesSearch);
 				pagination.paginar(permisoPersonaEmpresaDao
 						.cantidadEmpresasAccesoPersona(consult, parameters));
-				listPermisoPersonaEmpresaTemp = permisoPersonaEmpresaDao
+				List<PermisoPersonaEmpresa> listPermisoPersonaEmpresaTemp = permisoPersonaEmpresaDao
 						.consultarEmpresasAccesoPersona(consult, parameters,
 								pagination.getInicio(), pagination.getRango());
 				if ((listPermisoPersonaEmpresaTemp == null || listPermisoPersonaEmpresaTemp

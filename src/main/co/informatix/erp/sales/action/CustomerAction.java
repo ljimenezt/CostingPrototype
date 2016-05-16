@@ -228,8 +228,7 @@ public class CustomerAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = customer.getIdCustomer();
-			Customer auxCustomer = new Customer();
-			auxCustomer = customerDao.cutomerExists(name, id);
+			Customer auxCustomer = customerDao.cutomerExists(name, id);
 			if (auxCustomer != null) {
 				String existenceMessage = "message_ya_existe_verifique";
 				context.addMessage(
