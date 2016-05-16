@@ -121,7 +121,7 @@ public class GestionarPerfilSistemaAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		String email = (String) value;
 		try {
-			if (email != "") {
+			if (!email.equals("")) {
 				String[] test = email.split(",");
 				for (int i = 0; i < test.length; i++) {
 					if (!EncodeFilter.validarXSS(test[i].trim(), clientId,
