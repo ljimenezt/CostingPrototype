@@ -1034,11 +1034,14 @@ public class UsuarioAction implements Serializable {
 	 * 
 	 * @return changePassword: Navigation rule that targets the template user
 	 *         password change.
-	 * @throws Exception
 	 */
-	public String newPassword() throws Exception {
-		user = usuarioDao.searchUsuario(identity.getUserName());
-		changePass = new ChangedPassword();
+	public String newPassword() {
+		try {
+			user = usuarioDao.searchUsuario(identity.getUserName());
+			changePass = new ChangedPassword();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 		return "changePassword";
 	}
 
