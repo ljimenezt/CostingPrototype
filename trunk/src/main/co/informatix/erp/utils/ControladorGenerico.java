@@ -117,12 +117,14 @@ public class ControladorGenerico implements Serializable {
 	/**
 	 * Method to validate the extension of the icons in the folder Icons.
 	 * 
+	 * @modify 16/05/2016 Gerardo.Herrera
+	 * 
 	 * @param ext
 	 *            : file extension to be validated.
 	 * @return boolean to true if it is valid and false otherwise.
 	 */
 	public static boolean validateExtension(String ext) {
-		String extAccepted[] = { "jpg", "jpeg", "bmp", "png", "gif" };
+		String extAccepted[] = Constantes.EXT_IMG.split(", ");
 		boolean ban = false;
 		for (String extAcep : extAccepted) {
 			if (extAcep.equals(ext)) {
