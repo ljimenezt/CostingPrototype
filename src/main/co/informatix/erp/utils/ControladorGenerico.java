@@ -113,4 +113,23 @@ public class ControladorGenerico implements Serializable {
 				+ PropertiesManager.getProperty("locate.path.local");
 		return path;
 	}
+
+	/**
+	 * Method to validate the extension of the icons in the folder Icons.
+	 * 
+	 * @param ext
+	 *            : file extension to be validated.
+	 * @return boolean to true if it is valid and false otherwise.
+	 */
+	public static boolean validateExtension(String ext) {
+		String extAccepted[] = { "jpg", "jpeg", "bmp", "png", "gif" };
+		boolean ban = false;
+		for (String extAcep : extAccepted) {
+			if (extAcep.equals(ext)) {
+				ban = true;
+				break;
+			}
+		}
+		return ban;
+	}
 }
