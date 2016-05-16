@@ -20,6 +20,7 @@ import co.informatix.erp.seguridad.dao.GestionarIconoDao;
 import co.informatix.erp.seguridad.dao.GestionarMenuDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControladorGenerico;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
@@ -277,7 +278,7 @@ public class IconoAction implements Serializable {
 			for (File file : listIcons) {
 				String nameIcon = file.getName();
 				String ext = FilenameUtils.getExtension(nameIcon);
-				if (validateExtension(ext)) {
+				if (ControladorGenerico.validateExtension(ext)) {
 					Icono iconExist = iconoDao
 							.nameExist(nameIcon.toUpperCase());
 					if (iconExist == null) {
@@ -292,25 +293,6 @@ public class IconoAction implements Serializable {
 				}
 			}
 		}
-	}
-
-	/**
-	 * Method to validate the extension of the icons in the folder Icons.
-	 * 
-	 * @param ext
-	 *            : file extension to be validated.
-	 * @return boolean to true if it is valid and false otherwise.
-	 */
-	private boolean validateExtension(String ext) {
-		String extAccepted[] = { "jpg", "jpeg", "bmp", "png", "gif" };
-		boolean ban = false;
-		for (String extAcep : extAccepted) {
-			if (extAcep.equals(ext)) {
-				ban = true;
-				break;
-			}
-		}
-		return ban;
 	}
 
 	/**
