@@ -139,6 +139,8 @@
 						<h:inputText id="taxesItem" styleClass="W108P"
 							value="#{invoiceItemsAction.invoiceItems.taxes}" readonly="true"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							<f:convertNumber maxFractionDigits="2" type="number"
+								locale="#{idioma.locale}" />
 							<f:ajax event="change" execute="@this"
 								listener="#{invoiceItemsAction.calculateTotal()}"
 								render=":formRegInvoiceItems:totalItem" />
