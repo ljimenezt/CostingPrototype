@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
 import org.apache.commons.io.FilenameUtils;
@@ -194,21 +195,35 @@ public class IconoAction implements Serializable {
 	 * Initializes the name on the search icon.
 	 * 
 	 * @author Adonay.Mantilla
+	 * @modify 18/05/2016 Gerardo.Herrera
 	 * 
 	 * @return consultIconos: Consultation icons in the system and returns to
 	 *         the management template with search results.
 	 */
 	public String searchInitialization() {
 		this.nameSearch = "";
+		pagination = new Paginador();
 		return consultIcons();
+	}
+
+	/**
+	 * Initialize the pagination when begin a new search
+	 * 
+	 * @author Gerardo.Herrera
+	 */
+	public void initializePagination() {
+		pagination.setOpcion('f');
+		consultIcons();
 	}
 
 	/**
 	 * Provides access existing icons in the database.
 	 * 
 	 * @modify 10/10/2012 Adonay.Mantilla
+	 * @modify 18/05/2016 Gerardo.Herrera
 	 * 
-	 * @return gesIcono: redirects to the Manage icon.
+	 * @return gesIcono: redirects to the Manage icon or "" if called from a
+	 *         popup.
 	 */
 	public String consultIcons() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -217,48 +232,91 @@ public class IconoAction implements Serializable {
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		String messageSearch = "";
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		StringBuilder query = new StringBuilder();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		icons = new ArrayList<Icono>();
+		String navigationRule = "";
+		String param2 = ControladorContexto.getParam("param2");
+		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
+				: false;
 		try {
 			validateIconsFolder();
-			if (nameSearch != null && !"".equals(nameSearch)) {
-				String nameUpperCase = nameSearch.toUpperCase();
-				pagination.paginar(iconoDao.quantityIconsXName(nameUpperCase));
-				icons = iconoDao.consultIconsXNamePaginator(nameUpperCase,
-						pagination.getInicio(), pagination.getRango());
-			} else {
-				pagination.paginar(iconoDao.quantityIcons());
-				icons = iconoDao.consultIcons(pagination.getInicio(),
-						pagination.getRango());
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantityIcons = iconoDao.quantityIcons(query, parameters);
+			if (quantityIcons != null) {
+				if (fromModal) {
+					pagination.paginarRangoDefinido(quantityIcons, 5);
+				} else {
+					pagination.paginar(quantityIcons);
+				}
 			}
+			icons = iconoDao.queryIcons(pagination.getInicio(),
+					pagination.getRango(), query, parameters);
 
-			for (Icono i : icons) {
-				i.setMenus(menuDao.consultMenuXIdIcon(i.getId()));
+			if (icons != null && !fromModal) {
+				for (Icono i : icons) {
+					i.setMenus(menuDao.consultMenuXIdIcon(i.getId()));
+				}
 			}
-			if ((icons == null || icons.size() <= 0) && this.nameSearch != null
-					&& !"".equals(this.nameSearch)) {
+			if ((icons == null || icons.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundle.getString("label_name") + ": " + '"'
-										+ this.nameSearch + '"');
+								unionMessagesSearch);
 
 			} else if (icons == null || icons.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			} else if (!"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleSeguridad.getString("icon_label_s"),
-								bundle.getString("label_name") + ": " + '"'
-										+ this.nameSearch + '"');
+								unionMessagesSearch);
 			}
-			validations.setMensajeBusqueda(messageSearch);
-
+			if (!fromModal) {
+				validations.setMensajeBusqueda(messageSearch);
+			} else {
+				validations.setMensajeBusquedaPopUp(messageSearch);
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesIcono";
+		if (!fromModal) {
+			navigationRule = "gesIcono";
+		}
+		return navigationRule;
+	}
+
+	/**
+	 * This method constructs the query to the advanced search also allows
+	 * assemble messages to display depending on the search criteria selected by
+	 * the user.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param query
+	 *            : Query to concatenate.
+	 * @param parameters
+	 *            : List of search parameters
+	 * @param bundle
+	 *            : access language tags.
+	 * @param unionMessageSearch
+	 *            : Message search
+	 */
+	private void advancedSearch(StringBuilder query,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessageSearch) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			query.append("WHERE UPPER(i.nombre) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
+					"keyword");
+			parameters.add(item);
+			unionMessageSearch.append(bundle.getString("label_name") + ": "
+					+ '"' + this.nameSearch + '"');
+		}
 	}
 
 	/**

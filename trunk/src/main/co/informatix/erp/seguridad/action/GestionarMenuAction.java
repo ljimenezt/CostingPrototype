@@ -35,6 +35,7 @@ import co.informatix.security.utils.Parametros;
  * 
  * @author marisol.calderon
  * @modify 19/06/2014 Gabriel.Moreno
+ * @modify 18/05/2016 Gerardo.Herrera
  * 
  */
 @SuppressWarnings("serial")
@@ -642,67 +643,4 @@ public class GestionarMenuAction implements Serializable {
 		this.menuAction.setIcono(icon);
 	}
 
-	/**
-	 * Method to consult the list of all existing icons in the database to be
-	 * assigned to the menu.
-	 * 
-	 * @modify Luz.Jaimes 24/02/2014
-	 */
-	public void consultIcons() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSecurity = ControladorContexto
-				.getBundle("messageSecurity");
-		String messageSearch = "";
-		listIcons = new ArrayList<Icono>();
-		try {
-			IconoAction iconAction = ControladorContexto
-					.getContextBean(IconoAction.class);
-			iconAction.validateIconsFolder();
-			Long quantityIconsByName = gesIconoDao
-					.quantityIconsByName(nameIconSearch);
-			if (quantityIconsByName != null) {
-				pagination.paginarRangoDefinido(quantityIconsByName, 5);
-			}
-			listIcons = gesIconoDao.searchIconsXNamePaginated(
-					pagination.getInicio(), pagination.getRango(),
-					nameIconSearch);
-
-			if ((this.listIcons == null || this.listIcons.size() <= 0)
-					&& !"".equals(nameIconSearch)) {
-				messageSearch = MessageFormat
-						.format(bundle
-								.getString("message_no_existen_registros_criterio_busqueda"),
-								bundleSecurity.getString("icon_label") + ": "
-										+ '"' + this.nameIconSearch + '"');
-			} else if (this.listIcons == null || this.listIcons.size() <= 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(this.nameIconSearch)) {
-				messageSearch = MessageFormat
-						.format(bundle
-								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSecurity.getString("icon_label_s"),
-								bundleSecurity.getString("icon_label") + ": "
-										+ '"' + this.nameIconSearch + '"');
-
-			}
-			if (!"".equals(messageSearch)) {
-				ControladorContexto.mensajeInformacion(
-						"popupForm:mensajesPopupIconos", messageSearch);
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * Initializes the name on the search icon in the view popup register.
-	 * 
-	 * @author Luz.Jaimes
-	 * 
-	 */
-	public void searchInitializationIcon() {
-		this.nameIconSearch = "";
-		consultIcons();
-	}
 }

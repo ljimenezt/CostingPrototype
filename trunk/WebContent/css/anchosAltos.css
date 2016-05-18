@@ -11,6 +11,10 @@
 	height: 30px;
 }
 
+.H32P {
+	height: 32px;
+}
+
 .H100P {
 	height: 100px;
 }
@@ -99,6 +103,10 @@
 
 .W24P {
 	width: 24px;
+}
+
+.W32P {
+	width: 32px;
 }
 
 .W60P input {
