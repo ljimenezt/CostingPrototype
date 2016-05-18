@@ -872,7 +872,7 @@ public class PurchaseInvoicesAction implements Serializable {
 
 	/**
 	 * This method allow calculate the values according with the items invoice
-	 * values
+	 * values and compare with the value of the purchase invoice
 	 * 
 	 * @throws Exception
 	 */
@@ -883,81 +883,82 @@ public class PurchaseInvoicesAction implements Serializable {
 			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 			int idPurchaseInvoice = this.invoicesActualSelected
 					.getIdPurchaseInvoice();
-			Object[] values = invoiceItemsDao
-					.consultValuesItems(idPurchaseInvoice);
-			if (values[0] != null) {
-				String message = "";
-				boolean flag = false;
+			String message = "";
+			boolean flag = false;
+			double subtotal = invoiceItemsDao.consultValuesItems(
+					idPurchaseInvoice, Constantes.INVOICE_ITEMS_SUBTOTAL);
+			double shipping = invoiceItemsDao.consultValuesItems(
+					idPurchaseInvoice, Constantes.INVOICE_ITEMS_SHIPPING);
+			double packaging = invoiceItemsDao.consultValuesItems(
+					idPurchaseInvoice, Constantes.INVOICE_ITEMS_PACKAGING);
+			double taxes = invoiceItemsDao.consultValuesItems(
+					idPurchaseInvoice, Constantes.INVOICE_ITEMS_TAXES);
+			double discount = invoiceItemsDao.consultValuesItems(
+					idPurchaseInvoice, Constantes.INVOICE_ITEMS_DISCOUNT);
+			double totalValue = invoiceItemsDao.consultValuesItems(
+					idPurchaseInvoice, Constantes.INVOICE_ITEMS_TOTAL);
 
-				double subtotal = (double) values[0];
-				double shipping = (double) values[1];
-				double packaging = (double) values[2];
-				double taxes = (double) values[3];
-				double discount = (double) values[4];
-				double totalValue = (double) values[5];
+			double pSubtotal = this.invoicesActualSelected.getSubtotal();
+			double pShipping = this.invoicesActualSelected.getShipping();
+			double pPackaging = this.invoicesActualSelected.getPackaging();
+			double pTaxes = this.invoicesActualSelected.getTaxes();
+			double pDiscount = this.invoicesActualSelected.getDiscount();
+			double pTotalValue = this.invoicesActualSelected
+					.getTotalValueActual();
 
-				double pSubtotal = this.invoicesActualSelected.getSubtotal();
-				double pShipping = this.invoicesActualSelected.getShipping();
-				double pPackaging = this.invoicesActualSelected.getPackaging();
-				double pTaxes = this.invoicesActualSelected.getTaxes();
-				double pDiscount = this.invoicesActualSelected.getDiscount();
-				double pTotalValue = this.invoicesActualSelected
-						.getTotalValueActual();
+			int checkSubtotal = Double.compare(subtotal, pSubtotal);
+			int checkShipping = Double.compare(shipping, pShipping);
+			int checkPackaging = Double.compare(packaging, pPackaging);
+			int checkTaxes = Double.compare(taxes, pTaxes);
+			int checkDiscount = Double.compare(discount, pDiscount);
+			int checkTotalValue = Double.compare(totalValue, pTotalValue);
 
-				int checkSubtotal = Double.compare(subtotal, pSubtotal);
-				int checkShipping = Double.compare(shipping, pShipping);
-				int checkPackaging = Double.compare(packaging, pPackaging);
-				int checkTaxes = Double.compare(taxes, pTaxes);
-				int checkDiscount = Double.compare(discount, pDiscount);
-				int checkTotalValue = Double.compare(totalValue, pTotalValue);
-
-				if (checkSubtotal != 0) {
-					message += bundle.getString("label_subtotal");
-					flag = true;
-				}
-				if (checkShipping != 0) {
-					message += flag ? ", " : "";
-					message += bundleWarehouse
-							.getString("purchase_invoice_label_shipping");
-					flag = true;
-				}
-				if (checkPackaging != 0) {
-					message += flag ? ", " : "";
-					message += bundleWarehouse
-							.getString("purchase_invoice_label_packaging");
-					flag = true;
-				}
-				if (checkTaxes != 0) {
-					message += flag ? ", " : "";
-					message += bundleWarehouse
-							.getString("purchase_invoice_label_taxes");
-					flag = true;
-				}
-				if (checkDiscount != 0) {
-					message += flag ? ", " : "";
-					message += bundleWarehouse
-							.getString("purchase_invoice_label_discount");
-					flag = true;
-				}
-				if (checkTotalValue != 0) {
-					message += flag ? ", " : "";
-					message += bundle.getString("label_total");
-					flag = true;
-				}
-				if (flag) {
-					String format = MessageFormat
-							.format(bundleWarehouse
-									.getString("purchase_invoice_message_validate_reconcile"),
-									message);
-					ControladorContexto.mensajeInformacion(
-							"formPurchaseInvoices:invoiceItemsTable", format);
-				} else {
-					ControladorContexto
-							.mensajeInformacion(
-									"formPurchaseInvoices:invoiceItemsTable",
-									bundleWarehouse
-											.getString("purchase_invoice_message_reconcile_successfull"));
-				}
+			if (checkSubtotal != 0) {
+				message += bundle.getString("label_subtotal");
+				flag = true;
+			}
+			if (checkShipping != 0) {
+				message += flag ? ", " : "";
+				message += bundleWarehouse
+						.getString("purchase_invoice_label_shipping");
+				flag = true;
+			}
+			if (checkPackaging != 0) {
+				message += flag ? ", " : "";
+				message += bundleWarehouse
+						.getString("purchase_invoice_label_packaging");
+				flag = true;
+			}
+			if (checkTaxes != 0) {
+				message += flag ? ", " : "";
+				message += bundleWarehouse
+						.getString("purchase_invoice_label_taxes");
+				flag = true;
+			}
+			if (checkDiscount != 0) {
+				message += flag ? ", " : "";
+				message += bundleWarehouse
+						.getString("purchase_invoice_label_discount");
+				flag = true;
+			}
+			if (checkTotalValue != 0) {
+				message += flag ? ", " : "";
+				message += bundle.getString("label_total");
+				flag = true;
+			}
+			if (flag) {
+				String format = MessageFormat
+						.format(bundleWarehouse
+								.getString("purchase_invoice_message_validate_reconcile"),
+								message);
+				ControladorContexto.mensajeInformacion(
+						"formPurchaseInvoices:invoiceItemsTable", format);
+			} else {
+				ControladorContexto
+						.mensajeInformacion(
+								"formPurchaseInvoices:invoiceItemsTable",
+								bundleWarehouse
+										.getString("purchase_invoice_message_reconcile_successfull"));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
