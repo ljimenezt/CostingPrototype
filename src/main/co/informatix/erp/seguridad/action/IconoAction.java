@@ -19,8 +19,8 @@ import org.primefaces.event.FileUploadEvent;
 import co.informatix.erp.seguridad.dao.GestionarIconoDao;
 import co.informatix.erp.seguridad.dao.GestionarMenuDao;
 import co.informatix.erp.utils.Constantes;
+import co.informatix.erp.utils.ControladorArchivos;
 import co.informatix.erp.utils.ControladorContexto;
-import co.informatix.erp.utils.ControladorGenerico;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
@@ -274,11 +274,12 @@ public class IconoAction implements Serializable {
 				+ getFolderFilesReal();
 		File directoryIcons = new File(route);
 		File[] listIcons = directoryIcons.listFiles();
+		String extImg = Constantes.EXT_IMG;
 		if (listIcons != null) {
 			for (File file : listIcons) {
 				String nameIcon = file.getName();
 				String ext = FilenameUtils.getExtension(nameIcon);
-				if (ControladorGenerico.validateExtension(ext)) {
+				if (ControladorArchivos.validateExtension(ext, extImg)) {
 					Icono iconExist = iconoDao
 							.nameExist(nameIcon.toUpperCase());
 					if (iconExist == null) {
