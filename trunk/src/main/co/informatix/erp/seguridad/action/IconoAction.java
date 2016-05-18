@@ -236,10 +236,10 @@ public class IconoAction implements Serializable {
 		StringBuilder query = new StringBuilder();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		icons = new ArrayList<Icono>();
-		String navigationRule = "";
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
 				: false;
+		String navigationRule = fromModal ? "" : "gesIcono";
 		try {
 			validateIconsFolder();
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
@@ -283,9 +283,6 @@ public class IconoAction implements Serializable {
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
-		}
-		if (!fromModal) {
-			navigationRule = "gesIcono";
 		}
 		return navigationRule;
 	}
