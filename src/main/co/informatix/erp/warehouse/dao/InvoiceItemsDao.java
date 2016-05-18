@@ -127,21 +127,20 @@ public class InvoiceItemsDao implements Serializable {
 	 * 
 	 * @param idPurchaseInvoice
 	 *            : Identifier of the purchase invoice to filter the consult
-	 * @param item
-	 *            :parameter to consult the value of the one purchase invoice
-	 * @return Double: value double of the parameter item
+	 * 
+	 * @return Object[]:List of doubles with the values of the query
 	 * @throws Exception
 	 */
-	public Double consultValuesItems(int idPurchaseInvoice, String item)
-			throws Exception {
+	public Object[] consultValuesItems(int idPurchaseInvoice) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT SUM(it." + item + ") ");
+		query.append("SELECT SUM(it.subTotal), SUM(it.shipping), ");
+		query.append("SUM(it.packaging), SUM(it.taxes), SUM(it.discount), SUM(it.total) ");
 		query.append("FROM InvoiceItems it ");
 		query.append("JOIN  it.purchaseInvoice pi ");
 		query.append("WHERE pi.idPurchaseInvoice =:idPurchaseInvoice ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idPurchaseInvoice", idPurchaseInvoice);
-		return (Double) q.getSingleResult();
+		return (Object[]) q.getSingleResult();
 	}
 
 	/**
