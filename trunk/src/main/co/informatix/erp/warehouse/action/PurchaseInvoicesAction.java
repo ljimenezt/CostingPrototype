@@ -951,7 +951,7 @@ public class PurchaseInvoicesAction implements Serializable {
 						.format(bundleWarehouse
 								.getString("purchase_invoice_message_validate_reconcile"),
 								message);
-				ControladorContexto.mensajeInformacion(
+				ControladorContexto.mensajeError(
 						"formPurchaseInvoices:invoiceItemsTable", format);
 			} else {
 				ControladorContexto
