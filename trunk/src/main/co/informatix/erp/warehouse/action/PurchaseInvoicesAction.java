@@ -883,20 +883,16 @@ public class PurchaseInvoicesAction implements Serializable {
 			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 			int idPurchaseInvoice = this.invoicesActualSelected
 					.getIdPurchaseInvoice();
+			Object[] values = invoiceItemsDao
+					.consultValuesItems(idPurchaseInvoice);
 			String message = "";
 			boolean flag = false;
-			double subtotal = invoiceItemsDao.consultValuesItems(
-					idPurchaseInvoice, Constantes.INVOICE_ITEMS_SUBTOTAL);
-			double shipping = invoiceItemsDao.consultValuesItems(
-					idPurchaseInvoice, Constantes.INVOICE_ITEMS_SHIPPING);
-			double packaging = invoiceItemsDao.consultValuesItems(
-					idPurchaseInvoice, Constantes.INVOICE_ITEMS_PACKAGING);
-			double taxes = invoiceItemsDao.consultValuesItems(
-					idPurchaseInvoice, Constantes.INVOICE_ITEMS_TAXES);
-			double discount = invoiceItemsDao.consultValuesItems(
-					idPurchaseInvoice, Constantes.INVOICE_ITEMS_DISCOUNT);
-			double totalValue = invoiceItemsDao.consultValuesItems(
-					idPurchaseInvoice, Constantes.INVOICE_ITEMS_TOTAL);
+			double subtotal = (double) values[0];
+			double shipping = (double) values[1];
+			double packaging = (double) values[2];
+			double taxes = (double) values[3];
+			double discount = (double) values[4];
+			double totalValue = (double) values[5];
 
 			double pSubtotal = this.invoicesActualSelected.getSubtotal();
 			double pShipping = this.invoicesActualSelected.getShipping();

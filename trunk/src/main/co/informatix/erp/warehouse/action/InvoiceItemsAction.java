@@ -1,6 +1,8 @@
 package co.informatix.erp.warehouse.action;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -616,18 +618,20 @@ public class InvoiceItemsAction implements Serializable {
 				double subTotal = quantity * costUnit;
 				this.invoiceItem.setSubTotal(subTotal);
 				double shipping = this.invoiceItem.getShipping();
-				double taxes = 0d;
+				BigDecimal taxes = new BigDecimal(0);
 				int idIvaRate = this.invoiceItem.getIvaRate().getIdIva();
 				if (idIvaRate != 0) {
 					IvaRate ivaRate = ivaRateDao.ivaRateXId(idIvaRate);
 					this.invoiceItem.setIvaRate(ivaRate);
-					taxes = subTotal * (ivaRate.getRate() / 100);
-					this.invoiceItem.setTaxes(taxes);
+					double iva = ivaRate.getRate() / 100;
+					taxes = new BigDecimal(subTotal * iva,
+							MathContext.DECIMAL64);
+					this.invoiceItem.setTaxes(taxes.doubleValue());
 				}
 				double packaging = this.invoiceItem.getPackaging();
 				double handling = this.invoiceItem.getHandling();
 				double discount = this.invoiceItem.getDiscount();
-				double sum = (shipping + taxes + packaging + handling)
+				double sum = (shipping + taxes.doubleValue() + packaging + handling)
 						- (discount);
 				double total = this.invoiceItem.getSubTotal() + sum;
 				this.invoiceItem.setTotal(total);
