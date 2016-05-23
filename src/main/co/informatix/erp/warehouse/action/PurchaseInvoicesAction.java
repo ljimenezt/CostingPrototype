@@ -950,6 +950,9 @@ public class PurchaseInvoicesAction implements Serializable {
 				ControladorContexto.mensajeError(
 						"formPurchaseInvoices:invoiceItemsTable", format);
 			} else {
+				this.invoicesActualSelected.setReconcile(true);
+				purchaseInvoicesDao.editInvoices(this.invoicesActualSelected);
+				showInvoiceItems();
 				ControladorContexto
 						.mensajeInformacion(
 								"formPurchaseInvoices:invoiceItemsTable",
