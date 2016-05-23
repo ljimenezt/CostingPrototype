@@ -42,6 +42,7 @@ public class PurchaseInvoices implements Serializable {
 	private String note;
 	private String invoiceDocumentLink;
 	private boolean selected;
+	private boolean reconcile; 
 
 	/**
 	 * @return idpurchaseinvoice: Purchase invoices identifier
@@ -258,6 +259,20 @@ public class PurchaseInvoices implements Serializable {
 		this.selected = selected;
 	}
 
+	/**
+	 * @return reconcile: Flag to see if the invoice was reconciled.
+	 */
+	public boolean isReconcile() {
+		return reconcile;
+	}
+
+	/**
+	 * @param reconcile: Flag to see if the invoice was reconciled.
+	 */
+	public void setReconcile(boolean reconcile) {
+		this.reconcile = reconcile;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -277,6 +292,8 @@ public class PurchaseInvoices implements Serializable {
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		temp = Double.doubleToLongBits(packaging);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (reconcile ? 1231 : 1237);
+		result = prime * result + (selected ? 1231 : 1237);
 		temp = Double.doubleToLongBits(shipping);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(subtotal);
@@ -324,6 +341,10 @@ public class PurchaseInvoices implements Serializable {
 			return false;
 		if (Double.doubleToLongBits(packaging) != Double
 				.doubleToLongBits(other.packaging))
+			return false;
+		if (reconcile != other.reconcile)
+			return false;
+		if (selected != other.selected)
 			return false;
 		if (Double.doubleToLongBits(shipping) != Double
 				.doubleToLongBits(other.shipping))
