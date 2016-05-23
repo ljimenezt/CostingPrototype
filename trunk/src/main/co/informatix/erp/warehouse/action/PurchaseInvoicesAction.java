@@ -874,6 +874,8 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * This method allow calculate the values according with the items invoice
 	 * values and compare with the value of the purchase invoice
 	 * 
+	 * @modify 23/05/2016 Gerardo.Herrera
+	 * 
 	 * @throws Exception
 	 */
 	public void calculateValuesInvoices() {
