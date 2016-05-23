@@ -68,6 +68,7 @@ public class GestionarMenuAction implements Serializable {
 	private String folderFilesIcons;
 
 	private boolean fromRol = false;
+	private boolean fromMethod = false;
 
 	/**
 	 * @return menuAction: Variable that gets the object menu of the user
@@ -224,6 +225,23 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
+	 * @return fromMethod: Indicates whether the action is executed from
+	 *         MetodoAction, to perform special actions.
+	 */
+	public boolean isFromMethod() {
+		return fromMethod;
+	}
+
+	/**
+	 * @param fromMethod
+	 *            : Indicates whether the action is executed from MetodoAction,
+	 *            to perform special actions.
+	 */
+	public void setFromMethod(boolean fromMethod) {
+		this.fromMethod = fromMethod;
+	}
+
+	/**
 	 * Initializes the name in the search menu.
 	 * 
 	 * @author Adonay.Mantilla
@@ -246,6 +264,7 @@ public class GestionarMenuAction implements Serializable {
 	public void initialData() {
 		this.nameSearch = "";
 		this.fromRol = false;
+		this.fromMethod = false;
 		pagination = new Paginador();
 	}
 
@@ -271,19 +290,28 @@ public class GestionarMenuAction implements Serializable {
 		String isPopup = ControladorContexto.getParam("param2");
 		boolean fromModal = (isPopup != null && "si".equals(isPopup)) ? true
 				: false;
-		String back = fromModal ? "" : "gesMenus";
+		String back = fromModal || fromMethod ? "" : "gesMenus";
 		try {
 			advancedSearch(consult, order, parameters, bundle,
 					unionMessageSearch);
 			if (fromRol
-					|| (this.nameSearch != null && !"".equals(this.nameSearch))) {
-				this.listAllMenus = menuDao.consultMenus(null, null, consult,
-						order, parameters);
+					|| (this.nameSearch != null && !"".equals(this.nameSearch))
+					|| fromMethod) {
+				if (fromMethod) {
+					MetodoAction metodoAction = ControladorContexto
+							.getContextBean(MetodoAction.class);
+					this.listAllMenus = menuDao
+							.consultAllMenusAction(metodoAction
+									.getMenusSelected());
+				} else {
+					this.listAllMenus = menuDao.consultMenus(null, null,
+							consult, order, parameters);
+				}
 				List<Menu> listMenusData = filterMenusByName(this.listAllMenus);
 				int start = 0;
 				int totalReg = pagination.getRango();
 				long quantityMenus = (long) listMenusData.size();
-				if (fromModal) {
+				if (fromModal || fromMethod) {
 					pagination.paginarRangoDefinido(quantityMenus, 5);
 					totalReg = 5;
 				} else {
@@ -297,7 +325,7 @@ public class GestionarMenuAction implements Serializable {
 				listMenusTemporal = listMenusData.subList(start, range);
 			} else {
 				Long quantityMenus = menuDao.quantityMenus(consult, parameters);
-				if (fromModal) {
+				if (fromModal || fromMethod) {
 					pagination.paginarRangoDefinido(quantityMenus, 5);
 				} else {
 					pagination.paginar(quantityMenus);
@@ -306,7 +334,13 @@ public class GestionarMenuAction implements Serializable {
 						pagination.getInicio(), pagination.getRango(), consult,
 						order, parameters);
 			}
+			if (fromMethod) {
+				for (Menu menu : listMenusTemporal) {
+					convertNameMenuDescript(menu);
+				}
+			}
 			this.listMenus = loadInformationMenus(listMenusTemporal);
+
 			if ((listMenus == null || listMenus.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {
 				messageSearch = MessageFormat

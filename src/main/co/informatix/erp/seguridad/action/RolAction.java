@@ -892,6 +892,7 @@ public class RolAction implements Serializable {
 					.getContextBean(GestionarMenuAction.class);
 			menuAction.initialData();
 			menuAction.setFromRol(true);
+			menuAction.setFromMethod(false);
 			loadRelatedMenus();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

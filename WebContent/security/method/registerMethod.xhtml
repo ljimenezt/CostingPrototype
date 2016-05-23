@@ -32,7 +32,7 @@
 		<t:saveState value="#{encodeFilter}" />
 		<h:form id="metodoForm">
 			<ui:param name="listaVacia"
-				value="#{metodoAction.menus eq null or empty metodoAction.menus}" />
+				value="#{menuAction.listMenus eq null or empty menuAction.listMenus}" />
 			<ui:param name="listaVacia2"
 				value="#{metodoAction.menusSelected eq null or empty metodoAction.menusSelected}" />
 			<rich:panel header="#{messageSecurity.method_label}"
@@ -119,7 +119,7 @@
 									</a:commandLink>
 								</h:panelGrid>
 							</div>
-							<rich:dataTable value="#{metodoAction.menus}"
+							<rich:dataTable value="#{menuAction.listMenus}"
 								id="tablaMenusDisponibles" var="menuDisponible"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W440P"
 								rowClasses="odd-row, even-row" footerClass="H126P">
@@ -172,10 +172,10 @@
 									<ui:include src="/plantillas/templatePagination.xhtml">
 										<ui:param name="valId" value="1" />
 										<ui:param name="valReder" value="menusPanel" />
-										<ui:param name="beanActionParam" value="#{metodoAction}" />
+										<ui:param name="beanActionParam" value="#{menuAction}" />
 										<ui:param name="metodoActionParam"
-											value="searchAvailableMenus" />
-										<ui:param name="pager" value="paginationMenus" />
+											value="consultMenus" />
+										<ui:param name="pager" value="pagination" />
 									</ui:include>
 								</div>
 							</a:outputPanel>
@@ -298,11 +298,11 @@
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.label_search}"
 						id="btnBuscarMenus"
-						action="#{metodoAction.searchAvailableMenus()}"
+						action="#{menuAction.consultMenus}"
 						oncomplete="if (#{facesContext.maximumSeverity==null} || #{facesContext.maximumSeverity.ordinal == 0}) {#{rich:component('popupSearch')}.hide();}"
 						render=":metodoForm:menusPanel, mensajes">
 						<f:setPropertyActionListener value="f"
-							target="#{metodoAction.paginationMenus.opcion}" />
+							target="#{menuAction.pagination.opcion}" />
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
 						value="#{mensaje.button_cancel}" />
