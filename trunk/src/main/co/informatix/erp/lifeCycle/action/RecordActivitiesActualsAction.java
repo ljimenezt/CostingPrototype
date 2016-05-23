@@ -641,6 +641,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void endActivity() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleLifecycle= ControladorContexto.getBundle("messageLifeCycle");
 		String registerMessage = "message_calculate_labor_cost";
 		boolean flag = false;
 		try {
@@ -688,6 +689,11 @@ public class RecordActivitiesActualsAction implements Serializable {
 							.format(bundle.getString(registerMessage),
 									selectedActivity.getActivityName()));
 					initializeRecordActual();
+				} else {
+					ControladorContexto
+							.mensajeInformacion(
+									null,
+									bundleLifecycle.getString("scheduled_activities_message_recursos"));
 				}
 			}
 		} catch (Exception e) {

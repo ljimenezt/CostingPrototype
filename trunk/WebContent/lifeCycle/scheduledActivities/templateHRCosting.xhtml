@@ -214,7 +214,7 @@
 					<a:commandButton value="#{mensaje.button_accept}"
 						render="formHrReporting, mensajes, mensajeBusqueda"
 						actionListener="#{recordActivitiesActualsAction.endActivity()}"
-						onclick="#{rich:component('popUpConfirmEndActivity')}.hide(); #{rich:component('statPane')}.show();" />
+						onclick="#{rich:component('popUpConfirmEndActivity')}.hide(); #{rich:component('statPane')}.show(); scrollUp()" />
 					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popUpConfirmEndActivity')}.hide()" />
 				</ui:define>
