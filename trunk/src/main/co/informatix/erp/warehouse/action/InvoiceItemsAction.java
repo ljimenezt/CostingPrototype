@@ -530,36 +530,52 @@ public class InvoiceItemsAction implements Serializable {
 				.getBundle("mensajeWarehouse");
 		try {
 			this.validateConvert = false;
-			this.depositExist = this.depositDao.existsDeposit(invoiceItems
-					.getMaterial(), invoiceItems.getPurchaseInvoice()
-					.getInvoiceNumber(), invoiceItems.getPurchaseInvoice()
-					.getSuppliers().getIdSupplier());
-			if (!depositExist) {
-				if (invoiceItems.getQuantity() > 0
-						&& invoiceItems.getTotal() > 0) {
-					this.invoiceItem = invoiceItems;
-					double quantity = invoiceItem.getQuantity()
-							* invoiceItem.getMaterial().getPresentation();
-					this.unitCost = invoiceItem.getTotal() / quantity;
-					listFarms();
-					this.validateConvert = true;
+			if (invoiceItems != null
+					&& invoiceItems.getPurchaseInvoice() != null) {
+				this.depositExist = this.depositDao.existsDeposit(invoiceItems
+						.getMaterial(), invoiceItems.getPurchaseInvoice()
+						.getInvoiceNumber(), invoiceItems.getPurchaseInvoice()
+						.getSuppliers().getIdSupplier());
+				if (!depositExist) {
+					if (invoiceItems.getPurchaseInvoice().isReconcile()) {
+						if (invoiceItems.getQuantity() > 0
+								&& invoiceItems.getTotal() > 0) {
+							this.invoiceItem = invoiceItems;
+							double quantity = invoiceItem.getQuantity()
+									* invoiceItem.getMaterial()
+											.getPresentation();
+							this.unitCost = invoiceItem.getTotal() / quantity;
+							listFarms();
+							this.validateConvert = true;
+						} else {
+							ControladorContexto
+									.mensajeInformacion(
+											"formPurchaseInvoices:invoiceItemsTable",
+											bundle.getString("invoice_items_message_convert_deposit"));
+						}
+					} else {
+						String format = MessageFormat
+								.format(bundle
+										.getString("invoice_items_message_invoice_not_reconcile"),
+										invoiceItems.getPurchaseInvoice()
+												.getInvoiceNumber());
+						ControladorContexto.mensajeInformacion(
+								"formPurchaseInvoices:invoiceItemsTable",
+								format);
+					}
 				} else {
-					ControladorContexto
-							.mensajeInformacion(
-									"formPurchaseInvoices:invoiceItemsTable",
-									bundle.getString("invoice_items_message_convert_deposit"));
+					String format = MessageFormat.format(bundle
+							.getString("deposits_message_convert_deposit"),
+							invoiceItems.getMaterial().getName()
+									+ " "
+									+ invoiceItems.getMaterial()
+											.getPresentation()
+									+ " "
+									+ invoiceItems.getMaterial()
+											.getMeasurementUnits().getName());
+					ControladorContexto.mensajeInformacion(
+							"formPurchaseInvoices:invoiceItemsTable", format);
 				}
-			} else {
-				String format = MessageFormat.format(
-						bundle.getString("deposits_message_convert_deposit"),
-						invoiceItems.getMaterial().getName()
-								+ " "
-								+ invoiceItems.getMaterial().getPresentation()
-								+ " "
-								+ invoiceItems.getMaterial()
-										.getMeasurementUnits().getName());
-				ControladorContexto.mensajeInformacion(
-						"formPurchaseInvoices:invoiceItemsTable", format);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
