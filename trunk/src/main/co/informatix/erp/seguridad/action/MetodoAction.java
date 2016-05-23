@@ -349,78 +349,16 @@ public class MetodoAction implements Serializable {
 
 	/**
 	 * Method that cleans the list of available menus.
+	 * 
+	 * @modify 20/05/2016 Gerardo.Herrera
 	 */
 	public void eraseAvailableMenus() {
 		GestionarMenuAction menuAction = ControladorContexto
 				.getContextBean(GestionarMenuAction.class);
-		paginationMenus = new Paginador();
-		menuAction.setNameSearch(null);
-		searchAvailableMenus();
-	}
-
-	/**
-	 * Provides access to the menus available.
-	 */
-	public void searchAvailableMenus() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleSecurity = ControladorContexto
-				.getBundle("messageSecurity");
-		ValidacionesAction validations = ControladorContexto
-				.getContextBean(ValidacionesAction.class);
-		GestionarMenuAction menuAction = ControladorContexto
-				.getContextBean(GestionarMenuAction.class);
-		String searchMessage = "";
-		StringBuilder jointSearchMessage = new StringBuilder();
-		this.menus = new ArrayList<Menu>();
-		try {
-			if (menuAction.getNameSearch() != null
-					&& !"".equals(menuAction.getNameSearch())) {
-				jointSearchMessage.append(bundle.getString("label_name") + ": "
-						+ '"' + menuAction.getNameSearch() + '"');
-				List<Menu> allMenus = menuDao
-						.consultAllMenusAction(this.menusSelected);
-				List<Menu> menusData = menuAction.filterMenusByName(allMenus);
-				long menusAmount = (long) menusData.size();
-				paginationMenus.paginarRangoDefinido(menusAmount, 5);
-				int totalReg = paginationMenus.getRango();
-				int start = paginationMenus.getInicio();
-				int range = start + totalReg;
-				if (menusData.size() < range) {
-					range = menusData.size();
-				}
-				this.menus = menusData.subList(start, range);
-			} else {
-				Long menusAmount = menuDao
-						.quantityMenusAction(this.menusSelected);
-				paginationMenus.paginarRangoDefinido(menusAmount, 5);
-				this.menus = menuDao.consultMenusAction(
-						paginationMenus.getInicio(),
-						paginationMenus.getRango(), this.menusSelected);
-			}
-			for (Menu menu : this.menus) {
-				menuAction.convertNameMenuDescript(menu);
-			}
-			if ((this.menus == null || this.menus.size() <= 0)
-					&& !"".equals(jointSearchMessage.toString())) {
-				searchMessage = MessageFormat
-						.format(bundle
-								.getString("message_no_existen_registros_criterio_busqueda"),
-								jointSearchMessage);
-
-			} else if (this.menus == null || this.menus.size() <= 0) {
-				searchMessage = bundle
-						.getString("message_no_existen_registros");
-			} else if (!"".equals(jointSearchMessage.toString())) {
-				searchMessage = MessageFormat
-						.format(bundle
-								.getString("message_existen_registros_criterio_busqueda"),
-								bundleSecurity.getString("menu_label_s"),
-								jointSearchMessage);
-			}
-			validations.setMensajeBusquedaPopUp(searchMessage);
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
+		menuAction.setFromMethod(true);
+		menuAction.setFromRol(false);
+		menuAction.setNameSearch("");
+		menuAction.consultMenus();
 	}
 
 	/**
@@ -449,7 +387,7 @@ public class MetodoAction implements Serializable {
 			} else {
 				this.menusSelected = new ArrayList<Menu>();
 			}
-			searchAvailableMenus();
+			menuAction.consultMenus();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -475,7 +413,9 @@ public class MetodoAction implements Serializable {
 				}
 			}
 		}
-		searchAvailableMenus();
+		GestionarMenuAction menuAction = ControladorContexto
+				.getContextBean(GestionarMenuAction.class);
+		menuAction.consultMenus();
 	}
 
 	/**
