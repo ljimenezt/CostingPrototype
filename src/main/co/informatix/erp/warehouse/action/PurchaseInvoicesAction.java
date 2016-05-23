@@ -998,7 +998,7 @@ public class PurchaseInvoicesAction implements Serializable {
 				}
 			}
 			if (!EncodeFilter.validarXSS(name, clientId,
-					"locate.regex.letras.numeros")) {
+					"locate.regex.letras.numeros.guion")) {
 				((UIInput) toValidate).setValid(false);
 			}
 
