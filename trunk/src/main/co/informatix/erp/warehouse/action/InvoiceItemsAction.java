@@ -323,6 +323,7 @@ public class InvoiceItemsAction implements Serializable {
 				}
 				if (invoiceItem.getIdInvoiceItem() != 0) {
 					index = this.invoiceItemsListEdit.indexOf(this.invoiceItem);
+					editTemp = false;
 				} else {
 					index = this.invoiceItemsListAdd.indexOf(this.invoiceItem);
 					editTemp = true;
