@@ -19,7 +19,7 @@
 					width="#{anchoTabla}">
 					<rich:message for="invoiceItemsTable" />
 					<a:commandLink id="lnkActivityNames"
-						rendered="#{purchaseInvoicesAction.flag eq true}"
+						rendered="#{purchaseInvoicesAction.flag eq true and purchaseInvoicesAction.invoices.reconcile eq false}"
 						styleClass="quitarDecoracionLink" execute="@form"
 						actionListener="#{invoiceItemsAction.addEditInvoiceItems(null)}"
 						render=":formRegInvoiceItems:popupRegInvoiceItems, mensajes, mensajeBusqueda"
@@ -33,7 +33,8 @@
 							</h:panelGrid>
 						</div>
 					</a:commandLink>
-					<a:commandLink styleClass="quitarDecoracionLink" rendered="#{purchaseInvoicesAction.flag eq false}"
+					<a:commandLink styleClass="quitarDecoracionLink"
+						rendered="#{purchaseInvoicesAction.flag eq false}"
 						action="#{purchaseInvoicesAction.calculateValuesInvoices()}"
 						render="panelPurchaseInvoices, mensajes, mensajeBusqueda">
 						<div align="right">
@@ -53,6 +54,7 @@
 					<rich:column styleClass="colIconoUno"
 						rendered="#{purchaseInvoicesAction.flag eq true}">
 						<a:commandLink render="popupEliminar pnlInvoice"
+							rendered="#{invoiceItems.purchaseInvoice.reconcile eq false or invoiceItems.purchaseInvoice eq null}"
 							actionListener="#{invoiceItemsAction.validateInvoiceItemsToEdit(invoiceItems)}"
 							action="#{invoiceItemsAction.setInvoiceItems(invoiceItems)}"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupEliminar')}.show();} else {null}">
@@ -61,6 +63,8 @@
 								<h:outputText value="#{mensaje.button_remove}" />
 							</rich:tooltip>
 						</a:commandLink>
+						<h:graphicImage value="/img/delete_no_available_16.png"
+							rendered="#{invoiceItems.purchaseInvoice.reconcile eq true}" />
 					</rich:column>
 					<rich:column styleClass="colIcono"
 						rendered="#{purchaseInvoicesAction.flag eq false}">
@@ -80,14 +84,16 @@
 
 					<rich:column styleClass="colTextoExtraLargo">
 						<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
-						<a:commandLink rendered="#{purchaseInvoicesAction.flag eq true}"
+						<a:commandLink
+							rendered="#{(purchaseInvoicesAction.flag eq true and invoiceItems.purchaseInvoice.reconcile eq false) or invoiceItems.purchaseInvoice eq null}"
 							render="popupRegInvoiceItems, pnlInvoice"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupRegInvoiceItems')}.show();} else {null}"
 							actionListener="#{invoiceItemsAction.validateInvoiceItemsToEdit(invoiceItems)}"
 							action="#{invoiceItemsAction.addEditInvoiceItems(invoiceItems)}"
 							value="#{invoiceItems.material.name} #{invoiceItems.material.presentation} #{invoiceItems.material.measurementUnits.name}">
 						</a:commandLink>
-						<h:outputText rendered="#{purchaseInvoicesAction.flag eq false}"
+						<h:outputText
+							rendered="#{purchaseInvoicesAction.flag eq false or invoiceItems.purchaseInvoice.reconcile eq true}"
 							value="#{invoiceItems.material.name} #{invoiceItems.material.presentation} #{invoiceItems.material.measurementUnits.name}" />
 					</rich:column>
 					<rich:column styleClass="colValorLargo">
