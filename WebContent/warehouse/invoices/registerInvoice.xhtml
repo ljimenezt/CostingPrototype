@@ -70,6 +70,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText
+								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
 								value="#{purchaseInvoicesAction.invoices.invoiceNumber}"
 								styleClass="W130P" id="txtNumInv" size="50"
 								validator="#{purchaseInvoicesAction.validateNameXSS}"
@@ -81,6 +82,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText id="subTotalValue"
+								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
 								value="#{purchaseInvoicesAction.invoices.subtotal}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
@@ -92,6 +94,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText id="taxes"
+								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
 								value="#{purchaseInvoicesAction.invoices.taxes}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
@@ -103,6 +106,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText id="shipping"
+								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
 								value="#{purchaseInvoicesAction.invoices.shipping}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
@@ -114,6 +118,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText id="packaging"
+								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
 								value="#{purchaseInvoicesAction.invoices.packaging}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
@@ -125,6 +130,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText id="discount"
+								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
 								value="#{purchaseInvoicesAction.invoices.discount}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
@@ -135,6 +141,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText id="totalValue"
+								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
 								value="#{purchaseInvoicesAction.invoices.totalValueActual}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
 								styleClass="W108P">
@@ -144,7 +151,9 @@
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_note}" />
 							<h:outputText value="" />
-							<h:inputTextarea value="#{purchaseInvoicesAction.invoices.note}"
+							<h:inputTextarea
+								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
+								value="#{purchaseInvoicesAction.invoices.note}"
 								styleClass="colTextoMedianoTextArea" id="txaDescription"
 								validator="#{encodeFilter.validarScripting}"
 								requiredMessage="#{mensaje.message_campo_requerido}">

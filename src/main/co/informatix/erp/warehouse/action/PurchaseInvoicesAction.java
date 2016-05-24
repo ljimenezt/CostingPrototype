@@ -566,6 +566,8 @@ public class PurchaseInvoicesAction implements Serializable {
 	/**
 	 * Method to edit or create a new invoice.
 	 * 
+	 * @modify 24/05/2016 Gerardo.Herrera
+	 * 
 	 * @param invoices
 	 *            :invoice are adding or editing
 	 * 
@@ -573,6 +575,8 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public String addEditInvoices(PurchaseInvoices invoices) {
 		try {
+			ResourceBundle bundle=ControladorContexto
+					.getBundle("mensajeWarehouse");
 			loadSuppliers();
 			cleanItemList();
 			if (invoices != null) {
@@ -581,11 +585,16 @@ public class PurchaseInvoicesAction implements Serializable {
 				if (!("").equals(nameDocument) && nameDocument != null) {
 					relocateFileTemp();
 				}
+				if(invoices.isReconcile()){
+					String message=bundle.getString("purchase_invoice_message_validate_already_reconciled");
+					ControladorContexto.mensajeInformacion(null, message);	
+				}
 				selectInvoice(invoices);
 				showInvoiceItems();
 			} else {
 				this.invoices = new PurchaseInvoices();
 				this.invoices.setSuppliers(new Suppliers());
+				this.invoices.setReconcile(false);
 				this.nameDocument = null;
 				invoiceItemsAction.cleanLists();
 			}
