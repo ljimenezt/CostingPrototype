@@ -44,6 +44,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<p:calendar readonlyInput="true"
+								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
 								value="#{purchaseInvoicesAction.invoices.dateTime}"
 								styleClass="W100P" id="dateInvoice" showOn="button"
 								maxdate="#{controladorFechas.fechaActual()}" navigator="true"
