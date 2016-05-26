@@ -262,6 +262,7 @@ public class PurchaseInvoices implements Serializable {
 	/**
 	 * @return reconcile: Flag to see if the invoice was reconciled.
 	 */
+	@Column(name = "reconcile")
 	public boolean isReconcile() {
 		return reconcile;
 	}
