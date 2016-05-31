@@ -44,12 +44,15 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<p:calendar readonlyInput="true"
-								disabled="#{purchaseInvoicesAction.invoices.reconcile eq true}"
+								rendered="#{purchaseInvoicesAction.invoices.reconcile eq false}"
 								value="#{purchaseInvoicesAction.invoices.dateTime}"
 								styleClass="W100P" id="dateInvoice" showOn="button"
 								maxdate="#{controladorFechas.fechaActual()}" navigator="true"
 								pattern="MM/dd/yyyy"
 								converterMessage="#{mensaje.message_validar_formato_fecha}" />
+							<h:inputText value="#{purchaseInvoicesAction.invoices.dateTime}"
+								readonly="true"
+								rendered="#{purchaseInvoicesAction.invoices.reconcile eq true}" />
 							<rich:message for="dateInvoice" />
 
 							<h:outputText styleClass="etiquetaTitulo"
