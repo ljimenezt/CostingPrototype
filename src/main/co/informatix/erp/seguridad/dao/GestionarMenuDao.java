@@ -70,11 +70,12 @@ public class GestionarMenuDao implements Serializable {
 	 *            : consult parameters.
 	 * @return List<Menu>: List of existing menus in the database according to
 	 *         the search.
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Menu> consultMenus(Integer start, Integer range,
 			StringBuilder consult, StringBuilder order,
-			List<SelectItem> parameters) {
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Menu m ");
 		query.append(consult);

@@ -96,10 +96,11 @@ public class GestionarIconoDao implements Serializable {
 	 * @param parameters
 	 *            : Query parameters.
 	 * @return List<Icono>: Icons list
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Icono> queryIcons(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters) {
+	public List<Icono> queryIcons(int start, int range, StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT i FROM Icono i ");
 		query.append(consult);
@@ -126,8 +127,10 @@ public class GestionarIconoDao implements Serializable {
 	 * @param parameters
 	 *            : Query parameters
 	 * @return Long: Icons quantity
+	 * @throws Exception
 	 */
-	public Long quantityIcons(StringBuilder query, List<SelectItem> parameters) {
+	public Long quantityIcons(StringBuilder query, List<SelectItem> parameters)
+			throws Exception {
 		StringBuilder consult = new StringBuilder();
 		consult.append("SELECT COUNT(i) FROM Icono i ");
 		consult.append(query);
@@ -137,5 +140,4 @@ public class GestionarIconoDao implements Serializable {
 		}
 		return (Long) q.getSingleResult();
 	}
-	
 }
