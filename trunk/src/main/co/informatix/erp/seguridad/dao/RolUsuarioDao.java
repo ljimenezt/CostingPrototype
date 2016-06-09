@@ -60,6 +60,7 @@ public class RolUsuarioDao implements Serializable {
 	 * 
 	 * @param rolUsuario
 	 *            : object editing.
+	 * @throws Exception
 	 */
 	public void editarRolUsuario(RolUsuario rolUsuario) throws Exception {
 		em.merge(rolUsuario);
