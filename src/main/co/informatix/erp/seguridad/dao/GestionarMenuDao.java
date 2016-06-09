@@ -175,11 +175,11 @@ public class GestionarMenuDao implements Serializable {
 	}
 
 	/**
-	 * Check the menu for his id.
+	 * This method looking a menu by identifier.
 	 * 
 	 * @param id
 	 *            : Menu identifier.
-	 * @return Menu item.
+	 * @return Menu: Menu object.
 	 * @throws Exception
 	 */
 	public Menu consultMenuXId(int id) throws Exception {
@@ -326,6 +326,7 @@ public class GestionarMenuDao implements Serializable {
 	 *            : id of the menu you want to remove.
 	 * @return: Boolean that indicates whether the menu to delete or not
 	 *          associated menus.
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean sonsMenu(int idMenu) throws Exception {
