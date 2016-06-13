@@ -379,6 +379,8 @@ public class ActivitiesAndServicesAction implements Serializable {
 	/**
 	 * Method that fills the list of crops according to the selected name.
 	 * 
+	 * @modify 13/06/2016 Wilhelm.Boada
+	 * 
 	 */
 	public void fillCropNamesCrop() {
 		try {
@@ -389,8 +391,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 			} else {
 				idCropsName = idCropNamesSearch;
 			}
-			List<Crops> listCropsVigentes;
-			listCropsVigentes = cropsDao
+			List<Crops> listCropsVigentes = cropsDao
 					.consultCropNamesCropsCurrent(idCropsName);
 			if (listCropsVigentes != null) {
 				for (Crops crops : listCropsVigentes) {
@@ -441,10 +442,8 @@ public class ActivitiesAndServicesAction implements Serializable {
 					pagination.getInicio(), pagination.getRango(), consult,
 					parameters, idCrops);
 			if (listActivities == null || listActivities.size() <= 0) {
-				ControladorContexto
-						.mensajeInformacion(
-								null,
-								bundle.getString("message_no_related_activity"));
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_related_activity"));
 				this.listActivities = new ArrayList<Activities>();
 			} else if (listActivities == null || listActivities.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
@@ -525,15 +524,13 @@ public class ActivitiesAndServicesAction implements Serializable {
 	/**
 	 * This method fills the various objects associated with a service.
 	 * 
+	 * @modify 13/06/2016 Wilhelm.Boada
+	 * 
 	 * @throws Exception
 	 */
 	private void loadDetilsServices() throws Exception {
-		List<ActivitiesAndServices> services = new ArrayList<ActivitiesAndServices>();
-		services.addAll(this.listActivitiesServices);
-		this.listActivitiesServices = new ArrayList<ActivitiesAndServices>();
-		for (ActivitiesAndServices ActivitiesServices : services) {
+		for (ActivitiesAndServices ActivitiesServices : this.listActivitiesServices) {
 			loadDetailActivitiesServices(ActivitiesServices);
-			this.listActivitiesServices.add(ActivitiesServices);
 		}
 	}
 
