@@ -47,5 +47,5 @@ public class ControladorContable implements Serializable {
 		}
 		return result.doubleValue();
 	}
-	
+
 }
