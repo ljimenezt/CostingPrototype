@@ -23,8 +23,6 @@ public class Constantes implements Serializable {
 			.getProperty("locate.carpeta.archivos");
 	public static final String RUTA_IMG = PropertiesManager
 			.getProperty("locate.carpeta.img");
-	public static final String CARPETA_REPORTES_JRXML = PropertiesManager
-			.getProperty("locate.carpeta.archivos.jrxml");
 	public static final String CARPETA_ICONOS_MENU_CABECERA = PropertiesManagerUtils
 			.getProperty("locate.carpeta.img.menu.cabecera");
 	public static final String CARPETA_ARCHIVOS_TEMP = PropertiesManager
@@ -33,15 +31,6 @@ public class Constantes implements Serializable {
 			.getProperty("locate.carpeta.archivos.files");
 	public static final String FOLDER_INVOICES = PropertiesManager
 			.getProperty("locate.carpeta.archivos.invoices");
-
-	public static final String CARPETA_TEMP_SISTEMA() throws Exception {
-		String tempdir = System.getProperty("java.io.tmpdir");
-		if (!(tempdir.endsWith("/") || tempdir.endsWith("\\")))
-			tempdir += System.getProperty("file.separator");
-		tempdir += Utils.getNombreAplicacion();
-		tempdir += System.getProperty("file.separator");
-		return tempdir;
-	}
 
 	/* Adjust to deposit */
 	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE = 1;
@@ -53,12 +42,6 @@ public class Constantes implements Serializable {
 			.getProperty("locate.carpeta.archivos.logosEmpresas");
 	public static final String CARPETA_ARCHIVOS_LOGOS_ORGANIZACIONES = PropertiesManager
 			.getProperty("locate.carpeta.archivos.logosOrganizaciones");
-
-	/* Reports */
-	public static final String CARPETA_ARCHIVOS_REPORTES = PropertiesManager
-			.getProperty("locate.carpeta.archivos.reportes");
-	public static final String EXCEL_FORMATOS_EXOGENAS = PropertiesManager
-			.getProperty("locate.carpeta.archivos.reportes.formatos.exogena");
 
 	/* Human Resources */
 	public static final String FOLDER_FILES_PERSONS = PropertiesManager
