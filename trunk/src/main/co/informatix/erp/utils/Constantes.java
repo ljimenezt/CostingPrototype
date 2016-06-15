@@ -168,4 +168,7 @@ public class Constantes implements Serializable {
 	public static final int IVA_FINAL = Integer.parseInt(PropertiesManager
 			.getProperty("locate.size.iva.final"));
 
+	/* Perfil del sistema */
+	public static final short SYSTEM_PROFILE_ID = 1;
+
 }
