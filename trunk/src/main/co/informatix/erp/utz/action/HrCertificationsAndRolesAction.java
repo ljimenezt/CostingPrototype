@@ -254,8 +254,9 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * 
 	 * @modify 16/03/2016 Wilhelm.Boada
 	 * 
-	 * @return gesHrCertRoles: Returns to the template of human resource
-	 *         management and certifications.
+	 * @return consultHrCertRoles: Call the method consultHrCertRoles and
+	 *         redirects to the template to manage human resources and
+	 *         certifications
 	 */
 	public String searchInitialization() {
 		try {
