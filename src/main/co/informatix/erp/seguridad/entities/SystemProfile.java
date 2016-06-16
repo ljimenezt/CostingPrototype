@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
 @Table(name = "system_profile", schema = "general")
 public class SystemProfile implements Serializable {
 
-	private int id;
+	private short id;
 	private double breakDuration;
 	private double activityDefaultDuration;
 	private Date breakStart;
@@ -36,7 +36,7 @@ public class SystemProfile implements Serializable {
 	@Id
 	@Column(name = "id", nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int getId() {
+	public short getId() {
 		return id;
 	}
 
@@ -44,7 +44,7 @@ public class SystemProfile implements Serializable {
 	 * @param id
 	 *            : Identifier system profile.
 	 */
-	public void setId(int id) {
+	public void setId(short id) {
 		this.id = id;
 	}
 
