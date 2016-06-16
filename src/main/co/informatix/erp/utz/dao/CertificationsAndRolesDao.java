@@ -162,8 +162,11 @@ public class CertificationsAndRolesDao implements Serializable {
 	 * @modify 10/03/2016 Jhair.Leal
 	 * 
 	 * @param nombre
-	 *            : name of certification to verify.
-	 * 
+	 *            : Name of the relationship between certifications and roles to
+	 *            verify.
+	 * @param idCertificactionsAndRoles
+	 *            : Identifier of the relationship between certifications and
+	 *            roles to verify.
 	 * @return CertificationsAndRoles: certificationsAndRoles object found with
 	 *         the search parameters name and id.
 	 * @throws Exception
