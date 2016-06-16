@@ -37,10 +37,12 @@ public class CertificationsAndRolesAction implements Serializable {
 	@EJB
 	private CertificationsAndRolesDao certificationsAndRolesDao;
 
-	private CertificationsAndRoles certificationsAndRoles;
 	private String nameSearch;
-	private List<CertificationsAndRoles> listCertificationsAndRoles;
+
 	private Paginador pagination = new Paginador();
+	private CertificationsAndRoles certificationsAndRoles;
+
+	private List<CertificationsAndRoles> listCertificationsAndRoles;
 
 	/**
 	 * @return certificationsAndRoles: object containing data type

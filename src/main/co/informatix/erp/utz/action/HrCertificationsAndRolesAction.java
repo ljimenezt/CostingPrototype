@@ -42,18 +42,17 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	private CertificationsAndRoles certificationsAndRoles;
 	private HrCertificationsAndRoles hrCertificationsAndRoles;
 	private HrCertificationsAndRolesPK hrCertificationsAndRolesPK;
+	private Paginador pagination = new Paginador();
 
 	private String nameSearch;
-	private Paginador pagination = new Paginador();
+
 	private boolean edit = false;
 	private int idCertificationsAndRoles;
 
 	@EJB
 	private HrDao hrDao;
-
 	@EJB
 	private HrCertificationsAndRolesDao hrCertificationsAndRolesDao;
-
 	@EJB
 	private CertificationsAndRolesDao certificationsAndRolesDao;
 

@@ -44,19 +44,16 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	private ActivityNames activityNames;
 	private ActivitiesAndCertifications activitiesAndCertifications;
 	private ActivitiesAndCertificationsPK activitiesAndCertificationsPK;
+	private Paginador pagination = new Paginador();
 
 	private int idCertAndRoles;
 
 	private String nameSearch;
 
-	private Paginador pagination = new Paginador();
-
 	@EJB
 	private CertificationsAndRolesDao certificationsAndRolesDao;
-
 	@EJB
 	private ActivitiesAndCertificationsDao activitiesAndCertificationsDao;
-
 	@EJB
 	private ActivitiesDao activitiesDao;
 
