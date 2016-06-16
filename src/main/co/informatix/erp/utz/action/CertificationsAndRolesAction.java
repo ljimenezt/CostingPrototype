@@ -235,14 +235,12 @@ public class CertificationsAndRolesAction implements Serializable {
 	 */
 	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
-
 		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = certificationsAndRoles.getIdCertificactionsAndRoles();
-			CertificationsAndRoles certificationsAndRolesAux = new CertificationsAndRoles();
-			certificationsAndRolesAux = certificationsAndRolesDao.nameExists(
-					name, id);
+			CertificationsAndRoles certificationsAndRolesAux = certificationsAndRolesDao
+					.nameExists(name, id);
 			if (certificationsAndRolesAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				ControladorContexto.mensajeErrorEspecifico(clientId,
