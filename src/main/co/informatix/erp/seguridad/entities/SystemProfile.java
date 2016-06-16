@@ -84,7 +84,7 @@ public class SystemProfile implements Serializable {
 	 * @return breakStart: Start time break.
 	 */
 	@Column(name = "break_start", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIME)
 	public Date getBreakStart() {
 		return breakStart;
 	}
@@ -101,7 +101,7 @@ public class SystemProfile implements Serializable {
 	 * @return breakEnd: End time break.
 	 */
 	@Column(name = "break_end", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIME)
 	public Date getBreakEnd() {
 		return breakEnd;
 	}
@@ -118,7 +118,7 @@ public class SystemProfile implements Serializable {
 	 * @return activityDefaultStart: Start time activity.
 	 */
 	@Column(name = "activity_default_start", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIME)
 	public Date getActivityDefaultStart() {
 		return activityDefaultStart;
 	}
@@ -135,7 +135,7 @@ public class SystemProfile implements Serializable {
 	 * @return activityDefaultEnd: End time activity.
 	 */
 	@Column(name = "activity_default_end", nullable = false)
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIME)
 	public Date getActivityDefaultEnd() {
 		return activityDefaultEnd;
 	}
