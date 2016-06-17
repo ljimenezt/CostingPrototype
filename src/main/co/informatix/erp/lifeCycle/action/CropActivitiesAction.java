@@ -1040,14 +1040,14 @@ public class CropActivitiesAction implements Serializable {
 				.getBreakStart());
 		int endLunch = ControladorFechas.getHours(this.systemProfile
 				.getBreakEnd());
-		if (startTime > startLunch && startTime < endLunch) {
+		if (startTime >= startLunch && startTime <= endLunch) {
 			ControladorContexto
 					.mensajeError(
 							null,
 							"popupFormReg:startTime",
 							bundle.getString("message_validate_date_activity_lunch_range"));
 		}
-		if (endTime > startLunch && endTime < endLunch) {
+		if (endTime >= startLunch && endTime <= endLunch) {
 			ControladorContexto
 					.mensajeError(
 							null,
