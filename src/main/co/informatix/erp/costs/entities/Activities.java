@@ -613,6 +613,7 @@ public class Activities implements Serializable {
 				* result
 				+ ((materialsRequired == null) ? 0 : materialsRequired
 						.hashCode());
+		result = prime * result + (routine ? 1231 : 1237);
 		result = prime * result
 				+ ((sequenceNumber == null) ? 0 : sequenceNumber.hashCode());
 		result = prime * result
@@ -735,6 +736,8 @@ public class Activities implements Serializable {
 			if (other.materialsRequired != null)
 				return false;
 		} else if (!materialsRequired.equals(other.materialsRequired))
+			return false;
+		if (routine != other.routine)
 			return false;
 		if (sequenceNumber == null) {
 			if (other.sequenceNumber != null)
