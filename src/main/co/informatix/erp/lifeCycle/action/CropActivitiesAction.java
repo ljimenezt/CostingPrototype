@@ -31,6 +31,8 @@ import co.informatix.erp.lifeCycle.dao.CropsDao;
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
+import co.informatix.erp.seguridad.dao.SystemProfileDao;
+import co.informatix.erp.seguridad.entities.SystemProfile;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
@@ -60,6 +62,8 @@ public class CropActivitiesAction implements Serializable {
 	private ActivityNamesDao activityNamesDao;
 	@EJB
 	private CycleStandardActivitiesDao cycleStandardActivitiesDao;
+	@EJB
+	private SystemProfileDao systemProfileDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -80,11 +84,11 @@ public class CropActivitiesAction implements Serializable {
 	private CropNames cropNames;
 	private CycleStandardActivities cycleStandardActivities;
 	private CycleStandardActivities removeStandard;
+	private SystemProfile systemProfile;
 
 	private String nameSearch;
 	private String messageCrumb;
 
-	private Date maxDate;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
 
@@ -329,6 +333,14 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
+	 * @return systemProfile: Object system Profile
+	 * @throws Exception
+	 */
+	public SystemProfile getSystemProfile() throws Exception {
+		return systemProfile;
+	}
+
+	/**
 	 * @return nameSearch: Gets the search parameter in the system.
 	 */
 	public String getNameSearch() {
@@ -356,21 +368,6 @@ public class CropActivitiesAction implements Serializable {
 	 */
 	public void setMessageCrumb(String messageCrumb) {
 		this.messageCrumb = messageCrumb;
-	}
-
-	/**
-	 * @return maxDate: max date to validate date range of activity.
-	 */
-	public Date getMaxDate() {
-		return maxDate;
-	}
-
-	/**
-	 * @param maxDate
-	 *            :max date to validate date range of activity.
-	 */
-	public void setMaxDate(Date maxDate) {
-		this.maxDate = maxDate;
 	}
 
 	/**
@@ -760,6 +757,16 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
+	 * This method allow consult the value of the system profile
+	 * 
+	 * @return systemProfile :Object system profile
+	 * @throws Exception
+	 */
+	private SystemProfile findSystemProfile() throws Exception {
+		return systemProfile = systemProfileDao.findSystemProfile();
+	}
+
+	/**
 	 * Method passing objects of type Names activity to a list of type
 	 * Activities.
 	 * 
@@ -770,10 +777,97 @@ public class CropActivitiesAction implements Serializable {
 		boolean desdeModal = (param2 != null && Constantes.SI.equals(param2)) ? true
 				: false;
 		setClean(desdeModal);
-		this.activities = new Activities();
-		this.activities.setActivityName(this.activityNames);
-		this.activities.setCrop(getCrops());
-		this.pagination = new Paginador();
+		try {
+			findSystemProfile();
+			Date initialDtBudget = setDefaultTime(
+					this.systemProfile.getActivityDefaultStart(), null);
+			Date finalDtBudget = setDefaultTime(
+					this.systemProfile.getActivityDefaultEnd(), null);
+			this.systemProfile.getActivityDefaultStart();
+			this.activities = new Activities();
+			this.activities.setRoutine(true);
+			this.activities.setActivityName(this.activityNames);
+			this.activities.setCrop(getCrops());
+			this.activities.setInitialDtBudget(initialDtBudget);
+			this.activities.setFinalDtBudget(finalDtBudget);
+			this.pagination = new Paginador();
+			calculateCurrentDuration();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows set date with the information hour y second sent by
+	 * parameter
+	 * 
+	 * @param date
+	 *            : Date object with default information
+	 * @return Date Object with the information set
+	 */
+	private Date setDefaultTime(Date date, Date dateCurrent) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		Calendar calAux = Calendar.getInstance();
+		if (dateCurrent != null) {
+			calAux.setTime(dateCurrent);
+		}
+		calAux.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
+		calAux.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
+		calAux.set(Calendar.SECOND, 0);
+		Date defaultDate = calAux.getTime();
+		return defaultDate;
+	}
+
+	/**
+	 * This method allow set the time in the activity if the routine is true
+	 * 
+	 */
+	public void setRoutineTime() {
+		boolean isRoutine = this.activities.isRoutine();
+		if (isRoutine) {
+			try {
+				findSystemProfile();
+				Date initialDtBudget = setDefaultTime(
+						this.systemProfile.getActivityDefaultStart(), null);
+				Date finalDtBudget = setDefaultTime(
+						this.systemProfile.getActivityDefaultEnd(), null);
+				this.activities.setInitialDtBudget(initialDtBudget);
+				this.activities.setFinalDtBudget(finalDtBudget);
+				calculateCurrentDuration();
+			} catch (Exception e) {
+				ControladorContexto.mensajeError(e);
+			}
+		}
+	}
+
+	/**
+	 * It will calculate the length according to the two different dates.
+	 */
+	public void calculateCurrentDuration() {
+		Date start = this.activities.getInitialDtBudget();
+		Date end = this.activities.getFinalDtBudget();
+		if (start != null && end != null) {
+			double durationBudget = ControladorFechas.restarFechas(start, end);
+			this.activities.setDurationBudget(durationBudget);
+		}
+	}
+
+	/**
+	 * This method allow set the final date budget of the activity
+	 * 
+	 */
+	public void setFinalDtBudget() {
+		if (this.activities.getInitialDtBudget() != null) {
+			Date dateCurrent = activities.getInitialDtBudget();
+			Date initialDtBudget = setDefaultTime(
+					this.systemProfile.getActivityDefaultStart(), dateCurrent);
+			Date finalDtBudget = setDefaultTime(
+					this.systemProfile.getActivityDefaultEnd(), dateCurrent);
+			this.activities.setInitialDtBudget(initialDtBudget);
+			this.activities.setFinalDtBudget(finalDtBudget);
+			calculateCurrentDuration();
+		}
 	}
 
 	/**
@@ -862,6 +956,7 @@ public class CropActivitiesAction implements Serializable {
 	 * 
 	 * @author Mabell.Boada
 	 * @modify 20/04/2016 Wilhelm.Boada
+	 * @modify 17/06/2016 Andres.Gomez
 	 * 
 	 */
 	public void validateDatesAllowed() {
@@ -894,6 +989,7 @@ public class CropActivitiesAction implements Serializable {
 						"message_validate_dates_range", "mensaje", dateInitial,
 						dateFinal);
 			}
+			validateHourActvity();
 			int idActivity = this.activities.getIdActivity();
 			int idActivityName = this.activities.getActivityName()
 					.getIdActivityName();
@@ -931,20 +1027,43 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Validate the date to add the max hour in the end date
-	 * 
-	 * @modify 21/04/2016 Wilhelm.Boada
-	 * 
+	 * This method allow validate the hour of the range date selected in the
+	 * activity
 	 */
-	public void validateMaxDate() {
-		if (this.activities.getInitialDtBudget() != null) {
-			maxDate = activities.getInitialDtBudget();
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(maxDate);
-			cal.set(Calendar.HOUR_OF_DAY, 23);
-			cal.set(Calendar.MINUTE, 59);
-			maxDate = cal.getTime();
-			this.activities.setFinalDtBudget(null);
+	private void validateHourActvity() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		int startTime = ControladorFechas.getHours(this.systemProfile
+				.getActivityDefaultStart());
+		int endTime = ControladorFechas.getHours(this.systemProfile
+				.getActivityDefaultEnd());
+		int startLunch = ControladorFechas.getHours(this.systemProfile
+				.getBreakStart());
+		int endLunch = ControladorFechas.getHours(this.systemProfile
+				.getBreakEnd());
+		if (startTime > startLunch && startTime < endLunch) {
+			ControladorContexto
+					.mensajeError(
+							null,
+							"popupFormReg:startTime",
+							bundle.getString("message_validate_date_activity_lunch_range"));
+		}
+		if (endTime > startLunch && endTime < endLunch) {
+			ControladorContexto
+					.mensajeError(
+							null,
+							"popupFormReg:endTime",
+							bundle.getString("message_validate_date_activity_lunch_range"));
+		}
+		if (startTime > endTime) {
+			ControladorContexto
+					.mensajeError(
+							null,
+							"popupFormReg:startTime",
+							bundle.getString("message_validate_date_start_less_end_date"));
+		}
+		if (("").equals(this.activities.getDescription())) {
+			ControladorContexto
+					.mensajeRequeridos("popupFormReg:txtDescripcion");
 		}
 	}
 
