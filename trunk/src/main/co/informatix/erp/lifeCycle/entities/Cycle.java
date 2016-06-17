@@ -28,8 +28,10 @@ public class Cycle implements Serializable {
 
 	private int idCycle;
 	private int cycleNumber;
+
 	private Date initialDateTime;
 	private Date finalDateTime;
+
 	private Double costHrBudget;
 	private Double costHrActual;
 	private Double costMachinesEqBudget;
@@ -38,10 +40,12 @@ public class Cycle implements Serializable {
 	private Double costServicesActual;
 	private Double costMaterialsBudget;
 	private Double costMaterialsActual;
+
 	private Boolean hrRequired;
 	private Boolean materialsRequired;
 	private Boolean serviceRequired;
 	private Boolean machineRequired;
+	private Boolean dangerous;
 
 	private Crops crops;
 	private ActivityNames activiyNames;
@@ -307,6 +311,23 @@ public class Cycle implements Serializable {
 	}
 
 	/**
+	 * @return dangerous: Flag to know if the activities into the cycle are
+	 *         dangerous
+	 */
+	@Column(name = "dangerous")
+	public Boolean getDangerous() {
+		return dangerous;
+	}
+
+	/**
+	 * @param dangerous
+	 *            : Flag to know if the activities into the cycle are dangerous
+	 */
+	public void setDangerous(Boolean dangerous) {
+		this.dangerous = dangerous;
+	}
+
+	/**
 	 * @return crops: Crop to which the cycle belong
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -373,6 +394,8 @@ public class Cycle implements Serializable {
 				+ ((costServicesBudget == null) ? 0 : costServicesBudget
 						.hashCode());
 		result = prime * result + cycleNumber;
+		result = prime * result
+				+ ((dangerous == null) ? 0 : dangerous.hashCode());
 		result = prime * result
 				+ ((finalDateTime == null) ? 0 : finalDateTime.hashCode());
 		result = prime * result
@@ -441,6 +464,11 @@ public class Cycle implements Serializable {
 		} else if (!costServicesBudget.equals(other.costServicesBudget))
 			return false;
 		if (cycleNumber != other.cycleNumber)
+			return false;
+		if (dangerous == null) {
+			if (other.dangerous != null)
+				return false;
+		} else if (!dangerous.equals(other.dangerous))
 			return false;
 		if (finalDateTime == null) {
 			if (other.finalDateTime != null)
