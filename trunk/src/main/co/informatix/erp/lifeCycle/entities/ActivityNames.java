@@ -24,6 +24,7 @@ public class ActivityNames implements Serializable {
 	private int idActivityName;
 	private String activityName;
 	private String description;
+	private boolean cycle;
 	private boolean selected = false;
 
 	/**
@@ -77,6 +78,22 @@ public class ActivityNames implements Serializable {
 	}
 
 	/**
+	 * @return cycle: Its true if the activity name belongs to a cycle
+	 */
+	@Column(name = "cycle")
+	public boolean isCycle() {
+		return cycle;
+	}
+
+	/**
+	 * @param cycle
+	 *            : Its true if the activity name belongs to a cycle
+	 */
+	public void setCycle(boolean cycle) {
+		this.cycle = cycle;
+	}
+
+	/**
 	 * @return seleccionado: To validate whether the selected name on a list of
 	 *         activities, used by the management CycleStandardActivities
 	 */
@@ -101,6 +118,7 @@ public class ActivityNames implements Serializable {
 		int result = 1;
 		result = prime * result
 				+ ((activityName == null) ? 0 : activityName.hashCode());
+		result = prime * result + (cycle ? 1231 : 1237);
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + idActivityName;
@@ -120,6 +138,8 @@ public class ActivityNames implements Serializable {
 			if (other.activityName != null)
 				return false;
 		} else if (!activityName.equals(other.activityName))
+			return false;
+		if (cycle != other.cycle)
 			return false;
 		if (description == null) {
 			if (other.description != null)
