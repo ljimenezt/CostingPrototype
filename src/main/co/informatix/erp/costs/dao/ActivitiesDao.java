@@ -1,6 +1,7 @@
 package co.informatix.erp.costs.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -388,5 +389,25 @@ public class ActivitiesDao implements Serializable {
 			return resultList;
 		}
 		return null;
+	}
+
+	/**
+	 * This method returns the activities associated to the cycle.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param cycleId
+	 *            : Cycle identifier.
+	 * @return List<Activities>: List of activities
+	 * @throws Exception
+	 */
+	public Date activitiesByCycle(int cycleId) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT MAX(a.initialDtBudget) FROM Activities a ");
+		queryBuilder.append("JOIN a.cycle c ");
+		queryBuilder.append("WHERE c.idCycle=:idCycle ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idCycle", cycleId);
+		return (Date) queryResult.getSingleResult();
 	}
 }
