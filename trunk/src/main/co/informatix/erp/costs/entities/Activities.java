@@ -59,6 +59,7 @@ public class Activities implements Serializable {
 	private Boolean machineRequired;
 	private Boolean serviceRequired;
 	private Boolean materialsRequired;
+	private boolean routine;
 	private boolean seleccionado;
 
 	private Crops crop;
@@ -462,6 +463,22 @@ public class Activities implements Serializable {
 	 */
 	public void setMaterialsRequired(Boolean materialsRequired) {
 		this.materialsRequired = materialsRequired;
+	}
+
+	/**
+	 * @return routine: Duration of activity is routine.
+	 */
+	@Column(name = "routine")
+	public boolean isRoutine() {
+		return routine;
+	}
+
+	/**
+	 * @param routine
+	 *            :Duration of activity is routine.
+	 */
+	public void setRoutine(boolean routine) {
+		this.routine = routine;
 	}
 
 	/**
