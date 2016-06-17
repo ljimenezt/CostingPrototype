@@ -4,19 +4,24 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
+import javax.transaction.UserTransaction;
 
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 
+import co.informatix.erp.costs.dao.ActivitiesDao;
+import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.lifeCycle.dao.ActivityNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
@@ -27,6 +32,8 @@ import co.informatix.erp.lifeCycle.entities.Crops;
 import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.machines.dao.MachineTypesDao;
 import co.informatix.erp.machines.entities.MachineTypes;
+import co.informatix.erp.seguridad.dao.SystemProfileDao;
+import co.informatix.erp.seguridad.entities.SystemProfile;
 import co.informatix.erp.services.dao.ServiceTypeDao;
 import co.informatix.erp.services.entities.ServiceType;
 import co.informatix.erp.utils.Constantes;
@@ -55,6 +62,7 @@ import co.informatix.erp.warehouse.entities.MaterialsType;
 public class CycleAction implements Serializable {
 
 	private List<Cycle> listCycles;
+
 	private List<SelectItem> optionsCropNames;
 	private List<SelectItem> optionsCrops;
 	private List<SelectItem> itemsActivityName;
@@ -62,15 +70,19 @@ public class CycleAction implements Serializable {
 	private List<SelectItem> itemsMaterials;
 	private List<SelectItem> itemsMachinesType;
 	private List<SelectItem> itemsServicesType;
+
 	private Paginador pagination = new Paginador();
 	private Cycle cycle;
 	private Crops crops;
+
 	private String nameDocument;
 	private String folderFile;
 	private String folderFileTemporal;
 	private String units;
+
 	private Date initialDateSearch;
 	private Date finalDateSearch;
+
 	private boolean loadDocumentTemporal;
 	private boolean iconPdf;
 	private boolean flag;
@@ -78,6 +90,7 @@ public class CycleAction implements Serializable {
 	private boolean flagCycle;
 	private boolean flagDate;
 	private boolean flagActivityNames;
+
 	private int idCrops;
 	private int idCropsName;
 	private int idMaterialsType;
@@ -86,6 +99,7 @@ public class CycleAction implements Serializable {
 	private int idServicesType;
 	private int idActivitiesName;
 	private int quantity;
+
 	private double quote;
 
 	@EJB
@@ -108,6 +122,12 @@ public class CycleAction implements Serializable {
 	private ServiceTypeDao serviceTypeDao;
 	@EJB
 	private DepositsDao depositsDao;
+	@EJB
+	private SystemProfileDao systemProfileDao;
+	@EJB
+	private ActivitiesDao activitiesDao;
+	@Resource
+	private UserTransaction userTransaction;
 
 	/**
 	 * @return listCycles: cycles list.
@@ -1016,32 +1036,132 @@ public class CycleAction implements Serializable {
 	/**
 	 * Method used to save or edit cycles
 	 * 
+	 * @modify 17/06/2016 Gerardo.Herrera
+	 * 
 	 * @return initializeCycle(): Redirects to manage the list of cycles with
 	 *         cycles updated.
 	 */
 	public String saveUpdateCycle() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String mensajeRegistro = "message_registro_modificar";
-
 		try {
 			flag = true;
+			userTransaction.begin();
 			if (cycle.getIdCycle() != 0) {
 				cycleDao.editCycle(cycle);
+				editActivitiesCycle();
 			} else {
 				this.cycle.setCrops(new Crops());
 				this.cycle.getCrops().setIdCrop(this.idCrops);
 				cycleDao.saveCycle(cycle);
+				saveActivitiesCycle(cycle.getInitialDateTime(),
+						cycle.getFinalDateTime());
 				mensajeRegistro = "message_registro_guardar";
 			}
-			String activitisName = (String) ValidacionesAction.getLabel(
+			userTransaction.commit();
+			String activitiesName = (String) ValidacionesAction.getLabel(
 					itemsActivityName, cycle.getActiviyNames()
 							.getIdActivityName());
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(mensajeRegistro), activitisName));
+					bundle.getString(mensajeRegistro), activitiesName));
 		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception e1) {
+				ControladorContexto.printErrorLog(e1);
+			}
 			ControladorContexto.mensajeError(e);
 		}
 		return initializeCycle();
+	}
+
+	/**
+	 * Add Activities if the final date of cycle is after of the last activity
+	 * for this cycle
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @throws Exception
+	 */
+	private void editActivitiesCycle() throws Exception {
+		Date dateLastActivityCycle = activitiesDao.activitiesByCycle(cycle
+				.getIdCycle());
+		if (dateLastActivityCycle != null) {
+			Calendar dateLastActivity = Calendar.getInstance();
+			dateLastActivity.setTime(dateLastActivityCycle);
+			dateLastActivity.set(Calendar.HOUR_OF_DAY, 0);
+			dateLastActivity.set(Calendar.MINUTE, 0);
+			if (dateLastActivity.getTime().before(cycle.getFinalDateTime())) {
+				dateLastActivity.add(Calendar.DAY_OF_YEAR, 1);
+				saveActivitiesCycle(dateLastActivity.getTime(),
+						cycle.getFinalDateTime());
+			}
+		}
+	}
+
+	/**
+	 * Save all the activities for range dates, save one activity for each day
+	 * of range less saturdays and sundays.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param initialDateTime
+	 *            : Initial date
+	 * @param finalDateTime
+	 *            : Final date
+	 * @throws Exception
+	 */
+	private void saveActivitiesCycle(Date initialDateTime, Date finalDateTime)
+			throws Exception {
+		SystemProfile systemProfile = systemProfileDao.findSystemProfile();
+		Calendar defaultInitialTime = Calendar.getInstance();
+		defaultInitialTime.setTime(systemProfile.getActivityDefaultStart());
+		Calendar defaultFinalTime = Calendar.getInstance();
+		defaultFinalTime.setTime(systemProfile.getActivityDefaultEnd());
+		Calendar date = Calendar.getInstance();
+		date.setTime(initialDateTime);
+		Calendar finalDate = Calendar.getInstance();
+		finalDate.setTime(finalDateTime);
+		finalDate.set(Calendar.HOUR_OF_DAY,
+				defaultFinalTime.get(Calendar.HOUR_OF_DAY) + 1);
+		do {
+			Date initialDateActivity = setHour(defaultInitialTime, date);
+			Date finalDateActivity = setHour(defaultFinalTime, date);
+			int day = date.get(Calendar.DAY_OF_WEEK);
+			if (day != 1 && day != 7) {
+				Activities activities = new Activities();
+				activities.setCrop(this.cycle.getCrops());
+				activities.setInitialDtBudget(initialDateActivity);
+				activities.setFinalDtBudget(finalDateActivity);
+				activities.setActivityName(this.cycle.getActiviyNames());
+				activities.setCycle(this.cycle);
+				activities.setHrRequired(this.cycle.getHrRequired());
+				activities.setMachineRequired(this.cycle.getMachineRequired());
+				activities.setDurationBudget(systemProfile
+						.getActivityDefaultDuration());
+				activities.setRoutine(true);
+				activities.setDangerous(this.cycle.getDangerous());
+				activitiesDao.saveActivities(activities);
+			}
+			date.add(Calendar.DAY_OF_YEAR, 1);
+		} while (date.getTime().before(finalDate.getTime()));
+	}
+
+	/**
+	 * This method set the hour and minute especific to other date
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param hour
+	 *            : Date with default Hour
+	 * @param dateActual
+	 *            : Actual date
+	 * @return Date: Date format
+	 */
+	private Date setHour(Calendar hour, Calendar dateActual) {
+		dateActual.set(Calendar.HOUR_OF_DAY, hour.get(Calendar.HOUR_OF_DAY));
+		dateActual.set(Calendar.MINUTE, hour.get(Calendar.MINUTE));
+		return dateActual.getTime();
 	}
 
 	/**
