@@ -14,6 +14,10 @@
 				cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 				cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 				columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+				<ui:param name="isRoutine"
+					value="#{cropActivitiesAction.activities.routine}" />
+				<ui:param name="minHour"
+					value="#{cropActivitiesAction.systemProfile.activityDefaultStart==null ? controladorFechas.fechaActual() :  cropActivitiesAction.systemProfile.activityDefaultStart}" />
 
 				<h:outputText styleClass="etiquetaTitulo"
 					value="#{mensaje.label_sequence_number}" />
@@ -28,12 +32,79 @@
 				<rich:message for="txtSecNum" />
 
 				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_routine}" />
+				<h:outputText value="" />
+				<h:selectBooleanCheckbox
+					value="#{cropActivitiesAction.activities.routine}" id="txtRoutine"
+					styleClass="marginCheckbox">
+					<a:ajax event="click"
+						listener="#{cropActivitiesAction.setRoutineTime()}"
+						render="outPutReg" />
+				</h:selectBooleanCheckbox>
+				<h:outputText value="" />
+
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_date} #{mensaje.label_budget} " />
+				<h:outputText value="*" styleClass="required" />
+				<p:calendar required="true"
+					requiredMessage="#{mensaje.message_campo_requerido}"
+					value="#{cropActivitiesAction.activities.initialDtBudget}"
+					showOn="button" navigator="true"
+					converterMessage="#{mensaje.message_validar_formato_fecha}"
+					id="fechaInicio" pattern="MM/dd/yyyy" readonlyInput="true"
+					validator="#{controladorFechas.validarRangoFecha}">
+					<f:attribute name="validarHora" value="si" />
+					<p:ajax event="dateSelect" update="outPutReg"
+						listener="#{cropActivitiesAction.setFinalDtBudget}" />
+				</p:calendar>
+				<rich:message for="fechaInicio" />
+
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_start_time} #{mensaje.label_budget}"
+					rendered="#{!isRoutine}" />
+				<h:outputText value="*" styleClass="required"
+					rendered="#{!isRoutine}" />
+				<p:calendar required="true"
+					requiredMessage="#{mensaje.message_campo_requerido}"
+					value="#{cropActivitiesAction.systemProfile.activityDefaultStart}"
+					showOn="button" navigator="true"
+					converterMessage="#{mensaje.message_validar_formato_fecha}"
+					onSelectUpdate="endTime" id="startTime" pattern="HH:mm"
+					readonlyInput="true" rendered="#{!isRoutine}" timeOnly="true"
+					validator="#{controladorFechas.validarRangoFecha}">
+					<f:attribute name="validarHora" value="si" />
+					<p:ajax event="dateSelect" update="outPutReg"
+						listener="#{cropActivitiesAction.setFinalDtBudget}" />
+				</p:calendar>
+				<rich:message for="startTime" rendered="#{!isRoutine}" />
+
+				<h:outputText styleClass="etiquetaTitulo"
+					value="#{mensaje.label_end_time} #{mensaje.label_budget}"
+					rendered="#{!isRoutine}" />
+				<h:outputText value="*" styleClass="required"
+					rendered="#{!isRoutine}" />
+				<p:calendar
+					value="#{cropActivitiesAction.systemProfile.activityDefaultEnd}"
+					showOn="button" navigator="true" required="true"
+					disabled="#{isRoutine}" timeOnly="true" rendered="#{!isRoutine}"
+					converterMessage="#{mensaje.message_validar_formato_fecha}"
+					id="endTime" pattern="HH:mm" readonlyInput="true"
+					minHour="#{controladorFechas.getHours(minHour)}"
+					validator="#{controladorFechas.validarRangoFecha}"
+					requiredMessage="#{mensaje.message_campo_requerido}">
+					<f:attribute name="validarHora" value="si" />
+					<p:ajax event="dateSelect" update="fechaInicio, outPutReg"
+						listener="#{cropActivitiesAction.setFinalDtBudget}" />
+				</p:calendar>
+				<rich:message for="endTime" rendered="#{!isRoutine}" />
+
+				<h:outputText styleClass="etiquetaTitulo"
 					value="#{messageCosts.activities_label_duration_budget}" />
 				<h:outputText value="" styleClass="required" />
 				<h:inputText
 					value="#{cropActivitiesAction.activities.durationBudget}"
 					label="#{messageCosts.activities_label_duration_budget}"
-					styleClass="colNumero" id="txtDuration"
+					styleClass="colNumero" id="txtDuration" readonly="true"
 					validator="#{cropActivitiesAction.validateDate}"
 					converterMessage="#{mensaje.message_campo_positivo}"
 					requiredMessage="#{mensaje.message_campo_requerido}">
@@ -41,48 +112,13 @@
 				</h:inputText>
 				<rich:message for="txtDuration" />
 
-				<h:outputText styleClass="etiquetaTitulo"
-					value="#{messageCosts.activities_label_date_initial_budget}" />
-				<h:outputText value="*" styleClass="required" />
-				<p:calendar required="true"
-					requiredMessage="#{mensaje.message_campo_requerido}"
-					value="#{cropActivitiesAction.activities.initialDtBudget}"
-					showOn="button" navigator="true"
-					converterMessage="#{mensaje.message_validar_formato_fecha}"
-					onSelectUpdate="fechaFin" id="fechaInicio"
-					pattern="MM/dd/yyyy HH:mm" readonlyInput="true"
-					validator="#{controladorFechas.validarRangoFecha}">
-					<f:attribute name="validarHora" value="si" />
-					<p:ajax event="dateSelect" update="fechaFin"
-						listener="#{cropActivitiesAction.validateMaxDate()}" />
-				</p:calendar>
-				<rich:message for="fechaInicio" />
-
-				<h:outputText styleClass="etiquetaTitulo"
-					value="#{messageCosts.activities_label_date_final_budget}" />
-				<h:outputText value="*" styleClass="required" />
-				<p:calendar value="#{cropActivitiesAction.activities.finalDtBudget}"
-					showOn="button" navigator="true" required="true"
-					disabled="#{cropActivitiesAction.activities.initialDtBudget eq null}"
-					mindate="#{cropActivitiesAction.activities.initialDtBudget}"
-					converterMessage="#{mensaje.message_validar_formato_fecha}"
-					id="fechaFin" pattern="MM/dd/yyyy HH:mm" readonlyInput="true"
-					validator="#{controladorFechas.validarRangoFecha}"
-					requiredMessage="#{mensaje.message_campo_requerido}"
-					maxdate="#{cropActivitiesAction.maxDate}">
-					<f:attribute name="validarHora" value="si" />
-					<p:ajax event="dateSelect" update="fechaInicio" />
-				</p:calendar>
-				<rich:message for="fechaFin" />
-
 				<h:outputText value="#{mensaje.label_description}"
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="*" styleClass="required" style="top" />
 				<h:inputTextarea
 					value="#{cropActivitiesAction.activities.description}"
-					required="true" styleClass="colTextoMedianoTextArea"
-					id="txtDescripcion" validator="#{encodeFilter.validarScripting}"
-					requiredMessage="#{mensaje.message_campo_requerido}">
+					styleClass="colTextoMedianoTextArea" id="txtDescripcion"
+					validator="#{encodeFilter.validarScripting}">
 					<f:validateLength maximum="200" />
 				</h:inputTextarea>
 				<rich:message for="txtDescripcion" />
@@ -135,8 +171,8 @@
 			<br />
 			<div align="center">
 				<a:commandButton render=":formConfirmar:popUpConfirmar,formGenerico"
-					execute="popupFormReg, fechaInicio, fechaFin"
-					actionListener="#{cropActivitiesAction.validateDatesAllowed()}"
+					execute="popupFormReg, fechaInicio"
+					action="#{cropActivitiesAction.validateDatesAllowed()}"
 					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 					value="#{mensaje.button_save}" />
 			</div>
