@@ -28,9 +28,11 @@ import co.informatix.erp.humanResources.entities.OvertimePaymentRate;
 import co.informatix.erp.lifeCycle.dao.ActivityNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
+import co.informatix.erp.lifeCycle.dao.CycleDao;
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
+import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
@@ -61,10 +63,13 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private OvertimePaymentRateDao overtimePaymentRateDao;
 	@EJB
 	private ActivitiesAndMachineDao activitiesAndMachineDao;
+	@EJB
+	private CycleDao cycleDao;
 
 	private int idCrop;
 	private int idCropName;
 	private int idOvertimePaymentsRate;
+	private int idCycle;
 	private boolean calculateCostsButtonActivated;
 
 	private List<SelectItem> listCropNames;
@@ -72,6 +77,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private List<SelectItem> listActivityNames;
 	private List<Activities> listActivities;
 	private List<ActivitiesAndHr> listActivitiesAndHr;
+	private List<SelectItem> optionsCycles;
 
 	private Activities activities;
 	private Activities selectedActivity;
@@ -120,6 +126,21 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public int getIdOvertimePaymentsRate() {
 		return idOvertimePaymentsRate;
+	}
+
+	/**
+	 * @return idCycle : Cycle identifier
+	 */
+	public int getIdCycle() {
+		return idCycle;
+	}
+
+	/**
+	 * @param idCycle
+	 *            : Cycle identifier
+	 */
+	public void setIdCycle(int idCycle) {
+		this.idCycle = idCycle;
 	}
 
 	/**
@@ -223,6 +244,21 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void setListActivitiesAndHr(List<ActivitiesAndHr> listActivitiesAndHr) {
 		this.listActivitiesAndHr = listActivitiesAndHr;
+	}
+
+	/**
+	 * @return optionsCycles : Cycles list
+	 */
+	public List<SelectItem> getOptionsCycles() {
+		return optionsCycles;
+	}
+
+	/**
+	 * @param optionsCycles
+	 *            : Cycles list
+	 */
+	public void setOptionsCycles(List<SelectItem> optionsCycles) {
+		this.optionsCycles = optionsCycles;
 	}
 
 	/**
@@ -398,6 +434,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * Initializes the necessary variables for the management actual activities
 	 * 
 	 * @modify 22/03/2016 Andres.Gomez
+	 * @modify 20/06/2016 Liseth.Jimenez
 	 * 
 	 * @return recordActivitiesActuals: redirected to the management to keep
 	 *         actual activities
@@ -428,6 +465,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 			}
 			loadComboCrops();
 			loadComboCropName();
+			loadCycles();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -464,6 +502,30 @@ public class RecordActivitiesActualsAction implements Serializable {
 							.getDescription()));
 				}
 			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Complete the list of cycles according to the crop selected name.
+	 * 
+	 * @author Liseth.Jimenez
+	 */
+	public void loadCycles() {
+		try {
+			optionsCycles = new ArrayList<SelectItem>();
+			List<Cycle> listCycles = cycleDao.consultCycleByCrop(idCrop);
+			if (listCycles != null) {
+				for (Cycle cycle : listCycles) {
+					optionsCycles.add(new SelectItem(cycle.getIdCycle(), cycle
+							.getCycleNumber()
+							+ " - "
+							+ cycle.getActiviyNames().getActivityName()));
+				}
+				idCycle = listCycles.get(0).getIdCycle();
+			}
+			showActivities();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -641,7 +703,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void endActivity() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleLifecycle= ControladorContexto.getBundle("messageLifeCycle");
+		ResourceBundle bundleLifecycle = ControladorContexto
+				.getBundle("messageLifeCycle");
 		String registerMessage = "message_calculate_labor_cost";
 		boolean flag = false;
 		try {
@@ -693,7 +756,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 					ControladorContexto
 							.mensajeInformacion(
 									null,
-									bundleLifecycle.getString("scheduled_activities_message_recursos"));
+									bundleLifecycle
+											.getString("scheduled_activities_message_recursos"));
 				}
 			}
 		} catch (Exception e) {
