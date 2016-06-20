@@ -168,7 +168,11 @@ public class Constantes implements Serializable {
 	public static final int IVA_FINAL = Integer.parseInt(PropertiesManager
 			.getProperty("locate.size.iva.final"));
 
-	/* Perfil del sistema */
+	/* System profile */
 	public static final short SYSTEM_PROFILE_ID = 1;
+
+	/* Days calendar */
+	public static final short SATURDAY = 7;
+	public static final short SUNDAY = 1;
 
 }
