@@ -73,10 +73,22 @@
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{scheduledActivitiesAction.optionsCrops}" />
 							<f:ajax event="change"
-								listener="#{scheduledActivitiesAction.showActivities()}"
-								render="formScheduledActivities" />
+								listener="#{scheduledActivitiesAction.loadCycles}"
+								render="@form" />
 						</h:selectOneMenu>
 						<rich:message for="crop" />
+
+						<h:outputText value="#{messageLifeCycle.cycle_label}"
+							styleClass="etiquetaTitulo" />
+						<h:selectOneMenu id="cycle"
+							value="#{scheduledActivitiesAction.idCycle}"
+							styleClass="colTextoMediano" required="true"
+							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null}">
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
+							<f:selectItems value="#{scheduledActivitiesAction.optionsCycles}" />
+							<f:ajax event="change" render="formScheduledActivities" />
+						</h:selectOneMenu>
+						<rich:message for="cycle" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -89,15 +101,18 @@
 						columnClasses="tdAlignTop W82P,,tdAlignTop"
 						rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}">
 						<h:outputText value="#{messageLifeCycle.activity_names_label}"
-							styleClass="etiquetaTitulo" />
+							styleClass="etiquetaTitulo"
+							rendered="#{scheduledActivitiesAction.idCycle eq 0}" />
 						<h:selectOneMenu id="activities"
+							rendered="#{scheduledActivitiesAction.idCycle eq 0}"
 							value="#{scheduledActivitiesAction.activities.idActivity}"
 							styleClass="colTextoCorto" required="true">
 							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 							<f:selectItems
 								value="#{scheduledActivitiesAction.optionsActivityName}" />
 						</h:selectOneMenu>
-						<rich:message for="activities" />
+						<rich:message for="activities"
+							rendered="#{scheduledActivitiesAction.idCycle eq 0}" />
 						<h:outputText value="#{mensaje.label_start_date}"
 							styleClass="etiquetaTitulo" />
 						<p:calendar
@@ -140,7 +155,7 @@
 							rendered="#{activitiesAction.listActivities eq null or (empty activitiesAction.listActivities)}"
 							disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
 							render="formScheduledActivities, mensajes, mensajeBusqueda"
-							actionListener="#{activitiesAction.initializeActivities(scheduledActivitiesAction.activities, scheduledActivitiesAction.idCrop, null)}"
+							actionListener="#{activitiesAction.initializeActivities(scheduledActivitiesAction.activities, scheduledActivitiesAction.idCrop, scheduledActivitiesAction.idCycle, null)}"
 							execute="formScheduledActivities"
 							value="#{mensaje.label_show} #{messageCosts.activities_label_s}">
 						</a:commandButton>

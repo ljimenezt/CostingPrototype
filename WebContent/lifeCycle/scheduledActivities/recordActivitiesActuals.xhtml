@@ -69,10 +69,24 @@
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{recordActivitiesActualsAction.listCrops}" />
 							<a:ajax event="change"
-								listener="#{recordActivitiesActualsAction.showActivities()}"
-								render=":formHrReporting" />
+								listener="#{recordActivitiesActualsAction.loadCycles}"
+								render="@form" />
 						</h:selectOneMenu>
 						<rich:message for="crop" />
+
+						<h:outputText value="#{messageLifeCycle.cycle_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:selectOneMenu id="cycle"
+							value="#{recordActivitiesActualsAction.idCycle}"
+							styleClass="colTextoMediano" required="true"
+							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null}">
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
+							<f:selectItems
+								value="#{recordActivitiesActualsAction.optionsCycles}" />
+							<a:ajax event="change" render="formHrReporting" />
+						</h:selectOneMenu>
+						<rich:message for="cycle" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -85,9 +99,12 @@
 						columnClasses="tdAlignTop W82P,tdAlignTop"
 						rendered="#{recordActivitiesActualsAction.listActivities eq null or (empty recordActivitiesActualsAction.listActivities)}">
 						<h:outputText value="#{messageLifeCycle.activity_names_label}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
+							styleClass="etiquetaTitulo"
+							rendered="#{recordActivitiesActualsAction.idCycle eq 0}" />
+						<h:outputText value=""
+							rendered="#{recordActivitiesActualsAction.idCycle eq 0}" />
 						<h:selectOneMenu id="activities"
+							rendered="#{recordActivitiesActualsAction.idCycle eq 0}"
 							value="#{recordActivitiesActualsAction.activities.idActivity}"
 							styleClass="colTextoCorto" required="true"
 							disabled="#{recordActivitiesActualsAction.idCrop eq 0 or recordActivitiesActualsAction.idCropName eq 0}">
@@ -95,7 +112,8 @@
 							<f:selectItems
 								value="#{recordActivitiesActualsAction.listActivityNames}" />
 						</h:selectOneMenu>
-						<rich:message for="activities" />
+						<rich:message for="activities"
+							rendered="#{recordActivitiesActualsAction.idCycle eq 0}" />
 
 						<h:outputText value="#{mensaje.label_start_date}"
 							styleClass="etiquetaTitulo" />
@@ -142,7 +160,7 @@
 							value="#{mensaje.label_show} #{messageCosts.activities_label_s}"
 							disabled="#{recordActivitiesActualsAction.idCrop eq 0 or recordActivitiesActualsAction.idCropName eq 0}"
 							render="formHrReporting, mensajes, mensajeBusqueda"
-							actionListener="#{activitiesAction.initializeActivities(recordActivitiesActualsAction.activities, recordActivitiesActualsAction.idCrop, null)}"
+							actionListener="#{activitiesAction.initializeActivities(recordActivitiesActualsAction.activities, recordActivitiesActualsAction.idCrop, recordActivitiesActualsAction.idCycle, null)}"
 							action="#{recordActivitiesActualsAction.assignActivities}"
 							execute="formHrReporting">
 							<f:param name="param2" value="si" />
