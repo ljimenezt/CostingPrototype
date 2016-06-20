@@ -31,4 +31,30 @@ public class SystemProfileDao implements Serializable {
 	public SystemProfile findSystemProfile() throws Exception {
 		return em.find(SystemProfile.class, Constantes.SYSTEM_PROFILE_ID);
 	}
+
+	/**
+	 * This method allows save a systemProfile Object.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param systemProfile
+	 *            : systemProfile to save.
+	 * @throws Exception
+	 */
+	public void saveSystemProfile(SystemProfile systemProfile) throws Exception {
+		em.persist(systemProfile);
+	}
+
+	/**
+	 * This method allows edit a systemProfile Object.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param systemProfile
+	 *            : systemProfile to edit.
+	 * @throws Exception
+	 */
+	public void editSystemProfile(SystemProfile systemProfile) throws Exception {
+		em.merge(systemProfile);
+	}
 }
