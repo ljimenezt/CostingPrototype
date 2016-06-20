@@ -906,6 +906,8 @@ public class CropActivitiesAction implements Serializable {
 
 	/**
 	 * This method allows initialize all the activities.
+	 * 
+	 * @modify 20/06/2016 Liseth.Jimenez
 	 */
 	public void initializeActivities() {
 		this.nameSearch = "";
@@ -915,7 +917,7 @@ public class CropActivitiesAction implements Serializable {
 				.getContextBean(ActivitiesAction.class);
 		activitiesAction.setFlagCropActivities(true);
 		activitiesAction.initializeActivities(new Activities(),
-				crops.getIdCrop(), pagination);
+				crops.getIdCrop(), 0, pagination);
 	}
 
 	/**
