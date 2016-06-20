@@ -398,7 +398,7 @@ public class ActivitiesDao implements Serializable {
 	 * 
 	 * @param cycleId
 	 *            : Cycle identifier.
-	 * @return List<Activities>: List of activities
+	 * @return Date: The last activity date for cycle
 	 * @throws Exception
 	 */
 	public Date activitiesByCycle(int cycleId) throws Exception {
