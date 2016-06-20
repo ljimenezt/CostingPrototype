@@ -50,6 +50,7 @@ public class ActivitiesAction implements Serializable {
 	private ActivitiesAndCertificationsDao activitiesAndCertificationsDao;
 
 	private int idCrop;
+	private int idCycle;
 	private boolean reportingActuals = false;
 	private boolean sort;
 	private boolean flagCropActivities = false;
@@ -78,6 +79,21 @@ public class ActivitiesAction implements Serializable {
 	 */
 	public void setIdCrop(int idCrop) {
 		this.idCrop = idCrop;
+	}
+
+	/**
+	 * @return idCycle : Cycle identifier
+	 */
+	public int getIdCycle() {
+		return idCycle;
+	}
+
+	/**
+	 * @param idCycle
+	 *            : Cycle identifier
+	 */
+	public void setIdCycle(int idCycle) {
+		this.idCycle = idCycle;
 	}
 
 	/**
@@ -272,18 +288,22 @@ public class ActivitiesAction implements Serializable {
 	 * Initialize the activity search values.
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 20/06/2016 Liseth.Jimenez
 	 * 
 	 * @param activity
 	 *            : activities object.
 	 * @param idCrop
-	 *            : crop identifier.
+	 *            : Crop identifier.
+	 * @param idCycle
+	 *            : Cycle Indetifier.
 	 * @param paginador
 	 *            : Objeto paginador
 	 */
 	public void initializeActivities(Activities activity, int idCrop,
-			Paginador paginador) {
+			int idCycle, Paginador paginador) {
 		this.activities = activity;
 		this.idCrop = idCrop;
+		this.idCycle = idCycle;
 		this.nameSearch = "";
 		if (paginador == null) {
 			this.pager = new Paginador();
@@ -355,7 +375,7 @@ public class ActivitiesAction implements Serializable {
 								bundleCostos.getString("activities_label_s"),
 								unionMessagesSearch);
 			}
-				validations.setMensajeBusqueda(searchMessage);
+			validations.setMensajeBusqueda(searchMessage);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -366,8 +386,8 @@ public class ActivitiesAction implements Serializable {
 	 * display messages depending on the criteria search selected by the user.
 	 * 
 	 * @author Gerardo.Herrera
-	 * 
 	 * @modify 14/01/2016 Wilhelm.Boada
+	 * @modify 20/06/2016 Liseth.Jimenez
 	 * 
 	 * @param queryBuilder
 	 *            : query to concatenate.
@@ -477,6 +497,14 @@ public class ActivitiesAction implements Serializable {
 			queryBuilder.append(selection ? "AND " : "WHERE ");
 			queryBuilder.append("a.crop.idCrop = :keywordIdCrop ");
 			SelectItem item = new SelectItem(this.idCrop, "keywordIdCrop");
+			parameters.add(item);
+			selection = true;
+		}
+
+		if (this.idCycle != 0) {
+			queryBuilder.append(selection ? "AND " : "WHERE ");
+			queryBuilder.append("a.cycle.idCycle = :keywordIdCycle ");
+			SelectItem item = new SelectItem(this.idCycle, "keywordIdCycle");
 			parameters.add(item);
 			selection = true;
 		}
