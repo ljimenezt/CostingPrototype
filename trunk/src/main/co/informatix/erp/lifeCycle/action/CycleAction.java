@@ -1128,7 +1128,7 @@ public class CycleAction implements Serializable {
 			Date initialDateActivity = setHour(defaultInitialTime, date);
 			Date finalDateActivity = setHour(defaultFinalTime, date);
 			int day = date.get(Calendar.DAY_OF_WEEK);
-			if (day != 1 && day != 7) {
+			if (day != Constantes.SUNDAY && day != Constantes.SATURDAY) {
 				Activities activities = new Activities();
 				activities.setCrop(this.cycle.getCrops());
 				activities.setInitialDtBudget(initialDateActivity);
