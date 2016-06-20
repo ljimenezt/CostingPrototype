@@ -1,0 +1,204 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="systemProfileAction.addEditSystemProfile(null)" />
+	<ui:param name="titulo"
+		value="mensajeMenu.system_profile_label_register" />
+	<ui:define name="body">
+		<t:saveState value="#{systemProfileAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+		<h:form id="formRegisterSystemProfile">
+			<rich:panel header="#{mensajeMenu.system_profile_label_register}"
+				styleClass="anchoUno MinH253P" id="panelCycle">
+				<h:panelGrid columns="4"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="etiquetaTitulo tdAlignTop,tdAlignTop,,tdAlignTop">
+
+					<h:outputText
+						value="#{messageSecurity.system_profile_label_routine_activity_start}" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar required="true"
+						value="#{systemProfileAction.systemProfile.activityDefaultStart}"
+						showOn="button" navigator="true" onSelectUpdate="activityEnd"
+						id="activityStart" pattern="HH:mm" timeOnly="true"
+						readonlyInput="true"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						converterMessage="#{mensaje.message_validar_formato_fecha}"
+						validator="#{controladorFechas.validarRangoFecha}">
+						<f:attribute name="validarHora" value="si" />
+						<p:ajax event="dateSelect" update="activityEnd, activityDuration"
+							listener="#{systemProfileAction.calculateTimeActivityAndLunch(true)}" />
+					</p:calendar>
+					<rich:message for="activityStart" />
+
+					<h:outputText
+						value="#{messageSecurity.system_profile_label_routine_activity_end}" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar
+						value="#{systemProfileAction.systemProfile.activityDefaultEnd}"
+						showOn="button" navigator="true" required="true" id="activityEnd"
+						pattern="HH:mm" timeOnly="true" readonlyInput="true"
+						minHour="#{controladorFechas.getHours(systemProfileAction.systemProfile.activityDefaultStart)}"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						converterMessage="#{mensaje.message_validar_formato_fecha}"
+						validator="#{controladorFechas.validarRangoFecha}">
+						<f:attribute name="validarHora" value="si" />
+						<p:ajax event="dateSelect" update="activityDuration"
+							listener="#{systemProfileAction.calculateTimeActivityAndLunch(true)}" />
+
+					</p:calendar>
+
+					<rich:message for="activityEnd" />
+
+					<h:outputText
+						value="#{messageSecurity.system_profile_label_activity_duration}" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText id="activityDuration"
+						value="#{systemProfileAction.systemProfile.activityDefaultDuration}"
+						readonly="true" required="true" styleClass="W75P">
+					</h:inputText>
+					<rich:message for="activityDuration" />
+
+					<h:outputText
+						value="#{messageSecurity.system_profile_label_routine_lunch_start}" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar required="true"
+						value="#{systemProfileAction.systemProfile.breakStart}"
+						showOn="button" navigator="true" onSelectUpdate="breakEnd"
+						id="breakStart" pattern="HH:mm" timeOnly="true"
+						readonlyInput="true"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						validator="#{controladorFechas.validarRangoFecha}">
+						<f:attribute name="validarHora" value="si" />
+						<p:ajax event="dateSelect" update="breakEnd, breakDuration"
+							listener="#{systemProfileAction.calculateTimeActivityAndLunch(false)}" />
+					</p:calendar>
+					<rich:message for="breakStart" />
+
+					<h:outputText
+						value="#{messageSecurity.system_profile_label_routine_lunch_end}" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar value="#{systemProfileAction.systemProfile.breakEnd}"
+						showOn="button" navigator="true" required="true"
+						minHour="#{controladorFechas.getHours(systemProfileAction.systemProfile.breakStart)}"
+						id="breakEnd" pattern="HH:mm" timeOnly="true" readonlyInput="true"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						converterMessage="#{mensaje.message_validar_formato_fecha}"
+						validator="#{controladorFechas.validarRangoFecha}">
+						<f:attribute name="validarHora" value="si" />
+						<p:ajax event="dateSelect" update="breakDuration"
+							listener="#{systemProfileAction.calculateTimeActivityAndLunch(false)}" />
+					</p:calendar>
+					<rich:message for="breakEnd" />
+
+					<h:outputText
+						value="#{messageSecurity.system_profile_label_lunch_duration}" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText id="breakDuration"
+						value="#{systemProfileAction.systemProfile.breakDuration}"
+						readonly="true" required="true" styleClass="W75P">
+					</h:inputText>
+					<rich:message for="breakDuration" />
+
+				</h:panelGrid>
+
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						actionListener="#{systemProfileAction.validateRequired()}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_save}" />
+				</div>
+
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+
+					<ui:define name="campos">
+
+						<h:outputText
+							value="#{messageSecurity.system_profile_label_routine_activity_start}:" />
+						<h:outputText
+							value="#{systemProfileAction.systemProfile.activityDefaultStart}">
+							<f:convertDateTime pattern="HH:mm" locale="#{idioma.locale}" />
+						</h:outputText>
+
+						<h:outputText
+							value="#{messageSecurity.system_profile_label_routine_activity_end}:" />
+						<h:outputText
+							value="#{systemProfileAction.systemProfile.activityDefaultEnd}">
+							<f:convertDateTime pattern="HH:mm" locale="#{idioma.locale}" />
+						</h:outputText>
+
+						<h:outputText
+							value="#{messageSecurity.system_profile_label_activity_duration}:" />
+						<h:outputText
+							value="#{systemProfileAction.systemProfile.activityDefaultDuration}" />
+
+						<h:outputText
+							value="#{messageSecurity.system_profile_label_routine_lunch_start}:" />
+						<h:outputText
+							value="#{systemProfileAction.systemProfile.breakStart}">
+							<f:convertDateTime pattern="HH:mm" locale="#{idioma.locale}" />
+						</h:outputText>
+
+						<h:outputText
+							value="#{messageSecurity.system_profile_label_routine_lunch_end}:" />
+						<h:outputText
+							value="#{systemProfileAction.systemProfile.breakEnd}">
+							<f:convertDateTime pattern="HH:mm" locale="#{idioma.locale}" />
+						</h:outputText>
+
+						<h:outputText
+							value="#{messageSecurity.system_profile_label_lunch_duration}:" />
+						<h:outputText
+							value="#{systemProfileAction.systemProfile.breakDuration}" />
+
+					</ui:define>
+
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{systemProfileAction.saveUpdateSystemProfile()}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

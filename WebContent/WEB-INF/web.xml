@@ -69,6 +69,7 @@
 			/security/perfilUsuario/faces-config-perfilUsuario.xml,
 			/security/permisoPersonaEmpresa/faces-config-permisoPersonaEmpresa.xml,
 			/security/profileSystem/faces-config-profileSystem.xml,
+			/security/systemProfile/faces-config-systemProfile.xml,
 			
 			/humanResources/informacionBase/tipoCargo/faces-config-tipoCargo.xml,
 			/humanResources/person/faces-config-person.xml,
