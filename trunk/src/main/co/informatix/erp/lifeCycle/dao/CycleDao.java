@@ -230,4 +230,31 @@ public class CycleDao implements Serializable {
 		}
 		return false;
 	}
+
+	/**
+	 * This method consultation cycles that are associated with a crop.
+	 * 
+	 * @author Liseth.Jimenez
+	 * 
+	 * @param idCrop
+	 *            :Crop identifier associated to a cycle.
+	 * @return List<Cycle>: Cycles list.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Cycle> consultCycleByCrop(int idCrop) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT c FROM  Cycle c ");
+		query.append("JOIN FETCH c.activiyNames an ");
+		query.append("JOIN c.crops cr ");
+		query.append("WHERE cr.idCrop =:idCrop ");
+		query.append("ORDER by an.activityName ASC, c.initialDateTime ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idCrop", idCrop);
+		List<Cycle> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }
