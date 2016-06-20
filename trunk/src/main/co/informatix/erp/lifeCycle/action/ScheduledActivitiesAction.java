@@ -26,9 +26,11 @@ import co.informatix.erp.costs.entities.ActivityMachinePK;
 import co.informatix.erp.lifeCycle.dao.ActivityNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
+import co.informatix.erp.lifeCycle.dao.CycleDao;
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
+import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.machines.action.MachinesAction;
 import co.informatix.erp.machines.dao.MachineTypesDao;
 import co.informatix.erp.machines.dao.MachinesDao;
@@ -66,9 +68,12 @@ public class ScheduledActivitiesAction implements Serializable {
 	private ActivitiesAndMachineDao activitiesAndMachineDao;
 	@EJB
 	private MachineTypesDao machineTypesDao;
+	@EJB
+	private CycleDao cycleDao;
 
 	private int idCrop;
 	private int idCropName;
+	private int idCycle;
 	private boolean stateAddMachine;
 
 	private List<Activities> listActivities;
@@ -80,6 +85,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	private List<SelectItem> optionsCrops;
 	private List<SelectItem> optionsActivityName;
 	private List<SelectItem> optionsConsumables;
+	private List<SelectItem> optionsCycles;
 
 	private Activities activities;
 	private Crops crops;
@@ -120,6 +126,21 @@ public class ScheduledActivitiesAction implements Serializable {
 	 */
 	public void setIdCropName(int idCropName) {
 		this.idCropName = idCropName;
+	}
+
+	/**
+	 * @return idCycle : Cycle identifier
+	 */
+	public int getIdCycle() {
+		return idCycle;
+	}
+
+	/**
+	 * @param idCycle
+	 *            : Cycle identifier
+	 */
+	public void setIdCycle(int idCycle) {
+		this.idCycle = idCycle;
 	}
 
 	/**
@@ -273,6 +294,21 @@ public class ScheduledActivitiesAction implements Serializable {
 	 */
 	public void setOptionsConsumables(List<SelectItem> optionsConsumables) {
 		this.optionsConsumables = optionsConsumables;
+	}
+
+	/**
+	 * @return optionsCycles : Cycles list
+	 */
+	public List<SelectItem> getOptionsCycles() {
+		return optionsCycles;
+	}
+
+	/**
+	 * @param optionsCycles
+	 *            : Cycles list
+	 */
+	public void setOptionsCycles(List<SelectItem> optionsCycles) {
+		this.optionsCycles = optionsCycles;
 	}
 
 	/**
@@ -431,6 +467,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	 * Method to edit or create a new assignment of activities.
 	 * 
 	 * @modify 22/03/2016 Andres.Gomez
+	 * @modify 20/06/2016 Liseth.Jimenez
 	 * 
 	 * @return scheduledActivities: Redirects to scheduled activities view.
 	 */
@@ -459,6 +496,7 @@ public class ScheduledActivitiesAction implements Serializable {
 			}
 			loadCropNames();
 			loadCropNamesCrop();
+			loadCycles();
 
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -496,6 +534,30 @@ public class ScheduledActivitiesAction implements Serializable {
 							.getDescription()));
 				}
 			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Complete the list of cycles according to the crop selected name.
+	 * 
+	 * @author Liseth.Jimenez
+	 */
+	public void loadCycles() {
+		try {
+			optionsCycles = new ArrayList<SelectItem>();
+			List<Cycle> listCycles = cycleDao.consultCycleByCrop(idCrop);
+			if (listCycles != null) {
+				for (Cycle cycle : listCycles) {
+					optionsCycles.add(new SelectItem(cycle.getIdCycle(), cycle
+							.getCycleNumber()
+							+ " - "
+							+ cycle.getActiviyNames().getActivityName()));
+				}
+				idCycle = listCycles.get(0).getIdCycle();
+			}
+			showActivities();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
