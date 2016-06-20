@@ -258,6 +258,7 @@ public class ActivityNamesDao implements Serializable {
 	 * This method queries the names of the activities associated with a crop.
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 20/06/2016 Liseth.Jimenez
 	 * 
 	 * @param idCrop
 	 *            : Culture identifier.
@@ -271,6 +272,7 @@ public class ActivityNamesDao implements Serializable {
 		query.append("SELECT DISTINCT a.activityName FROM Activities a ");
 		query.append("JOIN a.activityName an ");
 		query.append("WHERE a.crop.idCrop =:idCrop ");
+		query.append("AND an.cycle IS FALSE ");
 		query.append(" ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCrop", idCrop);
