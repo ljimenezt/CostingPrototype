@@ -81,7 +81,7 @@ public class ActivityNames implements Serializable {
 	 * @return cycle: Its true if the activity name belongs to a cycle
 	 */
 	@Column(name = "cycle")
-	public Boolean isCycle() {
+	public Boolean getCycle() {
 		return cycle;
 	}
 

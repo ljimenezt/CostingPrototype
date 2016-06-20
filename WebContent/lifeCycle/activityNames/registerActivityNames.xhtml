@@ -59,6 +59,16 @@
 						<f:validateLength maximum="200" />
 					</h:inputTextarea>
 					<rich:message for="txaDescription" />
+
+					<h:outputText value="#{messageLifeCycle.cycle_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:selectBooleanCheckbox
+						value="#{activityNamesAction.activityNames.cycle}" id="checkCycle"
+						styleClass="marginCheckbox">
+					</h:selectBooleanCheckbox>
+					<h:outputText value="" />
+
 				</h:panelGrid>
 				<br />
 				<div align="center">
