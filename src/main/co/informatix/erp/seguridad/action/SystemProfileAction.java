@@ -91,21 +91,22 @@ public class SystemProfileAction implements Serializable {
 	 *            for calculate lunch duration.
 	 */
 	public void calculateTimeActivityAndLunch(boolean flagTime) {
-		if (flagTime) {
-			Date startDate = systemProfile.getActivityDefaultStart();
-			Date endDate = systemProfile.getActivityDefaultEnd();
-			if (startDate != null && endDate != null) {
-				systemProfile.setActivityDefaultDuration(ControladorFechas
-						.restarFechas(startDate, endDate));
-			}
-		} else {
-			Date startDate = systemProfile.getBreakStart();
-			Date endDate = systemProfile.getBreakEnd();
-			if (startDate != null && endDate != null) {
+		if (!flagTime) {
+			Date startDateBreak = systemProfile.getBreakStart();
+			Date endDateBreak = systemProfile.getBreakEnd();
+			if (startDateBreak != null && endDateBreak != null) {
 				systemProfile.setBreakDuration(ControladorFechas.restarFechas(
-						startDate, endDate));
+						startDateBreak, endDateBreak));
 			}
 		}
+		Date startDate = systemProfile.getActivityDefaultStart();
+		Date endDate = systemProfile.getActivityDefaultEnd();
+		if (startDate != null && endDate != null) {
+			systemProfile.setActivityDefaultDuration(ControladorFechas
+					.restarFechas(startDate, endDate)
+					- systemProfile.getBreakDuration());
+		}
+
 	}
 
 	/**
