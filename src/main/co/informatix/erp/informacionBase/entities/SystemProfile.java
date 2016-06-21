@@ -1,4 +1,4 @@
-package co.informatix.erp.seguridad.entities;
+package co.informatix.erp.informacionBase.entities;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -22,6 +22,8 @@ import org.primefaces.event.FileUploadEvent;
 
 import co.informatix.erp.costs.dao.ActivitiesDao;
 import co.informatix.erp.costs.entities.Activities;
+import co.informatix.erp.informacionBase.dao.SystemProfileDao;
+import co.informatix.erp.informacionBase.entities.SystemProfile;
 import co.informatix.erp.lifeCycle.dao.ActivityNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
@@ -32,8 +34,6 @@ import co.informatix.erp.lifeCycle.entities.Crops;
 import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.machines.dao.MachineTypesDao;
 import co.informatix.erp.machines.entities.MachineTypes;
-import co.informatix.erp.seguridad.dao.SystemProfileDao;
-import co.informatix.erp.seguridad.entities.SystemProfile;
 import co.informatix.erp.services.dao.ServiceTypeDao;
 import co.informatix.erp.services.entities.ServiceType;
 import co.informatix.erp.utils.Constantes;

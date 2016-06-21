@@ -1,4 +1,4 @@
-package co.informatix.erp.seguridad.action;
+package co.informatix.erp.informacionBase.action;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,8 +8,8 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
-import co.informatix.erp.seguridad.dao.SystemProfileDao;
-import co.informatix.erp.seguridad.entities.SystemProfile;
+import co.informatix.erp.informacionBase.dao.SystemProfileDao;
+import co.informatix.erp.informacionBase.entities.SystemProfile;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
 
