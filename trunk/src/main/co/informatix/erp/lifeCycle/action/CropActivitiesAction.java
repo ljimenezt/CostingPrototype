@@ -848,7 +848,8 @@ public class CropActivitiesAction implements Serializable {
 		Date start = this.activities.getInitialDtBudget();
 		Date end = this.activities.getFinalDtBudget();
 		if (start != null && end != null) {
-			double durationBudget = ControladorFechas.restarFechas(start, end);
+			double durationBudget = ControladorFechas.restarFechas(start, end)
+					- systemProfile.getBreakDuration();
 			this.activities.setDurationBudget(durationBudget);
 		}
 	}
