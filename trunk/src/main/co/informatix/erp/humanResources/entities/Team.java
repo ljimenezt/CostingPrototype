@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * This class maps the team table, which contains the information of the teams
@@ -22,9 +23,10 @@ import javax.persistence.Table;
 public class Team implements Serializable {
 
 	private short idTeam;
-	private String name;
 	private short size;
+	private String name;
 	private String note;
+	private boolean selected;
 
 	/**
 	 * @return idTeam: Team identifier
@@ -45,22 +47,6 @@ public class Team implements Serializable {
 	}
 
 	/**
-	 * @return name: Team name
-	 */
-	@Column(name = "name", length = 200, nullable = false)
-	public String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name
-	 *            : Team name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
 	 * @return size: Team size
 	 */
 	@Column(name = "size", nullable = false)
@@ -74,6 +60,22 @@ public class Team implements Serializable {
 	 */
 	public void setSize(short size) {
 		this.size = size;
+	}
+
+	/**
+	 * @return name: Team name
+	 */
+	@Column(name = "name", length = 200, nullable = false)
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name
+	 *            : Team name
+	 */
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -92,6 +94,24 @@ public class Team implements Serializable {
 		this.note = note;
 	}
 
+	/**
+	 * @return selected: Flag to see if it is selected team, true is selected
+	 *         and false is not selected
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : Flag to see if it is selected team, true is selected and
+	 *            false is not selected
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,6 +119,7 @@ public class Team implements Serializable {
 		result = prime * result + idTeam;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
+		result = prime * result + (selected ? 1231 : 1237);
 		result = prime * result + size;
 		return result;
 	}
@@ -123,6 +144,8 @@ public class Team implements Serializable {
 			if (other.note != null)
 				return false;
 		} else if (!note.equals(other.note))
+			return false;
+		if (selected != other.selected)
 			return false;
 		if (size != other.size)
 			return false;
