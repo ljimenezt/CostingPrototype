@@ -1,4 +1,4 @@
-package co.informatix.erp.seguridad.dao;
+package co.informatix.erp.informacionBase.dao;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import co.informatix.erp.seguridad.entities.SystemProfile;
+import co.informatix.erp.informacionBase.entities.SystemProfile;
 import co.informatix.erp.utils.Constantes;
 
 /**

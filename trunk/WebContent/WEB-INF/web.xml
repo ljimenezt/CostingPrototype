@@ -55,6 +55,7 @@
 			/baseInformation/typeUnit/faces-config-typeUnit.xml,
 			/baseInformation/unitConversion/faces-config-unit-conversion.xml,
 			/baseInformation/ivaRate/faces-config-ivaRate.xml,
+			/baseInformation/systemProfile/faces-config-systemProfile.xml,
 			
             /organizaciones/empresas/faces-config-empresas.xml,
             /organizaciones/organizacion/faces-config-organizacion.xml,
@@ -69,7 +70,6 @@
 			/security/perfilUsuario/faces-config-perfilUsuario.xml,
 			/security/permisoPersonaEmpresa/faces-config-permisoPersonaEmpresa.xml,
 			/security/profileSystem/faces-config-profileSystem.xml,
-			/security/systemProfile/faces-config-systemProfile.xml,
 			
 			/humanResources/informacionBase/tipoCargo/faces-config-tipoCargo.xml,
 			/humanResources/person/faces-config-person.xml,
@@ -82,6 +82,7 @@
 			/humanResources/hrCertificationsAndRoles/faces-config-hrCertificationsAndRoles.xml,
 			/humanResources/payments/faces-config-payments.xml,
 			/humanResources/overtimePaymentRate/faces-config-overtimePayment.xml,
+			/humanResources/team/faces-config-team.xml,
 			
 			/lifeCycle/farm/faces-config-farm.xml,
 			/lifeCycle/plot/faces-config-plot.xml,
