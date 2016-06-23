@@ -119,7 +119,6 @@ public class Team implements Serializable {
 		result = prime * result + idTeam;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((note == null) ? 0 : note.hashCode());
-		result = prime * result + (selected ? 1231 : 1237);
 		result = prime * result + size;
 		return result;
 	}
@@ -144,8 +143,6 @@ public class Team implements Serializable {
 			if (other.note != null)
 				return false;
 		} else if (!note.equals(other.note))
-			return false;
-		if (selected != other.selected)
 			return false;
 		if (size != other.size)
 			return false;
