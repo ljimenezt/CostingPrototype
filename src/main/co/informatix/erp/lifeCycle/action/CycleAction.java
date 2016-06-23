@@ -62,6 +62,7 @@ import co.informatix.erp.warehouse.entities.MaterialsType;
 public class CycleAction implements Serializable {
 
 	private List<Cycle> listCycles;
+	private List<Activities> listActivity;
 
 	private List<SelectItem> optionsCropNames;
 	private List<SelectItem> optionsCrops;
@@ -72,8 +73,11 @@ public class CycleAction implements Serializable {
 	private List<SelectItem> itemsServicesType;
 
 	private Paginador pagination = new Paginador();
+	private Paginador activitiesPagination = new Paginador();
+
 	private Cycle cycle;
 	private Crops crops;
+	private Activities activity;
 
 	private String nameDocument;
 	private String folderFile;
@@ -99,6 +103,7 @@ public class CycleAction implements Serializable {
 	private int idServicesType;
 	private int idActivitiesName;
 	private int quantity;
+	private int selectedCycle;
 
 	private double quote;
 
@@ -123,9 +128,9 @@ public class CycleAction implements Serializable {
 	@EJB
 	private DepositsDao depositsDao;
 	@EJB
-	private SystemProfileDao systemProfileDao;
-	@EJB
 	private ActivitiesDao activitiesDao;
+	@EJB
+	private SystemProfileDao systemProfileDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -142,6 +147,14 @@ public class CycleAction implements Serializable {
 	 */
 	public void setListCycles(List<Cycle> listCycles) {
 		this.listCycles = listCycles;
+	}
+
+	/**
+	 * @return listActivity: A list with the activities associated to a cycle
+	 *         that is selected in the view.
+	 */
+	public List<Activities> getListActivity() {
+		return listActivity;
 	}
 
 	/**
@@ -273,6 +286,23 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
+	 * @return the activitiesPagination: Auxiliary pagination for the activities
+	 *         who are related to a selected cycle in the view.
+	 */
+	public Paginador getActivitiesPagination() {
+		return activitiesPagination;
+	}
+
+	/**
+	 * @param activitiesPagination
+	 *            : Set the Auxiliary pagination for the activities who are
+	 *            related to a selected cycle in the view.
+	 */
+	public void setActivitiesPagination(Paginador activitiesPagination) {
+		this.activitiesPagination = activitiesPagination;
+	}
+
+	/**
 	 * @return cycle: Object of class cycle.
 	 */
 	public Cycle getCycle() {
@@ -300,6 +330,23 @@ public class CycleAction implements Serializable {
 	 */
 	public void setCrops(Crops crops) {
 		this.crops = crops;
+	}
+
+	/**
+	 * @return activity: The activity that is filled with the details of the one
+	 *         who is selected by the user.
+	 */
+	public Activities getActivity() {
+		return activity;
+	}
+
+	/**
+	 * @param activity
+	 *            : The activity to fill with the details of the one who is
+	 *            selected by the user.
+	 */
+	public void setActivity(Activities activity) {
+		this.activity = activity;
 	}
 
 	/**
@@ -570,6 +617,13 @@ public class CycleAction implements Serializable {
 	 */
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	/**
+	 * @return The selected cycle identifier.
+	 */
+	public int getSelectedCycle() {
+		return this.selectedCycle;
 	}
 
 	/**
@@ -866,6 +920,8 @@ public class CycleAction implements Serializable {
 
 	/**
 	 * See the list of cycles depending on the crop.
+	 * 
+	 * @modify 22/06/2016 Sergio.Gelves
 	 */
 	public void consultCycles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -908,6 +964,8 @@ public class CycleAction implements Serializable {
 								unionMessagesSearch);
 			}
 			validaciones.setMensajeBusqueda(messageSearch);
+			this.listActivity = null;
+			this.selectedCycle = 0;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -1354,4 +1412,65 @@ public class CycleAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
+	/**
+	 * Initialize activities search which are related to a given cycle.
+	 * 
+	 * @author Sergio.Gelves
+	 * 
+	 * @param selectedCycle
+	 *            : Cycle id.
+	 */
+	public void showActivitiesCycle(int selectedCycle) {
+		try {
+			this.listActivity = null;
+			this.selectedCycle = selectedCycle;
+			this.activitiesPagination = new Paginador();
+			searchActivityCycle();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Query the Activities which are related to a given cycle, they are
+	 * filtered according to a pagination.
+	 * 
+	 * @author Sergio.Gelves
+	 */
+	public void searchActivityCycle() {
+		try {
+			Long amount = activitiesDao.amountActivitiesCycle(selectedCycle);
+			if (amount != null) {
+				activitiesPagination.paginar(amount);
+			}
+			if (amount != null && amount > 0) {
+				this.listActivity = activitiesDao.searchActivitiesCycle(
+						activitiesPagination.getInicio(),
+						activitiesPagination.getRango(), this.selectedCycle);
+				System.out.print("");
+			} else {
+				this.listActivity = null;
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Query the details of an activity that is selected for the user.
+	 * 
+	 * @author Sergio.Gelves
+	 * 
+	 * @param activityId
+	 *            : Activity identifier.
+	 */
+	public void searchActivityCycleDetails(int activityId) {
+		try {
+			this.activity = activitiesDao.activityById(activityId);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
 }

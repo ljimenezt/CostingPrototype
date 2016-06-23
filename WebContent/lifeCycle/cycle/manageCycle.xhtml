@@ -97,6 +97,20 @@
 								$g=jQuery.noConflict();
     						</script>
 
+							<rich:column styleClass="colIconoUno">
+								<a:commandLink render="formCycle"
+									action="#{cycleAction.showActivitiesCycle(cycle.idCycle)}"
+									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{cycle.idCycle eq cycleAction.selectedCycle}" />
+									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{cycleAction.selectedCycle eq 0 or cycle.idCycle ne cycleAction.selectedCycle}" />
+									<f:param name="param2" value="si" />
+								</a:commandLink>
+							</rich:column>
+
 							<rich:column styleClass="colIconoAjustable">
 								<a:commandLink id="details"
 									actionListener="#{cycleAction.setCycle(cycle)}"
@@ -189,12 +203,66 @@
 								<ui:param name="valReder" value="pnlCycles" />
 								<ui:param name="beanActionParam" value="#{cycleAction}" />
 								<ui:param name="metodoActionParam" value="consultCycles" />
+								<ui:param name="pager" value="pagination" />
 							</ui:include>
 						</div>
 
 					</t:fieldset>
 				</a:outputPanel>
 				<br />
+				<a:outputPanel id="pnlActivityCycles"
+					rendered="#{cycleAction.listActivity != null and cycleAction.listActivity.size() > 0}">
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<legend class="etiquetaTitulo">#{messageCosts.activities_label_s}</legend>
+						<rich:dataTable value="#{cycleAction.listActivity}" var="activity"
+							id="txtActivity" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colTextoMediano center">
+								<f:facet name="header">#{messageLifeCycle.activity_names_label}</f:facet>
+								<a:commandLink id="detailsActivity"
+									actionListener="#{cycleAction.searchActivityCycleDetails(activity.idActivity)}"
+									render="PopUpActivityDetails"
+									oncomplete="#{rich:component('PopUpActivityDetails')}.show();">
+									<h:outputFormat value="#{activity.activityName.activityName}" />
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoMediano center">
+								<f:facet name="header">#{messageCosts.budget_label_start_time}</f:facet>
+								<h:outputFormat value="#{activity.initialDtBudget}" />
+							</rich:column>
+							<rich:column styleClass="colTextoMediano center">
+								<f:facet name="header">#{messageCosts.actual_label_start_time}</f:facet>
+								<h:outputFormat value="#{activity.initialDtActual}" />
+							</rich:column>
+							<rich:column styleClass="colTextoMediano center">
+								<f:facet name="header">#{messageCosts.activities_label_duration_budget}</f:facet>
+								<h:outputFormat value="#{activity.durationBudget}" />
+							</rich:column>
+							<rich:column styleClass="colTextoMediano center">
+								<f:facet name="header">#{messageCosts.actual_label_duration}</f:facet>
+								<h:outputFormat value="#{activity.durationActual}" />
+							</rich:column>
+							<rich:column styleClass="colTextoMediano center">
+								<f:facet name="header">#{messageCosts.budget_label_cost}</f:facet>
+								<h:outputFormat value="#{activity.generalCostBudget}" />
+							</rich:column>
+							<rich:column styleClass="colTextoMediano center">
+								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
+								<h:outputFormat value="#{activity.generalCostActual}" />
+							</rich:column>
+						</rich:dataTable>
+						<div class="anchoDos center inBlock">
+							<ui:include src="/plantillas/templatePagination.xhtml">
+								<ui:param name="valId" value="2" />
+								<ui:param name="valReder" value="pnlActivityCycles" />
+								<ui:param name="beanActionParam" value="#{cycleAction}" />
+								<ui:param name="metodoActionParam" value="searchActivityCycle" />
+								<ui:param name="pager" value="activitiesPagination" />
+							</ui:include>
+						</div>
+					</t:fieldset>
+				</a:outputPanel>
 			</rich:panel>
 		</h:form>
 		<h:form id="popupFormRegStandard">
@@ -409,6 +477,100 @@
 			</rich:popupPanel>
 		</h:form>
 
+		<h:form id="formActivityDetails">
+			<rich:popupPanel id="PopUpActivityDetails" autosized="true"
+				domElementAttachment="form" styleClass="H340P fondoAnchoUno W430P"
+				header="#{messageCosts.activities_label}" modal="true">
+
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('PopUpActivityDetails')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<t:fieldset styleClass="BorderW2P">
+					<legend class="etiquetaTitulo">#{cycleAction.activity.activityName.activityName}</legend>
+					<h:panelGrid columns="3"
+						columnClasses="right W180P tdAlignTop PaddingT10P, tdAlignTop center W210P PaddingT10P, tdAlignTop W210P PaddingT10P">
+
+						<h:outputText value="" />
+						<h:outputText value="#{mensaje.label_budget}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="#{mensaje.label_actual}"
+							styleClass="etiquetaTitulo" />
+
+						<h:outputText value="#{mensaje.label_start_date}"
+							styleClass="etiquetaTitulo" />
+
+						<h:outputText value="#{cycleAction.activity.initialDtBudget}"
+							styleClass="" />
+						<h:outputText value="#{cycleAction.activity.initialDtActual}"
+							styleClass="" />
+
+						<h:outputText value="#{mensaje.label_end_date}"
+							styleClass="etiquetaTitulo" />
+
+						<h:outputText value="#{cycleAction.activity.finalDtBudget}"
+							styleClass="" />
+						<h:outputText value="#{cycleAction.activity.finalDtActual}"
+							styleClass="" />
+
+						<h:outputText value="#{mensaje.label_hr_cost}"
+							styleClass="etiquetaTitulo" />
+
+						<h:outputText value="#{cycleAction.activity.costHrBudget}"
+							styleClass="" />
+						<h:outputText value="#{cycleAction.activity.costHrActual}"
+							styleClass="" />
+
+						<h:outputText value="#{mensaje.label_machine_cost}"
+							styleClass="etiquetaTitulo" />
+
+						<h:outputText value="#{cycleAction.activity.costMachinesEqBudget}"
+							styleClass="" />
+						<h:outputText value="#{cycleAction.activity.costMachinesEqActual}"
+							styleClass="" />
+
+						<h:outputText value="#{mensaje.label_material_cost}"
+							styleClass="etiquetaTitulo" />
+
+						<h:outputText value="#{cycleAction.activity.costMaterialsBudget}"
+							styleClass="" />
+						<h:outputText value="#{cycleAction.activity.costMaterialsActual}"
+							styleClass="" />
+
+						<h:outputText value="#{mensaje.label_service_cost}"
+							styleClass="etiquetaTitulo" />
+
+						<h:outputText value="#{cycleAction.activity.costServicesBudget}"
+							styleClass="" />
+						<h:outputText value="#{cycleAction.activity.costServicesActual}"
+							styleClass="" />
+
+						<h:outputText value="#{mensaje.label_general_cost}"
+							styleClass="etiquetaTitulo" />
+
+						<h:outputText value="#{cycleAction.activity.generalCostBudget}"
+							styleClass="" />
+						<h:outputText value="#{cycleAction.activity.generalCostActual}"
+							styleClass="" />
+
+					</h:panelGrid>
+					<ui:insert id="activityAditionalDetails">
+					</ui:insert>
+					<div class="W100Per center inBlock PaddingT10P PaddingB6P">
+						<a:commandButton
+							onclick="#{rich:component('PopUpActivityDetails')}.hide()"
+							value="#{mensaje.button_accept}" />
+					</div>
+
+				</t:fieldset>
+			</rich:popupPanel>
+		</h:form>
+
 		<h:form id="formConfirmActual">
 			<rich:popupPanel id="popUpConfirmActual" modal="true"
 				autosized="true" maxWidth="500"
@@ -441,6 +603,5 @@
 				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
-
 	</ui:define>
 </ui:composition>

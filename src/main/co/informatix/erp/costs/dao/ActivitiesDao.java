@@ -132,6 +132,7 @@ public class ActivitiesDao implements Serializable {
 	 * Query an activity by its identifier.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 22/06/2016 Sergio.Gelves
 	 * 
 	 * @param idActivity
 	 *            : identifier of the activity.
@@ -145,7 +146,8 @@ public class ActivitiesDao implements Serializable {
 	public Activities activityById(int idActivity) throws Exception {
 		List<Activities> results = em
 				.createQuery(
-						"SELECT a FROM Activities a WHERE a.idActivity=:idActivity")
+						"SELECT a FROM Activities a JOIN FETCH a.activityName"
+								+ " an WHERE a.idActivity=:idActivity")
 				.setParameter("idActivity", idActivity).getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
@@ -389,6 +391,56 @@ public class ActivitiesDao implements Serializable {
 			return resultList;
 		}
 		return null;
+	}
+
+	/**
+	 * Query all activities and activity names which have a reference to a
+	 * specified cycle, the result is filtered by quantity and ordered according
+	 * to the newer initial date of budget.
+	 * 
+	 * @author Sergio.Gelves
+	 * 
+	 * @param start
+	 *            : The initial record that is retrieved.
+	 * @param range
+	 *            : The range of records to be retrieved.
+	 * @param cycleId
+	 *            : Cycle identifier.
+	 * @return A list with the activities.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Activities> searchActivitiesCycle(int start, int range,
+			int cycleId) throws Exception {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT a FROM Activities a JOIN FETCH a.activityName an ");
+		q.append(" WHERE a.cycle.idCycle =:cycleId ");
+		q.append("ORDER BY a.initialDtBudget DESC");
+		Query queryResult = em.createQuery(q.toString());
+		return queryResult.setParameter("cycleId", cycleId)
+				.setFirstResult(start).setMaxResults(range).getResultList();
+	}
+
+	/**
+	 * Query the amount of activities which are associated to the specified
+	 * cycle.
+	 * 
+	 * @author Sergio.Gelves
+	 * 
+	 * @param cycleId
+	 *            : The cycle identifier.
+	 * @return: Amount of cycles.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public long amountActivitiesCycle(int cycleId) throws Exception {
+		Query q = em.createQuery("SELECT COUNT(a) FROM Activities a WHERE "
+				+ " a.cycle.idCycle =:cycleId GROUP BY a.cycle.idCycle ");
+		List<Long> result = q.setParameter("cycleId", cycleId).getResultList();
+		if (result != null && result.size() > 0) {
+			return result.get(0);
+		}
+		return (long) 0;
 	}
 
 	/**
