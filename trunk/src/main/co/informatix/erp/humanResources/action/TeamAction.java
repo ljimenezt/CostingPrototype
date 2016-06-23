@@ -164,6 +164,11 @@ public class TeamAction implements Serializable {
 		return "regTeam";
 	}
 
+	/**
+	 * See the existing team list.
+	 * 
+	 * @return gesTeam: Navigation rule that redirects to manage the team.
+	 */
 	public String consultTeam() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleHumanResources = ControladorContexto
