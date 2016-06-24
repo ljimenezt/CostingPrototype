@@ -20,6 +20,7 @@
 		<t:saveState value="#{machinesAction}" />
 		<t:saveState value="#{activitiesAndHrAction}" />
 		<t:saveState value="#{controllerSortField}" />
+		<t:saveState value="#{cycleAction}" />
 		<!-- Parameters for the order list -->
 		<ui:param name="renderList" value="paginas" />
 		<ui:param name="actionList" value="#{activitiesAction}" />
@@ -45,7 +46,7 @@
 				styleClass="anchoUno MinH253P" id="panelScheduledActivities">
 				<t:fieldset styleClass="anchoDos BorderW2P">
 					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label}</legend>
-					<h:panelGrid columns="3"
+					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop W82P,,">
@@ -63,6 +64,7 @@
 								render="@form" />
 						</h:selectOneMenu>
 						<rich:message for="cropName" />
+						<h:outputText value="" styleClass="etiquetaTitulo" />
 
 						<h:outputText value="#{messageLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
@@ -77,18 +79,44 @@
 								render="@form" />
 						</h:selectOneMenu>
 						<rich:message for="crop" />
+						<h:outputText value="" styleClass="etiquetaTitulo" />
 
 						<h:outputText value="#{messageLifeCycle.cycle_label}"
 							styleClass="etiquetaTitulo" />
-						<h:selectOneMenu id="cycle"
-							value="#{scheduledActivitiesAction.idCycle}"
-							styleClass="colTextoMediano" required="true"
-							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null}">
-							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-							<f:selectItems value="#{scheduledActivitiesAction.optionsCycles}" />
-							<f:ajax event="change" render="formScheduledActivities" />
-						</h:selectOneMenu>
-						<rich:message for="cycle" />
+						<h:inputText styleClass="colTextoMediano"
+							value="#{scheduledActivitiesAction.cycle.activiyNames.activityName}"
+							id="txtCycle" readonly="true"
+							validator="#{encodeFilter.validarScripting}"
+							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null }" />
+						<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+							render=":popupSearchCycle, :outputBuscar"
+							action="#{cycleAction.initializeSearch()}"
+							actionListener="#{cycleAction.setIdCrops(scheduledActivitiesAction.idCrop)}"
+							execute="formActivitiesAndHr"
+							rendered="#{activitiesAction.listActivities eq null}"
+							oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popupSearchCycle')}.show();} ">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/add_22.png"
+									styleClass="verticalAlignMiddle" />
+							</h:panelGrid>
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_select}" />
+							</rich:tooltip>
+							<f:param name="param2" value="si" />
+						</a:commandLink>
+						<a:commandLink
+							rendered="#{activitiesAction.listActivities eq null}"
+							actionListener="#{scheduledActivitiesAction.cleanCycle()}"
+							render=":formScheduledActivities:txtCycle , :formScheduledActivities:txtCycles, formScheduledActivities"
+							execute="@this">
+							<h:graphicImage value="/img/editRemove_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_remove}" />
+							</rich:tooltip>
+						</a:commandLink>
+						<h:inputHidden id="txtCycles"
+							value="#{scheduledActivitiesAction.cycle.activiyNames.idActivityName}" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -550,5 +578,8 @@
 		</h:form>
 		<ui:include src="templatePopupActivitiesAndHr.xhtml" />
 		<ui:include src="templateActivitiesAndMachine.xhtml" />
+		<ui:include src="templateCycles.xhtml">
+			<ui:param name="beanActionParam" value="#{scheduledActivitiesAction}" />
+		</ui:include>
 	</ui:define>
 </ui:composition>

@@ -34,6 +34,7 @@
 		<t:saveState value="#{activitiesAndHrAction}" />
 		<t:saveState value="#{activitiesAction}" />
 		<t:saveState value="#{scheduledActivitiesAction}" />
+		<t:saveState value="#{cycleAction}" />
 		<h:form id="formHrReporting">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageLifeCycle.record_activities_actuals_label_actual}"
@@ -46,7 +47,6 @@
 						columnClasses="tdAlignTop W82P">
 						<h:outputText value="#{messageLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
 						<h:selectOneMenu id="cropName"
 							value="#{recordActivitiesActualsAction.idCropName}"
 							styleClass="colTextoMediano" required="true"
@@ -59,9 +59,10 @@
 								render=":formHrReporting" />
 						</h:selectOneMenu>
 						<rich:message for="cropName" />
+						<h:outputText value="" />
+
 						<h:outputText value="#{messageLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
 						<h:selectOneMenu id="crop"
 							value="#{recordActivitiesActualsAction.idCrop}"
 							styleClass="colTextoMediano" required="true"
@@ -73,20 +74,44 @@
 								render="@form" />
 						</h:selectOneMenu>
 						<rich:message for="crop" />
+						<h:outputText value="" />
 
 						<h:outputText value="#{messageLifeCycle.cycle_label}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
-						<h:selectOneMenu id="cycle"
-							value="#{recordActivitiesActualsAction.idCycle}"
-							styleClass="colTextoMediano" required="true"
-							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null}">
-							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-							<f:selectItems
-								value="#{recordActivitiesActualsAction.optionsCycles}" />
-							<a:ajax event="change" render="formHrReporting" />
-						</h:selectOneMenu>
-						<rich:message for="cycle" />
+						<h:inputText styleClass="colTextoMediano"
+							value="#{recordActivitiesActualsAction.cycle.activiyNames.activityName}"
+							id="txtCycle" readonly="true"
+							validator="#{encodeFilter.validarScripting}"
+							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null }" />
+						<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+							render=":popupSearchCycle, :outputBuscar"
+							action="#{cycleAction.initializeSearch()}"
+							actionListener="#{cycleAction.setIdCrops(recordActivitiesActualsAction.idCrop)}"
+							execute="formActivitiesAndHr"
+							rendered="#{recordActivitiesActualsAction.listActivities eq null or (empty recordActivitiesActualsAction.listActivities)}"
+							oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popupSearchCycle')}.show();} ">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/add_22.png"
+									styleClass="verticalAlignMiddle" />
+							</h:panelGrid>
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_select}" />
+							</rich:tooltip>
+							<f:param name="param2" value="si" />
+						</a:commandLink>
+						<a:commandLink
+							rendered="#{recordActivitiesActualsAction.listActivities eq null or (empty recordActivitiesActualsAction.listActivities)}"
+							actionListener="#{recordActivitiesActualsAction.cleanCycle()}"
+							render=":formHrReporting:txtCycle, :formHrReporting:txtCycles, formHrReporting"
+							execute="@this">
+							<h:graphicImage value="/img/editRemove_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_remove}" />
+							</rich:tooltip>
+						</a:commandLink>
+						<h:inputHidden id="txtCycles"
+							value="#{recordActivitiesActualsAction.cycle.activiyNames.idActivityName}" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -106,7 +131,7 @@
 						<h:selectOneMenu id="activities"
 							rendered="#{recordActivitiesActualsAction.idCycle eq 0}"
 							value="#{recordActivitiesActualsAction.activities.idActivity}"
-							styleClass="colTextoCorto" required="true"
+							styleClass="colTextoCorto" required="false"
 							disabled="#{recordActivitiesActualsAction.idCrop eq 0 or recordActivitiesActualsAction.idCropName eq 0}">
 							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
 							<f:selectItems
@@ -479,5 +504,9 @@
 		</h:form>
 		<ui:include src="templateHRCosting.xhtml" />
 		<ui:include src="templateMachinesActuals.xhtml" />
+		<ui:include src="templateCycles.xhtml">
+			<ui:param name="beanActionParam"
+				value="#{recordActivitiesActualsAction}" />
+		</ui:include>
 	</ui:define>
 </ui:composition>
