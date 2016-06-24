@@ -77,7 +77,6 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private List<SelectItem> listActivityNames;
 	private List<Activities> listActivities;
 	private List<ActivitiesAndHr> listActivitiesAndHr;
-	private List<SelectItem> optionsCycles;
 
 	private Activities activities;
 	private Activities selectedActivity;
@@ -90,6 +89,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private Date maxDate;
 	private Date minDate;
 	private ActivityMachine activityMachine;
+	private Cycle cycle;
 
 	/**
 	 * @return idCrop: crop identifier.
@@ -129,7 +129,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * @return idCycle : Cycle identifier
+	 * @return idCycle : Cycle identifier to execute
 	 */
 	public int getIdCycle() {
 		return idCycle;
@@ -137,7 +137,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * @param idCycle
-	 *            : Cycle identifier
+	 *            : Cycle identifier to execute
 	 */
 	public void setIdCycle(int idCycle) {
 		this.idCycle = idCycle;
@@ -244,21 +244,6 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void setListActivitiesAndHr(List<ActivitiesAndHr> listActivitiesAndHr) {
 		this.listActivitiesAndHr = listActivitiesAndHr;
-	}
-
-	/**
-	 * @return optionsCycles : Cycles list
-	 */
-	public List<SelectItem> getOptionsCycles() {
-		return optionsCycles;
-	}
-
-	/**
-	 * @param optionsCycles
-	 *            : Cycles list
-	 */
-	public void setOptionsCycles(List<SelectItem> optionsCycles) {
-		this.optionsCycles = optionsCycles;
 	}
 
 	/**
@@ -431,6 +416,35 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
+	 * @return cycle: Object of class cycle.
+	 */
+	public Cycle getCycle() {
+		return cycle;
+	}
+
+	/**
+	 * @param cycle
+	 *            : Object of class cycle.
+	 */
+	public void setCycle(Cycle cycle) {
+		this.cycle = cycle;
+		this.idCycle = this.cycle.getIdCycle();
+	}
+
+	/**
+	 * Method to clean the object Cycle
+	 * 
+	 * @author Liseth.Jimenez
+	 */
+	public void cleanCycle() {
+		this.cycle = new Cycle();
+		this.idCycle = 0;
+		ActivityNames activityNames = new ActivityNames();
+		activityNames.setIdActivityName(0);
+		this.cycle.setActiviyNames(activityNames);
+	}
+
+	/**
 	 * Initializes the necessary variables for the management actual activities
 	 * 
 	 * @modify 22/03/2016 Andres.Gomez
@@ -465,7 +479,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 			}
 			loadComboCrops();
 			loadComboCropName();
-			loadCycles();
+			cleanCycle();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -502,30 +516,6 @@ public class RecordActivitiesActualsAction implements Serializable {
 							.getDescription()));
 				}
 			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * Complete the list of cycles according to the crop selected name.
-	 * 
-	 * @author Liseth.Jimenez
-	 */
-	public void loadCycles() {
-		try {
-			optionsCycles = new ArrayList<SelectItem>();
-			List<Cycle> listCycles = cycleDao.consultCycleByCrop(idCrop);
-			if (listCycles != null) {
-				for (Cycle cycle : listCycles) {
-					optionsCycles.add(new SelectItem(cycle.getIdCycle(), cycle
-							.getCycleNumber()
-							+ " - "
-							+ cycle.getActiviyNames().getActivityName()));
-				}
-				idCycle = listCycles.get(0).getIdCycle();
-			}
-			showActivities();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
