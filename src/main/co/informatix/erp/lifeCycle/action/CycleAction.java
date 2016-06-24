@@ -74,6 +74,7 @@ public class CycleAction implements Serializable {
 
 	private Paginador pagination = new Paginador();
 	private Paginador activitiesPagination = new Paginador();
+	private Paginador paginationForm = new Paginador();
 
 	private Cycle cycle;
 	private Crops crops;
@@ -300,6 +301,22 @@ public class CycleAction implements Serializable {
 	 */
 	public void setActivitiesPagination(Paginador activitiesPagination) {
 		this.activitiesPagination = activitiesPagination;
+	}
+
+	/**
+	 * @return paginationForm : management responsible paged list from search
+	 *         cycles.
+	 */
+	public Paginador getPaginationForm() {
+		return paginationForm;
+	}
+
+	/**
+	 * @param paginationForm
+	 *            : management responsible paged list from search cycles.
+	 */
+	public void setPaginationForm(Paginador paginationForm) {
+		this.paginationForm = paginationForm;
 	}
 
 	/**
@@ -922,31 +939,42 @@ public class CycleAction implements Serializable {
 	 * See the list of cycles depending on the crop.
 	 * 
 	 * @modify 22/06/2016 Sergio.Gelves
+	 * @modify 23/06/2016 Liseth.Jimenez
 	 */
 	public void consultCycles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("messageLifeCycle");
-		ValidacionesAction validaciones = ControladorContexto
+		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listCycles = new ArrayList<Cycle>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
+		String param2 = ControladorContexto.getParam("param2");
+		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
+				: false;
 		try {
 			advanceSearchCycles(consult, parameters, bundle,
 					unionMessagesSearch);
 			Long amount = cycleDao.amountCycleCrop(consult, parameters,
 					this.idCrops);
 			if (amount != null) {
-				pagination.paginar(amount);
+				if (fromModal) {
+					paginationForm.paginarRangoDefinido(amount, 5);
+					listCycles = cycleDao.consultCycleByCrop(
+							paginationForm.getInicio(),
+							paginationForm.getRango(), consult, parameters,
+							this.idCrops);
+				} else {
+					pagination.paginar(amount);
+					listCycles = cycleDao.consultCycleByCrop(
+							pagination.getInicio(), pagination.getRango(),
+							consult, parameters, this.idCrops);
+				}
 			}
-			if (amount != null && amount > 0) {
-				listCycles = cycleDao.consultCycleByCrop(
-						pagination.getInicio(), pagination.getRango(), consult,
-						parameters, this.idCrops);
-			}
+
 			if ((listCycles == null || listCycles.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat
@@ -963,7 +991,12 @@ public class CycleAction implements Serializable {
 								bundleLifeCycle.getString("cycle_label_s"),
 								unionMessagesSearch);
 			}
-			validaciones.setMensajeBusqueda(messageSearch);
+
+			if (fromModal) {
+				validations.setMensajeBusquedaPopUp(messageSearch);
+			} else {
+				validations.setMensajeBusqueda(messageSearch);
+			}
 			this.listActivity = null;
 			this.selectedCycle = 0;
 		} catch (Exception e) {
