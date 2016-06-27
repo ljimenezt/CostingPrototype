@@ -9,7 +9,7 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	<h:form id="formSearch">
-		<rich:popupPanel id="popupSearchCycle" width="510" height="480"
+		<rich:popupPanel id="popupSearchCycle" height="480" autosized="true"
 			domElementAttachment="form"
 			header="#{mensaje.button_search} #{messageLifeCycle.cycle_label_s}">
 			<f:facet name="controls">
@@ -21,63 +21,61 @@
 						onclick="#{rich:component('popupSearchCycle')}.hide()" />
 				</h:panelGroup>
 			</f:facet>
-			<a:outputPanel id="pnSearch">
-				<a:outputPanel id="outputMachine">
-					<t:fieldset styleClass="BorderW2P">
-						<legend class="etiquetaTitulo">#{messageLifeCycle.cycle_label_type}</legend>
-						<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
-							<h:outputText value="#{messageLifeCycle.cycle_label_type}"
-								styleClass="etiquetaTitulo" />
-							<h:selectOneMenu id="cmbActivities"
-								value="#{cycleAction.idActivitiesName}"
-								onkeypress="return submitByEnter(event,'formSearch:btnBuscar')">
-								<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
-								<f:selectItems value="#{cycleAction.itemsActivityName}" />
-							</h:selectOneMenu>
+			<rich:panel styleClass="H450P fondoAnchoUno W530P">
+				<a:outputPanel id="pnSearch">
+					<a:outputPanel id="outputMachine">
+						<t:fieldset styleClass="BorderW2P">
+							<legend class="etiquetaTitulo">#{messageLifeCycle.cycle_label_type}</legend>
+							<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+								<h:outputText value="#{messageLifeCycle.cycle_label_type}"
+									styleClass="etiquetaTitulo" />
+								<h:selectOneMenu id="cmbActivities"
+									value="#{cycleAction.idActivitiesName}"
+									onkeypress="return submitByEnter(event,'formSearch:btnBuscar')">
+									<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
+									<f:selectItems value="#{cycleAction.itemsActivityName}" />
+								</h:selectOneMenu>
 
-							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_start_date}" />
-							<p:calendar value="#{cycleAction.initialDateSearch}"
-								showOn="button" navigator="true" onSelectUpdate="fechFin"
-								id="fechaInicio" pattern="MM/dd/yyyy"
-								label="#{mensaje.label_start_date}">
-								<p:ajax process="@form" event="dateSelect"
-									update="formSearch:pnSearch" />
-							</p:calendar>
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensaje.label_start_date}" />
+								<p:calendar value="#{cycleAction.initialDateSearch}"
+									showOn="button" navigator="true" onSelectUpdate="fechFin"
+									id="fechaInicio" pattern="MM/dd/yyyy"
+									label="#{mensaje.label_start_date}">
+									<p:ajax process="@form" event="dateSelect"
+										update="formSearch:pnSearch" />
+								</p:calendar>
 
-							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_end_date}" />
-							<p:calendar value="#{cycleAction.finalDateSearch}"
-								showOn="button" navigator="true"
-								mindate="#{cycleAction.initialDateSearch}" id="fechFin"
-								pattern="MM/dd/yyyy"
-								onkeypress="return submitByEnter(event,'formSearch:btnBuscar')"
-								label="#{mensaje.label_end_date}" />
-						</h:panelGrid>
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensaje.label_end_date}" />
+								<p:calendar value="#{cycleAction.finalDateSearch}"
+									showOn="button" navigator="true"
+									mindate="#{cycleAction.initialDateSearch}" id="fechFin"
+									pattern="MM/dd/yyyy"
+									onkeypress="return submitByEnter(event,'formSearch:btnBuscar')"
+									label="#{mensaje.label_end_date}" />
+							</h:panelGrid>
+							<br />
+							<div class="W100Per center inBlock">
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+									actionListener="#{cycleAction.consultCycles()}"
+									render="outputBuscar msjSearch">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+							</div>
+						</t:fieldset>
 						<br />
-						<div class="W100Per center inBlock">
-							<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-								actionListener="#{cycleAction.consultCycles()}"
-								render="outputBuscar msjSearch">
-								<f:param name="param2" value="si" />
-							</a:commandButton>
-						</div>
-					</t:fieldset>
-					<br />
-					<a:outputPanel id="msjSearch">
-						<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
-							<ui:param name="width" value="W520P" />
-							<ui:param name="id" value="popupBuscarMenu" />
-						</ui:include>
-					</a:outputPanel>
-					<br />
-					<t:fieldset styleClass="BorderW2P">
-						<legend class="etiquetaTitulo">#{messageLifeCycle.cycle_label_s}</legend>
+						<a:outputPanel id="msjSearch">
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W520P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
+						<br />
 						<a:outputPanel id="outputBuscar">
 							<ui:param name="listaVacia"
 								value="#{cycleAction.listCycles eq null or (empty cycleAction.listCycles)}" />
-
-							<div align="right" class="W430P">
+							<div align="right" class="W500P">
 								<a:commandLink render="pnSearch"
 									styleClass="quitarDecoracionLink"
 									action="#{cycleAction.initializeSearch()}">
@@ -90,9 +88,8 @@
 							</div>
 							<rich:dataTable value="#{cycleAction.listCycles}" var="cycle"
 								id="cycles" footerClass="H130P"
-								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W430P"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W500P"
 								rowClasses="odd-row, even-row">
-
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header" />
 									<a:commandLink
@@ -127,7 +124,6 @@
 											locale="#{idioma.locale}" />
 									</h:outputText>
 								</rich:column>
-
 								<f:facet name="footer">
 									<rich:columnGroup rendered="#{listaVacia}">
 										<rich:column colspan="5" styleClass="footTabla">
@@ -150,9 +146,9 @@
 								</div>
 							</a:outputPanel>
 						</a:outputPanel>
-					</t:fieldset>
+					</a:outputPanel>
 				</a:outputPanel>
-			</a:outputPanel>
+			</rich:panel>
 		</rich:popupPanel>
 	</h:form>
 </ui:composition>
