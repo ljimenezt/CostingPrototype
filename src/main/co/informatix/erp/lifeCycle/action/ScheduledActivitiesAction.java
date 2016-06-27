@@ -495,8 +495,10 @@ public class ScheduledActivitiesAction implements Serializable {
 			this.activities = new Activities();
 			this.cropNames = new CropNames();
 			this.machine = new Machines();
-			if (this.activitiesAction != null)
+			if (this.activitiesAction != null) {
 				this.activitiesAction.setListActivities(null);
+				this.activitiesAction.setFlagCycle(false);
+			}
 			this.machinesAction = new MachinesAction();
 			this.setSelectedActivity(null);
 			this.crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
