@@ -42,10 +42,8 @@ import co.informatix.erp.utz.entities.CertificationsAndRoles;
 public class ActivitiesAction implements Serializable {
 	@EJB
 	private ActivitiesDao activitiesDao;
-
 	@EJB
 	private CertificationsAndRolesDao certificationsAndRolesDao;
-
 	@EJB
 	private ActivitiesAndCertificationsDao activitiesAndCertificationsDao;
 
@@ -54,6 +52,7 @@ public class ActivitiesAction implements Serializable {
 	private boolean reportingActuals = false;
 	private boolean sort;
 	private boolean flagCropActivities = false;
+	private boolean flagCycle = false;
 
 	private ActivitiesAndCertifications activitiesAndCertifications;
 	private Activities activities;
@@ -139,6 +138,21 @@ public class ActivitiesAction implements Serializable {
 	 */
 	public void setFlagCropActivities(boolean flagCropActivities) {
 		this.flagCropActivities = flagCropActivities;
+	}
+
+	/**
+	 * @return flagCycle :Flag for show or hide a form element
+	 */
+	public boolean isFlagCycle() {
+		return flagCycle;
+	}
+
+	/**
+	 * @param flagCycle
+	 *            :Flag for show or hide a form element
+	 */
+	public void setFlagCycle(boolean flagCycle) {
+		this.flagCycle = flagCycle;
 	}
 
 	/**
@@ -310,6 +324,9 @@ public class ActivitiesAction implements Serializable {
 			flagCropActivities = false;
 		} else {
 			this.pager = paginador;
+		}
+		if (this.idCycle == 0) {
+			flagCycle = true;
 		}
 		searchActivities();
 	}
