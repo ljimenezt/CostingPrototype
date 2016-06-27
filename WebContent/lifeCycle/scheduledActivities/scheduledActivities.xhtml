@@ -401,7 +401,7 @@
 										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
-							<rich:column styleClass="colValor">
+							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{messageCosts.budget_label_duration}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.durationBudget}" />
 							</rich:column>
@@ -409,15 +409,15 @@
 								<f:facet name="header">#{messageCosts.budget_label_cost}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.totalCostBudget}" />
 							</rich:column>
-							<rich:column styleClass="colValor">
+							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{messageCosts.activities_and_hr_label_normal_hours}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.normalHours}" />
 							</rich:column>
-							<rich:column styleClass="colValor">
+							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{messageCosts.activities_and_hr_label_overtime}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.overtimeHours}" />
 							</rich:column>
-							<rich:column styleClass="colValor">
+							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{messageCosts.activities_and_hr_label_total_hours}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.totalHours}" />
 							</rich:column>

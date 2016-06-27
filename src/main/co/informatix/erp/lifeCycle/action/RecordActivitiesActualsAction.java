@@ -3,6 +3,7 @@ package co.informatix.erp.lifeCycle.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,6 +26,8 @@ import co.informatix.erp.costs.entities.ActivitiesAndHr;
 import co.informatix.erp.costs.entities.ActivityMachine;
 import co.informatix.erp.humanResources.dao.OvertimePaymentRateDao;
 import co.informatix.erp.humanResources.entities.OvertimePaymentRate;
+import co.informatix.erp.informacionBase.dao.SystemProfileDao;
+import co.informatix.erp.informacionBase.entities.SystemProfile;
 import co.informatix.erp.lifeCycle.dao.ActivityNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
@@ -65,6 +68,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private ActivitiesAndMachineDao activitiesAndMachineDao;
 	@EJB
 	private CycleDao cycleDao;
+	@EJB
+	private SystemProfileDao systemProfileDao;
 
 	private int idCrop;
 	private int idCropName;
@@ -860,23 +865,37 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * It will calculate the length according to the two different dates.
+	 * 
+	 * @modify 27/06/2016 Andres.Gomez
 	 */
 	public void calculateCurrentDuration() {
 		Date inicial = activitiesAndHr.getInitialDateTimeActual();
 		Date fin = activitiesAndHr.getFinalDateTimeActual();
-
-		if (inicial != null && fin != null) {
-			double durationActual = ControladorFechas
-					.restarFechas(inicial, fin);
-			double hourCost = activitiesAndHr.getActivitiesAndHrPK().getHr()
-					.getHourCost();
-			double totalCost = durationActual * hourCost;
-			if (durationActual > 8) {
-				totalCost = calculateCostOvertime(durationActual);
+		try {
+			if (inicial != null && fin != null) {
+				SystemProfile systemProfile = systemProfileDao
+						.findSystemProfile();
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(fin);
+				double durationActual = 0d;
+				if (cal.get(Calendar.HOUR_OF_DAY) > 0) {
+					durationActual = ControladorFechas.restarFechas(inicial,
+							fin);
+					durationActual = durationActual
+							- systemProfile.getBreakDuration();
+				}
+				double hourCost = activitiesAndHr.getActivitiesAndHrPK()
+						.getHr().getHourCost();
+				double totalCost = durationActual * hourCost;
+				if (durationActual > 8) {
+					totalCost = calculateCostOvertime(durationActual);
+				}
+				activitiesAndHr.setDurationActual(durationActual);
+				activitiesAndHr
+						.setTotalCostActual(Math.round(totalCost * 10.0) / 10.0);
 			}
-			activitiesAndHr.setDurationActual(durationActual);
-			activitiesAndHr
-					.setTotalCostActual(Math.round(totalCost * 10.0) / 10.0);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
