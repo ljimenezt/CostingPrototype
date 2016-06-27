@@ -3,7 +3,6 @@ package co.informatix.erp.lifeCycle.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -334,9 +333,8 @@ public class CropActivitiesAction implements Serializable {
 
 	/**
 	 * @return systemProfile: Object system Profile
-	 * @throws Exception
 	 */
-	public SystemProfile getSystemProfile() throws Exception {
+	public SystemProfile getSystemProfile() {
 		return systemProfile;
 	}
 
@@ -779,9 +777,9 @@ public class CropActivitiesAction implements Serializable {
 		setClean(desdeModal);
 		try {
 			findSystemProfile();
-			Date initialDtBudget = setDefaultTime(
+			Date initialDtBudget = ControladorFechas.setDefaultTime(
 					this.systemProfile.getActivityDefaultStart(), null);
-			Date finalDtBudget = setDefaultTime(
+			Date finalDtBudget = ControladorFechas.setDefaultTime(
 					this.systemProfile.getActivityDefaultEnd(), null);
 			this.systemProfile.getActivityDefaultStart();
 			this.activities = new Activities();
@@ -790,33 +788,12 @@ public class CropActivitiesAction implements Serializable {
 			this.activities.setCrop(getCrops());
 			this.activities.setInitialDtBudget(initialDtBudget);
 			this.activities.setFinalDtBudget(finalDtBudget);
+			this.activities.setDurationBudget(systemProfile
+					.getActivityDefaultDuration());
 			this.pagination = new Paginador();
-			calculateCurrentDuration();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-	}
-
-	/**
-	 * This method allows set date with the information hour y second sent by
-	 * parameter
-	 * 
-	 * @param date
-	 *            : Date object with default information
-	 * @return Date Object with the information set
-	 */
-	private Date setDefaultTime(Date date, Date dateCurrent) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		Calendar calAux = Calendar.getInstance();
-		if (dateCurrent != null) {
-			calAux.setTime(dateCurrent);
-		}
-		calAux.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));
-		calAux.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));
-		calAux.set(Calendar.SECOND, 0);
-		Date defaultDate = calAux.getTime();
-		return defaultDate;
 	}
 
 	/**
@@ -828,9 +805,9 @@ public class CropActivitiesAction implements Serializable {
 		if (isRoutine) {
 			try {
 				findSystemProfile();
-				Date initialDtBudget = setDefaultTime(
+				Date initialDtBudget = ControladorFechas.setDefaultTime(
 						this.systemProfile.getActivityDefaultStart(), null);
-				Date finalDtBudget = setDefaultTime(
+				Date finalDtBudget = ControladorFechas.setDefaultTime(
 						this.systemProfile.getActivityDefaultEnd(), null);
 				this.activities.setInitialDtBudget(initialDtBudget);
 				this.activities.setFinalDtBudget(finalDtBudget);
@@ -849,7 +826,8 @@ public class CropActivitiesAction implements Serializable {
 		Date end = this.activities.getFinalDtBudget();
 		if (start != null && end != null) {
 			double durationBudget = ControladorFechas.restarFechas(start, end);
-			this.activities.setDurationBudget(durationBudget);
+			double duration = durationBudget - systemProfile.getBreakDuration();
+			this.activities.setDurationBudget(duration);
 		}
 	}
 
@@ -860,9 +838,9 @@ public class CropActivitiesAction implements Serializable {
 	public void setFinalDtBudget() {
 		if (this.activities.getInitialDtBudget() != null) {
 			Date dateCurrent = activities.getInitialDtBudget();
-			Date initialDtBudget = setDefaultTime(
+			Date initialDtBudget = ControladorFechas.setDefaultTime(
 					this.systemProfile.getActivityDefaultStart(), dateCurrent);
-			Date finalDtBudget = setDefaultTime(
+			Date finalDtBudget = ControladorFechas.setDefaultTime(
 					this.systemProfile.getActivityDefaultEnd(), dateCurrent);
 			this.activities.setInitialDtBudget(initialDtBudget);
 			this.activities.setFinalDtBudget(finalDtBudget);
