@@ -466,8 +466,10 @@ public class RecordActivitiesActualsAction implements Serializable {
 			this.selectedActivity = new Activities();
 			this.activitiesAndHrAction = new ActivitiesAndHrAction();
 			if (this.activitiesAction != null
-					&& this.activitiesAction.getListActivities() != null)
+					&& this.activitiesAction.getListActivities() != null) {
 				this.activitiesAction.getListActivities().clear();
+				this.activitiesAction.setFlagCycle(false);
+			}
 			crops = cropDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 			if (crops != null) {
 				idCropName = crops.getCropNames().getIdCropName();
