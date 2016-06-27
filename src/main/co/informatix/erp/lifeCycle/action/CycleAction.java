@@ -1481,7 +1481,6 @@ public class CycleAction implements Serializable {
 				this.listActivity = activitiesDao.searchActivitiesCycle(
 						activitiesPagination.getInicio(),
 						activitiesPagination.getRango(), this.selectedCycle);
-				System.out.print("");
 			} else {
 				this.listActivity = null;
 			}
