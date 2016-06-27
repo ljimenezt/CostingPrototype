@@ -92,7 +92,7 @@
 						<rich:dataTable value="#{cycleAction.listCycles}" var="cycle"
 							id="txtCycle" footerClass="H130P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
-							rowClasses="odd-row, even-row">
+							rowClasses="#{cycle.idCycle eq cycleAction.selectedCycle ? 'rf-ddm-itm-sel backgroundNone left, rf-ddm-itm-sel backgroundNone left':'odd-row, even-row'}">
 							<script type="text/javascript">
 								$g=jQuery.noConflict();
     						</script>
