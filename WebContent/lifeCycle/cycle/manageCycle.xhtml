@@ -100,7 +100,8 @@
 							<rich:column styleClass="colIconoUno">
 								<a:commandLink render="formCycle"
 									action="#{cycleAction.showActivitiesCycle(cycle.idCycle)}"
-									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);"
+									execute="pnlActivityCycles">
 									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
 										styleClass="verticalAlignMiddle"
 										rendered="#{cycle.idCycle eq cycleAction.selectedCycle}" />
@@ -206,26 +207,33 @@
 								<ui:param name="pager" value="pagination" />
 							</ui:include>
 						</div>
-
 					</t:fieldset>
 				</a:outputPanel>
 				<br />
+				<ui:param name="listaVaciaActividades"
+					value="#{cycleAction.listActivity.size() eq 0}" />
 				<a:outputPanel id="pnlActivityCycles"
-					rendered="#{cycleAction.listActivity != null and cycleAction.listActivity.size() > 0}">
+					rendered="#{cycleAction.listActivity != null}">
 					<t:fieldset styleClass="anchoDos BorderW2P">
 						<legend class="etiquetaTitulo">#{messageCosts.activities_label_s}</legend>
 						<rich:dataTable value="#{cycleAction.listActivity}" var="activity"
 							id="txtActivity" footerClass="H130P"
-							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+							styleClass="#{listaVaciaActividades ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 							rowClasses="odd-row, even-row">
-							<rich:column styleClass="colTextoMediano center">
-								<f:facet name="header">#{messageLifeCycle.activity_names_label}</f:facet>
+							<rich:column styleClass="colIconoUno">
 								<a:commandLink id="detailsActivity"
 									actionListener="#{cycleAction.searchActivityCycleDetails(activity.idActivity)}"
 									render="PopUpActivityDetails"
 									oncomplete="#{rich:component('PopUpActivityDetails')}.show();">
-									<h:outputFormat value="#{activity.activityName.activityName}" />
+									<h:graphicImage value="/img/details_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_details}" />
+									</rich:tooltip>
 								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoMediano center">
+								<f:facet name="header">#{messageLifeCycle.activity_names_label}</f:facet>
+								<h:outputFormat value="#{activity.activityName.activityName}" />
 							</rich:column>
 							<rich:column styleClass="colTextoMediano center">
 								<f:facet name="header">#{messageCosts.budget_label_start_time}</f:facet>
@@ -251,16 +259,27 @@
 								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
 								<h:outputFormat value="#{activity.generalCostActual}" />
 							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVaciaActividades}">
+									<rich:column colspan="8" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
 						</rich:dataTable>
-						<div class="anchoDos center inBlock">
-							<ui:include src="/plantillas/templatePagination.xhtml">
-								<ui:param name="valId" value="2" />
-								<ui:param name="valReder" value="pnlActivityCycles" />
-								<ui:param name="beanActionParam" value="#{cycleAction}" />
-								<ui:param name="metodoActionParam" value="searchActivityCycle" />
-								<ui:param name="pager" value="activitiesPagination" />
-							</ui:include>
-						</div>
+						<br />
+						<a:outputPanel rendered="#{!listaVaciaActividades}">
+							<div class="anchoDos center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valId" value="2" />
+									<ui:param name="valReder" value="pnlActivityCycles" />
+									<ui:param name="beanActionParam" value="#{cycleAction}" />
+									<ui:param name="metodoActionParam" value="searchActivityCycle" />
+									<ui:param name="pager" value="activitiesPagination" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
 					</t:fieldset>
 				</a:outputPanel>
 			</rich:panel>

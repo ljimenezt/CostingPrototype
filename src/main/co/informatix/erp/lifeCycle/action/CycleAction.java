@@ -1482,7 +1482,7 @@ public class CycleAction implements Serializable {
 						activitiesPagination.getInicio(),
 						activitiesPagination.getRango(), this.selectedCycle);
 			} else {
-				this.listActivity = null;
+				this.listActivity = new ArrayList<Activities>();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
