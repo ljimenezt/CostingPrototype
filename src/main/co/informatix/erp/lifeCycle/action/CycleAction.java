@@ -1205,8 +1205,6 @@ public class CycleAction implements Serializable {
 	private void saveActivitiesCycle(Date initialDateTime, Date finalDateTime)
 			throws Exception {
 		SystemProfile systemProfile = systemProfileDao.findSystemProfile();
-		Calendar defaultInitialTime = Calendar.getInstance();
-		defaultInitialTime.setTime(systemProfile.getActivityDefaultStart());
 		Calendar defaultFinalTime = Calendar.getInstance();
 		defaultFinalTime.setTime(systemProfile.getActivityDefaultEnd());
 		Calendar date = Calendar.getInstance();
@@ -1216,8 +1214,10 @@ public class CycleAction implements Serializable {
 		finalDate.set(Calendar.HOUR_OF_DAY,
 				defaultFinalTime.get(Calendar.HOUR_OF_DAY) + 1);
 		do {
-			Date initialDateActivity = setHour(defaultInitialTime, date);
-			Date finalDateActivity = setHour(defaultFinalTime, date);
+			Date initialDateActivity = ControladorFechas.setDefaultTime(
+					systemProfile.getActivityDefaultStart(), date.getTime());
+			Date finalDateActivity = ControladorFechas.setDefaultTime(
+					systemProfile.getActivityDefaultEnd(), date.getTime());
 			int day = date.get(Calendar.DAY_OF_WEEK);
 			if (day != Constantes.SUNDAY && day != Constantes.SATURDAY) {
 				Activities activities = new Activities();
@@ -1236,23 +1236,6 @@ public class CycleAction implements Serializable {
 			}
 			date.add(Calendar.DAY_OF_YEAR, 1);
 		} while (date.getTime().before(finalDate.getTime()));
-	}
-
-	/**
-	 * This method set the hour and minute especific to other date
-	 * 
-	 * @author Gerardo.Herrera
-	 * 
-	 * @param hour
-	 *            : Date with default Hour
-	 * @param dateActual
-	 *            : Actual date
-	 * @return Date: Date format
-	 */
-	private Date setHour(Calendar hour, Calendar dateActual) {
-		dateActual.set(Calendar.HOUR_OF_DAY, hour.get(Calendar.HOUR_OF_DAY));
-		dateActual.set(Calendar.MINUTE, hour.get(Calendar.MINUTE));
-		return dateActual.getTime();
 	}
 
 	/**
