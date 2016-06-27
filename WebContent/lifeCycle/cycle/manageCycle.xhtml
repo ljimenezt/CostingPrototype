@@ -231,33 +231,39 @@
 									</rich:tooltip>
 								</a:commandLink>
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{messageLifeCycle.activity_names_label}</f:facet>
 								<h:outputFormat value="#{activity.activityName.activityName}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colFecha">
 								<f:facet name="header">#{messageCosts.budget_label_start_time}</f:facet>
 								<h:outputFormat value="#{activity.initialDtBudget}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colFecha">
 								<f:facet name="header">#{messageCosts.actual_label_start_time}</f:facet>
 								<h:outputFormat value="#{activity.initialDtActual}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{messageCosts.activities_label_duration_budget}</f:facet>
 								<h:outputFormat value="#{activity.durationBudget}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{messageCosts.actual_label_duration}</f:facet>
 								<h:outputFormat value="#{activity.durationActual}" />
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{messageCosts.budget_label_cost}</f:facet>
-								<h:outputFormat value="#{activity.generalCostBudget}" />
+								<h:outputFormat value="#{activity.generalCostBudget}">
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputFormat>
 							</rich:column>
-							<rich:column styleClass="colTextoMediano center">
+							<rich:column styleClass="colValor">
 								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
-								<h:outputFormat value="#{activity.generalCostActual}" />
+								<h:outputFormat value="#{activity.generalCostActual}">
+									<f:convertNumber maxFractionDigits="2" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputFormat>
 							</rich:column>
 							<f:facet name="footer">
 								<rich:columnGroup rendered="#{listaVaciaActividades}">
@@ -513,69 +519,99 @@
 				<t:fieldset styleClass="BorderW2P">
 					<legend class="etiquetaTitulo">#{cycleAction.activity.activityName.activityName}</legend>
 					<h:panelGrid columns="3"
-						columnClasses="right W180P tdAlignTop PaddingT10P, tdAlignTop center W210P PaddingT10P, tdAlignTop W210P PaddingT10P">
+						columnClasses="right W180P tdAlignTop PaddingT10P, W210P tdAlignTop PaddingT10P, W210P tdAlignTop PaddingT10P">
 
 						<h:outputText value="" />
 						<h:outputText value="#{mensaje.label_budget}"
-							styleClass="etiquetaTitulo" />
+							styleClass="etiquetaTitulo center" />
 						<h:outputText value="#{mensaje.label_actual}"
-							styleClass="etiquetaTitulo" />
+							styleClass="etiquetaTitulo center" />
 
-						<h:outputText value="#{mensaje.label_start_date}"
+						<h:outputText value="#{mensaje.label_start_date}: "
 							styleClass="etiquetaTitulo" />
 
 						<h:outputText value="#{cycleAction.activity.initialDtBudget}"
-							styleClass="" />
+							styleClass="colFecha" />
 						<h:outputText value="#{cycleAction.activity.initialDtActual}"
-							styleClass="" />
+							styleClass="colFecha" />
 
-						<h:outputText value="#{mensaje.label_end_date}"
+						<h:outputText value="#{mensaje.label_end_date}: "
 							styleClass="etiquetaTitulo" />
 
 						<h:outputText value="#{cycleAction.activity.finalDtBudget}"
-							styleClass="" />
+							styleClass="colFecha" />
 						<h:outputText value="#{cycleAction.activity.finalDtActual}"
-							styleClass="" />
+							styleClass="colFecha" />
 
-						<h:outputText value="#{mensaje.label_hr_cost}"
+						<h:outputText value="#{mensaje.label_hr_cost}: "
 							styleClass="etiquetaTitulo" />
 
 						<h:outputText value="#{cycleAction.activity.costHrBudget}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText value="#{cycleAction.activity.costHrActual}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 
-						<h:outputText value="#{mensaje.label_machine_cost}"
+						<h:outputText value="#{mensaje.label_machine_cost}: "
 							styleClass="etiquetaTitulo" />
 
 						<h:outputText value="#{cycleAction.activity.costMachinesEqBudget}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText value="#{cycleAction.activity.costMachinesEqActual}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 
-						<h:outputText value="#{mensaje.label_material_cost}"
+						<h:outputText value="#{mensaje.label_material_cost}: "
 							styleClass="etiquetaTitulo" />
 
 						<h:outputText value="#{cycleAction.activity.costMaterialsBudget}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText value="#{cycleAction.activity.costMaterialsActual}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 
-						<h:outputText value="#{mensaje.label_service_cost}"
+						<h:outputText value="#{mensaje.label_service_cost}: "
 							styleClass="etiquetaTitulo" />
 
 						<h:outputText value="#{cycleAction.activity.costServicesBudget}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText value="#{cycleAction.activity.costServicesActual}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 
-						<h:outputText value="#{mensaje.label_general_cost}"
+						<h:outputText value="#{mensaje.label_general_cost}: "
 							styleClass="etiquetaTitulo" />
 
 						<h:outputText value="#{cycleAction.activity.generalCostBudget}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 						<h:outputText value="#{cycleAction.activity.generalCostActual}"
-							styleClass="" />
+							styleClass="colValor">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 
 					</h:panelGrid>
 					<ui:insert id="activityAditionalDetails">
