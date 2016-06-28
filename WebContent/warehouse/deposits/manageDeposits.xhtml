@@ -101,6 +101,20 @@
 							rowClasses="#{deposit.selected ? 'rf-ddm-itm-sel backgroundNone left, rf-ddm-itm-sel backgroundNone left':'odd-row, even-row'}"
 							footerClass="H130P">
 
+							<rich:column styleClass="colIconoUno">
+								<a:commandLink render="formDeposits, transactionsTable"
+									actionListener="#{depositsAction.selectDeposit(deposit)}"
+									action="#{depositsAction.showTransaction()}"
+									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{deposit.selected eq true}" />
+									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{deposit.selected eq false}" />
+								</a:commandLink>
+							</rich:column>
+
 							<rich:column styleClass="colIconoAjustable">
 								<a:outputPanel>
 									<a:commandLink id="details"
@@ -127,20 +141,6 @@
 										</rich:tooltip>
 									</a:commandLink>
 								</a:outputPanel>
-							</rich:column>
-
-							<rich:column styleClass="colIconoUno">
-								<a:commandLink render="formDeposits, transactionsTable"
-									actionListener="#{depositsAction.selectDeposit(deposit)}"
-									action="#{depositsAction.showTransaction()}"
-									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
-									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
-										styleClass="verticalAlignMiddle"
-										rendered="#{deposit.selected eq true}" />
-									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
-										styleClass="verticalAlignMiddle"
-										rendered="#{deposit.selected eq false}" />
-								</a:commandLink>
 							</rich:column>
 
 							<rich:column styleClass="colFecha">
