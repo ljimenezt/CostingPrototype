@@ -126,7 +126,6 @@ public class TeamMembersAction implements Serializable {
 
 	/**
 	 * @param flagDelete
-	 *            : TeamMembers name to search.
 	 */
 	public void setFlagDelete(boolean flagDelete) {
 		this.flagDelete = flagDelete;
@@ -142,7 +141,7 @@ public class TeamMembersAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of invoice Items.
+	 * Consult the teamMembers list.
 	 * 
 	 */
 	public void consultTeamMembers() {
