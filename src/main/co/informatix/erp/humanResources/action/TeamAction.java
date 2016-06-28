@@ -344,7 +344,7 @@ public class TeamAction implements Serializable {
 	}
 
 	/**
-	 * Show the invoices item associated to purchase invoices.
+	 * Show the teamMembers associated to team.
 	 * 
 	 */
 	public void showTeamMembers() {
