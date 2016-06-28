@@ -122,6 +122,7 @@
 										<h:outputText value="#{mensaje.label_details}" />
 									</rich:tooltip>
 								</a:commandLink>
+								<h:outputText value="&#32;&#32;&#32;" />
 								<a:commandLink render="popupDelete"
 									oncomplete="#{rich:component('popupDelete')}.show()"
 									actionListener="#{cycleAction.setCycle(cycle)}">
@@ -132,7 +133,7 @@
 								</a:commandLink>
 							</rich:column>
 
-							<rich:column styleClass="colTextoMediano">
+							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{messageLifeCycle.cycle_label_type}</f:facet>
 								<h:commandLink id="linkReg"
 									value="#{cycle.activiyNames.activityName}"
