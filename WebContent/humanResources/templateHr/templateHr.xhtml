@@ -145,6 +145,9 @@
 								render="formConfirmarHr:popUpConfirmarHr,formGenerico"
 								oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmarHr')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 								value="#{mensaje.button_save}" />
+							<a:commandButton rendered="#{hrAction.flagButton eq true}"
+								value="#{mensaje.button_cancel}"
+								onclick="#{rich:component('popupHR')}.hide()" />
 						</div>
 					</a:outputPanel>
 				</rich:panel>
