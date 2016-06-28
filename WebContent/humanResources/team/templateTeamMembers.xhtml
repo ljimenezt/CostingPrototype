@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	<h:body>
+		<t:fieldset styleClass="anchoSiete BorderW2P"
+			rendered="#{teamSelected ne null}">
+			<legend class="etiquetaTitulo">#{messageCosts.activities_and_hr_label_workers}</legend>
+			<a:outputPanel id="pnlTeamMembers">
+				<rich:message for="pnlTeamMembers" />
+				<ui:param name="listaVaciaA"
+					value="#{teamMembersAction.teamMembersList.size() eq 0 or (teamMembersAction.teamMembersList eq null)}" />
+				<a:outputPanel id="mensajeBusquedaMenu">
+					<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+						<ui:param name="width" value="anchoSeis" />
+						<ui:param name="id" value="popupBuscarMenu" />
+					</ui:include>
+				</a:outputPanel>
+				<div align="right">
+					<h:panelGrid id="pnlButtons" columns="6" cellpadding="0"
+						cellspacing="0">
+						<a:commandLink id="lnkActivityNames"
+							styleClass="quitarDecoracionLink" execute="@form"
+							actionListener="#{teamAction.initializeHr}"
+							render=":popupFormHr:popupHR"
+							oncomplete="#{rich:component('popupHR')}.show(); setFocus('popupFormHr:txtHrBuscar');">
+							<f:param name="param2" value="si" />
+							<div align="right">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/workers_16.png"
+										styleClass="verticalAlignMiddle" />
+									<h:outputText
+										value="#{mensaje.label_assign} #{messageCosts.activities_and_hr_label_workers}" />
+								</h:panelGrid>
+							</div>
+						</a:commandLink>
+						<a:commandLink render="formSearchTeamMembers"
+							styleClass="quitarDecoracionLink"
+							actionListener="#{teamMembersAction.setTeamMembers(teamMembers)}"
+							oncomplete="#{rich:component('popupSearchTeamMembers')}.show()">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/consultar_16.png" />
+								<h:outputText value="#{mensaje.button_search}" />
+							</h:panelGrid>
+						</a:commandLink>
+						<a:commandLink render="pnlTeamMembers, mensajes, mensajeBusqueda"
+							styleClass="quitarDecoracionLink"
+							action="#{teamMembersAction.initializeTeamMembers()}">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/listarTodos_16.png" />
+								<h:outputText value="#{mensaje.button_list_all}" />
+							</h:panelGrid>
+						</a:commandLink>
+					</h:panelGrid>
+				</div>
+				<rich:dataTable value="#{teamMembersAction.teamMembersList}"
+					id="teamMembersTable" var="teamMembers"
+					styleClass="#{listaVaciaA ? 'BCTransparente W100Per' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoUno">
+						<a:commandLink render="popupDeleteTeamMembers"
+							actionListener="#{teamMembersAction.setTeamMembers(teamMembers)}"
+							oncomplete="#{rich:component('popupDeleteTeamMembers')}.show()">
+							<h:graphicImage value="/img/delete_16.png"
+								styleClass="verticalAlignMiddle" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_remove}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoExtraLargo">
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
+						<h:outputText
+							value="#{teamMembers.teamMembersPK.hr.name} #{teamMembers.teamMembersPK.hr.familyName}" />
+					</rich:column>
+					<rich:column styleClass="colTextoMini center">
+						<f:facet name="header">#{mensaje.label_lead}</f:facet>
+						<h:selectBooleanCheckbox value="#{teamMembers.lead}"
+							styleClass="marginCheckbox">
+							<a:ajax event="click"
+								listener="#{teamMembersAction.saveLeadStatistician(teamMembers, true)}"
+								render="pnlTeamMembers" />
+						</h:selectBooleanCheckbox>
+					</rich:column>
+					<rich:column styleClass="colTextoMini center">
+						<f:facet name="header">#{mensaje.label_statistician}</f:facet>
+						<h:selectBooleanCheckbox value="#{teamMembers.statistician}"
+							styleClass="marginCheckbox">
+							<a:ajax event="click"
+								listener="#{teamMembersAction.saveLeadStatistician(teamMembers, false)}"
+								render="pnlTeamMembers" />
+						</h:selectBooleanCheckbox>
+					</rich:column>
+
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVaciaA}">
+							<rich:column colspan="4" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<a:outputPanel rendered="#{!listaVaciaA}">
+					<br />
+					<div class="#{anchoTabla} center inBlock W100Per">
+						<ui:include src="/plantillas/templatePagination.xhtml">
+							<ui:param name="valId" value="2" />
+							<ui:param name="valReder" value="panelTeam" />
+							<ui:param name="beanActionParam" value="#{teamMembersAction}" />
+							<ui:param name="metodoActionParam" value="consultTeamMembers" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</a:outputPanel>
+		</t:fieldset>
+	</h:body>
+</ui:composition>

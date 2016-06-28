@@ -59,6 +59,21 @@ public class HrDao implements Serializable {
 	}
 
 	/**
+	 * This method consult the hr Object by identifier.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param id
+	 *            : hr identifier to consult.
+	 * 
+	 * @return: Hr object found with the search parameter identifier.
+	 * @throws Exception
+	 */
+	public Hr hrById(int id) throws Exception {
+		return em.find(Hr.class, id);
+	}
+
+	/**
 	 * Returns the number of existing human resources in the database, the query
 	 * has filters.
 	 * 

@@ -1,0 +1,312 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="teamAction.initializeTeam" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,messageHumanResources.team_label" />
+	<ui:define name="body">
+		<ui:param name="listaVacia"
+			value="#{teamAction.teamList eq null or (empty teamAction.teamList)}" />
+		<ui:param name="anchoTabla" value="anchoSeis" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{teamAction}" />
+		<ui:param name="renderLista" value="panelTeam vigenciaPopup" />
+		<ui:param name="metodoLista" value="consultTeam" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="teamAction" />
+		<ui:param name="metodoNuevo" value="addEditTeams" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
+		<ui:param name="popupBuscar" value="popupSearch" />
+		<ui:param name="metodoListarTodos" value="initializeTeam" />
+		<t:saveState value="#{teamAction}" />
+		<t:saveState value="#{teamMembersAction}" />
+		<t:saveState value="#{hrAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		    $g=jQuery.noConflict();
+		</script>
+
+		<h:form id="formTeam">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listing} #{messageHumanResources.team_label_s}"
+				id="panelTeam">
+				<a:outputPanel>
+					<script type="text/javascript">
+						$g = jQuery.noConflict();
+					</script>
+					<t:fieldset styleClass="anchoSeis BorderW2P">
+						<legend class="etiquetaTitulo">#{messageHumanResources.team_label_s}</legend>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
+						<rich:dataTable value="#{teamAction.teamList}" var="team"
+							id="teamTable" footerClass="H100P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+							rowClasses="#{team.selected ? 'rf-ddm-itm-sel backgroundNone left, rf-ddm-itm-sel backgroundNone left':'odd-row, even-row'}">
+							<rich:column styleClass="colIconoUno">
+								<a:outputPanel>
+									<a:commandLink render="formTeam, teamTable"
+										actionListener="#{teamAction.selectTeam(team)}"
+										action="#{teamAction.showTeamMembers()}"
+										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{team.selected eq true}" />
+										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{team.selected eq false}" />
+										<f:param name="param2" value="si" />
+									</a:commandLink>
+								</a:outputPanel>
+							</rich:column>
+							<rich:column styleClass="colIconoUno">
+								<a:outputPanel>
+									<a:commandLink render="popupDelete"
+										actionListener="#{teamAction.setTeam(team)}"
+										oncomplete="#{rich:component('popupDelete')}.show()">
+										<h:graphicImage value="/img/delete_16.png"
+											styleClass="verticalAlignMiddle" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.button_remove}" />
+										</rich:tooltip>
+									</a:commandLink>
+								</a:outputPanel>
+							</rich:column>
+							<rich:column styleClass="colTextoExtraLargo">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:commandLink value="#{team.name}"
+									action="#{teamAction.addEditTeams(team)}"
+									onclick="#{rich:component('statPane')}.show();">
+								</h:commandLink>
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_size}</f:facet>
+								<h:outputText value="#{team.size}" />
+							</rich:column>
+							<rich:column styleClass="colIconoUno">
+								<f:facet name="header">#{mensaje.label_note}</f:facet>
+								<a:outputPanel>
+									<h:graphicImage value="/img/info_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{team.note}" />
+									</rich:tooltip>
+								</a:outputPanel>
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="5" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="botonesAbajo" value="si" />
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
+						<a:outputPanel rendered="#{!listaVacia}">
+							<br />
+							<div class="#{anchoTabla} center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valReder" value="panelTeam" />
+									<ui:param name="beanActionParam" value="#{teamAction}" />
+									<ui:param name="metodoActionParam" value="consultTeam" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+				<br />
+				<ui:include src="templateTeamMembers.xhtml">
+					<ui:param name="teamSelected"
+						value="#{teamAction.teamActualSelected}" />
+				</ui:include>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formSearch">
+			<rich:popupPanel id="popupSearch" autosized="true" maxWidth="342"
+				header="#{mensaje.button_search}  #{messageHumanResources.team_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupSearch')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:messages id="messagePopUp" styleClass="messageBlock" />
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensaje.label_name}"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" maxlength="100"
+						id="txtNameSearch" value="#{teamAction.nameSearch}"
+						onkeypress="return submitByEnter(event,'formSearch:btnSearch')" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
+						actionListener="#{teamAction.consultTeam()}"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupSearch')}.hide();}"
+						render="panelTeam mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+
+
+		<h:form>
+			<rich:popupPanel id="popupDelete" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupDelete')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:" />
+						<h:outputText value="#{teamAction.team.name}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							actionListener="#{teamAction.deleteTeam()}"
+							onclick="#{rich:component('popupDelete')}.hide()"
+							render="panelTeam, mensajes, mensajeBusqueda" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupDelete')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form>
+			<rich:popupPanel id="popupDeleteTeamMembers" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupDeleteTeamMembers')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:" />
+						<h:outputText
+							value="#{teamMembersAction.teamMembers.teamMembersPK.hr.name}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							actionListener="#{teamMembersAction.deleteTeamMembers()}"
+							onclick="#{rich:component('popupDeleteTeamMembers')}.hide()"
+							render="pnlTeamMembers, mensajes, mensajeBusqueda" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupDeleteTeamMembers')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formSearchTeamMembers">
+			<rich:popupPanel id="popupSearchTeamMembers" autosized="true"
+				maxWidth="342"
+				header="#{mensaje.button_search} #{messageCosts.activities_and_hr_label_workers}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupSearchTeamMembers')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:messages id="messagePopUp" styleClass="messageBlock" />
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensaje.label_name}"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" maxlength="100"
+						id="txtNameSearch" value="#{teamMembersAction.nameSearch}"
+						onkeypress="return submitByEnter(event,'formSearchTeamMembers:btnSearch')" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
+						actionListener="#{teamMembersAction.consultTeamMembers()}"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupSearchTeamMembers')}.hide();}"
+						render="pnlTeamMembers" />
+					<a:commandButton
+						onclick="#{rich:component('popupSearchTeamMembers')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formConfirmarHr">
+			<rich:popupPanel id="popUpConfirmarHr" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmarHr')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							action="#{teamAction.saveEditTeamMembers()}"
+							render="pnlTeamMembers, mensajes, mensajeBusqueda"
+							onclick="#{rich:component('popUpConfirmarHr')}.hide(); #{rich:component('popupHR')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmarHr')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<ui:include src="/humanResources/templateHr/templateHr.xhtml" />
+
+	</ui:define>
+</ui:composition>

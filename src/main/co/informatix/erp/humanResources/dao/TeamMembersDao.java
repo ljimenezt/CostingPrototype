@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import co.informatix.erp.humanResources.entities.Team;
 import co.informatix.erp.humanResources.entities.TeamMembers;
 
 /**
@@ -26,36 +25,36 @@ public class TeamMembersDao implements Serializable {
 	private EntityManager em;
 
 	/**
-	 * Save an team in database
+	 * Save an teamMembers in database
 	 * 
-	 * @param team
+	 * @param teamMembers
 	 *            : team to save.
 	 * @throws Exception
 	 */
-	public void saveTeam(Team team) throws Exception {
-		em.persist(team);
+	public void saveTeamMembers(TeamMembers teamMembers) throws Exception {
+		em.persist(teamMembers);
 	}
 
 	/**
-	 * Edit an team in database
+	 * Edit an teamMembers in database
 	 * 
-	 * @param team
-	 *            : team to edit.
+	 * @param teamMembers
+	 *            : teamMembers to edit.
 	 * @throws Exception
 	 */
-	public void editTeam(Team team) throws Exception {
-		em.merge(team);
+	public void editTeamMembers(TeamMembers teamMembers) throws Exception {
+		em.merge(teamMembers);
 	}
 
 	/**
-	 * Delete the teams of the database.
+	 * Delete the teamMembers of the database.
 	 * 
-	 * @param team
-	 *            : team to remove.
+	 * @param teamMembers
+	 *            : teamMembers to remove.
 	 * @throws Exception
 	 */
-	public void deleteTeam(Team team) throws Exception {
-		em.remove(em.merge(team));
+	public void deleteTeamMembers(TeamMembers teamMembers) throws Exception {
+		em.remove(em.merge(teamMembers));
 	}
 
 	/**
@@ -120,4 +119,32 @@ public class TeamMembersDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Method to consult teamMembers that are associated with a team and hr.
+	 * 
+	 * @param idTeam
+	 *            :idTeam identifier to find teamMembers.
+	 * @param idHr
+	 *            :idHr identifier to find teamMembers.
+	 * @return List<TeamMembers>: TeamMembers found by team and hr.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public TeamMembers associatedTeamMembersByIds(Short idTeam, int idHr)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT tm FROM TeamMembers tm ");
+		query.append("JOIN FETCH tm.teamMembersPK.team t ");
+		query.append("JOIN FETCH tm.teamMembersPK.hr h ");
+		query.append("WHERE t.idTeam=:idTeam ");
+		query.append("AND h.idHr=:idHr ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idTeam", idTeam);
+		q.setParameter("idHr", idHr);
+		List<TeamMembers> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
 }
