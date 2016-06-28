@@ -121,7 +121,7 @@ public class TeamDao implements Serializable {
 	 * 
 	 * @param name
 	 *            : team name to verify.
-	 * @param id
+	 * @param idTeam
 	 *            : identifier team to verify.
 	 * @return Team: Team object found with the search parameters name and
 	 *         identifier.
