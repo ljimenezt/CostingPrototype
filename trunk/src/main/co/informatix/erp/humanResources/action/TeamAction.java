@@ -7,15 +7,23 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import co.informatix.erp.humanResources.dao.HrDao;
 import co.informatix.erp.humanResources.dao.TeamDao;
+import co.informatix.erp.humanResources.dao.TeamMembersDao;
+import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.humanResources.entities.Team;
+import co.informatix.erp.humanResources.entities.TeamMembers;
+import co.informatix.erp.humanResources.entities.TeamMembersPK;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
+import co.informatix.erp.utils.ValidacionesAction.DatosGuardar;
 
 /**
  * 
@@ -32,12 +40,19 @@ public class TeamAction implements Serializable {
 
 	@EJB
 	private TeamDao teamDao;
+	@EJB
+	private HrDao hrDao;
+	@EJB
+	private TeamMembersDao teamMembersDao;
 
 	private Paginador pagination = new Paginador();
 	private Team team;
 	private Team teamActualSelected;
+	private Hr hrActualSelected;
 	private TeamMembersAction teamMembersAction;
+	private HrAction hrAction;
 	private List<Team> teamList;
+	private List<Hr> hrActualList;
 	private String nameSearch;
 
 	/**
@@ -86,6 +101,21 @@ public class TeamAction implements Serializable {
 	}
 
 	/**
+	 * @return hrActualSelected: hr selected in the hr table.
+	 */
+	public Hr getHrActualSelected() {
+		return hrActualSelected;
+	}
+
+	/**
+	 * @param hrActualSelected
+	 *            : hr selected in the hr table.
+	 */
+	public void setHrActualSelected(Hr hrActualSelected) {
+		this.hrActualSelected = hrActualSelected;
+	}
+
+	/**
 	 * @return teamMembersAction: Object of teamMembersAction.
 	 */
 	public TeamMembersAction getTeamMembersAction() {
@@ -98,6 +128,21 @@ public class TeamAction implements Serializable {
 	 */
 	public void setTeamMembersAction(TeamMembersAction teamMembersAction) {
 		this.teamMembersAction = teamMembersAction;
+	}
+
+	/**
+	 * @return hrAction: Object of HrAction.
+	 */
+	public HrAction getHrAction() {
+		return hrAction;
+	}
+
+	/**
+	 * @param hrAction
+	 *            : Object of HrAction.
+	 */
+	public void setHrAction(HrAction hrAction) {
+		this.hrAction = hrAction;
 	}
 
 	/**
@@ -140,7 +185,10 @@ public class TeamAction implements Serializable {
 		if (ControladorContexto.getFacesContext() != null) {
 			this.teamMembersAction = ControladorContexto
 					.getContextBean(TeamMembersAction.class);
+			this.hrAction = ControladorContexto.getContextBean(HrAction.class);
+			this.hrAction.setHrListSelected(new ArrayList<Hr>());
 		}
+		hrAction.setFlagButton(true);
 		this.teamActualSelected = null;
 		this.nameSearch = "";
 		return consultTeam();
@@ -180,7 +228,6 @@ public class TeamAction implements Serializable {
 		StringBuilder unionSearchMessages = new StringBuilder();
 		String searchMessages = "";
 		this.teamList = new ArrayList<Team>();
-
 		try {
 			advancedSearch(consult, parameters, bundle, unionSearchMessages);
 			Long amount = teamDao.amountTeam(consult, parameters);
@@ -261,13 +308,49 @@ public class TeamAction implements Serializable {
 	}
 
 	/**
+	 * Selects a single hr for display the associated transaction.
+	 * 
+	 * @param flagSelected
+	 *            : team selected on the view.
+	 */
+	public void selectHr(boolean flagSelected) {
+		this.hrActualSelected.setSeleccionado(flagSelected);
+		if (this.hrActualSelected.isSeleccionado()) {
+			this.hrAction.getHrListSelected().add(hrActualSelected);
+		} else {
+			this.hrAction.getHrListSelected().remove(hrActualSelected);
+		}
+
+	}
+
+	/**
+	 * this method allows validate if be can add more workers to the team.
+	 * 
+	 */
+	public void validateSizeTeam() {
+		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("messageHumanResources");
+		String searchMessage = "";
+		if (this.hrAction.getHrListSelected().size() >= teamActualSelected
+				.getSize()) {
+			searchMessage = bundle
+					.getString("team_messeage_can_not_add_more_workers");
+			validations.setMensajeBusquedaPopUp(searchMessage);
+		} else {
+			selectHr(true);
+		}
+	}
+
+	/**
 	 * Show the invoices item associated to purchase invoices.
 	 * 
 	 */
 	public void showTeamMembers() {
 		if (teamMembersAction != null) {
 			teamMembersAction.setTeamSelected(teamActualSelected);
-			teamMembersAction.consultTeamMembers();
+			teamMembersAction.initializeTeamMembers();
 		}
 	}
 
@@ -296,5 +379,133 @@ public class TeamAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return initializeTeam();
+	}
+
+	/**
+	 * Method that allows delete a team of database.
+	 * 
+	 * @return initializeTeam: Redirects to initialize variables and load the
+	 *         template team management.
+	 */
+	public String deleteTeam() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		try {
+			if (teamMembersAction.getTeamMembersList() != null) {
+				for (TeamMembers teamMembers : teamMembersAction
+						.getTeamMembersList()) {
+					teamMembersAction.setFlagDelete(true);
+					teamMembersAction.setTeamMembers(teamMembers);
+					teamMembersAction.deleteTeamMembers();
+				}
+			}
+			teamDao.deleteTeam(team);
+			ControladorContexto.mensajeInformacion(
+					null,
+					MessageFormat.format(
+							bundle.getString("message_registro_eliminar"),
+							team.getName()));
+		} catch (EJBException e) {
+			String format = MessageFormat.format(
+					bundle.getString("message_existe_relacion_eliminar"),
+					team.getName());
+			ControladorContexto.mensajeError(e, null, format);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+
+		return initializeTeam();
+	}
+
+	/**
+	 * this method allows consult the teammembers list associated to a team and
+	 * save in a hr list.
+	 * 
+	 * @return hrAction.initializeSearch: Redirects to initialize variables and
+	 *         load hr list.
+	 * 
+	 */
+	public String initializeHr() {
+		hrActualList = new ArrayList<Hr>();
+		try {
+			if (teamMembersAction.getTeamMembersList() != null
+					&& teamMembersAction.getTeamMembersList().size() > 0) {
+				hrAction.setHrListSelected(new ArrayList<Hr>());
+				for (TeamMembers teammebers : teamMembersAction
+						.getTeamMembersList()) {
+					hrAction.getHrListSelected().add(
+							hrDao.hrById(teammebers.getTeamMembersPK().getHr()
+									.getIdHr()));
+				}
+				hrActualList.addAll(hrAction.getHrListSelected());
+			} else {
+				hrAction.setHrListSelected(new ArrayList<Hr>());
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return hrAction.initializeSearch();
+	}
+
+	/**
+	 * This method identifies the teammember to delete and save.
+	 * 
+	 */
+	public void saveEditTeamMembers() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		try {
+			List<Integer> currentIds = new ArrayList<Integer>();
+			List<Integer> newsIds = new ArrayList<Integer>();
+			if (this.hrAction.getHrListSelected() != null) {
+				if (this.hrActualList != null) {
+					for (Hr hr : hrActualList) {
+						currentIds.add(hr.getIdHr());
+					}
+					for (Hr hr : this.hrAction.getHrListSelected()) {
+						newsIds.add(hr.getIdHr());
+					}
+					List<DatosGuardar> dataList = ValidacionesAction
+							.validarListas(currentIds, newsIds);
+
+					for (DatosGuardar saveData : dataList) {
+						String action = saveData.getAccion();
+						Hr hr = new Hr();
+						hr.setIdHr(saveData.getIdClase());
+						if (Constantes.QUERY_DELETE.equals(action)) {
+							TeamMembers teamMembers = teamMembersDao
+									.associatedTeamMembersByIds(
+											this.teamActualSelected.getIdTeam(),
+											hr.getIdHr());
+							teamMembersDao.deleteTeamMembers(teamMembers);
+						} else if (Constantes.QUERY_INSERT.equals(action)) {
+							saveTeamMembers(hr);
+						}
+					}
+				}
+			}
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString("message_registro_modificar"),
+					teamActualSelected.getName()));
+			showTeamMembers();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows save the teamMembers related to the team.
+	 * 
+	 * @param hr
+	 *            : hr related to a team.
+	 * @throws Exception
+	 * 
+	 */
+	private void saveTeamMembers(Hr hr) throws Exception {
+		TeamMembers teamMembers = new TeamMembers();
+		teamMembers.setTeamMembersPK(new TeamMembersPK());
+		teamMembers.getTeamMembersPK().setHr(hr);
+		teamMembers.getTeamMembersPK().setTeam(teamActualSelected);
+		teamMembers.setLead(false);
+		teamMembers.setStatistician(false);
+		teamMembersDao.saveTeamMembers(teamMembers);
 	}
 }

@@ -78,6 +78,7 @@ public class HrAction implements Serializable {
 	private Date currentDate = new Date();
 
 	private List<Hr> hrList;
+	private List<Hr> hrListSelected;
 	private List<SelectItem> birthCountryItems;
 	private List<SelectItem> birthStateItems;
 	private List<SelectItem> birthMunicipalityItems;
@@ -92,6 +93,7 @@ public class HrAction implements Serializable {
 	private int paymentTypeSearch;
 
 	private boolean temporalPicLoaded;
+	private boolean flagButton;
 
 	/**
 	 * @return hrList: gets the list of human resources.
@@ -106,6 +108,21 @@ public class HrAction implements Serializable {
 	 */
 	public void setHrList(List<Hr> hrList) {
 		this.hrList = hrList;
+	}
+
+	/**
+	 * @return hrListSelected: gets the list of selected human resources.
+	 */
+	public List<Hr> getHrListSelected() {
+		return hrListSelected;
+	}
+
+	/**
+	 * @param hrListSelected
+	 *            : gets the list of Selected human resources.
+	 */
+	public void setHrListSelected(List<Hr> hrListSelected) {
+		this.hrListSelected = hrListSelected;
 	}
 
 	/**
@@ -364,6 +381,23 @@ public class HrAction implements Serializable {
 	}
 
 	/**
+	 * @return flagButton: Flag indicating whether the picture is loaded from
+	 *         temporary location or not.
+	 */
+	public boolean isFlagButton() {
+		return flagButton;
+	}
+
+	/**
+	 * @param flagButton
+	 *            : Flag indicating whether the picture is loaded from temporary
+	 *            location or not.
+	 */
+	public void setFlagButton(boolean flagButton) {
+		this.flagButton = flagButton;
+	}
+
+	/**
 	 * @return currentDate: variable that gets the current system date.
 	 */
 	public Date getCurrentDate() {
@@ -414,6 +448,7 @@ public class HrAction implements Serializable {
 	 * @modify 13/05/2015 Andres.Gomez
 	 * @modify 14/07/2015 Gerardo.Herrera
 	 * @modify 08/03/2016 Mabell.Boada
+	 * @modify 23/06/2016 Wilhelm.Boada
 	 * 
 	 * @return returns: Navigation rule that redirects to manage Human Resources
 	 *         According condition.
@@ -466,6 +501,10 @@ public class HrAction implements Serializable {
 				searchMessage = MessageFormat.format(message,
 						bundleHumanResources.getString("human_resource_label"),
 						jointSearchMessages);
+			}
+
+			if (hrList != null && this.flagButton == true) {
+				maintainHrSelected(hrList, hrListSelected);
 			}
 			if (amount != 0) {
 				loadHrDetails();
@@ -1173,6 +1212,22 @@ public class HrAction implements Serializable {
 	public void assignMaternityBreastFeeding() {
 		if (hr.getGenero() != null && Constantes.GENERO.equals(hr.getGenero())) {
 			hr.setMaternityBreastFeeding(false);
+		}
+	}
+
+	/**
+	 * This method allows maintaining list of selected hr whether the search of
+	 * hr is run again.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void maintainHrSelected(List<Hr> hrList, List<Hr> hrListSelected) {
+		for (Hr worker : hrList) {
+			for (Hr selectedWorker : hrListSelected) {
+				if (worker.getIdHr() == selectedWorker.getIdHr()) {
+					worker.setSeleccionado(true);
+				}
+			}
 		}
 	}
 }
