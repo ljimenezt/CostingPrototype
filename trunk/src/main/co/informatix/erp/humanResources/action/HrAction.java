@@ -1220,6 +1220,13 @@ public class HrAction implements Serializable {
 	 * hr is run again.
 	 * 
 	 * @author Wilhelm.Boada
+	 * 
+	 * @param hrList
+	 *            : hrList consult of the database.
+	 * @param hrListSelected
+	 *            : hrListSelected for compare to the hrList.
+	 * 
+	 * 
 	 */
 	public void maintainHrSelected(List<Hr> hrList, List<Hr> hrListSelected) {
 		for (Hr worker : hrList) {

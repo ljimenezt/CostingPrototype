@@ -29,27 +29,31 @@
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-					columnClasses="etiquetaTitulo tdAlignTop,,,">
+					columnClasses="etiquetaTitulo tdAlignTop,tdAlignTop,,tdAlignTop2">
 
 					<h:outputText value="#{mensaje.label_name}" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText value="#{teamAction.team.name}"
 						styleClass="colTextoMediano" id="txtName" required="true"
-						requiredMessage="#{mensaje.message_campo_requerido}" />
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						validator="#{teamAction.validateNameXSS}" />
 					<rich:message for="txtName" />
 
 					<h:outputText value="#{mensaje.label_size}" />
 					<h:outputText value="*" styleClass="required" />
-					<h:inputText value="#{teamAction.team.size}" styleClass="W75P"
-						id="txtSize" converterMessage="#{mensaje.message_campo_positivo}"
+					<h:inputText value="#{teamAction.team.size}" required="true"
+						styleClass="W75P" id="txtSize"
+						converterMessage="#{mensaje.message_campo_positivo}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:validateDoubleRange minimum="1" />
 					</h:inputText>
 					<rich:message for="txtSize" />
 
 					<h:outputText value="#{mensaje.label_note}" />
 					<h:outputText value="" />
 					<h:inputTextarea value="#{teamAction.team.note}"
-						styleClass="colTextoMedianoTextArea" id="txNote">
+						styleClass="colTextoMedianoTextArea" id="txNote"
+						validator="#{encodeFilter.validarScripting}">
 					</h:inputTextarea>
 					<rich:message for="txNote" />
 

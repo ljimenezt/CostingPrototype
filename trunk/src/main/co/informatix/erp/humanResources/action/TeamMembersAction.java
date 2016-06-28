@@ -37,13 +37,13 @@ public class TeamMembersAction implements Serializable {
 
 	private TeamMembers teamMembers;
 	private Team teamSelected;
-	private List<TeamMembers> teamMembersList;
 	private Paginador pagination = new Paginador();
+	private List<TeamMembers> teamMembersList;
 	private String nameSearch;
 	private boolean flagDelete;
 
 	/**
-	 * @return teamMembers: Object of class TeamMembers.
+	 * @return teamMembers: Object of class TeamMembers for register or delete.
 	 */
 	public TeamMembers getTeamMembers() {
 		return teamMembers;
@@ -51,14 +51,14 @@ public class TeamMembersAction implements Serializable {
 
 	/**
 	 * @param teamMembers
-	 *            : Object of class TeamMembers.
+	 *            : Object of class TeamMembers for register or delete.
 	 */
 	public void setTeamMembers(TeamMembers teamMembers) {
 		this.teamMembers = teamMembers;
 	}
 
 	/**
-	 * @return teamSelected: Object of class Team.
+	 * @return teamSelected: Object of class Team selected.
 	 */
 	public Team getTeamSelected() {
 		return teamSelected;
@@ -66,25 +66,10 @@ public class TeamMembersAction implements Serializable {
 
 	/**
 	 * @param teamSelected
-	 *            : Object of class Team.
+	 *            : Object of class Team selected.
 	 */
 	public void setTeamSelected(Team teamSelected) {
 		this.teamSelected = teamSelected;
-	}
-
-	/**
-	 * @return teamMembersList: gets the teams list
-	 */
-	public List<TeamMembers> getTeamMembersList() {
-		return teamMembersList;
-	}
-
-	/**
-	 * @param teamMembersList
-	 *            : sets the teams list
-	 */
-	public void setTeamMembersList(List<TeamMembers> teamMembersList) {
-		this.teamMembersList = teamMembersList;
 	}
 
 	/**
@@ -100,6 +85,21 @@ public class TeamMembersAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	/**
+	 * @return teamMembersList: teamMembersList query the database.
+	 */
+	public List<TeamMembers> getTeamMembersList() {
+		return teamMembersList;
+	}
+
+	/**
+	 * @param teamMembersList
+	 *            : teamMembersList query the database.
+	 */
+	public void setTeamMembersList(List<TeamMembers> teamMembersList) {
+		this.teamMembersList = teamMembersList;
 	}
 
 	/**

@@ -115,4 +115,36 @@ public class TeamDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Consultation if the name of the team units there in the database when
+	 * storing or editing.
+	 * 
+	 * @param name
+	 *            : team name to verify.
+	 * @param id
+	 *            : identifier team to verify.
+	 * @return Team: Team object found with the search parameters name and
+	 *         identifier.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Team nameExists(String name, short idTeam) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT t FROM Team t ");
+		query.append("WHERE UPPER(t.name)=UPPER(:name) ");
+		if (idTeam != 0) {
+			query.append("AND t.idTeam <>:idTeam ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("name", name);
+		if (idTeam != 0) {
+			q.setParameter("idTeam", idTeam);
+		}
+		List<Team> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
+
 }

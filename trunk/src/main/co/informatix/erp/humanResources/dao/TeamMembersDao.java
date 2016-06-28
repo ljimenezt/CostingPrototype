@@ -126,7 +126,7 @@ public class TeamMembersDao implements Serializable {
 	 *            :idTeam identifier to find teamMembers.
 	 * @param idHr
 	 *            :idHr identifier to find teamMembers.
-	 * @return List<TeamMembers>: TeamMembers found by team and hr.
+	 * @return TeamMembers: TeamMembers found by team and hr.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -144,6 +144,32 @@ public class TeamMembersDao implements Serializable {
 		List<TeamMembers> results = q.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
+		}
+		return null;
+	}
+
+	/**
+	 * This method consult TeamMembers list with filtering the information by
+	 * the values of sent search.
+	 * 
+	 * @param idTeam
+	 *            :idTeam identifier to find teamMembers.
+	 * 
+	 * @return List<TeamMembers>: TeamMembers list found.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TeamMembers> consultTeamsMembersByIdTeam(Short idTeam)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT tm FROM TeamMembers tm ");
+		query.append("JOIN tm.teamMembersPK.team t ");
+		query.append("WHERE t.idTeam=:idTeam ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idTeam", idTeam);
+		List<TeamMembers> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
 		}
 		return null;
 	}

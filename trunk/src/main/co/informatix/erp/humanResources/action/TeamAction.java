@@ -8,8 +8,12 @@ import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.dao.HrDao;
@@ -21,6 +25,7 @@ import co.informatix.erp.humanResources.entities.TeamMembers;
 import co.informatix.erp.humanResources.entities.TeamMembersPK;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.utils.ValidacionesAction.DatosGuardar;
@@ -71,7 +76,7 @@ public class TeamAction implements Serializable {
 	}
 
 	/**
-	 * @return team: Object of class team.
+	 * @return team: Object of class team for register o edit.
 	 */
 	public Team getTeam() {
 		return team;
@@ -79,7 +84,7 @@ public class TeamAction implements Serializable {
 
 	/**
 	 * @param team
-	 *            : Object of class team.
+	 *            : Object of class team for register o edit.
 	 */
 	public void setTeam(Team team) {
 		this.team = team;
@@ -116,37 +121,7 @@ public class TeamAction implements Serializable {
 	}
 
 	/**
-	 * @return teamMembersAction: Object of teamMembersAction.
-	 */
-	public TeamMembersAction getTeamMembersAction() {
-		return teamMembersAction;
-	}
-
-	/**
-	 * @param teamMembersAction
-	 *            : Object of teamMembersAction.
-	 */
-	public void setTeamMembersAction(TeamMembersAction teamMembersAction) {
-		this.teamMembersAction = teamMembersAction;
-	}
-
-	/**
-	 * @return hrAction: Object of HrAction.
-	 */
-	public HrAction getHrAction() {
-		return hrAction;
-	}
-
-	/**
-	 * @param hrAction
-	 *            : Object of HrAction.
-	 */
-	public void setHrAction(HrAction hrAction) {
-		this.hrAction = hrAction;
-	}
-
-	/**
-	 * @return teamList: gets the teams list
+	 * @return teamList: teamList query the database
 	 */
 	public List<Team> getTeamList() {
 		return teamList;
@@ -154,7 +129,7 @@ public class TeamAction implements Serializable {
 
 	/**
 	 * @param teamList
-	 *            : sets the teams list
+	 *            : teamList query the database
 	 */
 	public void setTeamList(List<Team> teamList) {
 		this.teamList = teamList;
@@ -390,9 +365,10 @@ public class TeamAction implements Serializable {
 	public String deleteTeam() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			if (teamMembersAction.getTeamMembersList() != null) {
-				for (TeamMembers teamMembers : teamMembersAction
-						.getTeamMembersList()) {
+			List<TeamMembers> teamMembersList = teamMembersDao
+					.consultTeamsMembersByIdTeam(team.getIdTeam());
+			if (teamMembersList != null) {
+				for (TeamMembers teamMembers : teamMembersList) {
 					teamMembersAction.setFlagDelete(true);
 					teamMembersAction.setTeamMembers(teamMembers);
 					teamMembersAction.deleteTeamMembers();
@@ -447,7 +423,7 @@ public class TeamAction implements Serializable {
 	}
 
 	/**
-	 * This method identifies the teammember to delete and save.
+	 * This method identifies the teamMember to delete and save.
 	 * 
 	 */
 	public void saveEditTeamMembers() {
@@ -507,5 +483,43 @@ public class TeamAction implements Serializable {
 		teamMembers.setLead(false);
 		teamMembers.setStatistician(false);
 		teamMembersDao.saveTeamMembers(teamMembers);
+	}
+
+	/**
+	 * To validate the name of the team, so it is not repeated in the database
+	 * and it validates against XSS.
+	 * 
+	 * @param context
+	 *            : application context.
+	 * 
+	 * @param toValidate
+	 *            : validate component.
+	 * @param value
+	 *            : field value to be valid.
+	 */
+	public void validateNameXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			short id = team.getIdTeam();
+			Team teamAux = new Team();
+			teamAux = teamDao.nameExists(name, id);
+			if (teamAux != null) {
+				String messageExistence = "message_ya_existe_verifique";
+				context.addMessage(
+						clientId,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
+								.getString(messageExistence), null));
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 }
