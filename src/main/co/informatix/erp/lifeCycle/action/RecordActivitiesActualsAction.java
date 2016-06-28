@@ -869,34 +869,55 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @modify 27/06/2016 Andres.Gomez
 	 */
 	public void calculateCurrentDuration() {
-		Date inicial = activitiesAndHr.getInitialDateTimeActual();
-		Date fin = activitiesAndHr.getFinalDateTimeActual();
 		try {
-			if (inicial != null && fin != null) {
-				SystemProfile systemProfile = systemProfileDao
-						.findSystemProfile();
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(fin);
-				double durationActual = 0d;
-				if (cal.get(Calendar.HOUR_OF_DAY) > 0) {
-					durationActual = ControladorFechas.restarFechas(inicial,
-							fin);
-					durationActual = durationActual
-							- systemProfile.getBreakDuration();
-				}
-				double hourCost = activitiesAndHr.getActivitiesAndHrPK()
-						.getHr().getHourCost();
-				double totalCost = durationActual * hourCost;
-				if (durationActual > 8) {
-					totalCost = calculateCostOvertime(durationActual);
-				}
-				activitiesAndHr.setDurationActual(durationActual);
-				activitiesAndHr
-						.setTotalCostActual(Math.round(totalCost * 10.0) / 10.0);
+			double durationActual = subtractDuration(activitiesAndHr, true);
+			double hourCost = activitiesAndHr.getActivitiesAndHrPK().getHr()
+					.getHourCost();
+			double totalCost = durationActual * hourCost;
+			if (durationActual > 8) {
+				totalCost = calculateCostOvertime(durationActual);
 			}
+			activitiesAndHr.setDurationActual(durationActual);
+			activitiesAndHr
+					.setTotalCostActual(Math.round(totalCost * 10.0) / 10.0);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * This method allow calculate the duration of the activity subtracting the
+	 * hour lunch.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param activitiesAndHr
+	 *            :Object activities and HUman Resource information
+	 * @param flag
+	 *            :Indicate the side where this method is called and change the
+	 *            parameters to get the initial values.
+	 * @return double : value of the duration hours
+	 * @throws Exception
+	 */
+	public double subtractDuration(ActivitiesAndHr activitiesAndHr, boolean flag)
+			throws Exception {
+		Date startDate = (flag ? activitiesAndHr.getInitialDateTimeActual()
+				: activitiesAndHr.getInitialDateTimeBudget());
+		Date endDate = (flag ? activitiesAndHr.getFinalDateTimeActual()
+				: activitiesAndHr.getFinalDateTimeBudget());
+		if (startDate != null && endDate != null) {
+			SystemProfile systemProfile = systemProfileDao.findSystemProfile();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(endDate);
+			double durationActual = 0d;
+			if (cal.get(Calendar.HOUR_OF_DAY) > 0) {
+				durationActual = ControladorFechas.restarFechas(startDate,
+						endDate);
+				return durationActual = durationActual
+						- systemProfile.getBreakDuration();
+			}
+		}
+		return 0d;
 	}
 
 	/**

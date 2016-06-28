@@ -1063,7 +1063,6 @@ public class CropActivitiesAction implements Serializable {
 			Object value) throws Exception {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String clientId = toValidate.getClientId(context);
-
 		Double duration = (Double) value;
 		Date initialDate = this.activities.getInitialDtBudget();
 		Date finalDate = this.activities.getFinalDtBudget();

@@ -3,7 +3,6 @@ package co.informatix.erp.costs.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -29,7 +28,6 @@ import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.humanResources.entities.HrTypes;
 import co.informatix.erp.humanResources.entities.OvertimePaymentRate;
 import co.informatix.erp.informacionBase.dao.SystemProfileDao;
-import co.informatix.erp.informacionBase.entities.SystemProfile;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
@@ -1076,27 +1074,16 @@ public class ActivitiesAndHrAction implements Serializable {
 	 */
 	public void calculateDuration() {
 		try {
-			Date startBudget = activitiesAndHr.getInitialDateTimeBudget();
-			Date endBudget = activitiesAndHr.getFinalDateTimeBudget();
-			if (startBudget != null && endBudget != null) {
-				SystemProfile systemProfile = systemProfileDao
-						.findSystemProfile();
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(endBudget);
-				Double durationBudget = 0d;
-				if (cal.get(Calendar.HOUR_OF_DAY) > 0) {
-					durationBudget = ControladorFechas.restarFechas(
-							startBudget, endBudget);
-					durationBudget = durationBudget
-							- systemProfile.getBreakDuration();
-				}
-				int idHr = activitiesAndHr.getActivitiesAndHrPK().getHr()
-						.getIdHr();
-				activitiesAndHr.setDurationBudget(durationBudget);
-				validateWorkLoad(durationBudget, idHr, false);
-			}
+			RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
+					.getContextBean(RecordActivitiesActualsAction.class);
+			double durationBudget = recordActivitiesActualsAction
+					.subtractDuration(activitiesAndHr, false);
+			int idHr = activitiesAndHr.getActivitiesAndHrPK().getHr().getIdHr();
+			activitiesAndHr.setDurationBudget(durationBudget);
+			validateWorkLoad(durationBudget, idHr, false);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
 }
