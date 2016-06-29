@@ -1026,7 +1026,7 @@ public class CropActivitiesAction implements Serializable {
 							bundle.getString("message_validate_date_activity_lunch_range"));
 		}
 		if (activityDefaultStart.equals(breakStart)
-				|| activityDefaultStart.equals(breakEnd)) {
+				|| activityDefaultStart.before(breakEnd)) {
 			ControladorContexto
 					.mensajeError(
 							null,
@@ -1041,8 +1041,8 @@ public class CropActivitiesAction implements Serializable {
 							"popupFormReg:endTime",
 							bundle.getString("message_validate_date_activity_lunch_range"));
 		}
-		if (activityDefaultEnd.equals(breakStart)
-				|| activityDefaultEnd.equals(breakEnd)) {
+		if (activityDefaultEnd.before(breakStart)
+				|| activityDefaultEnd.before(breakEnd)) {
 			ControladorContexto
 					.mensajeError(
 							null,
