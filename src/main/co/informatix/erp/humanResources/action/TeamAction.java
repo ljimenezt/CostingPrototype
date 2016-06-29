@@ -504,8 +504,7 @@ public class TeamAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			short id = team.getIdTeam();
-			Team teamAux = new Team();
-			teamAux = teamDao.nameExists(name, id);
+			Team teamAux = teamDao.nameExists(name, id);
 			if (teamAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
