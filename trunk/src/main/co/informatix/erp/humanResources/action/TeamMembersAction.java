@@ -234,12 +234,18 @@ public class TeamMembersAction implements Serializable {
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle.getString("message_registro_eliminar"),
 								teamMembers.getTeamMembersPK().getHr()
-										.getName()));
+										.getName()
+										+ " "
+										+ teamMembers.getTeamMembersPK()
+												.getHr().getFamilyName()));
 			}
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),
-					teamMembers.getTeamMembersPK().getHr().getName());
+					teamMembers.getTeamMembersPK().getHr().getName()
+							+ " "
+							+ teamMembers.getTeamMembersPK().getHr()
+									.getFamilyName());
 			ControladorContexto.mensajeError(e, null, format);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -261,6 +267,7 @@ public class TeamMembersAction implements Serializable {
 	 */
 	public void saveLeadStatistician(TeamMembers teamMembers, boolean flag) {
 		try {
+			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 			for (TeamMembers teamMember : teamMembersList) {
 				int idHr = teamMember.getTeamMembersPK().getHr().getIdHr();
 				if (flag) {
@@ -282,6 +289,12 @@ public class TeamMembersAction implements Serializable {
 				}
 				teamMembersDao.editTeamMembers(teamMember);
 			}
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString("message_registro_modificar"), teamMembers
+							.getTeamMembersPK().getHr().getName()
+							+ " "
+							+ teamMembers.getTeamMembersPK().getHr()
+									.getFamilyName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

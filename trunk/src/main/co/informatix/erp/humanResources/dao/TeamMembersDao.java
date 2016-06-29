@@ -107,6 +107,7 @@ public class TeamMembersDao implements Serializable {
 		query.append("JOIN FETCH tm.teamMembersPK.team t ");
 		query.append("JOIN FETCH tm.teamMembersPK.hr h ");
 		query.append(consult);
+		query.append("ORDER BY t.name ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
