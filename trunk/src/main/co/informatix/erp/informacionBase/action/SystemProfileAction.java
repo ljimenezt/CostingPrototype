@@ -108,9 +108,13 @@ public class SystemProfileAction implements Serializable {
 		Date startDate = systemProfile.getActivityDefaultStart();
 		Date endDate = systemProfile.getActivityDefaultEnd();
 		if (startDate != null && endDate != null) {
+			double breakDuration = 0;
+			if (systemProfile.getBreakStart().after(startDate)
+					&& systemProfile.getBreakStart().before(endDate)) {
+				breakDuration = systemProfile.getBreakDuration();
+			}
 			systemProfile.setActivityDefaultDuration(ControladorFechas
-					.restarFechas(startDate, endDate)
-					- systemProfile.getBreakDuration());
+					.restarFechas(startDate, endDate) - breakDuration);
 		}
 
 	}
@@ -121,14 +125,10 @@ public class SystemProfileAction implements Serializable {
 	 */
 	public void validateRequired() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		int startTime = ControladorFechas.getHours(this.systemProfile
-				.getActivityDefaultStart());
-		int endTime = ControladorFechas.getHours(this.systemProfile
-				.getActivityDefaultEnd());
-		int startLunch = ControladorFechas.getHours(this.systemProfile
-				.getBreakStart());
-		int endLunch = ControladorFechas.getHours(this.systemProfile
-				.getBreakEnd());
+		Date startActivity = this.systemProfile.getActivityDefaultStart();
+		Date endActivity = this.systemProfile.getActivityDefaultEnd();
+		Date startBreak = this.systemProfile.getBreakStart();
+		Date endBreak = this.systemProfile.getBreakEnd();
 
 		if (systemProfile.getActivityDefaultStart().after(
 				systemProfile.getActivityDefaultEnd())
@@ -145,14 +145,17 @@ public class SystemProfileAction implements Serializable {
 					"formRegisterSystemProfile:breakEnd",
 					"message_validar_rango_fecha", "mensaje");
 		}
-		if (startTime >= startLunch && startTime <= endLunch) {
+		if ((startActivity.after(startBreak) || startActivity
+				.equals(startBreak))
+				&& (startActivity.before(endBreak) || startActivity
+						.equals(endBreak))) {
 			ControladorContexto
 					.mensajeError(
 							null,
 							"formRegisterSystemProfile:activityStart",
 							bundle.getString("message_validate_date_activity_lunch_range"));
 		}
-		if (endTime >= startLunch && endTime <= endLunch) {
+		if (endActivity.after(startBreak) && endActivity.before(endBreak)) {
 			ControladorContexto
 					.mensajeError(
 							null,
