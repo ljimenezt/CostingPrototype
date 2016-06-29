@@ -1225,8 +1225,6 @@ public class HrAction implements Serializable {
 	 *            : hrList consult of the database.
 	 * @param hrListSelected
 	 *            : hrListSelected for compare to the hrList.
-	 * 
-	 * 
 	 */
 	public void maintainHrSelected(List<Hr> hrList, List<Hr> hrListSelected) {
 		for (Hr worker : hrList) {
