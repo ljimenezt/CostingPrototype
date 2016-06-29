@@ -51,6 +51,12 @@ public class SystemProfileAction implements Serializable {
 			systemProfile = systemProfileDao.findSystemProfile();
 			if (systemProfile != null) {
 				this.systemProfile = systemProfile;
+			} else {
+				this.systemProfile = new SystemProfile();
+				this.systemProfile.setActivityDefaultStart(new Date());
+				this.systemProfile.setActivityDefaultEnd(new Date());
+				this.systemProfile.setBreakStart(new Date());
+				this.systemProfile.setBreakEnd(new Date());
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
