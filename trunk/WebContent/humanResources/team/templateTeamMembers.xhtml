@@ -83,7 +83,7 @@
 							styleClass="marginCheckbox">
 							<a:ajax event="click"
 								listener="#{teamMembersAction.saveLeadStatistician(teamMembers, true)}"
-								render="pnlTeamMembers" />
+								render="pnlTeamMembers, mensajes, mensajeBusqueda" />
 						</h:selectBooleanCheckbox>
 					</rich:column>
 					<rich:column styleClass="colTextoMini center">
@@ -92,7 +92,7 @@
 							styleClass="marginCheckbox">
 							<a:ajax event="click"
 								listener="#{teamMembersAction.saveLeadStatistician(teamMembers, false)}"
-								render="pnlTeamMembers" />
+								render="pnlTeamMembers, mensajes, mensajeBusqueda" />
 						</h:selectBooleanCheckbox>
 					</rich:column>
 
