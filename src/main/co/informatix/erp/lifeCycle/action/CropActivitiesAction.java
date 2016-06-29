@@ -1012,29 +1012,44 @@ public class CropActivitiesAction implements Serializable {
 	 */
 	private void validateHourActvity() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		int startTime = ControladorFechas.getHours(this.systemProfile
-				.getActivityDefaultStart());
-		int endTime = ControladorFechas.getHours(this.systemProfile
-				.getActivityDefaultEnd());
-		int startLunch = ControladorFechas.getHours(this.systemProfile
-				.getBreakStart());
-		int endLunch = ControladorFechas.getHours(this.systemProfile
-				.getBreakEnd());
-		if (startTime >= startLunch && startTime <= endLunch) {
+		Date activityDefaultStart = this.systemProfile
+				.getActivityDefaultStart();
+		Date activityDefaultEnd = this.systemProfile.getActivityDefaultEnd();
+		Date breakStart = this.systemProfile.getBreakStart();
+		Date breakEnd = this.systemProfile.getBreakEnd();
+		if (activityDefaultStart.after(breakStart)
+				&& activityDefaultStart.before(breakEnd)) {
 			ControladorContexto
 					.mensajeError(
 							null,
 							"popupFormReg:startTime",
 							bundle.getString("message_validate_date_activity_lunch_range"));
 		}
-		if (endTime >= startLunch && endTime <= endLunch) {
+		if (activityDefaultStart.equals(breakStart)
+				|| activityDefaultStart.equals(breakEnd)) {
+			ControladorContexto
+					.mensajeError(
+							null,
+							"popupFormReg:startTime",
+							bundle.getString("message_validate_date_activity_lunch_range"));
+		}
+		if (activityDefaultEnd.after(breakStart)
+				&& activityDefaultEnd.before(breakEnd)) {
 			ControladorContexto
 					.mensajeError(
 							null,
 							"popupFormReg:endTime",
 							bundle.getString("message_validate_date_activity_lunch_range"));
 		}
-		if (startTime > endTime) {
+		if (activityDefaultEnd.equals(breakStart)
+				|| activityDefaultEnd.equals(breakEnd)) {
+			ControladorContexto
+					.mensajeError(
+							null,
+							"popupFormReg:endTime",
+							bundle.getString("message_validate_date_activity_lunch_range"));
+		}
+		if (activityDefaultStart.after(activityDefaultEnd)) {
 			ControladorContexto
 					.mensajeError(
 							null,
