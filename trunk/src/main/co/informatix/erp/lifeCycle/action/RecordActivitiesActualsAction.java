@@ -3,7 +3,6 @@ package co.informatix.erp.lifeCycle.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -905,19 +904,35 @@ public class RecordActivitiesActualsAction implements Serializable {
 				: activitiesAndHr.getInitialDateTimeBudget());
 		Date endDate = (flag ? activitiesAndHr.getFinalDateTimeActual()
 				: activitiesAndHr.getFinalDateTimeBudget());
+		double durationActual = 0d;
 		if (startDate != null && endDate != null) {
 			SystemProfile systemProfile = systemProfileDao.findSystemProfile();
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(endDate);
-			double durationActual = 0d;
-			if (cal.get(Calendar.HOUR_OF_DAY) > 0) {
-				durationActual = ControladorFechas.restarFechas(startDate,
-						endDate);
+			long timeSeq = (24 * 60 * 60 * 1000L);
+			int startDateAux = (int) (startDate.getTime() % timeSeq);
+			int endDateAux = (int) (endDate.getTime() % timeSeq);
+			int startLunch = (int) (systemProfile.getBreakStart().getTime() % timeSeq);
+			int endLunch = (int) (systemProfile.getBreakEnd().getTime() % timeSeq);
+			durationActual = ControladorFechas.restarFechas(startDate, endDate);
+			double breakDuration = 0d;
+			if (startDateAux <= startLunch && endDateAux >= endLunch) {
 				return durationActual = durationActual
 						- systemProfile.getBreakDuration();
+			} else if (startDateAux > startLunch && startDateAux < endLunch
+					&& endDateAux > endLunch) {
+				Date endLunchAux = ControladorFechas.setDefaultTime(
+						systemProfile.getBreakEnd(), startDate);
+				breakDuration = ControladorFechas.restarFechas(startDate,
+						endLunchAux);
+			} else if (endDateAux > startLunch && endDateAux < endLunch
+					&& startDateAux < startLunch) {
+				Date startLunchAux = ControladorFechas.setDefaultTime(
+						systemProfile.getBreakStart(), endDate);
+				breakDuration = ControladorFechas.restarFechas(startLunchAux,
+						endDate);
 			}
+			durationActual = durationActual - breakDuration;
 		}
-		return 0d;
+		return durationActual;
 	}
 
 	/**
