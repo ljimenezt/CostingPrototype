@@ -303,8 +303,8 @@ public class TransactionTypeAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = transactionType.getIdTransactionType();
-			TransactionType transactionTypeAux = new TransactionType();
-			transactionTypeAux = transactionTypeDao.nameExists(name, id);
+			TransactionType transactionTypeAux = transactionTypeDao.nameExists(
+					name, id);
 			if (transactionTypeAux != null) {
 				String mensajeExistencia = "message_ya_existe_verifique";
 				context.addMessage(

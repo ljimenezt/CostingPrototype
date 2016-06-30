@@ -231,8 +231,7 @@ public class SuppliersAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = suppliers.getIdSupplier();
-			Suppliers suppliersAux = new Suppliers();
-			suppliersAux = suppliersDao.nameExists(name, id);
+			Suppliers suppliersAux = suppliersDao.nameExists(name, id);
 			if (suppliersAux != null) {
 				String mensajeExistencia = "message_ya_existe_verifique";
 				context.addMessage(
