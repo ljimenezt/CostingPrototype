@@ -393,10 +393,8 @@ public class MaterialsAction implements Serializable {
 	/**
 	 * Method to upload the details of a list of materials and their relations
 	 * with other objects in the database.
-	 * 
-	 * @throws Exception
 	 */
-	private void loadMaterialsDetails() throws Exception {
+	private void loadMaterialsDetails() {
 		if (this.materialsList != null) {
 			for (Materials material : this.materialsList) {
 				loadMaterialDetails(material);
@@ -410,23 +408,25 @@ public class MaterialsAction implements Serializable {
 	 * 
 	 * @param materials
 	 *            : Materials to load its details.
-	 * @throws Exception
 	 */
-	public void loadMaterialDetails(Materials materials) throws Exception {
+	public void loadMaterialDetails(Materials materials) {
 		int materialId = materials.getIdMaterial();
-		MaterialsType materialsType = (MaterialsType) materialsDao
-				.queryMaterialObject("materialType", materialId);
-		MeasurementUnits measurementUnits = (MeasurementUnits) materialsDao
-				.queryMaterialObject("measurementUnits", materialId);
-		TypeOfManagement typeOfManagement = (TypeOfManagement) materialsDao
-				.queryMaterialObject("typeOfManagement", materialId);
-		Hr responsable = (Hr) materialsDao.queryMaterialObject("responsable",
-				materialId);
-
-		materials.setMaterialType(materialsType);
-		materials.setMeasurementUnits(measurementUnits);
-		materials.setTypeOfManagement(typeOfManagement);
-		materials.setResponsable(responsable);
+		try {
+			MaterialsType materialsType = (MaterialsType) materialsDao
+					.queryMaterialObject("materialType", materialId);
+			MeasurementUnits measurementUnits = (MeasurementUnits) materialsDao
+					.queryMaterialObject("measurementUnits", materialId);
+			TypeOfManagement typeOfManagement = (TypeOfManagement) materialsDao
+					.queryMaterialObject("typeOfManagement", materialId);
+			Hr responsable = (Hr) materialsDao.queryMaterialObject(
+					"responsable", materialId);
+			materials.setMaterialType(materialsType);
+			materials.setMeasurementUnits(measurementUnits);
+			materials.setTypeOfManagement(typeOfManagement);
+			materials.setResponsable(responsable);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 
 	/**
