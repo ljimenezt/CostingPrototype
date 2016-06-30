@@ -30,7 +30,6 @@ import co.informatix.erp.warehouse.entities.Suppliers;
  * @author Mabell.Boada
  * 
  */
-
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
@@ -118,7 +117,8 @@ public class SuppliersAction implements Serializable {
 	}
 
 	/**
-	 * Get a list of providers.
+	 * Query the suppliers according to the search parameters and builds the
+	 * search message, then it redirects to the manage suppliers view.
 	 * 
 	 * @return gesSuppliers: Navigation rule that redirects to manage suppliers.
 	 */
