@@ -7,7 +7,7 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	<h:body>
-		<t:fieldset styleClass="anchoSiete BorderW2P"
+		<t:fieldset styleClass="anchoDos BorderW2P"
 			rendered="#{teamSelected ne null}">
 			<legend class="etiquetaTitulo">#{messageCosts.activities_and_hr_label_workers}</legend>
 			<a:outputPanel id="pnlTeamMembers">
@@ -20,7 +20,7 @@
 						<ui:param name="id" value="popupBuscarMenu" />
 					</ui:include>
 				</a:outputPanel>
-				<div align="right">
+				<div align="right" class="anchoSeis">
 					<h:panelGrid id="pnlButtons" columns="6" cellpadding="0"
 						cellspacing="0">
 						<a:commandLink id="lnkActivityNames"

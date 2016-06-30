@@ -48,7 +48,7 @@
 					<script type="text/javascript">
 						$g = jQuery.noConflict();
 					</script>
-					<t:fieldset styleClass="anchoSeis BorderW2P">
+					<t:fieldset styleClass="anchoDos BorderW2P">
 						<legend class="etiquetaTitulo">#{messageHumanResources.team_label_s}</legend>
 						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 							<ui:param name="tieneVigencia" value="no" />
@@ -164,6 +164,7 @@
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
 						actionListener="#{teamAction.consultTeam()}"
+						action="#{teamAction.setTeamActualSelected(null)}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupSearch')}.hide();}"
 						render="panelTeam mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
