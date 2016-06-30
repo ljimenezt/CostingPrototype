@@ -96,8 +96,7 @@ public class TransactionsAction implements Serializable {
 		StringBuilder allMessageSearch = new StringBuilder();
 		String messageSearch = "";
 		try {
-			advancedSearchTransactions(consult, parameters, bundle,
-					allMessageSearch);
+			advancedSearchTransactions(consult, parameters);
 			Long quantity = transactionsDao.quantityTransactions(consult,
 					parameters);
 			if (quantity != null) {
@@ -140,14 +139,9 @@ public class TransactionsAction implements Serializable {
 	 *            : query to concatenate
 	 * @param parameters
 	 *            : list of search parameters.
-	 * @param bundle
-	 *            :access language tags
-	 * @param unionMessagesSearch
-	 *            : message search
 	 */
 	private void advancedSearchTransactions(StringBuilder consult,
-			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
+			List<SelectItem> parameters) {
 
 		if (this.depositSelected != null) {
 			consult.append("WHERE t.deposits = :deposit ");

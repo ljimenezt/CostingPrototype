@@ -395,13 +395,10 @@ public class InvoiceItemsAction implements Serializable {
 	 */
 	public void consultInvoiceItems() {
 		cleanLists();
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
-		StringBuilder allMessageSearch = new StringBuilder();
 		try {
-			advancedSearchInvoiceItems(consult, parameters, bundle,
-					allMessageSearch);
+			advancedSearchInvoiceItems(consult, parameters);
 			Long quantity = invoiceItemsDao.quantityInvoiceItems(consult,
 					parameters);
 			if (quantity != null && quantity > 0) {
@@ -426,14 +423,9 @@ public class InvoiceItemsAction implements Serializable {
 	 *            : query to concatenate
 	 * @param parameters
 	 *            : list of search parameters.
-	 * @param bundle
-	 *            :access language tags
-	 * @param unionMessagesSearch
-	 *            : message search
 	 */
 	private void advancedSearchInvoiceItems(StringBuilder consult,
-			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
+			List<SelectItem> parameters) {
 
 		if (this.invoicesSelected != null) {
 			consult.append("WHERE pi.idPurchaseInvoice = :purchaseInvoice ");
