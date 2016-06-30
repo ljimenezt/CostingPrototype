@@ -575,7 +575,7 @@ public class PurchaseInvoicesAction implements Serializable {
 	 */
 	public String addEditInvoices(PurchaseInvoices invoices) {
 		try {
-			ResourceBundle bundle=ControladorContexto
+			ResourceBundle bundle = ControladorContexto
 					.getBundle("mensajeWarehouse");
 			loadSuppliers();
 			cleanItemList();
@@ -585,9 +585,10 @@ public class PurchaseInvoicesAction implements Serializable {
 				if (!("").equals(nameDocument) && nameDocument != null) {
 					relocateFileTemp();
 				}
-				if(invoices.isReconcile()){
-					String message=bundle.getString("purchase_invoice_message_validate_already_reconciled");
-					ControladorContexto.mensajeInformacion(null, message);	
+				if (invoices.isReconcile()) {
+					String message = bundle
+							.getString("purchase_invoice_message_validate_already_reconciled");
+					ControladorContexto.mensajeInformacion(null, message);
 				}
 				selectInvoice(invoices);
 				showInvoiceItems();
@@ -885,7 +886,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * 
 	 * @modify 23/05/2016 Gerardo.Herrera
 	 * 
-	 * @throws Exception
 	 */
 	public void calculateValuesInvoices() {
 		try {

@@ -696,15 +696,15 @@ public class InvoiceItemsAction implements Serializable {
 	}
 
 	/**
-	 * Pager manages the activities list
-	 * 
+	 * It initializes the pager with a fixed range to manage the activities list
+	 * and it gets a sublist of invoice items.
 	 */
 	public void initializeList() {
 		subListInvoiceItems = new ArrayList<InvoiceItems>();
 		subListInvoiceItems.addAll(this.invoiceItemsList);
-		Long cantidadPaginador = (long) this.subListInvoiceItems.size();
+		Long paginationAmount = (long) this.subListInvoiceItems.size();
 		try {
-			this.pagination.paginarRangoDefinido(cantidadPaginador, 5);
+			this.pagination.paginarRangoDefinido(paginationAmount, 5);
 			int inicial = this.pagination.getItemInicial() - 1;
 			int fin = this.pagination.getItemFinal();
 			this.subListInvoiceItems = this.subListInvoiceItems.subList(
