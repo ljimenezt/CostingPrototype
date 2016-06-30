@@ -524,13 +524,6 @@ public class ActivitiesAction implements Serializable {
 			SelectItem item = new SelectItem(this.idCycle, "keywordIdCycle");
 			parameters.add(item);
 			selection = true;
-		} else {
-			queryBuilder.append(selection ? "AND " : "WHERE ");
-			queryBuilder
-					.append("a.cycle.activiyNames.cycle = :keywordIdCycle ");
-			SelectItem item = new SelectItem(false, "keywordIdCycle");
-			parameters.add(item);
-			selection = true;
 		}
 
 		if (fromModal) {
