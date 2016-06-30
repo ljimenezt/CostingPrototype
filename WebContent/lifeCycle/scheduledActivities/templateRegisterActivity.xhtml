@@ -1,0 +1,375 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="popupForm">
+		<rich:popupPanel id="popupActivityNames" autosized="true"
+			domElementAttachment="form"
+			header="#{messageLifeCycle.activity_names_label_s}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="cursor"
+						onclick="#{rich:component('popupActivityNames')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<rich:panel styleClass="H400P fondoAnchoUno W580P">
+				<a:outputPanel id="outPutBuscarActivityNames">
+					<t:fieldset styleClass="BorderW2P">
+						<legend class="etiquetaTitulo">#{mensaje.label_search}
+							#{messageLifeCycle.activity_names_label_s}</legend>
+						<h:panelGrid columns="3" cellpadding="7">
+							<h:outputText value="#{mensaje.label_name}"
+								styleClass="etiquetaTitulo" />
+							<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
+								value="#{cropActivitiesAction.nameSearch}"
+								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')" />
+							<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+								actionListener="#{cropActivitiesAction.consultActivityNamesXCrops}"
+								render="outputActivityNames">
+								<f:param name="param2" value="si" />
+							</a:commandButton>
+						</h:panelGrid>
+					</t:fieldset>
+					<br />
+					<rich:messages for="tActivityNames"
+						styleClass="messageInfSpan W560P" />
+					<br />
+					<ui:param name="listaVacia"
+						value="#{cropActivitiesAction.listActivityNames eq null or (empty cropActivitiesAction.listActivityNames)}" />
+					<div align="right" class="W560P">
+						<a:commandLink render="outPutBuscarActivityNames"
+							styleClass="quitarDecoracionLink"
+							action="#{cropActivitiesAction.consultActivityNamesXCrops}"
+							actionListener="#{cropActivitiesAction.setNameSearch(null)}">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/listarTodos_16.png" />
+								<h:outputText value="#{mensaje.button_list_all}" />
+							</h:panelGrid>
+							<f:param name="param2" value="si" />
+						</a:commandLink>
+					</div>
+					<a:outputPanel id="outputActivityNames">
+						<rich:dataTable value="#{cropActivitiesAction.listActivityNames}"
+							var="activityNames" id="tActivityNames" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<f:facet name="header" />
+								<a:commandLink
+									render="formActivities, mensajes, popupFormReg:popupRegActivity "
+									action="#{cropActivitiesAction.generateListActivities()}"
+									oncomplete="#{rich:component('popupRegActivity')}.show(); #{rich:component('popupActivityNames')}.hide();"
+									actionListener="#{cropActivitiesAction.setActivityNames(activityNames)}">
+									<h:graphicImage value="/img/add_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_select}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText value="#{activityNames.activityName}" />
+							</rich:column>
+							<rich:column width="300px">
+								<f:facet name="header">#{mensaje.label_description}</f:facet>
+								<h:outputText value="#{activityNames.description}" />
+							</rich:column>
+							<br />
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="5" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<!-- boton generar lista con los activityNames -->
+						<br />
+						<!-- fin boton -->
+						<a:outputPanel rendered="#{!listaVacia}">
+							<div class="W560P center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valParam2" value="si" />
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="pager" value="pagination" />
+									<ui:param name="valReder"
+										value=":popupForm:outputActivityNames" />
+									<ui:param name="beanActionParam"
+										value="#{cropActivitiesAction}" />
+									<ui:param name="metodoActionParam"
+										value="consultActivityNamesXCrops" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+				</a:outputPanel>
+			</rich:panel>
+		</rich:popupPanel>
+	</h:form>
+	<h:form id="popupFormReg">
+		<rich:popupPanel id="popupRegActivity" autosized="true"
+			domElementAttachment="form" minHeight="370"
+			header="#{mensaje.label_register} #{messageCosts.activities_label}"
+			styleClass="fondoAnchoUno W760P">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="cursor"
+						onclick="#{rich:component('popupRegActivity')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<script type="text/javascript">
+			$g=jQuery.noConflict();
+			$g(document).ready(function(){    
+				  $g('#popupFormReg\\:txtDescripcion').maxlength({   
+				    events: [],     
+				    max: 200,    
+				    feedbackText: "#{mensaje.label_characters_left}",  
+				    showFeedback: 'active'    
+				  }); 
+			});		
+			</script>
+			<rich:panel styleClass="fondoAnchoUno">
+				<a:outputPanel id="outPutReg">
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,tdAlignTop,,tdAlignTop">
+						<ui:param name="isRoutine"
+							value="#{cropActivitiesAction.activities.routine}" />
+						<ui:param name="minHour"
+							value="#{cropActivitiesAction.systemProfile.activityDefaultStart==null ? controladorFechas.fechaActual() :  cropActivitiesAction.systemProfile.activityDefaultStart}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_sequence_number}" />
+						<h:outputText value="" styleClass="required" />
+						<h:inputText label="#{mensaje.label_sequence_number}"
+							value="#{cropActivitiesAction.activities.sequenceNumber}"
+							styleClass="colNumero" id="txtSecNum"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateLongRange minimum="0" />
+						</h:inputText>
+						<rich:message for="txtSecNum" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_routine}" />
+						<h:outputText value="" />
+						<h:selectBooleanCheckbox
+							value="#{cropActivitiesAction.activities.routine}"
+							id="txtRoutine" styleClass="marginCheckbox">
+							<a:ajax event="click"
+								listener="#{cropActivitiesAction.setRoutineTime()}"
+								render="outPutReg" />
+						</h:selectBooleanCheckbox>
+						<h:outputText value="" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_date} #{mensaje.label_budget} " />
+						<h:outputText value="*" styleClass="required" />
+						<p:calendar required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							value="#{cropActivitiesAction.activities.initialDtBudget}"
+							showOn="button" navigator="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}"
+							id="fechaInicio" pattern="MM/dd/yyyy" readonlyInput="true"
+							validator="#{controladorFechas.validarRangoFecha}">
+							<f:attribute name="validarHora" value="si" />
+							<p:ajax event="dateSelect" update="outPutReg"
+								listener="#{cropActivitiesAction.setFinalDtBudget}" />
+						</p:calendar>
+						<rich:message for="fechaInicio" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_start_time} #{mensaje.label_budget}"
+							rendered="#{!isRoutine}" />
+						<h:outputText value="*" styleClass="required"
+							rendered="#{!isRoutine}" />
+						<p:calendar required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							value="#{cropActivitiesAction.systemProfile.activityDefaultStart}"
+							showOn="button" navigator="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}"
+							onSelectUpdate="endTime" id="startTime" pattern="HH:mm"
+							readonlyInput="true" rendered="#{!isRoutine}" timeOnly="true"
+							validator="#{controladorFechas.validarRangoFecha}">
+							<f:attribute name="validarHora" value="si" />
+							<p:ajax event="dateSelect" update="outPutReg"
+								listener="#{cropActivitiesAction.setFinalDtBudget}" />
+						</p:calendar>
+						<rich:message for="startTime" rendered="#{!isRoutine}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_end_time} #{mensaje.label_budget}"
+							rendered="#{!isRoutine}" />
+						<h:outputText value="*" styleClass="required"
+							rendered="#{!isRoutine}" />
+						<p:calendar
+							value="#{cropActivitiesAction.systemProfile.activityDefaultEnd}"
+							showOn="button" navigator="true" required="true"
+							disabled="#{isRoutine}" timeOnly="true" rendered="#{!isRoutine}"
+							converterMessage="#{mensaje.message_validar_formato_fecha}"
+							id="endTime" pattern="HH:mm" readonlyInput="true"
+							minHour="#{controladorFechas.getHours(minHour)}"
+							validator="#{controladorFechas.validarRangoFecha}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:attribute name="validarHora" value="si" />
+							<p:ajax event="dateSelect" update="fechaInicio, outPutReg"
+								listener="#{cropActivitiesAction.setFinalDtBudget}" />
+						</p:calendar>
+						<rich:message for="endTime" rendered="#{!isRoutine}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageCosts.activities_label_duration_budget}" />
+						<h:outputText value="" styleClass="required" />
+						<h:inputText
+							value="#{cropActivitiesAction.activities.durationBudget}"
+							label="#{messageCosts.activities_label_duration_budget}"
+							styleClass="colNumero" id="txtDuration" readonly="true"
+							validator="#{cropActivitiesAction.validateDate}"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateDoubleRange minimum="0" />
+						</h:inputText>
+						<rich:message for="txtDuration" />
+
+						<h:outputText value="#{mensaje.label_description}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" style="top" />
+						<h:inputTextarea
+							value="#{cropActivitiesAction.activities.description}"
+							styleClass="colTextoMedianoTextArea" id="txtDescripcion"
+							validator="#{encodeFilter.validarScripting}">
+							<f:validateLength maximum="200" />
+						</h:inputTextarea>
+						<rich:message for="txtDescripcion" />
+					</h:panelGrid>
+					<h:panelGrid columns="3"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="right,tdAlignTop,tdAlignTop">
+
+						<h:selectBooleanCheckbox styleClass="marginCheckbox"
+							value="#{cropActivitiesAction.activities.hrRequired}" id="txtHr">
+						</h:selectBooleanCheckbox>
+						<h:outputText value="#{mensaje.label_required_hr}"
+							styleClass="etiquetaTitulo" />
+						<rich:message for="txtHr" />
+
+						<h:selectBooleanCheckbox styleClass="marginCheckbox"
+							value="#{cropActivitiesAction.activities.machineRequired}"
+							id="txtMachine">
+						</h:selectBooleanCheckbox>
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_required_machine}" />
+						<rich:message for="txtMachine" />
+
+						<h:selectBooleanCheckbox styleClass="marginCheckbox"
+							value="#{cropActivitiesAction.activities.serviceRequired}"
+							id="txtService">
+						</h:selectBooleanCheckbox>
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_required_service}" />
+						<rich:message for="txtService" />
+
+						<h:selectBooleanCheckbox styleClass="marginCheckbox"
+							value="#{cropActivitiesAction.activities.materialsRequired}"
+							id="txtMaterials">
+						</h:selectBooleanCheckbox>
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_required_material}" />
+						<rich:message for="txtMaterials" />
+
+						<h:selectBooleanCheckbox styleClass="marginCheckbox"
+							value="#{cropActivitiesAction.activities.dangerous}"
+							id="txtDange">
+						</h:selectBooleanCheckbox>
+						<h:outputText styleClass="etiquetaTitulo center"
+							value="#{mensaje.label_dangerous}" />
+						<h:outputText value="" />
+						<rich:message for="txtDange" />
+					</h:panelGrid>
+					<br />
+					<br />
+					<div align="center">
+						<a:commandButton
+							render=":formConfirmar:popUpConfirmar,formGenerico"
+							execute="popupFormReg, fechaInicio"
+							action="#{cropActivitiesAction.validateDatesAllowed()}"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+							value="#{mensaje.button_save}" />
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</rich:popupPanel>
+	</h:form>
+	<h:form id="formConfirmar">
+		<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+			maxWidth="500" header="#{mensaje.label_confirmation}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popUpConfirmar')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_registro_confirmacion}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="campos">
+					<h:outputText
+						value="#{messageCosts.cycle_standard_activities_label_hr}:" />
+					<h:outputText
+						value="#{cropActivitiesAction.activities.hrRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
+					<h:outputText
+						value="#{messageCosts.cycle_standard_activities_label_machine}:" />
+					<h:outputText
+						value="#{cropActivitiesAction.activities.machineRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
+					<h:outputText
+						value="#{messageCosts.cycle_standard_activities_label_service}:" />
+					<h:outputText
+						value="#{cropActivitiesAction.activities.serviceRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
+					<h:outputText
+						value="#{messageCosts.cycle_standard_activities_label_materials}:" />
+					<h:outputText
+						value="#{cropActivitiesAction.activities.materialsRequired eq true ? mensaje.label_yes : mensaje.label_no}" />
+					<h:outputText
+						value="#{messageCosts.cycle_standard_activities_label_num_sequence}:" />
+					<h:outputText
+						value="#{cropActivitiesAction.activities.sequenceNumber}" />
+					<h:outputText
+						value="#{messageCosts.cycle_standard_activities_label_duration}:" />
+					<h:outputText
+						value="#{cropActivitiesAction.activities.durationBudget}" />
+					<h:outputText
+						value="#{messageCosts.cycle_standard_activities_label_dangerous }:" />
+					<h:outputText
+						value="#{cropActivitiesAction.activities.dangerous eq true ? mensaje.label_yes : mensaje.label_no}" />
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_accept}"
+						actionListener="#{cropActivitiesAction.saveCropActivities()}"
+						execute="@form" render="@form"
+						onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupFormReg')}.hide();" />
+					<a:commandButton value="#{mensaje.button_cancel}"
+						onclick="#{rich:component('popUpConfirmar')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+</ui:composition>
