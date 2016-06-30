@@ -526,6 +526,12 @@ public class ActivitiesAction implements Serializable {
 			selection = true;
 		}
 
+		if (flagCycle) {
+			queryBuilder.append(selection ? "AND " : "WHERE ");
+			queryBuilder.append("a.cycle.idCycle IS NULL ");
+			selection = true;
+		}
+
 		if (fromModal) {
 			queryBuilder.append(selection ? "AND " : "WHERE ");
 			queryBuilder.append("(a IN ");
