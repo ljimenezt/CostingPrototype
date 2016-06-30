@@ -1025,8 +1025,7 @@ public class CropActivitiesAction implements Serializable {
 							"popupFormReg:startTime",
 							bundle.getString("message_validate_date_activity_lunch_range"));
 		}
-		if (activityDefaultStart.equals(breakStart)
-				|| activityDefaultStart.before(breakEnd)) {
+		if (activityDefaultStart.equals(breakStart)) {
 			ControladorContexto
 					.mensajeError(
 							null,
