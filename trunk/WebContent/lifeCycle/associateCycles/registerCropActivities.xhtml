@@ -172,7 +172,7 @@
 								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<a:commandLink id="linkReg"
 									render="popupFormReg:popupRegActivity" value="" execute="@form"
-									actionListener="#{cropActivitiesAction.setActivities(activities)}"
+									actionListener="#{cropActivitiesAction.loadActivityToEdit(activities)}"
 									oncomplete="#{rich:component('popupRegActivity')}.show(); setFocus('popupFormReg');">
 									<h:outputText value="#{activities.activityName.activityName}" />
 								</a:commandLink>

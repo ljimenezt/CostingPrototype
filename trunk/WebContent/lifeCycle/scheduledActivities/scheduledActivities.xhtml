@@ -18,6 +18,7 @@
 		<t:saveState value="#{scheduledActivitiesAction}" />
 		<t:saveState value="#{activitiesAction}" />
 		<t:saveState value="#{machinesAction}" />
+		<t:saveState value="#{cropActivitiesAction}" />
 		<t:saveState value="#{activitiesAndHrAction}" />
 		<t:saveState value="#{controllerSortField}" />
 		<t:saveState value="#{cycleAction}" />
@@ -191,7 +192,34 @@
 						</a:commandButton>
 					</div>
 
-					<a:outputPanel id="paginas">
+					<a:outputPanel id="paginas"
+						rendered="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null}">
+						<div align="right">
+							<h:panelGrid id="pnlButtons" columns="6" cellpadding="0"
+								cellspacing="0">
+								<a:commandLink id="lnkActivityNames"
+									styleClass="quitarDecoracionLink"
+									action="#{cropActivitiesAction.consultActivityNamesXCrops()}"
+									render=":popupForm:popupActivityNames" execute="@form"
+									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupActivityNames')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/add_16.png"
+											styleClass="verticalAlignMiddle" />
+										<h:outputText
+											value="#{messageCosts.cycle_standard_activities_label_add_activity}"
+											actionListener="#{cropActivitiesAction.activities.crop.idCrop}" />
+									</h:panelGrid>
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_select}" />
+									</rich:tooltip>
+									<f:param name="param2" value="si" />
+									<f:setPropertyActionListener value=""
+										target="#{cropActivitiesAction.nameSearch}" />
+									<f:setPropertyActionListener value="f"
+										target="#{cropActivitiesAction.pagination.opcion}" />
+								</a:commandLink>
+							</h:panelGrid>
+						</div>
 						<rich:dataTable value="#{activitiesAction.listActivities}"
 							var="activity" id="seleccionadas" footerClass="H130P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
@@ -578,6 +606,8 @@
 				</a:outputPanel>
 			</rich:panel>
 		</h:form>
+		<ui:include
+			src="/lifeCycle/scheduledActivities/templateRegisterActivity.xhtml" />
 		<ui:include src="templatePopupActivitiesAndHr.xhtml" />
 		<ui:include src="templateActivitiesAndMachine.xhtml" />
 		<ui:include src="templateCycles.xhtml">
