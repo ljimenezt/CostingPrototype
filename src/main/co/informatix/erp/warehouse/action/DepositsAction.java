@@ -555,7 +555,7 @@ public class DepositsAction implements Serializable {
 			parameters.add(item);
 			queryAdded = true;
 		}
-		
+
 		if (this.idMaterial > 0) {
 			consult.append(queryAdded ? "AND " : "WHERE ");
 			consult.append("d.materials.id = :idMaterial ");
@@ -937,16 +937,12 @@ public class DepositsAction implements Serializable {
 	 *            false if it is called from dropdown material
 	 */
 	public void initializeDropDownTypeMaterial(boolean flag) {
-		try {
-			if (flag) {
-				this.idMaterial = 0;
-				this.loadMaterials();
-			}
-			this.depositActualSelected = null;
-			this.consultDeposits();
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
+		if (flag) {
+			this.idMaterial = 0;
+			this.loadMaterials();
 		}
+		this.depositActualSelected = null;
+		this.consultDeposits();
 	}
 
 	/**

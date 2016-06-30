@@ -216,14 +216,10 @@ public class TransactionTypeAction implements Serializable {
 	 * @return "regTrans":redirected to the template record transactionType.
 	 */
 	public String addEditTransactionType(TransactionType transactionType) {
-		try {
-			if (transactionType != null) {
-				this.transactionType = transactionType;
-			} else {
-				this.transactionType = new TransactionType();
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
+		if (transactionType != null) {
+			this.transactionType = transactionType;
+		} else {
+			this.transactionType = new TransactionType();
 		}
 		return "regTrans";
 	}
