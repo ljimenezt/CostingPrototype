@@ -662,6 +662,7 @@ public class CycleAction implements Serializable {
 	 * This method allows initialize all the cycle.
 	 */
 	public void initializeSearch() {
+		this.paginationForm.setOpcion('f');
 		searchCycles();
 		consultCycles();
 	}
