@@ -797,6 +797,25 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
+	 * This method allow load the information of the activity selected
+	 * 
+	 * @param activity
+	 *            :Object of class activities.
+	 */
+	public void loadActivityToEdit(Activities activity) {
+		setActivities(activity);
+		try {
+			findSystemProfile();
+			Date activityDefaultStart = activity.getInitialDtBudget();
+			Date activityDefaultEnd = activity.getFinalDtBudget();
+			this.systemProfile.setActivityDefaultStart(activityDefaultStart);
+			this.systemProfile.setActivityDefaultEnd(activityDefaultEnd);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
 	 * This method allow set the time in the activity if the routine is true
 	 * 
 	 */
@@ -805,10 +824,19 @@ public class CropActivitiesAction implements Serializable {
 		if (isRoutine) {
 			try {
 				findSystemProfile();
+				Date initialBudgetActivity = new Date();
+				Date finalBudgetActivity = new Date();
+				if (this.activities.getInitialDtBudget() != null) {
+					initialBudgetActivity = this.activities
+							.getInitialDtBudget();
+					finalBudgetActivity = this.activities.getFinalDtBudget();
+				}
 				Date initialDtBudget = ControladorFechas.setDefaultTime(
-						this.systemProfile.getActivityDefaultStart(), null);
+						this.systemProfile.getActivityDefaultStart(),
+						initialBudgetActivity);
 				Date finalDtBudget = ControladorFechas.setDefaultTime(
-						this.systemProfile.getActivityDefaultEnd(), null);
+						this.systemProfile.getActivityDefaultEnd(),
+						finalBudgetActivity);
 				this.activities.setInitialDtBudget(initialDtBudget);
 				this.activities.setFinalDtBudget(finalDtBudget);
 				calculateCurrentDuration();
@@ -1001,6 +1029,7 @@ public class CropActivitiesAction implements Serializable {
 									"messageCosts");
 				}
 			}
+			setFinalDtBudget();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
