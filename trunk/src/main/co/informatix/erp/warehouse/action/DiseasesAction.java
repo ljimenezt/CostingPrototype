@@ -227,8 +227,7 @@ public class DiseasesAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = diseases.getIdDisease();
-			Diseases diseasesAux = new Diseases();
-			diseasesAux = diseasesDao.nameExist(name, id);
+			Diseases diseasesAux = diseasesDao.nameExist(name, id);
 			if (diseasesAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(

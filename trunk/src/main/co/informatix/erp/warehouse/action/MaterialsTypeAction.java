@@ -308,8 +308,8 @@ public class MaterialsTypeAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = materialsType.getIdMaterialsType();
-			MaterialsType materialTypeAux = new MaterialsType();
-			materialTypeAux = materialsTypeDao.nameExist(name, id);
+			MaterialsType materialTypeAux = materialsTypeDao
+					.nameExist(name, id);
 			if (materialTypeAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(

@@ -297,8 +297,8 @@ public class MeasurementUnitsAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = measurementUnits.getIdMeasurementUnits();
-			MeasurementUnits measurementUnitsAux = new MeasurementUnits();
-			measurementUnitsAux = measurementUnitsDao.nameExists(name, id);
+			MeasurementUnits measurementUnitsAux = measurementUnitsDao
+					.nameExists(name, id);
 			if (measurementUnitsAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(

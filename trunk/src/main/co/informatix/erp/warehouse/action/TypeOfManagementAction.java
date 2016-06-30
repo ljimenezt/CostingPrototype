@@ -235,8 +235,8 @@ public class TypeOfManagementAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = typeOfManagement.getIdTypeOfManagement();
-			TypeOfManagement auxTypeOfManagement = new TypeOfManagement();
-			auxTypeOfManagement = typeOfManagementDao.nameExists(name, id);
+			TypeOfManagement auxTypeOfManagement = typeOfManagementDao
+					.nameExists(name, id);
 			if (auxTypeOfManagement != null) {
 				String existenceMessage = "message_ya_existe_verifique";
 				context.addMessage(
