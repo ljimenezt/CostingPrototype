@@ -134,10 +134,11 @@ public class MaterialsTypeAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of the machines
+	 * Look for material types according to the search parameters and builds the
+	 * search messages, then it redirects to the manage material types template.
 	 * 
 	 * @return "gesMaterialsType": redirects to the template to manage Materials
-	 *         Type
+	 *         Type.
 	 */
 	public String consultMaterialsType() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
