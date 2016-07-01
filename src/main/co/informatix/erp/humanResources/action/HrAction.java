@@ -1235,4 +1235,24 @@ public class HrAction implements Serializable {
 			}
 		}
 	}
+
+	/**
+	 * Compare if the human resource is into the HR list
+	 * 
+	 * @param hrList
+	 *            : Human resources list
+	 * @param hr
+	 *            : human resource.
+	 */
+	public void compareHr(List<Hr> hrList, Hr hr) {
+		boolean addFlag = true;
+		for (Hr humanResource : hrList) {
+			if (humanResource.getIdHr() == hr.getIdHr()) {
+				addFlag = false;
+			}
+		}
+		if (addFlag) {
+			hrList.add(hr);
+		}
+	}
 }

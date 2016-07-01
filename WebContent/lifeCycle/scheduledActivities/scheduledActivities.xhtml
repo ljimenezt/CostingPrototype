@@ -17,6 +17,7 @@
 	<ui:define name="body">
 		<t:saveState value="#{scheduledActivitiesAction}" />
 		<t:saveState value="#{activitiesAction}" />
+		<t:saveState value="#{teamAction}" />
 		<t:saveState value="#{machinesAction}" />
 		<t:saveState value="#{cropActivitiesAction}" />
 		<t:saveState value="#{activitiesAndHrAction}" />
@@ -413,6 +414,25 @@
 								<rich:tooltip layout="block">
 									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
+							</a:commandLink>
+							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false and scheduledActivitiesAction.selectedActivity.costHrActual eq null}"
+								render="selectTeam:popupTeam selectTeam:team mensajes mensajeBusqueda"
+								actionListener="#{teamAction.initializeTeam()}"
+								execute="formActivitiesAndHr"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popupTeam')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/team_16.png"
+										styleClass="verticalAlignMiddle" />
+									<h:outputText
+										value="#{mensaje.label_assign} #{messageHumanResources.team_label_s}" />
+								</h:panelGrid>
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_select}" />
+								</rich:tooltip>
+								<f:param name="param2" value="si" />
 							</a:commandLink>
 						</div>
 						<ui:param name="listaVaciaA"

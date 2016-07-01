@@ -193,4 +193,32 @@ public class CertificationsAndRolesDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Consult the certifications for a activity
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param idActivity
+	 *            : Activity identifier
+	 * @return List<CertificationsAndRoles>: Certifications list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<CertificationsAndRoles> consultCertificationsAndRolesByActivity(
+			int idActivity) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT cr FROM CertificationsAndRoles cr ");
+		query.append("WHERE cr.idCertificactionsAndRoles IN ");
+		query.append("(SELECT car.idCertificactionsAndRoles FROM ActivitiesAndCertifications aac ");
+		query.append("JOIN aac.activitiesAndCertificationsPK.activities a ");
+		query.append("JOIN aac.activitiesAndCertificationsPK.certificationsAndRoles car ");
+		query.append("WHERE a.idActivity = :idActivity)");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idActivity", idActivity);
+		List<CertificationsAndRoles> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }

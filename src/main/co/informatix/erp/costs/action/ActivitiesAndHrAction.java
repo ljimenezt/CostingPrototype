@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -15,18 +16,22 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.transaction.UserTransaction;
 
 import co.informatix.erp.costs.dao.ActivitiesAndHrDao;
 import co.informatix.erp.costs.dao.ActivitiesDao;
 import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivitiesAndHr;
 import co.informatix.erp.costs.entities.ActivitiesAndHrPK;
+import co.informatix.erp.humanResources.action.HrAction;
+import co.informatix.erp.humanResources.action.TeamAction;
 import co.informatix.erp.humanResources.dao.HrDao;
 import co.informatix.erp.humanResources.dao.HrTypesDao;
 import co.informatix.erp.humanResources.dao.OvertimePaymentRateDao;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.humanResources.entities.HrTypes;
 import co.informatix.erp.humanResources.entities.OvertimePaymentRate;
+import co.informatix.erp.humanResources.entities.Team;
 import co.informatix.erp.informacionBase.dao.SystemProfileDao;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
 import co.informatix.erp.utils.Constantes;
@@ -34,6 +39,9 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
+import co.informatix.erp.utz.dao.CertificationsAndRolesDao;
+import co.informatix.erp.utz.dao.HrCertificationsAndRolesDao;
+import co.informatix.erp.utz.entities.CertificationsAndRoles;
 
 /**
  * This class allows the logic of the relationship between the activities and
@@ -59,6 +67,12 @@ public class ActivitiesAndHrAction implements Serializable {
 	private OvertimePaymentRateDao overtimePaymentRateDao;
 	@EJB
 	private SystemProfileDao systemProfileDao;
+	@EJB
+	private CertificationsAndRolesDao certificationsAndRolesDao;
+	@EJB
+	private HrCertificationsAndRolesDao hrCertificationsAndRolesDao;
+	@Resource
+	private UserTransaction userTransaction;
 
 	private int idWorker;
 	private int idOvertimeRate;
@@ -74,6 +88,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	private List<Hr> selectedWorkers;
 	private List<ActivitiesAndHr> listActivitiesAndHrTemp;
 	private List<ActivitiesAndHr> listActivitiesAndHr;
+	private List<ActivitiesAndHr> listActivitiesAndHrNotAvailable;
 
 	private ActivitiesAndHrPK activitiesAndHrPK;
 	private ActivitiesAndHr activitiesAndHr;
@@ -211,6 +226,23 @@ public class ActivitiesAndHrAction implements Serializable {
 	 */
 	public void setListActivitiesAndHr(List<ActivitiesAndHr> listActivitiesAndHr) {
 		this.listActivitiesAndHr = listActivitiesAndHr;
+	}
+
+	/**
+	 * @return listActivitiesAndHrNotAvailable: List of workers and activities
+	 *         are occupied.
+	 */
+	public List<ActivitiesAndHr> getListActivitiesAndHrNotAvailable() {
+		return listActivitiesAndHrNotAvailable;
+	}
+
+	/**
+	 * @param listActivitiesAndHrNotAvailable
+	 *            : List of workers and activities are occupied.
+	 */
+	public void setListActivitiesAndHrNotAvailable(
+			List<ActivitiesAndHr> listActivitiesAndHrNotAvailable) {
+		this.listActivitiesAndHrNotAvailable = listActivitiesAndHrNotAvailable;
 	}
 
 	/**
@@ -738,13 +770,8 @@ public class ActivitiesAndHrAction implements Serializable {
 			OvertimePaymentRate overTimePaymentRate = overtimePaymentRateDao
 					.overtimePaymentRateXDefaultRate(true);
 			worker.setSeleccionado(true);
-			Double costNormalHours = worker.getHourCost()
-					* activitiesAndHr.getNormalHours();
-			Double costOvertimeHours = worker.getHourCostOvertime()
-					* activitiesAndHr.getOvertimeHours()
-					* overTimePaymentRate.getOvertimeRateRatio();
-			Double totalCostBudget = Math
-					.round((costNormalHours + costOvertimeHours) * 10.0) / 10.0;
+			Double totalCostBudget = calculateTotalCostBudget(worker,
+					activitiesAndHr, overTimePaymentRate);
 			activitiesAndHrPK.setHr(worker);
 			activitiesAndHrPK.setActivities(selectedActivity);
 			activitiesAndHr.setActivitiesAndHrPK(activitiesAndHrPK);
@@ -762,6 +789,27 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
+	 * Calculate the total cost for the human resources.
+	 * 
+	 * @param worker
+	 *            : Human resource
+	 * @param ahr
+	 *            : Object activitiesAndHr
+	 * @param opr
+	 *            : Object OvertimePaymentRate
+	 * @return totalCostBudget: total cost budget value
+	 */
+	private Double calculateTotalCostBudget(Hr worker, ActivitiesAndHr ahr,
+			OvertimePaymentRate opr) {
+		Double costNormalHours = worker.getHourCost() * ahr.getNormalHours();
+		Double costOvertimeHours = worker.getHourCostOvertime()
+				* ahr.getOvertimeHours() * opr.getOvertimeRateRatio();
+		Double totalCostBudget = Math
+				.round((costNormalHours + costOvertimeHours) * 10.0) / 10.0;
+		return totalCostBudget;
+	}
+
+	/**
 	 * It is responsible for maintaining selected workers regardless of whether
 	 * they workers run the search again.
 	 */
@@ -776,16 +824,143 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
+	 * This method save activities and hr for the teams selected and validate if
+	 * this is available
+	 * 
+	 * @param activities
+	 *            : Object Activities selected
+	 */
+	public void saveActivitiesHrTeam(Activities activities) {
+		if (ControladorContexto.getFacesContext() != null) {
+			TeamAction teamAction = ControladorContexto
+					.getContextBean(TeamAction.class);
+			HrAction hrAction = ControladorContexto
+					.getContextBean(HrAction.class);
+			try {
+				StringBuilder message = new StringBuilder();
+				selectedWorkers = new ArrayList<Hr>();
+				listActivitiesAndHrNotAvailable = new ArrayList<ActivitiesAndHr>();
+				listActivitiesAndHr = new ArrayList<ActivitiesAndHr>();
+				List<Team> teamList = teamAction.getTeamSelected();
+				List<CertificationsAndRoles> ac = certificationsAndRolesDao
+						.consultCertificationsAndRolesByActivity(activities
+								.getIdActivity());
+				for (Team team : teamList) {
+					List<Hr> hrList = hrDao.hrByGroup(team.getIdTeam());
+					if (hrList != null) {
+						for (Hr hr : hrList) {
+							boolean saveHr = true;
+							List<ActivitiesAndHr> activitiesAndHr = activitiesAndHrDao
+									.hrOccupied(hr.getIdHr(), activities);
+							if (activitiesAndHr != null) {
+								saveHr = false;
+								boolean addFlag = compareHr(
+										listActivitiesAndHrNotAvailable, hr);
+								if (addFlag) {
+									listActivitiesAndHrNotAvailable
+											.add(activitiesAndHr.get(0));
+								}
+							}
+							if (hr.getMaternityBreastFeeding() != null
+									&& hr.getMaternityBreastFeeding()
+									&& activities.getDangerous()) {
+								saveHr = false;
+								hrAction.compareHr(selectedWorkers, hr);
+							}
+							if (activities.getDangerous()) {
+								Date minimumBirthDate = ControladorFechas
+										.restarAnyos(
+												ControladorFechas.fechaActual(),
+												Constantes.EDAD_MINIMA_ACTIVIDAD_PELIGROSA);
+								if (hr.getBirthDate().after(minimumBirthDate)) {
+									saveHr = false;
+									hrAction.compareHr(selectedWorkers, hr);
+								}
+							}
+							if (ac != null) {
+								saveHr = hrCertificationsAndRolesDao
+										.consultCertificationExists(
+												hr.getIdHr(), ac);
+								if (saveHr) {
+									saveHr = false;
+									hr.setCertificado(false);
+									hrAction.compareHr(selectedWorkers, hr);
+								}
+							}
+							if (saveHr) {
+								boolean addFlag = compareHr(
+										listActivitiesAndHr, hr);
+								if (addFlag) {
+									Double duracion = activities
+											.getDurationBudget();
+									OvertimePaymentRate opr = overtimePaymentRateDao
+											.overtimePaymentRateXDefaultRate(true);
+									ActivitiesAndHrPK ahrPK = new ActivitiesAndHrPK();
+									ActivitiesAndHr ahr = new ActivitiesAndHr();
+									ahrPK.setActivities(activities);
+									ahrPK.setHr(hr);
+									ahr.setActivitiesAndHrPK(ahrPK);
+									ahr.setInitialDateTimeBudget(activities
+											.getInitialDtBudget());
+									ahr.setFinalDateTimeBudget(activities
+											.getFinalDtBudget());
+									ahr.setDurationBudget(activities
+											.getDurationBudget());
+									ahr.setOvertimePaymentRate(opr);
+									validateWorkLoad(duracion, hr.getIdHr(),
+											false, ahr, activities);
+									Double totalCostBudget = calculateTotalCostBudget(
+											hr, ahr, opr);
+									ahr.setTotalCostBudget(totalCostBudget);
+									listActivitiesAndHr.add(ahr);
+								}
+							}
+						}
+					}
+					message.append(team.getName() + ", ");
+				}
+				this.message = message.toString();
+			} catch (Exception e) {
+				this.listActivitiesAndHr.clear();
+				ControladorContexto.mensajeError(e);
+			}
+		}
+	}
+
+	/**
+	 * This method return 'true' if the ahr isnt into the relation between
+	 * activities and human resources
+	 * 
+	 * @param ahrList
+	 *            : List of relation between activities and human resources
+	 * @param hr
+	 *            : human resource
+	 * @return boolean
+	 */
+	private boolean compareHr(List<ActivitiesAndHr> ahrList, Hr hr) {
+		boolean addFlag = true;
+		for (ActivitiesAndHr ahr : ahrList) {
+			if (ahr.getActivitiesAndHrPK().getHr().getIdHr() == hr.getIdHr()) {
+				addFlag = false;
+			}
+		}
+		return addFlag;
+	}
+
+	/**
 	 * Save the relationship between activities and human resources.
 	 * 
+	 * @param flagTeam
+	 *            : It indicate if the message is for the teams.
 	 */
-	public void createListActivitiesAndHr() {
+	public void createListActivitiesAndHr(boolean flagTeam) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageRegister = "message_registro_modificar";
 		double costHrBudget = 0;
 		try {
 			if (selectedActivity.getCostHrBudget() == null)
 				selectedActivity.setCostHrBudget(new Double(0));
+			userTransaction.begin();
 			if (this.listActivitiesAndHr != null
 					&& this.listActivitiesAndHr.size() > 0) {
 				for (ActivitiesAndHr actividadAndHr : listActivitiesAndHr) {
@@ -799,7 +974,17 @@ public class ActivitiesAndHrAction implements Serializable {
 				activitiesDao.editActivities(this.selectedActivity);
 				setListActivitiesAndHr(null);
 				consultActivitiesAndHrByActivity();
-			} else {
+				if (flagTeam) {
+					bundle = ControladorContexto
+							.getBundle("messageHumanResources");
+					messageRegister = "team_message_added";
+					ControladorContexto.mensajeInformacion(null, MessageFormat
+							.format(bundle.getString(messageRegister), message,
+									selectedActivity.getActivityName()
+											.getActivityName()));
+				}
+			} else if(!flagTeam){
+				
 				OvertimePaymentRate overtimePaymentRate = overtimePaymentRateDao
 						.overtimePaymentRateXId(idOvertimeRate);
 				Double costNormalHours = activitiesAndHr.getNormalHours()
@@ -828,7 +1013,13 @@ public class ActivitiesAndHrAction implements Serializable {
 										.getName()));
 				consultActivitiesAndHrByActivity();
 			}
+			userTransaction.commit();
 		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception e1) {
+				ControladorContexto.printErrorLog(e1);
+			}
 			ControladorContexto.mensajeError(e);
 		}
 	}
@@ -920,6 +1111,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * workload
 	 * 
 	 * @modify 28/08/2015 Cristhian.Pico
+	 * @modify 27/06/2016 Gerardo.Herrera
 	 * 
 	 * @param context
 	 *            : Context of sight.
@@ -961,7 +1153,8 @@ public class ActivitiesAndHrAction implements Serializable {
 					} else {
 						idHr = this.worker.getIdHr();
 					}
-					validateWorkLoad(duration, idHr, false);
+					validateWorkLoad(duration, idHr, false,
+							this.activitiesAndHr, this.selectedActivity);
 					if (!this.workHoursValid) {
 						String message = "message_overtime_week";
 						ControladorContexto.mensajeErrorEspecifico(clientId,
@@ -985,6 +1178,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * worker This activity does not exceed the hours of weekly overtime
 	 * 
 	 * @author Cristhian.Pico
+	 * @modify 29/06/2016 Gerardo.Herrera
 	 * 
 	 * @param durationHrActivity
 	 *            : Value entered by the user as long as the human resource work
@@ -994,48 +1188,50 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * @param var
 	 *            : variable that indicates whether the user is editing a record
 	 *            or not.
+	 * @param activitiesAndHr
+	 *            : Object ActivitiesAndHr
+	 * @param selectedActivity
+	 *            : Activity selected
 	 */
 	public void validateWorkLoad(Double durationHrActivity,
-			int humanReosurceId, boolean var) {
-		Date activityDate = this.selectedActivity.getInitialDtBudget();
+			int humanReosurceId, boolean var, ActivitiesAndHr activitiesAndHr,
+			Activities selectedActivity) {
+		Date activityDate = selectedActivity.getInitialDtBudget();
 		Date mindDateTime = ControladorFechas.diaInicialSemana(activityDate);
 		Date maxDateTime = ControladorFechas.diaFinalSemana(activityDate);
 		try {
 			Double overtimeWeek = activitiesAndHrDao.calculateOverTimeHours(
 					humanReosurceId, mindDateTime, maxDateTime,
-					this.selectedActivity.getIdActivity());
+					selectedActivity.getIdActivity());
 			Double workedHoursDay = activitiesAndHrDao.calculateNormalHours(
 					humanReosurceId, activityDate,
-					this.selectedActivity.getIdActivity());
+					selectedActivity.getIdActivity());
 			if (durationHrActivity <= (8 - workedHoursDay)) {
-				this.activitiesAndHr.setNormalHours(durationHrActivity);
-				this.activitiesAndHr.setOvertimeHours(0.0);
+				activitiesAndHr.setNormalHours(durationHrActivity);
+				activitiesAndHr.setOvertimeHours(0.0);
 			} else {
 				Double activityNormalHours = (8 - workedHoursDay);
-				this.activitiesAndHr.setNormalHours(activityNormalHours);
+				activitiesAndHr.setNormalHours(activityNormalHours);
 				if ((overtimeWeek + durationHrActivity - activityNormalHours) <= 12) {
-					this.activitiesAndHr
+					activitiesAndHr
 							.setOvertimeHours(Math
 									.round((durationHrActivity - activityNormalHours) * 10.0) / 10.0);
 				} else {
 					Double overtimeActivity = 12 - overtimeWeek;
-					this.activitiesAndHr.setOvertimeHours(Math
+					activitiesAndHr.setOvertimeHours(Math
 							.round(overtimeActivity * 10.0) / 10.0);
 					if (!var) {
-						this.activitiesAndHr
-								.setDurationBudget(activityNormalHours
-										+ overtimeActivity);
+						activitiesAndHr.setDurationBudget(activityNormalHours
+								+ overtimeActivity);
 					} else {
-						this.activitiesAndHr
-								.setDurationActual(activityNormalHours
-										+ overtimeActivity);
+						activitiesAndHr.setDurationActual(activityNormalHours
+								+ overtimeActivity);
 					}
 					this.setWorkHoursValid(false);
 				}
 			}
-			this.activitiesAndHr
-					.setTotalHours(this.activitiesAndHr.getNormalHours()
-							+ this.activitiesAndHr.getOvertimeHours());
+			activitiesAndHr.setTotalHours(activitiesAndHr.getNormalHours()
+					+ activitiesAndHr.getOvertimeHours());
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -1071,6 +1267,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * It will calculate the length considering the difference two dates
 	 * 
 	 * @modify 27/06/2016 Andres.Gomez
+	 * @modify 28/06/2016 Gerardo.Herrera
 	 */
 	public void calculateDuration() {
 		try {
@@ -1080,10 +1277,10 @@ public class ActivitiesAndHrAction implements Serializable {
 					.subtractDuration(activitiesAndHr, false);
 			int idHr = activitiesAndHr.getActivitiesAndHrPK().getHr().getIdHr();
 			activitiesAndHr.setDurationBudget(durationBudget);
-			validateWorkLoad(durationBudget, idHr, false);
+			validateWorkLoad(durationBudget, idHr, false, this.activitiesAndHr,
+					this.selectedActivity);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }

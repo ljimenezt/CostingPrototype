@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivitiesAndHr;
 import co.informatix.erp.costs.entities.ActivitiesAndHrPK;
 import co.informatix.erp.utils.ControladorFechas;
@@ -224,6 +225,40 @@ public class ActivitiesAndHrDao implements Serializable {
 		Query queryResult = em.createQuery(query.toString());
 		queryResult.setParameter("idActivity", idActivity);
 		return (Double) queryResult.getSingleResult();
+	}
+
+	/**
+	 * Consult the relations between activities and human resources for one
+	 * human resources and one activity
+	 * 
+	 * @param idHr
+	 *            : Human resources identifier
+	 * @param activities
+	 *            : Activity selected
+	 * @return List<ActivitiesAndHr>: Activities and hr list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivitiesAndHr> hrOccupied(int idHr, Activities activities)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ahr FROM  ActivitiesAndHr ahr ");
+		query.append("JOIN FETCH ahr.activitiesAndHrPK.hr hr ");
+		query.append("JOIN FETCH ahr.activitiesAndHrPK.activities a ");
+		query.append("JOIN FETCH a.activityName an ");
+		query.append("WHERE hr.idHr = :idHr  ");
+		query.append("AND ahr.initialDateTimeBudget BETWEEN :initialDate AND :finalDate ");
+		query.append("AND ahr.finalDateTimeBudget BETWEEN :initialDate AND :finalDate ");
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("idHr", idHr);
+		queryResult
+				.setParameter("initialDate", activities.getInitialDtBudget());
+		queryResult.setParameter("finalDate", activities.getFinalDtBudget());
+		List<ActivitiesAndHr> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
 	}
 
 	/**

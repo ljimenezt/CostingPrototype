@@ -293,4 +293,31 @@ public class HrDao implements Serializable {
 		return (Long) q.getSingleResult();
 	}
 
+	/**
+	 * Consult all the human resources by team
+	 * 
+	 * @param idTeam
+	 *            : Identifier team
+	 * @return List
+	 *         <Hr>
+	 *         : human resources list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Hr> hrByGroup(int idTeam) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT hr FROM Hr hr ");
+		queryBuilder.append("WHERE hr IN ");
+		queryBuilder.append("(SELECT hr FROM TeamMembers tm ");
+		queryBuilder.append("JOIN tm.teamMembersPK.hr hr ");
+		queryBuilder.append("WHERE tm.teamMembersPK.team.id = :idTeam )");
+		Query query = em.createQuery(queryBuilder.toString());
+		query.setParameter("idTeam", (short) idTeam);
+		List<Hr> result = query.getResultList();
+		if (result.size() > 0) {
+			return result;
+		}
+		return null;
+	}
+
 }

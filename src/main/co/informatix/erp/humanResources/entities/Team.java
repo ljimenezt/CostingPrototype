@@ -27,6 +27,7 @@ public class Team implements Serializable {
 	private String name;
 	private String note;
 	private boolean selected;
+	private int workersAssociated;
 
 	/**
 	 * @return idTeam: Team identifier
@@ -110,6 +111,22 @@ public class Team implements Serializable {
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	/**
+	 * @return workersAssociated: Quantity of workers associated
+	 */
+	@Transient
+	public int getWorkersAssociated() {
+		return workersAssociated;
+	}
+
+	/**
+	 * @param workersAssociated
+	 *            : Quantity of workers associated
+	 */
+	public void setWorkersAssociated(int workersAssociated) {
+		this.workersAssociated = workersAssociated;
 	}
 
 	@Override
