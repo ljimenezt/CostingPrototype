@@ -26,6 +26,22 @@
 		<ui:param name="renderList" value="paginas" />
 		<ui:param name="actionList" value="#{activitiesAction}" />
 		<ui:param name="methodList" value="searchActivities" />
+
+		<ui:param name="actionLista" value="#{cropActivitiesAction}" />
+		<ui:param name="renderLista"
+			value=":formBuscar:popupBuscar pnlActivities" />
+		<ui:param name="metodoLista" value="initializeActivities" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="cropActivitiesAction" />
+		<ui:param name="metodoNuevo" value="addEditCropActivities" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="initializeActivities" />
+
+
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
@@ -199,6 +215,7 @@
 								cellspacing="0">
 								<a:commandLink id="lnkActivityNames"
 									styleClass="quitarDecoracionLink"
+									rendered="#{activitiesAction.flagCycle}"
 									action="#{cropActivitiesAction.consultActivityNamesXCrops()}"
 									render=":popupForm:popupActivityNames" execute="@form"
 									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupActivityNames')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
@@ -206,7 +223,7 @@
 										<h:graphicImage value="/img/add_16.png"
 											styleClass="verticalAlignMiddle" />
 										<h:outputText
-											value="#{messageCosts.cycle_standard_activities_label_add_activity}"
+											value="#{messageCosts.cycle_standard_activities_label_add__standalone_activity}"
 											actionListener="#{cropActivitiesAction.activities.crop.idCrop}" />
 									</h:panelGrid>
 									<rich:tooltip layout="block">
@@ -218,6 +235,11 @@
 									<f:setPropertyActionListener value="f"
 										target="#{cropActivitiesAction.pagination.opcion}" />
 								</a:commandLink>
+								<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+									<ui:param name="tieneVigencia" value="no" />
+									<ui:param name="ocultarNuevo" value="si" />
+									<ui:param name="ocultarPaginadoPor" value="si" />
+								</ui:include>
 							</h:panelGrid>
 						</div>
 						<rich:dataTable value="#{activitiesAction.listActivities}"
@@ -244,6 +266,27 @@
 										render="formScheduledActivities, seleccionadas" />
 								</a:commandLink>
 							</rich:column>
+							<rich:column styleClass="colIconoAjustable">
+								<f:facet name="header" />
+								<a:commandLink id="details"
+									actionListener="#{activitiesAction.setActivities(activity)}"
+									render="PopUpDetalles"
+									oncomplete="#{rich:component('PopUpDetalles')}.show()">
+									<h:graphicImage value="/img/details_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_details}" />
+									</rich:tooltip>
+								</a:commandLink>
+								<a:commandLink
+									oncomplete="#{rich:component('popupEliminarLista')}.show()"
+									render="popupEliminarLista"
+									actionListener="#{cropActivitiesAction.setRemoveList(activity)}">
+									<h:graphicImage value="/img/delete_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.button_remove}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
 							<rich:column styleClass="colTextoCorto verticalAlignMiddle">
 								<f:facet name="header">
 									<h:panelGrid columns="2">
@@ -253,7 +296,12 @@
 										</ui:include>
 									</h:panelGrid>
 								</f:facet>
-								<h:outputText value="#{activity.activityName.activityName}" />
+								<a:commandLink id="linkReg"
+									render="popupFormReg:popupRegActivity" value="" execute="@form"
+									actionListener="#{cropActivitiesAction.loadActivityToEdit(activity)}"
+									oncomplete="#{rich:component('popupRegActivity')}.show(); setFocus('popupFormReg');">
+									<h:outputText value="#{activity.activityName.activityName}" />
+								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colTextoMediano verticalAlignMiddle">
 								<f:facet name="header">#{mensaje.label_description}</f:facet>
@@ -606,8 +654,8 @@
 				</a:outputPanel>
 			</rich:panel>
 		</h:form>
-		<ui:include
-			src="/lifeCycle/scheduledActivities/templateRegisterActivity.xhtml" />
+		<ui:include src="templatePopupDetailsActivity.xhtml" />
+		<ui:include src="templateRegisterActivity.xhtml" />
 		<ui:include src="templatePopupActivitiesAndHr.xhtml" />
 		<ui:include src="templateActivitiesAndMachine.xhtml" />
 		<ui:include src="templateCycles.xhtml">

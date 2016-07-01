@@ -745,7 +745,7 @@ public class CropActivitiesAction implements Serializable {
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("WHERE UPPER(an.activityName) LIKE UPPER(:keyword) ");
+			consult.append("AND UPPER(an.activityName) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
@@ -923,7 +923,7 @@ public class CropActivitiesAction implements Serializable {
 				.getContextBean(ActivitiesAction.class);
 		activitiesAction.setFlagCropActivities(true);
 		activitiesAction.initializeActivities(new Activities(),
-				crops.getIdCrop(), 0, pagination);
+				activitiesAction.getIdCrop(), 0, null);
 	}
 
 	/**
@@ -969,7 +969,10 @@ public class CropActivitiesAction implements Serializable {
 	 */
 	public void validateDatesAllowed() {
 		try {
-			Crops crop = cropsDao.cropsById(activities.getCrop().getIdCrop());
+			ScheduledActivitiesAction scheduledActivitiesAction = ControladorContexto
+					.getContextBean(ScheduledActivitiesAction.class);
+			Crops crop = cropsDao.cropsById(scheduledActivitiesAction
+					.getIdCrop());
 			Date date = ControladorFechas.formatearFecha(
 					activities.getInitialDtBudget(),
 					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
