@@ -798,7 +798,9 @@ public class RecordActivitiesActualsAction implements Serializable {
 								.setActivitiesAndHr(activitiesAndHr);
 						activitiesAndHrAction.setWorkHoursValid(true);
 						activitiesAndHrAction.validateWorkLoad(duration, idHr,
-								fromModal);
+								fromModal,
+								activitiesAndHrAction.getActivitiesAndHr(),
+								activitiesAndHrAction.getSelectedActivity());
 						if (!activitiesAndHrAction.isWorkHoursValid()) {
 							String message = "message_overtime_week";
 							ControladorContexto.mensajeErrorEspecifico(

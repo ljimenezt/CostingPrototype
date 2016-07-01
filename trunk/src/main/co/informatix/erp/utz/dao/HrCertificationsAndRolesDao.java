@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import co.informatix.erp.utz.entities.CertificationsAndRoles;
 import co.informatix.erp.utz.entities.HrCertificationsAndRoles;
 
 /**
@@ -160,6 +161,35 @@ public class HrCertificationsAndRolesDao implements Serializable {
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCertAndRoles", idCertAndRoles).setParameter("idHr",
 				idHr);
+		if (q.getResultList().size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Consult if the human resources have a certification into the
+	 * certifications list.
+	 * 
+	 * @param idHr
+	 *            : Identifier human resource
+	 * @param certificationsAndRoles
+	 *            : Certifications list
+	 * @return boolean: True if the human resource have a certification.
+	 * @throws Exception
+	 */
+	public boolean consultCertificationExists(int idHr,
+			List<CertificationsAndRoles> certificationsAndRoles)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT hcr FROM HrCertificationsAndRoles hcr ");
+		query.append("JOIN hcr.hrCertificationsAndRolesPK.hr hr ");
+		query.append("JOIN hcr.hrCertificationsAndRolesPK.certificationsAndRoles cr ");
+		query.append("WHERE cr IN :certificationsAndRoles ");
+		query.append("AND hr.idHr=:idHr ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idHr", idHr);
+		q.setParameter("certificationsAndRoles", certificationsAndRoles);
 		if (q.getResultList().size() > 0) {
 			return true;
 		}

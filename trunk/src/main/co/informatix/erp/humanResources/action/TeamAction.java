@@ -57,6 +57,7 @@ public class TeamAction implements Serializable {
 	private TeamMembersAction teamMembersAction;
 	private HrAction hrAction;
 	private List<Team> teamList;
+	private List<Team> teamSelected;
 	private List<Hr> hrActualList;
 	private String nameSearch;
 
@@ -136,6 +137,21 @@ public class TeamAction implements Serializable {
 	}
 
 	/**
+	 * @return teamSelected: List of team workers
+	 */
+	public List<Team> getTeamSelected() {
+		return teamSelected;
+	}
+
+	/**
+	 * @param teamSelected
+	 *            : List of team workers
+	 */
+	public void setTeamSelected(List<Team> teamSelected) {
+		this.teamSelected = teamSelected;
+	}
+
+	/**
 	 * @return nameSearch: Team name to search.
 	 */
 	public String getNameSearch() {
@@ -153,6 +169,8 @@ public class TeamAction implements Serializable {
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
+	 * @modify 28/06/2016 Gerardo.Herrera
+	 * 
 	 * @return consultTeam: Method that consultation team and load the template
 	 *         with the information found.
 	 */
@@ -163,6 +181,7 @@ public class TeamAction implements Serializable {
 			this.hrAction = ControladorContexto.getContextBean(HrAction.class);
 			this.hrAction.setHrListSelected(new ArrayList<Hr>());
 		}
+		this.teamSelected = new ArrayList<Team>();
 		hrAction.setFlagButton(true);
 		this.teamActualSelected = null;
 		this.nameSearch = "";
@@ -190,6 +209,8 @@ public class TeamAction implements Serializable {
 	/**
 	 * See the existing team list.
 	 * 
+	 * @modify 29/06/2016 Gerardo.Herrera
+	 * 
 	 * @return gesTeam: Navigation rule that redirects to manage the team.
 	 */
 	public String consultTeam() {
@@ -203,11 +224,19 @@ public class TeamAction implements Serializable {
 		StringBuilder unionSearchMessages = new StringBuilder();
 		String searchMessages = "";
 		this.teamList = new ArrayList<Team>();
+		String param2 = ControladorContexto.getParam("param2");
+		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
+				: false;
+		String rule = fromModal ? "" : "gesTeam";
 		try {
 			advancedSearch(consult, parameters, bundle, unionSearchMessages);
 			Long amount = teamDao.amountTeam(consult, parameters);
 			if (amount != null && amount > 0) {
-				pagination.paginar(amount);
+				if (!fromModal) {
+					pagination.paginar(amount);
+				} else {
+					pagination.paginarRangoDefinido(amount, 5);
+				}
 				this.teamList = teamDao.consultTeams(pagination.getInicio(),
 						pagination.getRango(), consult, parameters);
 			}
@@ -227,11 +256,69 @@ public class TeamAction implements Serializable {
 						bundleHumanResources.getString("team_label"),
 						unionSearchMessages);
 			}
+			if (fromModal) {
+				maintainTeams(teamList, teamSelected);
+				addWorkerAssociated();
+				validations.setMensajeBusquedaPopUp(searchMessages);
+			}
 			validations.setMensajeBusqueda(searchMessages);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesTeam";
+		return rule;
+	}
+
+	/**
+	 * Add the amount workers for each team.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @throws Exception
+	 */
+	private void addWorkerAssociated() throws Exception {
+		for (Team team : teamList) {
+			Long QuantityWorkers = teamMembersDao.QuantityWorkersByIdTeam(team
+					.getIdTeam());
+			team.setWorkersAssociated(QuantityWorkers.intValue());
+		}
+	}
+
+	/**
+	 * Maintain teams selected
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param listTeam
+	 *            : List team.
+	 * @param listTeamSelected
+	 *            : list Team selected
+	 */
+	private void maintainTeams(List<Team> listTeam, List<Team> listTeamSelected) {
+		for (Team team : listTeam) {
+			for (Team teamSelected : listTeamSelected) {
+				if (team.getIdTeam() == teamSelected.getIdTeam()) {
+					team.setSelected(true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Selected a team from team list
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param team
+	 *            : Workers Team
+	 */
+	public void selectTeams(Team team) {
+		if (!team.isSelected()) {
+			team.setSelected(true);
+			this.teamSelected.add(team);
+		} else {
+			team.setSelected(false);
+			this.teamSelected.remove(team);
+		}
 	}
 
 	/**

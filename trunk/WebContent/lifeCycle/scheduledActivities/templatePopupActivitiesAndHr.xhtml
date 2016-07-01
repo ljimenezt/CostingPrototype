@@ -139,7 +139,7 @@
 					<div align="center">
 						<a:commandButton value="#{mensaje.button_add}"
 							render=":formScheduledActivities, mensajes, mensajeBusqueda"
-							actionListener="#{activitiesAndHrAction.createListActivitiesAndHr()}"
+							actionListener="#{activitiesAndHrAction.createListActivitiesAndHr(false)}"
 							onclick="#{rich:component('popUpEditarActivitiesAndHr')}.hide(); #{rich:component('popupTrabajador')}.hide(); #{rich:component('statPane')}.show();" />
 					</div>
 				</a:outputPanel>
@@ -228,7 +228,7 @@
 				<ui:define name="botones">
 					<a:commandButton value="#{mensaje.button_accept}"
 						render=":formScheduledActivities, mensajes, mensajeBusqueda"
-						actionListener="#{activitiesAndHrAction.createListActivitiesAndHr()}"
+						actionListener="#{activitiesAndHrAction.createListActivitiesAndHr(false)}"
 						onclick="#{rich:component('popUpConfirmarSeleccionTrabajador')}.hide(); #{rich:component('popUpEditarActivitiesAndHr')}.hide(); #{rich:component('popupTrabajador')}.hide(); #{rich:component('statPane')}.show();" />
 					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popUpConfirmarSeleccionTrabajador')}.hide()" />
@@ -299,7 +299,7 @@
 								styleClass="W125P">
 								<f:attribute name="var" value="si" />
 								<f:ajax event="blur"
-									listener="#{activitiesAndHrAction.validateWorkLoad(activitiesAndHrAction.activitiesAndHr.durationBudget, activitiesAndHrAction.activitiesAndHr.activitiesAndHrPK.hr.idHr, false)}"
+									listener="#{activitiesAndHrAction.validateWorkLoad(activitiesAndHrAction.activitiesAndHr.durationBudget, activitiesAndHrAction.activitiesAndHr.activitiesAndHrPK.hr.idHr, false, activitiesAndHrAction.activitiesAndHr, activitiesAndHrAction.selectedActivity)}"
 									render="formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr" />
 							</h:inputText>
 						</h:panelGrid>
@@ -379,6 +379,215 @@
 						onclick="#{rich:component('popupEliminar')}.hide();" />
 					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popupEliminar')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form id="selectTeam">
+		<rich:popupPanel id="popupTeam" autosized="true" maxWidth="490"
+			domElementAttachment="form"
+			header="#{messageHumanResources.team_label_s} #{mensaje.label_for} #{activitiesAndHrAction.selectedActivity.activityName.activityName}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="cursor"
+						onclick="#{rich:component('popupTeam')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<rich:panel styleClass="H383P fondoAnchoUno W370P">
+				<a:outputPanel id="outPutSelectTeam">
+					<a:outputPanel id="outputTeam">
+
+						<t:fieldset styleClass="BorderW2P">
+							<legend class="etiquetaTitulo">#{mensaje.label_search}</legend>
+							<h:panelGrid columns="2" cellpadding="3">
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensaje.label_name}" />
+								<h:inputText value="#{teamAction.nameSearch}"
+									styleClass="colTextoMediano" id="txtName"
+									onkeypress="return submitByEnter(event,'seleccionarTrabajador:btnBuscar')">
+								</h:inputText>
+							</h:panelGrid>
+							<br />
+							<div class="W100Per center inBlock">
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+									actionListener="#{teamAction.consultTeam()}"
+									render="outPutSelectTeam msjSearch">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+							</div>
+						</t:fieldset>
+						<br />
+						<a:outputPanel id="msjSearchTeam">
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W350P" />
+								<ui:param name="id" value="popupBuscarTeam" />
+							</ui:include>
+						</a:outputPanel>
+						<br />
+						<a:outputPanel id="outputTeamList">
+							<ui:param name="listaVacia2"
+								value="#{teamAction.teamList eq null or (empty teamAction.teamList)}" />
+							<rich:dataTable value="#{teamAction.teamList}" var="team"
+								id="teamTable" footerClass="H130P"
+								styleClass="#{listaVacia2 ? 'BCTransparente' : 'dataTable'} W350P"
+								rowClasses="odd-row, even-row">
+
+								<rich:column styleClass="colIconoUno">
+									<f:facet name="header" />
+									<a:commandLink actionListener="#{teamAction.selectTeams(team)}"
+										render="teamTable">
+										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+											<h:graphicImage value="/img/okPermiso_16.png"
+												styleClass="verticalAlignMiddle"
+												rendered="#{team.selected eq true}" />
+											<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+												styleClass="verticalAlignMiddle"
+												rendered="#{team.selected eq false or (team.selected eq null)}" />
+										</h:panelGrid>
+									</a:commandLink>
+								</rich:column>
+								<rich:column styleClass="colTextoMediano">
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
+									<h:outputText value="#{team.name}" />
+								</rich:column>
+
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{messageHumanResources.human_resource_label_hr_abbr}</f:facet>
+									<h:outputText value="#{team.workersAssociated}" />
+								</rich:column>
+
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia2}">
+										<rich:column colspan="3" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<br />
+							<a:outputPanel rendered="#{!listaVacia2}">
+								<div class="W350P center inBlock">
+									<ui:include src="/plantillas/templatePagination.xhtml">
+										<ui:param name="valParam2" value="si" />
+										<ui:param name="pager" value="pagination" />
+										<ui:param name="valReder" value=":selectTeam:outputTeamList" />
+										<ui:param name="beanActionParam" value="#{teamAction}" />
+										<ui:param name="metodoActionParam" value="consultTeam" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</a:outputPanel>
+					</a:outputPanel>
+					<br />
+					<br />
+					<div align="center">
+						<a:commandButton value="#{mensaje.button_add}"
+							rendered="#{teamAction.teamList ne null and teamAction.teamList.size() gt 0}"
+							render="popUpConfirmTeam, mensajes, mensajeBusqueda"
+							actionListener="#{activitiesAndHrAction.saveActivitiesHrTeam(activitiesAndHrAction.selectedActivity)}"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmTeam')}.show();} else{ setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form id="formConfirmTeam">
+		<rich:popupPanel id="popUpConfirmTeam" modal="true" autosized="true"
+			maxWidth="800" header="#{mensaje.label_confirmation}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popUpConfirmTeam')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_registro_confirmacion}"
+						styleClass="etiquetaTitulo" />
+					<br />
+					<h:outputText
+						value="#{messageHumanResources.team_message_workers_not_available}"
+						rendered="#{(activitiesAndHrAction.listActivitiesAndHrNotAvailable ne null and activitiesAndHrAction.listActivitiesAndHrNotAvailable.size() gt 0) or (activitiesAndHrAction.selectedWorkers ne null and activitiesAndHrAction.selectedWorkers.size() gt 0)}" />
+					<br />
+					<a:outputPanel
+						rendered="#{activitiesAndHrAction.listActivitiesAndHrNotAvailable ne null and activitiesAndHrAction.listActivitiesAndHrNotAvailable.size() gt 0}">
+						<h:outputText value="#{mensaje.label_busy}:" />
+						<rich:dataTable
+							value="#{activitiesAndHrAction.listActivitiesAndHrNotAvailable}"
+							var="ahr" id="hrNotAvaible" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoSeis"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colTextoCorto">
+								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<h:outputText
+									value="#{ahr.activitiesAndHrPK.hr.name} #{ahr.activitiesAndHrPK.hr.familyName}" />
+							</rich:column>
+							<rich:column styleClass="colTextoCorto">
+								<f:facet name="header">#{messageCosts.activities_label}</f:facet>
+								<h:outputText
+									value="#{ahr.activitiesAndHrPK.activities.activityName.activityName}" />
+							</rich:column>
+							<rich:column styleClass="colFecha">
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
+								<h:outputText
+									value="#{ahr.activitiesAndHrPK.activities.initialDtBudget}" />
+							</rich:column>
+							<rich:column styleClass="colFecha">
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
+								<h:outputText
+									value="#{ahr.activitiesAndHrPK.activities.finalDtBudget}" />
+							</rich:column>
+						</rich:dataTable>
+					</a:outputPanel>
+					<a:outputPanel
+						rendered="#{activitiesAndHrAction.selectedWorkers ne null and activitiesAndHrAction.selectedWorkers.size() gt 0}">
+						<br />
+						<h:outputText value="#{mensaje.message_others_reasons}:" />
+						<br />
+						<rich:dataTable value="#{activitiesAndHrAction.selectedWorkers}"
+							var="workers" id="workersNotAvailable" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoSeis"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colTextoCorto">
+								<f:facet name="header">#{mensaje.label_nombre}</f:facet>
+								<h:outputText value="#{workers.name} #{workers.familyName}" />
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{mensaje.label_age}</f:facet>
+								<h:outputText
+									value="#{controladorFechas.calcularEdad(controladorFechas.formatDate(workers.birthDate, 'MM/dd/yyyy'))}" />
+							</rich:column>
+							<rich:column styleClass="colIcono">
+								<f:facet name="header">#{messageHumanResources.human_resource_label_maternity}</f:facet>
+								<h:graphicImage value="/img/okPermiso_16.png"
+									styleClass="verticalAlignMiddle"
+									rendered="#{workers.maternityBreastFeeding eq true}" />
+							</rich:column>
+							<rich:column styleClass="colIcono">
+								<f:facet name="header">#{mensaje.label_certificado}</f:facet>
+								<h:graphicImage value="/img/okPermiso_16.png"
+									styleClass="verticalAlignMiddle"
+									rendered="#{workers.certificado eq true}" />
+							</rich:column>
+						</rich:dataTable>
+					</a:outputPanel>
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_accept}"
+						render=":formScheduledActivities mensajes mensajeBusqueda"
+						actionListener="#{activitiesAndHrAction.createListActivitiesAndHr(true)}"
+						onclick="#{rich:component('popUpConfirmTeam')}.hide(); #{rich:component('popupTeam')}.hide();" />
+					<a:commandButton value="#{mensaje.button_cancel}"
+						onclick="#{rich:component('popUpConfirmTeam')}.hide()" />
 				</ui:define>
 			</ui:decorate>
 		</rich:popupPanel>
