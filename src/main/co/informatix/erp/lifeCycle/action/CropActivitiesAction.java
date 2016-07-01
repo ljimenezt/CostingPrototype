@@ -552,7 +552,9 @@ public class CropActivitiesAction implements Serializable {
 		try {
 			String outTxtEdit = "";
 			String outTxtSave = "";
-
+			ScheduledActivitiesAction scheduledActivitiesAction = ControladorContexto
+					.getContextBean(ScheduledActivitiesAction.class);
+			activities.setCrop(scheduledActivitiesAction.getCrops());
 			if (activities.getIdActivity() != 0) {
 				outTxtEdit += activities.getActivityName().getActivityName()
 						+ ", ";

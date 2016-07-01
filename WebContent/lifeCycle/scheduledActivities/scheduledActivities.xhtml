@@ -24,21 +24,15 @@
 		<t:saveState value="#{controllerSortField}" />
 		<t:saveState value="#{cycleAction}" />
 		<!-- Parameters for the order list -->
-		<ui:param name="renderList" value="paginas" />
-		<ui:param name="actionList" value="#{activitiesAction}" />
-		<ui:param name="methodList" value="searchActivities" />
+		<ui:param name="renderLista" value="paginas" />
+		<ui:param name="actionLista" value="#{activitiesAction}" />
+		<ui:param name="methodLista" value="searchActivities" />
+		<ui:param name="pager" value="pager" />
 
-		<ui:param name="actionLista" value="#{cropActivitiesAction}" />
-		<ui:param name="renderLista"
-			value=":formBuscar:popupBuscar pnlActivities" />
-		<ui:param name="metodoLista" value="initializeActivities" />
-		<!-- parametros solo para ordenamiento del listado -->
-		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+
 		<!-- parametros solo para botones del listado -->
-		<ui:param name="nombreAction" value="cropActivitiesAction" />
-		<ui:param name="metodoNuevo" value="addEditCropActivities" />
-		<ui:param name="parametroNuevo" value="#{null}" />
-		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="nombreAction" value="activitiesAction" />
+		<ui:param name="renderBuscar" value="formScheduledActivities" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
 		<ui:param name="metodoListarTodos" value="initializeActivities" />
 
