@@ -171,6 +171,8 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 * Consult if the human resources have a certification into the
 	 * certifications list.
 	 * 
+	 * @author Gerardo.Herrera
+	 * 
 	 * @param idHr
 	 *            : Identifier human resource
 	 * @param certificationsAndRoles
