@@ -332,6 +332,23 @@ public class ActivitiesAction implements Serializable {
 	}
 
 	/**
+	 * This method allow consult all activities initializing the parameters of
+	 * the consult
+	 * 
+	 * @author Andres.Gomez
+	 */
+	public void listAllActivities() {
+		this.activities = new Activities();
+		this.nameSearch = "";
+		this.pager = new Paginador();
+		flagCropActivities = false;
+		if (this.idCycle == 0) {
+			flagCycle = true;
+		}
+		searchActivities();
+	}
+
+	/**
 	 * It queries activities information according to entered search values and
 	 * then it puts the resulting records in a paged list, it also builds search
 	 * display messages and handles errors.

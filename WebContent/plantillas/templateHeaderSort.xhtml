@@ -13,8 +13,11 @@
 			<rich:tooltip layout="block">
 				<h:outputText value="#{mensaje.label_sort} #{title}" />
 			</rich:tooltip>
+			<div class="FL W80Per">
+				<h:outputText value="#{title}" />
+			</div>
 			<a:outputPanel>
-				<div class="">
+				<div class="ML80Per">
 					<h:graphicImage value="/img/down_16.gif"
 						rendered="#{controllerSortField.sortsOrders[sortField] eq 'descending'}" />
 					<h:graphicImage value="/img/up_16.gif"

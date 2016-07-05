@@ -393,7 +393,6 @@ table.radio input[type=radio] {
 
 /* Estilos para las columnas o campos texto que son caracteres */
 
-
 /* Estilos para las columnas o campos texto que son caracteres */
 .colTextoXCorto {
 	width: 100px;
@@ -441,7 +440,6 @@ table.radio input[type=radio] {
 /* Estilos para las imagenes de los hierros */
 
 /* Estilos para los campos tipo textArea */
-
 .colTextoMedianoTextArea {
 	height: 80px;
 	width: 225px;
@@ -562,7 +560,6 @@ table.radio input[type=radio] {
 }
 
 /* Estilo usado los titulos de la informacion general*/
-
 .messagePortalWeb {
 	padding: 5px;
 	list-style: none;
@@ -732,8 +729,6 @@ table.radio input[type=radio] {
 	width: 550px;
 }
 
-
-
 /* Fin estilos nuevos buscadores*/
 
 /* Estilos botones graficos para el menu de seleccion de idiomas y skin */
@@ -758,10 +753,6 @@ table.radio input[type=radio] {
 	color: #000000; /*Negro*/
 }
 /* FIN Estilos botones graficos para el menu de seleccion de idiomas y skin */
-
-
-
-
 .messageInfSpanMsg span.rf-msg-inf {
 	background-color: #FDF9F4 !important; /*Amarillo Claro*/
 	background-position: 5px center;
@@ -960,7 +951,6 @@ fieldset {
 .FL {
 	float: left;
 	overflow: hidden;
-	width: 120px;
 }
 
 .headerLink {
