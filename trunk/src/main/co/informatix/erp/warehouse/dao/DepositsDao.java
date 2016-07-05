@@ -109,22 +109,22 @@ public class DepositsDao implements Serializable {
 	 * @author Sergio.Ortiz
 	 * @modify 14/04/2016 Wilhelm.Boada
 	 * 
-	 * @param consulta
+	 * @param queryBuilder
 	 *            : Query running on SQL.
-	 * @param parametros
+	 * @param parameters
 	 *            :Parameters of the query.
 	 * @return Number of records found.
 	 * @throws Exception
 	 */
-	public Long amountDeposits(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long amountDeposits(StringBuilder queryBuilder,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(d) FROM Deposits d ");
 		query.append("JOIN d.materials m ");
 		query.append("JOIN d.purchaseInvoices p ");
-		query.append(consulta);
+		query.append(queryBuilder);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
+		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
 		return (Long) q.getSingleResult();
@@ -176,20 +176,19 @@ public class DepositsDao implements Serializable {
 	}
 
 	/**
-	 * This method allows consult if there are a deposit with a material and
-	 * invoice specific.
+	 * This method allows to consult if there is a deposit with a material and a
+	 * specific invoice.
 	 * 
 	 * @author Gerardo.Herrera
 	 * @modify 19/04/2016 Wilhelm.Boada
 	 * 
-	 * @param idMaterial
-	 *            :material identifier to find in the deposit.
+	 * @param material
+	 *            : Material identifier to find in the deposit.
 	 * @param numberInvoice
-	 *            : invoice number.
+	 *            : Invoice number.
 	 * @param idSupplier
-	 *            :supplier identifier belonging to a purchase invoice.
-	 * @return boolean: true if deposit exists and false if deposit doesnt
-	 *         exists.
+	 *            : Supplier identifier belonging to a purchase invoice.
+	 * @return boolean: true if the deposit exists, and false otherwise.
 	 * @throws Exception
 	 */
 	public boolean existsDeposit(Materials material, String numberInvoice,

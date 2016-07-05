@@ -71,23 +71,22 @@ public class TransactionsDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of existing transactions in the database that are
-	 * existing or not existing.
+	 * Returns the number of existing transactions in the database.
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : Query running on SQL.
-	 * @param parametros
+	 * @param parameters
 	 *            :Parameters of the query.
 	 * @return Long: quantity of registers.
 	 * @throws Exception
 	 */
 	public Long quantityTransactions(StringBuilder consult,
-			List<SelectItem> parametros) throws Exception {
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(t) FROM Transactions t ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
+		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
 		return (Long) q.getSingleResult();
