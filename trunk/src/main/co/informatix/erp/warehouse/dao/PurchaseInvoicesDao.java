@@ -28,6 +28,7 @@ public class PurchaseInvoicesDao implements Serializable {
 	 * Modify a Purchase Invoices in the database.
 	 * 
 	 * @author Andres.Gomez
+	 * 
 	 * @param invoices
 	 *            : invoices to edit.
 	 * @throws Exception
@@ -40,6 +41,7 @@ public class PurchaseInvoicesDao implements Serializable {
 	 * Saves a Invoices in the database.
 	 * 
 	 * @author Andres.Gomez
+	 * 
 	 * @param invoices
 	 *            : invoices to save.
 	 * @throws Exception

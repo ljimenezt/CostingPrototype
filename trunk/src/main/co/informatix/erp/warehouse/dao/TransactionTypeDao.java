@@ -27,8 +27,6 @@ public class TransactionTypeDao implements Serializable {
 	/**
 	 * Saves a TransactionType in the database.
 	 * 
-	 * @author Sergio.Ortiz
-	 * 
 	 * @param transactionType
 	 *            : Save transactionType.
 	 * @throws Exception
@@ -40,8 +38,6 @@ public class TransactionTypeDao implements Serializable {
 
 	/**
 	 * Modify a TransactionType in the database.
-	 * 
-	 * @author Sergio.Ortiz
 	 * 
 	 * @param transactionType
 	 *            : TransactionType to edit.
@@ -55,8 +51,6 @@ public class TransactionTypeDao implements Serializable {
 	/**
 	 * Removes the BD TransactionType.
 	 * 
-	 * @author Sergio.Ortiz
-	 * 
 	 * @param transactionType
 	 *            : TransactionType to be removed.
 	 * @throws Exception
@@ -68,8 +62,6 @@ public class TransactionTypeDao implements Serializable {
 
 	/**
 	 * Consult the list of TransactionType that comply with the option of force.
-	 * 
-	 * @author Sergio.Ortiz
 	 * 
 	 * @param start
 	 *            : Registry where consultation begins.
@@ -103,8 +95,6 @@ public class TransactionTypeDao implements Serializable {
 	/**
 	 * Returns the number of existing transactionType in the database that are
 	 * existing or not existing.
-	 * 
-	 * @author Sergio.Ortiz
 	 * 
 	 * @param consult
 	 *            : Query running on SQL.
