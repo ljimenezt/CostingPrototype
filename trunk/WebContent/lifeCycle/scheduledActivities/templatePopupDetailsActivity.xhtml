@@ -22,11 +22,10 @@
 				</h:panelGroup>
 			</f:facet>
 			<rich:message id="messagePopUp" styleClass="messageBlock" />
-
-			<a:outputPanel id="pnSearch">
-				<script type="text/javascript">
-				$g=jQuery.noConflict();
+			<script type="text/javascript">
+				$g = jQuery.noConflict();
     			</script>
+			<a:outputPanel id="pnSearch">
 				<h:panelGrid columns="3" cellpadding="2" cellspacing="2">
 					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
@@ -52,7 +51,7 @@
 					<h:outputText value="*" styleClass="required"
 						rendered="#{activitiesAction.activities.initialDtBudget ne null}" />
 					<h:outputText value="" styleClass="required"
-						rendered="#{activitiesAction.activities.finalDtBudget eq null}" />
+						rendered="#{activitiesAction.activities.initialDtBudget eq null}" />
 					<p:calendar value="#{activitiesAction.activities.finalDtBudget}"
 						disabled="#{activitiesAction.activities.initialDtBudget eq null}"
 						showOn="button" navigator="true" required="true"
@@ -69,7 +68,7 @@
 					execute="@form"
 					actionListener="#{activitiesAction.searchActivities()}"
 					oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
-					render="pnlActivities, mensajes, mensajeBusqueda" />
+					render="paginas, mensajes, mensajeBusqueda" />
 				<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
 					value="#{mensaje.button_cancel}" />
 			</div>

@@ -543,11 +543,9 @@ public class CropActivitiesAction implements Serializable {
 	 * 
 	 * @modify 27/04/2016 Gerardo.Herrera
 	 * 
-	 * @return addEditActivities: Method to edit or create a new assignment of
-	 *         activities.
 	 * @throws Exception
 	 */
-	public String saveCropActivities() throws Exception {
+	public void saveCropActivities() throws Exception {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
 			String outTxtEdit = "";
@@ -555,6 +553,8 @@ public class CropActivitiesAction implements Serializable {
 			ScheduledActivitiesAction scheduledActivitiesAction = ControladorContexto
 					.getContextBean(ScheduledActivitiesAction.class);
 			activities.setCrop(scheduledActivitiesAction.getCrops());
+			ActivitiesAction activitiesAction = ControladorContexto
+					.getContextBean(ActivitiesAction.class);
 			if (activities.getIdActivity() != 0) {
 				outTxtEdit += activities.getActivityName().getActivityName()
 						+ ", ";
@@ -575,10 +575,10 @@ public class CropActivitiesAction implements Serializable {
 						.format(bundle.getString("message_registro_guardar"),
 								outTxtSave));
 			}
+			activitiesAction.listAllActivities();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return addEditActivities();
 	}
 
 	/**
