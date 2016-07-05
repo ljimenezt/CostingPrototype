@@ -296,6 +296,8 @@ public class HrDao implements Serializable {
 	/**
 	 * Consult all the human resources by team
 	 * 
+	 * @author Gerardo.Herrera
+	 * 
 	 * @param idTeam
 	 *            : Identifier team
 	 * @return List
