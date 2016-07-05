@@ -28,7 +28,6 @@ public class DepositsDao implements Serializable {
 	/**
 	 * Saves a Deposits in the database.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @param deposits
 	 *            : Save Deposits.
 	 * @throws Exception
@@ -40,7 +39,6 @@ public class DepositsDao implements Serializable {
 	/**
 	 * Modify a Deposits in the database.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @param deposits
 	 *            : Deposits to edit.
 	 * @throws Exception
@@ -52,7 +50,6 @@ public class DepositsDao implements Serializable {
 	/**
 	 * Removes the BD Deposits.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @param deposits
 	 *            : Deposits to be removed
 	 * @throws Exception
@@ -64,7 +61,6 @@ public class DepositsDao implements Serializable {
 	/**
 	 * Consult the list of Deposits that comply with the option of force.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @modify 07/03/2016 Gerardo.Herrera
 	 * @modify 14/04/2016 Wilhelm.Boada
 	 * 
@@ -106,7 +102,6 @@ public class DepositsDao implements Serializable {
 	 * Returns the number of existing Deposits in the database that are existing
 	 * or not existing.
 	 * 
-	 * @author Sergio.Ortiz
 	 * @modify 14/04/2016 Wilhelm.Boada
 	 * 
 	 * @param queryBuilder
