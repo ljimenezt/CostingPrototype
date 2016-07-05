@@ -126,29 +126,6 @@ public class DepositsDao implements Serializable {
 	}
 
 	/**
-	 * Consult a deposits object assigned to sending its identifier.
-	 * 
-	 * @param nomObject
-	 *            : subject to consultation in the company.
-	 * @param idDeposits
-	 *            : id consultation deposits.
-	 * @return Object related to deposits information.
-	 */
-	@SuppressWarnings("unchecked")
-	public Object consultObjectDeposits(String nomObject, int idDeposits)
-			throws Exception {
-		List<Object> results = em
-				.createQuery(
-						"SELECT d." + nomObject + " FROM Deposits d "
-								+ "WHERE d.id=:idDeposits")
-				.setParameter("idDeposits", idDeposits).getResultList();
-		if (results.size() > 0) {
-			return results.get(0);
-		}
-		return null;
-	}
-
-	/**
 	 * This method allows consult a material that are associated with a deposit.
 	 * 
 	 * @author Wilhelm.Boada
