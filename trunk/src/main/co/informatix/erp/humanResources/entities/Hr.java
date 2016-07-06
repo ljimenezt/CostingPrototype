@@ -56,7 +56,7 @@ public class Hr implements Serializable {
 	private String foto;
 	private String userName;
 	private boolean seleccionado;
-	private boolean certificado;
+	private boolean certificate;
 
 	private HrTypes hrTypes;
 	private PaymentMethods paymentMethods;
@@ -453,19 +453,19 @@ public class Hr implements Serializable {
 	}
 
 	/**
-	 * @return certificado: if the hr is certified its 'true'
+	 * @return certificate: if the hr is certified its 'true'
 	 */
 	@Transient
-	public boolean isCertificado() {
-		return certificado;
+	public boolean isCertificate() {
+		return certificate;
 	}
 
 	/**
-	 * @param certificado
+	 * @param certificate
 	 *            : if the hr is certified its 'true'
 	 */
-	public void setCertificado(boolean certificado) {
-		this.certificado = certificado;
+	public void setCertificate(boolean certificate) {
+		this.certificate = certificate;
 	}
 
 	/**
