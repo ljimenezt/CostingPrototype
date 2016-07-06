@@ -411,8 +411,7 @@ public class PersonaAction implements Serializable {
 			} else {
 				this.esEdicion = true;
 				this.person = person;
-				labelRichPanel = bundleRecHum
-						.getString("person_label_edit");
+				labelRichPanel = bundleRecHum.getString("person_label_edit");
 				messageMiga = "messageHumanResources.person_label_edit";
 				fileUploadBean.setFileName(person.getFoto());
 				this.uploadPhotoTemporal = false;
