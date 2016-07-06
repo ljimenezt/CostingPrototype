@@ -98,9 +98,9 @@
 
 						<h:outputText value="#{messageLifeCycle.cycle_label}"
 							styleClass="etiquetaTitulo"
-							rendered="#{activitiesAction.flagCycle eq false}" />
+							rendered="#{activitiesAction.flagCycle eq false or activitiesAction.listActivities eq null}" />
 						<h:inputText styleClass="colTextoMediano"
-							rendered="#{activitiesAction.flagCycle eq false}"
+							rendered="#{activitiesAction.flagCycle eq false or activitiesAction.listActivities eq null}"
 							value="#{scheduledActivitiesAction.cycle.activiyNames.activityName}"
 							id="txtCycle" readonly="true"
 							validator="#{encodeFilter.validarScripting}"
@@ -209,8 +209,8 @@
 					<a:outputPanel id="paginas"
 						rendered="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null}">
 						<script type="text/javascript">
-						$g = jQuery.noConflict();
-					</script>
+							$g = jQuery.noConflict();
+						</script>
 
 						<div align="right">
 							<h:panelGrid id="pnlButtons" columns="6" cellpadding="0"
@@ -279,6 +279,7 @@
 										<h:outputText value="#{mensaje.label_details}" />
 									</rich:tooltip>
 								</a:commandLink>
+								<h:outputText value="&#32;&#32;&#32;" />
 								<a:commandLink rendered="#{activity.costHrActual eq null}"
 									oncomplete="#{rich:component('popupEliminarLista')}.show()"
 									render="popupEliminarLista"
