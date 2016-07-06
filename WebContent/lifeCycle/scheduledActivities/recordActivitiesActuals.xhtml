@@ -78,9 +78,9 @@
 
 						<h:outputText value="#{messageLifeCycle.cycle_label}"
 							styleClass="etiquetaTitulo"
-							rendered="#{activitiesAction.flagCycle eq false}" />
+							rendered="#{activitiesAction.flagCycle eq false or activitiesAction.listActivities eq null}" />
 						<h:inputText styleClass="colTextoMediano"
-							rendered="#{activitiesAction.flagCycle eq false}"
+							rendered="#{activitiesAction.flagCycle eq false or activitiesAction.listActivities eq null}"
 							value="#{recordActivitiesActualsAction.cycle.activiyNames.activityName}"
 							id="txtCycle" readonly="true"
 							validator="#{encodeFilter.validarScripting}"
