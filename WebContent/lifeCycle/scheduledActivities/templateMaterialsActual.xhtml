@@ -44,7 +44,7 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							value="#{activityMaterialsAction.quantityEdit}">
-							<f:ajax event="change" execute="@this"
+							<a:ajax event="change" execute="@this"
 								listener="#{activityMaterialsAction.validateCostActualMaterials()}"
 								render="quantity, costActual" />
 						</h:inputText>
