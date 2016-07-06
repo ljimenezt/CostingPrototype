@@ -81,6 +81,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	private boolean statusMessage = false;
 	private boolean certifiedActivity = false;
 	private boolean reportingActuals = false;
+	private boolean fromModal;
 
 	private List<SelectItem> listTypeWorker;
 	private List<SelectItem> listOvertimePaymentRate;
@@ -473,6 +474,23 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
+	 * @return fromModal: this field is true if the query is made from
+	 *         recordActivitiesActualsAction and is false in other case.
+	 */
+	public boolean isFromModal() {
+		return fromModal;
+	}
+
+	/**
+	 * @param fromModal
+	 *            this field is true if the query is made from
+	 *            recordActivitiesActualsAction and is false in other case.
+	 */
+	public void setFromModal(boolean fromModal) {
+		this.fromModal = fromModal;
+	}
+
+	/**
 	 * @param reportingActuals
 	 *            : status to check if this interface is the actuals reporting
 	 */
@@ -516,6 +534,7 @@ public class ActivitiesAndHrAction implements Serializable {
 				.getBundle("messageHumanResources");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
+		HrAction hrAction = ControladorContexto.getContextBean(HrAction.class);
 		this.statusMessage = false;
 		this.certifiedActivity = false;
 		this.workers = new ArrayList<Hr>();
@@ -561,8 +580,9 @@ public class ActivitiesAndHrAction implements Serializable {
 										.getString("human_resource_label"),
 								uniteMessageSearch);
 			}
-			if (workers != null)
-				maintainWorkers();
+			if (workers != null) {
+				hrAction.maintainHrSelected(workers, selectedWorkers);
+			}
 			validations.setMensajeBusqueda(menssageSearch);
 			validations.setMensajeBusquedaPopUp(menssageSearch);
 		} catch (Exception e) {
@@ -810,20 +830,6 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * It is responsible for maintaining selected workers regardless of whether
-	 * they workers run the search again.
-	 */
-	private void maintainWorkers() {
-		for (Hr worker : workers) {
-			for (Hr selectedWorker : selectedWorkers) {
-				if (worker.getIdHr() == selectedWorker.getIdHr()) {
-					worker.setSeleccionado(true);
-				}
-			}
-		}
-	}
-
-	/**
 	 * This method save activities and hr for the teams selected and validate if
 	 * this is available
 	 * 
@@ -1037,8 +1043,6 @@ public class ActivitiesAndHrAction implements Serializable {
 		StringBuilder consult = new StringBuilder();
 		String messageSearch = "";
 		String param2 = ControladorContexto.getParam("param2");
-		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
-				: false;
 		try {
 			RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
 					.getContextBean(RecordActivitiesActualsAction.class);

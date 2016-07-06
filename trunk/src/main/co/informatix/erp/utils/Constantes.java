@@ -175,4 +175,8 @@ public class Constantes implements Serializable {
 	public static final short SATURDAY = 7;
 	public static final short SUNDAY = 1;
 
+	/* Transaction type */
+	public static final short TRANSACTION_TYPE_ID_WITHDRAWAL = 3;
+	public static final short TRANSACTION_TYPE_ID_RETURN = 2;
+
 }

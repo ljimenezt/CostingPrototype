@@ -188,7 +188,7 @@ public class DepositsDao implements Serializable {
 	 * 
 	 * @param idMaterial
 	 *            : Material identifier.
-	 * @return Number of records found.
+	 * @return Double: Number of records found.
 	 * @throws Exception
 	 */
 	public Double quantityMaterialsById(int idMaterial) throws Exception {
@@ -198,5 +198,71 @@ public class DepositsDao implements Serializable {
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", idMaterial);
 		return (Double) q.getSingleResult();
+	}
+
+	/**
+	 * This method allows consult the deposits in the database filtering
+	 * information search by the values sent.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @return List<Deposits>:List of Deposits that comply with the condition of
+	 *         validity.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Deposits> consultDepositsActualQuantityById(int idMaterial)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT d FROM Deposits d ");
+		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		query.append("AND d.actualQuantity>0 ");
+		query.append("ORDER BY d.dateTime ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idMaterial", idMaterial);
+		List<Deposits> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * This method allows consult the deposits in the database filtering
+	 * information search by the values sent.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @param idActivity
+	 *            : Activity identifier.
+	 * @param idTransactionType
+	 *            : TransactionType identifier.
+	 * @return List<Deposits>:List of Deposits that comply with the condition of
+	 *         validity.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Deposits> consultDepositsByTransactions(int idMaterial,
+			int idActivity, int idTransactionType) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT d FROM Transactions t ");
+		query.append("JOIN t.deposits d ");
+		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		query.append("AND t.activities.idActivity=:idActivity ");
+		query.append("AND t.transactionType.idTransactionType=:idTransactionType ");
+		query.append("ORDER BY d.dateTime DESC ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idMaterial", idMaterial);
+		q.setParameter("idActivity", idActivity);
+		q.setParameter("idTransactionType", idTransactionType);
+		List<Deposits> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
 	}
 }

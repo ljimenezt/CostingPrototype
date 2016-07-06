@@ -19,8 +19,10 @@
 		<t:saveState value="#{activitiesAction}" />
 		<t:saveState value="#{teamAction}" />
 		<t:saveState value="#{machinesAction}" />
+		<t:saveState value="#{materialsAction}" />
 		<t:saveState value="#{cropActivitiesAction}" />
 		<t:saveState value="#{activitiesAndHrAction}" />
+		<t:saveState value="#{activityMaterialsAction}" />
 		<t:saveState value="#{controllerSortField}" />
 		<t:saveState value="#{cycleAction}" />
 		<!-- Parameters for the order list -->
@@ -551,7 +553,7 @@
 				<br />
 				<a:outputPanel
 					rendered="#{scheduledActivitiesAction.selectedActivity.idActivity gt 0 and scheduledActivitiesAction.selectedActivity.machineRequired eq true}">
-					<t:fieldset styleClass="anchoCuatro BorderW2P">
+					<t:fieldset styleClass="anchoDos BorderW2P">
 						<legend class="etiquetaTitulo" id="tooltip">
 							#{mensajeMenu.machines_label_administration} -
 							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}
@@ -675,12 +677,130 @@
 						</a:outputPanel>
 					</t:fieldset>
 				</a:outputPanel>
+				<br />
+				<a:outputPanel
+					rendered="#{scheduledActivitiesAction.selectedActivity.idActivity gt 0 and scheduledActivitiesAction.selectedActivity.materialsRequired eq true}">
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<legend class="etiquetaTitulo" id="tooltip">
+							#{mensajeWarehouse.materials_label_s} -
+							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}
+						</legend>
+						<h:panelGrid class="etiquetaTitulo" columns="2"
+							rendered="#{scheduledActivitiesAction.selectedActivity.costMaterialsActual ne null}">
+							<h:graphicImage value="/img/info_16.png"
+								styleClass="verticalAlignMiddle" />
+							<h:outputText value="#{mensaje.message_can_not_make_changes}"></h:outputText>
+						</h:panelGrid>
+						<div class="anchoCuatro">
+							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false and scheduledActivitiesAction.selectedActivity.costMaterialsActual eq null}"
+								render="formMaterials:popupMaterials mensajes mensajeBusqueda"
+								action="#{activityMaterialsAction.initializeList()}"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popupMaterials')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+								<f:param name="param2" value="si" />
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/material_16.png"
+										styleClass="verticalAlignMiddle" />
+									<h:outputText
+										value="#{mensaje.label_assign} #{mensajeWarehouse.materials_label_s}" />
+								</h:panelGrid>
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_select}" />
+								</rich:tooltip>
+								<f:setPropertyActionListener
+									target="#{materialsAction.idMaterialType}" value="0" />
+							</a:commandLink>
+						</div>
+						<ui:param name="listaVaciaA"
+							value="#{activityMaterialsAction.listActivityMaterialsTemp.size() eq 0 or (activityMaterialsAction.listActivityMaterialsTemp eq null)}" />
+						<rich:dataTable
+							value="#{activityMaterialsAction.listActivityMaterialsTemp}"
+							var="activityMaterial" id="materialsTable" footerClass="H130P"
+							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoCuatro"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<a:outputPanel>
+									<a:commandLink render="popupDeleteActivityMaterial"
+										rendered="#{activityMaterial.quantityActual eq null}"
+										actionListener="#{activityMaterialsAction.setActivityMaterials(activityMaterial)}"
+										oncomplete="#{rich:component('popupDeleteActivityMaterial')}.show()">
+										<h:graphicImage value="/img/delete_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.button_remove}" />
+										</rich:tooltip>
+									</a:commandLink>
+									<a:outputPanel
+										rendered="#{activityMaterial.quantityActual ne null}">
+										<h:graphicImage value="/img/delete_no_available_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText
+												value="#{messageLifeCycle.scheduled_activities_label_already_actual_machine}" />
+										</rich:tooltip>
+									</a:outputPanel>
+								</a:outputPanel>
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<a:commandLink
+									rendered="#{activityMaterial.quantityActual eq null}"
+									actionListener="#{activityMaterialsAction.setActivityMaterials(activityMaterial.clone())}"
+									action="#{activityMaterialsAction.setQuantityEdit(activityMaterial.clone().quantityBudget)}"
+									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpUpdateActivitiesMaterials')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+									value="#{activityMaterial.activityMaterialsPK.materials.name}"
+									render="popUpUpdateActivitiesMaterials" />
+								<h:outputText
+									rendered="#{activityMaterial.quantityActual ne null}"
+									value="#{activityMaterial.activityMaterialsPK.materials.name}" />
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{messageCosts.budget_label_quantity}</f:facet>
+								<h:outputText value="#{activityMaterial.quantityBudget}" />
+							</rich:column>
+							<rich:column styleClass="colValorTextoLargo">
+								<h:outputText value="#{activityMaterial.costBudget}">
+									<f:convertNumber maxFractionDigits="1" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputText>
+								<f:facet name="header">#{messageCosts.budget_label_cost}</f:facet>
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVaciaA}">
+									<rich:column colspan="4" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<br />
+						<a:outputPanel id="paginadoMaterials"
+							rendered="#{activityMaterialsAction.listActivityMaterialsTemp.size() gt 0}">
+							<div class="anchoCuatro center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="valId" value="4" />
+									<ui:param name="pager" value="paginationActivityMaterials" />
+									<ui:param name="valReder"
+										value="materialsTable paginadoMaterials" />
+									<ui:param name="beanActionParam"
+										value="#{activityMaterialsAction}" />
+									<ui:param name="metodoActionParam"
+										value="consultMaterialsByActivity" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+				<br />
 			</rich:panel>
 		</h:form>
 		<ui:include src="templatePopupDetailsActivity.xhtml" />
 		<ui:include src="templateRegisterActivity.xhtml" />
 		<ui:include src="templatePopupActivitiesAndHr.xhtml" />
 		<ui:include src="templateActivitiesAndMachine.xhtml" />
+		<ui:include src="templatePopupActivityMaterials.xhtml" />
 		<ui:include src="templateCycles.xhtml">
 			<ui:param name="beanActionParam" value="#{scheduledActivitiesAction}" />
 		</ui:include>
