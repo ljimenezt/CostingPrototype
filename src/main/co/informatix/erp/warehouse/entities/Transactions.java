@@ -94,7 +94,7 @@ public class Transactions implements Serializable {
 	/**
 	 * @return justification: justification for transactions.
 	 */
-	@Column(name = "justification", nullable = false)
+	@Column(name = "justification")
 	public String getJustification() {
 		return justification;
 	}
