@@ -884,12 +884,15 @@ public class ActivitiesAndHrAction implements Serializable {
 								}
 							}
 							if (ac != null) {
-								saveHr = hrCertificationsAndRolesDao
+								boolean certifications = hrCertificationsAndRolesDao
 										.consultCertificationExists(
 												hr.getIdHr(), ac);
-								if (!saveHr) {
-									hr.setCertificado(false);
+								if (!certifications) {
+									saveHr = false;
+									hr.setCertificate(false);
 									hrAction.compareHr(selectedWorkers, hr);
+								} else {
+									hr.setCertificate(true);
 								}
 							}
 							if (saveHr) {
