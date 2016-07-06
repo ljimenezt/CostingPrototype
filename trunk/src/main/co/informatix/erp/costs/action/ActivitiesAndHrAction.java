@@ -881,8 +881,7 @@ public class ActivitiesAndHrAction implements Serializable {
 								saveHr = hrCertificationsAndRolesDao
 										.consultCertificationExists(
 												hr.getIdHr(), ac);
-								if (saveHr) {
-									saveHr = false;
+								if (!saveHr) {
 									hr.setCertificado(false);
 									hrAction.compareHr(selectedWorkers, hr);
 								}
