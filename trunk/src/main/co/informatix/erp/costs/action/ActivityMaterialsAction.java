@@ -111,11 +111,11 @@ public class ActivityMaterialsAction implements Serializable {
 	}
 
 	/**
-	 * @param materiaslList
+	 * @param materialsList
 	 *            : materialsList selected for add to activity
 	 */
-	public void setMaterialsList(List<Materials> materiaslList) {
-		this.materialsList = materiaslList;
+	public void setMaterialsList(List<Materials> materialsList) {
+		this.materialsList = materialsList;
 	}
 
 	/**

@@ -26,7 +26,7 @@
 				<legend class="etiquetaTitulo">#{activityMaterialsAction.activityMaterials.activityMaterialsPK.materials.name}</legend>
 				<a:outputPanel id="outPutAddActivitiesMaterials">
 					<a:outputPanel>
-						<h:panelGrid columns="1" columnClasses=" right">
+						<h:panelGrid styleClass="H24P" columns="1" columnClasses=" right">
 							<rich:message for="txtQuantityBudget" />
 						</h:panelGrid>
 						<br />
@@ -38,7 +38,6 @@
 								converterMessage="#{mensaje.message_campo_positivo}"
 								requiredMessage="#{mensaje.message_campo_requerido}">
 							</h:inputText>
-
 						</h:panelGrid>
 						<br />
 						<div align="center">
@@ -301,9 +300,11 @@
 				</h:panelGroup>
 			</f:facet>
 			<t:fieldset styleClass="BorderW2P">
+				<legend class="etiquetaTitulo">#{activityMaterialsAction.materialSelected.name}
+				</legend>
 				<a:outputPanel id="outPutAddActivitiesMaterials">
 					<a:outputPanel>
-						<h:panelGrid columns="1" columnClasses=" right">
+						<h:panelGrid styleClass="H24P" columns="1" columnClasses=" right">
 							<rich:message for="txtQuantityBudget" />
 						</h:panelGrid>
 						<br />
@@ -316,7 +317,7 @@
 								styleClass="W75P" id="txtQuantityBudget"
 								converterMessage="#{mensaje.message_campo_positivo}"
 								requiredMessage="#{mensaje.message_campo_requerido}">
-								<f:ajax event="change" execute="@this"
+								<a:ajax event="change" execute="@this"
 									listener="#{activityMaterialsAction.materialSelection()}"
 									render="txtCostBudget" />
 							</h:inputText>
