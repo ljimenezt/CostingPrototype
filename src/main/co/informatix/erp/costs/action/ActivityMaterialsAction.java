@@ -54,21 +54,21 @@ public class ActivityMaterialsAction implements Serializable {
 	private Materials materialSelected;
 	private Paginador paginationActivityMaterials = new Paginador();
 	private MaterialsAction materialsAction;
-	private boolean validateMaterial;
 	private double quantityEdit;
 	private double costActualEdit;
 	private boolean fromModal;
+	private boolean validateMaterial;
 
 	@EJB
 	private ActivityMaterialsDao activityMaterialsDao;
 	@EJB
 	private DepositsDao depositsDao;
 	@EJB
-	ActivitiesDao activitiesDao;
+	private ActivitiesDao activitiesDao;
 	@EJB
-	TransactionsDao transactionsDao;
+	private TransactionsDao transactionsDao;
 	@EJB
-	TransactionTypeDao transactionTypeDao;
+	private TransactionTypeDao transactionTypeDao;
 
 	/**
 	 * @return listActivityMaterialsTemp: material list assigned to the
@@ -179,21 +179,6 @@ public class ActivityMaterialsAction implements Serializable {
 	}
 
 	/**
-	 * @return validateMaterial: : handles the validation status of materials.
-	 */
-	public boolean isValidateMaterial() {
-		return validateMaterial;
-	}
-
-	/**
-	 * @param validateMaterial
-	 *            : handles the validation status of materials.
-	 */
-	public void setValidateMaterial(boolean validateMaterial) {
-		this.validateMaterial = validateMaterial;
-	}
-
-	/**
 	 * @return quantityEdit: this field store the material quantity to save or
 	 *         edit.
 	 */
@@ -240,6 +225,21 @@ public class ActivityMaterialsAction implements Serializable {
 	 */
 	public void setFromModal(boolean fromModal) {
 		this.fromModal = fromModal;
+	}
+
+	/**
+	 * @return validateMaterial: : handles the validation status of materials.
+	 */
+	public boolean isValidateMaterial() {
+		return validateMaterial;
+	}
+
+	/**
+	 * @param validateMaterial
+	 *            : handles the validation status of materials.
+	 */
+	public void setValidateMaterial(boolean validateMaterial) {
+		this.validateMaterial = validateMaterial;
 	}
 
 	/**
