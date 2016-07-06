@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivitiesAndHr;
 import co.informatix.erp.costs.entities.ActivitiesAndHrPK;
+import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.utils.ControladorFechas;
 
 /**
@@ -247,8 +248,8 @@ public class ActivitiesAndHrDao implements Serializable {
 		query.append("JOIN FETCH ahr.activitiesAndHrPK.activities a ");
 		query.append("JOIN FETCH a.activityName an ");
 		query.append("WHERE hr.idHr = :idHr  ");
-		query.append("AND ahr.initialDateTimeBudget BETWEEN :initialDate AND :finalDate ");
-		query.append("AND ahr.finalDateTimeBudget BETWEEN :initialDate AND :finalDate ");
+		query.append("AND (ahr.initialDateTimeBudget BETWEEN :initialDate AND :finalDate ");
+		query.append("OR ahr.finalDateTimeBudget BETWEEN :initialDate AND :finalDate) ");
 		Query queryResult = em.createQuery(query.toString());
 		queryResult.setParameter("idHr", idHr);
 		queryResult
@@ -276,5 +277,37 @@ public class ActivitiesAndHrDao implements Serializable {
 	public ActivitiesAndHr activitiesAndHrById(
 			ActivitiesAndHrPK activitiesAndHrPK) throws Exception {
 		return em.find(ActivitiesAndHr.class, activitiesAndHrPK);
+	}
+
+	/**
+	 * Consult all the relations between activities and human resources for
+	 * cycle, activity and date.
+	 * 
+	 * @param cycle
+	 *            : Cycle of crop.
+	 * @param finalDate
+	 *            : Final Date.
+	 * 
+	 * @return List<ActivitiesAndHr>: List of relation between human resources
+	 *         and activities.
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean activitiesAndHrByDate(Cycle cycle, Date finalDate)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ahr FROM  ActivitiesAndHr ahr ");
+		query.append("JOIN FETCH ahr.activitiesAndHrPK.activities a ");
+		query.append("WHERE a.cycle.idCycle = :idCycle ");
+		query.append("AND ahr.initialDateTimeBudget NOT BETWEEN :initialDate and :finalDate ");
+		query.append("AND ahr.finalDateTimeBudget NOT BETWEEN :initialDate and :finalDate ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("initialDate", cycle.getInitialDateTime());
+		q.setParameter("finalDate", finalDate);
+		q.setParameter("idCycle", cycle.getIdCycle());
+		List<ActivitiesAndHr> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return true;
+		}
+		return false;
 	}
 }

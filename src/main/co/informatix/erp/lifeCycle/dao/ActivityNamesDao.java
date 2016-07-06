@@ -320,6 +320,7 @@ public class ActivityNamesDao implements Serializable {
 	 * Method that I see all ActivityNames object and stores it in a list
 	 * 
 	 * @author Wilhelm.Boada
+	 * @modify 06/07/2016 Gerardo.Herrera
 	 * 
 	 * @return List<ActivityNames>: List of activity names.
 	 * @throws Exception
@@ -327,7 +328,7 @@ public class ActivityNamesDao implements Serializable {
 	@SuppressWarnings("unchecked")
 	public List<ActivityNames> activityNamesList() throws Exception {
 		Query q = em
-				.createQuery("SELECT a FROM ActivityNames a ORDER BY a.activityName ");
+				.createQuery("SELECT a FROM ActivityNames a WHERE a.cycle IS TRUE ORDER BY a.activityName ");
 		return q.getResultList();
 
 	}
