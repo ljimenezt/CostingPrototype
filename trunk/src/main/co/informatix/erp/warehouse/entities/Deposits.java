@@ -34,12 +34,12 @@ public class Deposits implements Serializable {
 
 	private Date dateTime;
 	private Date expireDate;
-	
+
 	private Double initialQuantity;
 	private Double actualQuantity;
 	private Double unitCost;
 	private Double totalCost;
-	
+
 	private String location;
 	private String qualityCertificateLocationLink;
 
@@ -79,7 +79,7 @@ public class Deposits implements Serializable {
 	/**
 	 * @return dateTime:Date Time
 	 */
-	@Column(name = "date_time", nullable = false)
+	@Column(name = "date_time")
 	@Temporal(TemporalType.DATE)
 	public Date getDateTime() {
 		return dateTime;
@@ -113,7 +113,7 @@ public class Deposits implements Serializable {
 	/**
 	 * @return initialQuantity: initial Quantity
 	 */
-	@Column(name = "initial_quantity", nullable = false)
+	@Column(name = "initial_quantity")
 	public Double getInitialQuantity() {
 		return initialQuantity;
 	}
@@ -129,7 +129,7 @@ public class Deposits implements Serializable {
 	/**
 	 * @return realQuantityActual: Real Quantity Actual
 	 */
-	@Column(name = "actual_quantity", nullable = false)
+	@Column(name = "actual_quantity")
 	public Double getActualQuantity() {
 		return this.actualQuantity;
 	}
@@ -245,7 +245,7 @@ public class Deposits implements Serializable {
 	 * @return farm: Farm
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_farm", referencedColumnName = "idfarm", nullable = false)
+	@JoinColumn(name = "id_farm", referencedColumnName = "idfarm")
 	public Farm getFarm() {
 		return farm;
 	}
