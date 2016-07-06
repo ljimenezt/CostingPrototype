@@ -42,7 +42,7 @@ public class PurchaseInvoices implements Serializable {
 	private String note;
 	private String invoiceDocumentLink;
 	private boolean selected;
-	private boolean reconcile; 
+	private boolean reconcile;
 
 	/**
 	 * @return idpurchaseinvoice: Purchase invoices identifier
@@ -268,7 +268,8 @@ public class PurchaseInvoices implements Serializable {
 	}
 
 	/**
-	 * @param reconcile: Flag to see if the invoice was reconciled.
+	 * @param reconcile
+	 *            : Flag to see if the invoice was reconciled.
 	 */
 	public void setReconcile(boolean reconcile) {
 		this.reconcile = reconcile;

@@ -982,8 +982,8 @@ public class ActivitiesAndHrAction implements Serializable {
 									selectedActivity.getActivityName()
 											.getActivityName()));
 				}
-			} else if(!flagTeam){
-				
+			} else if (!flagTeam) {
+
 				OvertimePaymentRate overtimePaymentRate = overtimePaymentRateDao
 						.overtimePaymentRateXId(idOvertimeRate);
 				Double costNormalHours = activitiesAndHr.getNormalHours()

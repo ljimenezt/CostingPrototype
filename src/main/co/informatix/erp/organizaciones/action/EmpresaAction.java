@@ -390,8 +390,7 @@ public class EmpresaAction implements Serializable {
 			this.fileUploadBean = new FileUploadBean();
 			this.cargarFotoTemporal = true;
 			if (Constantes.N_TAB.equals(rol)) {
-				this.labelCrear = bundleOrg
-						.getString("company_label_register");
+				this.labelCrear = bundleOrg.getString("company_label_register");
 				this.mensajeMiga = "messageOrganizations.company_label_create";
 			}
 		} catch (Exception e) {
@@ -430,8 +429,7 @@ public class EmpresaAction implements Serializable {
 			 * template.
 			 */
 			if (Constantes.N_TAB.equals(rol)) {
-				this.labelCrear = bundleOrg
-						.getString("company_label_register");
+				this.labelCrear = bundleOrg.getString("company_label_register");
 				mensajeMiga = "messageOrganizations.company_label_modify";
 			}
 
@@ -725,10 +723,9 @@ public class EmpresaAction implements Serializable {
 				}
 				this.empresaDao.modificarEmpresa(this.empresa);
 
-				mensaje = MessageFormat
-						.format(bundle2
-								.getString("company_message_successfully_modified"),
-								this.empresa.getNombre(), this.empresa.getNit());
+				mensaje = MessageFormat.format(bundle2
+						.getString("company_message_successfully_modified"),
+						this.empresa.getNombre(), this.empresa.getNit());
 			} else {
 				if (this.nombreFotoLogo != null
 						&& !"".equals(this.nombreFotoLogo.trim())) {
@@ -894,7 +891,8 @@ public class EmpresaAction implements Serializable {
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle2
-								.getString("company_message_validate_nit"), null));
+								.getString("company_message_validate_nit"),
+								null));
 			}
 			if (!EncodeFilter.validarXSS(nit, clientId, "locate.regex.nit")) {
 				((UIInput) toValidate).setValid(false);

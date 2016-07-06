@@ -539,13 +539,13 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method allows you to save or edit an activity assigned to a crop.
+	 * This method allows you to save or edit an activity that is assigned to a
+	 * crop.
 	 * 
 	 * @modify 27/04/2016 Gerardo.Herrera
 	 * 
-	 * @throws Exception
 	 */
-	public void saveCropActivities() throws Exception {
+	public void saveCropActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
 			String outTxtEdit = "";

@@ -453,7 +453,7 @@ public class Hr implements Serializable {
 	}
 
 	/**
-	 * @return certificado: if the hr is certified its 'true' 
+	 * @return certificado: if the hr is certified its 'true'
 	 */
 	@Transient
 	public boolean isCertificado() {
@@ -461,7 +461,8 @@ public class Hr implements Serializable {
 	}
 
 	/**
-	 * @param certificado: if the hr is certified its 'true' 
+	 * @param certificado
+	 *            : if the hr is certified its 'true'
 	 */
 	public void setCertificado(boolean certificado) {
 		this.certificado = certificado;
