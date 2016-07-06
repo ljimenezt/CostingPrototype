@@ -483,6 +483,12 @@ table.radio input[type=radio] {
 	text-align: right;
 }
 
+.colValorTextoLargo {
+	width: 200px;
+	vertical-align: top;
+	text-align: right;
+}
+
 /* Estilo para las columas o campos texto de tipo fecha */
 .colFecha {
 	width: 80px;

@@ -12,6 +12,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import co.informatix.erp.costs.action.ActivityMaterialsAction;
+import co.informatix.erp.costs.entities.ActivityMaterials;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
@@ -51,6 +53,7 @@ public class MaterialsAction implements Serializable {
 
 	private Paginador pagination = new Paginador();
 	private Paginador pagerForm = new Paginador();
+	private ActivityMaterialsAction activityMaterialsAction;
 
 	private Materials materials;
 
@@ -62,6 +65,7 @@ public class MaterialsAction implements Serializable {
 
 	private int idMaterialType;
 	private boolean fromModal;
+	private boolean state;
 
 	/**
 	 * @return nameSearch : The material name that is going to be queried.
@@ -245,6 +249,25 @@ public class MaterialsAction implements Serializable {
 	}
 
 	/**
+	 * Consult initialized materials considering a state that allows changing
+	 * the logic to check.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void initializeMaterials() {
+		try {
+			this.state = true;
+			fromModal = true;
+			this.nameSearch = "";
+			pagerForm = new Paginador();
+			listMaterialsType();
+			searchMaterials();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
 	 * This method allows load the list that user already selected
 	 */
 	private void loadListMaterialSelected() {
@@ -280,7 +303,7 @@ public class MaterialsAction implements Serializable {
 		StringBuilder queryBuilder = new StringBuilder();
 		StringBuilder jointSearchMessages = new StringBuilder();
 		String searchMessage = "";
-		String giveBack = fromModal ? "" : "gesMaterials";
+		String giveBack = fromModal || state ? "" : "gesMaterials";
 		try {
 			advancedSearch(queryBuilder, parameters, bundle,
 					jointSearchMessages);
@@ -314,6 +337,9 @@ public class MaterialsAction implements Serializable {
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleWarehouse.getString("materials_label_s"),
 								jointSearchMessages);
+			}
+			if (state) {
+				persistMaterials();
 			}
 			listMaterialsType();
 			loadMaterialsDetails();
@@ -378,7 +404,7 @@ public class MaterialsAction implements Serializable {
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
-		if (fromModal) {
+		if (fromModal && !state) {
 			if (materialSelected != null && materialSelected.size() > 0) {
 				queryBuilder.append(flag ? "AND " : "WHERE ");
 				queryBuilder.append("m NOT IN (:materialSelected) ");
@@ -386,6 +412,21 @@ public class MaterialsAction implements Serializable {
 						"materialSelected");
 				parameters.add(item);
 			}
+		}
+		if (state) {
+			if (ControladorContexto.getFacesContext() != null) {
+				activityMaterialsAction = ControladorContexto
+						.getContextBean(ActivityMaterialsAction.class);
+			}
+			queryBuilder.append(flag ? "AND " : "WHERE ");
+			queryBuilder.append("m NOT IN ");
+			queryBuilder.append("(SELECT ma FROM ActivityMaterials am ");
+			queryBuilder.append("JOIN am.activityMaterialsPK.materials ma ");
+			queryBuilder.append("JOIN am.activityMaterialsPK.activities ac ");
+			queryBuilder.append("WHERE ac.idActivity=:idActivity) ");
+			SelectItem item = new SelectItem(this.activityMaterialsAction
+					.getSelectedActivity().getIdActivity(), "idActivity");
+			parameters.add(item);
 		}
 		flag = false;
 	}
@@ -594,6 +635,27 @@ public class MaterialsAction implements Serializable {
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * It is responsible for maintaining selected materials regardless of
+	 * whether this materials run the search again.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	private void persistMaterials() {
+		if (this.materialsList != null) {
+			for (Materials material : this.materialsList) {
+				for (ActivityMaterials activityMaterialsSelected : activityMaterialsAction
+						.getListActivityMaterials()) {
+					int idMaterialsSelected = activityMaterialsSelected
+							.getActivityMaterialsPK().getMaterials()
+							.getIdMaterial();
+					if (material.getIdMaterial() == idMaterialsSelected)
+						material.setSelected(true);
+				}
+			}
 		}
 	}
 }

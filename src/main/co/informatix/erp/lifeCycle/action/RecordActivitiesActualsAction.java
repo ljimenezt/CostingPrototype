@@ -17,12 +17,15 @@ import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.action.ActivitiesAction;
 import co.informatix.erp.costs.action.ActivitiesAndHrAction;
+import co.informatix.erp.costs.action.ActivityMaterialsAction;
 import co.informatix.erp.costs.dao.ActivitiesAndHrDao;
 import co.informatix.erp.costs.dao.ActivitiesAndMachineDao;
 import co.informatix.erp.costs.dao.ActivitiesDao;
+import co.informatix.erp.costs.dao.ActivityMaterialsDao;
 import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivitiesAndHr;
 import co.informatix.erp.costs.entities.ActivityMachine;
+import co.informatix.erp.costs.entities.ActivityMaterials;
 import co.informatix.erp.humanResources.dao.OvertimePaymentRateDao;
 import co.informatix.erp.humanResources.entities.OvertimePaymentRate;
 import co.informatix.erp.informacionBase.dao.SystemProfileDao;
@@ -69,6 +72,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private CycleDao cycleDao;
 	@EJB
 	private SystemProfileDao systemProfileDao;
+	@EJB
+	private ActivityMaterialsDao activityMaterialsDao;
 
 	private int idCrop;
 	private int idCropName;
@@ -88,11 +93,13 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private ActivitiesAndHr activitiesAndHr;
 	private ActivitiesAndHrAction activitiesAndHrAction;
 	private ScheduledActivitiesAction scheduledActivitiesAction;
+	private ActivityMaterialsAction activityMaterialsAction;
 	private ActivitiesAction activitiesAction;
 	private OvertimePaymentRate overtimePaymentRate;
 	private Date maxDate;
 	private Date minDate;
 	private ActivityMachine activityMachine;
+	private ActivityMaterials activityMaterial;
 	private Cycle cycle;
 
 	/**
@@ -420,6 +427,21 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
+	 * @return activityMaterial: material assigned to the activity.
+	 */
+	public ActivityMaterials getActivityMaterial() {
+		return activityMaterial;
+	}
+
+	/**
+	 * @param activityMaterial
+	 *            : material assigned to the activity.
+	 */
+	public void setActivityMaterial(ActivityMaterials activityMaterial) {
+		this.activityMaterial = activityMaterial;
+	}
+
+	/**
 	 * @return cycle: Object of class cycle.
 	 */
 	public Cycle getCycle() {
@@ -592,7 +614,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * It verifies that all records from the list of activities and human
 	 * resources have a value in the field of current total cost.
 	 * 
-	 * @modify 12/01/2016 Wilhelm.Boada
+	 * @modify 06/07/2016 Wilhelm.Boada
 	 */
 	public void currentCost() {
 		if (ControladorContexto.getFacesContext() != null) {
@@ -614,6 +636,19 @@ public class RecordActivitiesActualsAction implements Serializable {
 					this.calculateCostsButtonActivated = true;
 				}
 			}
+		}
+		if (this.activityMaterialsAction.getListActivityMaterialsTemp() != null) {
+			for (ActivityMaterials activityMaterials : this.activityMaterialsAction
+					.getListActivityMaterialsTemp()) {
+				if (activityMaterials.getCostActual() == null) {
+					this.calculateCostsButtonActivated = true;
+				}
+			}
+		}
+		if ((this.activityMaterialsAction.getListActivityMaterialsTemp() == null || this.activityMaterialsAction
+				.getListActivityMaterialsTemp().size() <= 0)
+				&& this.selectedActivity.getMaterialsRequired() == true) {
+			this.calculateCostsButtonActivated = true;
 		}
 		if (this.listActivitiesAndHr == null
 				&& this.scheduledActivitiesAction.getListActivityMachine() == null) {
@@ -694,7 +729,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	/**
 	 * Register the total cost of an activity.
 	 * 
-	 * @modify 25/01/2016 Wilhelm.Boada
+	 * @modify 06/07/2016 Wilhelm.Boada
 	 * 
 	 */
 	public void endActivity() {
@@ -709,37 +744,42 @@ public class RecordActivitiesActualsAction implements Serializable {
 						.getContextBean(ScheduledActivitiesAction.class);
 			}
 			if (this.selectedActivity != null
-					&& (this.listActivitiesAndHr != null || this.scheduledActivitiesAction
-							.getListActivityMachine() != null)) {
+					&& (this.listActivitiesAndHr != null
+							|| this.scheduledActivitiesAction
+									.getListActivityMachine() != null || this.activityMaterialsAction
+							.getListActivityMaterialsTemp() != null)) {
+				if (selectedActivity.getCostMaterialsActual() == null) {
+					selectedActivity.setCostMaterialsActual(0.0);
+				}
 				if (this.listActivitiesAndHr != null
-						&& selectedActivity.getHrRequired() == true
-						&& selectedActivity.getMachineRequired() == false) {
+						&& selectedActivity.getHrRequired() == true) {
 					Double totalCostHr = activitiesAndHrDao
 							.totalCost(selectedActivity.getIdActivity());
 					this.selectedActivity.setCostHrActual(totalCostHr);
+					this.selectedActivity.setGeneralCostActual(selectedActivity
+							.getCostMaterialsActual() + totalCostHr);
 					flag = true;
 				}
 				if (this.scheduledActivitiesAction.getListActivityMachine() != null
-						&& selectedActivity.getMachineRequired() == true
-						&& selectedActivity.getHrRequired() == false) {
+						&& selectedActivity.getMachineRequired() == true) {
 					Double totalCostMachine = activitiesAndMachineDao
 							.calculateTotalCostMachine(selectedActivity
 									.getIdActivity());
 					this.selectedActivity
 							.setCostMachinesEqActual(totalCostMachine);
+					this.selectedActivity.setGeneralCostActual(selectedActivity
+							.getCostMaterialsActual() + totalCostMachine);
 					flag = true;
 				}
-				if (this.listActivitiesAndHr != null
-						&& this.scheduledActivitiesAction
-								.getListActivityMachine() != null) {
-					Double totalCostHr = activitiesAndHrDao
-							.totalCost(selectedActivity.getIdActivity());
-					this.selectedActivity.setCostHrActual(totalCostHr);
-					Double totalCostMachine = activitiesAndMachineDao
-							.calculateTotalCostMachine(selectedActivity
+				if (this.activityMaterialsAction.getListActivityMaterialsTemp() != null
+						&& selectedActivity.getMaterialsRequired() == true) {
+					Double totalCostMaterial = activityMaterialsDao
+							.calculateTotalCostMaterials(selectedActivity
 									.getIdActivity());
 					this.selectedActivity
-							.setCostMachinesEqActual(totalCostMachine);
+							.setCostMaterialsActual(totalCostMaterial);
+					this.selectedActivity.setGeneralCostActual(selectedActivity
+							.getCostMaterialsActual() + totalCostMaterial);
 					flag = true;
 				}
 				if (flag == true) {
@@ -1003,6 +1043,26 @@ public class RecordActivitiesActualsAction implements Serializable {
 					* fuelConsumption;
 			this.activityMachine.setConsumablesCostActual(consumableCostActual);
 		}
+	}
+
+	/**
+	 * this method allows control the queries of the resources assigned to the
+	 * activity.
+	 * 
+	 */
+	public void consultResourcesByActivity() {
+		this.activitiesAndHrAction = ControladorContexto
+				.getContextBean(ActivitiesAndHrAction.class);
+		this.activitiesAndHrAction.setFromModal(true);
+		this.activitiesAndHrAction.consultActivitiesAndHrByActivity();
+		this.scheduledActivitiesAction = ControladorContexto
+				.getContextBean(ScheduledActivitiesAction.class);
+		this.scheduledActivitiesAction.setFromModal(true);
+		this.scheduledActivitiesAction.showActivitiesAndMachineForActivity();
+		this.activityMaterialsAction = ControladorContexto
+				.getContextBean(ActivityMaterialsAction.class);
+		this.activityMaterialsAction.setFromModal(true);
+		this.activityMaterialsAction.consultMaterialsByActivity();
 	}
 
 }

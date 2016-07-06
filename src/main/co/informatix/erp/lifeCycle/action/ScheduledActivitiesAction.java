@@ -18,6 +18,7 @@ import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.action.ActivitiesAction;
 import co.informatix.erp.costs.action.ActivitiesAndHrAction;
+import co.informatix.erp.costs.action.ActivityMaterialsAction;
 import co.informatix.erp.costs.dao.ActivitiesAndMachineDao;
 import co.informatix.erp.costs.dao.ActivitiesDao;
 import co.informatix.erp.costs.entities.Activities;
@@ -75,6 +76,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	private int idCropName;
 	private int idCycle;
 	private boolean stateAddMachine;
+	private boolean fromModal;
 
 	private List<Activities> listActivities;
 	private List<ActivityMachine> listActivityMachine;
@@ -96,6 +98,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	private MachinesAction machinesAction;
 	private Paginador paginationActivitiesMachines = new Paginador();
 	private ActivitiesAndHrAction activitiesAndHrAction;
+	private ActivityMaterialsAction activityMaterialsAction;
 	private Cycle cycle;
 
 	/**
@@ -158,6 +161,23 @@ public class ScheduledActivitiesAction implements Serializable {
 	 */
 	public void setStateAddMachine(boolean stateAddMachine) {
 		this.stateAddMachine = stateAddMachine;
+	}
+
+	/**
+	 * @return fromModal: this field is true if the query is made from
+	 *         recordActivitiesActualsAction and is false in other case.
+	 */
+	public boolean isFromModal() {
+		return fromModal;
+	}
+
+	/**
+	 * @param fromModal
+	 *            : this field is true if the query is made from
+	 *            recordActivitiesActualsAction and is false in other case.
+	 */
+	public void setFromModal(boolean fromModal) {
+		this.fromModal = fromModal;
 	}
 
 	/**
@@ -585,10 +605,13 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * Assigned selected activity.
+	 * 
+	 * @modify 06/30/2016 Wilhelm.Boada
 	 */
 	public void assignSelectedActivity() {
 		this.activitiesAction = new ActivitiesAction();
 		this.selectedActivity = new Activities();
+		fromModal = false;
 		if (ControladorContexto.getFacesContext() != null) {
 			this.activitiesAction = ControladorContexto
 					.getContextBean(ActivitiesAction.class);
@@ -639,6 +662,8 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * Check the relations between activities and human resources.
+	 * 
+	 * @modify 21/04/2016 Wilhelm.Boada
 	 */
 	public void showActivitiesAndMachineForActivity() {
 		ValidacionesAction validation = ControladorContexto
@@ -647,9 +672,6 @@ public class ScheduledActivitiesAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder queryBuilder = new StringBuilder();
 		String SearchMessage = "";
-		String param2 = ControladorContexto.getParam("param2");
-		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
-				: false;
 		try {
 			RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
 					.getContextBean(RecordActivitiesActualsAction.class);
@@ -680,8 +702,18 @@ public class ScheduledActivitiesAction implements Serializable {
 							.getContextBean(ActivitiesAndHrAction.class);
 					this.activitiesAndHrAction
 							.setSelectedActivity(selectedActivity);
+					this.activitiesAndHrAction.setFromModal(false);
 					this.activitiesAndHrAction
 							.consultActivitiesAndHrByActivity();
+					if (selectedActivity.getMaterialsRequired()) {
+						this.activityMaterialsAction = ControladorContexto
+								.getContextBean(ActivityMaterialsAction.class);
+						this.activityMaterialsAction
+								.setSelectedActivity(selectedActivity);
+						this.activityMaterialsAction.setFromModal(false);
+						this.activityMaterialsAction
+								.consultMaterialsByActivity();
+					}
 				}
 			} else {
 				recordActivitiesActualsAction.currentCost();

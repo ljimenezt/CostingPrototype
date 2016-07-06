@@ -1,0 +1,352 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<h:form id="formUpdateActivitiesMaterials">
+		<rich:popupPanel id="popUpUpdateActivitiesMaterials" autosized="true"
+			domElementAttachment="form" styleClass="fondoAnchoUno W355P"
+			header="#{messageCosts.activities_and_materials_label}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popUpUpdateActivitiesMaterials')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<t:fieldset styleClass="BorderW2P">
+				<legend class="etiquetaTitulo">#{activityMaterialsAction.activityMaterials.activityMaterialsPK.materials.name}</legend>
+				<a:outputPanel id="outPutAddActivitiesMaterials">
+					<a:outputPanel>
+						<h:panelGrid columns="1" columnClasses=" right">
+							<rich:message for="txtQuantityBudget" />
+						</h:panelGrid>
+						<br />
+						<h:panelGrid columns="2" columnClasses=" right, center">
+							<h:outputText value="#{messageCosts.budget_label_quantity}"
+								styleClass="etiquetaTitulo" />
+							<h:inputText value="#{activityMaterialsAction.quantityEdit}"
+								styleClass="W75P" id="txtQuantityBudget"
+								converterMessage="#{mensaje.message_campo_positivo}"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+							</h:inputText>
+
+						</h:panelGrid>
+						<br />
+						<div align="center">
+							<a:commandButton value="#{mensaje.button_save}"
+								execute="formUpdateActivitiesMaterials"
+								actionListener="#{activityMaterialsAction.validateQuantityMaterial()}"
+								render="formConfirmUpdateMaterial:popUpConfirmUpdateMaterial, formGenerico"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popUpConfirmUpdateMaterial')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+							<a:commandButton value="#{mensaje.button_cancel}"
+								onclick="#{rich:component('popUpUpdateActivitiesMaterials')}.hide()" />
+						</div>
+						<br />
+					</a:outputPanel>
+				</a:outputPanel>
+			</t:fieldset>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form id="formConfirmUpdateMaterial">
+		<rich:popupPanel id="popUpConfirmUpdateMaterial" modal="true"
+			autosized="true" maxWidth="800"
+			header="#{mensaje.label_confirmation}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popUpConfirmUpdateMaterial')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_registro_confirmacion}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_accept}"
+						render="formScheduledActivities, mensajes, mensajeBusqueda"
+						actionListener="#{activityMaterialsAction.editActivityMaterial()}"
+						onclick="#{rich:component('popUpConfirmUpdateMaterial')}.hide(); #{rich:component('popUpUpdateActivitiesMaterials')}.hide(); #{rich:component('popupMaterials')}.hide(); #{rich:component('statPane')}.show();" />
+					<a:commandButton value="#{mensaje.button_cancel}"
+						onclick="#{rich:component('popUpConfirmUpdateMaterial')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form>
+		<rich:popupPanel id="popupDeleteActivityMaterial" autosized="true"
+			modal="true" header="#{mensaje.label_confirmation}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						onclick="#{rich:component('popupActivityDeleteMaterial')}.hide()"
+						styleClass="cursor" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="campos">
+					<h:outputText value="#{mensaje.label_name}:" />
+					<h:outputText
+						value="#{activityMaterialsAction.activityMaterials.activityMaterialsPK.materials.name}" />
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_accept}"
+						render="formScheduledActivities, mensajes, mensajeBusqueda"
+						actionListener="#{activityMaterialsAction.deleteActivityMaterials()}"
+						onclick="#{rich:component('popupDeleteActivityMaterial')}.hide();" />
+					<a:commandButton value="#{mensaje.button_cancel}"
+						onclick="#{rich:component('popupDeleteActivityMaterial')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form id="formMaterials">
+		<rich:popupPanel id="popupMaterials" autosized="true"
+			styleClass="H383P fondoAnchoUno W400P" domElementAttachment="form"
+			header="#{mensajeWarehouse.materials_label_s} #{mensaje.label_for} #{activityMaterialsAction.selectedActivity.activityName.activityName}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="cursor"
+						onclick="#{rich:component('popupMaterials')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<a:outputPanel id="outPutSearchMaterials">
+				<t:fieldset styleClass="BorderW2P">
+					<legend class="etiquetaTitulo">#{mensaje.label_search}
+						#{mensajeWarehouse.materials_label_s}</legend>
+					<h:panelGrid columns="2" cellpadding="0">
+						<h:outputText value="#{mensajeWarehouse.materials_type_label}"
+							styleClass="etiquetaTitulo" />
+						<h:selectOneMenu id="cmbMaterialsType"
+							value="#{materialsAction.idMaterialType}"
+							styleClass="colTextoMediano">
+							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
+							<f:selectItems value="#{materialsAction.materialTypeItems}" />
+						</h:selectOneMenu>
+
+						<h:outputText value="#{mensaje.label_name}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText styleClass="colTextoMediano" id="txtSearchName"
+							value="#{materialsAction.nameSearch}"
+							onkeypress="return submitByEnter(event,'formMaterials:btnSearch')" />
+
+					</h:panelGrid>
+					<br />
+					<div class="W100Per center inBlock">
+						<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
+							actionListener="#{materialsAction.searchMaterials}"
+							render="outputMaterials, outPutSearchMaterials">
+							<f:param name="param2" value="si" />
+						</a:commandButton>
+						<h:outputText value="" />
+					</div>
+
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P">
+					<legend class="etiquetaTitulo">#{mensajeWarehouse.materials_label_s}</legend>
+					<a:outputPanel id="mensajeBusquedaMenu">
+						<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+							<ui:param name="width" value="W350P" />
+							<ui:param name="id" value="popupBuscarMenu" />
+						</ui:include>
+					</a:outputPanel>
+					<rich:message for="mensajeBusquedaMenu" />
+					<ui:param name="listEmpty"
+						value="#{materialsAction.materialsList eq null or (empty materialsAction.materialsList)}" />
+					<div align="right" class="W350P">
+						<h:panelGrid>
+							<a:commandLink render="outPutSearchMaterials"
+								styleClass="quitarDecoracionLink"
+								action="#{materialsAction.initializeSearch()}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/listarTodos_16.png" />
+									<h:outputText value="#{mensaje.button_list_all}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+						</h:panelGrid>
+					</div>
+					<a:outputPanel id="outputMaterials">
+						<rich:dataTable value="#{materialsAction.materialsList}"
+							var="material" id="dtMaterial" footerClass="H100P"
+							styleClass="#{listEmpty ? 'BCTransparente' : 'dataTable'} W350P"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<f:facet name="header" />
+								<a:commandLink
+									actionListener="#{activityMaterialsAction.validateMaterialsInDeposits(material)}"
+									render="formAddMaterials, outPutSearchMaterials"
+									oncomplete="if(#{activityMaterialsAction.validateMaterial==false}){#{rich:component('popupAddMaterials')}.show();}">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/okPermiso_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{material.selected eq true}" />
+										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{material.selected eq false}" />
+									</h:panelGrid>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText
+									value="#{material.name} #{material.presentation} #{material.measurementUnits.name}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listEmpty}">
+									<rich:column colspan="4" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<a:outputPanel rendered="#{!listEmpty}">
+							<div class="W350P center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valParam2" value="si" />
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="pager" value="pagerForm" />
+									<ui:param name="valReder"
+										value=":formMaterials:outPutSearchMaterials" />
+									<ui:param name="beanActionParam" value="#{materialsAction}" />
+									<ui:param name="metodoActionParam" value="searchMaterials" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+				</t:fieldset>
+				<br />
+				<div align="center">
+					<a:commandButton value="#{mensaje.button_add}"
+						render="formConfirmSaveMaterial:popUpConfirmSaveMaterial"
+						oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popUpConfirmSaveMaterial')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+					<a:commandButton value="#{mensaje.button_cancel}"
+						onclick="#{rich:component('popupMaterials')}.hide()" />
+				</div>
+			</a:outputPanel>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form id="formConfirmSaveMaterial">
+		<rich:popupPanel id="popUpConfirmSaveMaterial" modal="true"
+			autosized="true" maxWidth="800"
+			header="#{mensaje.label_confirmation}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popUpConfirmSaveMaterial')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_registro_confirmacion}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_accept}"
+						render="formScheduledActivities, mensajes, mensajeBusqueda"
+						actionListener="#{activityMaterialsAction.saveActivityMaterialsList()}"
+						onclick="#{rich:component('popUpConfirmSaveMaterial')}.hide(); #{rich:component('popupMaterials')}.hide(); #{rich:component('statPane')}.show();" />
+					<a:commandButton value="#{mensaje.button_cancel}"
+						onclick="#{rich:component('popUpConfirmSaveMaterial')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form id="formAddMaterials">
+		<rich:popupPanel id="popupAddMaterials" autosized="true"
+			domElementAttachment="form" styleClass="fondoAnchoUno W355P"
+			header="#{messageCosts.activities_and_materials_label}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popupAddMaterials')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<t:fieldset styleClass="BorderW2P">
+				<a:outputPanel id="outPutAddActivitiesMaterials">
+					<a:outputPanel>
+						<h:panelGrid columns="1" columnClasses=" right">
+							<rich:message for="txtQuantityBudget" />
+						</h:panelGrid>
+						<br />
+						<h:panelGrid columns="3" columnClasses=" right, center">
+							<h:outputText value="#{messageCosts.budget_label_quantity}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText
+								value="#{activityMaterialsAction.activityMaterials.quantityBudget}"
+								styleClass="W75P" id="txtQuantityBudget"
+								converterMessage="#{mensaje.message_campo_positivo}"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+								<f:ajax event="change" execute="@this"
+									listener="#{activityMaterialsAction.materialSelection()}"
+									render="txtCostBudget" />
+							</h:inputText>
+
+							<h:outputText value="#{messageCosts.budget_label_cost}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText id="txtCostBudget"
+								value="#{activityMaterialsAction.activityMaterials.costBudget}"
+								readonly="true" required="true" styleClass="W75P"
+								converterMessage="#{mensaje.message_campo_positivo}"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+
+							</h:inputText>
+						</h:panelGrid>
+						<br />
+						<div align="center">
+							<a:commandButton value="#{mensaje.button_accept}"
+								render="formGenerico, formMaterials:dtMaterial"
+								execute="formAddMaterials"
+								actionListener="#{activityMaterialsAction.addMaterials()}"
+								oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupAddMaterials')}.hide();}
+									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+							<a:commandButton value="#{mensaje.button_cancel}"
+								onclick="#{rich:component('popupAddMaterials')}.hide()" />
+						</div>
+						<br />
+					</a:outputPanel>
+				</a:outputPanel>
+			</t:fieldset>
+		</rich:popupPanel>
+	</h:form>
+</ui:composition>

@@ -35,6 +35,7 @@
 		<t:saveState value="#{activitiesAction}" />
 		<t:saveState value="#{scheduledActivitiesAction}" />
 		<t:saveState value="#{cycleAction}" />
+		<t:saveState value="#{activityMaterialsAction}" />
 		<h:form id="formHrReporting">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageLifeCycle.record_activities_actuals_label_actual}"
@@ -203,8 +204,7 @@
 							<rich:column styleClass="colIconoUno verticalAlignMiddle">
 								<f:facet name="header" />
 								<a:commandLink render="mensajes, mensajeBusqueda"
-									actionListener="#{activitiesAndHrAction.consultActivitiesAndHrByActivity()}"
-									action="#{scheduledActivitiesAction.showActivitiesAndMachineForActivity()}">
+									actionListener="#{recordActivitiesActualsAction.consultResourcesByActivity()}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
 											styleClass="verticalAlignMiddle"
@@ -276,7 +276,8 @@
 									rendered="#{activity.seleccionado ne false 
 										and recordActivitiesActualsAction.calculateCostsButtonActivated eq false 
 										and activity.costHrActual eq null 
-										and activity.costMachinesEqActual eq null}"
+										and activity.costMachinesEqActual eq null
+										and activity.costMaterialsActual eq null}"
 									oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmEndActivity')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
@@ -419,7 +420,7 @@
 				<br />
 				<a:outputPanel
 					rendered="#{recordActivitiesActualsAction.selectedActivity.idActivity gt 0 and recordActivitiesActualsAction.selectedActivity.machineRequired eq true}">
-					<t:fieldset styleClass="anchoCuatro BorderW2P">
+					<t:fieldset styleClass="anchoDos BorderW2P">
 						<legend class="etiquetaTitulo">#{mensajeMenu.machines_label_administration}
 							-
 							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}</legend>
@@ -502,10 +503,79 @@
 						</a:outputPanel>
 					</t:fieldset>
 				</a:outputPanel>
+				<br />
+				<a:outputPanel
+					rendered="#{recordActivitiesActualsAction.selectedActivity.idActivity gt 0 and recordActivitiesActualsAction.selectedActivity.materialsRequired eq true }">
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<legend class="etiquetaTitulo">
+							#{mensajeWarehouse.materials_label_s} -
+							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}</legend>
+						<br />
+						<ui:param name="listaVaciaA"
+							value="#{activityMaterialsAction.listActivityMaterialsTemp eq null}" />
+						<rich:dataTable
+							value="#{activityMaterialsAction.listActivityMaterialsTemp}"
+							var="activityMaterial" id="materialsList" footerClass="H130P"
+							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoCuatro"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<a:commandLink
+									actionListener="#{activityMaterialsAction.cloneActivityMaterials(activityMaterial.clone())}"
+									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupAddActivitiesMaterials')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+									value="#{activityMaterial.activityMaterialsPK.materials.name}"
+									render="popupAddActivitiesMaterials"
+									rendered="#{scheduledActivitiesAction.selectedActivity.costMaterialsActual eq null}">
+								</a:commandLink>
+								<h:outputText
+									rendered="#{scheduledActivitiesAction.selectedActivity.costMaterialsActual ne null}"
+									value="#{activityMaterial.activityMaterialsPK.materials.name}" />
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensajeWarehouse.deposits_label_actual_quantity}</f:facet>
+								<h:outputText value="#{activityMaterial.quantityActual}" />
+							</rich:column>
+							<rich:column styleClass="colValorTextoLargo">
+								<h:outputText value="#{activityMaterial.costActual}">
+									<f:convertNumber maxFractionDigits="1" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputText>
+								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVaciaA}">
+									<rich:column colspan="3" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<br />
+						<a:outputPanel id="pagerActivityMaterial"
+							rendered="#{activityMaterialsAction.listActivityMaterialsTemp.size() gt 0}">
+							<div class="anchoCuatro center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valParam2" value="si" />
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="valId" value="4" />
+									<ui:param name="pager" value="paginationActivityMaterials" />
+									<ui:param name="valReder"
+										value="materialsList pagerActivityMaterial" />
+									<ui:param name="beanActionParam"
+										value="#{activityMaterialsAction}" />
+									<ui:param name="metodoActionParam"
+										value="consultMaterialsByActivity" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
 			</rich:panel>
 		</h:form>
 		<ui:include src="templateHRCosting.xhtml" />
 		<ui:include src="templateMachinesActuals.xhtml" />
+		<ui:include src="templateMaterialsActual.xhtml" />
 		<ui:include src="templateCycles.xhtml">
 			<ui:param name="beanActionParam"
 				value="#{recordActivitiesActualsAction}" />

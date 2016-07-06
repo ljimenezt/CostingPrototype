@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import co.informatix.erp.humanResources.entities.Hr;
 
@@ -54,6 +55,7 @@ public class Materials implements Serializable {
 	private boolean obsolete;
 	private boolean fao;
 	private boolean organic;
+	private boolean selected;
 
 	private MaterialsType materialType;
 	private MeasurementUnits measurementUnits;
@@ -531,6 +533,24 @@ public class Materials implements Serializable {
 	 */
 	public void setResponsable(Hr responsable) {
 		this.responsable = responsable;
+	}
+
+	/**
+	 * @return selected: true if the object is selected and 'false' if it is not
+	 *         selected
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : true if the object is selected and 'false' if it is not
+	 *            selected
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override
