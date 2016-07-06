@@ -20,6 +20,7 @@ import javax.transaction.UserTransaction;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 
+import co.informatix.erp.costs.dao.ActivitiesAndHrDao;
 import co.informatix.erp.costs.dao.ActivitiesDao;
 import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.informacionBase.dao.SystemProfileDao;
@@ -132,6 +133,8 @@ public class CycleAction implements Serializable {
 	private ActivitiesDao activitiesDao;
 	@EJB
 	private SystemProfileDao systemProfileDao;
+	@EJB
+	private ActivitiesAndHrDao activitiesAndHrDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -1187,6 +1190,16 @@ public class CycleAction implements Serializable {
 				dateLastActivity.add(Calendar.DAY_OF_YEAR, 1);
 				saveActivitiesCycle(dateLastActivity.getTime(),
 						cycle.getFinalDateTime());
+			} else {
+				Date finalDate = ControladorFechas.finDeDia(cycle
+						.getFinalDateTime());
+				List<Activities> listActivities = activitiesDao
+						.activitiesByCycle(cycle, finalDate);
+				if (listActivities != null) {
+					for (Activities activities : listActivities) {
+						activitiesDao.deleteActivities(activities);
+					}
+				}
 			}
 		}
 	}
@@ -1313,6 +1326,8 @@ public class CycleAction implements Serializable {
 	 * This method allows validate the materials quantity in the deposit and
 	 * valid the date of the cycle to add is not repeated for the same crop.
 	 * 
+	 * @modify 06/07/2016 Gerardo.Herrera
+	 * 
 	 */
 	public void validateQuantityMaterialsAndDatesAllows() {
 		try {
@@ -1326,6 +1341,8 @@ public class CycleAction implements Serializable {
 			String dateFinal = ControladorFechas.formatDate(
 					crops.getFinalDate(),
 					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+			Date finalDate = ControladorFechas.finDeDia(cycle
+					.getFinalDateTime());
 			if (this.cycle.getMaterialsRequired()) {
 				boolean materialFlag = depositsDao
 						.associatedMaterialsDeposits(idMaterials);
@@ -1386,6 +1403,15 @@ public class CycleAction implements Serializable {
 							"cycle_message_must_enter_late_date",
 							"messageLifeCycle", dateStart);
 				}
+			}
+
+			if (cycle != null
+					&& activitiesAndHrDao.activitiesAndHrByDate(cycle,
+							finalDate)) {
+				ControladorContexto.mensajeErrorArg1(
+						"formRegisterCycle:fechaFinal",
+						"cycle_message_associated_human_resources",
+						"messageLifeCycle");
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

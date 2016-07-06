@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import co.informatix.erp.costs.entities.Activities;
+import co.informatix.erp.lifeCycle.entities.Cycle;
 
 /**
  * DAO class that establishes the connection between business logic and data
@@ -461,5 +462,36 @@ public class ActivitiesDao implements Serializable {
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		queryResult.setParameter("idCycle", cycleId);
 		return (Date) queryResult.getSingleResult();
+	}
+
+	/**
+	 * Consult all the activities out of range of the cycle
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param cycle
+	 *            : Cycle of crop.
+	 * @param finalDate
+	 *            : Final date of cycle.
+	 * @return List<Activities>: Activities list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Activities> activitiesByCycle(Cycle cycle, Date finalDate)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT a FROM  Activities a ");
+		query.append("WHERE a.initialDtBudget NOT BETWEEN :initialDate and :finalDate ");
+		query.append("AND a.finalDtBudget NOT BETWEEN :initialDate and :finalDate ");
+		query.append("AND a.cycle.idCycle = :idCycle ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("initialDate", cycle.getInitialDateTime());
+		q.setParameter("finalDate", finalDate);
+		q.setParameter("idCycle", cycle.getIdCycle());
+		List<Activities> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
 	}
 }
