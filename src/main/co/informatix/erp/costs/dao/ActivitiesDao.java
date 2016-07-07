@@ -477,12 +477,43 @@ public class ActivitiesDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Activities> activitiesByCycle(Cycle cycle, Date finalDate)
+	public List<Activities> activitiesOutCycle(Cycle cycle, Date finalDate)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT a FROM  Activities a ");
 		query.append("WHERE a.initialDtBudget NOT BETWEEN :initialDate and :finalDate ");
 		query.append("AND a.finalDtBudget NOT BETWEEN :initialDate and :finalDate ");
+		query.append("AND a.cycle.idCycle = :idCycle ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("initialDate", cycle.getInitialDateTime());
+		q.setParameter("finalDate", finalDate);
+		q.setParameter("idCycle", cycle.getIdCycle());
+		List<Activities> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * Consult all the activities into the date range and by cycle.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param cycle
+	 *            : Crop cycle
+	 * @param finalDate
+	 *            : Final date for query
+	 * @return List<Activities>: Activities list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Activities> activitiesByCycle(Cycle cycle, Date finalDate)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT a FROM  Activities a ");
+		query.append("WHERE a.initialDtBudget BETWEEN :initialDate and :finalDate ");
+		query.append("AND a.finalDtBudget BETWEEN :initialDate and :finalDate ");
 		query.append("AND a.cycle.idCycle = :idCycle ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("initialDate", cycle.getInitialDateTime());
