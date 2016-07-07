@@ -288,8 +288,7 @@ public class ActivitiesAndHrDao implements Serializable {
 	 * @param finalDate
 	 *            : Final Date.
 	 * 
-	 * @return List<ActivitiesAndHr>: List of relation between human resources
-	 *         and activities.
+	 * @return boolean: Its 'true' if it find data
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean activitiesAndHrByDate(Cycle cycle, Date finalDate)
