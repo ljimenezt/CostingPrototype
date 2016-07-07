@@ -503,8 +503,7 @@ public class ActivityMaterialsAction implements Serializable {
 		List<Deposits> depositsListActual = depositsDao
 				.consultDepositsActualQuantityById(idMaterial);
 		while (amount > 0) {
-			Deposits depositsActual = null;
-			depositsActual = depositsListActual.get(0);
+			Deposits depositsActual = depositsListActual.get(0);
 			if (amount > depositsActual.getActualQuantity()) {
 				costBudget = costBudget + depositsActual.getActualQuantity()
 						* depositsActual.getUnitCost();
