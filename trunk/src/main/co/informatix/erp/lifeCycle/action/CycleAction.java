@@ -1181,7 +1181,26 @@ public class CycleAction implements Serializable {
 	private void editActivitiesCycle() throws Exception {
 		Date dateLastActivityCycle = activitiesDao.activitiesByCycle(cycle
 				.getIdCycle());
+		Date finalDate = ControladorFechas.finDeDia(cycle
+				.getFinalDateTime());
 		if (dateLastActivityCycle != null) {
+			List<Activities> activitiesEdit = activitiesDao.activitiesByCycle(
+					cycle, finalDate);
+			if (activitiesEdit != null) {
+				for (Activities activities : activitiesEdit) {
+					activities.setCrop(this.cycle.getCrops());
+					activities.setActivityName(this.cycle.getActiviyNames());
+					activities.setCycle(this.cycle);
+					activities.setHrRequired(this.cycle.getHrRequired());
+					activities.setMachineRequired(this.cycle
+							.getMachineRequired());
+					activities.setMaterialsRequired(this.cycle
+							.getMaterialsRequired());
+					activities.setServiceRequired(cycle.getServiceRequired());
+					activities.setDangerous(this.cycle.getDangerous());
+					activitiesDao.editActivities(activities);
+				}
+			}
 			Calendar dateLastActivity = Calendar.getInstance();
 			dateLastActivity.setTime(dateLastActivityCycle);
 			dateLastActivity.set(Calendar.HOUR_OF_DAY, 0);
@@ -1191,10 +1210,8 @@ public class CycleAction implements Serializable {
 				saveActivitiesCycle(dateLastActivity.getTime(),
 						cycle.getFinalDateTime());
 			} else {
-				Date finalDate = ControladorFechas.finDeDia(cycle
-						.getFinalDateTime());
 				List<Activities> listActivities = activitiesDao
-						.activitiesByCycle(cycle, finalDate);
+						.activitiesOutCycle(cycle, finalDate);
 				if (listActivities != null) {
 					for (Activities activities : listActivities) {
 						activitiesDao.deleteActivities(activities);
@@ -1242,6 +1259,9 @@ public class CycleAction implements Serializable {
 				activities.setCycle(this.cycle);
 				activities.setHrRequired(this.cycle.getHrRequired());
 				activities.setMachineRequired(this.cycle.getMachineRequired());
+				activities.setServiceRequired(cycle.getServiceRequired());
+				activities.setMaterialsRequired(this.cycle
+						.getMaterialsRequired());
 				activities.setDurationBudget(systemProfile
 						.getActivityDefaultDuration());
 				activities.setRoutine(true);
