@@ -327,10 +327,12 @@ public class ActivityNamesDao implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ActivityNames> activityNamesList() throws Exception {
-		Query q = em
-				.createQuery("SELECT a FROM ActivityNames a WHERE a.cycle IS TRUE ORDER BY a.activityName ");
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT a FROM ActivityNames a ");
+		query.append("WHERE a.cycle IS TRUE ");
+		query.append("ORDER BY a.activityName ");
+		Query q = em.createQuery(query.toString());
 		return q.getResultList();
-
 	}
 
 }
