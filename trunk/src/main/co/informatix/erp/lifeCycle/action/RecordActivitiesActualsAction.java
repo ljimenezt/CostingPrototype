@@ -911,7 +911,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void calculateCurrentDuration() {
 		try {
-			double durationActual = subtractDuration(activitiesAndHr, true);
+			double durationActual = subtractDuration(activitiesAndHr, null,
+					true);
 			double hourCost = activitiesAndHr.getActivitiesAndHrPK().getHr()
 					.getHourCost();
 			double totalCost = durationActual * hourCost;
@@ -940,12 +941,19 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @return double : value of the duration hours
 	 * @throws Exception
 	 */
-	public double subtractDuration(ActivitiesAndHr activitiesAndHr, boolean flag)
-			throws Exception {
-		Date startDate = (flag ? activitiesAndHr.getInitialDateTimeActual()
-				: activitiesAndHr.getInitialDateTimeBudget());
-		Date endDate = (flag ? activitiesAndHr.getFinalDateTimeActual()
-				: activitiesAndHr.getFinalDateTimeBudget());
+	public double subtractDuration(ActivitiesAndHr activitiesAndHr,
+			Activities activity, boolean flag) throws Exception {
+		Date startDate;
+		Date endDate;
+		if (activitiesAndHr != null) {
+			startDate = (flag ? activitiesAndHr.getInitialDateTimeActual()
+					: activitiesAndHr.getInitialDateTimeBudget());
+			endDate = (flag ? activitiesAndHr.getFinalDateTimeActual()
+					: activitiesAndHr.getFinalDateTimeBudget());
+		} else {
+			startDate = activity.getInitialDtBudget();
+			endDate = activity.getFinalDtBudget();
+		}
 		double durationActual = 0d;
 		if (startDate != null && endDate != null) {
 			SystemProfile systemProfile = systemProfileDao.findSystemProfile();

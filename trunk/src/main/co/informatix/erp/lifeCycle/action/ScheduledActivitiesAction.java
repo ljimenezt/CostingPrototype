@@ -981,4 +981,25 @@ public class ScheduledActivitiesAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
+	/**
+	 * This Method allow set the activity selected by the user and show the
+	 * resource associated to this activity.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param activity
+	 *            : Object Activities selected by the user
+	 */
+	public void selectedActivity(Activities activity) {
+		if (ControladorContexto.getFacesContext() != null) {
+			this.activitiesAction = ControladorContexto
+					.getContextBean(ActivitiesAction.class);
+		}
+		activitiesAction.assignActivities(activity);
+		assignSelectedActivity();
+		setSelectedActivity(activity);
+		showActivitiesAndMachineForActivity();
+	}
+
 }

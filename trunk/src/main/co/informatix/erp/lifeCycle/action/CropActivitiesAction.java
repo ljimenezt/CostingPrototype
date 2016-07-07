@@ -543,7 +543,6 @@ public class CropActivitiesAction implements Serializable {
 	 * crop.
 	 * 
 	 * @modify 27/04/2016 Gerardo.Herrera
-	 * 
 	 */
 	public void saveCropActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -825,6 +824,8 @@ public class CropActivitiesAction implements Serializable {
 		boolean isRoutine = this.activities.isRoutine();
 		if (isRoutine) {
 			try {
+				RecordActivitiesActualsAction recordAAAction = ControladorContexto
+						.getContextBean(RecordActivitiesActualsAction.class);
 				findSystemProfile();
 				Date initialBudgetActivity = new Date();
 				Date finalBudgetActivity = new Date();
@@ -841,23 +842,11 @@ public class CropActivitiesAction implements Serializable {
 						finalBudgetActivity);
 				this.activities.setInitialDtBudget(initialDtBudget);
 				this.activities.setFinalDtBudget(finalDtBudget);
-				calculateCurrentDuration();
+				this.activities.setDurationBudget(recordAAAction
+						.subtractDuration(null, activities, false));
 			} catch (Exception e) {
 				ControladorContexto.mensajeError(e);
 			}
-		}
-	}
-
-	/**
-	 * It will calculate the length according to the two different dates.
-	 */
-	public void calculateCurrentDuration() {
-		Date start = this.activities.getInitialDtBudget();
-		Date end = this.activities.getFinalDtBudget();
-		if (start != null && end != null) {
-			double durationBudget = ControladorFechas.restarFechas(start, end);
-			double duration = durationBudget - systemProfile.getBreakDuration();
-			this.activities.setDurationBudget(duration);
 		}
 	}
 
@@ -866,15 +855,26 @@ public class CropActivitiesAction implements Serializable {
 	 * 
 	 */
 	public void setFinalDtBudget() {
-		if (this.activities.getInitialDtBudget() != null) {
-			Date dateCurrent = activities.getInitialDtBudget();
-			Date initialDtBudget = ControladorFechas.setDefaultTime(
-					this.systemProfile.getActivityDefaultStart(), dateCurrent);
-			Date finalDtBudget = ControladorFechas.setDefaultTime(
-					this.systemProfile.getActivityDefaultEnd(), dateCurrent);
-			this.activities.setInitialDtBudget(initialDtBudget);
-			this.activities.setFinalDtBudget(finalDtBudget);
-			calculateCurrentDuration();
+		RecordActivitiesActualsAction recordAAAction = ControladorContexto
+				.getContextBean(RecordActivitiesActualsAction.class);
+		try {
+			if (this.activities.getInitialDtBudget() != null) {
+				Date dateCurrent = activities.getInitialDtBudget();
+				Date initialDtBudget = ControladorFechas.setDefaultTime(
+						this.systemProfile.getActivityDefaultStart(),
+						dateCurrent);
+				Date finalDtBudget = ControladorFechas
+						.setDefaultTime(
+								this.systemProfile.getActivityDefaultEnd(),
+								dateCurrent);
+				this.activities.setInitialDtBudget(initialDtBudget);
+				this.activities.setFinalDtBudget(finalDtBudget);
+
+				this.activities.setDurationBudget(recordAAAction
+						.subtractDuration(null, activities, false));
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
@@ -1068,14 +1068,6 @@ public class CropActivitiesAction implements Serializable {
 		}
 		if (activityDefaultEnd.after(breakStart)
 				&& activityDefaultEnd.before(breakEnd)) {
-			ControladorContexto
-					.mensajeError(
-							null,
-							"popupFormReg:endTime",
-							bundle.getString("message_validate_date_activity_lunch_range"));
-		}
-		if (activityDefaultEnd.before(breakStart)
-				|| activityDefaultEnd.before(breakEnd)) {
 			ControladorContexto
 					.mensajeError(
 							null,

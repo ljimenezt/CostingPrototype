@@ -213,7 +213,6 @@
 						<script type="text/javascript">
 							$g = jQuery.noConflict();
 						</script>
-
 						<div align="right">
 							<h:panelGrid id="pnlButtons" columns="6" cellpadding="0"
 								cellspacing="0">
@@ -257,14 +256,12 @@
 									actionListener="#{scheduledActivitiesAction.assignSelectedActivity()}"
 									action="#{scheduledActivitiesAction.showActivitiesAndMachineForActivity()}"
 									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
-									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
-											styleClass="verticalAlignMiddle"
-											rendered="#{activity.seleccionado eq true}" />
-										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
-											styleClass="verticalAlignMiddle"
-											rendered="#{activity.seleccionado eq false}" />
-									</h:panelGrid>
+									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{activity.seleccionado eq true}" />
+									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{activity.seleccionado eq false}" />
 									<a:ajax event="click"
 										listener="#{activitiesAction.assignActivities(activity)}"
 										render="formScheduledActivities, seleccionadas" />
@@ -274,7 +271,8 @@
 								<f:facet name="header" />
 								<a:commandLink id="details"
 									actionListener="#{activitiesAction.setActivities(activity)}"
-									render="PopUpDetalles"
+									action="#{scheduledActivitiesAction.selectedActivity(activity)}"
+									render="PopUpDetalles formScheduledActivities"
 									oncomplete="#{rich:component('PopUpDetalles')}.show()">
 									<h:graphicImage value="/img/details_16.png" />
 									<rich:tooltip layout="block">
@@ -284,7 +282,7 @@
 								<h:outputText value="&#32;&#32;&#32;" />
 								<a:commandLink rendered="#{activity.costHrActual eq null}"
 									oncomplete="#{rich:component('popupEliminarLista')}.show()"
-									render="popupEliminarLista"
+									render="popupEliminarLista, formScheduledActivities"
 									actionListener="#{cropActivitiesAction.setRemoveList(activity)}">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
@@ -303,9 +301,11 @@
 								</f:facet>
 								<a:commandLink id="linkReg"
 									rendered="#{activity.costHrActual eq null}"
-									render="popupFormReg:popupRegActivity" value="" execute="@form"
+									render="popupFormReg:popupRegActivity formScheduledActivities"
+									execute="@form"
 									actionListener="#{cropActivitiesAction.loadActivityToEdit(activity)}"
-									oncomplete="#{rich:component('popupRegActivity')}.show(); setFocus('popupFormReg');">
+									action="#{scheduledActivitiesAction.selectedActivity(activity)}"
+									oncomplete="#{rich:component('popupRegActivity')}.show(); setFocus('popupFormReg'); ">
 									<h:outputText value="#{activity.activityName.activityName}" />
 								</a:commandLink>
 								<h:outputText value="#{activity.activityName.activityName}"
@@ -450,25 +450,23 @@
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass=""
 								rendered="#{(identity.autorizado('activitiesAndHrAction','A') or identity.autorizado('activitiesAndHrAction','D'))}">
-								<a:outputPanel>
-									<a:commandLink render="popupEliminar"
-										rendered="#{actividadesTrabajadores.initialDateTimeActual eq null}"
-										actionListener="#{activitiesAndHrAction.setActivitiesAndHr(actividadesTrabajadores)}"
-										oncomplete="#{rich:component('popupEliminar')}.show()">
-										<h:graphicImage value="/img/delete_16.png" />
-										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.button_remove}" />
-										</rich:tooltip>
-									</a:commandLink>
-									<a:outputPanel
-										rendered="#{actividadesTrabajadores.initialDateTimeActual ne null}">
-										<h:graphicImage value="/img/delete_no_available_16.png" />
-										<rich:tooltip layout="block">
-											<h:outputText
-												value="#{messageLifeCycle.scheduled_activities_label_already_actual_hr}" />
-										</rich:tooltip>
-									</a:outputPanel>
-								</a:outputPanel>
+								<a:commandLink render="popupEliminar"
+									rendered="#{actividadesTrabajadores.initialDateTimeActual eq null}"
+									actionListener="#{activitiesAndHrAction.setActivitiesAndHr(actividadesTrabajadores)}"
+									oncomplete="#{rich:component('popupEliminar')}.show()">
+									<h:graphicImage value="/img/delete_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.button_remove}" />
+									</rich:tooltip>
+								</a:commandLink>
+								<h:graphicImage value="/img/delete_no_available_16.png"
+									rendered="#{actividadesTrabajadores.initialDateTimeActual ne null}" />
+								<rich:tooltip layout="block">
+									<h:outputText
+										rendered="#{actividadesTrabajadores.initialDateTimeActual ne null}"
+										value="#{messageLifeCycle.scheduled_activities_label_already_actual_hr}" />
+								</rich:tooltip>
+
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{mensaje.label_name}</f:facet>

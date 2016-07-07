@@ -64,7 +64,7 @@
 							<rich:column styleClass="colIconoUno">
 								<f:facet name="header" />
 								<a:commandLink
-									render="formActivities, mensajes, popupFormReg:popupRegActivity "
+									render="paginas, mensajes, popupFormReg:popupRegActivity "
 									action="#{cropActivitiesAction.generateListActivities()}"
 									oncomplete="#{rich:component('popupRegActivity')}.show(); #{rich:component('popupActivityNames')}.hide();"
 									actionListener="#{cropActivitiesAction.setActivityNames(activityNames)}">
@@ -179,6 +179,7 @@
 							value="#{mensaje.label_date} #{mensaje.label_budget} " />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar required="true"
+							rendered="#{activitiesAction.flagCycle}"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							value="#{cropActivitiesAction.activities.initialDtBudget}"
 							showOn="button" navigator="true"
@@ -189,6 +190,9 @@
 							<p:ajax event="dateSelect" update="outPutReg"
 								listener="#{cropActivitiesAction.setFinalDtBudget}" />
 						</p:calendar>
+						<h:inputText
+							value="#{cropActivitiesAction.activities.initialDtBudget}"
+							rendered="#{!activitiesAction.flagCycle}" readonly="true" />
 						<rich:message for="fechaInicio" />
 
 						<h:outputText styleClass="etiquetaTitulo"
@@ -303,10 +307,9 @@
 					<br />
 					<br />
 					<div align="center">
-						<a:commandButton
-							render=":formConfirmar:popUpConfirmar,formGenerico"
-							execute="popupFormReg, fechaInicio"
-							action="#{cropActivitiesAction.validateDatesAllowed()}"
+						<a:commandButton render="formConfirmar:popUpConfirmar"
+							execute="popupFormReg"
+							actionListener="#{cropActivitiesAction.validateDatesAllowed()}"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 							value="#{mensaje.button_save}" />
 					</div>
@@ -363,9 +366,10 @@
 				</ui:define>
 				<ui:define name="botones">
 					<a:commandButton value="#{mensaje.button_accept}"
-						actionListener="#{cropActivitiesAction.saveCropActivities()}"
-						execute="@form" render="paginas"
-						onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupFormReg')}.hide();" />
+						render="formScheduledActivities"
+						actionListener="#{scheduledActivitiesAction.selectedActivity(cropActivitiesAction.activities)}"
+						action="#{activitiesAction.assignActivities(cropActivitiesAction.activities)}"
+						onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupRegActivity')}.hide();  #{rich:component('statPane')}.show();" />
 					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popUpConfirmar')}.hide()" />
 				</ui:define>
