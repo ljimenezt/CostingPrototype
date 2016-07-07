@@ -156,7 +156,8 @@ public class ActivityMaterialsAction implements Serializable {
 	}
 
 	/**
-	 * @return materialSelected: material selected for assign to the activity.
+	 * @param materialSelected
+	 *            : material selected for assign to the activity.
 	 */
 	public void setMaterialSelected(Materials materialSelected) {
 		this.materialSelected = materialSelected;
@@ -368,7 +369,6 @@ public class ActivityMaterialsAction implements Serializable {
 					materialSelected = material;
 				}
 			} else {
-				ActivityMaterials activityMaterials = new ActivityMaterials();
 				for (ActivityMaterials activityMaterial : listActivityMaterials) {
 					int idMaterial = activityMaterial.getActivityMaterialsPK()
 							.getMaterials().getIdMaterial();
@@ -396,9 +396,6 @@ public class ActivityMaterialsAction implements Serializable {
 	 */
 	public void materialSelection() {
 		try {
-			if (listActivityMaterials == null) {
-				listActivityMaterials = new ArrayList<ActivityMaterials>();
-			}
 			Double quantityActual = depositsDao
 					.quantityMaterialsById(materialSelected.getIdMaterial());
 			if (activityMaterials.getQuantityBudget() > quantityActual) {
@@ -415,7 +412,6 @@ public class ActivityMaterialsAction implements Serializable {
 					activityMaterials.setCostBudget(0.0);
 				}
 			}
-
 			if (activityMaterials.getQuantityBudget() <= 0) {
 				ControladorContexto.mensajeErrorEspecifico(
 						"formAddMaterials:txtQuantityBudget",

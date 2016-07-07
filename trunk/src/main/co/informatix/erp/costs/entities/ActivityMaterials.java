@@ -21,13 +21,30 @@ import javax.persistence.TemporalType;
 @Table(name = "activity_materials", schema = "costs")
 public class ActivityMaterials implements Serializable, Cloneable {
 
+	private ActivityMaterialsPK activityMaterialsPK;
+
 	private double quantityBudget;
 	private double costBudget;
 	private Double quantityActual;
 	private Double costActual;
 	private Date dateTime;
 
-	private ActivityMaterialsPK activityMaterialsPK;
+	/**
+	 * @return activityMaterialsPK: composite primary key of activities and
+	 *         materials.
+	 */
+	@EmbeddedId
+	public ActivityMaterialsPK getActivityMaterialsPK() {
+		return activityMaterialsPK;
+	}
+
+	/**
+	 * @param activityMaterialsPK
+	 *            : composite primary key of activities and materials.
+	 */
+	public void setActivityMaterialsPK(ActivityMaterialsPK activityMaterialsPK) {
+		this.activityMaterialsPK = activityMaterialsPK;
+	}
 
 	/**
 	 * @return quantityBudget: Budgeted amount of materials that need the
@@ -109,23 +126,6 @@ public class ActivityMaterials implements Serializable, Cloneable {
 	 */
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
-	}
-
-	/**
-	 * @return activityMaterialsPK: composite primary key of activities and
-	 *         materials.
-	 */
-	@EmbeddedId
-	public ActivityMaterialsPK getActivityMaterialsPK() {
-		return activityMaterialsPK;
-	}
-
-	/**
-	 * @param activityMaterialsPK
-	 *            : composite primary key of activities and materials.
-	 */
-	public void setActivityMaterialsPK(ActivityMaterialsPK activityMaterialsPK) {
-		this.activityMaterialsPK = activityMaterialsPK;
 	}
 
 	public ActivityMaterials clone() {
