@@ -1357,10 +1357,10 @@ public class CycleAction implements Serializable {
 			List<SelectItem> parameters = new ArrayList<SelectItem>();
 			String dateStart = ControladorFechas.formatDate(
 					crops.getInitialDate(),
-					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+					Constantes.DATE_FORMAT_MESSAGE_MMDDYYYY);
 			String dateFinal = ControladorFechas.formatDate(
 					crops.getFinalDate(),
-					Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+					Constantes.DATE_FORMAT_MESSAGE_MMDDYYYY);
 			Date finalDate = ControladorFechas.finDeDia(cycle
 					.getFinalDateTime());
 			if (this.cycle.getMaterialsRequired()) {
@@ -1417,7 +1417,7 @@ public class CycleAction implements Serializable {
 						this.cycle.getInitialDateTime(), consult, parameters);
 				if (dateInitial != null) {
 					dateStart = ControladorFechas.formatDate(dateInitial,
-							Constantes.DATE_FORMAT_MESSAGE_WITHOUT_TIME);
+							Constantes.DATE_FORMAT_MESSAGE_MMDDYYYY);
 					ControladorContexto.mensajeErrorArg1(
 							"formRegisterCycle:fechaInicio",
 							"cycle_message_must_enter_late_date",
