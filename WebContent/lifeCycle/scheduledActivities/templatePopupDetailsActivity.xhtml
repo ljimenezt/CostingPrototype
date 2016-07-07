@@ -155,7 +155,8 @@
 				<br />
 				<div align="center">
 					<a:commandButton value="#{mensaje.button_accept}"
-						onclick="#{rich:component('PopUpDetalles')}.hide()" />
+						onclick="#{rich:component('PopUpDetalles')}.hide()"
+						render="formScheduledActivities" />
 				</div>
 			</rich:panel>
 		</rich:popupPanel>
@@ -197,7 +198,7 @@
 					<a:commandButton value="#{mensaje.button_accept}"
 						actionListener="#{cropActivitiesAction.removeSelected()}"
 						onclick="#{rich:component('popupEliminarLista')}.hide();"
-						render="pnlActivities, mensajes" />
+						render="paginas, mensajes, mensajeBusqueda" />
 					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popupEliminarLista')}.hide()" />
 				</ui:define>
@@ -232,7 +233,7 @@
 					<a:commandButton value="#{mensaje.button_accept}"
 						actionListener="#{cropActivitiesAction.removeSelected()}"
 						onclick="#{rich:component('popupEliminarListaStandard')}.hide()"
-						render="formStandardActivities, mensajes " />
+						render="formScheduledActivities:paginas, mensajes, mensajeBusqueda " />
 					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popupEliminarListaStandard')}.hide()" />
 				</ui:define>

@@ -1280,7 +1280,7 @@ public class ActivitiesAndHrAction implements Serializable {
 			RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
 					.getContextBean(RecordActivitiesActualsAction.class);
 			double durationBudget = recordActivitiesActualsAction
-					.subtractDuration(activitiesAndHr, false);
+					.subtractDuration(activitiesAndHr, null, false);
 			int idHr = activitiesAndHr.getActivitiesAndHrPK().getHr().getIdHr();
 			activitiesAndHr.setDurationBudget(durationBudget);
 			validateWorkLoad(durationBudget, idHr, false, this.activitiesAndHr,
