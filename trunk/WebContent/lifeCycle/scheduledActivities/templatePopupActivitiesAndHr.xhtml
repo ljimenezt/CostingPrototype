@@ -254,98 +254,109 @@
 				<legend class="etiquetaTitulo">#{activitiesAndHrAction.activitiesAndHr.activitiesAndHrPK.hr.name}
 					#{activitiesAndHrAction.activitiesAndHr.activitiesAndHrPK.hr.familyName}</legend>
 				<a:outputPanel id="outPutAgregarActivitiesAndHr">
-					<a:outputPanel>
-						<h:panelGrid columns="1" columnClasses="center">
-							<rich:message for="duracionBudgetEditar" />
-						</h:panelGrid>
-						<br />
-						<h:panelGrid columns="3" columnClasses=" center, center, center">
-							<h:outputText value="#{mensaje.label_start_date}"
-								styleClass="etiquetaTitulo" />
-							<h:outputText value="#{mensaje.label_end_date}"
-								styleClass="etiquetaTitulo" />
-							<h:outputText
-								value="#{messageCosts.cycle_standard_activities_label_duration}"
-								styleClass="etiquetaTitulo" />
-							<p:calendar
-								value="#{activitiesAndHrAction.activitiesAndHr.initialDateTimeBudget}"
-								readonlyInput="true" pattern="MM/dd/yyyy HH:mm"
-								styleClass="W104P" id="fechaInicio_" showOn="button"
-								maxdate="#{activitiesAndHrAction.activitiesAndHr.finalDateTimeBudget}"
-								mindate="#{activitiesAndHrAction.selectedActivity.initialDtBudget}"
-								navigator="true"
-								converterMessage="#{mensaje.message_validar_formato_fecha}">
-								<p:ajax event="dateSelect"
-									update="fechaFinal_, formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr"
-									listener="#{activitiesAndHrAction.calculateDuration()}" />
-							</p:calendar>
-							<p:calendar
-								value="#{activitiesAndHrAction.activitiesAndHr.finalDateTimeBudget}"
-								readonlyInput="true" pattern="MM/dd/yyyy HH:mm"
-								styleClass="W104P" id="fechaFinal_" showOn="button"
-								maxdate="#{activitiesAndHrAction.selectedActivity.finalDtBudget}"
-								mindate="#{activitiesAndHrAction.activitiesAndHr.initialDateTimeBudget}"
-								navigator="true"
-								converterMessage="#{mensaje.message_validar_formato_fecha}">
-								<p:ajax event="dateSelect"
-									update="fechaInicio_, formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr"
-									listener="#{activitiesAndHrAction.calculateDuration()}" />
-							</p:calendar>
-							<h:inputText id="duracionBudgetEditar" required="true"
-								requiredMessage="#{mensaje.message_required_duration}"
-								converterMessage="#{mensaje.message_duration_numbers}"
-								validator="#{activitiesAndHrAction.validate}"
-								value="#{activitiesAndHrAction.activitiesAndHr.durationBudget}"
-								styleClass="W125P">
-								<f:attribute name="var" value="si" />
-								<f:ajax event="blur"
-									listener="#{activitiesAndHrAction.validateWorkLoad(activitiesAndHrAction.activitiesAndHr.durationBudget, activitiesAndHrAction.activitiesAndHr.activitiesAndHrPK.hr.idHr, false, activitiesAndHrAction.activitiesAndHr, activitiesAndHrAction.selectedActivity)}"
-									render="formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr" />
-							</h:inputText>
-						</h:panelGrid>
 
-						<h:panelGrid columns="4"
-							columnClasses=" center, center, center, center">
+					<script type="text/javascript">
+						$g = jQuery.noConflict();
+						$g(document).ready(function() {
+						$g('#formScheduledActivities\\:description').maxlength({
+							events : [],
+							max : 250,
+							feedbackText : "#{mensaje.label_characters_left}",
+							showFeedback : 'active'
+							});
+						});
+					</script>
 
-							<h:outputText
-								value="#{messageCosts.activities_and_hr_label_normal_hours}"
-								styleClass="etiquetaTitulo" />
-							<h:outputText
-								value="#{messageCosts.activities_and_hr_label_overtime}"
-								styleClass="etiquetaTitulo" />
-							<h:outputText value="#{mensaje.label_total}"
-								styleClass="etiquetaTitulo" />
-							<h:outputText
-								value="#{messageHumanResources.overtime_payment_rate_label}"
-								styleClass="etiquetaTitulo" />
-							<h:inputText disabled="true" id="normalHours"
-								value="#{activitiesAndHrAction.activitiesAndHr.normalHours}"
-								styleClass="W82P" />
-							<h:inputText disabled="true"
-								value="#{activitiesAndHrAction.activitiesAndHr.overtimeHours}"
-								styleClass="W82P" />
-							<h:inputText disabled="true"
-								value="#{activitiesAndHrAction.activitiesAndHr.totalHours}"
-								styleClass="W82P" />
-							<h:selectOneMenu value="#{activitiesAndHrAction.idOvertimeRate}">
-								<f:selectItems
-									value="#{activitiesAndHrAction.listOvertimePaymentRate}" />
-							</h:selectOneMenu>
-						</h:panelGrid>
-						<br />
-						<br />
-						<div align="center">
-							<a:commandButton value="#{mensaje.button_save}"
-								execute="formEditarActivitiesAndHr"
-								render="formConfirmarSeleccionTrabajador:popUpConfirmarSeleccionTrabajador,formGenerico"
-								oncomplete="if (#{facesContext.maximumSeverity==null})
+					<h:panelGrid columns="1" columnClasses="center">
+						<rich:message for="duracionBudgetEditar" />
+					</h:panelGrid>
+					<br />
+					<h:panelGrid columns="3" columnClasses=" center, center, center">
+						<h:outputText value="#{mensaje.label_start_date}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="#{mensaje.label_end_date}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText
+							value="#{messageCosts.cycle_standard_activities_label_duration}"
+							styleClass="etiquetaTitulo" />
+						<p:calendar
+							value="#{activitiesAndHrAction.activitiesAndHr.initialDateTimeBudget}"
+							readonlyInput="true" pattern="MM/dd/yyyy HH:mm"
+							styleClass="W104P" id="fechaInicio_" showOn="button"
+							maxdate="#{activitiesAndHrAction.activitiesAndHr.finalDateTimeBudget}"
+							mindate="#{activitiesAndHrAction.selectedActivity.initialDtBudget}"
+							navigator="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}">
+							<p:ajax event="dateSelect"
+								update="fechaFinal_, formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr"
+								listener="#{activitiesAndHrAction.calculateDuration()}" />
+						</p:calendar>
+						<p:calendar
+							value="#{activitiesAndHrAction.activitiesAndHr.finalDateTimeBudget}"
+							readonlyInput="true" pattern="MM/dd/yyyy HH:mm"
+							styleClass="W104P" id="fechaFinal_" showOn="button"
+							maxdate="#{activitiesAndHrAction.selectedActivity.finalDtBudget}"
+							mindate="#{activitiesAndHrAction.activitiesAndHr.initialDateTimeBudget}"
+							navigator="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}">
+							<p:ajax event="dateSelect"
+								update="fechaInicio_, formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr"
+								listener="#{activitiesAndHrAction.calculateDuration()}" />
+						</p:calendar>
+						<h:inputText id="duracionBudgetEditar" required="true"
+							requiredMessage="#{mensaje.message_required_duration}"
+							converterMessage="#{mensaje.message_duration_numbers}"
+							validator="#{activitiesAndHrAction.validate}"
+							value="#{activitiesAndHrAction.activitiesAndHr.durationBudget}"
+							styleClass="W125P">
+							<f:attribute name="var" value="si" />
+							<f:ajax event="blur"
+								listener="#{activitiesAndHrAction.validateWorkLoad(activitiesAndHrAction.activitiesAndHr.durationBudget, activitiesAndHrAction.activitiesAndHr.activitiesAndHrPK.hr.idHr, false, activitiesAndHrAction.activitiesAndHr, activitiesAndHrAction.selectedActivity)}"
+								render="formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr" />
+						</h:inputText>
+					</h:panelGrid>
+
+					<h:panelGrid columns="4"
+						columnClasses=" center, center, center, center">
+
+						<h:outputText
+							value="#{messageCosts.activities_and_hr_label_normal_hours}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText
+							value="#{messageCosts.activities_and_hr_label_overtime}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="#{mensaje.label_total}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText
+							value="#{messageHumanResources.overtime_payment_rate_label}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText disabled="true" id="normalHours"
+							value="#{activitiesAndHrAction.activitiesAndHr.normalHours}"
+							styleClass="W82P" />
+						<h:inputText disabled="true"
+							value="#{activitiesAndHrAction.activitiesAndHr.overtimeHours}"
+							styleClass="W82P" />
+						<h:inputText disabled="true"
+							value="#{activitiesAndHrAction.activitiesAndHr.totalHours}"
+							styleClass="W82P" />
+						<h:selectOneMenu value="#{activitiesAndHrAction.idOvertimeRate}">
+							<f:selectItems
+								value="#{activitiesAndHrAction.listOvertimePaymentRate}" />
+						</h:selectOneMenu>
+					</h:panelGrid>
+					<br />
+					<br />
+					<div align="center">
+						<a:commandButton value="#{mensaje.button_save}"
+							execute="formEditarActivitiesAndHr"
+							render="formConfirmarSeleccionTrabajador:popUpConfirmarSeleccionTrabajador,formGenerico"
+							oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmarSeleccionTrabajador')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
-							<a:commandButton value="#{mensaje.button_cancel}"
-								onclick="#{rich:component('popUpEditarActivitiesAndHr')}.hide()" />
-						</div>
-						<br />
-					</a:outputPanel>
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpEditarActivitiesAndHr')}.hide()" />
+					</div>
+					<br />
 				</a:outputPanel>
 			</t:fieldset>
 		</rich:popupPanel>
