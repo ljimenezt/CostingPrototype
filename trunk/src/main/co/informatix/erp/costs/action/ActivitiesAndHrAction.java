@@ -34,6 +34,8 @@ import co.informatix.erp.humanResources.entities.OvertimePaymentRate;
 import co.informatix.erp.humanResources.entities.Team;
 import co.informatix.erp.informacionBase.dao.SystemProfileDao;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
+import co.informatix.erp.lifeCycle.dao.CycleDao;
+import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
@@ -71,6 +73,8 @@ public class ActivitiesAndHrAction implements Serializable {
 	private CertificationsAndRolesDao certificationsAndRolesDao;
 	@EJB
 	private HrCertificationsAndRolesDao hrCertificationsAndRolesDao;
+	@EJB
+	private CycleDao cycleDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -831,7 +835,7 @@ public class ActivitiesAndHrAction implements Serializable {
 
 	/**
 	 * This method save activities and hr for the teams selected and validate if
-	 * this is available
+	 * each human resource is available
 	 * 
 	 * @param activities
 	 *            : Object Activities selected
@@ -848,7 +852,7 @@ public class ActivitiesAndHrAction implements Serializable {
 				listActivitiesAndHrNotAvailable = new ArrayList<ActivitiesAndHr>();
 				listActivitiesAndHr = new ArrayList<ActivitiesAndHr>();
 				List<Team> teamList = teamAction.getTeamSelected();
-				List<CertificationsAndRoles> ac = certificationsAndRolesDao
+				List<CertificationsAndRoles> certificationsRoles = certificationsAndRolesDao
 						.consultCertificationsAndRolesByActivity(activities
 								.getIdActivity());
 				for (Team team : teamList) {
@@ -883,10 +887,11 @@ public class ActivitiesAndHrAction implements Serializable {
 									hrAction.compareHr(selectedWorkers, hr);
 								}
 							}
-							if (ac != null) {
+							if (certificationsRoles != null) {
 								boolean certifications = hrCertificationsAndRolesDao
 										.consultCertificationExists(
-												hr.getIdHr(), ac);
+												hr.getIdHr(),
+												certificationsRoles);
 								if (!certifications) {
 									saveHr = false;
 									hr.setCertificate(false);
@@ -978,6 +983,7 @@ public class ActivitiesAndHrAction implements Serializable {
 				}
 				costHrBudget = selectedActivity.getCostHrBudget()
 						+ costHrBudget;
+				editCycleHrBudget(costHrBudget);
 				selectedActivity.setCostHrBudget(costHrBudget);
 				activitiesDao.editActivities(this.selectedActivity);
 				setListActivitiesAndHr(null);
@@ -1012,6 +1018,7 @@ public class ActivitiesAndHrAction implements Serializable {
 				Double costHr = (selectedActivity.getCostHrBudget() - activitiesAndHrAnterior
 						.getTotalCostBudget())
 						+ activitiesAndHr.getTotalCostBudget();
+				editCycleHrBudget(costHr);
 				selectedActivity.setCostHrBudget(costHr);
 				activitiesAndHrDao.editActivitiesAndHr(activitiesAndHr);
 				activitiesDao.editActivities(selectedActivity);
@@ -1030,6 +1037,27 @@ public class ActivitiesAndHrAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * Edit the budget cost for human resorces item into the cycle.
+	 * 
+	 * @param costHrBudget
+	 *            : New budget cost for human resources.
+	 * @throws Exception
+	 */
+	private void editCycleHrBudget(double costHrBudget) throws Exception {
+		Cycle cycle = cycleDao.cycleById(selectedActivity.getCycle()
+				.getIdCycle());
+		double costBudgetCycle = costHrBudget;
+		if (cycle.getCostHrBudget() != null && cycle.getCostHrBudget() > 0) {
+			double lastCostBudgetHrActivity = selectedActivity
+					.getCostHrBudget();
+			costBudgetCycle = (cycle.getCostHrBudget() - lastCostBudgetHrActivity)
+					+ costHrBudget;
+		}
+		cycle.setCostHrBudget(costBudgetCycle);
+		cycleDao.editCycle(cycle);
 	}
 
 	/**
@@ -1255,8 +1283,10 @@ public class ActivitiesAndHrAction implements Serializable {
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(message), activitiesAndHr
 							.getActivitiesAndHrPK().getHr().getName()));
-			this.selectedActivity.setCostHrBudget(this.selectedActivity
-					.getCostHrBudget() - activitiesAndHr.getTotalCostBudget());
+			double costHrBudget=this.selectedActivity
+					.getCostHrBudget() - activitiesAndHr.getTotalCostBudget();
+			editCycleHrBudget(costHrBudget);
+			this.selectedActivity.setCostHrBudget(costHrBudget);
 			activitiesDao.editActivities(this.selectedActivity);
 			consultActivitiesAndHrByActivity();
 		} catch (EJBException e) {
