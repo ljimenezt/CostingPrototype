@@ -27,23 +27,35 @@
 				<a:outputPanel id="outPutAddActivitiesMaterials">
 					<a:outputPanel>
 						<h:panelGrid styleClass="H24P" columns="1" columnClasses=" right">
-							<rich:message for="txtQuantityBudget" />
+							<rich:message for="txtQuantity" />
 						</h:panelGrid>
-						<br />
 						<h:panelGrid columns="2" columnClasses=" right, center">
 							<h:outputText value="#{messageCosts.budget_label_quantity}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText value="#{activityMaterialsAction.quantityEdit}"
-								styleClass="W75P" id="txtQuantityBudget"
+								styleClass="W75P" id="txtQuantity"
 								converterMessage="#{mensaje.message_campo_positivo}"
 								requiredMessage="#{mensaje.message_campo_requerido}">
+								<a:ajax event="change" execute="@this"
+									listener="#{activityMaterialsAction.validateQuantityMaterial(activityMaterialsAction.activityMaterials.activityMaterialsPK.materials.idMaterial, false)}"
+									render="txtCostBudget" />
+							</h:inputText>
+							<h:outputText value="#{messageCosts.budget_label_cost}"
+								styleClass="etiquetaTitulo" />
+							<h:inputText id="txtCostBudget"
+								value="#{activityMaterialsAction.costActualEdit}"
+								readonly="true" required="true" styleClass="W75P"
+								converterMessage="#{mensaje.message_campo_positivo}"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 						</h:panelGrid>
 						<br />
 						<div align="center">
 							<a:commandButton value="#{mensaje.button_save}"
 								execute="formUpdateActivitiesMaterials"
-								actionListener="#{activityMaterialsAction.validateQuantityMaterial()}"
+								actionListener="#{activityMaterialsAction.validateCost()}"
 								render="formConfirmUpdateMaterial:popUpConfirmUpdateMaterial, formGenerico"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmUpdateMaterial')}.show();} else{ 
@@ -305,20 +317,18 @@
 				<a:outputPanel id="outPutAddActivitiesMaterials">
 					<a:outputPanel>
 						<h:panelGrid styleClass="H24P" columns="1" columnClasses=" right">
-							<rich:message for="txtQuantityBudget" />
+							<rich:message for="txtQuantity" />
 						</h:panelGrid>
-						<br />
 						<h:panelGrid columns="3" columnClasses=" right, center">
 							<h:outputText value="#{messageCosts.budget_label_quantity}"
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
-							<h:inputText
-								value="#{activityMaterialsAction.activityMaterials.quantityBudget}"
-								styleClass="W75P" id="txtQuantityBudget"
+							<h:inputText value="#{activityMaterialsAction.quantityEdit}"
+								styleClass="W75P" id="txtQuantity"
 								converterMessage="#{mensaje.message_campo_positivo}"
 								requiredMessage="#{mensaje.message_campo_requerido}">
 								<a:ajax event="change" execute="@this"
-									listener="#{activityMaterialsAction.materialSelection()}"
+									listener="#{activityMaterialsAction.validateQuantityMaterial(activityMaterialsAction.materialSelected.idMaterial, true)}"
 									render="txtCostBudget" />
 							</h:inputText>
 
@@ -326,11 +336,12 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText id="txtCostBudget"
-								value="#{activityMaterialsAction.activityMaterials.costBudget}"
+								value="#{activityMaterialsAction.costActualEdit}"
 								readonly="true" required="true" styleClass="W75P"
 								converterMessage="#{mensaje.message_campo_positivo}"
 								requiredMessage="#{mensaje.message_campo_requerido}">
-
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 						</h:panelGrid>
 						<br />

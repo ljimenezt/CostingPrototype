@@ -8,7 +8,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
-	<h:form id="formAddActivitiesMaterials">
+	<h:form id="formUpdateActivitiesMaterials">
 		<rich:popupPanel id="popupAddActivitiesMaterials" modal="true"
 			domElementAttachment="form" autosized="true" width="1200"
 			maxWidth="1300"
@@ -27,6 +27,9 @@
 				<legend class="etiquetaTitulo">#{activityMaterialsAction.activityMaterials.activityMaterialsPK.materials.name}
 				</legend>
 				<a:outputPanel id="outputAddActivitiesMaterials">
+					<h:panelGrid styleClass="H24P" columns="1" columnClasses=" right">
+						<rich:message for="txtQuantity" />
+					</h:panelGrid>
 					<h:panelGrid columns="4"
 						columnClasses="right W91P, tdAlignTop center, tdAlignTop W150P, tdAlignTop verticalAlignMiddle ">
 						<h:outputText value="" />
@@ -40,15 +43,15 @@
 						<h:inputText disabled="true"
 							value="#{activityMaterialsAction.activityMaterials.quantityBudget}"
 							styleClass="W108P" />
-						<h:inputText id="quantity" required="true" styleClass="W108P"
+						<h:inputText id="txtQuantity" required="true" styleClass="W108P"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							value="#{activityMaterialsAction.quantityEdit}">
 							<a:ajax event="change" execute="@this"
 								listener="#{activityMaterialsAction.validateCostActualMaterials()}"
-								render="quantity, costActual" />
+								render="txtQuantity, costActual" />
 						</h:inputText>
-						<rich:message for="quantity" />
+						<h:outputText value="" />
 
 						<h:outputText value="#{mensaje.label_cost} #{mensaje.label_total}"
 							styleClass="etiquetaTitulo" />
@@ -66,7 +69,7 @@
 							<f:convertNumber maxFractionDigits="1" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:inputText>
-						<rich:message for="costActual" />
+						<h:outputText value="" />
 					</h:panelGrid>
 					<br />
 					<div align="center">
@@ -74,10 +77,11 @@
 							<a:commandButton
 								actionListener="#{activityMaterialsAction.budgetCopyMaterials()}"
 								execute="@this" value="#{mensaje.button_as_budgeted}">
-								<f:ajax resetValues="true" render="quantity costActual" />
+								<f:ajax resetValues="true" render="txtQuantity costActual" />
 							</a:commandButton>
 							<a:commandButton value="#{mensaje.button_save}"
-								execute="formAddActivitiesMaterials"
+								actionListener="#{activityMaterialsAction.validateCost()}"
+								execute="formUpdateActivitiesMaterials"
 								render="formConfirmarMaterial:popUpConfirmarMaterial,formGenerico"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmarMaterial')}.show();} else{ 

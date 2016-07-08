@@ -356,6 +356,8 @@ public class ActivityMaterialsAction implements Serializable {
 		try {
 			validateMaterial = false;
 			activityMaterials = new ActivityMaterials();
+			quantityEdit = 0.0;
+			costActualEdit = 0.0;
 			if (!material.isSelected()) {
 				Double materialQuantity = depositsDao
 						.quantityMaterialsById(material.getIdMaterial());
@@ -390,58 +392,38 @@ public class ActivityMaterialsAction implements Serializable {
 	}
 
 	/**
-	 * This method allows select or remove a material for assign to the
-	 * activity.
-	 * 
-	 */
-	public void materialSelection() {
-		try {
-			Double quantityActual = depositsDao
-					.quantityMaterialsById(materialSelected.getIdMaterial());
-			if (activityMaterials.getQuantityBudget() > quantityActual) {
-				ControladorContexto.mensajeErrorEspecifico(
-						"formAddMaterials:txtQuantityBudget",
-						"deposits_message_not_enough_records_in_deposit",
-						"mensajeWarehouse");
-				activityMaterials.setCostBudget(0.0);
-			} else {
-				if (activityMaterials.getQuantityBudget() > 0) {
-					calculateCostBudget(activityMaterials.getQuantityBudget(),
-							materialSelected.getIdMaterial());
-				} else {
-					activityMaterials.setCostBudget(0.0);
-				}
-			}
-			if (activityMaterials.getQuantityBudget() <= 0) {
-				ControladorContexto.mensajeErrorEspecifico(
-						"formAddMaterials:txtQuantityBudget",
-						"message_campo_positivo", "mensaje");
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
 	 * This method allows validate the material quantity to edit for activity.
 	 * 
+	 * @param idMaterial
+	 *            : material identifier.
+	 * @param flag
+	 *            : flag that identifies the form.
+	 * 
 	 */
-	public void validateQuantityMaterial() {
+	public void validateQuantityMaterial(int idMaterial, boolean flag) {
 		try {
+			String form = "";
+			if (flag) {
+				form = "formAddMaterials";
+			} else {
+				form = "formUpdateActivitiesMaterials";
+			}
 			Double quantityActual = depositsDao
-					.quantityMaterialsById(activityMaterials
-							.getActivityMaterialsPK().getMaterials()
-							.getIdMaterial());
+					.quantityMaterialsById(idMaterial);
 			if (quantityEdit > quantityActual) {
-				ControladorContexto.mensajeErrorEspecifico(
-						"formUpdateActivitiesMaterials:txtQuantityBudget",
+				ControladorContexto.mensajeErrorEspecifico(form
+						+ ":txtQuantity",
 						"deposits_message_not_enough_records_in_deposit",
 						"mensajeWarehouse");
+				costActualEdit = 0;
+			} else if (quantityEdit > 0) {
+				calculateCostBudget(quantityEdit, idMaterial);
+			} else {
+				costActualEdit = 0;
 			}
 			if (quantityEdit <= 0) {
-				ControladorContexto.mensajeErrorEspecifico(
-						"formUpdateActivitiesMaterials:txtQuantityBudget",
-						"message_campo_positivo", "mensaje");
+				ControladorContexto.mensajeErrorEspecifico(form
+						+ ":txtQuantity", "message_campo_positivo", "mensaje");
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -463,10 +445,7 @@ public class ActivityMaterialsAction implements Serializable {
 							.getGeneralCostBudget()
 							- activityMaterials.getCostBudget());
 			activityMaterials.setQuantityBudget(quantityEdit);
-			activityMaterials.setCostBudget(0.0);
-			calculateCostBudget(activityMaterials.getQuantityBudget(),
-					activityMaterials.getActivityMaterialsPK().getMaterials()
-							.getIdMaterial());
+			activityMaterials.setCostBudget(costActualEdit);
 			selectedActivity.setCostMaterialsBudget(selectedActivity
 					.getCostMaterialsBudget()
 					+ activityMaterials.getCostBudget());
@@ -513,7 +492,7 @@ public class ActivityMaterialsAction implements Serializable {
 				amount = 0;
 			}
 			depositsListActual.remove(depositsActual);
-			activityMaterials.setCostBudget(costBudget);
+			costActualEdit = costBudget;
 		}
 	}
 
@@ -557,10 +536,10 @@ public class ActivityMaterialsAction implements Serializable {
 	 * 
 	 */
 	public void addMaterials() {
-		if (activityMaterials.getCostBudget() <= 0) {
+		if (costActualEdit <= 0) {
 			ControladorContexto
 					.mensajeErrorEspecifico(
-							"formAddMaterials:txtQuantityBudget",
+							"formAddMaterials:txtQuantity",
 							"activities_and_materials_message_not_correctly_calculated_materials",
 							"messageCosts");
 		} else {
@@ -570,6 +549,8 @@ public class ActivityMaterialsAction implements Serializable {
 					materialSelected);
 			activityMaterials.getActivityMaterialsPK().setActivities(
 					selectedActivity);
+			activityMaterials.setQuantityBudget(quantityEdit);
+			activityMaterials.setCostBudget(costActualEdit);
 			listActivityMaterials.add(activityMaterials);
 		}
 	}
@@ -628,15 +609,14 @@ public class ActivityMaterialsAction implements Serializable {
 			if (quantityEdit > materialQuantity) {
 				costActualEdit = 0.0;
 				ControladorContexto.mensajeErrorEspecifico(
-						"formAddActivitiesMaterials:quantity",
-						"deposits_message_not_enough_materials",
+						"formUpdateActivitiesMaterials:txtQuantity",
+						"deposits_message_not_enough_records_in_deposit",
 						"mensajeWarehouse");
-
 			}
 			if (quantityEdit <= 0) {
 				costActualEdit = 0.0;
 				ControladorContexto.mensajeErrorEspecifico(
-						"formAddActivitiesMaterials:quantity",
+						"formUpdateActivitiesMaterials:txtQuantity",
 						"message_campo_positivo", "mensaje");
 			}
 			if (quantityEdit <= materialQuantity && quantityEdit > 0) {
@@ -776,16 +756,38 @@ public class ActivityMaterialsAction implements Serializable {
 	 * 
 	 * @param activityMaterials
 	 *            : activityMaterials to clone.
+	 * @param flag
+	 *            : flag that identifies the initialize values.
 	 * 
 	 */
-	public void cloneActivityMaterials(ActivityMaterials activityMaterials) {
+	public void cloneActivityMaterials(ActivityMaterials activityMaterials,
+			boolean flag) {
 		this.activityMaterials = activityMaterials;
-		if (this.activityMaterials.getQuantityActual() != null) {
-			quantityEdit = this.activityMaterials.getQuantityActual();
-			costActualEdit = this.activityMaterials.getCostActual();
+		if (flag) {
+			if (this.activityMaterials.getQuantityActual() != null) {
+				quantityEdit = this.activityMaterials.getQuantityActual();
+				costActualEdit = this.activityMaterials.getCostActual();
+			} else {
+				quantityEdit = 0.0;
+				costActualEdit = 0.0;
+			}
 		} else {
-			quantityEdit = 0.0;
-			costActualEdit = 0.0;
+			quantityEdit = this.activityMaterials.getQuantityBudget();
+			costActualEdit = this.activityMaterials.getCostBudget();
+		}
+	}
+
+	/**
+	 * TThis method allows validate the budget cost and actual cost.
+	 * 
+	 */
+	public void validateCost() {
+		if (costActualEdit <= 0) {
+			ControladorContexto
+					.mensajeErrorEspecifico(
+							"formUpdateActivitiesMaterials:txtQuantity",
+							"activities_and_materials_message_not_correctly_calculated_materials",
+							"messageCosts");
 		}
 	}
 }
