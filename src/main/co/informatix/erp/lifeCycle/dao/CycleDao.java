@@ -257,4 +257,18 @@ public class CycleDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * Consult a cycle by identifier
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param id
+	 *            : Cycle indentifier
+	 * @return Cycle: Cycle activity.
+	 * @throws Exception
+	 */
+	public Cycle cycleById(int id) throws Exception {
+		return em.find(Cycle.class, id);
+	}
 }
