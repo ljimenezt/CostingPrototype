@@ -743,14 +743,13 @@
 								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<a:commandLink
 									rendered="#{activityMaterial.quantityActual eq null}"
-									actionListener="#{activityMaterialsAction.setActivityMaterials(activityMaterial.clone())}"
-									action="#{activityMaterialsAction.setQuantityEdit(activityMaterial.clone().quantityBudget)}"
+									actionListener="#{activityMaterialsAction.cloneActivityMaterials(activityMaterial.clone(), false)}"
 									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpUpdateActivitiesMaterials')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-									value="#{activityMaterial.activityMaterialsPK.materials.name}"
+									value="#{activityMaterial.activityMaterialsPK.materials.name}  #{activityMaterial.activityMaterialsPK.materials.presentation} #{activityMaterial.activityMaterialsPK.materials.measurementUnits.name}"
 									render="popUpUpdateActivitiesMaterials" />
 								<h:outputText
 									rendered="#{activityMaterial.quantityActual ne null}"
-									value="#{activityMaterial.activityMaterialsPK.materials.name}" />
+									value="#{activityMaterial.activityMaterialsPK.materials.name}  #{activityMaterial.activityMaterialsPK.materials.presentation} #{activityMaterial.activityMaterialsPK.materials.measurementUnits.name}" />
 							</rich:column>
 							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{messageCosts.budget_label_quantity}</f:facet>

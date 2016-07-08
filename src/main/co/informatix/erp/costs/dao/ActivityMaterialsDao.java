@@ -111,6 +111,7 @@ public class ActivityMaterialsDao implements Serializable {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT am FROM ActivityMaterials am ");
 		queryBuilder.append("JOIN FETCH am.activityMaterialsPK.materials m ");
+		queryBuilder.append("JOIN FETCH m.measurementUnits ");
 		queryBuilder.append("JOIN FETCH am.activityMaterialsPK.activities ac ");
 		queryBuilder.append(query);
 		queryBuilder.append("ORDER by m.name ");

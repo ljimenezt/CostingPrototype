@@ -219,7 +219,7 @@ public class DepositsDao implements Serializable {
 		query.append("SELECT d FROM Deposits d ");
 		query.append("WHERE d.materials.idMaterial=:idMaterial ");
 		query.append("AND d.actualQuantity>0 ");
-		query.append("ORDER BY d.dateTime ");
+		query.append("ORDER BY d.dateTime, d.idDeposit ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", idMaterial);
 		List<Deposits> resultList = q.getResultList();
@@ -254,7 +254,7 @@ public class DepositsDao implements Serializable {
 		query.append("WHERE d.materials.idMaterial=:idMaterial ");
 		query.append("AND t.activities.idActivity=:idActivity ");
 		query.append("AND t.transactionType.idTransactionType=:idTransactionType ");
-		query.append("ORDER BY d.dateTime DESC ");
+		query.append("ORDER BY d.dateTime DESC, d.idDeposit DESC ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", idMaterial);
 		q.setParameter("idActivity", idActivity);
