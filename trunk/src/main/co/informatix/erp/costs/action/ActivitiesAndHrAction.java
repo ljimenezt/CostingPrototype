@@ -983,6 +983,7 @@ public class ActivitiesAndHrAction implements Serializable {
 				}
 				costHrBudget = selectedActivity.getCostHrBudget()
 						+ costHrBudget;
+				calculateCostBudgetActivity(costHrBudget);
 				editCycleHrBudget(costHrBudget);
 				selectedActivity.setCostHrBudget(costHrBudget);
 				activitiesDao.editActivities(this.selectedActivity);
@@ -1018,6 +1019,7 @@ public class ActivitiesAndHrAction implements Serializable {
 				Double costHr = (selectedActivity.getCostHrBudget() - activitiesAndHrAnterior
 						.getTotalCostBudget())
 						+ activitiesAndHr.getTotalCostBudget();
+				calculateCostBudgetActivity(costHr);
 				editCycleHrBudget(costHr);
 				selectedActivity.setCostHrBudget(costHr);
 				activitiesAndHrDao.editActivitiesAndHr(activitiesAndHr);
@@ -1037,6 +1039,22 @@ public class ActivitiesAndHrAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * Calculate the general cost budget for the activity selected
+	 * 
+	 * @param costHr
+	 *            : New cost for cost budget of human resources
+	 */
+	private void calculateCostBudgetActivity(double costHr) throws Exception {
+		double costActual = costHr;
+		if (selectedActivity.getGeneralCostBudget() > 0) {
+			double costHrActual = selectedActivity.getCostHrBudget();
+			costActual = (selectedActivity.getGeneralCostBudget() - costHrActual)
+					+ costHr;
+		}
+		selectedActivity.setGeneralCostBudget(costActual);
 	}
 
 	/**
@@ -1283,8 +1301,9 @@ public class ActivitiesAndHrAction implements Serializable {
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(message), activitiesAndHr
 							.getActivitiesAndHrPK().getHr().getName()));
-			double costHrBudget=this.selectedActivity
-					.getCostHrBudget() - activitiesAndHr.getTotalCostBudget();
+			double costHrBudget = this.selectedActivity.getCostHrBudget()
+					- activitiesAndHr.getTotalCostBudget();
+			calculateCostBudgetActivity(costHrBudget);
 			editCycleHrBudget(costHrBudget);
 			this.selectedActivity.setCostHrBudget(costHrBudget);
 			activitiesDao.editActivities(this.selectedActivity);
