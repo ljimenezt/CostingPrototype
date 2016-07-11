@@ -77,6 +77,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	private int idCycle;
 	private boolean stateAddMachine;
 	private boolean fromModal;
+	private boolean fromActivity = false;
 
 	private List<Activities> listActivities;
 	private List<ActivityMachine> listActivityMachine;
@@ -169,6 +170,23 @@ public class ScheduledActivitiesAction implements Serializable {
 	 */
 	public boolean isFromModal() {
 		return fromModal;
+	}
+
+	/**
+	 * @return fromActivity: this flag indicate if the view is actually in
+	 *         record of search criteria
+	 */
+	public boolean isFromActivity() {
+		return fromActivity;
+	}
+
+	/**
+	 * @param fromActivity
+	 *            :this flag indicate if the view is actually in record of
+	 *            search criteria
+	 */
+	public void setFromActivity(boolean fromActivity) {
+		this.fromActivity = fromActivity;
 	}
 
 	/**
@@ -533,7 +551,7 @@ public class ScheduledActivitiesAction implements Serializable {
 			loadCropNames();
 			loadCropNamesCrop();
 			cleanCycle();
-
+			this.fromActivity = false;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

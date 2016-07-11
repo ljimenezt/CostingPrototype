@@ -575,8 +575,22 @@ public class CropActivitiesAction implements Serializable {
 								outTxtSave));
 			}
 			activitiesAction.listAllActivities();
+			selectedActivity(activities);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allow selected the actual activity
+	 */
+	public void selectedActivity(Activities activity) {
+		ActivitiesAction activitiesAction = ControladorContexto
+				.getContextBean(ActivitiesAction.class);
+		for (Activities auxActivity : activitiesAction.getListActivities()) {
+			if (activity.getIdActivity() == auxActivity.getIdActivity()) {
+				auxActivity.setSeleccionado(true);
+			}
 		}
 	}
 
