@@ -583,8 +583,11 @@ public class CropActivitiesAction implements Serializable {
 
 	/**
 	 * This method allow selected the actual activity
+	 * 
+	 * @param activity
+	 *            : Object activity information selected
 	 */
-	public void selectedActivity(Activities activity) {
+	private void selectedActivity(Activities activity) {
 		ActivitiesAction activitiesAction = ControladorContexto
 				.getContextBean(ActivitiesAction.class);
 		for (Activities auxActivity : activitiesAction.getListActivities()) {
