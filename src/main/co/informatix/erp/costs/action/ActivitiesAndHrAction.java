@@ -33,6 +33,7 @@ import co.informatix.erp.humanResources.entities.HrTypes;
 import co.informatix.erp.humanResources.entities.OvertimePaymentRate;
 import co.informatix.erp.humanResources.entities.Team;
 import co.informatix.erp.informacionBase.dao.SystemProfileDao;
+import co.informatix.erp.informacionBase.entities.SystemProfile;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
 import co.informatix.erp.lifeCycle.dao.CycleDao;
 import co.informatix.erp.lifeCycle.entities.Cycle;
@@ -1051,7 +1052,8 @@ public class ActivitiesAndHrAction implements Serializable {
 	 */
 	private void calculateCostBudgetActivity(double costHr) throws Exception {
 		double costActual = costHr;
-		if (selectedActivity.getGeneralCostBudget() > 0) {
+		if (selectedActivity.getGeneralCostBudget() != null
+				&& selectedActivity.getGeneralCostBudget() > 0) {
 			double costHrActual = selectedActivity.getCostHrBudget();
 			costActual = (selectedActivity.getGeneralCostBudget() - costHrActual)
 					+ costHr;
@@ -1067,17 +1069,19 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void editCycleHrBudget(double costHrBudget) throws Exception {
-		Cycle cycle = cycleDao.cycleById(selectedActivity.getCycle()
-				.getIdCycle());
-		double costBudgetCycle = costHrBudget;
-		if (cycle.getCostHrBudget() != null && cycle.getCostHrBudget() > 0) {
-			double lastCostBudgetHrActivity = selectedActivity
-					.getCostHrBudget();
-			costBudgetCycle = (cycle.getCostHrBudget() - lastCostBudgetHrActivity)
-					+ costHrBudget;
+		if (selectedActivity.getCycle() != null) {
+			Cycle cycle = cycleDao.cycleById(selectedActivity.getCycle()
+					.getIdCycle());
+			double costBudgetCycle = costHrBudget;
+			if (cycle.getCostHrBudget() != null && cycle.getCostHrBudget() > 0) {
+				double lastCostBudgetHrActivity = selectedActivity
+						.getCostHrBudget();
+				costBudgetCycle = (cycle.getCostHrBudget() - lastCostBudgetHrActivity)
+						+ costHrBudget;
+			}
+			cycle.setCostHrBudget(costBudgetCycle);
+			cycleDao.editCycle(cycle);
 		}
-		cycle.setCostHrBudget(costBudgetCycle);
-		cycleDao.editCycle(cycle);
 	}
 
 	/**
@@ -1254,17 +1258,20 @@ public class ActivitiesAndHrAction implements Serializable {
 		Date mindDateTime = ControladorFechas.diaInicialSemana(activityDate);
 		Date maxDateTime = ControladorFechas.diaFinalSemana(activityDate);
 		try {
+			SystemProfile systemProfile = systemProfileDao.findSystemProfile();
 			Double overtimeWeek = activitiesAndHrDao.calculateOverTimeHours(
 					humanReosurceId, mindDateTime, maxDateTime,
 					selectedActivity.getIdActivity());
 			Double workedHoursDay = activitiesAndHrDao.calculateNormalHours(
 					humanReosurceId, activityDate,
 					selectedActivity.getIdActivity());
-			if (durationHrActivity <= (Constantes.NORMAL_HOURS - workedHoursDay)) {
+			if (durationHrActivity <= (systemProfile
+					.getActivityDefaultDuration() - workedHoursDay)) {
 				activitiesAndHr.setNormalHours(durationHrActivity);
 				activitiesAndHr.setOvertimeHours(0.0);
 			} else {
-				Double activityNormalHours = (Constantes.NORMAL_HOURS - workedHoursDay);
+				Double activityNormalHours = (systemProfile
+						.getActivityDefaultDuration() - workedHoursDay);
 				activitiesAndHr.setNormalHours(activityNormalHours);
 				if ((overtimeWeek + durationHrActivity - activityNormalHours) <= Constantes.MAX_HOURS) {
 					activitiesAndHr
