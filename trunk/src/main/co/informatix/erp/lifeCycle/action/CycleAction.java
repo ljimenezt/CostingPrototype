@@ -1181,8 +1181,7 @@ public class CycleAction implements Serializable {
 	private void editActivitiesCycle() throws Exception {
 		Date dateLastActivityCycle = activitiesDao.activitiesByCycle(cycle
 				.getIdCycle());
-		Date finalDate = ControladorFechas.finDeDia(cycle
-				.getFinalDateTime());
+		Date finalDate = ControladorFechas.finDeDia(cycle.getFinalDateTime());
 		if (dateLastActivityCycle != null) {
 			List<Activities> activitiesEdit = activitiesDao.activitiesByCycle(
 					cycle, finalDate);
