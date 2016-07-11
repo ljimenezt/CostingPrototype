@@ -177,7 +177,6 @@ public class Constantes implements Serializable {
 	public static final short SUNDAY = 1;
 
 	/* Work Hours */
-	public static final short NORMAL_HOURS = 8;
 	public static final short MAX_HOURS = 12;
 
 	/* Transaction type */
