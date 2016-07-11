@@ -1046,6 +1046,8 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * 
 	 * @param costHr
 	 *            : New cost for cost budget of human resources
+	 * 
+	 * @throws Exception
 	 */
 	private void calculateCostBudgetActivity(double costHr) throws Exception {
 		double costActual = costHr;
@@ -1258,18 +1260,19 @@ public class ActivitiesAndHrAction implements Serializable {
 			Double workedHoursDay = activitiesAndHrDao.calculateNormalHours(
 					humanReosurceId, activityDate,
 					selectedActivity.getIdActivity());
-			if (durationHrActivity <= (8 - workedHoursDay)) {
+			if (durationHrActivity <= (Constantes.NORMAL_HOURS - workedHoursDay)) {
 				activitiesAndHr.setNormalHours(durationHrActivity);
 				activitiesAndHr.setOvertimeHours(0.0);
 			} else {
-				Double activityNormalHours = (8 - workedHoursDay);
+				Double activityNormalHours = (Constantes.NORMAL_HOURS - workedHoursDay);
 				activitiesAndHr.setNormalHours(activityNormalHours);
-				if ((overtimeWeek + durationHrActivity - activityNormalHours) <= 12) {
+				if ((overtimeWeek + durationHrActivity - activityNormalHours) <= Constantes.MAX_HOURS) {
 					activitiesAndHr
 							.setOvertimeHours(Math
 									.round((durationHrActivity - activityNormalHours) * 10.0) / 10.0);
 				} else {
-					Double overtimeActivity = 12 - overtimeWeek;
+					Double overtimeActivity = Constantes.MAX_HOURS
+							- overtimeWeek;
 					activitiesAndHr.setOvertimeHours(Math
 							.round(overtimeActivity * 10.0) / 10.0);
 					if (!var) {
