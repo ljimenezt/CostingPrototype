@@ -366,9 +366,8 @@
 				</ui:define>
 				<ui:define name="botones">
 					<a:commandButton value="#{mensaje.button_accept}"
-						render="formScheduledActivities"
-						actionListener="#{scheduledActivitiesAction.selectedActivity(cropActivitiesAction.activities)}"
-						action="#{activitiesAction.assignActivities(cropActivitiesAction.activities)}"
+						render="pnlListActivities, mensajes"
+						actionListener="#{cropActivitiesAction.saveCropActivities()}"
 						onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupRegActivity')}.hide();  #{rich:component('statPane')}.show();" />
 					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popUpConfirmar')}.hide()" />

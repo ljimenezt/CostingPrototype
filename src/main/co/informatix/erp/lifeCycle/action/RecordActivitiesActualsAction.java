@@ -935,6 +935,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * 
 	 * @param activitiesAndHr
 	 *            :Object activities and HUman Resource information
+	 * @param activity
+	 *            :Object activities information
 	 * @param flag
 	 *            :Indicate the side where this method is called and change the
 	 *            parameters to get the initial values.

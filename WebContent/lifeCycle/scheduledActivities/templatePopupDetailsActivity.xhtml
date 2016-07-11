@@ -55,8 +55,8 @@
 					<p:calendar value="#{activitiesAction.activities.finalDtBudget}"
 						disabled="#{activitiesAction.activities.initialDtBudget eq null}"
 						showOn="button" navigator="true" required="true"
-						mindate="#{cropActivitiesAction.initialDateSearch}" id="fechFin"
-						pattern="MM/dd/yyyy"
+						mindate="#{activitiesAction.activities.initialDtBudget}"
+						id="fechFin" pattern="MM/dd/yyyy"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
 						label="#{mensaje.label_end_date}" />
 
@@ -68,7 +68,7 @@
 					execute="@form"
 					actionListener="#{activitiesAction.searchActivities()}"
 					oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
-					render="paginas, mensajes, mensajeBusqueda" />
+					render="pnlListActivities, mensajes, mensajeBusqueda" />
 				<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
 					value="#{mensaje.button_cancel}" />
 			</div>
