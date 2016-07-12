@@ -600,7 +600,7 @@ public class MaterialsAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void listMaterialsType() throws Exception {
+	public void listMaterialsType() throws Exception {
 		this.materialTypeItems = new ArrayList<SelectItem>();
 		List<MaterialsType> materialsTypeList = materialsTypeDao
 				.consultMaterialsTypes();
