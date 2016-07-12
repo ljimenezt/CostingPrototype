@@ -90,7 +90,6 @@
 			/lifeCycle/crops/faces-config-crops.xml,
 			/lifeCycle/cropNames/faces-config-cropNames.xml,
 			/lifeCycle/activityNames/faces-config-activityNames.xml,
-			/lifeCycle/associateCycles/faces-config-registrarCropActivities.xml,
 			/lifeCycle/activities/activitiesAndCertifications/faces-config-activitiesAndCertifications.xml,
 			/lifeCycle/scheduledActivities/faces-config-scheduledActivities.xml,
 			/lifeCycle/section/faces-config-section.xml,
@@ -116,7 +115,8 @@
             /warehouse/materials/faces-config-materials.xml,
             /warehouse/deposits/faces-config-deposits.xml,
             /warehouse/transactionType/faces-config-transactionType.xml,
-            /warehouse/invoices/faces-config-invoices.xml,          
+            /warehouse/invoices/faces-config-invoices.xml,
+            /warehouse/inventory/faces-config-inventory.xml,          
 
 			/costs/activities/faces-config-activities.xml,
 			/costs/cycleStandardActivities/faces-config-cycleStandardActivities.xml,
