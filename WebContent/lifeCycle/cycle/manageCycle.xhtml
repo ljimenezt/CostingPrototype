@@ -18,7 +18,7 @@
 		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{cycleAction}" />
-		<ui:param name="renderLista" value="pnlCycles" />
+		<ui:param name="renderLista" value="formCycle" />
 		<ui:param name="metodoLista" value="consultCycles" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
@@ -436,70 +436,78 @@
 						<h:panelGrid>
 							<h:inputText id="costMachinesEqBudget" styleClass="W103P right"
 								value="#{cycleAction.cycle.costMachinesEqBudget}"
+								disabled="true"
 								converterMessage="#{mensaje.message_campo_positivo}">
-								<f:validateDoubleRange minimum="1" />
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="costMachinesEqBudget" />
 						</h:panelGrid>
 						<h:inputText styleClass="W103P" disabled="true"
-							value="#{cycleAction.cycle.costMachinesEqActual}" />
+							value="#{cycleAction.cycle.costMachinesEqActual}">
+							<f:convertNumber maxFractionDigits="1" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:inputText>
 
 						<h:outputText
 							value="#{messageHumanResources.human_resource_label_hr_abbr}:"
 							styleClass="etiquetaTitulo" />
 						<h:panelGrid>
 							<h:inputText id="costHrBudget" styleClass="W103P right"
-								value="#{cycleAction.cycle.costHrBudget}"
+								value="#{cycleAction.cycle.costHrBudget}" disabled="true"
 								converterMessage="#{mensaje.message_campo_positivo}">
-								<f:validateDoubleRange minimum="1" />
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="costHrBudget" />
 						</h:panelGrid>
 						<h:inputText styleClass="W103P" disabled="true"
-							value="#{cycleAction.cycle.costHrActual}" />
+							value="#{cycleAction.cycle.costHrActual}">
+							<f:convertNumber maxFractionDigits="1" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:inputText>
 
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_materials}:"
 							styleClass="etiquetaTitulo" />
 						<h:panelGrid>
 							<h:inputText id="costMaterialsBudget" styleClass="W103P right"
-								value="#{cycleAction.cycle.costMaterialsBudget}"
+								value="#{cycleAction.cycle.costMaterialsBudget}" disabled="true"
 								converterMessage="#{mensaje.message_campo_positivo}">
-								<f:validateDoubleRange minimum="1" />
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="costMaterialsBudget" />
 						</h:panelGrid>
 						<h:inputText styleClass="W103P" disabled="true"
-							value="#{cycleAction.cycle.costMaterialsActual}" />
+							value="#{cycleAction.cycle.costMaterialsActual}">
+							<f:convertNumber maxFractionDigits="1" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:inputText>
 
 						<h:outputText
 							value="#{messageCosts.cycle_standard_activities_label_service}:"
 							styleClass="etiquetaTitulo" />
 						<h:panelGrid>
 							<h:inputText id="costServicesBudget" styleClass="W103P right"
-								value="#{cycleAction.cycle.costServicesBudget}"
+								value="#{cycleAction.cycle.costServicesBudget}" disabled="true"
 								converterMessage="#{mensaje.message_campo_positivo}">
-								<f:validateDoubleRange minimum="1" />
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
 							</h:inputText>
 							<rich:message for="costServicesBudget" />
 						</h:panelGrid>
 						<h:inputText styleClass="W103P" disabled="true"
-							value="#{cycleAction.cycle.costServicesActual}" />
+							value="#{cycleAction.cycle.costServicesActual}">
+							<f:convertNumber maxFractionDigits="1" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:inputText>
 
 					</h:panelGrid>
 					<br />
 					<div align="center">
-						<h:panelGrid columns="2" columnClasses="right W106P, center">
-							<a:commandButton value="#{mensaje.button_save}"
-								execute=":formDetalles"
-								render="formConfirmActual:popUpConfirmActual,formGenerico"
-								oncomplete="if (#{facesContext.maximumSeverity==null})
-								{#{rich:component('popUpConfirmActual')}.show();} else{ 
-								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
-							<a:commandButton
-								onclick="#{rich:component('PopUpDetails')}.hide()"
-								value="#{mensaje.button_cancel}" />
-						</h:panelGrid>
+						<a:commandButton value="#{mensaje.button_accept}"
+							onclick="#{rich:component('PopUpDetails')}.hide()" />
 					</div>
 				</t:fieldset>
 			</rich:popupPanel>
@@ -626,39 +634,6 @@
 					</div>
 
 				</t:fieldset>
-			</rich:popupPanel>
-		</h:form>
-
-		<h:form id="formConfirmActual">
-			<rich:popupPanel id="popUpConfirmActual" modal="true"
-				autosized="true" maxWidth="500"
-				header="#{mensaje.label_confirmation}">
-				<f:facet name="controls">
-					<h:panelGroup>
-						<h:graphicImage value="/img/close_14.png"
-							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
-							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-							styleClass="hidelink cursor"
-							onclick="#{rich:component('popUpConfirmActual')}.hide()" />
-					</h:panelGroup>
-				</f:facet>
-				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
-					<ui:define name="mensaje">
-						<h:outputText value="#{mensaje.message_registro_confirmacion}"
-							styleClass="etiquetaTitulo" />
-					</ui:define>
-					<ui:define name="campos">
-					</ui:define>
-					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{cycleAction.updateCycleBudget()}"
-							onclick="#{rich:component('popUpConfirmActual')}.hide(); #{rich:component('statPane')}.show();">
-							<f:param name="param2" value="si" />
-						</h:commandButton>
-						<a:commandButton value="#{mensaje.button_cancel}"
-							onclick="#{rich:component('popUpConfirmActual')}.hide()" />
-					</ui:define>
-				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
 	</ui:define>

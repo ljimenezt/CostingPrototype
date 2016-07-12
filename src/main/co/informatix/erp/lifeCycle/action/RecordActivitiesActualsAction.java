@@ -738,6 +738,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 				.getBundle("messageLifeCycle");
 		String registerMessage = "message_calculate_labor_cost";
 		boolean flag = false;
+		boolean flagCycle = false;
 		try {
 			if (ControladorContexto.getFacesContext() != null) {
 				this.scheduledActivitiesAction = ControladorContexto
@@ -748,8 +749,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 							|| this.scheduledActivitiesAction
 									.getListActivityMachine() != null || this.activityMaterialsAction
 							.getListActivityMaterialsTemp() != null)) {
-				if (selectedActivity.getCostMaterialsActual() == null) {
-					selectedActivity.setCostMaterialsActual(0.0);
+				if (selectedActivity.getGeneralCostActual() == null) {
+					selectedActivity.setGeneralCostActual(0.0);
 				}
 				if (this.listActivitiesAndHr != null
 						&& selectedActivity.getHrRequired() == true) {
@@ -757,7 +758,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 							.totalCost(selectedActivity.getIdActivity());
 					this.selectedActivity.setCostHrActual(totalCostHr);
 					this.selectedActivity.setGeneralCostActual(selectedActivity
-							.getCostMaterialsActual() + totalCostHr);
+							.getGeneralCostActual() + totalCostHr);
 					flag = true;
 				}
 				if (this.scheduledActivitiesAction.getListActivityMachine() != null
@@ -768,7 +769,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 					this.selectedActivity
 							.setCostMachinesEqActual(totalCostMachine);
 					this.selectedActivity.setGeneralCostActual(selectedActivity
-							.getCostMaterialsActual() + totalCostMachine);
+							.getGeneralCostActual() + totalCostMachine);
 					flag = true;
 				}
 				if (this.activityMaterialsAction.getListActivityMaterialsTemp() != null
@@ -779,8 +780,16 @@ public class RecordActivitiesActualsAction implements Serializable {
 					this.selectedActivity
 							.setCostMaterialsActual(totalCostMaterial);
 					this.selectedActivity.setGeneralCostActual(selectedActivity
-							.getCostMaterialsActual() + totalCostMaterial);
+							.getGeneralCostActual() + totalCostMaterial);
+					if (selectedActivity.getCycle() != null) {
+						selectedActivity.getCycle().setCostMaterialsActual(
+								totalCostMaterial);
+						flagCycle = true;
+					}
 					flag = true;
+				}
+				if (flagCycle) {
+					cycleDao.editCycle(selectedActivity.getCycle());
 				}
 				if (flag == true) {
 					activitiesDao.editActivities(this.selectedActivity);
