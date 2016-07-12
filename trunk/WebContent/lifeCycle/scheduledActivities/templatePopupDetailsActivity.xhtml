@@ -88,69 +88,62 @@
 				</h:panelGroup>
 			</f:facet>
 			<rich:panel id="panelDetalles" styleClass="fondoAnchoUno">
-				<h:panelGrid columns="2" cellpadding="3" cellspacing="3">
-					<h:panelGrid columns="2">
+				<h:panelGrid columns="2"
+					columnClasses="columnaDerecha, columnaDerecha">
+					<h:outputText value="#{mensaje.label_name}:"
+						styleClass="etiquetaTitulo" />
+					<h:outputText
+						value="#{activitiesAction.activities.activityName.activityName}" />
 
-						<h:outputText value="#{mensaje.label_name}:"
-							styleClass="etiquetaTitulo" />
-						<h:outputText
-							value="#{activitiesAction.activities.activityName.activityName}" />
+					<h:outputText value="#{mensaje.label_description}:"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="#{activitiesAction.activities.description}"
+						rendered="#{activitiesAction.activities.description ne null}" />
+					<h:outputText value=""
+						rendered="#{activitiesAction.activities.description eq null}" />
 
-						<h:outputText value="#{mensaje.label_description}:"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="#{activitiesAction.activities.description}"
-							rendered="#{activitiesAction.activities.description ne null}" />
-						<h:outputText value=""
-							rendered="#{activitiesAction.activities.description eq null}" />
+					<h:outputText value="#{mensaje.label_activities_duration}:"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="#{activitiesAction.activities.durationBudget}" />
 
-						<h:outputText value="#{mensaje.label_activities_duration}:"
-							styleClass="etiquetaTitulo" />
-						<h:outputText
-							value="#{activitiesAction.activities.durationBudget}" />
+					<h:outputText value="#{mensaje.label_general_cost}:"
+						styleClass="etiquetaTitulo" />
+					<h:outputText
+						value="#{activitiesAction.activities.generalCostBudget}">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:outputText>
 
-						<h:outputText value="#{mensaje.label_general_cost}:"
-							styleClass="etiquetaTitulo" />
-						<h:outputText
-							value="#{activitiesAction.activities.generalCostBudget}">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
-						</h:outputText>
+					<h:outputText value="#{mensaje.label_hr_cost}:"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="#{activitiesAction.activities.costHrBudget}">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:outputText>
 
-					</h:panelGrid>
-					<h:panelGrid columns="2">
+					<h:outputText value="#{mensaje.label_machine_cost}:"
+						styleClass="etiquetaTitulo" />
+					<h:outputText
+						value="#{activitiesAction.activities.costMachinesEqBudget}">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:outputText>
 
-						<h:outputText value="#{mensaje.label_hr_cost}:"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="#{activitiesAction.activities.costHrBudget}">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
-						</h:outputText>
+					<h:outputText value="#{mensaje.label_service_cost}:"
+						styleClass="etiquetaTitulo" />
+					<h:outputText
+						value="#{activitiesAction.activities.costServicesBudget}">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:outputText>
 
-						<h:outputText value="#{mensaje.label_machine_cost}:"
-							styleClass="etiquetaTitulo" />
-						<h:outputText
-							value="#{activitiesAction.activities.costMachinesEqBudget}">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
-						</h:outputText>
-
-						<h:outputText value="#{mensaje.label_service_cost}:"
-							styleClass="etiquetaTitulo" />
-						<h:outputText
-							value="#{activitiesAction.activities.costServicesBudget}">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
-						</h:outputText>
-
-						<h:outputText value="#{mensaje.label_material_cost}:"
-							styleClass="etiquetaTitulo" />
-						<h:outputText
-							value="#{activitiesAction.activities.costMaterialsBudget}">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
-						</h:outputText>
-
-					</h:panelGrid>
+					<h:outputText value="#{mensaje.label_material_cost}:"
+						styleClass="etiquetaTitulo" />
+					<h:outputText
+						value="#{activitiesAction.activities.costMaterialsBudget}">
+						<f:convertNumber maxFractionDigits="2" type="currency"
+							currencySymbol="$" locale="#{idioma.locale}" />
+					</h:outputText>
 				</h:panelGrid>
 				<br />
 				<div align="center">

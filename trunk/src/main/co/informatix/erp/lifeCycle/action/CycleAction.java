@@ -1104,31 +1104,6 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * This method allows update the budget cost for a cycle.
-	 * 
-	 * @return initializeCycle(): Consult the list of cycles and returns to
-	 *         manage view.
-	 */
-	public String updateCycleBudget() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String mensajeRegistro = "message_registro_modificar";
-		String param2 = ControladorContexto.getParam("param2");
-		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
-				: false;
-		try {
-			if (fromModal) {
-				cycleDao.editCycle(this.cycle);
-				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString(mensajeRegistro), this.cycle
-								.getActiviyNames().getActivityName()));
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-		return initializeCycle();
-	}
-
-	/**
 	 * Method used to save or edit cycles
 	 * 
 	 * @modify 17/06/2016 Gerardo.Herrera
