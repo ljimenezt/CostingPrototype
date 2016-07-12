@@ -354,6 +354,7 @@ public class ActivitiesAction implements Serializable {
 	 * display messages and handles errors.
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 12/07/2016 Wilhelm.Boada
 	 */
 	public void searchActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -365,6 +366,7 @@ public class ActivitiesAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder query = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
+		StringBuilder stringCycle = new StringBuilder();
 		StringBuilder order = new StringBuilder();
 		String searchMessage = "";
 		String param2 = ControladorContexto.getParam("param2");
@@ -374,16 +376,25 @@ public class ActivitiesAction implements Serializable {
 			sort = true;
 			advancedSearch(query, parameters, bundle, bundleCostos,
 					unionMessagesSearch, fromModal, order);
-			Long quantity = activitiesDao.amountActivities(query, parameters);
+			if (this.idCycle != 0) {
+				stringCycle.append("JOIN a.cycle cy ");
+			}
+			Long quantity = activitiesDao.amountActivities(query, parameters,
+					stringCycle);
 			query.append(order);
 			if (quantity != null) {
+				if (this.idCycle != 0) {
+					stringCycle = new StringBuilder();
+					stringCycle.append("JOIN FETCH a.cycle cy ");
+				}
 				if (!flagCropActivities) {
 					pager.paginarRangoDefinido(quantity, 5);
 				} else {
 					pager.paginar(quantity);
 				}
 				this.listActivities = activitiesDao.queryActivities(
-						pager.getInicio(), pager.getRango(), query, parameters);
+						pager.getInicio(), pager.getRango(), query, parameters,
+						stringCycle);
 
 				if (fromModal) {
 					RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
@@ -391,7 +402,6 @@ public class ActivitiesAction implements Serializable {
 					recordActivitiesActualsAction
 							.setListActivities(listActivities);
 				}
-
 			}
 			if ((this.listActivities == null || listActivities.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
@@ -537,7 +547,7 @@ public class ActivitiesAction implements Serializable {
 
 		if (this.idCycle != 0) {
 			queryBuilder.append(selection ? "AND " : "WHERE ");
-			queryBuilder.append("a.cycle.idCycle = :keywordIdCycle ");
+			queryBuilder.append("cy.idCycle = :keywordIdCycle ");
 			SelectItem item = new SelectItem(this.idCycle, "keywordIdCycle");
 			parameters.add(item);
 			selection = true;
