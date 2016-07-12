@@ -3,7 +3,6 @@ package co.informatix.erp.costs.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -19,6 +18,7 @@ import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivityMaterials;
 import co.informatix.erp.costs.entities.ActivityMaterialsPK;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
+import co.informatix.erp.lifeCycle.dao.CycleDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
@@ -29,7 +29,6 @@ import co.informatix.erp.warehouse.dao.TransactionTypeDao;
 import co.informatix.erp.warehouse.dao.TransactionsDao;
 import co.informatix.erp.warehouse.entities.Deposits;
 import co.informatix.erp.warehouse.entities.Materials;
-import co.informatix.erp.warehouse.entities.TransactionType;
 import co.informatix.erp.warehouse.entities.Transactions;
 
 /**
@@ -47,8 +46,6 @@ public class ActivityMaterialsAction implements Serializable {
 	private List<ActivityMaterials> listActivityMaterialsTemp;
 	private List<ActivityMaterials> listActivityMaterials;
 	private List<Materials> materialsList;
-	private List<Deposits> depositsListEdit;
-	private List<Transactions> transactionsList;
 	private Activities selectedActivity;
 	private ActivityMaterials activityMaterials;
 	private Materials materialSelected;
@@ -69,6 +66,8 @@ public class ActivityMaterialsAction implements Serializable {
 	private TransactionsDao transactionsDao;
 	@EJB
 	private TransactionTypeDao transactionTypeDao;
+	@EJB
+	private CycleDao cycleDao;
 
 	/**
 	 * @return listActivityMaterialsTemp: material list assigned to the
@@ -315,6 +314,12 @@ public class ActivityMaterialsAction implements Serializable {
 					.setGeneralCostBudget(selectedActivity
 							.getGeneralCostBudget()
 							- activityMaterials.getCostBudget());
+			if (selectedActivity.getCycle() != null) {
+				selectedActivity.getCycle().setCostMaterialsBudget(
+						selectedActivity.getCycle().getCostMaterialsBudget()
+								- activityMaterials.getCostBudget());
+				cycleDao.editCycle(selectedActivity.getCycle());
+			}
 			activitiesDao.editActivities(this.selectedActivity);
 			activityMaterialsDao.deleteActivityMaterials(activityMaterials);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
@@ -444,6 +449,11 @@ public class ActivityMaterialsAction implements Serializable {
 					.setGeneralCostBudget(selectedActivity
 							.getGeneralCostBudget()
 							- activityMaterials.getCostBudget());
+			if (selectedActivity.getCycle() != null) {
+				selectedActivity.getCycle().setCostMaterialsBudget(
+						selectedActivity.getCycle().getCostMaterialsBudget()
+								- activityMaterials.getCostBudget());
+			}
 			activityMaterials.setQuantityBudget(quantityEdit);
 			activityMaterials.setCostBudget(costActualEdit);
 			selectedActivity.setCostMaterialsBudget(selectedActivity
@@ -453,6 +463,12 @@ public class ActivityMaterialsAction implements Serializable {
 					.setGeneralCostBudget(selectedActivity
 							.getGeneralCostBudget()
 							+ activityMaterials.getCostBudget());
+			if (selectedActivity.getCycle() != null) {
+				selectedActivity.getCycle().setCostMaterialsBudget(
+						selectedActivity.getCycle().getCostMaterialsBudget()
+								+ activityMaterials.getCostBudget());
+				cycleDao.editCycle(selectedActivity.getCycle());
+			}
 			activityMaterialsDao.editActivityMaterials(activityMaterials);
 			activitiesDao.editActivities(this.selectedActivity);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
@@ -522,6 +538,16 @@ public class ActivityMaterialsAction implements Serializable {
 						.getCostMaterialsBudget() + costMaterialsBudget);
 				selectedActivity.setGeneralCostBudget(selectedActivity
 						.getGeneralCostBudget() + costMaterialsBudget);
+				if (selectedActivity.getCycle() != null) {
+					if (selectedActivity.getCycle().getCostMaterialsBudget() == null) {
+						selectedActivity.getCycle().setCostMaterialsBudget(0.0);
+					}
+					selectedActivity.getCycle().setCostMaterialsBudget(
+							selectedActivity.getCycle()
+									.getCostMaterialsBudget()
+									+ costMaterialsBudget);
+					cycleDao.editCycle(selectedActivity.getCycle());
+				}
 				activitiesDao.editActivities(this.selectedActivity);
 			}
 			consultMaterialsByActivity();
@@ -572,16 +598,6 @@ public class ActivityMaterialsAction implements Serializable {
 	public void updateActivityMaterial() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			if (transactionsList != null) {
-				for (Transactions transactions : transactionsList) {
-					transactionsDao.saveTransaction(transactions);
-				}
-			}
-			if (depositsListEdit != null) {
-				for (Deposits deposits : depositsListEdit) {
-					depositsDao.editDeposits(deposits);
-				}
-			}
 			this.activityMaterials.setQuantityActual(quantityEdit);
 			this.activityMaterials.setCostActual(costActualEdit);
 			activityMaterialsDao.editActivityMaterials(this.activityMaterials);
@@ -637,8 +653,6 @@ public class ActivityMaterialsAction implements Serializable {
 	private void calculateCostActualMaterials() throws Exception {
 		double costActual = 0.0;
 		double amount = 0.0;
-		depositsListEdit = new ArrayList<Deposits>();
-		transactionsList = new ArrayList<Transactions>();
 		if (this.activityMaterials.getQuantityActual() == null
 				|| quantityEdit > this.activityMaterials.getQuantityActual()) {
 			if (activityMaterials.getQuantityActual() != null
@@ -653,30 +667,19 @@ public class ActivityMaterialsAction implements Serializable {
 					.consultDepositsActualQuantityById(this.activityMaterials
 							.getActivityMaterialsPK().getMaterials()
 							.getIdMaterial());
-			TransactionType transactionType = transactionTypeDao
-					.transactionTypeById(Constantes.TRANSACTION_TYPE_ID_WITHDRAWAL);
 			while (amount > 0) {
-				Transactions transactions = new Transactions();
 				Deposits depositsActual = depositsListActual.get(0);
 				if (amount > depositsActual.getActualQuantity()) {
 					costActual = costActual
 							+ depositsActual.getActualQuantity()
 							* depositsActual.getUnitCost();
-					transactions
-							.setQuantity(depositsActual.getActualQuantity());
 					amount = amount - depositsActual.getActualQuantity();
-					depositsListActual.remove(depositsActual);
-					depositsActual.setActualQuantity(0.0);
 				} else {
 					costActual = costActual + amount
 							* depositsActual.getUnitCost();
-					transactions.setQuantity(amount);
-					depositsListActual.remove(depositsActual);
-					depositsActual.setActualQuantity(depositsActual
-							.getActualQuantity() - amount);
 					amount = 0;
 				}
-				updateList(depositsActual, transactions, transactionType);
+				depositsListActual.remove(depositsActual);
 			}
 			if (this.activityMaterials.getCostActual() != null) {
 				costActualEdit = this.activityMaterials.getCostActual()
@@ -692,10 +695,7 @@ public class ActivityMaterialsAction implements Serializable {
 							.getIdMaterial(),
 							this.selectedActivity.getIdActivity(),
 							Constantes.TRANSACTION_TYPE_ID_WITHDRAWAL);
-			TransactionType transactionType = transactionTypeDao
-					.transactionTypeById(Constantes.TRANSACTION_TYPE_ID_RETURN);
 			while (amount > 0) {
-				Transactions transactions = new Transactions();
 				Deposits depositsActual = depositsListActual.get(0);
 				Transactions transactionDrawal = transactionsDao
 						.consultTransactionsByDepositsActivityAndTransactionType(
@@ -705,49 +705,19 @@ public class ActivityMaterialsAction implements Serializable {
 				if (amount > transactionDrawal.getQuantity()) {
 					costActual = costActual + transactionDrawal.getQuantity()
 							* depositsActual.getUnitCost();
-					depositsListActual.remove(depositsActual);
-					depositsActual.setActualQuantity(depositsActual
-							.getActualQuantity()
-							+ transactionDrawal.getQuantity());
 					amount = amount - transactionDrawal.getQuantity();
-					transactions.setQuantity(transactionDrawal.getQuantity());
 				} else {
 					costActual = costActual + amount
 							* depositsActual.getUnitCost();
-					depositsListActual.remove(depositsActual);
-					depositsActual.setActualQuantity(depositsActual
-							.getActualQuantity() + amount);
-					transactions.setQuantity(amount);
 					amount = 0;
 				}
-				updateList(depositsActual, transactions, transactionType);
+				depositsListActual.remove(depositsActual);
 			}
 			costActualEdit = this.activityMaterials.getCostActual()
 					- costActual;
 		} else if (quantityEdit == this.activityMaterials.getQuantityActual()) {
 			costActualEdit = this.activityMaterials.getCostActual();
 		}
-	}
-
-	/**
-	 * This method allows update transactionsList and depositsListEdit to save.
-	 * 
-	 * @param depositsActual
-	 *            : deposit to add in the list.
-	 * @param transactions
-	 *            : movements of the materials in the deposit.
-	 * @param transactionType
-	 *            : type of transaction done.
-	 * 
-	 */
-	private void updateList(Deposits depositsActual, Transactions transactions,
-			TransactionType transactionType) {
-		depositsListEdit.add(depositsActual);
-		transactions.setTransactionType(transactionType);
-		transactions.setDateTime(new Date());
-		transactions.setDeposits(depositsActual);
-		transactions.setActivities(selectedActivity);
-		transactionsList.add(transactions);
 	}
 
 	/**

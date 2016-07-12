@@ -67,20 +67,25 @@ public class ActivitiesDao implements Serializable {
 	 * 
 	 * @author Andres.Gomez
 	 * @modify 04/05/2016 Gerardo.Herrera
+	 * @modify 12/07/2016 Wilhelm.Boada
 	 * 
 	 * @param query
 	 *            : String containing the query why the leak.
 	 * @param parameters
 	 *            : Query parameters.
+	 * @param stringCycle
+	 *            : This parameter identifies whether the query needs the cycle.
 	 * @return Long: Number of activity records found.
 	 * @throws Exception
 	 */
 	public Long amountActivities(StringBuilder query,
-			List<SelectItem> parameters) throws Exception {
+			List<SelectItem> parameters, StringBuilder stringCycle)
+			throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT COUNT(a) FROM Activities a ");
 		queryBuilder.append("JOIN a.activityName an ");
 		queryBuilder.append("JOIN a.crop c ");
+		queryBuilder.append(stringCycle);
 		queryBuilder.append(query);
 		Query q = em.createQuery(queryBuilder.toString());
 		for (SelectItem parameter : parameters) {
@@ -105,16 +110,20 @@ public class ActivitiesDao implements Serializable {
 	 *            user.
 	 * @param parameters
 	 *            : Query parameters.
+	 * @param stringCycle
+	 *            : This parameter identifies whether the query needs the cycle.
 	 * @return List<Activities>: List of activities.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Activities> queryActivities(int start, int range,
-			StringBuilder query, List<SelectItem> parameters) throws Exception {
+			StringBuilder query, List<SelectItem> parameters,
+			StringBuilder stringCycle) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT a FROM  Activities a ");
 		queryBuilder.append("JOIN FETCH a.activityName an ");
 		queryBuilder.append("JOIN a.crop c ");
+		queryBuilder.append(stringCycle);
 		queryBuilder.append(query);
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parametro : parameters) {
