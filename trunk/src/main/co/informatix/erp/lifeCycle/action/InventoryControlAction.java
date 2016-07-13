@@ -15,6 +15,7 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.action.MaterialsAction;
+import co.informatix.erp.warehouse.dao.DepositsDao;
 import co.informatix.erp.warehouse.dao.MaterialsDao;
 import co.informatix.erp.warehouse.entities.Materials;
 
@@ -33,6 +34,8 @@ public class InventoryControlAction implements Serializable {
 
 	@EJB
 	private MaterialsDao materialsDao;
+	@EJB
+	private DepositsDao depositsDao;
 
 	private List<Materials> listInventory;
 	private Paginador pagination = new Paginador();
@@ -183,7 +186,6 @@ public class InventoryControlAction implements Serializable {
 	 *            : Class to material to get the items of the type of material
 	 *            of the inventory
 	 */
-
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch, MaterialsAction materialsAction) {
@@ -217,19 +219,40 @@ public class InventoryControlAction implements Serializable {
 	}
 
 	/**
-	 * Method to upload the details of a list of materials of the inventarie and
+	 * Method to upload the details of a list of materials of the inventory and
 	 * their relations with other objects in the database.
 	 * 
 	 * @param materialsAction
 	 *            :Class to material to get the items of the type of material of
 	 *            the inventory
+	 * @throws Exception
 	 */
-	private void loadMaterialsDetails(MaterialsAction materialsAction) {
+	private void loadMaterialsDetails(MaterialsAction materialsAction)
+			throws Exception {
 		if (this.listInventory != null) {
 			for (Materials material : this.listInventory) {
 				materialsAction.loadMaterialDetails(material);
+				calculateActualQuantity(material);
 			}
 		}
+	}
+
+	/**
+	 * This method allow calculate the actual quantity of the material in the
+	 * inventory
+	 * 
+	 * @param material
+	 *            : Material Object to calculate the quantity
+	 * @throws Exception
+	 */
+	private void calculateActualQuantity(Materials material) throws Exception {
+		int idMaterial = material.getIdMaterial();
+		Double actualQuantity = depositsDao.quantityMaterialsById(idMaterial);
+		Double totalCost = depositsDao.calculateTotalCost(idMaterial);
+		actualQuantity = (actualQuantity != null ? actualQuantity : 0d);
+		totalCost = (totalCost != null ? totalCost : 0d);
+		material.setActualQuantity(actualQuantity);
+		material.setTotalCost(totalCost);
 	}
 
 }

@@ -41,6 +41,9 @@ public class Materials implements Serializable {
 	private String activeIngredients;
 	private String mineralChemicalContent;
 
+	private Double actualQuantity;
+	private Double totalCost;
+
 	private double quantityHectarPlot;
 
 	private boolean dangerous;
@@ -551,6 +554,38 @@ public class Materials implements Serializable {
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	/**
+	 * @return actualQuantity: Quantity Actual in the inventory
+	 */
+	@Transient
+	public Double getActualQuantity() {
+		return actualQuantity;
+	}
+
+	/**
+	 * @param actualQuantity
+	 *            :Quantity Actual in the inventory
+	 */
+	public void setActualQuantity(Double actualQuantity) {
+		this.actualQuantity = actualQuantity;
+	}
+
+	/**
+	 * @return totalCost: Cost total of the material
+	 */
+	@Transient
+	public Double getTotalCost() {
+		return totalCost;
+	}
+
+	/**
+	 * @param totalCost
+	 *            :Cost total of the material
+	 */
+	public void setTotalCost(Double totalCost) {
+		this.totalCost = totalCost;
 	}
 
 	@Override

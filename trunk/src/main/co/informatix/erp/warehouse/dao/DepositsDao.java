@@ -265,4 +265,26 @@ public class DepositsDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * Returns the sum of material quantity multiplied by the value of the unit
+	 * cost register in the deposit.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @return Double: Number of records found.
+	 * @throws Exception
+	 */
+	public Double calculateTotalCost(int idMaterial) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT SUM(d.actualQuantity * d.unitCost) ");
+		query.append("FROM Deposits d ");
+		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idMaterial", idMaterial);
+		return (Double) q.getSingleResult();
+	}
+
 }

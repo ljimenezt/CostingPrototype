@@ -61,6 +61,19 @@
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 
+					<rich:column styleClass="colIconoUno">
+						<a:commandLink id="details"
+							actionListener="#{depositsAction.setInoviceSupplier(deposit)}"
+							render="depositDetails, formDeposits"
+							oncomplete="#{rich:component('depositDetails')}.show();">
+							<h:graphicImage value="/img/details_16.png"
+								styleClass="verticalAlignMiddle" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_details}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+
 					<rich:column styleClass="colTextoLargo">
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<h:outputText
@@ -72,14 +85,19 @@
 						<h:outputText value="#{inventory.materialType.name}" />
 					</rich:column>
 
-					<rich:column styleClass="colTextoMediano">
-						<f:facet name="header">#{mensajeWarehouse.materials_label_product_trade_brand_name}</f:facet>
-						<h:outputText value="#{inventory.productTradeBrandName}" />
+					<rich:column styleClass="colValor">
+						<f:facet name="header">#{mensajeWarehouse.deposits_label_actual_quantity}</f:facet>
+						<h:outputText value="#{inventory.actualQuantity}">
+							<f:convertNumber pattern="#,##0.00" />
+						</h:outputText>
 					</rich:column>
 
-					<rich:column styleClass="colNumero">
-						<f:facet name="header">#{mensajeWarehouse.materials_label_presentation}</f:facet>
-						<h:outputText value="#{inventory.presentation}" />
+					<rich:column styleClass="colValor">
+						<f:facet name="header">#{mensaje.label_total_cost}</f:facet>
+						<h:outputText value="#{inventory.totalCost}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" />
+						</h:outputText>
 					</rich:column>
 
 					<f:facet name="footer">
@@ -103,7 +121,7 @@
 							<ui:param name="valReder" value="pnlInventory" />
 							<ui:param name="beanActionParam"
 								value="#{inventoryControlAction}" />
-							<ui:param name="metodoActionParam" value="searchMaterials" />
+							<ui:param name="metodoActionParam" value="consultInventory" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -148,6 +166,73 @@
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
 						value="#{mensaje.button_cancel}" />
 				</div>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formDeposit">
+			<rich:popupPanel id="depositDetails" modal="true"
+				domElementAttachment="form" autosized="true" width="1200"
+				maxWidth="1300" header="#{mensaje.label_details}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('depositDetails')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<a:outputPanel id="detailsDeposits">
+					<a:outputPanel>
+						<t:fieldset styleClass="BorderW2P">
+							<legend class="etiquetaTitulo">#{mensajeWarehouse.deposits_label}</legend>
+							<h:panelGrid columns="2"
+								columnClasses="columnaDerecha W120P, columnaDerecha">
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensajeWarehouse.materials_label}:" />
+								<h:outputText
+									value="#{depositsAction.depositDetails.materials.name}" />
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensajeWarehouse.purchase_invoice_label}:" />
+								<h:outputText
+									value="#{depositsAction.depositDetails.purchaseInvoices.invoiceNumber}" />
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensajeWarehouse.deposits_label_initial_quantity_actual}:" />
+								<h:outputText
+									value="#{depositsAction.depositDetails.initialQuantity}">
+									<f:convertNumber locale="#{idioma.locale}"
+										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
+								</h:outputText>
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensaje.label_total_cost}:" />
+								<h:outputText value="#{depositsAction.depositDetails.totalCost}">
+									<f:convertNumber locale="#{idioma.locale}"
+										maxFractionDigits="2" minFractionDigits="2" type="currency"
+										currencySymbol="$" />
+								</h:outputText>
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensajeWarehouse.deposits_label_real_quantity_actual}:" />
+								<h:outputText
+									value="#{depositsAction.depositDetails.actualQuantity}">
+									<f:convertNumber locale="#{idioma.locale}"
+										maxFractionDigits="2" minFractionDigits="2" pattern="#,##0.00" />
+								</h:outputText>
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensaje.label_date} #{mensajeWarehouse.purchase_invoice_label}:" />
+								<h:outputText value="#{depositsAction.purchaseInvoice.dateTime}">
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</h:panelGrid>
+						</t:fieldset>
+					</a:outputPanel>
+				</a:outputPanel>
 			</rich:popupPanel>
 		</h:form>
 	</ui:define>
