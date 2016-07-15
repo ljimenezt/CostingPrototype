@@ -97,26 +97,26 @@
 
 					<h:outputText value="#{mensaje.label_description}:"
 						styleClass="etiquetaTitulo" />
-					<h:outputText value="#{activitiesAction.activities.description}"
-						rendered="#{activitiesAction.activities.description ne null}" />
+					<h:outputText value="#{scheduledActivitiesAction.selectedActivity.description}"
+						rendered="#{scheduledActivitiesAction.selectedActivity.description ne null}" />
 					<h:outputText value=""
-						rendered="#{activitiesAction.activities.description eq null}" />
+						rendered="#{scheduledActivitiesAction.selectedActivity.description eq null}" />
 
 					<h:outputText value="#{mensaje.label_activities_duration}:"
 						styleClass="etiquetaTitulo" />
-					<h:outputText value="#{activitiesAction.activities.durationBudget}" />
+					<h:outputText value="#{scheduledActivitiesAction.selectedActivity.durationBudget}" />
 
 					<h:outputText value="#{mensaje.label_general_cost}:"
 						styleClass="etiquetaTitulo" />
 					<h:outputText
-						value="#{activitiesAction.activities.generalCostBudget}">
+						value="#{scheduledActivitiesAction.selectedActivity.generalCostBudget}">
 						<f:convertNumber maxFractionDigits="2" type="currency"
 							currencySymbol="$" locale="#{idioma.locale}" />
 					</h:outputText>
 
 					<h:outputText value="#{mensaje.label_hr_cost}:"
 						styleClass="etiquetaTitulo" />
-					<h:outputText value="#{activitiesAction.activities.costHrBudget}">
+					<h:outputText value="#{scheduledActivitiesAction.selectedActivity.costHrBudget}">
 						<f:convertNumber maxFractionDigits="2" type="currency"
 							currencySymbol="$" locale="#{idioma.locale}" />
 					</h:outputText>
@@ -124,7 +124,7 @@
 					<h:outputText value="#{mensaje.label_machine_cost}:"
 						styleClass="etiquetaTitulo" />
 					<h:outputText
-						value="#{activitiesAction.activities.costMachinesEqBudget}">
+						value="#{scheduledActivitiesAction.selectedActivity.costMachinesEqBudget}">
 						<f:convertNumber maxFractionDigits="2" type="currency"
 							currencySymbol="$" locale="#{idioma.locale}" />
 					</h:outputText>
@@ -132,7 +132,7 @@
 					<h:outputText value="#{mensaje.label_service_cost}:"
 						styleClass="etiquetaTitulo" />
 					<h:outputText
-						value="#{activitiesAction.activities.costServicesBudget}">
+						value="#{scheduledActivitiesAction.selectedActivity.costServicesBudget}">
 						<f:convertNumber maxFractionDigits="2" type="currency"
 							currencySymbol="$" locale="#{idioma.locale}" />
 					</h:outputText>
@@ -140,7 +140,7 @@
 					<h:outputText value="#{mensaje.label_material_cost}:"
 						styleClass="etiquetaTitulo" />
 					<h:outputText
-						value="#{activitiesAction.activities.costMaterialsBudget}">
+						value="#{scheduledActivitiesAction.selectedActivity.costMaterialsBudget}">
 						<f:convertNumber maxFractionDigits="2" type="currency"
 							currencySymbol="$" locale="#{idioma.locale}" />
 					</h:outputText>
