@@ -574,12 +574,6 @@ public class ActivitiesAction implements Serializable {
 			queryBuilder.append("AND a.generalCostActual IS NULL ");
 		}
 
-		if (!flagCropActivities) {
-			queryBuilder.append(selection ? "AND " : "WHERE ");
-			queryBuilder.append("(a.machineRequired = true ");
-			queryBuilder.append("OR a.hrRequired = true ) ");
-		}
-
 		if (sort) {
 			ControllerSortField controllerSortField = ControladorContexto
 					.getContextBean(ControllerSortField.class);

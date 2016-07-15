@@ -36,6 +36,8 @@
 		<t:saveState value="#{scheduledActivitiesAction}" />
 		<t:saveState value="#{cycleAction}" />
 		<t:saveState value="#{activityMaterialsAction}" />
+		<t:saveState value="#{activitiesAndMachineAction}" />
+
 		<h:form id="formHrReporting">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageLifeCycle.record_activities_actuals_label_actual}"
@@ -218,7 +220,7 @@
 										render="formHrReporting seleccionadas" />
 									<f:param name="param2" value="si" />
 									<f:setPropertyActionListener
-										target="#{scheduledActivitiesAction.paginationActivitiesMachines.opcion}"
+										target="#{activitiesAndMachineAction.pagination.opcion}"
 										value="f" />
 								</a:commandLink>
 							</rich:column>
@@ -319,7 +321,7 @@
 					<t:fieldset styleClass="anchoDos BorderW2P">
 						<legend class="etiquetaTitulo">
 							#{messageHumanResources.human_resource_label} -
-							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}</legend>
+							#{recordActivitiesActualsAction.selectedActivity.activityName.activityName}</legend>
 						<br />
 						<ui:param name="listaVaciaA"
 							value="#{activitiesAndHrAction.listActivitiesAndHrTemp eq null}" />
@@ -423,12 +425,12 @@
 					<t:fieldset styleClass="anchoDos BorderW2P">
 						<legend class="etiquetaTitulo">#{mensajeMenu.machines_label_administration}
 							-
-							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}</legend>
+							#{recordActivitiesActualsAction.selectedActivity.activityName.activityName}</legend>
 						<br />
 						<ui:param name="listaVaciaA"
-							value="#{scheduledActivitiesAction.listActivityMachine eq null}" />
+							value="#{activitiesAndMachineAction.listActivityMachine eq null}" />
 						<rich:dataTable
-							value="#{scheduledActivitiesAction.listActivityMachine}"
+							value="#{activitiesAndMachineAction.listActivityMachine}"
 							var="machinesActivities" id="activityMachine" footerClass="H130P"
 							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 							rowClasses="odd-row, even-row">
@@ -440,10 +442,10 @@
 									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpRecordMachineActual')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 									value="#{machinesActivities.activityMachinePK.machines.name}"
 									render="formRecordMachineActual"
-									rendered="#{scheduledActivitiesAction.selectedActivity.costMachinesEqActual eq null}">
+									rendered="#{recordActivitiesActualsAction.selectedActivity.costMachinesEqActual eq null}">
 								</a:commandLink>
 								<h:outputText
-									rendered="#{scheduledActivitiesAction.selectedActivity.costMachinesEqActual ne null}"
+									rendered="#{recordActivitiesActualsAction.selectedActivity.costMachinesEqActual ne null}"
 									value="#{machinesActivities.activityMachinePK.machines.name}" />
 							</rich:column>
 
@@ -485,17 +487,17 @@
 						</rich:dataTable>
 						<br />
 						<a:outputPanel id="pagerActivitiesMachines"
-							rendered="#{scheduledActivitiesAction.listActivityMachine.size() gt 0}">
+							rendered="#{activitiesAndMachineAction.listActivityMachine.size() gt 0}">
 							<div class="anchoDos center inBlock">
 								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valParam2" value="si" />
 									<ui:param name="conParam2" value="1" />
 									<ui:param name="valId" value="3" />
-									<ui:param name="pager" value="paginationActivitiesMachines" />
+									<ui:param name="pager" value="pagination" />
 									<ui:param name="valReder"
 										value="activityMachine pagerActivitiesMachines" />
 									<ui:param name="beanActionParam"
-										value="#{scheduledActivitiesAction}" />
+										value="#{activitiesAndMachineAction}" />
 									<ui:param name="metodoActionParam"
 										value="showActivitiesAndMachineForActivity" />
 								</ui:include>
@@ -509,7 +511,7 @@
 					<t:fieldset styleClass="anchoDos BorderW2P">
 						<legend class="etiquetaTitulo">
 							#{mensajeWarehouse.materials_label_s} -
-							#{scheduledActivitiesAction.selectedActivity.activityName.activityName}</legend>
+							#{recordActivitiesActualsAction.selectedActivity.activityName.activityName}</legend>
 						<br />
 						<ui:param name="listaVaciaA"
 							value="#{activityMaterialsAction.listActivityMaterialsTemp eq null}" />
@@ -525,10 +527,10 @@
 									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupAddActivitiesMaterials')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 									value="#{activityMaterial.activityMaterialsPK.materials.name} #{activityMaterial.activityMaterialsPK.materials.presentation} #{activityMaterial.activityMaterialsPK.materials.measurementUnits.name}"
 									render="popupAddActivitiesMaterials"
-									rendered="#{scheduledActivitiesAction.selectedActivity.costMaterialsActual eq null}">
+									rendered="#{recordActivitiesActualsAction.selectedActivity.costMaterialsActual eq null}">
 								</a:commandLink>
 								<h:outputText
-									rendered="#{scheduledActivitiesAction.selectedActivity.costMaterialsActual ne null}"
+									rendered="#{recordActivitiesActualsAction.selectedActivity.costMaterialsActual ne null}"
 									value="#{activityMaterial.activityMaterialsPK.materials.name} #{activityMaterial.activityMaterialsPK.materials.presentation} #{activityMaterial.activityMaterialsPK.materials.measurementUnits.name}" />
 							</rich:column>
 							<rich:column styleClass="colNumeroMini">
