@@ -77,6 +77,8 @@ public class ActivitiesAndMachineDao implements Serializable {
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(am) FROM ActivityMachine am ");
+		query.append("JOIN am.activityMachinePK.machines m ");
+		query.append("JOIN am.activityMachinePK.activities ac ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parametro : parameters) {
@@ -109,6 +111,8 @@ public class ActivitiesAndMachineDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT am FROM ActivityMachine am ");
+		query.append("JOIN FETCH am.activityMachinePK.machines m ");
+		query.append("JOIN FETCH am.activityMachinePK.activities ac ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {

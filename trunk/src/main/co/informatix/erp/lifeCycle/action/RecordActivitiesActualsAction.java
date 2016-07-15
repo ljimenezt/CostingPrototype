@@ -17,6 +17,7 @@ import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.action.ActivitiesAction;
 import co.informatix.erp.costs.action.ActivitiesAndHrAction;
+import co.informatix.erp.costs.action.ActivitiesAndMachineAction;
 import co.informatix.erp.costs.action.ActivityMaterialsAction;
 import co.informatix.erp.costs.dao.ActivitiesAndHrDao;
 import co.informatix.erp.costs.dao.ActivitiesAndMachineDao;
@@ -92,7 +93,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private Crops crops;
 	private ActivitiesAndHr activitiesAndHr;
 	private ActivitiesAndHrAction activitiesAndHrAction;
-	private ScheduledActivitiesAction scheduledActivitiesAction;
+	private ActivitiesAndMachineAction activitiesAndMachineAction;
 	private ActivityMaterialsAction activityMaterialsAction;
 	private ActivitiesAction activitiesAction;
 	private OvertimePaymentRate overtimePaymentRate;
@@ -336,17 +337,17 @@ public class RecordActivitiesActualsAction implements Serializable {
 	/**
 	 * @return scheduledActivitiesAction: scheduledActivitiesAction object.
 	 */
-	public ScheduledActivitiesAction getScheduledActivitiesAction() {
-		return scheduledActivitiesAction;
+	public ActivitiesAndMachineAction getActivitiesAndMachineAction() {
+		return activitiesAndMachineAction;
 	}
 
 	/**
 	 * @param scheduledActivitiesAction
 	 *            : scheduledActivitiesAction object.
 	 */
-	public void setScheduledActivitiesAction(
-			ScheduledActivitiesAction scheduledActivitiesAction) {
-		this.scheduledActivitiesAction = scheduledActivitiesAction;
+	public void setActivitiesAndMachineAction(
+			ActivitiesAndMachineAction activitiesAndMachineAction) {
+		this.activitiesAndMachineAction = activitiesAndMachineAction;
 	}
 
 	/**
@@ -617,10 +618,9 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @modify 06/07/2016 Wilhelm.Boada
 	 */
 	public void currentCost() {
-		if (ControladorContexto.getFacesContext() != null) {
-			this.scheduledActivitiesAction = ControladorContexto
-					.getContextBean(ScheduledActivitiesAction.class);
-		}
+		this.activitiesAndMachineAction = ControladorContexto
+				.getContextBean(ActivitiesAndMachineAction.class);
+
 		this.calculateCostsButtonActivated = false;
 		if (this.listActivitiesAndHr != null) {
 			for (ActivitiesAndHr activitiesAndHr : this.listActivitiesAndHr) {
@@ -629,8 +629,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 				}
 			}
 		}
-		if (this.scheduledActivitiesAction.getListActivityMachine() != null) {
-			for (ActivityMachine activityMachine : this.scheduledActivitiesAction
+		if (this.activitiesAndMachineAction.getListActivityMachine() != null) {
+			for (ActivityMachine activityMachine : this.activitiesAndMachineAction
 					.getListActivityMachine()) {
 				if (activityMachine.getConsumablesCostActual() == null) {
 					this.calculateCostsButtonActivated = true;
@@ -651,7 +651,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 			this.calculateCostsButtonActivated = true;
 		}
 		if (this.listActivitiesAndHr == null
-				&& this.scheduledActivitiesAction.getListActivityMachine() == null) {
+				&& this.activitiesAndMachineAction.getListActivityMachine() == null) {
 			this.calculateCostsButtonActivated = true;
 		}
 	}
@@ -710,15 +710,16 @@ public class RecordActivitiesActualsAction implements Serializable {
 										.getName()));
 				activitiesAndHrAction.consultActivitiesAndHrByActivity();
 			} else {
-				ScheduledActivitiesAction scheduledActivitiesAction = ControladorContexto
-						.getContextBean(ScheduledActivitiesAction.class);
+				ActivitiesAndMachineAction activitiesAndMachineAction = ControladorContexto
+						.getContextBean(ActivitiesAndMachineAction.class);
 				activitiesAndMachineDao
 						.editActivitiesAndMachine(this.activityMachine);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle.getString(registerMessage),
 								activityMachine.getActivityMachinePK()
 										.getMachines().getName()));
-				scheduledActivitiesAction.showActivitiesAndMachineForActivity();
+				activitiesAndMachineAction
+						.showActivitiesAndMachineForActivity();
 			}
 			currentCost();
 		} catch (Exception e) {
@@ -741,12 +742,12 @@ public class RecordActivitiesActualsAction implements Serializable {
 		boolean flagCycle = false;
 		try {
 			if (ControladorContexto.getFacesContext() != null) {
-				this.scheduledActivitiesAction = ControladorContexto
-						.getContextBean(ScheduledActivitiesAction.class);
+				this.activitiesAndMachineAction = ControladorContexto
+						.getContextBean(ActivitiesAndMachineAction.class);
 			}
 			if (this.selectedActivity != null
 					&& (this.listActivitiesAndHr != null
-							|| this.scheduledActivitiesAction
+							|| this.activitiesAndMachineAction
 									.getListActivityMachine() != null || this.activityMaterialsAction
 							.getListActivityMaterialsTemp() != null)) {
 				if (selectedActivity.getGeneralCostActual() == null) {
@@ -761,7 +762,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 							.getGeneralCostActual() + totalCostHr);
 					flag = true;
 				}
-				if (this.scheduledActivitiesAction.getListActivityMachine() != null
+				if (this.activitiesAndMachineAction.getListActivityMachine() != null
 						&& selectedActivity.getMachineRequired() == true) {
 					Double totalCostMachine = activitiesAndMachineDao
 							.calculateTotalCostMachine(selectedActivity
@@ -1074,10 +1075,11 @@ public class RecordActivitiesActualsAction implements Serializable {
 				.getContextBean(ActivitiesAndHrAction.class);
 		this.activitiesAndHrAction.setFromModal(true);
 		this.activitiesAndHrAction.consultActivitiesAndHrByActivity();
-		this.scheduledActivitiesAction = ControladorContexto
-				.getContextBean(ScheduledActivitiesAction.class);
-		this.scheduledActivitiesAction.setFromModal(true);
-		this.scheduledActivitiesAction.showActivitiesAndMachineForActivity();
+		this.activitiesAndMachineAction = ControladorContexto
+				.getContextBean(ActivitiesAndMachineAction.class);
+		this.activitiesAndMachineAction.setSelectedActivity(selectedActivity);
+		this.activitiesAndMachineAction.setFromModal(true);
+		this.activitiesAndMachineAction.showActivitiesAndMachineForActivity();
 		this.activityMaterialsAction = ControladorContexto
 				.getContextBean(ActivityMaterialsAction.class);
 		this.activityMaterialsAction.setFromModal(true);

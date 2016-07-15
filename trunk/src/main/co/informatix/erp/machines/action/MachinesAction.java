@@ -12,9 +12,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import co.informatix.erp.costs.action.ActivitiesAndMachineAction;
 import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivityMachine;
-import co.informatix.erp.lifeCycle.action.ScheduledActivitiesAction;
 import co.informatix.erp.machines.dao.FuelTypesDao;
 import co.informatix.erp.machines.dao.MachineTypesDao;
 import co.informatix.erp.machines.dao.MachinesDao;
@@ -46,7 +46,7 @@ public class MachinesAction implements Serializable {
 	private FuelTypesDao fuelTypesDao;
 
 	private Machines machines;
-	private ScheduledActivitiesAction scheduledActivitiesAction;
+	private ActivitiesAndMachineAction activitiesAndMachineAction;
 
 	private Paginador pagination = new Paginador();
 	private String nameSearch;
@@ -77,17 +77,17 @@ public class MachinesAction implements Serializable {
 	/**
 	 * @return scheduledActivitiesAction: scheduledActivitiesAction object.
 	 */
-	public ScheduledActivitiesAction getScheduledActivitiesAction() {
-		return scheduledActivitiesAction;
+	public ActivitiesAndMachineAction getActivitiesAndMachineAction() {
+		return activitiesAndMachineAction;
 	}
 
 	/**
 	 * @param scheduledActivitiesAction
 	 *            : scheduledActivitiesAction object.
 	 */
-	public void setScheduledActivitiesAction(
-			ScheduledActivitiesAction scheduledActivitiesAction) {
-		this.scheduledActivitiesAction = scheduledActivitiesAction;
+	public void setActivitiesAndMachineAction(
+			ActivitiesAndMachineAction activitiesAndMachineAction) {
+		this.activitiesAndMachineAction = activitiesAndMachineAction;
 	}
 
 	/**
@@ -433,9 +433,9 @@ public class MachinesAction implements Serializable {
 		Activities selectedActivity = new Activities();
 		boolean seleccion = false;
 		if (ControladorContexto.getFacesContext() != null) {
-			this.scheduledActivitiesAction = ControladorContexto
-					.getContextBean(ScheduledActivitiesAction.class);
-			selectedActivity = scheduledActivitiesAction.getSelectedActivity();
+			this.activitiesAndMachineAction = ControladorContexto
+					.getContextBean(ActivitiesAndMachineAction.class);
+			selectedActivity = activitiesAndMachineAction.getSelectedActivity();
 		}
 		if (this.nameMachines != 0) {
 			query.append("WHERE mt.idMachineType = :idMachineType ");
@@ -675,12 +675,12 @@ public class MachinesAction implements Serializable {
 	 */
 	private void persistMachines() {
 		if (ControladorContexto.getFacesContext() != null) {
-			this.scheduledActivitiesAction = ControladorContexto
-					.getContextBean(ScheduledActivitiesAction.class);
+			this.activitiesAndMachineAction = ControladorContexto
+					.getContextBean(ActivitiesAndMachineAction.class);
 		}
 		if (this.listMachines != null) {
 			for (Machines machine : this.listMachines) {
-				for (ActivityMachine machineSelected : scheduledActivitiesAction
+				for (ActivityMachine machineSelected : activitiesAndMachineAction
 						.getListActivityMachineTemp()) {
 					int idMachineSelected = machineSelected
 							.getActivityMachinePK().getMachines()

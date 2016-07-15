@@ -25,6 +25,7 @@
 		<t:saveState value="#{activityMaterialsAction}" />
 		<t:saveState value="#{controllerSortField}" />
 		<t:saveState value="#{cycleAction}" />
+		<t:saveState value="#{activitiesAndMachineAction}" />
 		<!-- Parameters for the order list -->
 		<ui:param name="renderList" value="paginas" />
 		<ui:param name="actionList" value="#{activitiesAction}" />
@@ -92,9 +93,6 @@
 							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null }">
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{scheduledActivitiesAction.optionsCrops}" />
-							<f:ajax event="change"
-								listener="#{scheduledActivitiesAction.loadCycles}"
-								render="@form" />
 						</h:selectOneMenu>
 						<rich:message for="crop" />
 						<h:outputText value="" styleClass="etiquetaTitulo" />
@@ -259,8 +257,7 @@
 								<rich:column styleClass="colIconoUno verticalAlignMiddle">
 									<f:facet name="header" />
 									<a:commandLink
-										actionListener="#{scheduledActivitiesAction.assignSelectedActivity()}"
-										action="#{scheduledActivitiesAction.showActivitiesAndMachineForActivity()}"
+										actionListener="#{scheduledActivitiesAction.selectedActivity(activity)}"
 										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
 										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
 											styleClass="verticalAlignMiddle"
@@ -575,7 +572,7 @@
 							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
 								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false and scheduledActivitiesAction.selectedActivity.costMachinesEqActual eq null}"
 								render="selectMachines:popupMachines mensajes mensajeBusqueda"
-								actionListener="#{scheduledActivitiesAction.listMachineTypes()}"
+								actionListener="#{activitiesAndMachineAction.listMachineTypes()}"
 								action="#{machinesAction.initializeMachines()}"
 								execute="formActivitiesAndMachine"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
@@ -595,9 +592,8 @@
 							</a:commandLink>
 						</div>
 						<ui:param name="listaVacia"
-							value="#{scheduledActivitiesAction.listActivityMachine.size() eq 0 or (scheduledActivitiesAction.listActivityMachine eq null)}" />
-						<rich:dataTable
-							value="#{scheduledActivitiesAction.listActivityMachine}"
+							value="#{activitiesAndMachineAction.listActivityMachine.size() eq 0 or (activitiesAndMachineAction.listActivityMachine eq null)}" />
+						<rich:dataTable value="#{activitiesAndMachineAction.listActivityMachine}"
 							var="activitiesMachines" id="listMachines" footerClass="H130P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 							rowClasses="odd-row, even-row">
@@ -605,7 +601,7 @@
 								<a:outputPanel>
 									<a:commandLink render="popupDeleteActivityMachine"
 										rendered="#{activitiesMachines.durationActual eq null}"
-										actionListener="#{scheduledActivitiesAction.setActivityMachine(activitiesMachines)}"
+										actionListener="#{activitiesAndMachineAction.setActivityMachine(activitiesMachines)}"
 										oncomplete="#{rich:component('popupDeleteActivityMachine')}.show()">
 										<h:graphicImage value="/img/delete_16.png" />
 										<rich:tooltip layout="block">
@@ -626,7 +622,7 @@
 								<f:facet name="header">#{mensaje.label_name}</f:facet>
 								<a:commandLink
 									rendered="#{activitiesMachines.durationActual eq null}"
-									actionListener="#{scheduledActivitiesAction.setActivityMachine(activitiesMachines.clone())}"
+									actionListener="#{activitiesAndMachineAction.setActivityMachine(activitiesMachines.clone())}"
 									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpUpdateActivitiesAndMachine')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 									value="#{activitiesMachines.activityMachinePK.machines.name}"
 									render="popUpUpdateActivitiesAndMachine" />
@@ -671,15 +667,15 @@
 						</rich:dataTable>
 						<br />
 						<a:outputPanel id="pageMachines"
-							rendered="#{scheduledActivitiesAction.listActivityMachine.size() gt 0}">
+							rendered="#{activitiesAndMachineAction.listActivityMachine.size() gt 0}">
 							<div class="anchoDos center inBlock">
 								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="conParam2" value="1" />
 									<ui:param name="valId" value="2" />
-									<ui:param name="pager" value="paginationActivitiesMachines" />
+									<ui:param name="pager" value="pagination" />
 									<ui:param name="valReder" value="listMachines pageMachines" />
 									<ui:param name="beanActionParam"
-										value="#{scheduledActivitiesAction}" />
+										value="#{activitiesAndMachineAction}" />
 									<ui:param name="metodoActionParam"
 										value="showActivitiesAndMachineForActivity" />
 								</ui:include>

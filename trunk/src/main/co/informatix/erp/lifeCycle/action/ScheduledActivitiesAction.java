@@ -1,29 +1,21 @@
 package co.informatix.erp.lifeCycle.action;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.action.ActivitiesAction;
 import co.informatix.erp.costs.action.ActivitiesAndHrAction;
+import co.informatix.erp.costs.action.ActivitiesAndMachineAction;
 import co.informatix.erp.costs.action.ActivityMaterialsAction;
 import co.informatix.erp.costs.dao.ActivitiesAndMachineDao;
 import co.informatix.erp.costs.dao.ActivitiesDao;
 import co.informatix.erp.costs.entities.Activities;
-import co.informatix.erp.costs.entities.ActivityMachine;
-import co.informatix.erp.costs.entities.ActivityMachinePK;
 import co.informatix.erp.lifeCycle.dao.ActivityNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
@@ -32,16 +24,10 @@ import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
 import co.informatix.erp.lifeCycle.entities.Cycle;
-import co.informatix.erp.machines.action.MachinesAction;
 import co.informatix.erp.machines.dao.MachineTypesDao;
 import co.informatix.erp.machines.dao.MachinesDao;
-import co.informatix.erp.machines.entities.MachineTypes;
-import co.informatix.erp.machines.entities.Machines;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
-import co.informatix.erp.utils.ControladorFechas;
-import co.informatix.erp.utils.Paginador;
-import co.informatix.erp.utils.ValidacionesAction;
 
 /**
  * This class implements the logic of activities that can be related to machines
@@ -75,15 +61,10 @@ public class ScheduledActivitiesAction implements Serializable {
 	private int idCrop;
 	private int idCropName;
 	private int idCycle;
-	private boolean stateAddMachine;
 	private boolean fromModal;
 	private boolean fromActivity = false;
 
 	private List<Activities> listActivities;
-	private List<ActivityMachine> listActivityMachine;
-	private List<ActivityMachine> listActivityMachineTemp;
-	private List<Machines> listMachine;
-	private List<SelectItem> itemsMachineTypes;
 	private List<SelectItem> optionsCropNames;
 	private List<SelectItem> optionsCrops;
 	private List<SelectItem> optionsActivityName;
@@ -92,12 +73,9 @@ public class ScheduledActivitiesAction implements Serializable {
 	private Activities activities;
 	private Crops crops;
 	private CropNames cropNames;
-	private ActivityMachine activityMachine;
-	private Machines machine;
 	private Activities selectedActivity;
 	private ActivitiesAction activitiesAction;
-	private MachinesAction machinesAction;
-	private Paginador paginationActivitiesMachines = new Paginador();
+	private ActivitiesAndMachineAction activitiesAndMachineAction;
 	private ActivitiesAndHrAction activitiesAndHrAction;
 	private ActivityMaterialsAction activityMaterialsAction;
 	private Cycle cycle;
@@ -148,23 +126,6 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return stateAddMachine: 'true' shows register duration popup, 'false'
-	 *         deletes machine of list.
-	 */
-	public boolean isStateAddMachine() {
-		return stateAddMachine;
-	}
-
-	/**
-	 * @param stateAddMachine
-	 *            : 'true' shows register duration popup, 'false' deletes
-	 *            machine of list.
-	 */
-	public void setStateAddMachine(boolean stateAddMachine) {
-		this.stateAddMachine = stateAddMachine;
-	}
-
-	/**
 	 * @return fromModal: this field is true if the query is made from
 	 *         recordActivitiesActualsAction and is false in other case.
 	 */
@@ -211,67 +172,6 @@ public class ScheduledActivitiesAction implements Serializable {
 	 */
 	public void setListActivities(List<Activities> listActivities) {
 		this.listActivities = listActivities;
-	}
-
-	/**
-	 * @return listActivityMachine: list object of ActivityMachine.
-	 */
-	public List<ActivityMachine> getListActivityMachine() {
-		return listActivityMachine;
-	}
-
-	/**
-	 * @param listActivityMachine
-	 *            : list object of ActivityMachine.
-	 */
-	public void setListActivityMachine(List<ActivityMachine> listActivityMachine) {
-		this.listActivityMachine = listActivityMachine;
-	}
-
-	/**
-	 * @return listActivityMachineTemp: list object of ActivityMachine.
-	 */
-	public List<ActivityMachine> getListActivityMachineTemp() {
-		return listActivityMachineTemp;
-	}
-
-	/**
-	 * @param listActivityMachineTemp
-	 *            : list object of ActivityMachine.
-	 */
-	public void setListActivityMachineTemp(
-			List<ActivityMachine> listActivityMachineTemp) {
-		this.listActivityMachineTemp = listActivityMachineTemp;
-	}
-
-	/**
-	 * @return listMachine: machines list.
-	 */
-	public List<Machines> getListMachine() {
-		return listMachine;
-	}
-
-	/**
-	 * @param listMachine
-	 *            : machines list.
-	 */
-	public void setListMachine(List<Machines> listMachine) {
-		this.listMachine = listMachine;
-	}
-
-	/**
-	 * @return itemsMachineTypes: selectedItem list with machine types.
-	 */
-	public List<SelectItem> getItemsMachineTypes() {
-		return itemsMachineTypes;
-	}
-
-	/**
-	 * @param itemsMachineTypes
-	 *            : selectedItem list with machine types.
-	 */
-	public void setMachineTypes(List<SelectItem> itemsMachineTypes) {
-		this.itemsMachineTypes = itemsMachineTypes;
 	}
 
 	/**
@@ -380,36 +280,6 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * @return activityMachine: Object of machine activity.
-	 */
-	public ActivityMachine getActivityMachine() {
-		return activityMachine;
-	}
-
-	/**
-	 * @param activityMachine
-	 *            : Object of machine activity.
-	 */
-	public void setActivityMachine(ActivityMachine activityMachine) {
-		this.activityMachine = activityMachine;
-	}
-
-	/**
-	 * @return machine: Object of machines.
-	 */
-	public Machines getMachine() {
-		return machine;
-	}
-
-	/**
-	 * @param machine
-	 *            : Object of machines.
-	 */
-	public void setMachine(Machines machine) {
-		this.machine = machine;
-	}
-
-	/**
 	 * @return selectedActivity: Object of activity that is selected.
 	 */
 	public Activities getSelectedActivity() {
@@ -437,37 +307,6 @@ public class ScheduledActivitiesAction implements Serializable {
 	 */
 	public void setActivitiesAction(ActivitiesAction activitiesAction) {
 		this.activitiesAction = activitiesAction;
-	}
-
-	/**
-	 * @return machinesAction: object of machinesAction.
-	 */
-	public MachinesAction getMachinesAction() {
-		return machinesAction;
-	}
-
-	/**
-	 * @param machinesAction
-	 *            : object of machinesAction.
-	 */
-	public void setMachinesAction(MachinesAction machinesAction) {
-		this.machinesAction = machinesAction;
-	}
-
-	/**
-	 * @return paginationActivitiesMachines: Paged list of activityMachines.
-	 */
-	public Paginador getPaginationActivitiesMachines() {
-		return paginationActivitiesMachines;
-	}
-
-	/**
-	 * @param paginationActivitiesMachines
-	 *            : Paged list of activityMachines.
-	 */
-	public void setPaginationActivitiesMachines(
-			Paginador paginationActivitiesMachines) {
-		this.paginationActivitiesMachines = paginationActivitiesMachines;
 	}
 
 	/**
@@ -525,19 +364,15 @@ public class ScheduledActivitiesAction implements Serializable {
 	 */
 	public String initializeActivities() {
 		try {
-			if (ControladorContexto.getFacesContext() != null) {
-				this.activitiesAction = ControladorContexto
-						.getContextBean(ActivitiesAction.class);
-			}
+			this.activitiesAction = ControladorContexto
+					.getContextBean(ActivitiesAction.class);
 			eraseActivities();
 			this.activities = new Activities();
 			this.cropNames = new CropNames();
-			this.machine = new Machines();
 			if (this.activitiesAction != null) {
 				this.activitiesAction.setListActivities(null);
 				this.activitiesAction.setFlagCycle(false);
 			}
-			this.machinesAction = new MachinesAction();
 			this.setSelectedActivity(null);
 			this.crops = cropsDao.defaultSearchCrop(Constantes.ID_CROP_DEFAULT);
 			if (crops != null) {
@@ -594,26 +429,6 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Method that loads a machinesType list.
-	 */
-	public void listMachineTypes() {
-		try {
-			this.listActivityMachineTemp = new ArrayList<ActivityMachine>();
-			this.itemsMachineTypes = new ArrayList<SelectItem>();
-			List<MachineTypes> listMachineType = machineTypesDao
-					.listMachineType();
-			if (listMachineType != null) {
-				for (MachineTypes machineType : listMachineType) {
-					itemsMachineTypes.add(new SelectItem(machineType
-							.getIdMachineType(), machineType.getName()));
-				}
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
 	 * Method to clean up the list of activities and the name of the crop.
 	 */
 	private void eraseActivities() {
@@ -634,18 +449,6 @@ public class ScheduledActivitiesAction implements Serializable {
 			this.activitiesAction = ControladorContexto
 					.getContextBean(ActivitiesAction.class);
 			this.selectedActivity = activitiesAction.getSelectedActivities();
-		}
-	}
-
-	/**
-	 * Sets the list of machines machineAction.
-	 */
-	public void initializeMachine() {
-		this.listActivities = new ArrayList<Activities>();
-		if (ControladorContexto.getFacesContext() != null) {
-			machinesAction = ControladorContexto
-					.getContextBean(MachinesAction.class);
-			this.listMachine = machinesAction.getListMachines();
 		}
 	}
 
@@ -679,345 +482,64 @@ public class ScheduledActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * Check the relations between activities and human resources.
-	 * 
-	 * @modify 21/04/2016 Wilhelm.Boada
-	 */
-	public void showActivitiesAndMachineForActivity() {
-		ValidacionesAction validation = ControladorContexto
-				.getContextBean(ValidacionesAction.class);
-		this.listActivityMachine = new ArrayList<ActivityMachine>();
-		List<SelectItem> parameters = new ArrayList<SelectItem>();
-		StringBuilder queryBuilder = new StringBuilder();
-		String SearchMessage = "";
-		try {
-			RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
-					.getContextBean(RecordActivitiesActualsAction.class);
-			if (fromModal) {
-				this.selectedActivity = recordActivitiesActualsAction
-						.getSelectedActivity();
-			}
-			advancedSearchActivitiesAndMachine(queryBuilder, parameters);
-			Long amount = activitiesAndMachineDao.quantityActivitiesAndMachine(
-					queryBuilder, parameters);
-			advancedSearchActivitiesAndMachine(queryBuilder, parameters);
-			if (amount != null) {
-				if (amount > 5) {
-					paginationActivitiesMachines
-							.paginarRangoDefinido(amount, 5);
-				} else {
-					paginationActivitiesMachines.paginar(amount);
-				}
-				this.listActivityMachine = activitiesAndMachineDao
-						.consultingActivitiesAndMachine(
-								paginationActivitiesMachines.getInicio(),
-								paginationActivitiesMachines.getRango(),
-								queryBuilder, parameters);
-			}
-			if (!fromModal) {
-				if (ControladorContexto.getFacesContext() != null) {
-					this.activitiesAndHrAction = ControladorContexto
-							.getContextBean(ActivitiesAndHrAction.class);
-					this.activitiesAndHrAction
-							.setSelectedActivity(selectedActivity);
-					this.activitiesAndHrAction.setFromModal(false);
-					this.activitiesAndHrAction
-							.consultActivitiesAndHrByActivity();
-					if (selectedActivity.getMaterialsRequired()) {
-						this.activityMaterialsAction = ControladorContexto
-								.getContextBean(ActivityMaterialsAction.class);
-						this.activityMaterialsAction
-								.setSelectedActivity(selectedActivity);
-						this.activityMaterialsAction.setFromModal(false);
-						this.activityMaterialsAction
-								.consultMaterialsByActivity();
-					}
-				}
-			} else {
-				recordActivitiesActualsAction.currentCost();
-			}
-			validation.setMensajeBusqueda(SearchMessage);
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * This method builds the query for an advanced search for relations between
-	 * activities and machines, it also builds display messages depending on the
-	 * search criteria selected by the user.
-	 * 
-	 * @param query
-	 *            : query to concatenate.
-	 * @param parameters
-	 *            : list of the search parameters.
-	 */
-	private void advancedSearchActivitiesAndMachine(StringBuilder query,
-			List<SelectItem> parameters) {
-		boolean selection = false;
-		if (query.length() > 0) {
-			query.setLength(0);
-			selection = true;
-		}
-		query.append(selection ? "JOIN FETCH " : "JOIN ");
-		query.append("am.activityMachinePK.machines m ");
-		query.append(selection ? "JOIN FETCH " : "JOIN ");
-		query.append("am.activityMachinePK.activities ac ");
-		query.append("WHERE ac.idActivity = :id ");
-		SelectItem item = new SelectItem(this.selectedActivity.getIdActivity(),
-				"id");
-		parameters.add(item);
-	}
-
-	/**
-	 * Select and deselect the machines in a list.
-	 * 
-	 * @modify 21/04/2016 Wilhelm.Boada
-	 * 
-	 * @param machine
-	 *            : Machine object.
-	 */
-	public void machineSelection(Machines machine) {
-		try {
-			this.stateAddMachine = false;
-			this.machine = machine;
-			this.activityMachine = new ActivityMachine();
-			if (!machine.isSelection()) {
-				if (this.activitiesAction.getSelectedActivities()
-						.getDurationBudget() != null) {
-					this.activityMachine
-							.setDurationBudget(this.activitiesAction
-									.getSelectedActivities()
-									.getDurationBudget());
-				} else {
-					Date initialDate = this.activitiesAction
-							.getSelectedActivities().getInitialDtBudget();
-					Date finalDate = this.activitiesAction
-							.getSelectedActivities().getFinalDtBudget();
-					Double duration = ControladorFechas.restarFechas(
-							initialDate, finalDate);
-					this.activityMachine.setDurationBudget(duration);
-				}
-			} else {
-				ActivityMachine activityMachine = new ActivityMachine();
-				ActivityMachinePK activitiesMachinesPK = new ActivityMachinePK();
-				activitiesMachinesPK.setMachines(machine);
-				activitiesMachinesPK.setActivities(this.activitiesAction
-						.getSelectedActivities());
-				for (ActivityMachine activityMachines : listActivityMachineTemp) {
-					if (activityMachines.getActivityMachinePK().equals(
-							activitiesMachinesPK)) {
-						activityMachine = activityMachines;
-					}
-				}
-				this.listActivityMachineTemp.remove(activityMachine);
-				this.stateAddMachine = true;
-				this.machine.setSelection(false);
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * Add machines and create activityMachine List.
-	 */
-	public void addMachines() {
-		ActivityMachinePK activityMachinePK = new ActivityMachinePK();
-		this.machine.setSelection(true);
-		this.activityMachine.setInitialDateTime(activitiesAction
-				.getSelectedActivities().getInitialDtBudget());
-		this.activityMachine.setFinalDateTime(activitiesAction
-				.getSelectedActivities().getFinalDtBudget());
-		activityMachinePK.setActivities(activitiesAction
-				.getSelectedActivities());
-		activityMachinePK.setMachines(this.machine);
-		this.activityMachine.setActivityMachinePK(activityMachinePK);
-		calculateConsumableCost(this.activityMachine);
-		this.listActivityMachineTemp.add(this.activityMachine);
-	}
-
-	/**
-	 * Calculate the cost of consumption of the machine.
-	 * 
-	 * @param activityMachine
-	 *            : ActivityMachine object.
-	 */
-	public void calculateConsumableCost(ActivityMachine activityMachine) {
-		Double fuelConsumption = activityMachine.getActivityMachinePK()
-				.getMachines().getFuelConsumption();
-		if (fuelConsumption > 0) {
-			Double consumableCostBudget = activityMachine.getDurationBudget()
-					* fuelConsumption;
-			this.activityMachine.setConsumablesCostBudget(consumableCostBudget);
-		} else {
-			this.activityMachine.setConsumablesCostBudget(0.0d);
-		}
-	}
-
-	/**
-	 * Save the relations between activities and machines.
-	 */
-	public void saveActivitiesAndMachine() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String registerMessage = "message_registro_guardar";
-		Double costConsumableMachine = 0.0;
-		try {
-			if (this.listActivityMachineTemp != null
-					&& this.listActivityMachineTemp.size() > 0) {
-				for (ActivityMachine activityMachine : listActivityMachineTemp) {
-					activitiesAndMachineDao
-							.saveActivitiesAndMachine(activityMachine);
-					if (activityMachine.getConsumablesCostBudget() == null)
-						activityMachine.setConsumablesCostBudget(0.0);
-					costConsumableMachine += activityMachine
-							.getConsumablesCostBudget();
-					ControladorContexto.mensajeInformacion(null, MessageFormat
-							.format(bundle.getString(registerMessage),
-									activityMachine.getActivityMachinePK()
-											.getMachines().getName()));
-				}
-				if (selectedActivity.getCostMachinesEqBudget() == null) {
-					selectedActivity.setCostMachinesEqBudget(0.0);
-				}
-				costConsumableMachine += selectedActivity
-						.getCostMachinesEqBudget();
-				selectedActivity.setCostMachinesEqBudget(costConsumableMachine);
-				activitiesDao.editActivities(this.selectedActivity);
-				setListActivityMachineTemp(null);
-				showActivitiesAndMachineForActivity();
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * Update the relations between activities and machines.
-	 */
-	public void updateActivityMachine() {
-		try {
-			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-			String registerMessage = "message_registro_modificar";
-			activitiesAndMachineDao
-					.editActivitiesAndMachine(this.activityMachine);
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(registerMessage), this.activityMachine
-							.getActivityMachinePK().getMachines().getName()));
-			showActivitiesAndMachineForActivity();
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * Delete the relations between activities and machines.
-	 */
-	public void deleteActivitiesAndMachine() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String message = "message_registro_eliminar";
-		try {
-			activitiesAndMachineDao
-					.deleteActivitiesAndMachine(this.activityMachine);
-			if (this.activityMachine.getConsumablesCostBudget() == null)
-				this.activityMachine.setConsumablesCostBudget(0.0);
-			Double costMachineBudget = this.selectedActivity
-					.getCostMachinesEqBudget()
-					- this.activityMachine.getConsumablesCostBudget();
-			this.selectedActivity.setCostMachinesEqBudget(costMachineBudget);
-			this.activitiesDao.editActivities(this.selectedActivity);
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(message), activityMachine
-							.getActivityMachinePK().getMachines().getName()));
-			showActivitiesAndMachineForActivity();
-		} catch (EJBException e) {
-			String format = MessageFormat.format(
-					bundle.getString("message_existe_relacion_eliminar"),
-					this.activityMachine.getActivityMachinePK().getMachines()
-							.getName());
-			ControladorContexto.mensajeError(e, null, format);
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * It is responsible for validating that the time duration entered does not
-	 * exceed the total time of the activity.
-	 * 
-	 * @param context
-	 *            : Context for the view.
-	 * @param toValidate
-	 *            : Validate component.
-	 * @param value
-	 *            : Component value.
-	 */
-	public void validateDuration(FacesContext context, UIComponent toValidate,
-			Object value) {
-		String clientId = toValidate.getClientId(context);
-		String flag = (String) toValidate.getAttributes().get("flag");
-		boolean flagValue = (flag != null && "si".equals(flag)) ? true : false;
-		Double duration = (Double) value;
-		Double durationActivity = 0.0d;
-		if (!flagValue) {
-			durationActivity = (Double) ControladorFechas.restarFechas(
-					activitiesAction.getSelectedActivities()
-							.getInitialDtBudget(), activitiesAction
-							.getSelectedActivities().getFinalDtBudget());
-		} else {
-			durationActivity = (Double) ControladorFechas.restarFechas(
-					activityMachine.getInitialDateTime(),
-					activityMachine.getFinalDateTime());
-		}
-		if (duration > 0 && duration != null) {
-			if (duration.compareTo(durationActivity) > 0) {
-				String message = "message_activity_duration";
-				ControladorContexto.mensajeErrorEspecifico(clientId, message,
-						"mensaje");
-				((UIInput) toValidate).setValid(false);
-			}
-		} else {
-			String message = "message_greater_zero";
-			ControladorContexto.mensajeErrorEspecifico(clientId, message,
-					"mensaje");
-			((UIInput) toValidate).setValid(false);
-		}
-	}
-
-	/**
-	 * It will calculate the length considering the different two dates for an
-	 * activity machine.
-	 */
-	public void calculateDuration() {
-		try {
-			Double durationBudget = ControladorFechas.restarFechas(
-					activityMachine.getInitialDateTime(),
-					activityMachine.getFinalDateTime());
-			activityMachine.setDurationBudget(durationBudget);
-			calculateConsumableCost(this.activityMachine);
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
 	 * This Method allow set the activity selected by the user and show the
 	 * resource associated to this activity.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 13/07/2016 Gerardo.Herrera
 	 * 
 	 * @param activity
 	 *            : Object Activities selected by the user
 	 */
 	public void selectedActivity(Activities activity) {
-		if (ControladorContexto.getFacesContext() != null) {
-			this.activitiesAction = ControladorContexto
-					.getContextBean(ActivitiesAction.class);
-		}
+		this.activitiesAction = ControladorContexto
+				.getContextBean(ActivitiesAction.class);
 		activitiesAction.assignActivities(activity);
 		assignSelectedActivity();
+		RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
+				.getContextBean(RecordActivitiesActualsAction.class);
+		if (fromModal) {
+			this.selectedActivity = recordActivitiesActualsAction
+					.getSelectedActivity();
+			recordActivitiesActualsAction.currentCost();
+		}
+		if (!fromModal) {
+			initializeActivityResource();
+		}
 		setSelectedActivity(activity);
-		showActivitiesAndMachineForActivity();
+	}
+
+	/**
+	 * Initialize actions of the resources for the activty selected
+	 */
+	private void initializeActivityResource() {
+
+		if (selectedActivity.getHrRequired() != null
+				&& selectedActivity.getHrRequired()) {
+			this.activitiesAndHrAction = ControladorContexto
+					.getContextBean(ActivitiesAndHrAction.class);
+			this.activitiesAndHrAction.setSelectedActivity(selectedActivity);
+			this.activitiesAndHrAction.setFromModal(false);
+			this.activitiesAndHrAction.consultActivitiesAndHrByActivity();
+		}
+
+		if (selectedActivity.getMachineRequired() != null
+				&& selectedActivity.getMachineRequired()) {
+			this.activitiesAndMachineAction = ControladorContexto
+					.getContextBean(ActivitiesAndMachineAction.class);
+			activitiesAndMachineAction.setFromModal(fromModal);
+			activitiesAndMachineAction.setSelectedActivity(selectedActivity);
+			activitiesAndMachineAction.showActivitiesAndMachineForActivity();
+		}
+
+		if (selectedActivity.getMaterialsRequired() != null
+				&& selectedActivity.getMaterialsRequired()) {
+			this.activityMaterialsAction = ControladorContexto
+					.getContextBean(ActivityMaterialsAction.class);
+			this.activityMaterialsAction.setSelectedActivity(selectedActivity);
+			this.activityMaterialsAction.setFromModal(false);
+			this.activityMaterialsAction.consultMaterialsByActivity();
+		}
 	}
 
 }
