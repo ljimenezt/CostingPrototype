@@ -273,8 +273,7 @@
 								<rich:column styleClass="colIconoAjustable">
 									<f:facet name="header" />
 									<a:commandLink id="details"
-										actionListener="#{activitiesAction.setActivities(activity)}"
-										action="#{scheduledActivitiesAction.selectedActivity(activity)}"
+										actionListener="#{scheduledActivitiesAction.selectedActivity(activity)}"
 										render="PopUpDetalles formScheduledActivities"
 										oncomplete="#{rich:component('PopUpDetalles')}.show()">
 										<h:graphicImage value="/img/details_16.png" />
@@ -593,7 +592,8 @@
 						</div>
 						<ui:param name="listaVacia"
 							value="#{activitiesAndMachineAction.listActivityMachine.size() eq 0 or (activitiesAndMachineAction.listActivityMachine eq null)}" />
-						<rich:dataTable value="#{activitiesAndMachineAction.listActivityMachine}"
+						<rich:dataTable
+							value="#{activitiesAndMachineAction.listActivityMachine}"
 							var="activitiesMachines" id="listMachines" footerClass="H130P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 							rowClasses="odd-row, even-row">
