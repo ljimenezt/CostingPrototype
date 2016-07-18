@@ -141,6 +141,8 @@
 							render=":formScheduledActivities, mensajes, mensajeBusqueda"
 							actionListener="#{activitiesAndHrAction.createListActivitiesAndHr(false)}"
 							onclick="#{rich:component('popUpEditarActivitiesAndHr')}.hide(); #{rich:component('popupTrabajador')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupTrabajador')}.hide()" />
 					</div>
 				</a:outputPanel>
 			</rich:panel>
@@ -257,27 +259,14 @@
 
 					<script type="text/javascript">
 						$g = jQuery.noConflict();
-						$g(document).ready(function() {
-						$g('#formScheduledActivities\\:description').maxlength({
-							events : [],
-							max : 250,
-							feedbackText : "#{mensaje.label_characters_left}",
-							showFeedback : 'active'
-							});
-						});
 					</script>
 
 					<h:panelGrid columns="1" columnClasses="center">
 						<rich:message for="duracionBudgetEditar" />
 					</h:panelGrid>
 					<br />
-					<h:panelGrid columns="3" columnClasses=" center, center, center">
+					<h:panelGrid columns="2" columnClasses=" right, left">
 						<h:outputText value="#{mensaje.label_start_date}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="#{mensaje.label_end_date}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText
-							value="#{messageCosts.cycle_standard_activities_label_duration}"
 							styleClass="etiquetaTitulo" />
 						<p:calendar
 							value="#{activitiesAndHrAction.activitiesAndHr.initialDateTimeBudget}"
@@ -291,6 +280,9 @@
 								update="fechaFinal_, formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr"
 								listener="#{activitiesAndHrAction.calculateDuration()}" />
 						</p:calendar>
+
+						<h:outputText value="#{mensaje.label_end_date}"
+							styleClass="etiquetaTitulo" />
 						<p:calendar
 							value="#{activitiesAndHrAction.activitiesAndHr.finalDateTimeBudget}"
 							readonlyInput="true" pattern="MM/dd/yyyy HH:mm"
@@ -303,6 +295,10 @@
 								update="fechaInicio_, formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr"
 								listener="#{activitiesAndHrAction.calculateDuration()}" />
 						</p:calendar>
+
+						<h:outputText
+							value="#{messageCosts.cycle_standard_activities_label_duration}"
+							styleClass="etiquetaTitulo" />
 						<h:inputText id="duracionBudgetEditar" required="true"
 							requiredMessage="#{mensaje.message_required_duration}"
 							converterMessage="#{mensaje.message_duration_numbers}"
@@ -314,31 +310,30 @@
 								listener="#{activitiesAndHrAction.validateWorkLoad(activitiesAndHrAction.activitiesAndHr.durationBudget, activitiesAndHrAction.activitiesAndHr.activitiesAndHrPK.hr.idHr, false, activitiesAndHrAction.activitiesAndHr, activitiesAndHrAction.selectedActivity)}"
 								render="formEditarActivitiesAndHr:outPutAgregarActivitiesAndHr" />
 						</h:inputText>
-					</h:panelGrid>
-
-					<h:panelGrid columns="4"
-						columnClasses=" center, center, center, center">
 
 						<h:outputText
 							value="#{messageCosts.activities_and_hr_label_normal_hours}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText
-							value="#{messageCosts.activities_and_hr_label_overtime}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="#{mensaje.label_total}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText
-							value="#{messageHumanResources.overtime_payment_rate_label}"
-							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true" id="normalHours"
 							value="#{activitiesAndHrAction.activitiesAndHr.normalHours}"
 							styleClass="W82P" />
+
+						<h:outputText
+							value="#{messageCosts.activities_and_hr_label_overtime}"
+							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true"
 							value="#{activitiesAndHrAction.activitiesAndHr.overtimeHours}"
 							styleClass="W82P" />
+
+						<h:outputText value="#{mensaje.label_total}"
+							styleClass="etiquetaTitulo" />
 						<h:inputText disabled="true"
 							value="#{activitiesAndHrAction.activitiesAndHr.totalHours}"
 							styleClass="W82P" />
+
+						<h:outputText
+							value="#{messageHumanResources.overtime_payment_rate_label}"
+							styleClass="etiquetaTitulo" />
 						<h:selectOneMenu value="#{activitiesAndHrAction.idOvertimeRate}">
 							<f:selectItems
 								value="#{activitiesAndHrAction.listOvertimePaymentRate}" />
@@ -502,6 +497,8 @@
 							render="popUpConfirmTeam, mensajes, mensajeBusqueda"
 							actionListener="#{activitiesAndHrAction.saveActivitiesHrTeam(activitiesAndHrAction.selectedActivity)}"
 							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmTeam')}.show();} else{ setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupTeam')}.hide()" />
 					</div>
 				</a:outputPanel>
 			</rich:panel>
