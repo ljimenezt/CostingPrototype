@@ -126,6 +126,8 @@
 							actionListener="#{activitiesAndMachineAction.saveActivitiesAndMachine()}"
 							render="formScheduledActivities, mensajes, mensajeBusqueda"
 							oncomplete="#{rich:component('popupMachines')}.hide();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupMachines')}.hide()" />
 					</div>
 				</a:outputPanel>
 			</rich:panel>
@@ -241,6 +243,9 @@
 			<t:fieldset styleClass="BorderW2P">
 				<legend class="etiquetaTitulo">#{activitiesAndMachineAction.activityMachine.activityMachinePK.machines.name}</legend>
 				<a:outputPanel id="outPutAddActivitiesAndMachine">
+					<script type="text/javascript">
+						$g = jQuery.noConflict();
+					</script>
 					<a:outputPanel>
 						<h:panelGrid columns="1" columnClasses=" right">
 							<rich:message for="durationBudget" />
