@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import co.informatix.erp.costs.entities.ActivityMachine;
+import co.informatix.erp.costs.entities.ActivityMachinePK;
 
 /**
  * DAO class that establishes the connection between business logic and data
@@ -204,4 +205,18 @@ public class ActivitiesAndMachineDao implements Serializable {
 		q.setParameter("idActivity", idActivity);
 		return (Double) q.getSingleResult();
 	}
+	
+	/**
+	 * Consult the relation between activities and machines for his identifier.
+	 * 
+	 * @param activityMachinePK
+	 *            : Indentifier for relation between activities and machines.
+	 * @return ActivityMachine: Relation between activities and machines.
+	 * @throws Exception
+	 */
+	public ActivityMachine activityMachineById(
+			ActivityMachinePK activityMachinePK) throws Exception {
+		return em.find(ActivityMachine.class, activityMachinePK);
+	}
+	
 }

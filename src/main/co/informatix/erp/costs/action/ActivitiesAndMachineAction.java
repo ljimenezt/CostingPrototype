@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +16,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.transaction.UserTransaction;
 
 import co.informatix.erp.costs.dao.ActivitiesAndMachineDao;
 import co.informatix.erp.costs.dao.ActivitiesDao;
@@ -22,6 +24,8 @@ import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivityMachine;
 import co.informatix.erp.costs.entities.ActivityMachinePK;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
+import co.informatix.erp.lifeCycle.dao.CycleDao;
+import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.machines.dao.MachineTypesDao;
 import co.informatix.erp.machines.entities.MachineTypes;
 import co.informatix.erp.machines.entities.Machines;
@@ -49,6 +53,10 @@ public class ActivitiesAndMachineAction implements Serializable {
 	private ActivitiesAndMachineDao activitiesAndMachineDao;
 	@EJB
 	private ActivitiesDao activitiesDao;
+	@EJB
+	private CycleDao cycleDao;
+	@Resource
+	private UserTransaction userTransaction;
 
 	private boolean fromModal = false;
 	private boolean stateAddMachine = false;
@@ -230,7 +238,6 @@ public class ActivitiesAndMachineAction implements Serializable {
 	public void showActivitiesAndMachineForActivity() {
 		ValidacionesAction validation = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		this.listActivityMachine = new ArrayList<ActivityMachine>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder queryBuilder = new StringBuilder();
 		String SearchMessage = "";
@@ -288,8 +295,8 @@ public class ActivitiesAndMachineAction implements Serializable {
 		try {
 			this.stateAddMachine = false;
 			this.machine = machine;
-			this.activityMachine = new ActivityMachine();
 			if (!machine.isSelection()) {
+				this.activityMachine = new ActivityMachine();
 				if (this.selectedActivity.getDurationBudget() != null) {
 					this.activityMachine
 							.setDurationBudget(this.selectedActivity
@@ -365,6 +372,7 @@ public class ActivitiesAndMachineAction implements Serializable {
 		String registerMessage = "message_registro_guardar";
 		Double costConsumableMachine = 0.0;
 		try {
+			userTransaction.begin();
 			if (this.listActivityMachineTemp != null
 					&& this.listActivityMachineTemp.size() > 0) {
 				for (ActivityMachine activityMachine : listActivityMachineTemp) {
@@ -384,14 +392,43 @@ public class ActivitiesAndMachineAction implements Serializable {
 				}
 				costConsumableMachine += selectedActivity
 						.getCostMachinesEqBudget();
-				selectedActivity.setCostMachinesEqBudget(costConsumableMachine);
-				activitiesDao.editActivities(this.selectedActivity);
+				calculateCostBudgetActivity(costConsumableMachine);
+				editCycleHrBudget(costConsumableMachine);
+				userTransaction.commit();
 				setListActivityMachineTemp(null);
 				showActivitiesAndMachineForActivity();
 			}
 		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception e1) {
+				ControladorContexto.printErrorLog(e1);
+			}
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * Calculate the general cost budget for the activity selected
+	 * 
+	 * @param costMachine
+	 *            : New cost for cost budget of human resources
+	 * 
+	 * @throws Exception
+	 */
+	private void calculateCostBudgetActivity(double costMachine)
+			throws Exception {
+		double costActual = costMachine;
+		if (selectedActivity.getGeneralCostBudget() != null
+				&& selectedActivity.getGeneralCostBudget() > 0) {
+			double costMachineActual = selectedActivity
+					.getCostMachinesEqBudget();
+			costActual = (selectedActivity.getGeneralCostBudget() - costMachineActual)
+					+ costMachine;
+		}
+		this.selectedActivity.setGeneralCostBudget(costActual);
+		this.selectedActivity.setCostMachinesEqBudget(costMachine);
+		this.activitiesDao.editActivities(this.selectedActivity);
 	}
 
 	/**
@@ -401,14 +438,54 @@ public class ActivitiesAndMachineAction implements Serializable {
 		try {
 			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 			String registerMessage = "message_registro_modificar";
+			userTransaction.begin();
+			ActivityMachine activityMachineTemp = activitiesAndMachineDao
+					.activityMachineById(activityMachine.getActivityMachinePK());
+			double costMachine = (selectedActivity.getCostMachinesEqBudget() - activityMachineTemp
+					.getConsumablesCostBudget())
+					+ activityMachine.getConsumablesCostBudget();
+			editCycleHrBudget(costMachine);
+			calculateCostBudgetActivity(costMachine);
 			activitiesAndMachineDao
 					.editActivitiesAndMachine(this.activityMachine);
+			activitiesDao.editActivities(selectedActivity);
+			userTransaction.commit();
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(registerMessage), this.activityMachine
 							.getActivityMachinePK().getMachines().getName()));
 			showActivitiesAndMachineForActivity();
 		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception e1) {
+				ControladorContexto.printErrorLog(e1);
+			}
 			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Edit the budget cost for human resorces item into the cycle.
+	 * 
+	 * @param costHrBudget
+	 *            : New budget cost for human resources.
+	 * @throws Exception
+	 */
+	private void editCycleHrBudget(double costConsumableMachine)
+			throws Exception {
+		if (selectedActivity.getCycle() != null) {
+			Cycle cycle = cycleDao.cycleById(selectedActivity.getCycle()
+					.getIdCycle());
+			double costBudgetCycle = costConsumableMachine;
+			if (cycle.getCostMachinesEqBudget() != null
+					&& cycle.getCostMachinesEqBudget() > 0) {
+				double lastCostMachineBudget = selectedActivity
+						.getCostMachinesEqBudget();
+				costBudgetCycle = (cycle.getCostMachinesEqBudget() - lastCostMachineBudget)
+						+ costConsumableMachine;
+			}
+			cycle.setCostMachinesEqBudget(costBudgetCycle);
+			cycleDao.editCycle(cycle);
 		}
 	}
 
@@ -419,15 +496,17 @@ public class ActivitiesAndMachineAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String message = "message_registro_eliminar";
 		try {
-			activitiesAndMachineDao
-					.deleteActivitiesAndMachine(this.activityMachine);
+			userTransaction.begin();
 			if (this.activityMachine.getConsumablesCostBudget() == null)
 				this.activityMachine.setConsumablesCostBudget(0.0);
-			Double costMachineBudget = this.selectedActivity
+			double costMachineBudget = this.selectedActivity
 					.getCostMachinesEqBudget()
 					- this.activityMachine.getConsumablesCostBudget();
-			this.selectedActivity.setCostMachinesEqBudget(costMachineBudget);
-			this.activitiesDao.editActivities(this.selectedActivity);
+			editCycleHrBudget(costMachineBudget);
+			calculateCostBudgetActivity(costMachineBudget);
+			activitiesAndMachineDao
+					.deleteActivitiesAndMachine(this.activityMachine);
+			userTransaction.commit();
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(message), activityMachine
 							.getActivityMachinePK().getMachines().getName()));
@@ -439,6 +518,11 @@ public class ActivitiesAndMachineAction implements Serializable {
 							.getName());
 			ControladorContexto.mensajeError(e, null, format);
 		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception e1) {
+				ControladorContexto.printErrorLog(e1);
+			}
 			ControladorContexto.mensajeError(e);
 		}
 	}
@@ -470,7 +554,7 @@ public class ActivitiesAndMachineAction implements Serializable {
 					activityMachine.getInitialDateTime(),
 					activityMachine.getFinalDateTime());
 		}
-		if (duration > 0 && duration != null) {
+		if (duration != null && duration > 0) {
 			if (duration.compareTo(durationActivity) > 0) {
 				String message = "message_activity_duration";
 				ControladorContexto.mensajeErrorEspecifico(clientId, message,
