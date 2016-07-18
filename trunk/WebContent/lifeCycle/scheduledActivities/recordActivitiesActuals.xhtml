@@ -207,14 +207,12 @@
 								<f:facet name="header" />
 								<a:commandLink render="mensajes, mensajeBusqueda"
 									actionListener="#{recordActivitiesActualsAction.consultResourcesByActivity()}">
-									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
-											styleClass="verticalAlignMiddle"
-											rendered="#{activity.seleccionado eq true}" />
-										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
-											styleClass="verticalAlignMiddle"
-											rendered="#{activity.seleccionado eq false}" />
-									</h:panelGrid>
+									<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{activity.seleccionado eq true}" />
+									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{activity.seleccionado eq false}" />
 									<a:ajax event="click"
 										listener="#{recordActivitiesActualsAction.assignActivity(activity)}"
 										render="formHrReporting seleccionadas" />
