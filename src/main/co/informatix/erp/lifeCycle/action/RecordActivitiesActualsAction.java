@@ -932,6 +932,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 			activitiesAndHr.setDurationActual(durationActual);
 			activitiesAndHr
 					.setTotalCostActual(Math.round(totalCost * 10.0) / 10.0);
+			updateTotalCostByOvertimePaymentRate();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
