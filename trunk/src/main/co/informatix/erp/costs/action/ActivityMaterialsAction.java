@@ -21,6 +21,7 @@ import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
 import co.informatix.erp.lifeCycle.dao.CycleDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.action.MaterialsAction;
@@ -307,17 +308,17 @@ public class ActivityMaterialsAction implements Serializable {
 	public void deleteActivityMaterials() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			selectedActivity.setCostMaterialsBudget(selectedActivity
-					.getCostMaterialsBudget()
-					- activityMaterials.getCostBudget());
-			selectedActivity
-					.setGeneralCostBudget(selectedActivity
-							.getGeneralCostBudget()
-							- activityMaterials.getCostBudget());
+			selectedActivity.setCostMaterialsBudget(ControllerAccounting
+					.subtract(selectedActivity.getCostMaterialsBudget(),
+							activityMaterials.getCostBudget()));
+			selectedActivity.setGeneralCostBudget(ControllerAccounting
+					.subtract(selectedActivity.getGeneralCostBudget(),
+							activityMaterials.getCostBudget()));
 			if (selectedActivity.getCycle() != null) {
 				selectedActivity.getCycle().setCostMaterialsBudget(
-						selectedActivity.getCycle().getCostMaterialsBudget()
-								- activityMaterials.getCostBudget());
+						ControllerAccounting.subtract(selectedActivity
+								.getCycle().getCostMaterialsBudget(),
+								activityMaterials.getCostBudget()));
 				cycleDao.editCycle(selectedActivity.getCycle());
 			}
 			activitiesDao.editActivities(this.selectedActivity);
@@ -445,31 +446,31 @@ public class ActivityMaterialsAction implements Serializable {
 	public void editActivityMaterial() {
 		try {
 			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-			selectedActivity.setCostMaterialsBudget(selectedActivity
-					.getCostMaterialsBudget()
-					- activityMaterials.getCostBudget());
-			selectedActivity
-					.setGeneralCostBudget(selectedActivity
-							.getGeneralCostBudget()
-							- activityMaterials.getCostBudget());
+			selectedActivity.setCostMaterialsBudget(ControllerAccounting
+					.subtract(selectedActivity.getCostMaterialsBudget(),
+							activityMaterials.getCostBudget()));
+			selectedActivity.setGeneralCostBudget(ControllerAccounting
+					.subtract(selectedActivity.getGeneralCostBudget(),
+							activityMaterials.getCostBudget()));
 			if (selectedActivity.getCycle() != null) {
 				selectedActivity.getCycle().setCostMaterialsBudget(
-						selectedActivity.getCycle().getCostMaterialsBudget()
-								- activityMaterials.getCostBudget());
+						ControllerAccounting.subtract(selectedActivity
+								.getCycle().getCostMaterialsBudget(),
+								activityMaterials.getCostBudget()));
 			}
 			activityMaterials.setQuantityBudget(quantityEdit);
 			activityMaterials.setCostBudget(costActualEdit);
-			selectedActivity.setCostMaterialsBudget(selectedActivity
-					.getCostMaterialsBudget()
-					+ activityMaterials.getCostBudget());
-			selectedActivity
-					.setGeneralCostBudget(selectedActivity
-							.getGeneralCostBudget()
-							+ activityMaterials.getCostBudget());
+			selectedActivity.setCostMaterialsBudget(ControllerAccounting.add(
+					selectedActivity.getCostMaterialsBudget(),
+					activityMaterials.getCostBudget()));
+			selectedActivity.setGeneralCostBudget(ControllerAccounting.add(
+					selectedActivity.getGeneralCostBudget(),
+					activityMaterials.getCostBudget()));
 			if (selectedActivity.getCycle() != null) {
 				selectedActivity.getCycle().setCostMaterialsBudget(
-						selectedActivity.getCycle().getCostMaterialsBudget()
-								+ activityMaterials.getCostBudget());
+						ControllerAccounting.add(selectedActivity.getCycle()
+								.getCostMaterialsBudget(), activityMaterials
+								.getCostBudget()));
 				cycleDao.editCycle(selectedActivity.getCycle());
 			}
 			activityMaterialsDao.editActivityMaterials(activityMaterials);
@@ -503,11 +504,17 @@ public class ActivityMaterialsAction implements Serializable {
 		while (amount > 0) {
 			Deposits depositsActual = depositsListActual.get(0);
 			if (amount > depositsActual.getActualQuantity()) {
-				costBudget = costBudget + depositsActual.getActualQuantity()
-						* depositsActual.getUnitCost();
-				amount = amount - depositsActual.getActualQuantity();
+				costBudget = ControllerAccounting.add(costBudget,
+						ControllerAccounting.multiply(
+								depositsActual.getActualQuantity(),
+								depositsActual.getUnitCost()));
+				amount = ControllerAccounting.subtract(amount,
+						depositsActual.getActualQuantity());
 			} else {
-				costBudget = costBudget + amount * depositsActual.getUnitCost();
+				costBudget = ControllerAccounting.add(
+						costBudget,
+						ControllerAccounting.multiply(amount,
+								depositsActual.getUnitCost()));
 				amount = 0;
 			}
 			depositsListActual.remove(depositsActual);
@@ -537,8 +544,9 @@ public class ActivityMaterialsAction implements Serializable {
 							.saveActivityMaterials(activityMaterials);
 					costMaterialsBudget += activityMaterials.getCostBudget();
 				}
-				selectedActivity.setCostMaterialsBudget(selectedActivity
-						.getCostMaterialsBudget() + costMaterialsBudget);
+				selectedActivity.setCostMaterialsBudget(ControllerAccounting
+						.add(selectedActivity.getCostMaterialsBudget(),
+								costMaterialsBudget));
 				selectedActivity.setGeneralCostBudget(selectedActivity
 						.getGeneralCostBudget() + costMaterialsBudget);
 				if (selectedActivity.getCycle() != null) {
@@ -661,8 +669,8 @@ public class ActivityMaterialsAction implements Serializable {
 			if (activityMaterials.getQuantityActual() != null
 					&& quantityEdit > this.activityMaterials
 							.getQuantityActual()) {
-				amount = quantityEdit
-						- this.activityMaterials.getQuantityActual();
+				amount = ControllerAccounting.subtract(quantityEdit,
+						this.activityMaterials.getQuantityActual());
 			} else {
 				amount = quantityEdit;
 			}
@@ -673,25 +681,29 @@ public class ActivityMaterialsAction implements Serializable {
 			while (amount > 0) {
 				Deposits depositsActual = depositsListActual.get(0);
 				if (amount > depositsActual.getActualQuantity()) {
-					costActual = costActual
-							+ depositsActual.getActualQuantity()
-							* depositsActual.getUnitCost();
-					amount = amount - depositsActual.getActualQuantity();
+					costActual = ControllerAccounting.add(costActual,
+							ControllerAccounting.multiply(
+									depositsActual.getActualQuantity(),
+									depositsActual.getUnitCost()));
+					amount = ControllerAccounting.subtract(amount,
+							depositsActual.getActualQuantity());
 				} else {
-					costActual = costActual + amount
-							* depositsActual.getUnitCost();
+					costActual = ControllerAccounting.add(costActual,
+							ControllerAccounting.multiply(amount,
+									depositsActual.getUnitCost()));
 					amount = 0;
 				}
 				depositsListActual.remove(depositsActual);
 			}
 			if (this.activityMaterials.getCostActual() != null) {
-				costActualEdit = this.activityMaterials.getCostActual()
-						+ costActual;
+				costActualEdit = ControllerAccounting.add(
+						this.activityMaterials.getCostActual(), costActual);
 			} else {
 				costActualEdit = costActual;
 			}
 		} else if (quantityEdit < this.activityMaterials.getQuantityActual()) {
-			amount = this.activityMaterials.getQuantityActual() - quantityEdit;
+			amount = ControllerAccounting.subtract(
+					this.activityMaterials.getQuantityActual(), quantityEdit);
 			List<Deposits> depositsListActual = depositsDao
 					.consultDepositsByTransactions(this.activityMaterials
 							.getActivityMaterialsPK().getMaterials()
@@ -706,18 +718,22 @@ public class ActivityMaterialsAction implements Serializable {
 								this.selectedActivity.getIdActivity(),
 								Constantes.TRANSACTION_TYPE_ID_WITHDRAWAL);
 				if (amount > transactionDrawal.getQuantity()) {
-					costActual = costActual + transactionDrawal.getQuantity()
-							* depositsActual.getUnitCost();
-					amount = amount - transactionDrawal.getQuantity();
+					costActual = ControllerAccounting.add(costActual,
+							ControllerAccounting.multiply(
+									transactionDrawal.getQuantity(),
+									depositsActual.getUnitCost()));
+					amount = ControllerAccounting.subtract(amount,
+							transactionDrawal.getQuantity());
 				} else {
-					costActual = costActual + amount
-							* depositsActual.getUnitCost();
+					costActual = ControllerAccounting.add(costActual,
+							ControllerAccounting.multiply(amount,
+									depositsActual.getUnitCost()));
 					amount = 0;
 				}
 				depositsListActual.remove(depositsActual);
 			}
-			costActualEdit = this.activityMaterials.getCostActual()
-					- costActual;
+			costActualEdit = ControllerAccounting.subtract(
+					this.activityMaterials.getCostActual(), costActual);
 		} else if (quantityEdit == this.activityMaterials.getQuantityActual()) {
 			costActualEdit = this.activityMaterials.getCostActual();
 		}
