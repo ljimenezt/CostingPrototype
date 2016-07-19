@@ -1321,6 +1321,7 @@ public class CycleAction implements Serializable {
 	 * valid the date of the cycle to add is not repeated for the same crop.
 	 * 
 	 * @modify 06/07/2016 Gerardo.Herrera
+	 * @modify 14/07/2016 Andres.Gomez
 	 * 
 	 */
 	public void validateQuantityMaterialsAndDatesAllows() {
@@ -1343,8 +1344,8 @@ public class CycleAction implements Serializable {
 				String materialName = (String) ValidacionesAction.getLabel(
 						this.itemsMaterials, idMaterials);
 				if (materialFlag) {
-					Double quantityActual = depositsDao
-							.quantityMaterialsById(idMaterials);
+					Double quantityActual = depositsDao.quantityMaterialsById(
+							idMaterials, null);
 					if (this.quantity > quantityActual) {
 						ControladorContexto
 								.mensajeError(

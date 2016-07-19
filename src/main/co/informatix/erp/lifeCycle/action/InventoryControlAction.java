@@ -3,6 +3,7 @@ package co.informatix.erp.lifeCycle.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -11,8 +12,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ReportsController;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.action.MaterialsAction;
 import co.informatix.erp.warehouse.dao.DepositsDao;
@@ -37,10 +41,18 @@ public class InventoryControlAction implements Serializable {
 	@EJB
 	private DepositsDao depositsDao;
 
-	private List<Materials> listInventory;
-	private Paginador pagination = new Paginador();
-	private String nameSearch;
 	private int idMaterialType;
+	private boolean range;
+
+	private List<Materials> listInventory;
+	private List<Integer> listDepositsIds;
+	private Paginador pagination = new Paginador();
+	private Materials materialSelected;
+
+	private String nameSearch;
+
+	private Date initialDate;
+	private Date finalDate;
 
 	/**
 	 * @return listInventory: list of the inventory according with the deposit
@@ -70,6 +82,21 @@ public class InventoryControlAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	/**
+	 * @return materialSelected: Materials Object selected by the user
+	 */
+	public Materials getMaterialSelected() {
+		return materialSelected;
+	}
+
+	/**
+	 * @param materialSelected
+	 *            :Materials Object selected by the user
+	 */
+	public void setMaterialSelected(Materials materialSelected) {
+		this.materialSelected = materialSelected;
 	}
 
 	/**
@@ -105,6 +132,51 @@ public class InventoryControlAction implements Serializable {
 	}
 
 	/**
+	 * @return range: This flag indicate if the query to list the material have
+	 *         a date of range
+	 */
+	public boolean isRange() {
+		return range;
+	}
+
+	/**
+	 * @param range
+	 */
+	public void setRange(boolean range) {
+		this.range = range;
+	}
+
+	/**
+	 * @return initialDate: Gets the initial date to consult the inventory
+	 */
+	public Date getInitialDate() {
+		return initialDate;
+	}
+
+	/**
+	 * @param initialDate
+	 *            :Sets the initial date to consult the inventory
+	 */
+	public void setInitialDate(Date initialDate) {
+		this.initialDate = initialDate;
+	}
+
+	/**
+	 * @return finalDate : Gets final date to consult the inventory
+	 */
+	public Date getFinalDate() {
+		return finalDate;
+	}
+
+	/**
+	 * @param finalDate
+	 *            :Sets final date to consult the inventory
+	 */
+	public void setFinalDate(Date finalDate) {
+		this.finalDate = finalDate;
+	}
+
+	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of inventory.
 	 * 
@@ -112,8 +184,12 @@ public class InventoryControlAction implements Serializable {
 	 *         search and load the initial list of deposit of the inventory.
 	 */
 	public String searchInitialization() {
-		idMaterialType = 0;
-		nameSearch = "";
+		this.idMaterialType = 0;
+		this.nameSearch = "";
+		this.initialDate = null;
+		this.finalDate = null;
+		this.range = false;
+		this.materialSelected = null;
 		return consultInventory();
 	}
 
@@ -170,6 +246,20 @@ public class InventoryControlAction implements Serializable {
 	}
 
 	/**
+	 * This flag indicate if the query to list the material has a date range
+	 */
+	public void consultInventoryByRange() {
+		this.range = this.initialDate != null && this.finalDate != null ? true
+				: false;
+		if (this.range) {
+			this.listDepositsIds = depositsDao
+					.consultIdsMaterialXDepositsByRange(ControladorFechas
+							.finDeDia(finalDate));
+		}
+		consultInventory();
+	}
+
+	/**
 	 * This method constructs the query to the advanced search also allows
 	 * assemble messages to display depending on the search criteria selected by
 	 * the user.
@@ -215,7 +305,27 @@ public class InventoryControlAction implements Serializable {
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
+			flag = true;
 		}
+		if (range) {
+			String formatDate = Constantes.DATE_FORMAT_MESSAGE_SIMPLE;
+			consult.append(flag ? "AND " : "WHERE ");
+			consult.append("m.idMaterial IN :keyword3 ");
+			SelectItem item = new SelectItem(this.listDepositsIds, "keyword3");
+			parameters.add(item);
+
+			unionMessagesSearch.append(bundle.getString("label_start_date")
+					+ ": "
+					+ '"'
+					+ ControladorFechas
+							.formatDate(this.initialDate, formatDate) + '"'
+					+ " ");
+			unionMessagesSearch.append(bundle.getString("label_end_date")
+					+ ": " + '"'
+					+ ControladorFechas.formatDate(this.finalDate, formatDate)
+					+ '"' + " ");
+		}
+
 	}
 
 	/**
@@ -247,12 +357,46 @@ public class InventoryControlAction implements Serializable {
 	 */
 	private void calculateActualQuantity(Materials material) throws Exception {
 		int idMaterial = material.getIdMaterial();
-		Double actualQuantity = depositsDao.quantityMaterialsById(idMaterial);
-		Double totalCost = depositsDao.calculateTotalCost(idMaterial);
+		Double actualQuantity = depositsDao.quantityMaterialsById(idMaterial,
+				this.finalDate);
+		Double totalCost = depositsDao.calculateTotalCost(idMaterial,
+				this.finalDate);
 		actualQuantity = (actualQuantity != null ? actualQuantity : 0d);
 		totalCost = (totalCost != null ? totalCost : 0d);
 		material.setActualQuantity(actualQuantity);
 		material.setTotalCost(totalCost);
+	}
+
+	/**
+	 * Selects a single material of the inventory for display the deposits
+	 * associated
+	 * 
+	 * @param materialSelected
+	 *            : materials selected on the view
+	 */
+	public void selectMaterialByInventory(Materials materialSelected) {
+		this.materialSelected = new Materials();
+		for (Materials material : this.listInventory) {
+			material.setSelected(false);
+			if (material.getIdMaterial() == materialSelected.getIdMaterial()) {
+				material.setSelected(true);
+				this.materialSelected = material;
+			}
+		}
+	}
+
+	/**
+	 * This method allow consult the inventories information and generate the
+	 * report
+	 */
+	public void generateReportInventory() {
+		ReportsController reportsController = ControladorContexto
+				.getContextBean(ReportsController.class);
+		try {
+			reportsController.generateReportInventoryControl();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 
 }

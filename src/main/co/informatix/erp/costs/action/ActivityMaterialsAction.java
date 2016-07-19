@@ -353,6 +353,8 @@ public class ActivityMaterialsAction implements Serializable {
 	/**
 	 * This method allows validate the materials quantity in the deposit.
 	 * 
+	 * @modify 14/07/2016 Andres.Gomez
+	 * 
 	 * @param material
 	 *            : material to validate quantity.
 	 * 
@@ -364,8 +366,8 @@ public class ActivityMaterialsAction implements Serializable {
 			quantityEdit = 0.0;
 			costActualEdit = 0.0;
 			if (!material.isSelected()) {
-				Double materialQuantity = depositsDao
-						.quantityMaterialsById(material.getIdMaterial());
+				Double materialQuantity = depositsDao.quantityMaterialsById(
+						material.getIdMaterial(), null);
 				if (materialQuantity == null || materialQuantity == 0) {
 					ControladorContexto.mensajeErrorArg1(
 							"formMaterials:mensajeBusquedaMenu",
@@ -399,11 +401,12 @@ public class ActivityMaterialsAction implements Serializable {
 	/**
 	 * This method allows validate the material quantity to edit for activity.
 	 * 
+	 * @modify 14/07/2016 Andres.Gomez
+	 * 
 	 * @param idMaterial
 	 *            : material identifier.
 	 * @param flag
 	 *            : flag that identifies the form.
-	 * 
 	 */
 	public void validateQuantityMaterial(int idMaterial, boolean flag) {
 		try {
@@ -413,8 +416,8 @@ public class ActivityMaterialsAction implements Serializable {
 			} else {
 				form = "formUpdateActivitiesMaterials";
 			}
-			Double quantityActual = depositsDao
-					.quantityMaterialsById(idMaterial);
+			Double quantityActual = depositsDao.quantityMaterialsById(
+					idMaterial, null);
 			if (quantityEdit > quantityActual) {
 				ControladorContexto.mensajeErrorEspecifico(form
 						+ ":txtQuantity",
@@ -615,13 +618,13 @@ public class ActivityMaterialsAction implements Serializable {
 	 * This method allows validate the actual fields of the materials assigned
 	 * to the activity.
 	 * 
+	 * @modify 14/07/2016 Andres.Gomez
 	 */
 	public void validateCostActualMaterials() {
 		try {
-			Double materialQuantity = depositsDao
-					.quantityMaterialsById(this.activityMaterials
-							.getActivityMaterialsPK().getMaterials()
-							.getIdMaterial());
+			Double materialQuantity = depositsDao.quantityMaterialsById(
+					this.activityMaterials.getActivityMaterialsPK()
+							.getMaterials().getIdMaterial(), null);
 			if (quantityEdit > materialQuantity) {
 				costActualEdit = 0.0;
 				ControladorContexto.mensajeErrorEspecifico(

@@ -1,6 +1,7 @@
 package co.informatix.erp.warehouse.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -185,18 +186,26 @@ public class DepositsDao implements Serializable {
 	 * Returns the sum of material quantity register in the deposit.
 	 * 
 	 * @author Wilhelm.Boada
+	 * @modify 14/07/2016 Andres.Gomez
 	 * 
 	 * @param idMaterial
 	 *            : Material identifier.
+	 * @param finalDate
+	 *            : Date object to filter the deposits
 	 * @return Double: Number of records found.
 	 * @throws Exception
 	 */
-	public Double quantityMaterialsById(int idMaterial) throws Exception {
+	public Double quantityMaterialsById(int idMaterial, Date finalDate)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT SUM(d.actualQuantity) FROM Deposits d ");
 		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		if (finalDate != null)
+			query.append("AND d.dateTime <= :finalDate ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", idMaterial);
+		if (finalDate != null)
+			q.setParameter("finalDate", finalDate);
 		return (Double) q.getSingleResult();
 	}
 
@@ -274,17 +283,50 @@ public class DepositsDao implements Serializable {
 	 * 
 	 * @param idMaterial
 	 *            : Material identifier.
+	 * @param finalDate
+	 *            : Date object to filter the deposits
 	 * @return Double: Number of records found.
 	 * @throws Exception
 	 */
-	public Double calculateTotalCost(int idMaterial) throws Exception {
+	public Double calculateTotalCost(int idMaterial, Date finalDate)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT SUM(d.actualQuantity * d.unitCost) ");
 		query.append("FROM Deposits d ");
 		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		if (finalDate != null)
+			query.append("AND d.dateTime <= :finalDate ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", idMaterial);
+		if (finalDate != null)
+			q.setParameter("finalDate", finalDate);
 		return (Double) q.getSingleResult();
+	}
+
+	/**
+	 * This method allow consult the deposit according to range selected by the
+	 * user
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param finalDate
+	 *            : Date object to filter the deposits
+	 * @return List<Deposits>:List of Deposits that comply with the condition of
+	 *         validity.
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Integer> consultIdsMaterialXDepositsByRange(Date finalDate) {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT m.idMaterial FROM Deposits d ");
+		query.append("JOIN d.materials m ");
+		query.append("WHERE d.dateTime <= :finalDate ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("finalDate", finalDate);
+		List<Integer> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
 	}
 
 }

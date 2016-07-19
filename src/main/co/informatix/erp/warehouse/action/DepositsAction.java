@@ -20,6 +20,7 @@ import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
+import co.informatix.erp.lifeCycle.action.InventoryControlAction;
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.utils.Constantes;
@@ -473,8 +474,9 @@ public class DepositsAction implements Serializable {
 	 * Consult the list of Deposits
 	 * 
 	 * @modify 07/03/2016 Gerardo.Herrera
+	 * @modify 15/07/2016 Andres.Gomez
 	 * 
-	 * @return gesDeposits: Navigation rule that redirects to manage deposits
+	 * @return navigationRule: Navigation rule that redirects to manage deposits
 	 */
 	public String consultDeposits() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -487,11 +489,20 @@ public class DepositsAction implements Serializable {
 		StringBuilder consult = new StringBuilder();
 		StringBuilder allMessageSearch = new StringBuilder();
 		String messageSearch = "";
+		String param2 = ControladorContexto.getParam("param2");
+		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
+				: false;
+		String navigationRule = fromModal ? "" : "gesDeposits";
 		try {
-			advanceSearch(consult, parameters, bundle, allMessageSearch);
+			advanceSearch(consult, parameters, bundle, allMessageSearch,
+					fromModal);
 			Long quantity = depositsDao.amountDeposits(consult, parameters);
 			if (quantity != null) {
-				pagination.paginar(quantity);
+				if (!fromModal) {
+					pagination.paginar(quantity);
+				} else {
+					pagination.paginarRangoDefinido(quantity, 5);
+				}
 			}
 			if (quantity != null && quantity > 0) {
 				listDeposits = depositsDao.consultDeposits(
@@ -518,7 +529,7 @@ public class DepositsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesDeposits";
+		return navigationRule;
 	}
 
 	/**
@@ -528,6 +539,7 @@ public class DepositsAction implements Serializable {
 	 * 
 	 * @modify 01/03/2016 Gerardo.Herrera
 	 * @modify 14/04/2016 Wilhelm.Boada
+	 * @modify 15/07/2016 Andres.Gomez
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -537,10 +549,13 @@ public class DepositsAction implements Serializable {
 	 *            :access language tags
 	 * @param unionMessagesSearch
 	 *            : message search
+	 * @param fromModal
+	 *            :flag that indicated if the consult is executed from inventory
+	 *            view
 	 */
 	private void advanceSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder unionMessagesSearch) {
+			StringBuilder unionMessagesSearch, boolean fromModal) {
 		SimpleDateFormat format = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
 		ResourceBundle bundleWarehouse = ControladorContexto
@@ -621,6 +636,26 @@ public class DepositsAction implements Serializable {
 						+ format.format(dateEndSearch) + '"';
 				unionMessagesSearch.append(dateTo);
 				parameters.add(item2);
+			}
+			queryAdded = true;
+		}
+		if (fromModal) {
+			InventoryControlAction inventoryAction = ControladorContexto
+					.getContextBean(InventoryControlAction.class);
+			if (inventoryAction != null) {
+				int idMaterials = inventoryAction.getMaterialSelected()
+						.getIdMaterial();
+				consult.append(queryAdded ? "AND " : "WHERE ");
+				consult.append("d.materials.idMaterial = :idMaterials ");
+				SelectItem itemMaterial = new SelectItem(idMaterials,
+						"idMaterials");
+				parameters.add(itemMaterial);
+				if (inventoryAction.getFinalDate() != null) {
+					consult.append("AND d.dateTime <= :finalDate ");
+					SelectItem finalDate = new SelectItem(
+							inventoryAction.getFinalDate(), "finalDate");
+					parameters.add(finalDate);
+				}
 			}
 		}
 	}
