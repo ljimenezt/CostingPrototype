@@ -23,7 +23,7 @@ import javax.transaction.UserTransaction;
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.utils.Constantes;
-import co.informatix.erp.utils.ControladorContable;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -817,7 +817,7 @@ public class DepositsAction implements Serializable {
 		if (deposits.getInitialQuantity() != null
 				&& deposits.getTotalCost() != null) {
 			if (deposits.getInitialQuantity() > 0) {
-				unitCost = ControladorContable.dividir(deposits.getTotalCost(),
+				unitCost = ControllerAccounting.divide(deposits.getTotalCost(),
 						deposits.getInitialQuantity());
 			}
 		} else {
@@ -882,8 +882,8 @@ public class DepositsAction implements Serializable {
 							* invoiceItem.getQuantity();
 					this.deposits.setActualQuantity(quantity);
 					this.deposits.setInitialQuantity(quantity);
-					this.deposits
-							.setUnitCost(invoiceItem.getTotal() / quantity);
+					this.deposits.setUnitCost(ControllerAccounting.divide(
+							invoiceItem.getTotal(), quantity));
 					this.deposits.setTotalCost(invoiceItem.getTotal());
 					this.deposits.setDateTime(this.deposits
 							.getPurchaseInvoices().getDateTime());
