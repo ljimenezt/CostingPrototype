@@ -31,6 +31,10 @@ public class Constantes implements Serializable {
 			.getProperty("locate.carpeta.archivos.files");
 	public static final String FOLDER_INVOICES = PropertiesManager
 			.getProperty("locate.carpeta.archivos.invoices");
+	public static final String PATH_FILES_REPORTS = PropertiesManager
+			.getProperty("locate.folder.files.reports");
+	public static final String PATH_REPORTS_RPT = PropertiesManager
+			.getProperty("locate.folder.files.rptdesign");
 
 	/* Adjust to deposit */
 	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE = 1;
@@ -57,6 +61,14 @@ public class Constantes implements Serializable {
 	public static final int MAXIMO_ROLES_SIN_MODIFICAR = Integer
 			.parseInt(PropertiesManager
 					.getProperty("locate.maximo.roles.sinModificar"));
+
+	/* Formats Types */
+	public static final String FORMAT_EXCEL = PropertiesManager
+			.getProperty("locate.format.excel");
+	public static final String FORMAT_EXCEL_XLSX = PropertiesManager
+			.getProperty("locate.format.excel.xlsx");
+	public static final String FORMAT_PDF = PropertiesManager
+			.getProperty("locate.format.pdf");
 
 	/* System Constants */
 	public static final String IS_NULL = "IS NULL";
@@ -182,5 +194,13 @@ public class Constantes implements Serializable {
 	/* Transaction type */
 	public static final short TRANSACTION_TYPE_ID_WITHDRAWAL = 3;
 	public static final short TRANSACTION_TYPE_ID_RETURN = 2;
+
+	/* Files */
+	public static final String EXTENSION_XLSX = ".xlsx";
+	public static final String EXTENSION_XLS = ".xls";
+	public static final String EXTENSION_PDF = ".pdf";
+	public static final String OFFICE_VERSION = "office2007";
+	public static final String EMITTER_ID_XLS = "org.eclipse.birt.report.engine.emitter.nativexls";
+	public static final String EMITTER_ID_XLSX = "uk.co.spudsoft.birt.emitters.excel.XlsxEmitter";
 
 }

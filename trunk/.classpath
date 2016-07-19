@@ -43,13 +43,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-api-2.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/log4j-core-2.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/nekohtml.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-3.10.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-3.11-20141221.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-excelant-3.11-20141221.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-ooxml-3.10.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-ooxml-3.11-20141221.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-ooxml-schemas-3.10.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-ooxml-schemas-3.11-20141221.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/postgresql-9.3-1102.jdbc3.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/primefaces-5.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/richfaces-components-a4j-4.5.0.Final.jar"/>
@@ -60,5 +53,26 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/tomahawk20-1.1.14.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.birt.report.engine.emitter.nativexls_1.0.0.201110122114.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.birt.runtime_4.2.2.v20130216-1152.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/uk.co.spudsoft.birt.emitters.excel_0.8.0.201310230652.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-excelant-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-ooxml-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-ooxml-schemas-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poi-scratchpad-3.12-20150511.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.core.runtime_3.8.0.v20120912-155025.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.equinox.common_3.6.100.v20120522-1841.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.equinox.registry_3.5.200.v20120522-1841.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.osgi_3.8.2.v20130124-134944.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/com.ibm.icu_4.4.2.v20110823.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/org.eclipse.datatools.connectivity.oda_3.3.4.v201212070447.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/js.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/batik-awt-util-1.6-1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/batik-css-1.7.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/batik-ext-1.6-1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/batik-gui-util-1.6-1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/batik-util-1.6-1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/Tidy.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
