@@ -47,8 +47,8 @@ public class MachinesAction implements Serializable {
 
 	private Machines machines;
 	private ActivitiesAndMachineAction activitiesAndMachineAction;
-
 	private Paginador pagination = new Paginador();
+
 	private String nameSearch;
 	private String serialSearch;
 
