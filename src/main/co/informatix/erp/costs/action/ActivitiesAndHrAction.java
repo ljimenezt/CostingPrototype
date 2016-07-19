@@ -40,6 +40,7 @@ import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.utz.dao.CertificationsAndRolesDao;
@@ -826,11 +827,15 @@ public class ActivitiesAndHrAction implements Serializable {
 	 */
 	private Double calculateTotalCostBudget(Hr worker, ActivitiesAndHr ahr,
 			OvertimePaymentRate opr) {
-		Double costNormalHours = worker.getHourCost() * ahr.getNormalHours();
-		Double costOvertimeHours = worker.getHourCostOvertime()
-				* ahr.getOvertimeHours() * opr.getOvertimeRateRatio();
-		Double totalCostBudget = Math
-				.round((costNormalHours + costOvertimeHours) * 10.0) / 10.0;
+		Double costNormalHours = ControllerAccounting.multiply(
+				worker.getHourCost(), ahr.getNormalHours());
+		Double costOvertimeHours = ControllerAccounting.multiply(
+				worker.getHourCostOvertime(), ahr.getOvertimeHours());
+		costOvertimeHours = ControllerAccounting.multiply(costOvertimeHours,
+				opr.getOvertimeRateRatio());
+		Double totalCostBudget = ControllerAccounting
+				.round(ControllerAccounting.add(costNormalHours,
+						costOvertimeHours), 2);
 		return totalCostBudget;
 	}
 
@@ -979,11 +984,11 @@ public class ActivitiesAndHrAction implements Serializable {
 					&& this.listActivitiesAndHr.size() > 0) {
 				for (ActivitiesAndHr actividadAndHr : listActivitiesAndHr) {
 					activitiesAndHrDao.saveActivitiesAndHr(actividadAndHr);
-					costHrBudget = costHrBudget
-							+ actividadAndHr.getTotalCostBudget();
+					costHrBudget = ControllerAccounting.add(costHrBudget,
+							actividadAndHr.getTotalCostBudget());
 				}
-				costHrBudget = selectedActivity.getCostHrBudget()
-						+ costHrBudget;
+				costHrBudget = ControllerAccounting.add(
+						selectedActivity.getCostHrBudget(), costHrBudget);
 				calculateCostBudgetActivity(costHrBudget);
 				editCycleHrBudget(costHrBudget);
 				selectedActivity.setCostHrBudget(costHrBudget);
@@ -1003,23 +1008,29 @@ public class ActivitiesAndHrAction implements Serializable {
 
 				OvertimePaymentRate overtimePaymentRate = overtimePaymentRateDao
 						.overtimePaymentRateXId(idOvertimeRate);
-				Double costNormalHours = activitiesAndHr.getNormalHours()
-						* activitiesAndHr.getActivitiesAndHrPK().getHr()
-								.getHourCost();
-				Double costOvertimeHours = activitiesAndHr.getOvertimeHours()
-						* activitiesAndHr.getActivitiesAndHrPK().getHr()
-								.getHourCostOvertime()
-						* overtimePaymentRate.getOvertimeRateRatio();
-				Double totalCostBudget = costNormalHours + costOvertimeHours;
+				Double costNormalHours = ControllerAccounting.multiply(
+						activitiesAndHr.getNormalHours(), activitiesAndHr
+								.getActivitiesAndHrPK().getHr().getHourCost());
+				Double costOvertimeHours = ControllerAccounting.multiply(
+						activitiesAndHr.getOvertimeHours(), activitiesAndHr
+								.getActivitiesAndHrPK().getHr()
+								.getHourCostOvertime());
+				costOvertimeHours = ControllerAccounting.multiply(
+						costOvertimeHours,
+						overtimePaymentRate.getOvertimeRateRatio());
+				Double totalCostBudget = ControllerAccounting.add(
+						costNormalHours, costOvertimeHours);
 				ActivitiesAndHr activitiesAndHrAnterior = activitiesAndHrDao
 						.activitiesAndHrById(activitiesAndHr
 								.getActivitiesAndHrPK());
-				activitiesAndHr.setTotalCostBudget(Math
-						.round(totalCostBudget * 10.0) / 10.0);
+				activitiesAndHr.setTotalCostBudget(ControllerAccounting.round(
+						totalCostBudget, 2));
 				activitiesAndHr.setOvertimePaymentRate(overtimePaymentRate);
-				Double costHr = (selectedActivity.getCostHrBudget() - activitiesAndHrAnterior
-						.getTotalCostBudget())
-						+ activitiesAndHr.getTotalCostBudget();
+				Double costHr = ControllerAccounting.subtract(
+						selectedActivity.getCostHrBudget(),
+						activitiesAndHrAnterior.getTotalCostBudget());
+				costHr = ControllerAccounting.add(costHr,
+						activitiesAndHr.getTotalCostBudget());
 				calculateCostBudgetActivity(costHr);
 				editCycleHrBudget(costHr);
 				selectedActivity.setCostHrBudget(costHr);
@@ -1055,8 +1066,9 @@ public class ActivitiesAndHrAction implements Serializable {
 		if (selectedActivity.getGeneralCostBudget() != null
 				&& selectedActivity.getGeneralCostBudget() > 0) {
 			double costHrActual = selectedActivity.getCostHrBudget();
-			costActual = (selectedActivity.getGeneralCostBudget() - costHrActual)
-					+ costHr;
+			costActual = ControllerAccounting.subtract(
+					selectedActivity.getGeneralCostBudget(), costHrActual);
+			costActual = ControllerAccounting.add(costActual, costHr);
 		}
 		selectedActivity.setGeneralCostBudget(costActual);
 	}
@@ -1076,8 +1088,10 @@ public class ActivitiesAndHrAction implements Serializable {
 			if (cycle.getCostHrBudget() != null && cycle.getCostHrBudget() > 0) {
 				double lastCostBudgetHrActivity = selectedActivity
 						.getCostHrBudget();
-				costBudgetCycle = (cycle.getCostHrBudget() - lastCostBudgetHrActivity)
-						+ costHrBudget;
+				costBudgetCycle = ControllerAccounting.subtract(
+						cycle.getCostHrBudget(), lastCostBudgetHrActivity);
+				costBudgetCycle = ControllerAccounting.add(costBudgetCycle,
+						costHrBudget);
 			}
 			cycle.setCostHrBudget(costBudgetCycle);
 			cycleDao.editCycle(cycle);
@@ -1265,35 +1279,41 @@ public class ActivitiesAndHrAction implements Serializable {
 			Double workedHoursDay = activitiesAndHrDao.calculateNormalHours(
 					humanReosurceId, activityDate,
 					selectedActivity.getIdActivity());
-			if (durationHrActivity <= (systemProfile
-					.getActivityDefaultDuration() - workedHoursDay)) {
+			Double activityNormalHours = ControllerAccounting.subtract(
+					systemProfile.getActivityDefaultDuration(), workedHoursDay);
+			if (durationHrActivity <= activityNormalHours) {
 				activitiesAndHr.setNormalHours(durationHrActivity);
 				activitiesAndHr.setOvertimeHours(0.0);
 			} else {
-				Double activityNormalHours = (systemProfile
-						.getActivityDefaultDuration() - workedHoursDay);
 				activitiesAndHr.setNormalHours(activityNormalHours);
-				if ((overtimeWeek + durationHrActivity - activityNormalHours) <= Constantes.MAX_HOURS) {
+				Double overtime = ControllerAccounting.add(overtimeWeek,
+						durationHrActivity);
+				overtime = ControllerAccounting.subtract(overtime,
+						activityNormalHours);
+				if (overtime <= Constantes.MAX_HOURS) {
 					activitiesAndHr
-							.setOvertimeHours(Math
-									.round((durationHrActivity - activityNormalHours) * 10.0) / 10.0);
+							.setOvertimeHours(ControllerAccounting.round(
+									ControllerAccounting.subtract(
+											durationHrActivity,
+											activityNormalHours), 2));
 				} else {
 					Double overtimeActivity = Constantes.MAX_HOURS
 							- overtimeWeek;
-					activitiesAndHr.setOvertimeHours(Math
-							.round(overtimeActivity * 10.0) / 10.0);
+					activitiesAndHr.setOvertimeHours(ControllerAccounting
+							.round(overtimeActivity, 2));
 					if (!var) {
-						activitiesAndHr.setDurationBudget(activityNormalHours
-								+ overtimeActivity);
+						activitiesAndHr.setDurationBudget(ControllerAccounting
+								.add(activityNormalHours, overtimeActivity));
 					} else {
-						activitiesAndHr.setDurationActual(activityNormalHours
-								+ overtimeActivity);
+						activitiesAndHr.setDurationActual(ControllerAccounting
+								.add(activityNormalHours, overtimeActivity));
 					}
 					this.setWorkHoursValid(false);
 				}
 			}
-			activitiesAndHr.setTotalHours(activitiesAndHr.getNormalHours()
-					+ activitiesAndHr.getOvertimeHours());
+			activitiesAndHr.setTotalHours(ControllerAccounting.add(
+					activitiesAndHr.getNormalHours(),
+					activitiesAndHr.getOvertimeHours()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -1311,8 +1331,9 @@ public class ActivitiesAndHrAction implements Serializable {
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(message), activitiesAndHr
 							.getActivitiesAndHrPK().getHr().getName()));
-			double costHrBudget = this.selectedActivity.getCostHrBudget()
-					- activitiesAndHr.getTotalCostBudget();
+			double costHrBudget = ControllerAccounting.subtract(
+					this.selectedActivity.getCostHrBudget(),
+					activitiesAndHr.getTotalCostBudget());
 			calculateCostBudgetActivity(costHrBudget);
 			editCycleHrBudget(costHrBudget);
 			this.selectedActivity.setCostHrBudget(costHrBudget);
