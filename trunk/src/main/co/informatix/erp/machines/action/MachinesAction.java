@@ -22,6 +22,7 @@ import co.informatix.erp.machines.entities.FuelTypes;
 import co.informatix.erp.machines.entities.MachineTypes;
 import co.informatix.erp.machines.entities.Machines;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -600,7 +601,9 @@ public class MachinesAction implements Serializable {
 								+ investment);
 			}
 			if (investment > 0 && yearLife > 0) {
-				double depreciation = ((investment - residual) / yearLife);
+				double depreciation = ControllerAccounting.divide(
+						ControllerAccounting.subtract(investment, residual),
+						yearLife);
 				machines.setDepreciation(depreciation);
 			}
 		} catch (Exception e) {
