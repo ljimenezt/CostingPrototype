@@ -26,10 +26,6 @@ public class Pluviometer implements Serializable {
 
 	private int id;
 	private int reading;
-	private int week;
-	private int year;
-	private int day;
-
 	private Date dateRecord;
 
 	/**
@@ -67,54 +63,6 @@ public class Pluviometer implements Serializable {
 	}
 
 	/**
-	 * @return week: Week number.
-	 */
-	@Column(name = "week", nullable = false)
-	public int getWeek() {
-		return week;
-	}
-
-	/**
-	 * @param week
-	 *            : Week number.
-	 */
-	public void setWeek(int week) {
-		this.week = week;
-	}
-
-	/**
-	 * @return year: Year in progress.
-	 */
-	@Column(name = "year", nullable = false)
-	public int getYear() {
-		return year;
-	}
-
-	/**
-	 * @param year
-	 *            : Year in progress.
-	 */
-	public void setYear(int year) {
-		this.year = year;
-	}
-
-	/**
-	 * @return day: Number of weekday.
-	 */
-	@Column(name = "day", nullable = false)
-	public int getDay() {
-		return day;
-	}
-
-	/**
-	 * @param day
-	 *            : Number of weekday.
-	 */
-	public void setDay(int day) {
-		this.day = day;
-	}
-
-	/**
 	 * @return dateRecord: Day that the reading was taken.
 	 */
 	@Column(name = "date_record", nullable = false)
@@ -137,11 +85,8 @@ public class Pluviometer implements Serializable {
 		int result = 1;
 		result = prime * result
 				+ ((dateRecord == null) ? 0 : dateRecord.hashCode());
-		result = prime * result + day;
 		result = prime * result + id;
 		result = prime * result + reading;
-		result = prime * result + week;
-		result = prime * result + year;
 		return result;
 	}
 
@@ -159,15 +104,9 @@ public class Pluviometer implements Serializable {
 				return false;
 		} else if (!dateRecord.equals(other.dateRecord))
 			return false;
-		if (day != other.day)
-			return false;
 		if (id != other.id)
 			return false;
 		if (reading != other.reading)
-			return false;
-		if (week != other.week)
-			return false;
-		if (year != other.year)
 			return false;
 		return true;
 	}
