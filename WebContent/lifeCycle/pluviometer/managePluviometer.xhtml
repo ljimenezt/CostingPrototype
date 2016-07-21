@@ -1,0 +1,307 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="pluviometerAction.initializePluviometer" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,mensajeMenu.rain_gauge_reading_label" />
+	<ui:define name="body">
+		<ui:param name="listaVacia"
+			value="#{pluviometerAction.pluviometerPojoSubList eq null or (empty pluviometerAction.pluviometerPojoSubList)}" />
+		<ui:param name="anchoTabla" value="anchoTres" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{pluviometerAction}" />
+		<ui:param name="renderLista" value="panelPluviometer" />
+		<ui:param name="metodoLista" value="consultPluviometer" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="pluviometerAction" />
+		<ui:param name="metodoNuevo" value="addEditPluviometer" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
+		<ui:param name="popupBuscar" value="popupSearch" />
+		<ui:param name="metodoListarTodos" value="initializePluviometer" />
+		<t:saveState value="#{pluviometerAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		    $g=jQuery.noConflict();
+		</script>
+
+		<h:form id="formPluviometer">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listing} #{messageLifeCycle.rain_gauge_label_s}"
+				id="panelPluviometer">
+				<a:outputPanel>
+					<script type="text/javascript">
+						$g = jQuery.noConflict();
+					</script>
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<legend class="etiquetaTitulo">#{messageLifeCycle.rain_gauge_label_s}</legend>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
+						<rich:dataTable
+							value="#{pluviometerAction.pluviometerPojoSubList}"
+							var="pluviometerPojo" id="pluviometerTable" footerClass="H100P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<a:commandLink id="details"
+									actionListener="#{pluviometerAction.loadList(pluviometerPojo)}"
+									render="PopUpDetails"
+									oncomplete="#{rich:component('PopUpDetails')}.show()">
+									<h:graphicImage value="/img/details_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_details}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_week}</f:facet>
+								<h:outputText value="#{pluviometerPojo.week}" />
+							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga center">
+								<f:facet name="header">#{mensaje.label_since}</f:facet>
+								<h:outputText value="#{pluviometerPojo.startWeek}">
+									<f:convertDateTime pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga center">
+								<f:facet name="header">#{mensaje.label_until}</f:facet>
+								<h:outputText value="#{pluviometerPojo.endWeek}">
+									<f:convertDateTime pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_monday}</f:facet>
+								<h:outputText value="#{pluviometerPojo.getVectorPos(0)}" />
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_tuesday}</f:facet>
+								<h:outputText value="#{pluviometerPojo.getVectorPos(1)}" />
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_wednesday}</f:facet>
+								<h:outputText value="#{pluviometerPojo.getVectorPos(2)}" />
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_thursday}</f:facet>
+								<h:outputText value="#{pluviometerPojo.getVectorPos(3)}" />
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_friday}</f:facet>
+								<h:outputText value="#{pluviometerPojo.getVectorPos(4)}" />
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_saturday}</f:facet>
+								<h:outputText value="#{pluviometerPojo.getVectorPos(5)}" />
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_sunday}</f:facet>
+								<h:outputText value="#{pluviometerPojo.getVectorPos(6)}" />
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensaje.label_total}</f:facet>
+								<h:outputText value="#{pluviometerPojo.total}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="12" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+							<ui:param name="botonesAbajo" value="si" />
+							<ui:param name="tieneVigencia" value="no" />
+						</ui:include>
+						<a:outputPanel rendered="#{!listaVacia}">
+							<br />
+							<div class="#{anchoTabla} center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valReder" value="panelPluviometer" />
+									<ui:param name="beanActionParam" value="#{pluviometerAction}" />
+									<ui:param name="metodoActionParam" value="consultPluviometer" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formSearch">
+			<rich:popupPanel id="popupSearch" autosized="true" styleClass="W290P"
+				header="#{mensaje.button_search} #{messageLifeCycle.rain_gauge_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupSearch')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:message id="messagePopUp" styleClass="messageBlock" />
+
+				<a:outputPanel id="pnSearch">
+					<script type="text/javascript">
+				$g=jQuery.noConflict();
+    			</script>
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_start_date}" />
+						<p:calendar value="#{pluviometerAction.initialDateSearch}"
+							styleClass="W104P" showOn="button" navigator="true"
+							onSelectUpdate="endDate" id="startDate" pattern="MM/dd/yyyy"
+							label="#{mensaje.label_start_date}"
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')">
+							<p:ajax process="@form" event="dateSelect"
+								update="formSearch:pnSearch" />
+						</p:calendar>
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_end_date}" />
+						<p:calendar value="#{pluviometerAction.finalDateSearch}"
+							styleClass="W104P" showOn="button" navigator="true"
+							mindate="#{pluviometerAction.initialDateSearch}" id="endDate"
+							pattern="MM/dd/yyyy"
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
+							label="#{mensaje.label_end_date}" />
+
+					</h:panelGrid>
+				</a:outputPanel>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
+						execute="@form"
+						actionListener="#{pluviometerAction.consultPluviometer()}"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupSearch')}.hide();}"
+						render="panelPluviometer, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formDetalles">
+			<rich:popupPanel id="PopUpDetails" autosized="true"
+				domElementAttachment="form" styleClass="H340P fondoAnchoUno W430P"
+				header="#{messageLifeCycle.rain_gauge_label_details}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('PopUpDetails')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<t:fieldset styleClass="BorderW2P">
+					<legend class="etiquetaTitulo">#{mensaje.label_week}
+						#{pluviometerAction.pluviometerPojo.week}</legend>
+					<h:panelGrid columns="3">
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{pluviometerAction.pluviometerPojo.startWeek}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+						<h:outputText value="-" />
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{pluviometerAction.pluviometerPojo.endWeek}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+						<h:panelGrid columns="1" columnClasses="H32P columnaIzquierda">
+							<h:outputText value="#{mensaje.label_monday}:"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="#{mensaje.label_tuesday}:"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="#{mensaje.label_wednesday}:"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="#{mensaje.label_thursday}:"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="#{mensaje.label_friday}:"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="#{mensaje.label_saturday}:"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="#{mensaje.label_sunday}:"
+								styleClass="etiquetaTitulo" />
+						</h:panelGrid>
+						<ui:repeat varStatus="loop"
+							value="#{pluviometerAction.readingList}">
+							<h:panelGrid columns="2">
+								<h:inputText id="txtReading"
+									value="#{pluviometerAction.readingList[loop.index]}"
+									converter="javax.faces.Integer" required="true"
+									styleClass="W75P"
+									converterMessage="#{mensaje.message_campo_positivo}"
+									requiredMessage="#{mensaje.message_campo_requerido}">
+									<f:validateDoubleRange minimum="0" maximum="100" />
+								</h:inputText>
+								<rich:message for="txtReading" />
+							</h:panelGrid>
+						</ui:repeat>
+					</h:panelGrid>
+					<br />
+					<div align="center">
+						<a:commandButton
+							render="formConfirmar:popUpConfirmar,formGenerico"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+							value="#{mensaje.button_save}" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('PopUpDetails')}.hide()" />
+					</div>
+				</t:fieldset>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{pluviometerAction.saveListPluviometer}"
+							onclick="#{rich:component('popUpConfirmar')}.hide();#{rich:component('PopUpDetails')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
