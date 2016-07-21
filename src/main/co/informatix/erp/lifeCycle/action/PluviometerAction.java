@@ -382,17 +382,6 @@ public class PluviometerAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String mensajeRegistro = "message_registro_modificar";
 		try {
-			pluviometer.setYear(ControladorFechas.getYear(pluviometer
-					.getDateRecord()));
-			pluviometer.setWeek(ControladorFechas.getNumberWeek(pluviometer
-					.getDateRecord()));
-			int numberDay = ControladorFechas.getNumberDay(pluviometer
-					.getDateRecord());
-			if (numberDay != 1) {
-				pluviometer.setDay(numberDay - 1);
-			} else {
-				pluviometer.setDay(7);
-			}
 			if (pluviometer.getId() != 0) {
 				pluviometerDao.editPluviometer(pluviometer);
 			} else {
@@ -460,6 +449,8 @@ public class PluviometerAction implements Serializable {
 	/**
 	 * This method allows save and edit the readings of the week.
 	 * 
+	 * @return initializePluviometer(): Redirects to manage the list of rain
+	 *         gauge reading with rain gauge reading updated.
 	 */
 	public String saveListPluviometer() {
 		int addDay = 0;
@@ -479,9 +470,6 @@ public class PluviometerAction implements Serializable {
 					pluviometer = new Pluviometer();
 					pluviometer.setReading(reading);
 					pluviometer.setDateRecord(date);
-					pluviometer.setYear(ControladorFechas.getYear(date));
-					pluviometer.setWeek(ControladorFechas.getNumberWeek(date));
-					pluviometer.setDay(addDay + 1);
 					pluviometerListSave.add(pluviometer);
 				}
 				addDay++;

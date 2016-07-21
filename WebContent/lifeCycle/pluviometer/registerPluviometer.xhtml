@@ -38,6 +38,7 @@
 						value="#{pluviometerAction.pluviometer.dateRecord}"
 						showOn="button" navigator="true" id="txtDateRecord"
 						styleClass="W104P" pattern="MM/dd/yyyy" readonlyInput="true"
+						maxdate="controladorFechas.fechaActual()"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						converterMessage="#{mensaje.message_validar_formato_fecha}"
 						validator="#{pluviometerAction.validateDate}">
