@@ -453,6 +453,7 @@ public class PluviometerAction implements Serializable {
 	 *         gauge reading with rain gauge reading updated.
 	 */
 	public String saveListPluviometer() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		int addDay = 0;
 		List<Pluviometer> pluviometerListEdit = new ArrayList<Pluviometer>();
 		List<Pluviometer> pluviometerListSave = new ArrayList<Pluviometer>();
@@ -487,6 +488,12 @@ public class PluviometerAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+		ControladorContexto.mensajeInformacion(
+				null,
+				MessageFormat.format(
+						bundle.getString("message_registro_modificar"),
+						bundle.getString("label_week") + " "
+								+ pluviometerPojo.getWeek()));
 		return initializePluviometer();
 	}
 }
