@@ -1,0 +1,106 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="pluviometerAction.addEditPluviometer(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_register,mensajeMenu.rain_gauge_reading_label" />
+	<ui:define name="body">
+		<t:saveState value="#{pluviometerAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+		<h:form id="formRegisterPluviometer">
+			<rich:panel
+				header="#{mensaje.label_register} #{mensajeMenu.rain_gauge_reading_label}"
+				styleClass="anchoUno MinH253P" id="panelPluviometer">
+				<h:panelGrid columns="4"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="etiquetaTitulo tdAlignTop,tdAlignTop,,tdAlignTop2">
+
+					<h:outputText value="#{mensaje.label_date}" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar required="true"
+						value="#{pluviometerAction.pluviometer.dateRecord}"
+						showOn="button" navigator="true" id="txtDateRecord"
+						styleClass="W104P" pattern="MM/dd/yyyy" readonlyInput="true"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						converterMessage="#{mensaje.message_validar_formato_fecha}"
+						validator="#{pluviometerAction.validateDate}">
+						<f:attribute name="validarHora" value="si" />
+					</p:calendar>
+					<rich:message for="txtDateRecord" />
+
+					<h:outputText value="#{messageLifeCycle.rain_gauge_label_reading}" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText value="#{pluviometerAction.pluviometer.reading}"
+						required="true" styleClass="W75P" id="txtReading"
+						converterMessage="#{mensaje.message_campo_positivo}"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:validateDoubleRange minimum="0" maximum="100" />
+					</h:inputText>
+					<rich:message for="txtReading" />
+				</h:panelGrid>
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_save}" />
+				</div>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_date}:" />
+						<h:outputText value="#{pluviometerAction.pluviometer.dateRecord}" />
+
+						<h:outputText
+							value="#{messageLifeCycle.rain_gauge_label_reading}:" />
+						<h:outputText value="#{pluviometerAction.pluviometer.reading}" />
+					</ui:define>
+
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{pluviometerAction.saveUpdatePluviometer}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

@@ -94,6 +94,7 @@
 			/lifeCycle/scheduledActivities/faces-config-scheduledActivities.xml,
 			/lifeCycle/section/faces-config-section.xml,
 			/lifeCycle/cycle/faces-config-cycle.xml,
+			/lifeCycle/pluviometer/faces-config-pluviometer.xml,
 			
 			/machine/machineTypes/faces-config-machineTypes.xml,
 			/machine/machines/faces-config-machines.xml,
