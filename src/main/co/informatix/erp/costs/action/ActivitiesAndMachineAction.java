@@ -474,18 +474,16 @@ public class ActivitiesAndMachineAction implements Serializable {
 	private void editCycleHrBudget(double costConsumableMachine)
 			throws Exception {
 		if (selectedActivity.getCycle() != null) {
-			Cycle cycle = cycleDao.cycleById(selectedActivity.getCycle()
-					.getIdCycle());
 			double costBudgetCycle = costConsumableMachine;
-			if (cycle.getCostMachinesEqBudget() != null
-					&& cycle.getCostMachinesEqBudget() > 0) {
+			if (selectedActivity.getCycle().getCostMachinesEqBudget() != null
+					&& selectedActivity.getCycle().getCostMachinesEqBudget() > 0) {
 				double lastCostMachineBudget = selectedActivity
 						.getCostMachinesEqBudget();
-				costBudgetCycle = (cycle.getCostMachinesEqBudget() - lastCostMachineBudget)
+				costBudgetCycle = (selectedActivity.getCycle().getCostMachinesEqBudget() - lastCostMachineBudget)
 						+ costConsumableMachine;
 			}
-			cycle.setCostMachinesEqBudget(costBudgetCycle);
-			cycleDao.editCycle(cycle);
+			selectedActivity.getCycle().setCostMachinesEqBudget(costBudgetCycle);
+			cycleDao.editCycle(selectedActivity.getCycle());
 		}
 	}
 
