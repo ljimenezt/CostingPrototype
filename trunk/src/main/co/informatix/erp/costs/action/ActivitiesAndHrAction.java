@@ -1082,19 +1082,17 @@ public class ActivitiesAndHrAction implements Serializable {
 	 */
 	private void editCycleHrBudget(double costHrBudget) throws Exception {
 		if (selectedActivity.getCycle() != null) {
-			Cycle cycle = cycleDao.cycleById(selectedActivity.getCycle()
-					.getIdCycle());
 			double costBudgetCycle = costHrBudget;
-			if (cycle.getCostHrBudget() != null && cycle.getCostHrBudget() > 0) {
+			if (selectedActivity.getCycle().getCostHrBudget() != null && selectedActivity.getCycle().getCostHrBudget() > 0) {
 				double lastCostBudgetHrActivity = selectedActivity
 						.getCostHrBudget();
 				costBudgetCycle = ControllerAccounting.subtract(
-						cycle.getCostHrBudget(), lastCostBudgetHrActivity);
+						selectedActivity.getCycle().getCostHrBudget(), lastCostBudgetHrActivity);
 				costBudgetCycle = ControllerAccounting.add(costBudgetCycle,
 						costHrBudget);
 			}
-			cycle.setCostHrBudget(costBudgetCycle);
-			cycleDao.editCycle(cycle);
+			selectedActivity.getCycle().setCostHrBudget(costBudgetCycle);
+			cycleDao.editCycle(selectedActivity.getCycle());
 		}
 	}
 

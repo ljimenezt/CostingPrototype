@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -14,6 +15,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.transaction.UserTransaction;
 
 import co.informatix.erp.costs.action.ActivitiesAction;
 import co.informatix.erp.costs.action.ActivitiesAndHrAction;
@@ -75,6 +77,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private SystemProfileDao systemProfileDao;
 	@EJB
 	private ActivityMaterialsDao activityMaterialsDao;
+	@Resource
+	private UserTransaction userTransaction;
 
 	private int idCrop;
 	private int idCropName;
@@ -731,6 +735,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * Register the total cost of an activity.
 	 * 
 	 * @modify 06/07/2016 Wilhelm.Boada
+	 * @modify 25/07/2016 Gerardo.Herrera
 	 * 
 	 */
 	public void endActivity() {
@@ -739,61 +744,33 @@ public class RecordActivitiesActualsAction implements Serializable {
 				.getBundle("messageLifeCycle");
 		String registerMessage = "message_calculate_labor_cost";
 		boolean flag = false;
-		boolean flagCycle = false;
 		try {
-			if (ControladorContexto.getFacesContext() != null) {
-				this.activitiesAndMachineAction = ControladorContexto
-						.getContextBean(ActivitiesAndMachineAction.class);
-			}
-			if (this.selectedActivity != null
-					&& (this.listActivitiesAndHr != null
-							|| this.activitiesAndMachineAction
-									.getListActivityMachine() != null || this.activityMaterialsAction
-							.getListActivityMaterialsTemp() != null)) {
+			userTransaction.begin();
+			this.activitiesAndMachineAction = ControladorContexto
+					.getContextBean(ActivitiesAndMachineAction.class);
+			if (this.selectedActivity != null) {
+
 				if (selectedActivity.getGeneralCostActual() == null) {
 					selectedActivity.setGeneralCostActual(0.0);
 				}
-				if (this.listActivitiesAndHr != null
-						&& selectedActivity.getHrRequired() == true) {
-					Double totalCostHr = activitiesAndHrDao
-							.totalCost(selectedActivity.getIdActivity());
-					this.selectedActivity.setCostHrActual(totalCostHr);
-					this.selectedActivity.setGeneralCostActual(selectedActivity
-							.getGeneralCostActual() + totalCostHr);
-					flag = true;
+
+				if (selectedActivity.getHrRequired() == true) {
+					flag = calculateActualCostHr();
 				}
-				if (this.activitiesAndMachineAction.getListActivityMachine() != null
-						&& selectedActivity.getMachineRequired() == true) {
-					Double totalCostMachine = activitiesAndMachineDao
-							.calculateTotalCostMachine(selectedActivity
-									.getIdActivity());
-					this.selectedActivity
-							.setCostMachinesEqActual(totalCostMachine);
-					this.selectedActivity.setGeneralCostActual(selectedActivity
-							.getGeneralCostActual() + totalCostMachine);
-					flag = true;
+
+				if (selectedActivity.getMachineRequired() == true) {
+					flag = calculateActualCostMachine();
 				}
-				if (this.activityMaterialsAction.getListActivityMaterialsTemp() != null
-						&& selectedActivity.getMaterialsRequired() == true) {
-					Double totalCostMaterial = activityMaterialsDao
-							.calculateTotalCostMaterials(selectedActivity
-									.getIdActivity());
-					this.selectedActivity
-							.setCostMaterialsActual(totalCostMaterial);
-					this.selectedActivity.setGeneralCostActual(selectedActivity
-							.getGeneralCostActual() + totalCostMaterial);
-					if (selectedActivity.getCycle() != null) {
-						selectedActivity.getCycle().setCostMaterialsActual(
-								totalCostMaterial);
-						flagCycle = true;
-					}
-					flag = true;
+
+				if (selectedActivity.getMaterialsRequired() == true) {
+					flag = calculateActualCostMaterial();
 				}
-				if (flagCycle) {
-					cycleDao.editCycle(selectedActivity.getCycle());
-				}
+
 				if (flag == true) {
 					activitiesDao.editActivities(this.selectedActivity);
+					if (selectedActivity.getActivityName().getCycle()) {
+						cycleDao.editCycle(selectedActivity.getCycle());
+					}
 					ControladorContexto.mensajeInformacion(null, MessageFormat
 							.format(bundle.getString(registerMessage),
 									selectedActivity.getActivityName()));
@@ -805,10 +782,80 @@ public class RecordActivitiesActualsAction implements Serializable {
 									bundleLifecycle
 											.getString("scheduled_activities_message_recursos"));
 				}
+				userTransaction.commit();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * Calculate the final cost for human resources into de selected activity
+	 * 
+	 * @return boolean: Its 'true' if there are cost for this item
+	 * @throws Exception
+	 */
+	private boolean calculateActualCostHr() throws Exception {
+		boolean requiredCost = false;
+		if (this.listActivitiesAndHr != null) {
+			Double totalCostHr = activitiesAndHrDao.totalCost(selectedActivity
+					.getIdActivity());
+			this.selectedActivity.setCostHrActual(totalCostHr);
+			this.selectedActivity.setGeneralCostActual(selectedActivity
+					.getGeneralCostActual() + totalCostHr);
+			if (selectedActivity.getCycle() != null) {
+				selectedActivity.getCycle().setCostHrActual(totalCostHr);
+			}
+			requiredCost = true;
+		}
+		return requiredCost;
+	}
+
+	/**
+	 * Calculate the final cost for machines into de selected activity
+	 * 
+	 * @return boolean: Its 'true' if there are cost for this item
+	 * @throws Exception
+	 */
+	private boolean calculateActualCostMachine() throws Exception {
+		boolean requiredCost = false;
+		if (this.activitiesAndMachineAction.getListActivityMachine() != null) {
+			Double totalCostMachine = activitiesAndMachineDao
+					.calculateTotalCostMachine(selectedActivity.getIdActivity());
+			this.selectedActivity.setCostMachinesEqActual(totalCostMachine);
+			this.selectedActivity.setGeneralCostActual(selectedActivity
+					.getGeneralCostActual() + totalCostMachine);
+			if (selectedActivity.getCycle() != null) {
+				selectedActivity.getCycle().setCostMachinesEqActual(
+						totalCostMachine);
+			}
+			requiredCost = true;
+		}
+		return requiredCost;
+	}
+
+	/**
+	 * Calculate the final cost for materials into de selected activity
+	 * 
+	 * @return boolean: Its 'true' if there are cost for this item
+	 * @throws Exception
+	 */
+	private boolean calculateActualCostMaterial() throws Exception {
+		boolean requiredCost = false;
+		if (this.activityMaterialsAction.getListActivityMaterialsTemp() != null) {
+			Double totalCostMaterial = activityMaterialsDao
+					.calculateTotalCostMaterials(selectedActivity
+							.getIdActivity());
+			this.selectedActivity.setCostMaterialsActual(totalCostMaterial);
+			this.selectedActivity.setGeneralCostActual(selectedActivity
+					.getGeneralCostActual() + totalCostMaterial);
+			if (selectedActivity.getCycle() != null) {
+				selectedActivity.getCycle().setCostMaterialsActual(
+						totalCostMaterial);
+			}
+			requiredCost = true;
+		}
+		return requiredCost;
 	}
 
 	/**
