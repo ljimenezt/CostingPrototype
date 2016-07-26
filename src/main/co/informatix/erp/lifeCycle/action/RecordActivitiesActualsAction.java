@@ -44,6 +44,7 @@ import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
+import co.informatix.erp.utils.ControllerAccounting;
 
 /**
  * This class implements the logic of the relations between the activities and
@@ -667,27 +668,32 @@ public class RecordActivitiesActualsAction implements Serializable {
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
 				: false;
-		if (!fromModal) {
-			activitiesAndHr.setInitialDateTimeActual(activitiesAndHr
-					.getInitialDateTimeBudget());
-			activitiesAndHr.setFinalDateTimeActual(activitiesAndHr
-					.getFinalDateTimeBudget());
-			activitiesAndHr.setDurationActual(activitiesAndHr
-					.getDurationBudget());
-			setIdOvertimePaymentsRate(activitiesAndHr.getOvertimePaymentRate()
-					.getOvertimepaymentid());
-			double hourCost = activitiesAndHr.getTotalCostBudget();
-			if (activitiesAndHr.getDurationActual() > 8) {
-				hourCost = calculateCostOvertime(activitiesAndHr
-						.getDurationActual());
-			}
-			activitiesAndHr.setTotalCostActual(hourCost);
-		} else {
-			this.activityMachine.setDurationActual(this.activityMachine
-					.getDurationBudget());
-			this.activityMachine.setConsumablesCostActual(this.activityMachine
-					.getConsumablesCostBudget());
+		try {
+			if (!fromModal) {
+				activitiesAndHr.setInitialDateTimeActual(activitiesAndHr
+						.getInitialDateTimeBudget());
+				activitiesAndHr.setFinalDateTimeActual(activitiesAndHr
+						.getFinalDateTimeBudget());
+				activitiesAndHr.setDurationActual(activitiesAndHr
+						.getDurationBudget());
+				setIdOvertimePaymentsRate(activitiesAndHr
+						.getOvertimePaymentRate().getOvertimepaymentid());
+				double hourCost = activitiesAndHr.getTotalCostBudget();
+				if (activitiesAndHr.getDurationActual() > 8) {
+					hourCost = calculateCostOvertime(activitiesAndHr
+							.getDurationActual());
+				}
+				activitiesAndHr.setTotalCostActual(hourCost);
+			} else {
+				this.activityMachine.setDurationActual(this.activityMachine
+						.getDurationBudget());
+				this.activityMachine
+						.setConsumablesCostActual(this.activityMachine
+								.getConsumablesCostBudget());
 
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
@@ -801,8 +807,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 			Double totalCostHr = activitiesAndHrDao.totalCost(selectedActivity
 					.getIdActivity());
 			this.selectedActivity.setCostHrActual(totalCostHr);
-			this.selectedActivity.setGeneralCostActual(selectedActivity
-					.getGeneralCostActual() + totalCostHr);
+			this.selectedActivity.setGeneralCostActual(ControllerAccounting
+					.add(selectedActivity.getGeneralCostActual(), totalCostHr));
 			if (selectedActivity.getCycle() != null) {
 				selectedActivity.getCycle().setCostHrActual(totalCostHr);
 			}
@@ -823,8 +829,9 @@ public class RecordActivitiesActualsAction implements Serializable {
 			Double totalCostMachine = activitiesAndMachineDao
 					.calculateTotalCostMachine(selectedActivity.getIdActivity());
 			this.selectedActivity.setCostMachinesEqActual(totalCostMachine);
-			this.selectedActivity.setGeneralCostActual(selectedActivity
-					.getGeneralCostActual() + totalCostMachine);
+			this.selectedActivity.setGeneralCostActual(ControllerAccounting
+					.add(selectedActivity.getGeneralCostActual(),
+							totalCostMachine));
 			if (selectedActivity.getCycle() != null) {
 				selectedActivity.getCycle().setCostMachinesEqActual(
 						totalCostMachine);
@@ -847,8 +854,9 @@ public class RecordActivitiesActualsAction implements Serializable {
 					.calculateTotalCostMaterials(selectedActivity
 							.getIdActivity());
 			this.selectedActivity.setCostMaterialsActual(totalCostMaterial);
-			this.selectedActivity.setGeneralCostActual(selectedActivity
-					.getGeneralCostActual() + totalCostMaterial);
+			this.selectedActivity.setGeneralCostActual(ControllerAccounting
+					.add(selectedActivity.getGeneralCostActual(),
+							totalCostMaterial));
 			if (selectedActivity.getCycle() != null) {
 				selectedActivity.getCycle().setCostMaterialsActual(
 						totalCostMaterial);
@@ -972,13 +980,13 @@ public class RecordActivitiesActualsAction implements Serializable {
 					true);
 			double hourCost = activitiesAndHr.getActivitiesAndHrPK().getHr()
 					.getHourCost();
-			double totalCost = durationActual * hourCost;
+			double totalCost = ControllerAccounting.multiply(durationActual,
+					hourCost);
 			if (durationActual > 8) {
 				totalCost = calculateCostOvertime(durationActual);
 			}
 			activitiesAndHr.setDurationActual(durationActual);
-			activitiesAndHr
-					.setTotalCostActual(Math.round(totalCost * 10.0) / 10.0);
+			activitiesAndHr.setTotalCostActual(totalCost);
 			updateTotalCostByOvertimePaymentRate();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -1025,8 +1033,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 			durationActual = ControladorFechas.restarFechas(startDate, endDate);
 			double breakDuration = 0d;
 			if (startDateAux <= startLunch && endDateAux >= endLunch) {
-				return durationActual = durationActual
-						- systemProfile.getBreakDuration();
+				return durationActual = ControllerAccounting.subtract(
+						durationActual, systemProfile.getBreakDuration());
 			} else if (startDateAux > startLunch && startDateAux < endLunch
 					&& endDateAux > endLunch) {
 				Date endLunchAux = ControladorFechas.setDefaultTime(
@@ -1040,7 +1048,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 				breakDuration = ControladorFechas.restarFechas(startLunchAux,
 						endDate);
 			}
-			durationActual = durationActual - breakDuration;
+			durationActual = ControllerAccounting.subtract(durationActual,
+					breakDuration);
 		}
 		return durationActual;
 	}
@@ -1050,17 +1059,15 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void updateTotalCostByOvertimePaymentRate() {
 		try {
-			this.overtimePaymentRate = overtimePaymentRateDao
-					.overtimePaymentRateXId(idOvertimePaymentsRate);
 			double currentDuration = activitiesAndHr.getDurationActual();
 			double hourCost = activitiesAndHr.getActivitiesAndHrPK().getHr()
 					.getHourCost();
-			double totalCost = currentDuration * hourCost;
+			double totalCost = ControllerAccounting.multiply(currentDuration,
+					hourCost);
 			if (currentDuration > 8) {
 				totalCost = calculateCostOvertime(currentDuration);
 			}
-			activitiesAndHr
-					.setTotalCostActual(Math.round(totalCost * 10.0) / 10.0);
+			activitiesAndHr.setTotalCostActual(totalCost);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -1073,15 +1080,21 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 *            : Activity duration.
 	 * @return total: Hr total cost.
 	 */
-	private double calculateCostOvertime(double currentDuration) {
+	private double calculateCostOvertime(double currentDuration)
+			throws Exception {
+		this.overtimePaymentRate = overtimePaymentRateDao
+				.overtimePaymentRateXId(idOvertimePaymentsRate);
 		double normalHours = activitiesAndHr.getActivitiesAndHrPK().getHr()
 				.getHourCost();
-		double costNormal = activitiesAndHr.getNormalHours() * normalHours;
-		double overtimeHours = activitiesAndHr.getActivitiesAndHrPK().getHr()
-				.getHourCostOvertime();
-		double costOvertime = activitiesAndHr.getOvertimeHours()
-				* overtimeHours * overtimePaymentRate.getOvertimeRateRatio();
-		double totalCost = Math.round((costNormal + costOvertime) * 10.0) / 10.0;
+		double costNormal = ControllerAccounting.multiply(
+				activitiesAndHr.getNormalHours(), normalHours);
+		double overtimeHoursCost = activitiesAndHr.getActivitiesAndHrPK()
+				.getHr().getHourCostOvertime();
+		double overtimeHours = ControllerAccounting.subtract(currentDuration,
+				activitiesAndHr.getNormalHours());
+		double costOvertime = overtimeHours * overtimeHoursCost
+				* overtimePaymentRate.getOvertimeRateRatio();
+		double totalCost = ControllerAccounting.add(costNormal, costOvertime);
 		return totalCost;
 	}
 
@@ -1107,8 +1120,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 		Double fuelConsumption = activityMachine.getActivityMachinePK()
 				.getMachines().getFuelConsumption();
 		if (fuelConsumption > 0) {
-			Double consumableCostActual = activityMachine.getDurationActual()
-					* fuelConsumption;
+			Double consumableCostActual = ControllerAccounting.multiply(
+					activityMachine.getDurationActual(), fuelConsumption);
 			this.activityMachine.setConsumablesCostActual(consumableCostActual);
 		}
 	}
