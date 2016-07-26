@@ -400,7 +400,7 @@
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
 						execute="@form" actionListener="#{cycleAction.consultCycles}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupSearch')}.hide();}"
-						render="pnlCycles, mensajes, mensajeBusqueda" />
+						render="pnlCycles, mensajes, mensajeBusqueda, formCycle" />
 					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
 						value="#{mensaje.button_cancel}" />
 				</div>
