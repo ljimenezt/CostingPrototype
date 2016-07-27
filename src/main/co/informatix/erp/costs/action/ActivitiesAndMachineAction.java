@@ -25,7 +25,6 @@ import co.informatix.erp.costs.entities.ActivityMachine;
 import co.informatix.erp.costs.entities.ActivityMachinePK;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
 import co.informatix.erp.lifeCycle.dao.CycleDao;
-import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.machines.dao.MachineTypesDao;
 import co.informatix.erp.machines.entities.MachineTypes;
 import co.informatix.erp.machines.entities.Machines;
@@ -479,10 +478,12 @@ public class ActivitiesAndMachineAction implements Serializable {
 					&& selectedActivity.getCycle().getCostMachinesEqBudget() > 0) {
 				double lastCostMachineBudget = selectedActivity
 						.getCostMachinesEqBudget();
-				costBudgetCycle = (selectedActivity.getCycle().getCostMachinesEqBudget() - lastCostMachineBudget)
+				costBudgetCycle = (selectedActivity.getCycle()
+						.getCostMachinesEqBudget() - lastCostMachineBudget)
 						+ costConsumableMachine;
 			}
-			selectedActivity.getCycle().setCostMachinesEqBudget(costBudgetCycle);
+			selectedActivity.getCycle()
+					.setCostMachinesEqBudget(costBudgetCycle);
 			cycleDao.editCycle(selectedActivity.getCycle());
 		}
 	}
