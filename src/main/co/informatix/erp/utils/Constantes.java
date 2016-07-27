@@ -203,4 +203,7 @@ public class Constantes implements Serializable {
 	public static final String EMITTER_ID_XLS = "org.eclipse.birt.report.engine.emitter.nativexls";
 	public static final String EMITTER_ID_XLSX = "uk.co.spudsoft.birt.emitters.excel.XlsxEmitter";
 
+	/* Pluviometer */
+	public static final short PLUVIOMETER_MAX_RANGE = 250;
+
 }

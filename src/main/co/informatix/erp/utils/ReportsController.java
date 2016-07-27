@@ -232,4 +232,18 @@ public class ReportsController implements Serializable {
 		generateReports(reportName, mapAttribute);
 	}
 
+	/**
+	 * This method allows to compile the report of rain gauges readings with the
+	 * parameters received from the action.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @throws Exception
+	 */
+	public void generateReportPluviometer() throws Exception {
+		String reportName = "pluviometerControl.rptdesign";
+		HashMap<String, Object> mapAttribute = new HashMap<String, Object>();
+		this.reportFormat = Constantes.FORMAT_EXCEL;
+		generateReports(reportName, mapAttribute);
+	}
 }

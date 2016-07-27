@@ -23,6 +23,7 @@ import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ReportsController;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
@@ -485,15 +486,52 @@ public class PluviometerAction implements Serializable {
 					pluviometerDao.editPluviometer(pluviometer);
 				}
 			}
+			ControladorContexto.mensajeInformacion(MessageFormat.format(
+					bundle.getString("message_registro_modificar"),
+					bundle.getString("label_week") + " "
+							+ pluviometerPojo.getWeek()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		ControladorContexto.mensajeInformacion(
-				null,
-				MessageFormat.format(
-						bundle.getString("message_registro_modificar"),
-						bundle.getString("label_week") + " "
-								+ pluviometerPojo.getWeek()));
 		return initializePluviometer();
+	}
+
+	/**
+	 * This method allow consult the rain gauge readings information and
+	 * generate the report.
+	 */
+	public void generateReportPluviometer() {
+		ReportsController reportsController = ControladorContexto
+				.getContextBean(ReportsController.class);
+		try {
+			reportsController.generateReportPluviometer();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows validate fields required and that the readings are
+	 * correct.
+	 */
+	public void validateReading() {
+		int i = 0;
+		for (Integer reading : readingList) {
+			if (reading != null) {
+				if (reading < 0 || reading > Constantes.PLUVIOMETER_MAX_RANGE) {
+					ControladorContexto
+							.mensajeErrorArg1(
+									"formDetalles:repeat:" + i + ":message",
+									"javax.faces.validator.DoubleRangeValidator.NOT_IN_RANGE",
+									"mensaje", 0,
+									Constantes.PLUVIOMETER_MAX_RANGE);
+				}
+			} else {
+				ControladorContexto.mensajeErrorEspecifico(
+						"formDetalles:repeat:" + i + ":message",
+						"message_campo_requerido", "mensaje");
+			}
+			i++;
+		}
 	}
 }

@@ -303,3 +303,21 @@ $(document).on('keyup keypress', 'form input[type="text"]', function(e) {
 function scrollUp() {
 	scroll(0, 0);
 }
+
+/**
+ * This method validates that the entry in the inputText is only numerical.
+ * 
+ * @author Wilhelm.Boada
+ * 
+ * @param e:
+ *            Event execute in keyboard..
+ * @returns {Boolean}:If is true, allow the number entry, otherwise return
+ *          false.
+ */
+function validateNumberEntry(e) {
+	var key = window.Event ? e.which : e.keyCode;
+	if ((key >= 48 && key <= 57) || (key == 8)) {
+		return true;
+	}
+	return false;
+}
