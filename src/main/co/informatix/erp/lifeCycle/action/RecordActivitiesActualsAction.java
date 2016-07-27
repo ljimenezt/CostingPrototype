@@ -791,6 +791,11 @@ public class RecordActivitiesActualsAction implements Serializable {
 				userTransaction.commit();
 			}
 		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception e1) {
+				ControladorContexto.printErrorLog(e1);
+			}
 			ControladorContexto.mensajeError(e);
 		}
 	}
@@ -1079,6 +1084,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @param currentDuration
 	 *            : Activity duration.
 	 * @return total: Hr total cost.
+	 * @throws Exception
 	 */
 	private double calculateCostOvertime(double currentDuration)
 			throws Exception {
