@@ -392,7 +392,7 @@ public class ActivitiesAndMachineAction implements Serializable {
 				costConsumableMachine += selectedActivity
 						.getCostMachinesEqBudget();
 				calculateCostBudgetActivity(costConsumableMachine);
-				editCycleHrBudget(costConsumableMachine);
+				editCycleMachineBudget(costConsumableMachine);
 				userTransaction.commit();
 				setListActivityMachineTemp(null);
 				showActivitiesAndMachineForActivity();
@@ -443,7 +443,7 @@ public class ActivitiesAndMachineAction implements Serializable {
 			double costMachine = (selectedActivity.getCostMachinesEqBudget() - activityMachineTemp
 					.getConsumablesCostBudget())
 					+ activityMachine.getConsumablesCostBudget();
-			editCycleHrBudget(costMachine);
+			editCycleMachineBudget(costMachine);
 			calculateCostBudgetActivity(costMachine);
 			activitiesAndMachineDao
 					.editActivitiesAndMachine(this.activityMachine);
@@ -464,13 +464,13 @@ public class ActivitiesAndMachineAction implements Serializable {
 	}
 
 	/**
-	 * Edit the budget cost for human resorces item into the cycle.
+	 * Edit the budget cost for machines item into the cycle.
 	 * 
-	 * @param costHrBudget
-	 *            : New budget cost for human resources.
+	 * @param costConsumableMachine
+	 *            : New budget cost for machines.
 	 * @throws Exception
 	 */
-	private void editCycleHrBudget(double costConsumableMachine)
+	private void editCycleMachineBudget(double costConsumableMachine)
 			throws Exception {
 		if (selectedActivity.getCycle() != null) {
 			double costBudgetCycle = costConsumableMachine;
@@ -501,7 +501,7 @@ public class ActivitiesAndMachineAction implements Serializable {
 			double costMachineBudget = this.selectedActivity
 					.getCostMachinesEqBudget()
 					- this.activityMachine.getConsumablesCostBudget();
-			editCycleHrBudget(costMachineBudget);
+			editCycleMachineBudget(costMachineBudget);
 			calculateCostBudgetActivity(costMachineBudget);
 			activitiesAndMachineDao
 					.deleteActivitiesAndMachine(this.activityMachine);
