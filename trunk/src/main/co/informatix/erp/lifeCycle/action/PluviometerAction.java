@@ -486,10 +486,10 @@ public class PluviometerAction implements Serializable {
 					pluviometerDao.editPluviometer(pluviometer);
 				}
 			}
-			ControladorContexto.mensajeInformacion(MessageFormat.format(
-					bundle.getString("message_registro_modificar"),
-					bundle.getString("label_week") + " "
-							+ pluviometerPojo.getWeek()));
+			String bundleWeek = bundle.getString("label_week") + " "
+					+ pluviometerPojo.getWeek();
+			ControladorContexto.mensajeInfoArg2("message_registro_modificar",
+					"mensaje", bundleWeek);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
