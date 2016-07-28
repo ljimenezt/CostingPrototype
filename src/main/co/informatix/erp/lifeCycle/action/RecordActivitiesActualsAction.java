@@ -1079,7 +1079,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * the Hr cost is calculated taking into account overtime.
+	 * The Hr cost is calculated taking into account overtime.
 	 * 
 	 * @param currentDuration
 	 *            : Activity duration.
