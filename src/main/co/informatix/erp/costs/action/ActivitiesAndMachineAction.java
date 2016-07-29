@@ -30,6 +30,7 @@ import co.informatix.erp.machines.entities.MachineTypes;
 import co.informatix.erp.machines.entities.Machines;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
@@ -355,8 +356,8 @@ public class ActivitiesAndMachineAction implements Serializable {
 		Double fuelConsumption = activityMachine.getActivityMachinePK()
 				.getMachines().getFuelConsumption();
 		if (fuelConsumption > 0) {
-			Double consumableCostBudget = activityMachine.getDurationBudget()
-					* fuelConsumption;
+			Double consumableCostBudget = ControllerAccounting.multiply(
+					activityMachine.getDurationBudget(), fuelConsumption);
 			this.activityMachine.setConsumablesCostBudget(consumableCostBudget);
 		} else {
 			this.activityMachine.setConsumablesCostBudget(0.0d);
@@ -422,8 +423,9 @@ public class ActivitiesAndMachineAction implements Serializable {
 				&& selectedActivity.getGeneralCostBudget() > 0) {
 			double costMachineActual = selectedActivity
 					.getCostMachinesEqBudget();
-			costActual = (selectedActivity.getGeneralCostBudget() - costMachineActual)
-					+ costMachine;
+			costActual = ControllerAccounting.subtract(
+					selectedActivity.getGeneralCostBudget(), costMachineActual);
+			costActual = ControllerAccounting.add(costActual, costMachine);
 		}
 		this.selectedActivity.setGeneralCostBudget(costActual);
 		this.selectedActivity.setCostMachinesEqBudget(costMachine);
@@ -440,9 +442,11 @@ public class ActivitiesAndMachineAction implements Serializable {
 			userTransaction.begin();
 			ActivityMachine activityMachineTemp = activitiesAndMachineDao
 					.activityMachineById(activityMachine.getActivityMachinePK());
-			double costMachine = (selectedActivity.getCostMachinesEqBudget() - activityMachineTemp
-					.getConsumablesCostBudget())
-					+ activityMachine.getConsumablesCostBudget();
+			double costMachine = ControllerAccounting.subtract(
+					selectedActivity.getCostMachinesEqBudget(),
+					activityMachineTemp.getConsumablesCostBudget());
+			costMachine = ControllerAccounting.add(costMachine,
+					activityMachine.getConsumablesCostBudget());
 			editCycleMachineBudget(costMachine);
 			calculateCostBudgetActivity(costMachine);
 			activitiesAndMachineDao
@@ -478,9 +482,11 @@ public class ActivitiesAndMachineAction implements Serializable {
 					&& selectedActivity.getCycle().getCostMachinesEqBudget() > 0) {
 				double lastCostMachineBudget = selectedActivity
 						.getCostMachinesEqBudget();
-				costBudgetCycle = (selectedActivity.getCycle()
-						.getCostMachinesEqBudget() - lastCostMachineBudget)
-						+ costConsumableMachine;
+				costBudgetCycle = ControllerAccounting.subtract(
+						selectedActivity.getCycle().getCostMachinesEqBudget(),
+						lastCostMachineBudget);
+				costBudgetCycle = ControllerAccounting.add(costBudgetCycle,
+						costConsumableMachine);
 			}
 			selectedActivity.getCycle()
 					.setCostMachinesEqBudget(costBudgetCycle);
@@ -498,9 +504,9 @@ public class ActivitiesAndMachineAction implements Serializable {
 			userTransaction.begin();
 			if (this.activityMachine.getConsumablesCostBudget() == null)
 				this.activityMachine.setConsumablesCostBudget(0.0);
-			double costMachineBudget = this.selectedActivity
-					.getCostMachinesEqBudget()
-					- this.activityMachine.getConsumablesCostBudget();
+			double costMachineBudget = ControllerAccounting.subtract(
+					this.selectedActivity.getCostMachinesEqBudget(),
+					this.activityMachine.getConsumablesCostBudget());
 			editCycleMachineBudget(costMachineBudget);
 			calculateCostBudgetActivity(costMachineBudget);
 			activitiesAndMachineDao
@@ -583,5 +589,4 @@ public class ActivitiesAndMachineAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }
