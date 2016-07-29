@@ -69,6 +69,25 @@
 					</h:selectBooleanCheckbox>
 					<h:outputText value="" />
 
+					<h:outputText value="#{messageLifeCycle.crops_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:selectBooleanCheckbox
+						value="#{activityNamesAction.activityNames.harvest}"
+						id="checkHarvest" styleClass="marginCheckbox">
+					</h:selectBooleanCheckbox>
+					<h:outputText value="" />
+
+					<h:outputText
+						value="#{messageLifeCycle.activity_names_label_replant}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:selectBooleanCheckbox
+						value="#{activityNamesAction.activityNames.replanted}"
+						id="checkReplanted" styleClass="marginCheckbox">
+					</h:selectBooleanCheckbox>
+					<h:outputText value="" />
+
 				</h:panelGrid>
 				<br />
 				<div align="center">

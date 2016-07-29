@@ -75,6 +75,18 @@
 							rendered="#{activityNames.cycle eq true}" />
 					</rich:column>
 
+					<rich:column styleClass="colIconoUno">
+						<f:facet name="header">#{messageLifeCycle.crops_label}</f:facet>
+						<h:graphicImage value="/img/okPermiso_16.png"
+							rendered="#{activityNames.harvest eq true}" />
+					</rich:column>
+
+					<rich:column styleClass="colIconoUno">
+						<f:facet name="header">#{messageLifeCycle.activity_names_label_replant}</f:facet>
+						<h:graphicImage value="/img/okPermiso_16.png"
+							rendered="#{activityNames.replanted eq true}" />
+					</rich:column>
+
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
 							<rich:column colspan="7" styleClass="footTabla">
