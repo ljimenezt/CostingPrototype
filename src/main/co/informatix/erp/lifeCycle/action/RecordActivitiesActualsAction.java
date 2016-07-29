@@ -663,6 +663,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * It copies the fields budget to current fields.
+	 * 
+	 * @modify 29/07/2016 Liseth.Jimenez
 	 */
 	public void budgetCopy() {
 		String param2 = ControladorContexto.getParam("param2");
@@ -670,6 +672,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 				: false;
 		try {
 			if (!fromModal) {
+				SystemProfile systemProfile = systemProfileDao
+						.findSystemProfile();
 				activitiesAndHr.setInitialDateTimeActual(activitiesAndHr
 						.getInitialDateTimeBudget());
 				activitiesAndHr.setFinalDateTimeActual(activitiesAndHr
@@ -679,9 +683,12 @@ public class RecordActivitiesActualsAction implements Serializable {
 				setIdOvertimePaymentsRate(activitiesAndHr
 						.getOvertimePaymentRate().getOvertimepaymentid());
 				double hourCost = activitiesAndHr.getTotalCostBudget();
-				if (activitiesAndHr.getDurationActual() > 8) {
-					hourCost = calculateCostOvertime(activitiesAndHr
-							.getDurationActual());
+				if (systemProfile != null) {
+					if (activitiesAndHr.getDurationActual() > systemProfile
+							.getActivityDefaultDuration()) {
+						hourCost = calculateCostOvertime(activitiesAndHr
+								.getDurationActual());
+					}
 				}
 				activitiesAndHr.setTotalCostActual(hourCost);
 			} else {
@@ -978,17 +985,21 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * It will calculate the length according to the two different dates.
 	 * 
 	 * @modify 27/06/2016 Andres.Gomez
+	 * @modify 29/07/2016 Liseth.Jimenez
 	 */
 	public void calculateCurrentDuration() {
 		try {
+			SystemProfile systemProfile = systemProfileDao.findSystemProfile();
 			double durationActual = subtractDuration(activitiesAndHr, null,
 					true);
 			double hourCost = activitiesAndHr.getActivitiesAndHrPK().getHr()
 					.getHourCost();
 			double totalCost = ControllerAccounting.multiply(durationActual,
 					hourCost);
-			if (durationActual > 8) {
-				totalCost = calculateCostOvertime(durationActual);
+			if (systemProfile != null) {
+				if (durationActual > systemProfile.getActivityDefaultDuration()) {
+					totalCost = calculateCostOvertime(durationActual);
+				}
 			}
 			activitiesAndHr.setDurationActual(durationActual);
 			activitiesAndHr.setTotalCostActual(totalCost);
@@ -1061,17 +1072,24 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * Calculates the cost of HR given the overtimePaymentRate.
+	 * 
+	 * @modify 29/07/2016 Liseth.Jimenez
 	 */
 	public void updateTotalCostByOvertimePaymentRate() {
 		try {
+			SystemProfile systemProfile = systemProfileDao.findSystemProfile();
 			double currentDuration = activitiesAndHr.getDurationActual();
 			double hourCost = activitiesAndHr.getActivitiesAndHrPK().getHr()
 					.getHourCost();
 			double totalCost = ControllerAccounting.multiply(currentDuration,
 					hourCost);
-			if (currentDuration > 8) {
-				totalCost = calculateCostOvertime(currentDuration);
+			if (systemProfile != null) {
+				if (currentDuration > systemProfile
+						.getActivityDefaultDuration()) {
+					totalCost = calculateCostOvertime(currentDuration);
+				}
 			}
+
 			activitiesAndHr.setTotalCostActual(totalCost);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -1098,8 +1116,10 @@ public class RecordActivitiesActualsAction implements Serializable {
 				.getHr().getHourCostOvertime();
 		double overtimeHours = ControllerAccounting.subtract(currentDuration,
 				activitiesAndHr.getNormalHours());
-		double costOvertime = overtimeHours * overtimeHoursCost
-				* overtimePaymentRate.getOvertimeRateRatio();
+		double costOvertime = ControllerAccounting.multiply(overtimeHours,
+				overtimeHoursCost);
+		costOvertime = ControllerAccounting.multiply(costOvertime,
+				overtimePaymentRate.getOvertimeRateRatio());
 		double totalCost = ControllerAccounting.add(costNormal, costOvertime);
 		return totalCost;
 	}
