@@ -36,7 +36,6 @@ import co.informatix.erp.informacionBase.dao.SystemProfileDao;
 import co.informatix.erp.informacionBase.entities.SystemProfile;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
 import co.informatix.erp.lifeCycle.dao.CycleDao;
-import co.informatix.erp.lifeCycle.entities.Cycle;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
@@ -1083,11 +1082,13 @@ public class ActivitiesAndHrAction implements Serializable {
 	private void editCycleHrBudget(double costHrBudget) throws Exception {
 		if (selectedActivity.getCycle() != null) {
 			double costBudgetCycle = costHrBudget;
-			if (selectedActivity.getCycle().getCostHrBudget() != null && selectedActivity.getCycle().getCostHrBudget() > 0) {
+			if (selectedActivity.getCycle().getCostHrBudget() != null
+					&& selectedActivity.getCycle().getCostHrBudget() > 0) {
 				double lastCostBudgetHrActivity = selectedActivity
 						.getCostHrBudget();
 				costBudgetCycle = ControllerAccounting.subtract(
-						selectedActivity.getCycle().getCostHrBudget(), lastCostBudgetHrActivity);
+						selectedActivity.getCycle().getCostHrBudget(),
+						lastCostBudgetHrActivity);
 				costBudgetCycle = ControllerAccounting.add(costBudgetCycle,
 						costHrBudget);
 			}
