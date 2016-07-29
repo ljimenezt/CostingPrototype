@@ -25,6 +25,7 @@ public class ActivityNames implements Serializable {
 	private String activityName;
 	private String description;
 	private Boolean cycle;
+	private Boolean harvest;
 	private boolean selected = false;
 
 	/**
@@ -94,7 +95,23 @@ public class ActivityNames implements Serializable {
 	}
 
 	/**
-	 * @return seleccionado: To validate whether the selected name on a list of
+	 * @return harvest: Its true if the activity name is used for harvest
+	 */
+	@Column(name = "harvest")
+	public Boolean getHarvest() {
+		return harvest;
+	}
+
+	/**
+	 * @param harvest
+	 *            : Its true if the activity name is used for harvest
+	 */
+	public void setHarvest(Boolean harvest) {
+		this.harvest = harvest;
+	}
+
+	/**
+	 * @return selected: To validate whether the selected name on a list of
 	 *         activities, used by the management CycleStandardActivities
 	 */
 	@Transient
@@ -103,7 +120,7 @@ public class ActivityNames implements Serializable {
 	}
 
 	/**
-	 * @param seleccionado
+	 * @param selected
 	 *            : To validate whether the selected name on a list of
 	 *            activities, used by the management CycleStandardActivities
 	 * 
@@ -121,6 +138,7 @@ public class ActivityNames implements Serializable {
 		result = prime * result + ((cycle == null) ? 0 : cycle.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((harvest == null) ? 0 : harvest.hashCode());
 		result = prime * result + idActivityName;
 		return result;
 	}
@@ -149,9 +167,13 @@ public class ActivityNames implements Serializable {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
+		if (harvest == null) {
+			if (other.harvest != null)
+				return false;
+		} else if (!harvest.equals(other.harvest))
+			return false;
 		if (idActivityName != other.idActivityName)
 			return false;
 		return true;
 	}
-
 }
