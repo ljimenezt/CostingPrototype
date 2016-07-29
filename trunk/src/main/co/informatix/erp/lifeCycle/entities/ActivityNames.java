@@ -26,6 +26,7 @@ public class ActivityNames implements Serializable {
 	private String description;
 	private Boolean cycle;
 	private Boolean harvest;
+	private Boolean replanted;
 	private boolean selected = false;
 
 	/**
@@ -111,6 +112,22 @@ public class ActivityNames implements Serializable {
 	}
 
 	/**
+	 * @return replanted: Its true if the activity name is used for replanted
+	 */
+	@Column(name = "replanted")
+	public Boolean getReplanted() {
+		return replanted;
+	}
+
+	/**
+	 * @param replanted
+	 *            : Its true if the activity name is used for replanted
+	 */
+	public void setReplanted(Boolean replanted) {
+		this.replanted = replanted;
+	}
+
+	/**
 	 * @return selected: To validate whether the selected name on a list of
 	 *         activities, used by the management CycleStandardActivities
 	 */
@@ -140,6 +157,8 @@ public class ActivityNames implements Serializable {
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((harvest == null) ? 0 : harvest.hashCode());
 		result = prime * result + idActivityName;
+		result = prime * result
+				+ ((replanted == null) ? 0 : replanted.hashCode());
 		return result;
 	}
 
@@ -174,6 +193,13 @@ public class ActivityNames implements Serializable {
 			return false;
 		if (idActivityName != other.idActivityName)
 			return false;
+		if (replanted == null) {
+			if (other.replanted != null)
+				return false;
+		} else if (!replanted.equals(other.replanted))
+			return false;
 		return true;
 	}
+
+	
 }
