@@ -172,6 +172,7 @@ public class MachineTypesDao implements Serializable {
 	 * Method consulting one machine associated with the machine
 	 * 
 	 * @author Sergio.Ortiz
+	 * 
 	 * @param idMachine
 	 *            : the machine identifier
 	 * @return MachineTypes: Object of the machine types
@@ -191,15 +192,16 @@ public class MachineTypesDao implements Serializable {
 	 * idMachineType sent as parameter
 	 * 
 	 * @author Cristhian.Pico
+	 * 
 	 * @param idMachineType
 	 *            : the machine type identifier
 	 * @return MachineTypes: machine type associated with the identifier
 	 * @throws Exception
 	 */
 	public MachineTypes machineTypeXId(int idMachineType) throws Exception {
-		Query q = em
-				.createQuery(
-						"SELECT mt FROM MachineTypes mt WHERE mt.idMachineType=:idMachineType ")
+		Query q = em.createQuery(
+				"SELECT mt FROM MachineTypes mt "
+						+ " WHERE mt.idMachineType=:idMachineType ")
 				.setParameter("idMachineType", idMachineType);
 		return (MachineTypes) q.getSingleResult();
 	}
