@@ -47,13 +47,16 @@ public class ActivityMaterialsAction implements Serializable {
 	private List<ActivityMaterials> listActivityMaterialsTemp;
 	private List<ActivityMaterials> listActivityMaterials;
 	private List<Materials> materialsList;
+
 	private Activities selectedActivity;
 	private ActivityMaterials activityMaterials;
 	private Materials materialSelected;
 	private Paginador paginationActivityMaterials = new Paginador();
 	private MaterialsAction materialsAction;
+
 	private double quantityEdit;
 	private double costActualEdit;
+
 	private boolean fromModal;
 	private boolean validateMaterial;
 
@@ -542,21 +545,24 @@ public class ActivityMaterialsAction implements Serializable {
 							.getInitialDtBudget());
 					activityMaterialsDao
 							.saveActivityMaterials(activityMaterials);
-					costMaterialsBudget += activityMaterials.getCostBudget();
+					costMaterialsBudget = ControllerAccounting.add(
+							costMaterialsBudget,
+							activityMaterials.getCostBudget());
 				}
 				selectedActivity.setCostMaterialsBudget(ControllerAccounting
 						.add(selectedActivity.getCostMaterialsBudget(),
 								costMaterialsBudget));
-				selectedActivity.setGeneralCostBudget(selectedActivity
-						.getGeneralCostBudget() + costMaterialsBudget);
+				selectedActivity.setGeneralCostBudget(ControllerAccounting.add(
+						selectedActivity.getGeneralCostBudget(),
+						costMaterialsBudget));
 				if (selectedActivity.getCycle() != null) {
 					if (selectedActivity.getCycle().getCostMaterialsBudget() == null) {
 						selectedActivity.getCycle().setCostMaterialsBudget(0.0);
 					}
 					selectedActivity.getCycle().setCostMaterialsBudget(
-							selectedActivity.getCycle()
-									.getCostMaterialsBudget()
-									+ costMaterialsBudget);
+							ControllerAccounting.add(selectedActivity
+									.getCycle().getCostMaterialsBudget(),
+									costMaterialsBudget));
 					cycleDao.editCycle(selectedActivity.getCycle());
 				}
 				activitiesDao.editActivities(this.selectedActivity);

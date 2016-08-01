@@ -380,8 +380,9 @@ public class ActivitiesAndMachineAction implements Serializable {
 							.saveActivitiesAndMachine(activityMachine);
 					if (activityMachine.getConsumablesCostBudget() == null)
 						activityMachine.setConsumablesCostBudget(0.0);
-					costConsumableMachine += activityMachine
-							.getConsumablesCostBudget();
+					costConsumableMachine = ControllerAccounting.add(
+							costConsumableMachine,
+							activityMachine.getConsumablesCostBudget());
 					ControladorContexto.mensajeInformacion(null, MessageFormat
 							.format(bundle.getString(registerMessage),
 									activityMachine.getActivityMachinePK()
@@ -390,8 +391,9 @@ public class ActivitiesAndMachineAction implements Serializable {
 				if (selectedActivity.getCostMachinesEqBudget() == null) {
 					selectedActivity.setCostMachinesEqBudget(0.0);
 				}
-				costConsumableMachine += selectedActivity
-						.getCostMachinesEqBudget();
+				costConsumableMachine = ControllerAccounting.add(
+						costConsumableMachine,
+						selectedActivity.getCostMachinesEqBudget());
 				calculateCostBudgetActivity(costConsumableMachine);
 				editCycleMachineBudget(costConsumableMachine);
 				userTransaction.commit();
