@@ -102,11 +102,12 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private ActivityMaterialsAction activityMaterialsAction;
 	private ActivitiesAction activitiesAction;
 	private OvertimePaymentRate overtimePaymentRate;
-	private Date maxDate;
-	private Date minDate;
 	private ActivityMachine activityMachine;
 	private ActivityMaterials activityMaterial;
 	private Cycle cycle;
+
+	private Date maxDate;
+	private Date minDate;
 
 	/**
 	 * @return idCrop: crop identifier.
