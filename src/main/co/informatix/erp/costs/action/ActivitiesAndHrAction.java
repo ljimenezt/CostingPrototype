@@ -104,6 +104,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	private Paginador pagination = new Paginador();
 	private Paginador paginationWorker = new Paginador();
 	private Paginador paginationActivitiesAndHr = new Paginador();
+
 	private String message;
 	private String messageWorkersAvailability;
 	private String nameSearch;
@@ -1004,7 +1005,6 @@ public class ActivitiesAndHrAction implements Serializable {
 											.getActivityName()));
 				}
 			} else if (!flagTeam) {
-
 				OvertimePaymentRate overtimePaymentRate = overtimePaymentRateDao
 						.overtimePaymentRateXId(idOvertimeRate);
 				Double costNormalHours = ControllerAccounting.multiply(
