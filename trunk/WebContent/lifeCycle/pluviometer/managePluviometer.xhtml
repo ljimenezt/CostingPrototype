@@ -198,7 +198,8 @@
 							label="#{mensaje.label_start_date}"
 							onkeypress="return submitByEnter(event,'formSearch:btnSearch')">
 							<p:ajax process="@form" event="dateSelect"
-								update="formSearch:pnSearch" />
+								update="formSearch:pnSearch"
+								listener="#{pluviometerAction.calculateRangeDate(pluviometerAction.initialDateSearch, true)}" />
 						</p:calendar>
 
 						<h:outputText styleClass="etiquetaTitulo"
@@ -206,7 +207,7 @@
 						<p:calendar value="#{pluviometerAction.finalDateSearch}"
 							styleClass="W104P" showOn="button" navigator="true"
 							mindate="#{pluviometerAction.initialDateSearch}" id="endDate"
-							pattern="MM/dd/yyyy"
+							maxdate="#{pluviometerAction.maxDate}" pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
 							label="#{mensaje.label_end_date}" />
 

@@ -2,7 +2,9 @@ package co.informatix.erp.lifeCycle.action;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -47,10 +49,11 @@ public class PluviometerAction implements Serializable {
 	private PluviometerPojo pluviometerPojo;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
+	private Date maxDate;
 	private List<PluviometerPojo> pluviometerPojoList;
 	private List<PluviometerPojo> pluviometerPojoSubList;
 	private List<Integer> readingList;
-	private boolean flag;
+	private int year;
 
 	/**
 	 * @return pagination: Management paged list of rain gauge readings.
@@ -132,6 +135,21 @@ public class PluviometerAction implements Serializable {
 	}
 
 	/**
+	 * @return maxDate: deadline for consultation.
+	 */
+	public Date getMaxDate() {
+		return maxDate;
+	}
+
+	/**
+	 * @param maxDate
+	 *            : deadline for consultation.
+	 */
+	public void setMaxDate(Date maxDate) {
+		this.maxDate = maxDate;
+	}
+
+	/**
 	 * @return pluviometerPojoList : pluviometerPojo list containing dates
 	 *         introduced grouped by weeks.
 	 */
@@ -193,7 +211,6 @@ public class PluviometerAction implements Serializable {
 		this.finalDateSearch = null;
 		pagination = new Paginador();
 		pluviometerPojo = null;
-		flag = false;
 		return consultPluviometer();
 	}
 
@@ -235,11 +252,10 @@ public class PluviometerAction implements Serializable {
 		String searchMessages = "";
 		try {
 			advancedSearch(consult, parameters, bundle, unionSearchMessages);
-			if (!flag) {
-				flag = true;
-				List<Pluviometer> pluviometerList = pluviometerDao
-						.consultPluviometer(consult, parameters);
-				pluviometerPojoList = new ArrayList<PluviometerPojo>();
+			List<Pluviometer> pluviometerList = pluviometerDao
+					.consultPluviometer(consult, parameters);
+			pluviometerPojoList = new ArrayList<PluviometerPojo>();
+			if (pluviometerList != null) {
 				for (Pluviometer pluviometer : pluviometerList) {
 					Date date = pluviometer.getDateRecord();
 					if (pluviometerPojo == null
@@ -320,57 +336,69 @@ public class PluviometerAction implements Serializable {
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		boolean flag = false;
 
-		if (this.initialDateSearch != null || this.finalDateSearch != null) {
+		consult.append("WHERE p.dateRecord BETWEEN :initialDateSearch AND :finalDateSearch ");
 
-			if (this.initialDateSearch != null && this.finalDateSearch != null) {
-				consult.append("WHERE p.dateRecord BETWEEN :initialDateSearch AND :finalDateSearch ");
-				flag = true;
-			}
-
-			if (this.initialDateSearch != null && this.finalDateSearch == null) {
-				consult.append(flag ? "AND " : "WHERE ");
-				consult.append("p.dateRecord >= :initialDateSearch ");
-				flag = true;
-			}
-			if (this.initialDateSearch == null && this.finalDateSearch != null) {
-				consult.append(flag ? "AND " : "WHERE ");
-				consult.append("p.dateRecord <= :finalDateSearch ");
-			}
-
-			if (this.initialDateSearch != null) {
-				SelectItem item = new SelectItem(
-						ControladorFechas.diaInicialSemana(initialDateSearch),
-						"initialDateSearch");
-				parameters.add(item);
-				Date date = ControladorFechas
-						.diaInicialSemana(initialDateSearch);
-				String dateFrom = bundle.getString("label_start_date")
-						+ ": "
-						+ '"'
-						+ ControladorFechas.formatDate(date,
-								Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"'
-						+ " ";
-				unionMessagesSearch.append(dateFrom);
-			}
-
+		if (this.initialDateSearch != null) {
+			Date date = ControladorFechas.diaInicialSemana(initialDateSearch);
+			SelectItem item = new SelectItem(date, "initialDateSearch");
+			parameters.add(item);
+			String dateFrom = bundle.getString("label_start_date")
+					+ ": "
+					+ '"'
+					+ ControladorFechas.formatDate(date,
+							Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"' + " ";
+			unionMessagesSearch.append(dateFrom);
+		} else {
+			Date date = new Date();
 			if (this.finalDateSearch != null) {
-				SelectItem item2 = new SelectItem(
-						ControladorFechas.diaFinalSemana(finalDateSearch),
-						"finalDateSearch");
-				parameters.add(item2);
-				Date date = ControladorFechas.diaFinalSemana(finalDateSearch);
-				String dateTo = bundle.getString("label_end_date")
-						+ ": "
-						+ '"'
-						+ ControladorFechas.formatDate(date,
-								Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"'
-						+ " ";
-				unionMessagesSearch.append(dateTo);
+				date = ControladorFechas.diaInicialSemana(finalDateSearch);
 			}
-			this.flag = false;
+			date = calculateRangeDate(date, false);
+			SelectItem item = new SelectItem(date, "initialDateSearch");
+			parameters.add(item);
 		}
+		if (this.finalDateSearch != null) {
+			Date date = ControladorFechas.diaFinalSemana(finalDateSearch);
+			year = ControladorFechas.getYear(date);
+			SelectItem item2 = new SelectItem(date, "finalDateSearch");
+			parameters.add(item2);
+			String dateTo = bundle.getString("label_end_date")
+					+ ": "
+					+ '"'
+					+ ControladorFechas.formatDate(date,
+							Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"' + " ";
+			unionMessagesSearch.append(dateTo);
+		} else {
+			SelectItem item2 = new SelectItem(maxDate, "finalDateSearch");
+			parameters.add(item2);
+		}
+	}
+
+	/**
+	 * This method allows calculate the range of the dates.
+	 * 
+	 */
+	public Date calculateRangeDate(Date date, boolean flagDate) {
+		try {
+			Calendar cal = Calendar.getInstance();
+			year = ControladorFechas.getYear(date);
+			cal.set(year, Calendar.JANUARY, Constantes.PLUVIOMETER_MIN_DAY);
+			date = cal.getTime();
+			Date dateFinal = ControladorFechas.sumarDias(date,
+					Constantes.PLUVIOMETER_SUM_DAY);
+			if (ControladorFechas.getNumberWeek(dateFinal) == 1) {
+				dateFinal = ControladorFechas.sumarDias(date,
+						Constantes.PLUVIOMETER_SUM_DAY - 1);
+			}
+			maxDate = ControladorFechas.diaFinalSemana(dateFinal);
+			if (flagDate) {
+				this.finalDateSearch = null;
+			}
+		} catch (ParseException e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return date;
 	}
 
 	/**
@@ -504,7 +532,8 @@ public class PluviometerAction implements Serializable {
 		ReportsController reportsController = ControladorContexto
 				.getContextBean(ReportsController.class);
 		try {
-			reportsController.generateReportPluviometer();
+			reportsController.generateReportPluviometer(pluviometerPojoList,
+					year);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
