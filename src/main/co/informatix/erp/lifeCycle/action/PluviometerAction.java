@@ -378,6 +378,13 @@ public class PluviometerAction implements Serializable {
 	/**
 	 * This method allows calculate the range of the dates.
 	 * 
+	 * @param date
+	 *            : date for the range.
+	 * @param flagDate
+	 *            : this value is true if it is the view and false in other
+	 *            case.
+	 * @return date: date initial.
+	 * 
 	 */
 	public Date calculateRangeDate(Date date, boolean flagDate) {
 		try {

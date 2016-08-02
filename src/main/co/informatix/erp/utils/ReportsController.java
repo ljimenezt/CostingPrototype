@@ -238,6 +238,11 @@ public class ReportsController implements Serializable {
 	 * 
 	 * @author Wilhelm.Boada
 	 * 
+	 * @param pluviometerPojoList
+	 *            :pluviometerPojo list of the report.
+	 * @param year
+	 *            :year of the report.
+	 * 
 	 * @throws Exception
 	 */
 	public void generateReportPluviometer(Object pluviometerPojoList, int year)
