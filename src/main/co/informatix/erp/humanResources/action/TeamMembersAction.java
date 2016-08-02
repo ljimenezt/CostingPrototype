@@ -260,36 +260,13 @@ public class TeamMembersAction implements Serializable {
 	 * 
 	 * @param teamMembers
 	 *            : teamMembers selected.
-	 * @param flag
-	 *            : flag is true if will save the leader and is false is will
-	 *            save the statistician.
 	 * 
 	 */
-	public void saveLeadStatistician(TeamMembers teamMembers, boolean flag) {
+	public void saveLeadStatistician(TeamMembers teamMembers) {
 		try {
 			ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-			for (TeamMembers teamMember : teamMembersList) {
-				int idHr = teamMember.getTeamMembersPK().getHr().getIdHr();
-				if (flag) {
-					if (idHr == teamMembers.getTeamMembersPK().getHr()
-							.getIdHr()
-							&& teamMembers.isLead()) {
-						teamMember.setLead(true);
-					} else {
-						teamMember.setLead(false);
-					}
-				} else {
-					if (idHr == teamMembers.getTeamMembersPK().getHr()
-							.getIdHr()
-							&& teamMembers.isStatistician()) {
-						teamMember.setStatistician(true);
-					} else {
-						teamMember.setStatistician(false);
-					}
-				}
-				teamMembersDao.editTeamMembers(teamMember);
-			}
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+			teamMembersDao.editTeamMembers(teamMembers);
+			ControladorContexto.mensajeInformacion(MessageFormat.format(
 					bundle.getString("message_registro_modificar"), teamMembers
 							.getTeamMembersPK().getHr().getName()
 							+ " "

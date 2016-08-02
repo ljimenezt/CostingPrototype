@@ -47,6 +47,7 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}"
 							value="#{activityMaterialsAction.quantityEdit}">
+							<f:validateDoubleRange minimum="0" />
 							<a:ajax event="change" execute="@this"
 								listener="#{activityMaterialsAction.validateCostActualMaterials()}"
 								render="txtQuantity, costActual" />
@@ -80,7 +81,6 @@
 								<f:ajax resetValues="true" render="txtQuantity costActual" />
 							</a:commandButton>
 							<a:commandButton value="#{mensaje.button_save}"
-								actionListener="#{activityMaterialsAction.validateCost()}"
 								execute="formUpdateActivitiesMaterials"
 								render="formConfirmarMaterial:popUpConfirmarMaterial,formGenerico"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
