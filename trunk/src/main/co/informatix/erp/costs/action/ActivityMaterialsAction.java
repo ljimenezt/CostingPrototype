@@ -645,14 +645,7 @@ public class ActivityMaterialsAction implements Serializable {
 						"formUpdateActivitiesMaterials:txtQuantity",
 						"deposits_message_not_enough_records_in_deposit",
 						"mensajeWarehouse");
-			}
-			if (quantityEdit <= 0) {
-				costActualEdit = 0.0;
-				ControladorContexto.mensajeErrorEspecifico(
-						"formUpdateActivitiesMaterials:txtQuantity",
-						"message_campo_positivo", "mensaje");
-			}
-			if (quantityEdit <= materialQuantity && quantityEdit > 0) {
+			} else {
 				calculateCostActualMaterials();
 			}
 		} catch (Exception e) {

@@ -360,7 +360,8 @@ public class PluviometerAction implements Serializable {
 		}
 		if (this.finalDateSearch != null) {
 			Date date = ControladorFechas.diaFinalSemana(finalDateSearch);
-			year = ControladorFechas.getYear(date);
+			year = ControladorFechas.getYear(ControladorFechas
+					.diaInicialSemana(finalDateSearch));
 			SelectItem item2 = new SelectItem(date, "finalDateSearch");
 			parameters.add(item2);
 			String dateTo = bundle.getString("label_end_date")
