@@ -205,5 +205,7 @@ public class Constantes implements Serializable {
 
 	/* Pluviometer */
 	public static final short PLUVIOMETER_MAX_RANGE = 250;
+	public static final short PLUVIOMETER_MIN_DAY = 4;
+	public static final short PLUVIOMETER_SUM_DAY = 364;
 
 }

@@ -240,9 +240,12 @@ public class ReportsController implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void generateReportPluviometer() throws Exception {
+	public void generateReportPluviometer(Object pluviometerPojoList, int year)
+			throws Exception {
 		String reportName = "pluviometerControl.rptdesign";
 		HashMap<String, Object> mapAttribute = new HashMap<String, Object>();
+		mapAttribute.put("pluviometerPojoList", pluviometerPojoList);
+		mapAttribute.put("year", year);
 		this.reportFormat = Constantes.FORMAT_EXCEL;
 		generateReports(reportName, mapAttribute);
 	}
