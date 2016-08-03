@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.warehouse.entities.Deposits;
 import co.informatix.erp.warehouse.entities.Materials;
 
@@ -311,8 +312,8 @@ public class DepositsDao implements Serializable {
 	 * 
 	 * @param finalDate
 	 *            : Date object to filter the deposits
-	 * @return List<Deposits>:List of Deposits that comply with the condition of
-	 *         validity.
+	 * @return List<Integer>:List of id's of the material that comply with the
+	 *         condition of validity.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Integer> consultIdsMaterialXDepositsByRange(Date finalDate) {
@@ -322,6 +323,101 @@ public class DepositsDao implements Serializable {
 		query.append("WHERE d.dateTime <= :finalDate ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("finalDate", finalDate);
+		List<Integer> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * This method allows consult of the inventory of the materials in deposit.
+	 * This native query, because is information of the report.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param finalDate
+	 *            : Date object to filter the information of the inventory
+	 * @return list of the object with the deposit, material and transaction
+	 *         information.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object[]> consultoInventoryByDepositReport(Date finalDate)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT m.name as material, mt.name as materialtype, ");
+		query.append("		 d.initial_quantity, t.date_time as datetransaction, tt.transactiontype, ");
+		query.append("		 t.quantity, d.actual_quantity, m.idmaterial, ");
+		query.append("CASE WHEN idtransactiontype != :transactiontype THEN t.quantity ELSE 0.0 END as Salida, ");
+		query.append("CASE WHEN idtransactiontype = :transactiontype THEN t.quantity ELSE 0.0 END as Entrada ");
+		query.append("FROM warehouse.materials_types mt, ");
+		query.append("	   warehouse.materials m, ");
+		query.append("	   warehouse.deposits d, ");
+		query.append("	   warehouse.transactions t, ");
+		query.append("	   warehouse.transaction_type tt ");
+		query.append("WHERE m.id_material_type = mt.idmaterialtype ");
+		query.append("AND m.idmaterial = d.id_material ");
+		query.append("AND d.iddeposit = t.id_deposit ");
+		query.append("AND t.id_transaction_type = tt.idtransactiontype ");
+		if (finalDate != null)
+			query.append("AND t.date_time <= :finalDate ");
+		query.append("ORDER BY 1,5 ");
+		Query q = em.createNativeQuery(query.toString());
+		q.setParameter("transactiontype", Constantes.TRANSACTION_TYPE_RETURN);
+		if (finalDate != null)
+			q.setParameter("finalDate", finalDate);
+		return q.getResultList();
+	}
+
+	/**
+	 * Returns the sum of material quantity multiplied by the value of the unit
+	 * cost register in the deposit.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @throws Exception
+	 */
+	public Double sumDeposits(int idMaterial) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT SUM(d.initial_quantity) ");
+		query.append("FROM warehouse.deposits d ");
+		query.append("WHERE d.id_material =:idMaterial ");
+		Query q = em.createNativeQuery(query.toString());
+		q.setParameter("idMaterial", idMaterial);
+		return (Double) q.getSingleResult();
+	}
+
+	/**
+	 * This method allow consult the months of the deposits according to range
+	 * selected by the user
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param finalDate
+	 *            : Date object to filter the deposits
+	 * @return List<String>:List of id's of the material that comply with the
+	 *         condition of validity.
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Integer> consultMonths(Date finalDate) {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT DISTINCT CAST(date_part('month',t.date_time) as int) ");
+		query.append("FROM warehouse.materials m, ");
+		query.append("	   warehouse.deposits d, ");
+		query.append("	   warehouse.transactions t, ");
+		query.append("	   warehouse.transaction_type tt ");
+		query.append("WHERE m.idmaterial = d.id_material ");
+		query.append("AND d.iddeposit = t.id_deposit ");
+		query.append("AND t.id_transaction_type = tt.idtransactiontype ");
+		if (finalDate != null)
+			query.append("AND t.date_time <= :finalDate ");
+		query.append("ORDER BY 1 DESC");
+		Query q = em.createNativeQuery(query.toString());
+		if (finalDate != null)
+			q.setParameter("finalDate", finalDate);
 		List<Integer> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
