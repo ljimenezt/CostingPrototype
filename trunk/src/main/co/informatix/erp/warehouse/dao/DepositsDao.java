@@ -201,12 +201,14 @@ public class DepositsDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT SUM(d.actualQuantity) FROM Deposits d ");
 		query.append("WHERE d.materials.idMaterial=:idMaterial ");
-		if (finalDate != null)
+		if (finalDate != null) {
 			query.append("AND d.dateTime <= :finalDate ");
+		}
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", idMaterial);
-		if (finalDate != null)
+		if (finalDate != null) {
 			q.setParameter("finalDate", finalDate);
+		}
 		return (Double) q.getSingleResult();
 	}
 
@@ -295,12 +297,14 @@ public class DepositsDao implements Serializable {
 		query.append("SELECT SUM(d.actualQuantity * d.unitCost) ");
 		query.append("FROM Deposits d ");
 		query.append("WHERE d.materials.idMaterial=:idMaterial ");
-		if (finalDate != null)
+		if (finalDate != null) {
 			query.append("AND d.dateTime <= :finalDate ");
+		}
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idMaterial", idMaterial);
-		if (finalDate != null)
+		if (finalDate != null) {
 			q.setParameter("finalDate", finalDate);
+		}
 		return (Double) q.getSingleResult();
 	}
 
@@ -360,13 +364,15 @@ public class DepositsDao implements Serializable {
 		query.append("AND m.idmaterial = d.id_material ");
 		query.append("AND d.iddeposit = t.id_deposit ");
 		query.append("AND t.id_transaction_type = tt.idtransactiontype ");
-		if (finalDate != null)
+		if (finalDate != null) {
 			query.append("AND t.date_time <= :finalDate ");
+		}
 		query.append("ORDER BY 1,5 ");
 		Query q = em.createNativeQuery(query.toString());
 		q.setParameter("transactiontype", Constantes.TRANSACTION_TYPE_RETURN);
-		if (finalDate != null)
+		if (finalDate != null) {
 			q.setParameter("finalDate", finalDate);
+		}
 		return q.getResultList();
 	}
 
@@ -412,12 +418,14 @@ public class DepositsDao implements Serializable {
 		query.append("WHERE m.idmaterial = d.id_material ");
 		query.append("AND d.iddeposit = t.id_deposit ");
 		query.append("AND t.id_transaction_type = tt.idtransactiontype ");
-		if (finalDate != null)
+		if (finalDate != null) {
 			query.append("AND t.date_time <= :finalDate ");
+		}
 		query.append("ORDER BY 1 DESC");
 		Query q = em.createNativeQuery(query.toString());
-		if (finalDate != null)
+		if (finalDate != null) {
 			q.setParameter("finalDate", finalDate);
+		}
 		List<Integer> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
