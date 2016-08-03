@@ -3,6 +3,7 @@ package co.informatix.erp.lifeCycle.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -393,10 +394,29 @@ public class InventoryControlAction implements Serializable {
 		ReportsController reportsController = ControladorContexto
 				.getContextBean(ReportsController.class);
 		try {
-			reportsController.generateReportInventoryControl();
+			List<Integer> listMonthsNumber = depositsDao
+					.consultMonths(finalDate);
+			List<Date> listDate = new ArrayList<>();
+			if (listMonthsNumber != null) {
+				for (int month : listMonthsNumber) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.clear();
+					calendar.set(Calendar.MONTH, month - 1);
+					Date date = calendar.getTime();
+					listDate.add(date);
+				}
+			}
+			List<Object[]> listInventory = depositsDao
+					.consultoInventoryByDepositReport(this.finalDate);
+			for (Object[] object : listInventory) {
+				int idMaterial = Integer.parseInt(object[7].toString());
+				Double totalQuantity = depositsDao.sumDeposits(idMaterial);
+				object[2] = totalQuantity;
+			}
+			reportsController.generateReportInventoryControl(listInventory,
+					listDate);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }

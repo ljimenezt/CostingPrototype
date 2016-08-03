@@ -6,8 +6,10 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
@@ -223,11 +225,22 @@ public class ReportsController implements Serializable {
 	 * This method allows to compile the report of Misapplied details with the
 	 * parameters received from the action.
 	 * 
+	 * @param listInventory
+	 *            : Objects list with the values of the report inventory
+	 * @param listMonths
+	 *            : Date list with the value of the month of the inventory
 	 * @throws Exception
 	 */
-	public void generateReportInventoryControl() throws Exception {
+	public void generateReportInventoryControl(List<Object[]> listInventory,
+			List<Date> listMonths) throws Exception {
+		Object[] object = new Object[10];
+		boolean flagColor = true;
 		String reportName = "inventoryControl.rptdesign";
 		HashMap<String, Object> mapAttribute = new HashMap<String, Object>();
+		mapAttribute.put("listInventory", listInventory);
+		mapAttribute.put("object", object);
+		mapAttribute.put("flagColor", flagColor);
+		mapAttribute.put("listMonths", listMonths);
 		this.reportFormat = Constantes.FORMAT_EXCEL;
 		generateReports(reportName, mapAttribute);
 	}

@@ -194,6 +194,7 @@ public class Constantes implements Serializable {
 	/* Transaction type */
 	public static final short TRANSACTION_TYPE_ID_WITHDRAWAL = 3;
 	public static final short TRANSACTION_TYPE_ID_RETURN = 2;
+	public static final int TRANSACTION_TYPE_RETURN = 2;
 
 	/* Files */
 	public static final String EXTENSION_XLSX = ".xlsx";

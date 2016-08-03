@@ -3,56 +3,1013 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
+    <parameters>
+        <scalar-parameter name="flagColor" id="339">
+            <property name="valueType">static</property>
+            <property name="dataType">boolean</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="javascript">flagColor= reportContext.getParameterValue("flagColor");</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">check-box</property>
+            <structure name="format"/>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <script-data-source name="Data Source" id="10"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="DataSetList" id="21">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">material</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">materialType</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">initialQuantity</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">dateTransaction</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">transactionType</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">quantityTransaction</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">actualQuantity</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">idMaterial</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">output</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">income</property>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">material</property>
+                </structure>
+                <structure>
+                    <property name="columnName">materialType</property>
+                </structure>
+                <structure>
+                    <property name="columnName">initialQuantity</property>
+                </structure>
+                <structure>
+                    <property name="columnName">dateTransaction</property>
+                </structure>
+                <structure>
+                    <property name="columnName">transactionType</property>
+                </structure>
+                <structure>
+                    <property name="columnName">quantityTransaction</property>
+                </structure>
+                <structure>
+                    <property name="columnName">actualQuantity</property>
+                </structure>
+                <structure>
+                    <property name="columnName">idMaterial</property>
+                </structure>
+                <structure>
+                    <property name="columnName">output</property>
+                </structure>
+                <structure>
+                    <property name="columnName">income</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">material</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">materialType</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">initialQuantity</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">dateTransaction</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">transactionType</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">quantityTransaction</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">actualQuantity</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">idMaterial</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">output</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">income</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[count = 0;
+
+listInventory= reportContext.getParameterValue("listInventory");
+object = reportContext.getParameterValue("object");
+stock = listInventory;
+]]></method>
+            <method name="fetch"><![CDATA[if (stock.size() > 0){																		 
+	if(count < stock.size()){
+	   object = stock.get(count);						  			
+       row["material"] = object[0];
+       row["materialType"] = object[1];
+       row["initialQuantity"] = object[2];					  
+       row["dateTransaction"] = object[3];       
+       row["transactionType"] = object[4];
+       row["quantityTransaction"] = object[5];
+       row["actualQuantity"] = object[6];
+       row["idMaterial"] = object[7];
+       row["output"] = object[8];
+       row["income"] = object[9];
+       count++;																				  
+       return true;																			  
+	}																						  
+ }																							  
+return false;]]></method>
+        </script-data-set>
+        <script-data-set name="DataSetMonths" id="453">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">month</property>
+                    <property name="dataType">date</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">month</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">month</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="open"><![CDATA[count = 0;
+
+listMonths= reportContext.getParameterValue("listMonths");
+stock = listMonths;]]></method>
+            <method name="fetch"><![CDATA[if (stock.size() > 0){																		 
+	if(count < stock.size()){	
+	
+		row["month"] = stock.get(count);
+	 
+  	 	count++;																				  
+       return true;																			  
+	}																						  
+ }																							  
+return false;]]></method>
+        </script-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="InventoryDataCube" id="93">
+            <property name="dimensions">
+                <tabular-dimension name="Material" id="98">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="99">
+                            <property name="levels">
+                                <tabular-level name="material" id="100">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">material</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Date" id="101">
+                    <property name="isTimeType">false</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="102">
+                            <property name="levels">
+                                <tabular-level name="dateTransaction" id="154">
+                                    <property name="dataType">date</property>
+                                    <property name="columnName">dateTransaction</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="InitialQuantity" id="203">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="204">
+                            <property name="levels">
+                                <tabular-level name="initialQuantity" id="205">
+                                    <property name="dataType">float</property>
+                                    <property name="columnName">initialQuantity</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="MaterialType" id="252">
+                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy3" id="253">
+                            <property name="levels">
+                                <tabular-level name="materialType" id="254">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">materialType</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="104">
+                    <property name="measures">
+                        <tabular-measure name="quantityTransaction" id="105">
+                            <expression name="measureExpression" type="javascript">dataSetRow["quantityTransaction"]</expression>
+                            <property name="dataType">float</property>
+                        </tabular-measure>
+                        <tabular-measure name="actualQuantity" id="280">
+                            <expression name="measureExpression" type="javascript">dataSetRow["actualQuantity"]</expression>
+                            <property name="dataType">float</property>
+                        </tabular-measure>
+                        <tabular-measure name="output" id="290">
+                            <expression name="measureExpression" type="javascript">dataSetRow["output"]</expression>
+                            <property name="dataType">float</property>
+                        </tabular-measure>
+                        <tabular-measure name="income" id="291">
+                            <expression name="measureExpression" type="javascript">dataSetRow["income"]</expression>
+                            <property name="dataType">float</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">DataSetList</property>
+        </tabular-cube>
+    </cubes>
     <styles>
         <style name="report" id="4">
             <property name="fontFamily">sans-serif</property>
             <property name="fontSize">10pt</property>
         </style>
         <style name="crosstab-cell" id="5">
-            <property name="borderBottomColor">#CCCCCC</property>
             <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1pt</property>
-            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderBottomWidth">thin</property>
             <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1pt</property>
-            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderLeftWidth">thin</property>
             <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1pt</property>
-            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderRightWidth">thin</property>
             <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1pt</property>
+            <property name="borderTopWidth">thin</property>
+            <property name="width">50%</property>
         </style>
         <style name="crosstab" id="6">
-            <property name="borderBottomColor">#CCCCCC</property>
-            <property name="borderBottomStyle">solid</property>
             <property name="borderBottomWidth">1pt</property>
-            <property name="borderLeftColor">#CCCCCC</property>
-            <property name="borderLeftStyle">solid</property>
             <property name="borderLeftWidth">1pt</property>
-            <property name="borderRightColor">#CCCCCC</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1pt</property>
-            <property name="borderTopColor">#CCCCCC</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1pt</property>
         </style>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <page-header>
-                <text id="7">
-                    <property name="contentType">auto</property>
-                    <text-property name="content"><![CDATA[INVENTARY CONTROL LANCACAO]]></text-property>
-                </text>
-            </page-header>
-            <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
-            </page-footer>
+            <property name="type">custom</property>
+            <property name="orientation">landscape</property>
+            <property name="height">85in</property>
+            <property name="width">10in</property>
+            <property name="showFooterOnLast">true</property>
         </simple-master-page>
     </page-setup>
+    <body>
+        <list id="465">
+            <property name="display">inline</property>
+            <property name="dataSet">DataSetMonths</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">month</property>
+                    <text-property name="displayName">month</text-property>
+                    <expression name="expression" type="javascript">Formatter.format(dataSetRow["month"],'MMMM')</expression>
+                    <property name="dataType">string</property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <structure name="toc"/>
+            <group id="466">
+                <property name="groupName">NewListGroup1</property>
+                <expression name="keyExpr" type="javascript">row["month"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["month"]</expression>
+                </structure>
+                <property name="hideDetail">true</property>
+                <property name="pageBreakAfter">always</property>
+                <header>
+                    <data id="467">
+                        <property name="backgroundColor">#C4D79B</property>
+                        <property name="fontSize">12pt</property>
+                        <property name="fontWeight">bold</property>
+                        <structure name="stringFormat">
+                            <property name="category">></property>
+                            <property name="pattern">></property>
+                        </structure>
+                        <property name="textAlign">left</property>
+                        <property name="display">inline</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">true</expression>
+                            </structure>
+                        </list-property>
+                        <structure name="toc">
+                            <expression name="expressionValue" type="javascript">reportContext.setPageVariable("pageLabel",BirtStr.toUpper(row["month"]));</expression>
+                        </structure>
+                        <property name="resultSetColumn">month</property>
+                    </data>
+                    <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="201">
+                        <property name="cube">InventoryDataCube</property>
+                        <property name="measures">
+                            <extended-item extensionName="MeasureView" id="292">
+                                <property name="measure">output</property>
+                                <property name="detail">
+                                    <extended-item extensionName="AggregationCell" id="293">
+                                        <property name="aggregationOnRow">InitialQuantity/initialQuantity</property>
+                                        <property name="aggregationOnColumn">Date/dateTransaction</property>
+                                        <property name="backgroundColor">#B7DEE8</property>
+                                        <list-property name="highlightRules">
+                                            <structure>
+                                                <property name="operator">is-true</property>
+                                                <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
+params["flagColor"].value = false;&#13;
+false;&#13;
+}else{&#13;
+params["flagColor"].value = true;&#13;
+true;&#13;
+}</expression>
+                                                <property name="backgroundColor">#F2DCDB</property>
+                                            </structure>
+                                        </list-property>
+                                        <property name="width">0.5208333333333334in</property>
+                                        <property name="content">
+                                            <data id="294">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <structure name="dateTimeFormat">
+                                                    <property name="category">Unformatted</property>
+                                                </structure>
+                                                <property name="resultSetColumn">output_InitialQuantity/initialQuantity_Date/dateTransaction</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="header">
+                                    <extended-item extensionName="CrosstabCell" id="295">
+                                        <property name="content">
+                                            <label id="296">
+                                                <property name="fontWeight">bold</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <property name="textAlign">center</property>
+                                                <text-property name="text">Output</text-property>
+                                            </label>
+                                        </property>
+                                        <property name="backgroundColor">#B7DEE8</property>
+                                        <list-property name="highlightRules">
+                                            <structure>
+                                                <property name="operator">is-false</property>
+                                                <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
+params["flagColor"].value = false;&#13;
+false;&#13;
+}else{&#13;
+params["flagColor"].value = true;&#13;
+true;&#13;
+}</expression>
+                                                <property name="backgroundColor">#F2DCDB</property>
+                                            </structure>
+                                        </list-property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="MeasureView" id="297">
+                                <property name="measure">income</property>
+                                <property name="detail">
+                                    <extended-item extensionName="AggregationCell" id="298">
+                                        <property name="aggregationOnRow">InitialQuantity/initialQuantity</property>
+                                        <property name="aggregationOnColumn">Date/dateTransaction</property>
+                                        <property name="backgroundColor">#B7DEE8</property>
+                                        <list-property name="highlightRules">
+                                            <structure>
+                                                <property name="operator">is-false</property>
+                                                <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
+params["flagColor"].value = false;&#13;
+false;&#13;
+}else{&#13;
+params["flagColor"].value = true;&#13;
+true;&#13;
+}</expression>
+                                                <property name="backgroundColor">#F2DCDB</property>
+                                            </structure>
+                                        </list-property>
+                                        <property name="width">0.5416666666666666in</property>
+                                        <property name="content">
+                                            <data id="299">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <property name="resultSetColumn">income_InitialQuantity/initialQuantity_Date/dateTransaction</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="header">
+                                    <extended-item extensionName="CrosstabCell" id="300">
+                                        <property name="content">
+                                            <label id="301">
+                                                <property name="fontWeight">bold</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <property name="textAlign">center</property>
+                                                <text-property name="text">Income</text-property>
+                                            </label>
+                                        </property>
+                                        <property name="backgroundColor">#B7DEE8</property>
+                                        <list-property name="highlightRules">
+                                            <structure>
+                                                <property name="operator">is-true</property>
+                                                <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
+params["flagColor"].value = false;&#13;
+false;&#13;
+}else{&#13;
+params["flagColor"].value = true;&#13;
+true;&#13;
+}</expression>
+                                                <property name="backgroundColor">#F2DCDB</property>
+                                            </structure>
+                                        </list-property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                            <extended-item extensionName="MeasureView" id="281">
+                                <property name="measure">actualQuantity</property>
+                                <property name="detail">
+                                    <extended-item extensionName="AggregationCell" id="282">
+                                        <property name="aggregationOnRow">InitialQuantity/initialQuantity</property>
+                                        <property name="aggregationOnColumn">Date/dateTransaction</property>
+                                        <property name="backgroundColor">#B7DEE8</property>
+                                        <list-property name="highlightRules">
+                                            <structure>
+                                                <property name="operator">is-true</property>
+                                                <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
+params["flagColor"].value = false;&#13;
+false;&#13;
+}else{&#13;
+params["flagColor"].value = true;&#13;
+true;&#13;
+}</expression>
+                                                <property name="backgroundColor">#F2DCDB</property>
+                                            </structure>
+                                        </list-property>
+                                        <property name="width">0.5208333333333334in</property>
+                                        <property name="content">
+                                            <data id="283">
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <property name="resultSetColumn">actualQuantity_InitialQuantity/initialQuantity_Date/dateTransaction</property>
+                                            </data>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                                <property name="header">
+                                    <extended-item extensionName="CrosstabCell" id="284">
+                                        <property name="content">
+                                            <label id="285">
+                                                <property name="fontWeight">bold</property>
+                                                <property name="borderBottomColor">#000000</property>
+                                                <property name="borderBottomStyle">solid</property>
+                                                <property name="borderBottomWidth">thin</property>
+                                                <property name="borderLeftColor">#000000</property>
+                                                <property name="borderLeftStyle">solid</property>
+                                                <property name="borderLeftWidth">thin</property>
+                                                <property name="borderRightColor">#000000</property>
+                                                <property name="borderRightStyle">solid</property>
+                                                <property name="borderRightWidth">thin</property>
+                                                <property name="borderTopColor">#000000</property>
+                                                <property name="borderTopStyle">solid</property>
+                                                <property name="borderTopWidth">thin</property>
+                                                <property name="textAlign">center</property>
+                                                <text-property name="text">Stock</text-property>
+                                            </label>
+                                        </property>
+                                        <property name="backgroundColor">#B7DEE8</property>
+                                        <list-property name="highlightRules">
+                                            <structure>
+                                                <property name="operator">is-false</property>
+                                                <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
+params["flagColor"].value = false;&#13;
+false;&#13;
+}else{&#13;
+params["flagColor"].value = true;&#13;
+true;&#13;
+}</expression>
+                                                <property name="backgroundColor">#F2DCDB</property>
+                                            </structure>
+                                        </list-property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="rows">
+                            <extended-item extensionName="CrosstabView" id="224">
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="273">
+                                        <property name="dimension">MaterialType</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View" id="274">
+                                                <property name="level">MaterialType/materialType</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="275">
+                                                        <property name="content">
+                                                            <data name="materialType" id="278">
+                                                                <property name="borderBottomColor">#000000</property>
+                                                                <property name="borderBottomStyle">solid</property>
+                                                                <property name="borderBottomWidth">thin</property>
+                                                                <property name="borderLeftColor">#000000</property>
+                                                                <property name="borderLeftStyle">solid</property>
+                                                                <property name="borderLeftWidth">thin</property>
+                                                                <property name="borderRightColor">#000000</property>
+                                                                <property name="borderRightStyle">solid</property>
+                                                                <property name="borderRightWidth">thin</property>
+                                                                <property name="borderTopColor">#000000</property>
+                                                                <property name="borderTopStyle">solid</property>
+                                                                <property name="borderTopWidth">thin</property>
+                                                                <property name="resultSetColumn">materialType</property>
+                                                            </data>
+                                                        </property>
+                                                        <property name="width">2.3958333333333335in</property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                    <extended-item extensionName="DimensionView" id="230">
+                                        <property name="dimension">Material</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View3" id="231">
+                                                <property name="level">Material/material</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="232">
+                                                        <property name="content">
+                                                            <data name="material1" id="234">
+                                                                <property name="borderBottomColor">#000000</property>
+                                                                <property name="borderBottomStyle">solid</property>
+                                                                <property name="borderBottomWidth">thin</property>
+                                                                <property name="borderLeftColor">#000000</property>
+                                                                <property name="borderLeftStyle">solid</property>
+                                                                <property name="borderLeftWidth">thin</property>
+                                                                <property name="borderRightColor">#000000</property>
+                                                                <property name="borderRightStyle">solid</property>
+                                                                <property name="borderRightWidth">thin</property>
+                                                                <property name="borderTopColor">#000000</property>
+                                                                <property name="borderTopStyle">solid</property>
+                                                                <property name="borderTopWidth">thin</property>
+                                                                <property name="resultSetColumn">material</property>
+                                                            </data>
+                                                        </property>
+                                                        <property name="width">1.5833333333333333in</property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                    <extended-item extensionName="DimensionView" id="225">
+                                        <property name="dimension">InitialQuantity</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View2" id="226">
+                                                <property name="level">InitialQuantity/initialQuantity</property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="227">
+                                                        <property name="content">
+                                                            <data name="initialQuantity" id="228">
+                                                                <property name="borderBottomColor">#000000</property>
+                                                                <property name="borderBottomStyle">solid</property>
+                                                                <property name="borderBottomWidth">thin</property>
+                                                                <property name="borderLeftColor">#000000</property>
+                                                                <property name="borderLeftStyle">solid</property>
+                                                                <property name="borderLeftWidth">thin</property>
+                                                                <property name="borderRightColor">#000000</property>
+                                                                <property name="borderRightStyle">solid</property>
+                                                                <property name="borderRightWidth">thin</property>
+                                                                <property name="borderTopColor">#000000</property>
+                                                                <property name="borderTopStyle">solid</property>
+                                                                <property name="borderTopWidth">thin</property>
+                                                                <property name="resultSetColumn">initialQuantity</property>
+                                                            </data>
+                                                        </property>
+                                                        <property name="backgroundColor">#F2DCDB</property>
+                                                        <list-property name="highlightRules">
+                                                            <structure>
+                                                                <property name="operator">is-true</property>
+                                                                <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
+params["flagColor"].value = true;;&#13;
+true;;&#13;
+}else{&#13;
+params["flagColor"].value = true;&#13;
+true;&#13;
+}</expression>
+                                                            </structure>
+                                                        </list-property>
+                                                        <property name="width">0.9166666666666666in</property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="columns">
+                            <extended-item extensionName="CrosstabView" id="236">
+                                <property name="views">
+                                    <extended-item extensionName="DimensionView" id="237">
+                                        <property name="dimension">Date</property>
+                                        <property name="levels">
+                                            <extended-item extensionName="LevelView" name="NewLevel View4" id="238">
+                                                <property name="level">Date/dateTransaction</property>
+                                                <property name="filter">
+                                                    <filter-condition-element>
+                                                        <expression name="expr" type="javascript">Formatter.format(data["dateTransaction"],'MMMM')</expression>
+                                                        <property name="operator">like</property>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">row._outer["month"]</value>
+                                                        </simple-property-list>
+                                                        <property name="updateAggregation">true</property>
+                                                    </filter-condition-element>
+                                                </property>
+                                                <property name="member">
+                                                    <extended-item extensionName="CrosstabCell" id="239">
+                                                        <property name="content">
+                                                            <data name="dateTransaction1" id="240">
+                                                                <property name="fontWeight">bold</property>
+                                                                <property name="borderBottomColor">#000000</property>
+                                                                <property name="borderBottomStyle">solid</property>
+                                                                <property name="borderBottomWidth">thin</property>
+                                                                <property name="borderLeftColor">#000000</property>
+                                                                <property name="borderLeftStyle">solid</property>
+                                                                <property name="borderLeftWidth">thin</property>
+                                                                <property name="borderRightColor">#000000</property>
+                                                                <property name="borderRightStyle">solid</property>
+                                                                <property name="borderRightWidth">thin</property>
+                                                                <property name="borderTopColor">#000000</property>
+                                                                <property name="borderTopStyle">solid</property>
+                                                                <property name="borderTopWidth">thin</property>
+                                                                <property name="marginTop">4pt</property>
+                                                                <structure name="dateTimeFormat">
+                                                                    <property name="category">Custom</property>
+                                                                    <property name="pattern">dd-MMMM</property>
+                                                                </structure>
+                                                                <property name="textAlign">center</property>
+                                                                <property name="resultSetColumn">dateTransaction</property>
+                                                            </data>
+                                                        </property>
+                                                        <property name="backgroundAttachment">fixed</property>
+                                                        <property name="backgroundColor">#B7DEE8</property>
+                                                        <property name="backgroundRepeat">no-repeat</property>
+                                                        <list-property name="highlightRules">
+                                                            <structure>
+                                                                <property name="operator">is-true</property>
+                                                                <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
+params["flagColor"].value = false;&#13;
+false;&#13;
+}else{&#13;
+params["flagColor"].value = true;&#13;
+true;&#13;
+}</expression>
+                                                                <property name="backgroundColor">#F2DCDB</property>
+                                                            </structure>
+                                                        </list-property>
+                                                        <property name="height">0.3645833333333333in</property>
+                                                    </extended-item>
+                                                </property>
+                                            </extended-item>
+                                        </property>
+                                    </extended-item>
+                                </property>
+                            </extended-item>
+                        </property>
+                        <property name="header">
+                            <extended-item extensionName="CrosstabCell" id="286">
+                                <property name="content">
+                                    <text id="337">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="textUnderline">none</property>
+                                        <property name="marginTop">4pt</property>
+                                        <property name="textAlign">right</property>
+                                        <property name="display">block</property>
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[INVENTORY CONTROL LANCACAO]]></text-property>
+                                    </text>
+                                </property>
+                                <property name="backgroundColor">#C4D79B</property>
+                                <property name="borderRightStyle">solid</property>
+                                <property name="borderRightWidth">medium</property>
+                                <property name="borderRightColor">#C4D79B</property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="287">
+                                <property name="content">
+                                    <text-data id="477">
+                                        <property name="fontSize">12pt</property>
+                                        <property name="fontWeight">bold</property>
+                                        <expression name="valueExpr">BirtStr.toUpper(row._outer["month"])</expression>
+                                        <property name="contentType">html</property>
+                                    </text-data>
+                                </property>
+                                <property name="backgroundColor">#C4D79B</property>
+                                <property name="whiteSpace">nowrap</property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="288">
+                                <property name="content">
+                                    <text id="311">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="marginTop">4pt</property>
+                                        <property name="textAlign">right</property>
+                                        <property name="contentType">auto</property>
+                                        <text-property name="content"><![CDATA[Date:]]></text-property>
+                                    </text>
+                                </property>
+                                <property name="backgroundColor">#B8CCE4</property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="276">
+                                <property name="content">
+                                    <label id="279">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">thin</property>
+                                        <property name="borderLeftColor">#000000</property>
+                                        <property name="borderLeftStyle">solid</property>
+                                        <property name="borderLeftWidth">thin</property>
+                                        <property name="borderRightColor">#000000</property>
+                                        <property name="borderRightStyle">solid</property>
+                                        <property name="borderRightWidth">thin</property>
+                                        <property name="borderTopColor">#000000</property>
+                                        <property name="borderTopStyle">solid</property>
+                                        <property name="borderTopWidth">thin</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Material Type</text-property>
+                                    </label>
+                                </property>
+                                <property name="backgroundColor">#EBFFDE</property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="233">
+                                <property name="content">
+                                    <label id="235">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">thin</property>
+                                        <property name="borderLeftColor">#000000</property>
+                                        <property name="borderLeftStyle">solid</property>
+                                        <property name="borderLeftWidth">thin</property>
+                                        <property name="borderRightColor">#000000</property>
+                                        <property name="borderRightStyle">solid</property>
+                                        <property name="borderRightWidth">thin</property>
+                                        <property name="borderTopColor">#000000</property>
+                                        <property name="borderTopStyle">solid</property>
+                                        <property name="borderTopWidth">thin</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Material</text-property>
+                                    </label>
+                                </property>
+                                <property name="backgroundColor">#EBFFDE</property>
+                            </extended-item>
+                            <extended-item extensionName="CrosstabCell" id="202">
+                                <property name="content">
+                                    <label id="249">
+                                        <property name="fontWeight">bold</property>
+                                        <property name="borderBottomColor">#000000</property>
+                                        <property name="borderBottomStyle">solid</property>
+                                        <property name="borderBottomWidth">thin</property>
+                                        <property name="borderLeftColor">#000000</property>
+                                        <property name="borderLeftStyle">solid</property>
+                                        <property name="borderLeftWidth">thin</property>
+                                        <property name="borderRightColor">#000000</property>
+                                        <property name="borderRightStyle">solid</property>
+                                        <property name="borderRightWidth">thin</property>
+                                        <property name="borderTopColor">#000000</property>
+                                        <property name="borderTopStyle">solid</property>
+                                        <property name="borderTopWidth">thin</property>
+                                        <property name="textAlign">center</property>
+                                        <text-property name="text">Stock inicial</text-property>
+                                    </label>
+                                </property>
+                                <property name="backgroundColor">#DCE6F1</property>
+                            </extended-item>
+                        </property>
+                        <property name="repeatRowHeader">true</property>
+                        <property name="display">inline</property>
+                        <property name="pageBreakBefore">auto</property>
+                        <property name="pageBreakAfter">always</property>
+                        <property name="pageBreakInside">avoid</property>
+                        <structure name="toc"/>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">initialQuantity</property>
+                                <expression name="expression">dimension["InitialQuantity"]["initialQuantity"]</expression>
+                                <property name="dataType">float</property>
+                            </structure>
+                            <structure>
+                                <property name="name">material</property>
+                                <expression name="expression">dimension["Material"]["material"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">dateTransaction</property>
+                                <expression name="expression">dimension["Date"]["dateTransaction"]</expression>
+                                <property name="dataType">date</property>
+                            </structure>
+                            <structure>
+                                <property name="name">quantityTransaction_InitialQuantity/initialQuantity_Date/dateTransaction</property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>Material/material</value>
+                                    <value>Date/dateTransaction</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">measure["quantityTransaction"]</expression>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">materialType</property>
+                                <expression name="expression">dimension["MaterialType"]["materialType"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">actualQuantity_InitialQuantity/initialQuantity_Date/dateTransaction</property>
+                                <expression name="expression">measure["actualQuantity"]</expression>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>InitialQuantity/initialQuantity</value>
+                                    <value>Date/dateTransaction</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">output_InitialQuantity/initialQuantity_Date/dateTransaction</property>
+                                <expression name="expression">measure["output"]</expression>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>InitialQuantity/initialQuantity</value>
+                                    <value>Date/dateTransaction</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">income_InitialQuantity/initialQuantity_Date/dateTransaction</property>
+                                <expression name="expression">measure["income"]</expression>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>InitialQuantity/initialQuantity</value>
+                                    <value>Date/dateTransaction</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">SUM</property>
+                            </structure>
+                            <structure>
+                                <property name="name">groupRow</property>
+                                <property name="dataType">integer</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>Date/dateTransaction</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">COUNT</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                    </structure>
+                                </list-property>
+                            </structure>
+                            <structure>
+                                <property name="name">actualQuantity_InitialQuantity/initialQuantity</property>
+                                <expression name="expression">measure["actualQuantity"]</expression>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>InitialQuantity/initialQuantity</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">sum</property>
+                            </structure>
+                        </list-property>
+                    </extended-item>
+                </header>
+            </group>
+        </list>
+    </body>
 </report>
