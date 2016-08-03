@@ -408,11 +408,26 @@ public class InventoryControlAction implements Serializable {
 			}
 			List<Object[]> listInventory = depositsDao
 					.consultoInventoryByDepositReport(this.finalDate);
+			int count = 0;
+			Double actualQuantity = 0d;
+			int idMaterialAux = 0;
 			for (Object[] object : listInventory) {
 				int idMaterial = Integer.parseInt(object[7].toString());
 				Double totalQuantity = depositsDao.sumDeposits(idMaterial);
 				object[2] = totalQuantity;
+				count = idMaterialAux == idMaterial ? count : 0;
+				if (count == 0) {
+					actualQuantity = (Double) object[2];
+					idMaterialAux = idMaterial;
+				}
+				Double income = (Double) object[8];
+				actualQuantity -= income;
+				Double outcome = (Double) object[9];
+				actualQuantity += outcome;
+				object[6] = actualQuantity;
+				count++;
 			}
+
 			reportsController.generateReportInventoryControl(listInventory,
 					listDate);
 		} catch (Exception e) {

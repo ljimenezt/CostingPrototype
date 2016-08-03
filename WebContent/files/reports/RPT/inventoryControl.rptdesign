@@ -19,6 +19,20 @@
             <property name="controlType">check-box</property>
             <structure name="format"/>
         </scalar-parameter>
+        <scalar-parameter name="count" id="482">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="constant">0</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <script-data-source name="Data Source" id="10"/>
@@ -336,7 +350,7 @@ return false;]]></method>
             <property name="type">custom</property>
             <property name="orientation">landscape</property>
             <property name="height">85in</property>
-            <property name="width">10in</property>
+            <property name="width">20in</property>
             <property name="showFooterOnLast">true</property>
         </simple-master-page>
     </page-setup>
@@ -407,7 +421,7 @@ true;&#13;
                                                 <property name="backgroundColor">#F2DCDB</property>
                                             </structure>
                                         </list-property>
-                                        <property name="width">0.5208333333333334in</property>
+                                        <property name="width">0.3125in</property>
                                         <property name="content">
                                             <data id="294">
                                                 <property name="borderBottomColor">#000000</property>
@@ -448,19 +462,26 @@ true;&#13;
                                                 <property name="borderTopStyle">solid</property>
                                                 <property name="borderTopWidth">thin</property>
                                                 <property name="textAlign">center</property>
-                                                <text-property name="text">Output</text-property>
+                                                <text-property name="text">Out</text-property>
                                             </label>
                                         </property>
                                         <property name="backgroundColor">#B7DEE8</property>
+                                        <property name="textAlign">center</property>
                                         <list-property name="highlightRules">
                                             <structure>
                                                 <property name="operator">is-false</property>
-                                                <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
-params["flagColor"].value = false;&#13;
-false;&#13;
-}else{&#13;
-params["flagColor"].value = true;&#13;
-true;&#13;
+                                                <expression name="testExpr" type="javascript">if	(params["count"].value != 0)	{&#13;
+	if	(params["flagColor"].value == true)	{&#13;
+		params["flagColor"].value = false;&#13;
+		false;&#13;
+	}else	{&#13;
+		params["flagColor"].value = true;&#13;
+		true;&#13;
+	}&#13;
+}else	{&#13;
+	params["flagColor"].value = true;&#13;
+	true;&#13;
+	params["count"].value++;&#13;
 }</expression>
                                                 <property name="backgroundColor">#F2DCDB</property>
                                             </structure>
@@ -488,7 +509,7 @@ true;&#13;
                                                 <property name="backgroundColor">#F2DCDB</property>
                                             </structure>
                                         </list-property>
-                                        <property name="width">0.5416666666666666in</property>
+                                        <property name="width">0.3125in</property>
                                         <property name="content">
                                             <data id="299">
                                                 <property name="borderBottomColor">#000000</property>
@@ -526,10 +547,11 @@ true;&#13;
                                                 <property name="borderTopStyle">solid</property>
                                                 <property name="borderTopWidth">thin</property>
                                                 <property name="textAlign">center</property>
-                                                <text-property name="text">Income</text-property>
+                                                <text-property name="text">In</text-property>
                                             </label>
                                         </property>
                                         <property name="backgroundColor">#B7DEE8</property>
+                                        <property name="textAlign">center</property>
                                         <list-property name="highlightRules">
                                             <structure>
                                                 <property name="operator">is-true</property>
@@ -566,7 +588,7 @@ true;&#13;
                                                 <property name="backgroundColor">#F2DCDB</property>
                                             </structure>
                                         </list-property>
-                                        <property name="width">0.5208333333333334in</property>
+                                        <property name="width">0.4166666666666667in</property>
                                         <property name="content">
                                             <data id="283">
                                                 <property name="borderBottomColor">#000000</property>
@@ -608,6 +630,7 @@ true;&#13;
                                             </label>
                                         </property>
                                         <property name="backgroundColor">#B7DEE8</property>
+                                        <property name="textAlign">center</property>
                                         <list-property name="highlightRules">
                                             <structure>
                                                 <property name="operator">is-false</property>
@@ -682,7 +705,7 @@ true;&#13;
                                                                 <property name="resultSetColumn">material</property>
                                                             </data>
                                                         </property>
-                                                        <property name="width">1.5833333333333333in</property>
+                                                        <property name="width">2.375in</property>
                                                     </extended-item>
                                                 </property>
                                             </extended-item>
@@ -717,15 +740,15 @@ true;&#13;
                                                             <structure>
                                                                 <property name="operator">is-true</property>
                                                                 <expression name="testExpr" type="javascript">if(params["flagColor"].value == true){&#13;
-params["flagColor"].value = true;;&#13;
-true;;&#13;
+params["flagColor"].value = true;&#13;
+true;&#13;
 }else{&#13;
 params["flagColor"].value = true;&#13;
 true;&#13;
 }</expression>
                                                             </structure>
                                                         </list-property>
-                                                        <property name="width">0.9166666666666666in</property>
+                                                        <property name="width">0.9270833333333334in</property>
                                                     </extended-item>
                                                 </property>
                                             </extended-item>
@@ -910,6 +933,24 @@ true;&#13;
                                     </label>
                                 </property>
                                 <property name="backgroundColor">#DCE6F1</property>
+                                <list-property name="highlightRules">
+                                    <structure>
+                                        <property name="operator">is-true</property>
+                                        <expression name="testExpr" type="javascript">if	(params["count"].value != 0)	{&#13;
+	if	(params["flagColor"].value == true)	{&#13;
+		params["flagColor"].value = false;&#13;
+		false;&#13;
+	}else	{&#13;
+		params["flagColor"].value = true;&#13;
+		true;&#13;
+	}&#13;
+}else	{&#13;
+	params["flagColor"].value = false;&#13;
+	false;&#13;
+	params["count"].value++;&#13;
+}</expression>
+                                    </structure>
+                                </list-property>
                             </extended-item>
                         </property>
                         <property name="repeatRowHeader">true</property>
@@ -1012,4 +1053,10 @@ true;&#13;
             </group>
         </list>
     </body>
+    <property name="pageVariables">
+        <variable-element name="count">
+            <expression name="value" type="javascript">0</expression>
+            <property name="type">page</property>
+        </variable-element>
+    </property>
 </report>
