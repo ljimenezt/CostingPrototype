@@ -350,7 +350,7 @@ return false;]]></method>
             <property name="type">custom</property>
             <property name="orientation">landscape</property>
             <property name="height">85in</property>
-            <property name="width">30in</property>
+            <property name="width">20in</property>
             <property name="showFooterOnLast">true</property>
         </simple-master-page>
     </page-setup>
