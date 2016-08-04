@@ -367,7 +367,7 @@ public class DepositsDao implements Serializable {
 		if (finalDate != null) {
 			query.append("AND t.date_time <= :finalDate ");
 		}
-		query.append("ORDER BY 1,5 ");
+		query.append("ORDER BY 1,4 ");
 		Query q = em.createNativeQuery(query.toString());
 		q.setParameter("transactiontype", Constantes.TRANSACTION_TYPE_RETURN);
 		if (finalDate != null) {

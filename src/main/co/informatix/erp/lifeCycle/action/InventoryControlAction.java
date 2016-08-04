@@ -411,23 +411,38 @@ public class InventoryControlAction implements Serializable {
 			int count = 0;
 			Double actualQuantity = 0d;
 			int idMaterialAux = 0;
+			String dateAux = "";
+			Double valueQuantity = 0d;
 			for (Object[] object : listInventory) {
 				int idMaterial = Integer.parseInt(object[7].toString());
 				Double totalQuantity = depositsDao.sumDeposits(idMaterial);
 				object[2] = totalQuantity;
+				String dateTransaction = ControladorFechas.formatDate(
+						(Date) object[3],
+						Constantes.DATE_FORMAT_MESSAGE_MMDDYYYY);
 				count = idMaterialAux == idMaterial ? count : 0;
+				boolean eqDate = dateTransaction.contains(dateAux)
+						&& count != 0 ? true : false;
 				if (count == 0) {
 					actualQuantity = (Double) object[2];
 					idMaterialAux = idMaterial;
+					valueQuantity = 0d;
 				}
+				dateAux = dateTransaction;
 				Double income = (Double) object[8];
-				actualQuantity -= income;
 				Double outcome = (Double) object[9];
-				actualQuantity += outcome;
-				object[6] = actualQuantity;
+				if (!eqDate) {
+					actualQuantity -= income;
+					actualQuantity += outcome;
+					object[6] = actualQuantity;
+				} else {
+					valueQuantity -= income;
+					valueQuantity += outcome;
+					object[6] = valueQuantity;
+					actualQuantity += valueQuantity;
+				}
 				count++;
 			}
-
 			reportsController.generateReportInventoryControl(listInventory,
 					listDate);
 		} catch (Exception e) {
