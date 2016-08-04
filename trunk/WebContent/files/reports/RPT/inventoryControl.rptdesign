@@ -350,7 +350,7 @@ return false;]]></method>
             <property name="type">custom</property>
             <property name="orientation">landscape</property>
             <property name="height">85in</property>
-            <property name="width">20in</property>
+            <property name="width">30in</property>
             <property name="showFooterOnLast">true</property>
         </simple-master-page>
     </page-setup>
@@ -370,6 +370,7 @@ return false;]]></method>
             <structure name="toc"/>
             <group id="466">
                 <property name="groupName">NewListGroup1</property>
+                <property name="sortDirection">desc</property>
                 <expression name="keyExpr" type="javascript">row["month"]</expression>
                 <structure name="toc">
                     <expression name="expressionValue" type="javascript">row["month"]</expression>
@@ -470,18 +471,12 @@ true;&#13;
                                         <list-property name="highlightRules">
                                             <structure>
                                                 <property name="operator">is-false</property>
-                                                <expression name="testExpr" type="javascript">if	(params["count"].value != 0)	{&#13;
-	if	(params["flagColor"].value == true)	{&#13;
-		params["flagColor"].value = false;&#13;
-		false;&#13;
-	}else	{&#13;
-		params["flagColor"].value = true;&#13;
-		true;&#13;
-	}&#13;
+                                                <expression name="testExpr" type="javascript">if	(params["flagColor"].value == true)	{&#13;
+	params["flagColor"].value = false;&#13;
+	false;&#13;
 }else	{&#13;
 	params["flagColor"].value = true;&#13;
 	true;&#13;
-	params["count"].value++;&#13;
 }</expression>
                                                 <property name="backgroundColor">#F2DCDB</property>
                                             </structure>
@@ -936,19 +931,8 @@ true;&#13;
                                 <list-property name="highlightRules">
                                     <structure>
                                         <property name="operator">is-true</property>
-                                        <expression name="testExpr" type="javascript">if	(params["count"].value != 0)	{&#13;
-	if	(params["flagColor"].value == true)	{&#13;
-		params["flagColor"].value = false;&#13;
-		false;&#13;
-	}else	{&#13;
-		params["flagColor"].value = true;&#13;
-		true;&#13;
-	}&#13;
-}else	{&#13;
-	params["flagColor"].value = false;&#13;
-	false;&#13;
-	params["count"].value++;&#13;
-}</expression>
+                                        <expression name="testExpr" type="javascript">params["flagColor"].value = false;&#13;
+false;</expression>
                                     </structure>
                                 </list-property>
                             </extended-item>
