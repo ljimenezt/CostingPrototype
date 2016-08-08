@@ -82,7 +82,7 @@
 						<h:selectBooleanCheckbox value="#{teamMembers.lead}"
 							styleClass="marginCheckbox">
 							<a:ajax event="click"
-								listener="#{teamMembersAction.saveLeadStatistician(teamMembers)}"
+								listener="#{teamMembersAction.saveLeadStatistician(teamMembers, true)}"
 								render="pnlTeamMembers, mensajes, mensajeBusqueda" />
 						</h:selectBooleanCheckbox>
 					</rich:column>
@@ -91,7 +91,7 @@
 						<h:selectBooleanCheckbox value="#{teamMembers.statistician}"
 							styleClass="marginCheckbox">
 							<a:ajax event="click"
-								listener="#{teamMembersAction.saveLeadStatistician(teamMembers)}"
+								listener="#{teamMembersAction.saveLeadStatistician(teamMembers, false)}"
 								render="pnlTeamMembers, mensajes, mensajeBusqueda" />
 						</h:selectBooleanCheckbox>
 					</rich:column>

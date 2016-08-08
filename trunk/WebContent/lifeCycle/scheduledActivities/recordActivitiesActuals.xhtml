@@ -531,6 +531,13 @@
 									rendered="#{recordActivitiesActualsAction.selectedActivity.costMaterialsActual ne null}"
 									value="#{activityMaterial.activityMaterialsPK.materials.name} #{activityMaterial.activityMaterialsPK.materials.presentation} #{activityMaterial.activityMaterialsPK.materials.measurementUnits.name}" />
 							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga center">
+								<f:facet name="header">#{messageCosts.actual_label_start_time}</f:facet>
+								<h:outputText value="#{activityMaterial.dateTime}">
+									<f:convertDateTime pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
 							<rich:column styleClass="colNumeroMini">
 								<f:facet name="header">#{mensajeWarehouse.deposits_label_actual_quantity}</f:facet>
 								<h:outputText value="#{activityMaterial.quantityActual}" />
