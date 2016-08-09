@@ -16,6 +16,7 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import co.informatix.erp.costs.action.ActivityPlotAction;
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.dao.PlotDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
@@ -49,7 +50,9 @@ public class PlotAction implements Serializable {
 
 	private boolean pagerState;
 	private boolean farmParameter = false;
+	private boolean flagPlotActivity = false;
 	private int nameFarm;
+	private int idActivity;
 
 	private List<SelectItem> optionsFarm;
 	private List<Plot> listPlots;
@@ -202,6 +205,21 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
+	 * @return flagPlotActivity: Flag from activityPlot for modify query
+	 */
+	public boolean isFlagPlotActivity() {
+		return flagPlotActivity;
+	}
+
+	/**
+	 * @param flagPlotActivity
+	 *            : Flag from activityPlot for modify query
+	 */
+	public void setFlagPlotActivity(boolean flagPlotActivity) {
+		this.flagPlotActivity = flagPlotActivity;
+	}
+
+	/**
 	 * @return nameFarm: identifier name of the farm to look for.
 	 */
 	public int getNameFarm() {
@@ -214,6 +232,21 @@ public class PlotAction implements Serializable {
 	 */
 	public void setNameFarm(int nameFarm) {
 		this.nameFarm = nameFarm;
+	}
+
+	/**
+	 * @return idActivity: Identifier of the activity associated to plot
+	 */
+	public int getIdActivity() {
+		return idActivity;
+	}
+
+	/**
+	 * @param idActivity
+	 *            : Identifier of the activity associated to plot
+	 */
+	public void setIdActivity(int idActivity) {
+		this.idActivity = idActivity;
 	}
 
 	/**
@@ -268,6 +301,7 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @modify 21/07/2015 Andres.Gomez
 	 * @modify 15/05/2015 Sergio.Ortiz
+	 * @modify 05/08/2016 Gerardo.Herrera
 	 * 
 	 * @return back: redirects to the template to manage parcels or register
 	 *         popups Crops.
@@ -318,6 +352,8 @@ public class PlotAction implements Serializable {
 								bundleLifeCycle.getString("plot_label_s"),
 								unionMessagesSearch);
 			}
+			maintainPlots(fromModal);
+			validations.setMensajeBusquedaPopUp(messageSearch);
 			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -326,10 +362,32 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
+	 * This method maintain the plots selected when there are pagination into
+	 * the activity plot management.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param fromModal
+	 *            : flag for identifier the call.
+	 */
+	private void maintainPlots(boolean fromModal) {
+		if (fromModal) {
+			ActivityPlotAction activityPlotAction = ControladorContexto
+					.getContextBean(ActivityPlotAction.class);
+			if (activityPlotAction.getListActivityPlot() != null
+					&& activityPlotAction.getListActivityPlot().size() > 0)
+				activityPlotAction.maintainHrSelected(listPlots,
+						activityPlotAction.getListActivityPlot());
+		}
+	}
+
+	/**
 	 * This method build the query to the advanced search also allows messages
 	 * to display build depending on the search criteria selected by the user.
 	 * 
 	 * @modify 17/07/2015 Andres.Gomez
+	 * @modify 08/07/2016 Gerardo.Herrera
+	 * 
 	 * @param consult
 	 *            : query to concatenate
 	 * @param parameters
@@ -343,39 +401,45 @@ public class PlotAction implements Serializable {
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
+		boolean selection = false;
 
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("WHERE UPPER(p.name) LIKE UPPER(:keyword) ");
+			consult.append(selection ? "AND " : "WHERE ");
+			consult.append("UPPER(p.name) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
-			if (this.farm != null) {
-				consult.append("AND p.farm.idFarm=:keyword2 ");
-				item = new SelectItem(farm.getIdFarm(), "keyword2");
-				parameters.add(item);
-			}
+			selection = true;
+		}
 
-			if (this.nameFarm != 0) {
-				consult.append("AND p.farm.idFarm = :keyword3 ");
-				item = new SelectItem(this.nameFarm, "keyword3");
-				parameters.add(item);
-			}
+		if (this.farm != null) {
+			consult.append(selection ? "AND " : "WHERE ");
+			consult.append("p.farm.idFarm=:keyword2 ");
+			SelectItem item = new SelectItem(farm.getIdFarm(), "keyword2");
+			parameters.add(item);
+			selection = true;
+		}
 
-		} else {
-			if (this.farm != null) {
-				consult.append("WHERE p.farm.idFarm=:keyword2 ");
-				SelectItem item = new SelectItem(farm.getIdFarm(), "keyword2");
-				parameters.add(item);
-			}
+		if (this.nameFarm != 0) {
+			consult.append(selection ? "AND " : "WHERE ");
+			consult.append("p.farm.idFarm = :keyword3 ");
+			SelectItem item = new SelectItem(this.nameFarm, "keyword3");
+			parameters.add(item);
+			selection = true;
+		}
 
-			if (this.nameFarm != 0) {
-				consult.append("WHERE p.farm.idFarm = :keyword ");
-				SelectItem item = new SelectItem(this.nameFarm, "keyword");
-				parameters.add(item);
-			}
-
+		if (flagPlotActivity && idActivity != 0) {
+			consult.append(selection ? "AND " : "WHERE ");
+			consult.append("p NOT IN ");
+			consult.append("(SELECT p FROM ActivityPlot ap ");
+			consult.append("JOIN ap.activityPlotPK.plot p ");
+			consult.append("JOIN ap.activityPlotPK.activity a ");
+			consult.append("WHERE a.idActivity = :idActivity )");
+			SelectItem item = new SelectItem(this.idActivity, "idActivity");
+			parameters.add(item);
+			selection = true;
 		}
 
 	}

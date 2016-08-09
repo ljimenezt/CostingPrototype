@@ -21,6 +21,7 @@ import co.informatix.erp.costs.action.ActivitiesAction;
 import co.informatix.erp.costs.action.ActivitiesAndHrAction;
 import co.informatix.erp.costs.action.ActivitiesAndMachineAction;
 import co.informatix.erp.costs.action.ActivityMaterialsAction;
+import co.informatix.erp.costs.action.ActivityPlotAction;
 import co.informatix.erp.costs.dao.ActivitiesAndHrDao;
 import co.informatix.erp.costs.dao.ActivitiesAndMachineDao;
 import co.informatix.erp.costs.dao.ActivitiesDao;
@@ -1163,15 +1164,23 @@ public class RecordActivitiesActualsAction implements Serializable {
 				.getContextBean(ActivitiesAndHrAction.class);
 		this.activitiesAndHrAction.setFromModal(true);
 		this.activitiesAndHrAction.consultActivitiesAndHrByActivity();
+
 		this.activitiesAndMachineAction = ControladorContexto
 				.getContextBean(ActivitiesAndMachineAction.class);
 		this.activitiesAndMachineAction.setSelectedActivity(selectedActivity);
 		this.activitiesAndMachineAction.setFromModal(true);
 		this.activitiesAndMachineAction.showActivitiesAndMachineForActivity();
+
 		this.activityMaterialsAction = ControladorContexto
 				.getContextBean(ActivityMaterialsAction.class);
 		this.activityMaterialsAction.setFromModal(true);
 		this.activityMaterialsAction.consultMaterialsByActivity();
+
+		ActivityPlotAction activityPlotAction = ControladorContexto
+				.getContextBean(ActivityPlotAction.class);
+		activityPlotAction.setActivity(selectedActivity);
+		activityPlotAction.setActivityNames(selectedActivity.getActivityName());
+		activityPlotAction.consultActivityPlot();
 	}
 
 }
