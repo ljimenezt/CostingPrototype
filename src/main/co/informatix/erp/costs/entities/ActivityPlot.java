@@ -7,8 +7,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import co.informatix.erp.costs.entities.ActivitiesAndHr;
-
 /**
  * This class maps the activity_plot table, which contains the information for
  * relation between actvities and plots.
