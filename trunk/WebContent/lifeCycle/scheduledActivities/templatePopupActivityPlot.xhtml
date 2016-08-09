@@ -1,0 +1,331 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<h:form id="selectPlots">
+		<rich:popupPanel id="popupSelectPlots" autosized="true" maxWidth="490"
+			domElementAttachment="form"
+			header="#{messageLifeCycle.plot_label_s} #{mensaje.label_for} #{recordActivitiesActualsAction.selectedActivity.activityName.activityName}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="cursor"
+						onclick="#{rich:component('popupSelectPlots')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<rich:panel styleClass="H383P fondoAnchoUno W370P">
+				<a:outputPanel id="outputSearchPlot">
+					<t:fieldset styleClass="BorderW2P">
+						<legend class="etiquetaTitulo">#{mensaje.label_search}</legend>
+						<h:panelGrid columns="2" cellpadding="3">
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_name}" />
+							<h:inputText value="#{plotAction.nameSearch}"
+								styleClass="colTextoMediano" id="txtName"
+								onkeypress="return submitByEnter(event,'selectPlots:btnBuscar')">
+							</h:inputText>
+						</h:panelGrid>
+						<br />
+						<div class="W100Per center inBlock">
+							<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+								actionListener="#{plotAction.consultPlots()}"
+								render="outputSearchPlot, msjSearch">
+								<f:param name="param2" value="si" />
+							</a:commandButton>
+						</div>
+
+					</t:fieldset>
+					<br />
+					<a:outputPanel id="msjSearch">
+						<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+							<ui:param name="width" value="W350P" />
+							<ui:param name="id" value="popupBuscarMenu" />
+						</ui:include>
+					</a:outputPanel>
+					<br />
+
+					<a:outputPanel id="outputSearch">
+						<div class="W350P">
+							<a:commandLink render="outputSearchPlot"
+								styleClass="iconsDataTable quitarDecoracionLink"
+								actionListener="#{plotAction.setNameSearch('')}"
+								action="#{plotAction.consultPlots()}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/listarTodos_16.png" />
+									<h:outputText value="#{mensaje.button_list_all}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+						</div>
+						<ui:param name="listaVacia"
+							value="#{plotAction.listPlots eq null or (empty plotAction.listPlots)}" />
+						<rich:dataTable value="#{plotAction.listPlots}" var="plot"
+							id="plots" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W350P"
+							rowClasses="odd-row, even-row">
+
+							<rich:column styleClass="colIconoUno">
+								<f:facet name="header" />
+								<a:commandLink
+									actionListener="#{activityPlotAction.validatePlot(plot)}"
+									render="popupAddTachosReplant, selectPlots:outputSearchPlot"
+									oncomplete="if(#{activityPlotAction.flagPlot==false}){#{rich:component('popupAddTachosReplant')}.show();}">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/okPermiso_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{plot.selected eq true}" />
+										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{plot.selected eq false or (plot.selected eq null)}" />
+									</h:panelGrid>
+								</a:commandLink>
+							</rich:column>
+
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText value="#{plot.name}" />
+							</rich:column>
+
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="3" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<br />
+						<a:outputPanel rendered="#{!listaVacia}">
+							<div class="W350P center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valParam2" value="si" />
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="pager" value="pagination" />
+									<ui:param name="valReder" value=":selectPlots:outputSearch" />
+									<ui:param name="beanActionParam" value="#{plotAction}" />
+									<ui:param name="metodoActionParam" value="consultPlots" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+					<br />
+					<br />
+					<div align="center">
+						<a:commandButton value="#{mensaje.button_add}"
+							render="formHrReporting, mensajes, mensajeBusqueda"
+							actionListener="#{activityPlotAction.saveEditPlotActivities(true)}"
+							onclick="#{rich:component('popupSelectPlots')}.hide()" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupSelectPlots')}.hide()" />
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form id="formAddTachosReplant">
+		<rich:popupPanel id="popupAddTachosReplant" modal="true"
+			autosized="true" maxWidth="512" domElementAttachment="form"
+			minWidth="250" maxHeight="460"
+			header="#{messageLifeCycle.activity_plot_label}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popupAddTachosReplant')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<rich:panel styleClass="fondoAnchoUno">
+				<a:outputPanel id="outputAddTachosReplants">
+					<div align="center">
+
+						<h:panelGrid columns="4" styleClass="left, left, left, left">
+							<h:outputText
+								rendered="#{activityPlotAction.activityNames.harvest}"
+								value="#{messageLifeCycle.activity_plot_label_tachos_collected}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:inputText id="tachos" styleClass="colNumero"
+								label="#{messageLifeCycle.activity_plot_label_tachos_collected}"
+								required="true"
+								converterMessage="#{mensaje.message_campo_positivo}"
+								rendered="#{activityPlotAction.activityNames.harvest}"
+								value="#{activityPlotAction.tachosCollected}">
+								<f:validateDoubleRange minimum="0" />
+							</h:inputText>
+							<rich:message for="tachos" />
+
+							<h:outputText
+								rendered="#{activityPlotAction.activityNames.replanted}"
+								value="#{messageLifeCycle.activity_plot_label_replants_number}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required"
+								rendered="#{activityPlotAction.activityNames.replanted}" />
+							<h:inputText id="replants" styleClass="colNumero"
+								label="#{messageLifeCycle.activity_plot_label_replants_number}"
+								required="true"
+								converterMessage="#{mensaje.message_campo_positivo}"
+								rendered="#{activityPlotAction.activityNames.replanted}"
+								value="#{activityPlotAction.replants}">
+								<f:validateDoubleRange minimum="0" />
+							</h:inputText>
+							<rich:message for="replants" />
+						</h:panelGrid>
+					</div>
+					<br />
+					<div align="center">
+						<a:commandButton value="#{mensaje.button_accept}"
+							render="formGenerico, selectPlots:outputSearchPlot"
+							actionListener="#{activityPlotAction.addPlots()}"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupAddTachosReplant')}.hide();}
+									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+						</a:commandButton>
+						<a:commandButton value="#{mensaje.button_cancel}" execute="@this"
+							render="selectPlots:outputSearchPlot"
+							onclick="#{rich:component('popupAddTachosReplant')}.hide()" />
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form>
+		<rich:popupPanel id="deleteActivityPlot" modal="true" autosized="true"
+			maxWidth="460" domElementAttachment="form" minWidth="250"
+			header="#{mensaje.label_confirmation}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('deleteActivityPlot')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="campos">
+					<h:outputText value="#{mensaje.label_name}" />
+					<h:outputText
+						value="#{activityPlotAction.activityPlot.activityPlotPK.plot.name}" />
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_save}"
+						actionListener="#{activityPlotAction.deleteActivityPlot()}"
+						render="formHrReporting, mensajes, mensajeBusqueda"
+						oncomplete="#{rich:component('deleteActivityPlot')}.hide()" />
+					<a:commandButton value="#{mensaje.button_cancel}"
+						onclick="#{rich:component('deleteActivityPlot')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+
+	<h:form id="formEditTachosReplant">
+		<rich:popupPanel id="popupEditTachosReplant" modal="true"
+			autosized="true" maxWidth="500" domElementAttachment="form"
+			minWidth="250" header="#{messageLifeCycle.activity_plot_label}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popupEditTachosReplant')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<rich:panel styleClass="fondoAnchoUno">
+				<a:outputPanel id="outputEditTachosReplants">
+					<div align="center">
+						<h:panelGrid columns="4" columnClasses="right, left, left, left">
+							<h:outputText
+								rendered="#{activityPlotAction.activityNames.harvest}"
+								value="#{messageLifeCycle.activity_plot_label_tachos_collected}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required"
+								rendered="#{activityPlotAction.activityNames.harvest}" />
+							<h:inputText id="editTachos" styleClass="colNumero"
+								label="#{messageLifeCycle.activity_plot_label_tachos_collected}"
+								required="true"
+								rendered="#{activityPlotAction.activityNames.harvest}"
+								value="#{activityPlotAction.activityPlot.tachosCollected}" />
+							<rich:message for="editTachos" />
+
+							<h:outputText
+								rendered="#{activityPlotAction.activityNames.replanted}"
+								value="#{messageLifeCycle.activity_plot_label_replants_number}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required"
+								rendered="#{activityPlotAction.activityNames.replanted}" />
+							<h:inputText id="editReplants" styleClass="colNumero"
+								required="true"
+								label="#{messageLifeCycle.activity_plot_label_replants_number}"
+								rendered="#{activityPlotAction.activityNames.replanted}"
+								value="#{activityPlotAction.activityPlot.replatedPlants}" />
+							<rich:message for="editReplants" />
+						</h:panelGrid>
+					</div>
+					<br />
+					<div align="center">
+						<a:commandButton value="#{mensaje.button_accept}"
+							render="formGenerico, formConfirmActivityPlot:popupConfirmActivityPlot "
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupConfirmActivityPlot')}.show();}
+									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+						</a:commandButton>
+						<a:commandButton value="#{mensaje.button_cancel}" execute="@this"
+							onclick="#{rich:component('popupEditTachosReplant')}.hide()" />
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</rich:popupPanel>
+	</h:form>
+
+
+	<h:form id="formConfirmActivityPlot">
+		<rich:popupPanel id="popupConfirmActivityPlot" modal="true"
+			autosized="true" maxWidth="500"
+			header="#{mensaje.label_confirmation}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popupConfirmActivityPlot')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText value="#{mensaje.message_registro_confirmacion}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="campos">
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_accept}"
+						render="formHrReporting, mensajes, mensajeBusqueda"
+						actionListener="#{activityPlotAction.saveEditPlotActivities(false)}"
+						onclick="#{rich:component('popupConfirmActivityPlot')}.hide(); #{rich:component('popupEditTachosReplant')}.hide(); ">
+						<f:param name="param2" value="si" />
+					</a:commandButton>
+					<a:commandButton value="#{mensaje.button_cancel}"
+						onclick="#{rich:component('popupConfirmActivityPlot')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
+
+</ui:composition>

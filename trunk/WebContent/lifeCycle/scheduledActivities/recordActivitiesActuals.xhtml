@@ -37,7 +37,8 @@
 		<t:saveState value="#{cycleAction}" />
 		<t:saveState value="#{activityMaterialsAction}" />
 		<t:saveState value="#{activitiesAndMachineAction}" />
-
+		<t:saveState value="#{plotAction}" />
+		<t:saveState value="#{activityPlotAction}" />
 		<h:form id="formHrReporting">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageLifeCycle.record_activities_actuals_label_actual}"
@@ -116,7 +117,7 @@
 							</rich:tooltip>
 						</a:commandLink>
 						<h:inputHidden id="txtCycles"
-							value="#{recordActivitiesActualsAction.cycle.activiyNames.idActivityName}" />
+							value="#{recordActivitiesActualsAction.cycle.activiyNames.activityName}" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -314,6 +315,106 @@
 					</a:outputPanel>
 				</t:fieldset>
 				<br />
+
+				<a:outputPanel id="activityPlots"
+					rendered="#{recordActivitiesActualsAction.selectedActivity.idActivity gt 0}">
+					<t:fieldset styleClass="borderW2P">
+						<legend class="etiquetaTitulo">#{messageLifeCycle.plot_label_s}
+							-
+							#{recordActivitiesActualsAction.selectedActivity.activityName.activityName}</legend>
+						<div class="anchoDos">
+							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+								execute="@this"
+								rendered="#{recordActivitiesActualsAction.selectedActivity.seleccionado ne false and recordActivitiesActualsAction.selectedActivity.costHrActual eq null}"
+								render="popupSelectPlots"
+								actionListener="#{activityPlotAction.initializePlots()}"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popupSelectPlots')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/plots_16.png"
+										styleClass="verticalAlignMiddle" />
+									<h:outputText
+										value="#{mensaje.label_assign} #{messageLifeCycle.plot_label_s}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_select}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</div>
+						<ui:param name="listaVacia1"
+							value="#{activityPlotAction.listActivityPlotTemp.size() eq 0 or (activityPlotAction.listActivityPlotTemp eq null)}" />
+						<rich:dataTable value="#{activityPlotAction.listActivityPlotTemp}"
+							var="activityPlot" id="activityPlot" footerClass="H130P"
+							styleClass="#{listaVacia1 ? 'BCTransparente' : 'dataTable'} anchoDos"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<a:commandLink
+									rendered="#{recordActivitiesActualsAction.selectedActivity.generalCostActual eq null}"
+									actionListener="#{activityPlotAction.setActivityPlot(activityPlot)}"
+									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('deleteActivityPlot')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+									render="deleteActivityPlot">
+									<h:graphicImage value="/img/delete_16.png" />
+								</a:commandLink>
+							</rich:column>
+
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<a:commandLink
+									rendered="#{recordActivitiesActualsAction.selectedActivity.generalCostActual eq null and (recordActivitiesActualsAction.selectedActivity.activityName.replanted or recordActivitiesActualsAction.selectedActivity.activityName.harvest)}"
+									actionListener="#{activityPlotAction.setActivityPlot(activityPlot)}"
+									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupEditTachosReplant')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+									value="#{activityPlot.activityPlotPK.plot.name}"
+									render="popupEditTachosReplant" />
+								<h:outputText
+									rendered="#{recordActivitiesActualsAction.selectedActivity.generalCostActual ne null or (!recordActivitiesActualsAction.selectedActivity.activityName.replanted and !recordActivitiesActualsAction.selectedActivity.activityName.harvest)}"
+									value="#{activityPlot.activityPlotPK.plot.name}" />
+							</rich:column>
+
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{messageLifeCycle.plot_numbers_trees}</f:facet>
+								<h:outputText
+									value="#{activityPlot.activityPlotPK.plot.numberOfTrees}" />
+							</rich:column>
+
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{messageLifeCycle.activity_plot_label_tachos_collected}</f:facet>
+								<h:outputText value="#{activityPlot.tachosCollected}" />
+							</rich:column>
+
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{messageLifeCycle.activity_names_label_replant}</f:facet>
+								<h:outputText value="#{activityPlot.replatedPlants}" />
+							</rich:column>
+
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia1}">
+									<rich:column colspan="5" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<br />
+						<a:outputPanel id="pagerPlots"
+							rendered="#{activityPlotAction.listActivityPlotTemp.size() gt 0}">
+							<div class="anchoDos center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="valId" value="7" />
+									<ui:param name="pager" value="pagination" />
+									<ui:param name="valReder" value="pagerPlots activityPlot" />
+									<ui:param name="beanActionParam" value="#{activityPlotAction}" />
+									<ui:param name="metodoActionParam" value="consultActivityPlot" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+				<br />
+				
 				<a:outputPanel
 					rendered="#{recordActivitiesActualsAction.selectedActivity.idActivity gt 0 and recordActivitiesActualsAction.selectedActivity.hrRequired eq true }">
 					<t:fieldset styleClass="anchoDos BorderW2P">
@@ -580,6 +681,7 @@
 				</a:outputPanel>
 			</rich:panel>
 		</h:form>
+		<ui:include src="templatePopupActivityPlot.xhtml" />
 		<ui:include src="templateHRCosting.xhtml" />
 		<ui:include src="templateMachinesActuals.xhtml" />
 		<ui:include src="templateMaterialsActual.xhtml" />
