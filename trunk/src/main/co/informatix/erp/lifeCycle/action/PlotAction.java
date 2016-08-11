@@ -436,7 +436,8 @@ public class PlotAction implements Serializable {
 			consult.append("(SELECT p FROM ActivityPlot ap ");
 			consult.append("JOIN ap.activityPlotPK.plot p ");
 			consult.append("JOIN ap.activityPlotPK.activity a ");
-			consult.append("WHERE a.idActivity = :idActivity )");
+			consult.append("WHERE a.idActivity = :idActivity ) ");
+			consult.append("AND p.numberOfTrees > 0 ");
 			SelectItem item = new SelectItem(this.idActivity, "idActivity");
 			parameters.add(item);
 			selection = true;
