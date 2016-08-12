@@ -350,7 +350,7 @@ return false;]]></method>
             <property name="type">custom</property>
             <property name="orientation">landscape</property>
             <property name="height">85in</property>
-            <property name="width">20in</property>
+            <property name="width">1500px</property>
             <property name="showFooterOnLast">true</property>
         </simple-master-page>
     </page-setup>
@@ -862,6 +862,13 @@ true;&#13;
                                     </text>
                                 </property>
                                 <property name="backgroundColor">#B8CCE4</property>
+                                <list-property name="highlightRules">
+                                    <structure>
+                                        <property name="operator">is-false</property>
+                                        <expression name="testExpr" type="javascript">params["flagColor"].value = true;&#13;
+false;</expression>
+                                    </structure>
+                                </list-property>
                             </extended-item>
                             <extended-item extensionName="CrosstabCell" id="276">
                                 <property name="content">

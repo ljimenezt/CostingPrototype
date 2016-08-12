@@ -411,6 +411,14 @@ public class DepositsDao implements Serializable {
 		if (finalDate != null) {
 			query.append("AND t.date_time <= :finalDate ");
 		}
+		query.append("UNION SELECT DISTINCT CAST(date_part('month',d.date_time) as int) ");
+		query.append("FROM warehouse.materials m, warehouse.deposits d, ");
+		query.append("     warehouse.materials_types mt ");
+		query.append("WHERE m.idmaterial = d.id_material ");
+		query.append("AND m.id_material_type = mt.idmaterialtype ");
+		if (finalDate != null) {
+			query.append("AND d.date_time <= :finalDate ");
+		}
 		query.append("ORDER BY 1 DESC");
 		Query q = em.createNativeQuery(query.toString());
 		if (finalDate != null) {
