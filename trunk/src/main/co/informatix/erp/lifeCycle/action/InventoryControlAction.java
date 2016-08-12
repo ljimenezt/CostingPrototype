@@ -411,14 +411,16 @@ public class InventoryControlAction implements Serializable {
 			int count = 0;
 			Double actualQuantity = 0d;
 			int idMaterialAux = 0;
+			int month = 0;
 			String dateAux = "";
 			Double valueQuantity = 0d;
+			Double totalInitialQuantity = 0d;
 			for (Object[] object : listInventory) {
 				int idMaterial = Integer.parseInt(object[7].toString());
-				Double totalQuantity = depositsDao.sumDeposits(idMaterial);
-				object[2] = totalQuantity;
-				String dateTransaction = ControladorFechas.formatDate(
-						(Date) object[3],
+				Date dateT = (Date) object[3];
+				object[2] = totalInitialQuantity;
+				int actualMonth = ControladorFechas.getMonth(dateT);
+				String dateTransaction = ControladorFechas.formatDate(dateT,
 						Constantes.DATE_FORMAT_MESSAGE_MMDDYYYY);
 				count = idMaterialAux == idMaterial ? count : 0;
 				boolean eqDate = dateTransaction.contains(dateAux)
@@ -431,6 +433,15 @@ public class InventoryControlAction implements Serializable {
 				dateAux = dateTransaction;
 				Double income = (Double) object[8];
 				Double outcome = (Double) object[9];
+				if (month != actualMonth) {
+					if (count == 0) {
+						totalInitialQuantity = 0d;
+						object[2] = 0d;
+					} else {
+						totalInitialQuantity = actualQuantity;
+						object[2] = totalInitialQuantity;
+					}
+				}
 				if (!eqDate) {
 					actualQuantity -= income;
 					actualQuantity += outcome;
@@ -441,6 +452,7 @@ public class InventoryControlAction implements Serializable {
 					object[6] = valueQuantity;
 					actualQuantity += valueQuantity;
 				}
+				month = actualMonth;
 				count++;
 			}
 			reportsController.generateReportInventoryControl(listInventory,
@@ -449,4 +461,5 @@ public class InventoryControlAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
 }

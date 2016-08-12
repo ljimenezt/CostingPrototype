@@ -355,10 +355,8 @@ public class DepositsDao implements Serializable {
 		query.append("		 t.quantity, d.actual_quantity, m.idmaterial, ");
 		query.append("CASE WHEN idtransactiontype != :transactiontype THEN t.quantity ELSE 0.0 END as Salida, ");
 		query.append("CASE WHEN idtransactiontype = :transactiontype THEN t.quantity ELSE 0.0 END as Entrada ");
-		query.append("FROM warehouse.materials_types mt, ");
-		query.append("	   warehouse.materials m, ");
-		query.append("	   warehouse.deposits d, ");
-		query.append("	   warehouse.transactions t, ");
+		query.append("FROM warehouse.materials_types mt, warehouse.materials m, ");
+		query.append("	   warehouse.deposits d, warehouse.transactions t,  ");
 		query.append("	   warehouse.transaction_type tt ");
 		query.append("WHERE m.id_material_type = mt.idmaterialtype ");
 		query.append("AND m.idmaterial = d.id_material ");
@@ -367,6 +365,18 @@ public class DepositsDao implements Serializable {
 		if (finalDate != null) {
 			query.append("AND t.date_time <= :finalDate ");
 		}
+		query.append("UNION ALL SELECT m.name as material,  mt.name as materialtype, ");
+		query.append("	d.initial_quantity, d.date_time as datetransaction, ");
+		query.append("	varchar(7) 'Deposit' as transactiontype, float8(0) as quantity, ");
+		query.append("	float8(0) as actualq, m.idmaterial, float8(0) as salida, ");
+		query.append("	d.initial_quantity as entrada ");
+		query.append("FROM warehouse.materials m, warehouse.deposits d, ");
+		query.append("	   warehouse.materials_types mt ");
+		query.append("WHERE m.idmaterial = d.id_material ");
+		query.append("AND m.id_material_type = mt.idmaterialtype  ");
+		if (finalDate != null) {
+			query.append("AND d.date_time <= :finalDate ");
+		}
 		query.append("ORDER BY 1,4 ");
 		Query q = em.createNativeQuery(query.toString());
 		q.setParameter("transactiontype", Constantes.TRANSACTION_TYPE_RETURN);
@@ -374,26 +384,6 @@ public class DepositsDao implements Serializable {
 			q.setParameter("finalDate", finalDate);
 		}
 		return q.getResultList();
-	}
-
-	/**
-	 * Returns the sum of material quantity multiplied by the value of the unit
-	 * cost register in the deposit.
-	 * 
-	 * @author Andres.Gomez
-	 * 
-	 * @param idMaterial
-	 *            : Material identifier.
-	 * @throws Exception
-	 */
-	public Double sumDeposits(int idMaterial) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT SUM(d.initial_quantity) ");
-		query.append("FROM warehouse.deposits d ");
-		query.append("WHERE d.id_material =:idMaterial ");
-		Query q = em.createNativeQuery(query.toString());
-		q.setParameter("idMaterial", idMaterial);
-		return (Double) q.getSingleResult();
 	}
 
 	/**
