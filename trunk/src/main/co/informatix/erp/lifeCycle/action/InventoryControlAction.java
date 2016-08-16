@@ -412,27 +412,19 @@ public class InventoryControlAction implements Serializable {
 			Double actualQuantity = 0d;
 			int idMaterialAux = 0;
 			int month = 0;
-			String dateAux = "";
-			Double valueQuantity = 0d;
 			Double totalInitialQuantity = 0d;
 			for (Object[] object : listInventory) {
 				int idMaterial = Integer.parseInt(object[7].toString());
 				Date dateT = (Date) object[3];
 				object[2] = totalInitialQuantity;
 				int actualMonth = ControladorFechas.getMonth(dateT);
-				String dateTransaction = ControladorFechas.formatDate(dateT,
-						Constantes.DATE_FORMAT_MESSAGE_MMDDYYYY);
 				count = idMaterialAux == idMaterial ? count : 0;
-				boolean eqDate = dateTransaction.contains(dateAux)
-						&& count != 0 ? true : false;
 				if (count == 0) {
-					actualQuantity = (Double) object[2];
+					actualQuantity = 0d;
 					idMaterialAux = idMaterial;
-					valueQuantity = 0d;
+					totalInitialQuantity = 0d;
+					object[2] = 0d;
 				}
-				dateAux = dateTransaction;
-				Double income = (Double) object[8];
-				Double outcome = (Double) object[9];
 				if (month != actualMonth) {
 					if (count == 0) {
 						totalInitialQuantity = 0d;
@@ -442,16 +434,12 @@ public class InventoryControlAction implements Serializable {
 						object[2] = totalInitialQuantity;
 					}
 				}
-				if (!eqDate) {
-					actualQuantity -= income;
-					actualQuantity += outcome;
-					object[6] = actualQuantity;
-				} else {
-					valueQuantity -= income;
-					valueQuantity += outcome;
-					object[6] = valueQuantity;
-					actualQuantity += valueQuantity;
-				}
+				Double income = (Double) object[8];
+				Double outcome = (Double) object[9];
+				actualQuantity -= income;
+				actualQuantity += outcome;
+				object[6] = actualQuantity;
+
 				month = actualMonth;
 				count++;
 			}
