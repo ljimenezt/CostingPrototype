@@ -953,8 +953,10 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * @param ahrList
 	 *            : List of relation between activities and human resources
 	 * @param hr
-	 *            : human resource
-	 * @return boolean
+	 *            : human resource to compare with the list of activities and
+	 *            human resources
+	 * @return boolean: Return true when the ahr isnt in the relation between
+	 *         activities and human resources, false in other case
 	 */
 	private boolean compareHr(List<ActivitiesAndHr> ahrList, Hr hr) {
 		boolean addFlag = true;
