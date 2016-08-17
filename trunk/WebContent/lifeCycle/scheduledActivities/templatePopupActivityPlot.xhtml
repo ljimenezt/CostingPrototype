@@ -154,7 +154,8 @@
 								rendered="#{activityPlotAction.activityNames.harvest}"
 								value="#{messageLifeCycle.activity_plot_label_tachos_collected}"
 								styleClass="etiquetaTitulo" />
-							<h:outputText value="*" styleClass="required" />
+							<h:outputText value="*" styleClass="required"
+								rendered="#{activityPlotAction.activityNames.harvest}" />
 							<h:inputText id="tachos" styleClass="colNumero"
 								label="#{messageLifeCycle.activity_plot_label_tachos_collected}"
 								required="true"
