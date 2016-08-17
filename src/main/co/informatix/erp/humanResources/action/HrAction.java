@@ -708,7 +708,7 @@ public class HrAction implements Serializable {
 	 * @param value
 	 *            : field value is validated.
 	 */
-	public void validateAddNameXSS(Object value) {
+	public void assignNameHr(Object value) {
 		String name = (String) value;
 		this.hr.setName(name);
 	}
