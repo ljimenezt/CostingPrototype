@@ -394,8 +394,16 @@ public class InventoryControlAction implements Serializable {
 		ReportsController reportsController = ControladorContexto
 				.getContextBean(ReportsController.class);
 		try {
-			List<Integer> listMonthsNumber = depositsDao
-					.consultMonths(finalDate);
+			List<Integer> listMonthsNumber = new ArrayList<>();
+			if (this.initialDate != null && this.finalDate != null) {
+				int initMonth = ControladorFechas.getMonth(this.initialDate);
+				int finalMonth = ControladorFechas.getMonth(this.finalDate);
+				for (int i = initMonth; i <= finalMonth; i++) {
+					listMonthsNumber.add(i);
+				}
+			} else {
+				listMonthsNumber = depositsDao.consultMonths(finalDate);
+			}
 			List<Date> listDate = new ArrayList<>();
 			if (listMonthsNumber != null) {
 				for (int month : listMonthsNumber) {
@@ -449,5 +457,4 @@ public class InventoryControlAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }
