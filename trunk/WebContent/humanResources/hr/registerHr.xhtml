@@ -38,7 +38,7 @@
 									validator="#{encodeFilter.validarScripting}"
 									requiredMessage="#{mensaje.message_campo_requerido}">
 									<a:ajax event="valueChange" render="txtNombre" execute="@this"
-										listener="#{hrAction.validateAddNameXSS()}" />
+										listener="#{hrAction.assignNameHr()}" />
 								</h:inputText>
 								<rich:message for="txtNombre" />
 
@@ -328,8 +328,7 @@
 																<h:graphicImage value="/img/close_14.png"
 																	onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 																	onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-																	styleClass="cursor"
-																	title="#{mensaje.label_change_img}" />
+																	styleClass="cursor" title="#{mensaje.label_change_img}" />
 															</a:commandLink>
 														</div>
 														<h:graphicImage
@@ -348,9 +347,8 @@
 														styleClass="H110P W150P" />
 													<p:fileUpload id="uploadLogo" dragDropSupport="true"
 														rendered="#{hrAction.hrPicName eq null or empty hrAction.hrPicName}"
-														label="#{mensaje.label_select_file}"
-														mode="advanced" auto="true"
-														fileUploadListener="#{hrAction.submit}"
+														label="#{mensaje.label_select_file}" mode="advanced"
+														auto="true" fileUploadListener="#{hrAction.submit}"
 														update="panelFotoHr"
 														onstart="#{rich:component('statPane')}.show();"
 														oncomplete="#{rich:component('statPane')}.hide();" />
