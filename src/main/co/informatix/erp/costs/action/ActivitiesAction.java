@@ -310,20 +310,20 @@ public class ActivitiesAction implements Serializable {
 	 *            : Crop identifier.
 	 * @param idCycle
 	 *            : Cycle Indetifier.
-	 * @param paginador
-	 *            : Objeto paginador
+	 * @param pagerTemp
+	 *            : Object to saves the temporary pager
 	 */
 	public void initializeActivities(Activities activity, int idCrop,
-			int idCycle, Paginador paginador) {
+			int idCycle, Paginador pagerTemp) {
 		this.activities = activity;
 		this.idCrop = idCrop;
 		this.idCycle = idCycle;
 		this.nameSearch = "";
-		if (paginador == null) {
+		if (pagerTemp == null) {
 			this.pager = new Paginador();
 			flagCropActivities = false;
 		} else {
-			this.pager = paginador;
+			this.pager = pagerTemp;
 		}
 		if (this.idCycle == 0) {
 			flagCycle = true;

@@ -264,7 +264,6 @@ public class AllocationAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -292,5 +291,4 @@ public class AllocationAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }
