@@ -3,7 +3,7 @@
     <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
-    <property name="layoutPreference">fixed layout</property>
+    <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
     <property name="imageDPI">96</property>
     <parameters>
@@ -1053,48 +1053,6 @@ false;</expression>
                 </header>
             </group>
         </list>
-        <table id="530">
-            <property name="width">3.0416666666666665in</property>
-            <property name="dataSet">DataSetMonths</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">month</property>
-                    <text-property name="displayName">month</text-property>
-                    <expression name="expression" type="javascript">BirtStr.toUpper(Formatter.format(dataSetRow["month"], 'MMMM'))</expression>
-                    <property name="dataType">string</property>
-                    <property name="allowExport">true</property>
-                </structure>
-            </list-property>
-            <column id="537">
-                <property name="width">3.0416666666666665in</property>
-            </column>
-            <header>
-                <row id="531">
-                    <property name="height">0.25in</property>
-                    <cell id="532">
-                        <label id="538">
-                            <text-property name="text">month</text-property>
-                        </label>
-                    </cell>
-                </row>
-            </header>
-            <detail>
-                <row id="533">
-                    <property name="height">0.2708333333333333in</property>
-                    <cell id="534">
-                        <data id="539">
-                            <property name="resultSetColumn">month</property>
-                        </data>
-                    </cell>
-                </row>
-            </detail>
-            <footer>
-                <row id="535">
-                    <property name="height">0.2708333333333333in</property>
-                    <cell id="536"/>
-                </row>
-            </footer>
-        </table>
     </body>
     <property name="pageVariables">
         <variable-element name="count">
