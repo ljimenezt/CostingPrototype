@@ -247,10 +247,8 @@ public class CycleStandardActivitiesAction implements Serializable {
 	 * 
 	 * @param cycleStandardActivities
 	 *            : Object standard cycle activities to be added.
-	 * 
 	 * @return regCyclStandAct: Redirects to the register standard cycle
 	 *         activities template.
-	 * 
 	 */
 	public String addEditCycleStandardActivities(
 			CycleStandardActivities cycleStandardActivities) {
@@ -299,7 +297,6 @@ public class CycleStandardActivitiesAction implements Serializable {
 	 * @return consultCycleStandarActivities: Method That loads information
 	 *         necessary and redirected to the template record Standard cycle
 	 *         activities.
-	 * 
 	 * @throws Exception
 	 */
 	public String saveCycleStandardActivities() throws Exception {
@@ -370,7 +367,6 @@ public class CycleStandardActivitiesAction implements Serializable {
 	/**
 	 * Method to remove from the list the names of the activities that an user
 	 * selected in the register view.
-	 * 
 	 */
 	public void deleteSelectedOnes() {
 		try {
@@ -531,7 +527,6 @@ public class CycleStandardActivitiesAction implements Serializable {
 	 *            : List of search parameters.
 	 * @param bundle
 	 *            : Context to access language tags.
-	 * 
 	 * @param jointSearchMessages
 	 *            : Search message.
 	 */
@@ -547,5 +542,4 @@ public class CycleStandardActivitiesAction implements Serializable {
 					+ '"' + this.nameSearch + '"');
 		}
 	}
-
 }

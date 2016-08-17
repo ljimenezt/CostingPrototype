@@ -1057,7 +1057,6 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * 
 	 * @param costHr
 	 *            : New cost for cost budget of human resources
-	 * 
 	 * @throws Exception
 	 */
 	private void calculateCostBudgetActivity(double costHr) throws Exception {

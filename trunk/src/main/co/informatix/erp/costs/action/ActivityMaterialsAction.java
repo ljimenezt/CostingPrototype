@@ -247,7 +247,7 @@ public class ActivityMaterialsAction implements Serializable {
 	}
 
 	/**
-	 * consult the material list associated to the activity.
+	 * Consult the material list associated to the activity.
 	 * 
 	 */
 	public void consultMaterialsByActivity() {
@@ -361,7 +361,6 @@ public class ActivityMaterialsAction implements Serializable {
 	 * 
 	 * @param material
 	 *            : material to validate quantity.
-	 * 
 	 */
 	public void validateMaterialsInDeposits(Materials material) {
 		try {
@@ -497,7 +496,6 @@ public class ActivityMaterialsAction implements Serializable {
 	 * @param idMaterial
 	 *            : material identifier.
 	 * @throws Exception
-	 * 
 	 */
 	private void calculateCostBudget(double amount, int idMaterial)
 			throws Exception {
@@ -658,7 +656,6 @@ public class ActivityMaterialsAction implements Serializable {
 	 * to the activity.
 	 * 
 	 * @throws Exception
-	 * 
 	 */
 	private void calculateCostActualMaterials() throws Exception {
 		double costActual = 0.0;
@@ -746,7 +743,6 @@ public class ActivityMaterialsAction implements Serializable {
 	 *            : activityMaterials to clone.
 	 * @param flag
 	 *            : flag that identifies the initialize values.
-	 * 
 	 */
 	public void cloneActivityMaterials(ActivityMaterials activityMaterials,
 			boolean flag) {
@@ -766,7 +762,7 @@ public class ActivityMaterialsAction implements Serializable {
 	}
 
 	/**
-	 * TThis method allows validate the budget cost and actual cost.
+	 * This method allows validate the budget cost and actual cost.
 	 * 
 	 */
 	public void validateCost() {

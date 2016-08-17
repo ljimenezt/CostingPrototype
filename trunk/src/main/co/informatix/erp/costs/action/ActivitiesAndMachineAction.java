@@ -415,7 +415,6 @@ public class ActivitiesAndMachineAction implements Serializable {
 	 * 
 	 * @param costMachine
 	 *            : New cost for cost budget of human resources
-	 * 
 	 * @throws Exception
 	 */
 	private void calculateCostBudgetActivity(double costMachine)
