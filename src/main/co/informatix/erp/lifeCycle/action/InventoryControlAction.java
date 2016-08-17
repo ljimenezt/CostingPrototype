@@ -393,6 +393,9 @@ public class InventoryControlAction implements Serializable {
 	public void generateReportInventory() {
 		ReportsController reportsController = ControladorContexto
 				.getContextBean(ReportsController.class);
+		StringBuilder query = new StringBuilder();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		reportAdvanceSearch(query, parameters);
 		try {
 			List<Integer> listMonthsNumber = new ArrayList<>();
 			if (this.initialDate != null && this.finalDate != null) {
@@ -402,7 +405,7 @@ public class InventoryControlAction implements Serializable {
 					listMonthsNumber.add(i);
 				}
 			} else {
-				listMonthsNumber = depositsDao.consultMonths(finalDate);
+				listMonthsNumber = depositsDao.consultMonths(query, parameters);
 			}
 			List<Date> listDate = new ArrayList<>();
 			if (listMonthsNumber != null) {
@@ -415,7 +418,7 @@ public class InventoryControlAction implements Serializable {
 				}
 			}
 			List<Object[]> listInventory = depositsDao
-					.consultoInventoryByDepositReport(this.finalDate);
+					.consultoInventoryByDepositReport(query, parameters);
 			int count = 0;
 			Double actualQuantity = 0d;
 			int idMaterialAux = 0;
@@ -457,4 +460,34 @@ public class InventoryControlAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
+	/**
+	 * This method allow build the query to consult the information for the
+	 * report
+	 * 
+	 * @param consult
+	 *            : query to concatenate.
+	 * @param parameters
+	 *            : list of search parameters.
+	 */
+	private void reportAdvanceSearch(StringBuilder consult,
+			List<SelectItem> parameters) {
+		if (this.idMaterialType != 0) {
+			consult.append("AND m.id_material_type = :keyword1 ");
+			SelectItem item = new SelectItem(this.idMaterialType, "keyword1");
+			parameters.add(item);
+		}
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("AND UPPER(m.name) LIKE UPPER(:keyword2) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
+					"keyword2");
+			parameters.add(item);
+		}
+		if (this.finalDate != null) {
+			consult.append("AND t.date_time <= :keyword3 ");
+			SelectItem item = new SelectItem(this.finalDate, "keyword3");
+			parameters.add(item);
+		}
+	}
+
 }

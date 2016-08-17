@@ -340,14 +340,18 @@ public class DepositsDao implements Serializable {
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @param finalDate
-	 *            : Date object to filter the information of the inventory
+	 * @param consult
+	 *            : Consultation records depending on the parameters selected by
+	 *            the user
+	 * @param parameters
+	 *            : Query parameters
 	 * @return list of the object with the deposit, material and transaction
 	 *         information.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Object[]> consultoInventoryByDepositReport(Date finalDate)
+	public List<Object[]> consultoInventoryByDepositReport(
+			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m.name as material, mt.name as materialtype, ");
@@ -362,9 +366,7 @@ public class DepositsDao implements Serializable {
 		query.append("AND m.idmaterial = d.id_material ");
 		query.append("AND d.iddeposit = t.id_deposit ");
 		query.append("AND t.id_transaction_type = tt.idtransactiontype ");
-		if (finalDate != null) {
-			query.append("AND t.date_time <= :finalDate ");
-		}
+		query.append(consult);
 		query.append("UNION ALL SELECT m.name as material,  mt.name as materialtype, ");
 		query.append("	d.initial_quantity, d.date_time as datetransaction, ");
 		query.append("	varchar(7) 'Deposit' as transactiontype, float8(0) as quantity, ");
@@ -374,14 +376,12 @@ public class DepositsDao implements Serializable {
 		query.append("	   warehouse.materials_types mt ");
 		query.append("WHERE m.idmaterial = d.id_material ");
 		query.append("AND m.id_material_type = mt.idmaterialtype  ");
-		if (finalDate != null) {
-			query.append("AND d.date_time <= :finalDate ");
-		}
+		query.append(consult);
 		query.append("ORDER BY 1,4 ");
 		Query q = em.createNativeQuery(query.toString());
 		q.setParameter("transactiontype", Constantes.TRANSACTION_TYPE_RETURN);
-		if (finalDate != null) {
-			q.setParameter("finalDate", finalDate);
+		for (SelectItem parametro : parameters) {
+			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
 		return q.getResultList();
 	}
@@ -392,13 +392,17 @@ public class DepositsDao implements Serializable {
 	 * 
 	 * @author Andres.Gomez
 	 * 
-	 * @param finalDate
-	 *            : Date object to filter the deposits
+	 * @param consult
+	 *            : Consultation records depending on the parameters selected by
+	 *            the user
+	 * @param parameters
+	 *            : Query parameters
 	 * @return List<String>:List of id's of the material that comply with the
 	 *         condition of validity.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Integer> consultMonths(Date finalDate) {
+	public List<Integer> consultMonths(StringBuilder consult,
+			List<SelectItem> parameters) {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT DISTINCT CAST(date_part('month',t.date_time) as int) ");
 		query.append("FROM warehouse.materials m, ");
@@ -408,21 +412,17 @@ public class DepositsDao implements Serializable {
 		query.append("WHERE m.idmaterial = d.id_material ");
 		query.append("AND d.iddeposit = t.id_deposit ");
 		query.append("AND t.id_transaction_type = tt.idtransactiontype ");
-		if (finalDate != null) {
-			query.append("AND t.date_time <= :finalDate ");
-		}
+		query.append(consult);
 		query.append("UNION SELECT DISTINCT CAST(date_part('month',d.date_time) as int) ");
 		query.append("FROM warehouse.materials m, warehouse.deposits d, ");
 		query.append("     warehouse.materials_types mt ");
 		query.append("WHERE m.idmaterial = d.id_material ");
 		query.append("AND m.id_material_type = mt.idmaterialtype ");
-		if (finalDate != null) {
-			query.append("AND d.date_time <= :finalDate ");
-		}
-		query.append("ORDER BY 1 DESC");
+		query.append(consult);
+		query.append("ORDER BY 1 ");
 		Query q = em.createNativeQuery(query.toString());
-		if (finalDate != null) {
-			q.setParameter("finalDate", finalDate);
+		for (SelectItem parametro : parameters) {
+			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
 		List<Integer> resultList = q.getResultList();
 		if (resultList.size() > 0) {
@@ -430,5 +430,4 @@ public class DepositsDao implements Serializable {
 		}
 		return null;
 	}
-
 }
