@@ -223,7 +223,7 @@ public class ActivityPlotAction implements Serializable {
 				.getContextBean(PlotAction.class);
 		plotAction.setFlagPlotActivity(true);
 		plotAction.setNameSearch("");
-		plotAction.setIdActivity(activity.getIdActivity());
+		plotAction.setActivity(this.activity);
 		plotAction.consultPlots();
 	}
 
