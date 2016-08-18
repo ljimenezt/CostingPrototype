@@ -199,10 +199,8 @@ public class PaymentsAction implements Serializable {
 	 * This method fills the various objects associated with a payment.
 	 * 
 	 * @modify 18/04/2016 Wilhelm.Boada
-	 * 
-	 * @throws Exception
 	 */
-	public void loadDetailsPayments() throws Exception {
+	private void loadDetailsPayments() throws Exception {
 		if (this.listPayments != null) {
 			for (Payments payment : listPayments) {
 				loadDetailsPayment(payment);
@@ -219,7 +217,7 @@ public class PaymentsAction implements Serializable {
 	 *            : payment which will carry the details.
 	 * @throws Exception
 	 */
-	public void loadDetailsPayment(Payments payment) throws Exception {
+	private void loadDetailsPayment(Payments payment) throws Exception {
 		int idPayment = payment.getIdPayment();
 		Contract contract = (Contract) this.paymentsDao.consultObjectPayments(
 				"contract", idPayment);
@@ -231,7 +229,6 @@ public class PaymentsAction implements Serializable {
 			payment.setContract(contract);
 			payment.setHr(hr);
 		}
-
 	}
 
 	/**
