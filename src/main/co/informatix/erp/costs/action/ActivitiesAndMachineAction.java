@@ -292,40 +292,34 @@ public class ActivitiesAndMachineAction implements Serializable {
 	 *            : Machine object.
 	 */
 	public void machineSelection(Machines machine) {
-		try {
-			this.stateAddMachine = false;
-			this.machine = machine;
-			if (!machine.isSelection()) {
-				this.activityMachine = new ActivityMachine();
-				if (this.selectedActivity.getDurationBudget() != null) {
-					this.activityMachine
-							.setDurationBudget(this.selectedActivity
-									.getDurationBudget());
-				} else {
-					Date initialDate = this.selectedActivity
-							.getInitialDtBudget();
-					Date finalDate = this.selectedActivity.getFinalDtBudget();
-					Double duration = ControladorFechas.restarFechas(
-							initialDate, finalDate);
-					this.activityMachine.setDurationBudget(duration);
-				}
+		this.stateAddMachine = false;
+		this.machine = machine;
+		if (!machine.isSelection()) {
+			this.activityMachine = new ActivityMachine();
+			if (this.selectedActivity.getDurationBudget() != null) {
+				this.activityMachine.setDurationBudget(this.selectedActivity
+						.getDurationBudget());
 			} else {
-				ActivityMachine activityMachine = new ActivityMachine();
-				ActivityMachinePK activitiesMachinesPK = new ActivityMachinePK();
-				activitiesMachinesPK.setMachines(machine);
-				activitiesMachinesPK.setActivities(this.selectedActivity);
-				for (ActivityMachine activityMachines : listActivityMachineTemp) {
-					if (activityMachines.getActivityMachinePK().equals(
-							activitiesMachinesPK)) {
-						activityMachine = activityMachines;
-					}
-				}
-				this.listActivityMachineTemp.remove(activityMachine);
-				this.stateAddMachine = true;
-				this.machine.setSelection(false);
+				Date initialDate = this.selectedActivity.getInitialDtBudget();
+				Date finalDate = this.selectedActivity.getFinalDtBudget();
+				Double duration = ControladorFechas.restarFechas(initialDate,
+						finalDate);
+				this.activityMachine.setDurationBudget(duration);
 			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
+		} else {
+			ActivityMachine activityMachine = new ActivityMachine();
+			ActivityMachinePK activitiesMachinesPK = new ActivityMachinePK();
+			activitiesMachinesPK.setMachines(machine);
+			activitiesMachinesPK.setActivities(this.selectedActivity);
+			for (ActivityMachine activityMachines : listActivityMachineTemp) {
+				if (activityMachines.getActivityMachinePK().equals(
+						activitiesMachinesPK)) {
+					activityMachine = activityMachines;
+				}
+			}
+			this.listActivityMachineTemp.remove(activityMachine);
+			this.stateAddMachine = true;
+			this.machine.setSelection(false);
 		}
 	}
 
@@ -580,14 +574,10 @@ public class ActivitiesAndMachineAction implements Serializable {
 	 * activity machine.
 	 */
 	public void calculateDuration() {
-		try {
-			Double durationBudget = ControladorFechas.restarFechas(
-					activityMachine.getInitialDateTime(),
-					activityMachine.getFinalDateTime());
-			activityMachine.setDurationBudget(durationBudget);
-			calculateConsumableCost(this.activityMachine);
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
+		Double durationBudget = ControladorFechas.restarFechas(
+				activityMachine.getInitialDateTime(),
+				activityMachine.getFinalDateTime());
+		activityMachine.setDurationBudget(durationBudget);
+		calculateConsumableCost(this.activityMachine);
 	}
 }
