@@ -236,15 +236,18 @@ public class ContractAction implements Serializable {
 	 * @param contract
 	 *            : Contract to add or edit.
 	 * @return "regContract": Redirects to the template to register a contract.
-	 * @throws Exception
 	 */
-	public String addEditContract(Contract contract) throws Exception {
-		if (contract != null) {
-			this.contract = contract;
-			loadContractDetails(contract);
-		} else {
-			this.contract = new Contract();
-			this.contract.setHr(new Hr());
+	public String addEditContract(Contract contract) {
+		try {
+			if (contract != null) {
+				this.contract = contract;
+				loadContractDetails(contract);
+			} else {
+				this.contract = new Contract();
+				this.contract.setHr(new Hr());
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 		return "regContract";
 	}
@@ -254,7 +257,7 @@ public class ContractAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void loadContractsDetails() throws Exception {
+	private void loadContractsDetails() throws Exception {
 		if (this.contractList != null) {
 			for (Contract contract : this.contractList) {
 				loadContractDetails(contract);
@@ -271,7 +274,7 @@ public class ContractAction implements Serializable {
 	 *            : Contract which will carry the details.
 	 * @throws Exception
 	 */
-	public void loadContractDetails(Contract contract) throws Exception {
+	private void loadContractDetails(Contract contract) throws Exception {
 		int contractId = contract.getId();
 		Hr hr = (Hr) this.contractDao.searchContract("hr", contractId);
 		contract.setHr(hr);
