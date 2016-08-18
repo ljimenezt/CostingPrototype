@@ -177,7 +177,6 @@ public class ContractTypeAction implements Serializable {
 	 *            : List of search parameters.
 	 * @param bundle
 	 *            : Access language tags.
-	 * 
 	 * @param unionMessagesSearch
 	 *            : Message search.
 	 */
@@ -199,7 +198,6 @@ public class ContractTypeAction implements Serializable {
 	 * 
 	 * @param contractType
 	 *            : Type of contract that will add or edit.
-	 * 
 	 * @return regContrType: Redirected to the template record type contract.
 	 */
 	public String addEditContractType(ContractType contractType) {
@@ -217,7 +215,6 @@ public class ContractTypeAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -292,5 +289,4 @@ public class ContractTypeAction implements Serializable {
 		}
 		return consultContractType();
 	}
-
 }

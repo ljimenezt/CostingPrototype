@@ -535,10 +535,8 @@ public class HrAction implements Serializable {
 	 *            : list of search parameters.
 	 * @param bundle
 	 *            : access language tags.
-	 * 
 	 * @param bundleHr
 	 *            : access language tags HR.
-	 * 
 	 * @param jointSearchMessages
 	 *            : Message search.
 	 */
@@ -624,7 +622,6 @@ public class HrAction implements Serializable {
 	 * 
 	 * @param hr
 	 *            : human resource that will add or edit.
-	 * 
 	 * @return "regHumanResources": redirected to the template record human
 	 *         Resources.
 	 */
@@ -721,7 +718,6 @@ public class HrAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
@@ -827,7 +823,6 @@ public class HrAction implements Serializable {
 	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
 	 * @throws Exception
-	 * 
 	 */
 	private void loadCombos() throws Exception {
 		/* Country */
@@ -1092,7 +1087,6 @@ public class HrAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteFile(String fileName) {
 		String path[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
@@ -1105,7 +1099,6 @@ public class HrAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteRealFile(String fileName) {
 		String paths[] = {

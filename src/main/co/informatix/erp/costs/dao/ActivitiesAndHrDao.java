@@ -141,7 +141,6 @@ public class ActivitiesAndHrDao implements Serializable {
 	 *            : End point of the date range that you want to query.
 	 * @param idActivity
 	 *            : Identifier of the activity.
-	 * 
 	 * @return Double: Total overtime hours.
 	 * @throws Exception
 	 */
@@ -180,7 +179,6 @@ public class ActivitiesAndHrDao implements Serializable {
 	 *            : Days that you will use in the computation.
 	 * @param idActivity
 	 *            : Identifier of the activity.
-	 * 
 	 * @return Double: Total normal hours.
 	 * @throws Exception
 	 */
@@ -270,7 +268,6 @@ public class ActivitiesAndHrDao implements Serializable {
 	 * 
 	 * @param activitiesAndHrPK
 	 *            : Primary key of the ActivitiesAndHr entity.
-	 * 
 	 * @return ActivitiesAndHr object type or null if not found.
 	 * @throws Exception
 	 */
@@ -287,7 +284,6 @@ public class ActivitiesAndHrDao implements Serializable {
 	 *            : Cycle of crop.
 	 * @param finalDate
 	 *            : Final Date.
-	 * 
 	 * @return boolean: Its 'true' if it find data
 	 */
 	@SuppressWarnings("unchecked")

@@ -180,7 +180,6 @@ public class PaymentsAction implements Serializable {
 	 * 
 	 * @param unionMessagesSearch
 	 *            : Message search
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,

@@ -212,7 +212,6 @@ public class OvertimePaymentRateAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -233,7 +232,6 @@ public class OvertimePaymentRateAction implements Serializable {
 	 * 
 	 * @param overtimePaymentRate
 	 *            :overtime payment rate that you are adding or editing.
-	 * 
 	 * @return "regOvertimePayment":redirects the overtime payment rate record
 	 *         template.
 	 */
@@ -332,7 +330,6 @@ public class OvertimePaymentRateAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -360,5 +357,4 @@ public class OvertimePaymentRateAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }

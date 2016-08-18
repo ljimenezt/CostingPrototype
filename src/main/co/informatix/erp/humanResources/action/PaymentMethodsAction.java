@@ -176,10 +176,8 @@ public class PaymentMethodsAction implements Serializable {
 	 *            : List of search parameters.
 	 * @param bundle
 	 *            : Context to access language tags.
-	 * 
 	 * @param jointSearchMessages
 	 *            : Message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder query,
 			List<SelectItem> parameter, ResourceBundle bundle,
@@ -199,7 +197,6 @@ public class PaymentMethodsAction implements Serializable {
 	 * 
 	 * @param paymentMethods
 	 *            : Payment methods that is going to be added or edited.
-	 * 
 	 * @return "regPaymentMethods": Redirects to the template to manage Payment
 	 *         methods.
 	 */
@@ -270,7 +267,6 @@ public class PaymentMethodsAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -298,5 +294,4 @@ public class PaymentMethodsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }
