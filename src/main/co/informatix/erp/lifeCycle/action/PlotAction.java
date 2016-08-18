@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.action.ActivityPlotAction;
+import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.dao.PlotDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
@@ -52,7 +53,7 @@ public class PlotAction implements Serializable {
 	private boolean farmParameter = false;
 	private boolean flagPlotActivity = false;
 	private int nameFarm;
-	private int idActivity;
+	private Activities activity;
 
 	private List<SelectItem> optionsFarm;
 	private List<Plot> listPlots;
@@ -237,16 +238,16 @@ public class PlotAction implements Serializable {
 	/**
 	 * @return idActivity: Identifier of the activity associated to plot
 	 */
-	public int getIdActivity() {
-		return idActivity;
+	public Activities getActivity() {
+		return activity;
 	}
 
 	/**
 	 * @param idActivity
 	 *            : Identifier of the activity associated to plot
 	 */
-	public void setIdActivity(int idActivity) {
-		this.idActivity = idActivity;
+	public void setActivity(Activities activity) {
+		this.activity = activity;
 	}
 
 	/**
@@ -430,16 +431,24 @@ public class PlotAction implements Serializable {
 			selection = true;
 		}
 
-		if (flagPlotActivity && idActivity != 0) {
+		if (flagPlotActivity && this.activity != null) {
 			consult.append(selection ? "AND " : "WHERE ");
 			consult.append("p NOT IN ");
 			consult.append("(SELECT p FROM ActivityPlot ap ");
 			consult.append("JOIN ap.activityPlotPK.plot p ");
 			consult.append("JOIN ap.activityPlotPK.activity a ");
-			consult.append("WHERE a.idActivity = :idActivity ) ");
+			consult.append(activity.getCycle() == null ? "WHERE a.idActivity = :idActivity ) "
+					: "WHERE a.cycle.idCycle = :idCycle) ");
 			consult.append("AND p.numberOfTrees > 0 ");
-			SelectItem item = new SelectItem(this.idActivity, "idActivity");
-			parameters.add(item);
+			if (activity.getCycle() == null) {
+				SelectItem item = new SelectItem(this.activity.getIdActivity(),
+						"idActivity");
+				parameters.add(item);
+			} else {
+				SelectItem item = new SelectItem(this.activity.getCycle().getIdCycle(),
+						"idCycle");
+				parameters.add(item);
+			}
 			selection = true;
 		}
 
