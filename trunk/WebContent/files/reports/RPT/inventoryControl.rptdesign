@@ -33,6 +33,21 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="initialDate" id="552">
+            <property name="valueType">static</property>
+            <property name="isRequired">false</property>
+            <property name="dataType">dateTime</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="javascript">initialDate= reportContext.getParameterValue("initialDate");</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <script-data-source name="Data Source" id="10"/>
@@ -387,6 +402,9 @@ return false;]]></method>
                         <property name="backgroundColor">#C4D79B</property>
                         <property name="fontSize">12pt</property>
                         <property name="fontWeight">bold</property>
+                        <structure name="dateTimeFormat">
+                            <property name="category">Custom</property>
+                        </structure>
                         <structure name="stringFormat">
                             <property name="category">></property>
                             <property name="pattern">></property>
@@ -400,7 +418,7 @@ return false;]]></method>
                             </structure>
                         </list-property>
                         <structure name="toc">
-                            <expression name="expressionValue" type="javascript">reportContext.setPageVariable("pageLabel",BirtStr.toUpper(Formatter.format(row["month"], 'MMMM')));</expression>
+                            <expression name="expressionValue" type="javascript">reportContext.setPageVariable("pageLabel",BirtStr.toUpper(Formatter.format(row["month"], 'MMMM YYYY')));</expression>
                         </structure>
                         <property name="resultSetColumn">month</property>
                     </data>
@@ -767,10 +785,18 @@ true;&#13;
                                                 <property name="level">Date/dateTransaction</property>
                                                 <property name="filter">
                                                     <filter-condition-element>
-                                                        <expression name="expr" type="javascript">Formatter.format(data["dateTransaction"],'MMMM')</expression>
+                                                        <expression name="expr" type="javascript">Formatter.format(data["dateTransaction"],'MMMM-YYYY')</expression>
                                                         <property name="operator">like</property>
                                                         <simple-property-list name="value1">
-                                                            <value type="javascript">Formatter.format(row._outer["month"],'MMMM')</value>
+                                                            <value type="javascript">Formatter.format(row._outer["month"],'MMMM-YYYY')</value>
+                                                        </simple-property-list>
+                                                        <property name="updateAggregation">true</property>
+                                                    </filter-condition-element>
+                                                    <filter-condition-element>
+                                                        <expression name="expr" type="javascript">data["dateTransaction"]</expression>
+                                                        <property name="operator">ge</property>
+                                                        <simple-property-list name="value1">
+                                                            <value type="javascript">params["initialDate"].value</value>
                                                         </simple-property-list>
                                                         <property name="updateAggregation">true</property>
                                                     </filter-condition-element>
@@ -847,10 +873,12 @@ true;&#13;
                             <extended-item extensionName="CrosstabCell" id="287">
                                 <property name="content">
                                     <text-data id="477">
-                                        <property name="fontSize">12pt</property>
+                                        <property name="fontSize">10pt</property>
                                         <property name="fontWeight">bold</property>
-                                        <expression name="valueExpr">BirtStr.toUpper(Formatter.format(row._outer["month"], 'MMMM'))</expression>
-                                        <property name="contentType">html</property>
+                                        <property name="textAlign">left</property>
+                                        <property name="display">inline</property>
+                                        <expression name="valueExpr">BirtStr.toUpper(Formatter.format(row._outer["month"], 'MMMM YYYY'))</expression>
+                                        <property name="contentType">auto</property>
                                     </text-data>
                                 </property>
                                 <property name="backgroundColor">#C4D79B</property>

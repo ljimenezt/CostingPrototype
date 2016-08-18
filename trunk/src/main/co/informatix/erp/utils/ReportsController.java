@@ -229,10 +229,12 @@ public class ReportsController implements Serializable {
 	 *            : Objects list with the values of the report inventory
 	 * @param listMonths
 	 *            : Date list with the value of the month of the inventory
+	 * @param initialDate
+	 *            : Date initial to filter the date transaction
 	 * @throws Exception
 	 */
 	public void generateReportInventoryControl(List<Object[]> listInventory,
-			List<Date> listMonths) throws Exception {
+			List<Date> listMonths, Date initialDate) throws Exception {
 		Object[] object = new Object[10];
 		boolean flagColor = true;
 		String reportName = "inventoryControl.rptdesign";
@@ -241,6 +243,7 @@ public class ReportsController implements Serializable {
 		mapAttribute.put("object", object);
 		mapAttribute.put("flagColor", flagColor);
 		mapAttribute.put("listMonths", listMonths);
+		mapAttribute.put("initialDate", initialDate);
 		this.reportFormat = Constantes.FORMAT_EXCEL;
 		generateReports(reportName, mapAttribute);
 	}
