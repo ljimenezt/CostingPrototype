@@ -178,10 +178,8 @@ public class HrTypesAction implements Serializable {
 	 * @param bundle
 	 *            : Variable to access message tags for software
 	 *            internationalization.
-	 * 
 	 * @param searchMessage
 	 *            : Message displayed.
-	 * 
 	 */
 	private void advancedQuery(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -201,7 +199,6 @@ public class HrTypesAction implements Serializable {
 	 * 
 	 * @param hrTypes
 	 *            : Human resources type name to be added or edited.
-	 * 
 	 * @return "regHrTypes": Redirects to register in the human resources type
 	 *         template.
 	 */
@@ -220,7 +217,6 @@ public class HrTypesAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value

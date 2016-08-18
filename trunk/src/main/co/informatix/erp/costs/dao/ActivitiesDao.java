@@ -146,10 +146,8 @@ public class ActivitiesDao implements Serializable {
 	 * 
 	 * @param idActivity
 	 *            : identifier of the activity.
-	 * 
 	 * @return Activities: Activity found according to the identifier sent as a
 	 *         parameter.
-	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -228,7 +226,6 @@ public class ActivitiesDao implements Serializable {
 	 * @return Long: Number of activities records found.
 	 * @throws Exception
 	 */
-
 	public Long queryActivitiesByIdCert(StringBuilder query,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
@@ -280,10 +277,8 @@ public class ActivitiesDao implements Serializable {
 	 * 
 	 * @param actNameId
 	 *            : Identifier of the activity name.
-	 * 
 	 * @return Activities: Activity found according to the identifier sent as a
 	 *         parameter.
-	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

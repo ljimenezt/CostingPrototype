@@ -133,7 +133,6 @@ public class TeamMembersAction implements Serializable {
 
 	/**
 	 * Method to initialize the fields in the search.
-	 * 
 	 */
 	public void initializeTeamMembers() {
 		this.nameSearch = "";
@@ -263,7 +262,6 @@ public class TeamMembersAction implements Serializable {
 	 * @param flag
 	 *            : flag is true if will save the leader and is false is will
 	 *            save the statistician.
-	 * 
 	 */
 	public void saveLeadStatistician(TeamMembers teamMembers, boolean flag) {
 		try {

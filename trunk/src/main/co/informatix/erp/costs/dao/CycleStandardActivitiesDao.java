@@ -68,7 +68,6 @@ public class CycleStandardActivitiesDao implements Serializable {
 	 * 
 	 * @param idCropName
 	 *            : CropName identifier.
-	 * 
 	 * @return List<CycleStandardActivities>:List of cycle standard activities.
 	 * @throws Exception
 	 */
@@ -96,7 +95,6 @@ public class CycleStandardActivitiesDao implements Serializable {
 	 *            : Identifier of the activity name.
 	 * @return boolean: Returns true if the relationship exists, false
 	 *         otherwise.
-	 * 
 	 * @throws Exception
 	 */
 	public boolean relateCropNamesActivityNames(int idCropName,
@@ -182,5 +180,4 @@ public class CycleStandardActivitiesDao implements Serializable {
 		}
 		return null;
 	}
-
 }

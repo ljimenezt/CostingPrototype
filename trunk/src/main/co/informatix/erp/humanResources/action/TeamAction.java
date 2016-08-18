@@ -193,9 +193,7 @@ public class TeamAction implements Serializable {
 	 * 
 	 * @param team
 	 *            :Object of team are adding or editing.
-	 * 
 	 * @return regTeam: Template redirects to register team.
-	 * 
 	 */
 	public String addEditTeams(Team team) {
 		if (team != null) {
@@ -334,7 +332,6 @@ public class TeamAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -485,7 +482,6 @@ public class TeamAction implements Serializable {
 	 * 
 	 * @return hrAction.initializeSearch: Redirects to initialize variables and
 	 *         load hr list.
-	 * 
 	 */
 	public String initializeHr() {
 		hrActualList = new ArrayList<Hr>();
@@ -560,7 +556,6 @@ public class TeamAction implements Serializable {
 	 * @param hr
 	 *            : hr related to a team.
 	 * @throws Exception
-	 * 
 	 */
 	private void saveTeamMembers(Hr hr) throws Exception {
 		TeamMembers teamMembers = new TeamMembers();
@@ -578,7 +573,6 @@ public class TeamAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value

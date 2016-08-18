@@ -144,7 +144,6 @@ public class ContractAction implements Serializable {
 	 * @modify 08/03/2016 Mabell.Boada
 	 * 
 	 * @return returns: Redirects to the template to manage contracts.
-	 * 
 	 */
 	public String searchContracts() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -236,7 +235,6 @@ public class ContractAction implements Serializable {
 	 * 
 	 * @param contract
 	 *            : Contract to add or edit.
-	 * 
 	 * @return "regContract": Redirects to the template to register a contract.
 	 * @throws Exception
 	 */
