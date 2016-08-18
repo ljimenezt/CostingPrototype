@@ -397,25 +397,12 @@ public class InventoryControlAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		reportAdvanceSearch(query, parameters);
 		try {
-			List<Integer> listMonthsNumber = new ArrayList<>();
+			List<Date> listMonths = new ArrayList<>();
 			if (this.initialDate != null && this.finalDate != null) {
-				int initMonth = ControladorFechas.getMonth(this.initialDate);
-				int finalMonth = ControladorFechas.getMonth(this.finalDate);
-				for (int i = initMonth; i <= finalMonth; i++) {
-					listMonthsNumber.add(i);
-				}
+				listMonths = getDatesBetweenDates(this.initialDate,
+						this.finalDate);
 			} else {
-				listMonthsNumber = depositsDao.consultMonths(query, parameters);
-			}
-			List<Date> listDate = new ArrayList<>();
-			if (listMonthsNumber != null) {
-				for (int month : listMonthsNumber) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.clear();
-					calendar.set(Calendar.MONTH, month - 1);
-					Date date = calendar.getTime();
-					listDate.add(date);
-				}
+				listMonths = depositsDao.consultMonths(query, parameters);
 			}
 			List<Object[]> listInventory = depositsDao
 					.consultoInventoryByDepositReport(query, parameters);
@@ -423,12 +410,16 @@ public class InventoryControlAction implements Serializable {
 			Double actualQuantity = 0d;
 			int idMaterialAux = 0;
 			int month = 0;
+			int year = 0;
 			Double totalInitialQuantity = 0d;
 			for (Object[] object : listInventory) {
 				int idMaterial = Integer.parseInt(object[7].toString());
 				Date dateT = (Date) object[3];
 				object[2] = totalInitialQuantity;
 				int actualMonth = ControladorFechas.getMonth(dateT);
+				int actualYear = ControladorFechas.getYear(dateT);
+				boolean editQ = month != actualMonth ? true
+						: year != actualYear ? true : false;
 				count = idMaterialAux == idMaterial ? count : 0;
 				if (count == 0) {
 					actualQuantity = 0d;
@@ -436,7 +427,7 @@ public class InventoryControlAction implements Serializable {
 					totalInitialQuantity = 0d;
 					object[2] = 0d;
 				}
-				if (month != actualMonth) {
+				if (editQ) {
 					if (count == 0) {
 						totalInitialQuantity = 0d;
 						object[2] = 0d;
@@ -452,10 +443,11 @@ public class InventoryControlAction implements Serializable {
 				object[6] = actualQuantity;
 
 				month = actualMonth;
+				year = actualYear;
 				count++;
 			}
 			reportsController.generateReportInventoryControl(listInventory,
-					listDate);
+					listMonths, this.initialDate);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -488,6 +480,40 @@ public class InventoryControlAction implements Serializable {
 			SelectItem item = new SelectItem(this.finalDate, "keyword3");
 			parameters.add(item);
 		}
+	}
+
+	/**
+	 * This method allow calculate the list of the months between two dates
+	 * 
+	 * @param initialDate
+	 *            :Initial date to start the calculated
+	 * @param finalDate
+	 *            : Final date to end the calculated
+	 * @return List<Date> : list of the dates calculated
+	 */
+	public List<Date> getDatesBetweenDates(Date initialDate, Date finalDate) {
+		List<Date> listDate = new ArrayList<>();
+		int initialMonth = ControladorFechas.getMonth(initialDate);
+		int finalMonth = ControladorFechas.getMonth(finalDate);
+		int initialYear = ControladorFechas.getYear(initialDate);
+		int finalYear = ControladorFechas.getYear(finalDate);
+		for (int year = initialYear; year <= finalYear; year++, initialMonth = 1) {
+			for (int month = initialMonth; month <= 12; month++) {
+				Calendar calendar = Calendar.getInstance();
+				calendar.clear();
+				calendar.set(Calendar.MONTH, month - 1);
+				calendar.set(Calendar.YEAR, year);
+				Date date = calendar.getTime();
+				listDate.add(date);
+				boolean flagBreak = month == finalMonth ? year == finalYear ? true
+						: false
+						: false;
+				if (flagBreak) {
+					break;
+				}
+			}
+		}
+		return listDate;
 	}
 
 }

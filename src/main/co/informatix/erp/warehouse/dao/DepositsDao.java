@@ -368,13 +368,13 @@ public class DepositsDao implements Serializable {
 		query.append("AND t.id_transaction_type = tt.idtransactiontype ");
 		query.append(consult);
 		query.append("UNION ALL SELECT m.name as material,  mt.name as materialtype, ");
-		query.append("	d.initial_quantity, d.date_time as datetransaction, ");
+		query.append("	t.initial_quantity, t.date_time as datetransaction, ");
 		query.append("	varchar(7) 'Deposit' as transactiontype, float8(0) as quantity, ");
 		query.append("	float8(0) as actualq, m.idmaterial, float8(0) as salida, ");
-		query.append("	d.initial_quantity as entrada ");
-		query.append("FROM warehouse.materials m, warehouse.deposits d, ");
+		query.append("	t.initial_quantity as entrada ");
+		query.append("FROM warehouse.materials m, warehouse.deposits t, ");
 		query.append("	   warehouse.materials_types mt ");
-		query.append("WHERE m.idmaterial = d.id_material ");
+		query.append("WHERE m.idmaterial = t.id_material ");
 		query.append("AND m.id_material_type = mt.idmaterialtype  ");
 		query.append(consult);
 		query.append("ORDER BY 1,4 ");
@@ -397,14 +397,14 @@ public class DepositsDao implements Serializable {
 	 *            the user
 	 * @param parameters
 	 *            : Query parameters
-	 * @return List<String>:List of id's of the material that comply with the
+	 * @return List<Date>:List of Dates of the material that comply with the
 	 *         condition of validity.
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Integer> consultMonths(StringBuilder consult,
+	public List<Date> consultMonths(StringBuilder consult,
 			List<SelectItem> parameters) {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT DISTINCT CAST(date_part('month',t.date_time) as int) ");
+		query.append("SELECT DISTINCT date_trunc('month', t.date_time) ");
 		query.append("FROM warehouse.materials m, ");
 		query.append("	   warehouse.deposits d, ");
 		query.append("	   warehouse.transactions t, ");
@@ -413,10 +413,10 @@ public class DepositsDao implements Serializable {
 		query.append("AND d.iddeposit = t.id_deposit ");
 		query.append("AND t.id_transaction_type = tt.idtransactiontype ");
 		query.append(consult);
-		query.append("UNION SELECT DISTINCT CAST(date_part('month',d.date_time) as int) ");
-		query.append("FROM warehouse.materials m, warehouse.deposits d, ");
+		query.append("UNION SELECT DISTINCT date_trunc('month', t.date_time) ");
+		query.append("FROM warehouse.materials m, warehouse.deposits t, ");
 		query.append("     warehouse.materials_types mt ");
-		query.append("WHERE m.idmaterial = d.id_material ");
+		query.append("WHERE m.idmaterial = t.id_material ");
 		query.append("AND m.id_material_type = mt.idmaterialtype ");
 		query.append(consult);
 		query.append("ORDER BY 1 ");
@@ -424,7 +424,7 @@ public class DepositsDao implements Serializable {
 		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
-		List<Integer> resultList = q.getResultList();
+		List<Date> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
 		}
