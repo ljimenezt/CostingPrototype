@@ -297,9 +297,8 @@ public class CycleStandardActivitiesAction implements Serializable {
 	 * @return consultCycleStandarActivities: Method That loads information
 	 *         necessary and redirected to the template record Standard cycle
 	 *         activities.
-	 * @throws Exception
 	 */
-	public String saveCycleStandardActivities() throws Exception {
+	public String saveCycleStandardActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String registerMessage = "message_saved_activity";
 		boolean exists;

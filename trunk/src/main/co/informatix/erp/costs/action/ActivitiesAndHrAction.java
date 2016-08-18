@@ -753,37 +753,32 @@ public class ActivitiesAndHrAction implements Serializable {
 		activitiesAndHrPK = new ActivitiesAndHrPK();
 		activitiesAndHr = new ActivitiesAndHr();
 		validateWorker = false;
-		try {
-			worker = selectedWorker;
-			if (!selectedWorker.isSeleccionado()) {
-				if (selectedActivity.getDurationBudget() != null) {
-					activitiesAndHr.setDurationBudget(selectedActivity
-							.getDurationBudget());
-				} else {
-					activitiesAndHr.setDurationBudget(ControladorFechas
-							.restarFechas(
-									selectedActivity.getInitialDtBudget(),
-									selectedActivity.getFinalDtBudget()));
-				}
+		worker = selectedWorker;
+		if (!selectedWorker.isSeleccionado()) {
+			if (selectedActivity.getDurationBudget() != null) {
+				activitiesAndHr.setDurationBudget(selectedActivity
+						.getDurationBudget());
 			} else {
-				ActivitiesAndHr actividadesHr = new ActivitiesAndHr();
-				for (ActivitiesAndHr actividadHr : listActivitiesAndHr) {
-					int actividadIdHr = actividadHr.getActivitiesAndHrPK()
-							.getHr().getIdHr();
-					int idActivity = actividadHr.getActivitiesAndHrPK()
-							.getActivities().getIdActivity();
-					if (actividadIdHr == worker.getIdHr()
-							&& selectedActivity.getIdActivity() == idActivity) {
-						actividadesHr = actividadHr;
-					}
-				}
-				listActivitiesAndHr.remove(actividadesHr);
-				worker.setSeleccionado(false);
-				validateWorker = true;
-				selectedWorkers.remove(worker);
+				activitiesAndHr.setDurationBudget(ControladorFechas
+						.restarFechas(selectedActivity.getInitialDtBudget(),
+								selectedActivity.getFinalDtBudget()));
 			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
+		} else {
+			ActivitiesAndHr actividadesHr = new ActivitiesAndHr();
+			for (ActivitiesAndHr actividadHr : listActivitiesAndHr) {
+				int actividadIdHr = actividadHr.getActivitiesAndHrPK().getHr()
+						.getIdHr();
+				int idActivity = actividadHr.getActivitiesAndHrPK()
+						.getActivities().getIdActivity();
+				if (actividadIdHr == worker.getIdHr()
+						&& selectedActivity.getIdActivity() == idActivity) {
+					actividadesHr = actividadHr;
+				}
+			}
+			listActivitiesAndHr.remove(actividadesHr);
+			worker.setSeleccionado(false);
+			validateWorker = true;
+			selectedWorkers.remove(worker);
 		}
 	}
 
@@ -1059,9 +1054,8 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * 
 	 * @param costHr
 	 *            : New cost for cost budget of human resources
-	 * @throws Exception
 	 */
-	private void calculateCostBudgetActivity(double costHr) throws Exception {
+	private void calculateCostBudgetActivity(double costHr) {
 		double costActual = costHr;
 		if (selectedActivity.getGeneralCostBudget() != null
 				&& selectedActivity.getGeneralCostBudget() > 0) {
@@ -1211,37 +1205,34 @@ public class ActivitiesAndHrAction implements Serializable {
 					activitiesAndHr.getInitialDateTimeBudget(),
 					activitiesAndHr.getFinalDateTimeBudget());
 		}
-		try {
-			if (duration > 0) {
-				if (duration.compareTo(durationActivity) > 0) {
-					String message = "message_activity_duration";
-					ControladorContexto.mensajeErrorEspecifico(clientId,
-							message, "mensaje");
-					((UIInput) toValidate).setValid(false);
-				} else {
-					if (activitiesAndHr.getActivitiesAndHrPK() != null) {
-						idHr = this.activitiesAndHr.getActivitiesAndHrPK()
-								.getHr().getIdHr();
-					} else {
-						idHr = this.worker.getIdHr();
-					}
-					validateWorkLoad(duration, idHr, false,
-							this.activitiesAndHr, this.selectedActivity);
-					if (!this.workHoursValid) {
-						String message = "message_overtime_week";
-						ControladorContexto.mensajeErrorEspecifico(clientId,
-								message, "mensaje");
-						((UIInput) toValidate).setValid(false);
-					}
-				}
-			} else {
-				String message = "message_greater_zero";
+
+		if (duration > 0) {
+			if (duration.compareTo(durationActivity) > 0) {
+				String message = "message_activity_duration";
 				ControladorContexto.mensajeErrorEspecifico(clientId, message,
 						"mensaje");
 				((UIInput) toValidate).setValid(false);
+			} else {
+				if (activitiesAndHr.getActivitiesAndHrPK() != null) {
+					idHr = this.activitiesAndHr.getActivitiesAndHrPK().getHr()
+							.getIdHr();
+				} else {
+					idHr = this.worker.getIdHr();
+				}
+				validateWorkLoad(duration, idHr, false, this.activitiesAndHr,
+						this.selectedActivity);
+				if (!this.workHoursValid) {
+					String message = "message_overtime_week";
+					ControladorContexto.mensajeErrorEspecifico(clientId,
+							message, "mensaje");
+					((UIInput) toValidate).setValid(false);
+				}
 			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
+		} else {
+			String message = "message_greater_zero";
+			ControladorContexto.mensajeErrorEspecifico(clientId, message,
+					"mensaje");
+			((UIInput) toValidate).setValid(false);
 		}
 	}
 
