@@ -197,7 +197,6 @@ public class TypeUnitAction implements Serializable {
 	 * 
 	 * @param typeUnit
 	 *            : Type Unit to be add or edit.
-	 * 
 	 * @return "regTypeUnit":redirected to the template to manage Type Unit.
 	 */
 	public String addEditTypeUnit(TypeUnit typeUnit) {
@@ -268,7 +267,6 @@ public class TypeUnitAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value

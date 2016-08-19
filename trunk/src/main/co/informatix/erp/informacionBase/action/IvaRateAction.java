@@ -197,7 +197,6 @@ public class IvaRateAction implements Serializable {
 	 * 
 	 * @param ivaRate
 	 *            : iva rate to be add or edit.
-	 * 
 	 * @return "regIvaRate":redirected to the template to manage iva rate.
 	 */
 	public String addEditIvaRate(IvaRate ivaRate) {
@@ -265,7 +264,6 @@ public class IvaRateAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
@@ -302,7 +300,6 @@ public class IvaRateAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
