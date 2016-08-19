@@ -275,7 +275,7 @@ public class TeamAction implements Serializable {
 	 */
 	private void addWorkerAssociated() throws Exception {
 		for (Team team : teamList) {
-			Long QuantityWorkers = teamMembersDao.QuantityWorkersByIdTeam(team
+			Long QuantityWorkers = teamMembersDao.quantityWorkersByIdTeam(team
 					.getIdTeam());
 			team.setWorkersAssociated(QuantityWorkers.intValue());
 		}
