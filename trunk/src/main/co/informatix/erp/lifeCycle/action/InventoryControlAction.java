@@ -3,7 +3,6 @@ package co.informatix.erp.lifeCycle.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -399,8 +398,8 @@ public class InventoryControlAction implements Serializable {
 		try {
 			List<Date> listMonths = new ArrayList<>();
 			if (this.initialDate != null && this.finalDate != null) {
-				listMonths = getDatesBetweenDates(this.initialDate,
-						this.finalDate);
+				listMonths = ControladorFechas.getDatesBetweenTwoDates(
+						this.initialDate, this.finalDate);
 			} else {
 				listMonths = depositsDao.consultMonths(query, parameters);
 			}
@@ -445,6 +444,12 @@ public class InventoryControlAction implements Serializable {
 				month = actualMonth;
 				year = actualYear;
 				count++;
+				if (this.initialDate != null) {
+					if (dateT.compareTo(this.initialDate) < 0) {
+						totalInitialQuantity = actualQuantity;
+						object[2] = totalInitialQuantity;
+					}
+				}
 			}
 			reportsController.generateReportInventoryControl(listInventory,
 					listMonths, this.initialDate);
@@ -480,40 +485,6 @@ public class InventoryControlAction implements Serializable {
 			SelectItem item = new SelectItem(this.finalDate, "keyword3");
 			parameters.add(item);
 		}
-	}
-
-	/**
-	 * This method allow calculate the list of the months between two dates
-	 * 
-	 * @param initialDate
-	 *            :Initial date to start the calculated
-	 * @param finalDate
-	 *            : Final date to end the calculated
-	 * @return List<Date> : list of the dates calculated
-	 */
-	public List<Date> getDatesBetweenDates(Date initialDate, Date finalDate) {
-		List<Date> listDate = new ArrayList<>();
-		int initialMonth = ControladorFechas.getMonth(initialDate);
-		int finalMonth = ControladorFechas.getMonth(finalDate);
-		int initialYear = ControladorFechas.getYear(initialDate);
-		int finalYear = ControladorFechas.getYear(finalDate);
-		for (int year = initialYear; year <= finalYear; year++, initialMonth = 1) {
-			for (int month = initialMonth; month <= 12; month++) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.clear();
-				calendar.set(Calendar.MONTH, month - 1);
-				calendar.set(Calendar.YEAR, year);
-				Date date = calendar.getTime();
-				listDate.add(date);
-				boolean flagBreak = month == finalMonth ? year == finalYear ? true
-						: false
-						: false;
-				if (flagBreak) {
-					break;
-				}
-			}
-		}
-		return listDate;
 	}
 
 }
