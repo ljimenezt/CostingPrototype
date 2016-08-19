@@ -48,6 +48,20 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="actualQuantity" id="618">
+            <property name="valueType">static</property>
+            <property name="dataType">float</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="javascript">0;</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <script-data-source name="Data Source" id="10"/>
@@ -608,6 +622,19 @@ true;&#13;
                                         </list-property>
                                         <property name="width">0.4166666666666667in</property>
                                         <property name="content">
+                                            <data name="zero1" id="608">
+                                                <list-property name="visibility">
+                                                    <structure>
+                                                        <property name="format">all</property>
+                                                        <expression name="valueExpr" type="javascript">if(data["actualQuantity_InitialQuantity/initialQuantity_Date/dateTransaction"] == null){&#13;
+false;&#13;
+}else{&#13;
+true;&#13;
+}</expression>
+                                                    </structure>
+                                                </list-property>
+                                                <property name="resultSetColumn">zero</property>
+                                            </data>
                                             <data id="283">
                                                 <property name="borderBottomColor">#000000</property>
                                                 <property name="borderBottomStyle">solid</property>
@@ -621,6 +648,16 @@ true;&#13;
                                                 <property name="borderTopColor">#000000</property>
                                                 <property name="borderTopStyle">solid</property>
                                                 <property name="borderTopWidth">thin</property>
+                                                <list-property name="visibility">
+                                                    <structure>
+                                                        <property name="format">all</property>
+                                                        <expression name="valueExpr" type="javascript">if(data["actualQuantity_InitialQuantity/initialQuantity_Date/dateTransaction"] == null){&#13;
+true;&#13;
+}else{&#13;
+false;&#13;
+}</expression>
+                                                    </structure>
+                                                </list-property>
                                                 <property name="resultSetColumn">actualQuantity_InitialQuantity/initialQuantity_Date/dateTransaction</property>
                                             </data>
                                         </property>
@@ -763,7 +800,8 @@ true;&#13;
 }else{&#13;
 params["flagColor"].value = true;&#13;
 true;&#13;
-}</expression>
+}&#13;
+params["actualQuantity"].value = data["initialQuantity"];</expression>
                                                             </structure>
                                                         </list-property>
                                                         <property name="width">0.9270833333333334in</property>
@@ -1075,6 +1113,15 @@ false;</expression>
                                     <value>InitialQuantity/initialQuantity</value>
                                 </simple-property-list>
                                 <property name="aggregateFunction">sum</property>
+                            </structure>
+                            <structure>
+                                <property name="name">zero</property>
+                                <expression name="expression" type="javascript">if(data["actualQuantity_InitialQuantity/initialQuantity_Date/dateTransaction"] ==null){&#13;
+params["actualQuantity"].value;&#13;
+}else{&#13;
+params["actualQuantity"].value = data["actualQuantity_InitialQuantity/initialQuantity_Date/dateTransaction"];&#13;
+}</expression>
+                                <property name="dataType">float</property>
                             </structure>
                         </list-property>
                     </extended-item>
