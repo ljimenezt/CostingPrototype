@@ -177,7 +177,6 @@ public class PaymentsAction implements Serializable {
 	 *            : list of search parameters.
 	 * @param bundle
 	 *            : access language tags
-	 * 
 	 * @param unionMessagesSearch
 	 *            : Message search
 	 */
