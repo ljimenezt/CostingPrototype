@@ -330,7 +330,6 @@ public class UnitConversionAction implements Serializable {
 	 * 
 	 * @param unitConversion
 	 *            : Unit Conversion to be added or edited.
-	 * 
 	 * @return "regUnitConversion": It redirects to the template to manage unit
 	 *         conversions.
 	 */
@@ -490,5 +489,4 @@ public class UnitConversionAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }

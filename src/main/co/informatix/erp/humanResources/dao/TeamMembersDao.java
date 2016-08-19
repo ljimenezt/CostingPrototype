@@ -155,7 +155,6 @@ public class TeamMembersDao implements Serializable {
 	 * 
 	 * @param idTeam
 	 *            :idTeam identifier to find teamMembers.
-	 * 
 	 * @return List<TeamMembers>: TeamMembers list found.
 	 * @throws Exception
 	 */
@@ -182,11 +181,10 @@ public class TeamMembersDao implements Serializable {
 	 * 
 	 * @param idTeam
 	 *            :idTeam identifier to find teamMembers.
-	 * 
 	 * @return Long: Quantity for team members.
 	 * @throws Exception
 	 */
-	public Long QuantityWorkersByIdTeam(Short idTeam) throws Exception {
+	public Long quantityWorkersByIdTeam(Short idTeam) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(tm) FROM TeamMembers tm ");
 		query.append("JOIN tm.teamMembersPK.team t ");

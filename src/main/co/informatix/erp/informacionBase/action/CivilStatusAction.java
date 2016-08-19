@@ -175,7 +175,6 @@ public class CivilStatusAction implements Serializable {
 	 *            : List of search parameters.
 	 * @param bundle
 	 *            : Access language tags.
-	 * 
 	 * @param unionMessagesSearch
 	 *            : Message Word Search.
 	 */
@@ -197,7 +196,6 @@ public class CivilStatusAction implements Serializable {
 	 * 
 	 * @param civilStatus
 	 *            : Marital status to be add or edit.
-	 * 
 	 * @return regCivilEst: Redirects the state record template civil.
 	 */
 	public String addEditCivilStatus(CivilStatus civilStatus) {
@@ -215,7 +213,6 @@ public class CivilStatusAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
