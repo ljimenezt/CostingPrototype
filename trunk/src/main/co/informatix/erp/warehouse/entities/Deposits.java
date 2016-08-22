@@ -49,7 +49,7 @@ public class Deposits implements Serializable {
 	private MeasurementUnits measurementUnits;
 
 	/**
-	 * Constructor
+	 * Constructor that initializes the foreign key
 	 */
 	public Deposits() {
 		this.materials = new Materials();
@@ -77,7 +77,7 @@ public class Deposits implements Serializable {
 	}
 
 	/**
-	 * @return dateTime:Date Time
+	 * @return dateTime:Deposit date Time
 	 */
 	@Column(name = "date_time")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -87,14 +87,14 @@ public class Deposits implements Serializable {
 
 	/**
 	 * @param dateTime
-	 *            :Date Time
+	 *            :Deposit date Time
 	 */
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
 	}
 
 	/**
-	 * @return expireDate: Expire Date
+	 * @return expireDate: Expire Date of the material
 	 */
 	@Column(name = "expire_date")
 	@Temporal(TemporalType.DATE)
@@ -104,14 +104,14 @@ public class Deposits implements Serializable {
 
 	/**
 	 * @param expireDate
-	 *            Expire Date
+	 *            Expire Date of the material
 	 */
 	public void setExpireDate(Date expireDate) {
 		this.expireDate = expireDate;
 	}
 
 	/**
-	 * @return initialQuantity: initial Quantity
+	 * @return initialQuantity: initial Quantity of deposit
 	 */
 	@Column(name = "initial_quantity")
 	public Double getInitialQuantity() {
@@ -120,14 +120,14 @@ public class Deposits implements Serializable {
 
 	/**
 	 * @param initialQuantity
-	 *            : initial Quantity
+	 *            : initial Quantity of deposit
 	 */
 	public void setInitialQuantity(Double initialQuantity) {
 		this.initialQuantity = initialQuantity;
 	}
 
 	/**
-	 * @return realQuantityActual: Real Quantity Actual
+	 * @return actualQuantity: actual Quantity of deposit
 	 */
 	@Column(name = "actual_quantity")
 	public Double getActualQuantity() {
@@ -136,7 +136,7 @@ public class Deposits implements Serializable {
 
 	/**
 	 * @param actualQuantity
-	 *            actual Quantity
+	 *            : actual Quantity of deposit
 	 */
 	public void setActualQuantity(Double actualQuantity) {
 		this.actualQuantity = actualQuantity;
@@ -159,7 +159,7 @@ public class Deposits implements Serializable {
 	}
 
 	/**
-	 * @return location: Location
+	 * @return location: Location of deposit
 	 */
 	@Column(name = "location")
 	public String getLocation() {
@@ -168,7 +168,7 @@ public class Deposits implements Serializable {
 
 	/**
 	 * @param location
-	 *            :Location
+	 *            :Location of deposit
 	 */
 	public void setLocation(String location) {
 		this.location = location;
@@ -192,7 +192,7 @@ public class Deposits implements Serializable {
 	}
 
 	/**
-	 * @return totalCost: total cost
+	 * @return totalCost: total cost of deposit
 	 */
 	@Column(name = "total_cost", nullable = false)
 	public Double getTotalCost() {
@@ -201,14 +201,14 @@ public class Deposits implements Serializable {
 
 	/**
 	 * @param totalCost
-	 *            : total cost
+	 *            : total cost of deposit
 	 */
 	public void setTotalCost(Double totalCost) {
 		this.totalCost = totalCost;
 	}
 
 	/**
-	 * @return materials:Materials
+	 * @return materials:Materials associated with the deposit
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_material", referencedColumnName = "idmaterial", nullable = false)
@@ -218,14 +218,14 @@ public class Deposits implements Serializable {
 
 	/**
 	 * @param materials
-	 *            :Materials
+	 *            :Materials associated with the deposit
 	 */
 	public void setMaterials(Materials materials) {
 		this.materials = materials;
 	}
 
 	/**
-	 * @return purchaseInvoices: Purchase Invoices
+	 * @return purchaseInvoices: Purchase Invoices associated with the deposit
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_purchase_invoice", referencedColumnName = "idpurchaseinvoice", nullable = false)
@@ -235,14 +235,14 @@ public class Deposits implements Serializable {
 
 	/**
 	 * @param purchaseInvoices
-	 *            :Purchase Invoices
+	 *            :Purchase Invoices associated with the deposit
 	 */
 	public void setPurchaseInvoices(PurchaseInvoices purchaseInvoices) {
 		this.purchaseInvoices = purchaseInvoices;
 	}
 
 	/**
-	 * @return farm: Farm
+	 * @return farm: Farm of the deposit
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_farm", referencedColumnName = "idfarm")
@@ -252,7 +252,7 @@ public class Deposits implements Serializable {
 
 	/**
 	 * @param farm
-	 *            :Farm
+	 *            :Farm of the deposit
 	 */
 	public void setFarm(Farm farm) {
 		this.farm = farm;
