@@ -252,6 +252,7 @@ public class InventoryControlAction implements Serializable {
 		this.range = this.initialDate != null && this.finalDate != null ? true
 				: false;
 		if (this.range) {
+			this.finalDate = ControladorFechas.finDeDia(finalDate);
 			this.listDepositsIds = depositsDao
 					.consultIdsMaterialXDepositsByRange(ControladorFechas
 							.finDeDia(finalDate));
@@ -308,6 +309,7 @@ public class InventoryControlAction implements Serializable {
 			flag = true;
 		}
 		if (range) {
+			this.finalDate = ControladorFechas.finDeDia(finalDate);
 			String formatDate = Constantes.DATE_FORMAT_MESSAGE_SIMPLE;
 			consult.append(flag ? "AND " : "WHERE ");
 			consult.append("m.idMaterial IN :keyword3 ");
