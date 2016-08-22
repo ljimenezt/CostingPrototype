@@ -252,7 +252,7 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * @return activity: Identifier of the activity associated to plot
+	 * @return activity: Activity associated to plot
 	 */
 	public Activities getActivity() {
 		return activity;
@@ -260,7 +260,7 @@ public class PlotAction implements Serializable {
 
 	/**
 	 * @param activity
-	 *            : Identifier of the activity associated to plot
+	 *            : Activity associated to plot
 	 */
 	public void setActivity(Activities activity) {
 		this.activity = activity;
