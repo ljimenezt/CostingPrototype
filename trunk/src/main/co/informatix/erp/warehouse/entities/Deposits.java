@@ -80,7 +80,7 @@ public class Deposits implements Serializable {
 	 * @return dateTime:Date Time
 	 */
 	@Column(name = "date_time")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDateTime() {
 		return dateTime;
 	}
