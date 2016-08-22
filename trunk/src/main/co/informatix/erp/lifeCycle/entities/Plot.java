@@ -29,8 +29,9 @@ public class Plot implements Serializable {
 	private Double locationLinkToMap;
 	private Double size;
 	private Integer numberOfTrees;
-	private Farm farm;
 	private boolean selected;
+	private Farm farm;
+	private Section section;
 
 	/**
 	 * @return idPlot: plot identifier
@@ -133,6 +134,22 @@ public class Plot implements Serializable {
 	}
 
 	/**
+	 * @return selected: object selected from a list of plot
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : object selected from a list of plot
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	/**
 	 * @return farm: farm relate with a plot
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -150,19 +167,20 @@ public class Plot implements Serializable {
 	}
 
 	/**
-	 * @return selected: object selected from a list of plot
+	 * @return section: Section to which the plot belong.
 	 */
-	@Transient
-	public boolean isSelected() {
-		return selected;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idsection", referencedColumnName = "idsection", nullable = false)
+	public Section getSection() {
+		return section;
 	}
 
 	/**
-	 * @param selected
-	 *            : object selected from a list of plot
+	 * @param section
+	 *            : Section to which the plot belong.
 	 */
-	public void setSelected(boolean selected) {
-		this.selected = selected;
+	public void setSection(Section section) {
+		this.section = section;
 	}
 
 	@Override

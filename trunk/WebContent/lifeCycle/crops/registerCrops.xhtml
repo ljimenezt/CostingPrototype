@@ -54,7 +54,7 @@
 								<f:selectItem itemLabel="#{mensaje.label_select}" />
 								<f:selectItems value="#{cropsAction.options}" />
 								<f:ajax event="change" listener="#{cropsAction.compareCrops()}"
-									render=":formCrops:listaSeleccionados" />
+									render=":formCrops:panelPlotsAsocciates" />
 								<f:attribute name="tipo" value="Int" />
 							</h:selectOneMenu>
 							<h:outputText value="#{cropsAction.crops.cropNames.cropName}"
@@ -110,43 +110,41 @@
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
-				<t:fieldset styleClass="BorderW2P anchoDos ">
-					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label_plots_associated}</legend>
-					<!-- Boton popup -->
-					<div class="W560P">
-						<a:commandLink id="lnkCrops" render="popupForm:popupPlot"
-							styleClass="iconsDataTable quitarDecoracionLink"
-							action="#{plotAction.consultPlotForDate}"
-							execute="fechaInicio, fechFin, cropNames, txtDescripcion, cropAnyo"
-							oncomplete="#{rich:component('popupPlot')}.show(); setFocus('popupForm:txtNombreBuscar');">
-							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-								<h:graphicImage value="/img/plots_16.png"
-									styleClass="verticalAlignMiddle" />
-								<h:outputText value="#{messageLifeCycle.plot_label_add}" />
-							</h:panelGrid>
-							<f:param name="param2" value="si" />
-							<f:setPropertyActionListener value=""
-								target="#{plotAction.nameSearch}" />
-							<f:setPropertyActionListener value="true"
-								target="#{plotAction.pagerState}" />
-							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_select}" />
-							</rich:tooltip>
-							<f:param name="param2" value="si" />
-						</a:commandLink>
-					</div>
-					<h:form id="listaSeleccionados">
+				<a:outputPanel id="panelPlotsAsocciates">
+					<t:fieldset styleClass="BorderW2P anchoDos ">
+						<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label_plots_associated}</legend>
+						<!-- Boton popup -->
+						<div class="W560P">
+							<a:commandLink id="lnkCrops" render="popupForm:popupPlot"
+								styleClass="iconsDataTable quitarDecoracionLink"
+								action="#{plotAction.consultPlotForDate}"
+								execute="fechaInicio, fechFin, cropNames, txtDescripcion, cropAnyo"
+								oncomplete="#{rich:component('popupPlot')}.show(); setFocus('popupForm:txtNombreBuscar');">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/plots_16.png"
+										styleClass="verticalAlignMiddle" />
+									<h:outputText value="#{messageLifeCycle.plot_label_add}" />
+								</h:panelGrid>
+								<f:param name="param2" value="si" />
+								<f:setPropertyActionListener value=""
+									target="#{plotAction.nameSearch}" />
+								<f:setPropertyActionListener value="true"
+									target="#{plotAction.pagerState}" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_select}" />
+								</rich:tooltip>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+						</div>
 						<ui:param name="listaVaciaCrops"
-							value="#{cropsAction.listPlotsAsocciates.size() eq 0 or (cropsAction.listPlotsAsocciates eq null)}" />
-						<rich:dataTable value="#{cropsAction.listPlotsAsocciates}"
+							value="#{cropsAction.subListPlotsAsocciates.size() eq 0 or (cropsAction.subListPlotsAsocciates eq null)}" />
+						<rich:dataTable value="#{cropsAction.subListPlotsAsocciates}"
 							var="plot" id="tablaAsociada"
 							styleClass="#{listaVaciaCrops ? 'BCTransparente' : 'dataTable'} W560P"
 							rowClasses="odd-row, even-row" footerClass="H130P">
 							<rich:column styleClass="colIconoUno">
-								<a:commandLink
-									actionListener="#{cropsAction.setPlotRemove(plot)}"
-									render="popupEliminar" immediate="true"
-									oncomplete="#{rich:component('popupEliminar')}.show()">
+								<a:commandLink render="formCrops"
+									actionListener="#{cropsAction.removePlotList(plot)}">
 									<h:graphicImage value="/img/delete_16.png"
 										styleClass="hidelink cursor" />
 									<rich:tooltip layout="block">
@@ -177,8 +175,22 @@
 								</rich:columnGroup>
 							</f:facet>
 						</rich:dataTable>
-					</h:form>
-				</t:fieldset>
+						<a:outputPanel>
+							<br />
+							<div class="W560P center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valParam2" value="si" />
+									<ui:param name="valId" value="2" />
+									<ui:param name="pager" value="paginationPlotsAsocciates" />
+									<ui:param name="valReder"
+										value="formCrops:panelPlotsAsocciates" />
+									<ui:param name="beanActionParam" value="#{cropsAction}" />
+									<ui:param name="metodoActionParam" value="updateSubList" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
@@ -187,41 +199,6 @@
 						value="#{mensaje.button_save}" />
 				</div>
 			</rich:panel>
-		</h:form>
-		<h:form>
-			<rich:popupPanel id="popupEliminar" keepVisualState="true"
-				autosized="true" domElementAttachment="form"
-				header="#{mensaje.label_confirmation}">
-				<f:facet name="controls">
-					<h:panelGroup>
-						<h:graphicImage value="/img/close_14.png"
-							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
-							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-							onclick="#{rich:component('popupEliminar')}.hide()"
-							styleClass="cursor" />
-					</h:panelGroup>
-				</f:facet>
-				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
-					<ui:define name="mensaje">
-						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
-							styleClass="etiquetaTitulo" />
-					</ui:define>
-					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{cropsAction.plotRemove.name}" />
-					</ui:define>
-					<ui:define name="botones">
-
-						<a:commandButton value="#{mensaje.button_accept}"
-							onclick="#{rich:component('popupEliminar')}.hide()"
-							render="formCrops"
-							actionListener="#{cropsAction.removePlotList()}"
-							execute="popupEliminar" />
-						<a:commandButton value="#{mensaje.button_cancel}"
-							onclick="#{rich:component('popupEliminar')}.hide()" />
-					</ui:define>
-				</ui:decorate>
-			</rich:popupPanel>
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
@@ -367,8 +344,8 @@
 						<div align="center">
 							<a:commandButton value="#{mensaje.button_add}"
 								id="btnSeleccionar" render="formCrops"
-								actionListener="#{plotAction.addSelected()}"
-								action="#{cropsAction.groupListsPlot()}" execute="popupPlot"
+								actionListener="#{cropsAction.plotsAssociates()}"
+								execute="popupPlot"
 								oncomplete="#{rich:component('popupPlot')}.hide();" />
 						</div>
 					</a:outputPanel>

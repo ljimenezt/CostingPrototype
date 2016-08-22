@@ -47,6 +47,18 @@
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtNombre" />
 
+					<h:outputText value="#{messageLifeCycle.crop_names_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:selectOneMenu id="plantation"
+						value="#{sectionAction.section.cropNames.idCropName}"
+						required="true"
+						validator="#{validacionesAction.validarComboRequerido}">
+						<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
+						<f:selectItems value="#{sectionAction.itemsCropNames}" />
+					</h:selectOneMenu>
+					<rich:message for="plantation" />
+
 					<h:outputText value="#{mensaje.label_description}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />

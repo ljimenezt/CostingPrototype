@@ -87,6 +87,8 @@ public class SectionDao implements Serializable {
 	 * Returns the number of existing section in the database by filtering
 	 * information sent search values.
 	 * 
+	 * @modify 17/08/2016 Wilhelm.Boada
+	 * 
 	 * @param consult
 	 *            : String containing the query for which the properties are
 	 *            filtered.
@@ -99,6 +101,7 @@ public class SectionDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(s) FROM Section s ");
+		query.append("JOIN s.cropNames c ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
@@ -110,6 +113,8 @@ public class SectionDao implements Serializable {
 	/**
 	 * This method consult a particular section sent as a parameter range and
 	 * filtering the information sent search values.
+	 * 
+	 * @modify 17/08/2016 Wilhelm.Boada
 	 * 
 	 * @param start
 	 *            :where he started the consultation record
@@ -128,6 +133,7 @@ public class SectionDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT s FROM  Section s ");
+		query.append("JOIN FETCH s.cropNames c ");
 		query.append(consult);
 		query.append("ORDER BY s.name ");
 		Query q = em.createQuery(query.toString());

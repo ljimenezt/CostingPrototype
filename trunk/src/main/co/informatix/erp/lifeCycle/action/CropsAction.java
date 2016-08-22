@@ -56,13 +56,14 @@ public class CropsAction implements Serializable {
 	private PlotDao plotsDao;
 
 	private CropNames cropNames;
-	private Plot plotRemove;
 	private Crops crops;
 	private List<Crops> listCrops;
 	private List<Plot> listPlotsAsocciates;
+	private List<Plot> subListPlotsAsocciates;
 	private List<SelectItem> options;
 	private List<Integer> selectYear;
 	private Paginador pagination = new Paginador();
+	private Paginador paginationPlotsAsocciates;
 	private String nameSearch;
 	private int year;
 	private int nameCrop;
@@ -80,21 +81,6 @@ public class CropsAction implements Serializable {
 	 */
 	public void setCropNames(CropNames cropNames) {
 		this.nameCrop = cropNames.getIdCropName();
-	}
-
-	/**
-	 * @return plotRemove: plot to eliminate Plots Selected List.
-	 */
-	public Plot getPlotRemove() {
-		return plotRemove;
-	}
-
-	/**
-	 * @param plotRemove
-	 *            : plot to eliminate Plots Selected List.
-	 */
-	public void setPlotRemove(Plot plotRemove) {
-		this.plotRemove = plotRemove;
 	}
 
 	/**
@@ -143,6 +129,21 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
+	 * @return subListPlotsAsocciates: Plots list Associates Crops.
+	 */
+	public List<Plot> getSubListPlotsAsocciates() {
+		return subListPlotsAsocciates;
+	}
+
+	/**
+	 * @param subListPlotsAsocciates
+	 *            : Plots list Associates Crops.
+	 */
+	public void setSubListPlotsAsocciates(List<Plot> subListPlotsAsocciates) {
+		this.subListPlotsAsocciates = subListPlotsAsocciates;
+	}
+
+	/**
 	 * @return pagination: Management paginated list of the names of crops.
 	 */
 	public Paginador getPagination() {
@@ -155,6 +156,21 @@ public class CropsAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	/**
+	 * @return paginationPlotsAsocciates: Management paginated plots list.
+	 */
+	public Paginador getPaginationPlotsAsocciates() {
+		return paginationPlotsAsocciates;
+	}
+
+	/**
+	 * @param paginationPlotsAsocciates
+	 *            :Management paginated plots list.
+	 */
+	public void setPaginationPlotsAsocciates(Paginador paginationPlotsAsocciates) {
+		this.paginationPlotsAsocciates = paginationPlotsAsocciates;
 	}
 
 	/**
@@ -345,21 +361,22 @@ public class CropsAction implements Serializable {
 	 * Method to edit or create a new crop.
 	 * 
 	 * @modify 03/06/2015 Sergio.Ortiz
-	 * @modify 06/05/2016 Wilhelm.Boada
+	 * @modify 22/08/2016 Wilhelm.Boada
 	 * 
 	 * @param crops
 	 *            :crop to be add or edit.
-	 * 
 	 * @return "regCrops":redirected to the template record crop.
-	 * 
 	 */
 	public String addEditCrops(Crops crops) {
 		try {
 			listCropNames();
 			selectYear = ControladorFechas.loadYears();
+			paginationPlotsAsocciates = new Paginador();
 			if (crops != null) {
 				this.crops = crops;
-				plotsAssociates(this.crops);
+				this.listPlotsAsocciates = plotsDao
+						.cropsPlotsAssociated(this.crops.getIdCrop());
+				updateSubList();
 				Date date = crops.getRegistrationYear();
 				if (date != null) {
 					Calendar cal = Calendar.getInstance();
@@ -372,6 +389,7 @@ public class CropsAction implements Serializable {
 				this.crops = new Crops();
 				this.crops.setCropNames(new CropNames());
 				this.listPlotsAsocciates = new ArrayList<Plot>();
+				this.subListPlotsAsocciates = new ArrayList<Plot>();
 				year = 0;
 			}
 		} catch (Exception e) {
@@ -557,32 +575,38 @@ public class CropsAction implements Serializable {
 	 * Plots query associated with the Crop
 	 * 
 	 * @author Sergio.Ortiz
-	 * @param crops
-	 *            : class object of the crops which you want to view the
-	 *            associated plot
-	 * @throws Exception
+	 * @modify 16/08/2016 Wilhelm.Boada
+	 * 
 	 */
-	private void plotsAssociates(Crops crops) throws Exception {
-		if (crops != null) {
-			this.listPlotsAsocciates = new ArrayList<Plot>();
-			this.listPlotsAsocciates = plotsDao.cropsPlotsAssociated(crops
-					.getIdCrop());
+	public void plotsAssociates() {
+		PlotAction plot = ControladorContexto.getContextBean(PlotAction.class);
+		for (Plot plotAsociados : plot.getListPlotDate()) {
+			if (plotAsociados.isSelected()) {
+				this.listPlotsAsocciates.add(plotAsociados);
+			}
 		}
+		updateSubList();
 	}
 
 	/**
-	 * Method which brings me selected plot and those found in the database in a
-	 * single list.
+	 * This method allows update the crops list that be shown in the view.
 	 * 
-	 * @author Sergio.Ortiz
-	 * 
-	 * @modify 17/11/2015 Cristhian.Pico
-	 * 
+	 * @author Wilhelm.Boada
 	 */
-	public void groupListsPlot() {
-		PlotAction plot = ControladorContexto.getContextBean(PlotAction.class);
-		for (Plot plotAsociados : plot.getListPlotsSelected()) {
-			this.listPlotsAsocciates.add(plotAsociados);
+	public void updateSubList() {
+		try {
+			long amount = (long) listPlotsAsocciates.size();
+			paginationPlotsAsocciates.paginarRangoDefinido(amount, 5);
+			int totalReg = paginationPlotsAsocciates.getRango();
+			int start = paginationPlotsAsocciates.getInicio();
+			int rank = start + totalReg;
+			if (listPlotsAsocciates.size() < rank) {
+				rank = listPlotsAsocciates.size();
+			}
+			this.subListPlotsAsocciates = listPlotsAsocciates.subList(start,
+					rank);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
@@ -591,17 +615,20 @@ public class CropsAction implements Serializable {
 	 * listPlotsAsocciates.
 	 * 
 	 * @author Sergio.Ortiz
-	 * 
 	 * @modify 17/11/2015 Cristhian.Pico
+	 * @modify 17/08/2016 Wilhelm.Boada
 	 * 
+	 * @param plot
+	 *            : plot to remove of the list.
 	 */
-	public void removePlotList() {
+	public void removePlotList(Plot plot) {
 		for (Plot listPlot : this.listPlotsAsocciates) {
-			if (listPlot.equals(plotRemove)) {
-				this.listPlotsAsocciates.remove(plotRemove);
+			if (listPlot.equals(plot)) {
+				this.listPlotsAsocciates.remove(plot);
 				break;
 			}
 		}
+		updateSubList();
 	}
 
 	/**
@@ -609,7 +636,6 @@ public class CropsAction implements Serializable {
 	 * sight, otherwise clean selected.
 	 * 
 	 * @author Sergio.Ortiz
-	 * 
 	 * @modify 10/12/2015 Andres.Gomez
 	 */
 	public void compareCrops() {
