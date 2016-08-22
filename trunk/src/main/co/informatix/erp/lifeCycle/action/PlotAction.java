@@ -252,14 +252,14 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * @return idActivity: Identifier of the activity associated to plot
+	 * @return activity: Identifier of the activity associated to plot
 	 */
 	public Activities getActivity() {
 		return activity;
 	}
 
 	/**
-	 * @param idActivity
+	 * @param activity
 	 *            : Identifier of the activity associated to plot
 	 */
 	public void setActivity(Activities activity) {
