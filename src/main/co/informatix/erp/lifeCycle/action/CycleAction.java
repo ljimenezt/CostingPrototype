@@ -172,7 +172,7 @@ public class CycleAction implements Serializable {
 	 * @param optionsCropNames
 	 *            :crop name associated with a cycle.
 	 */
-	public void setptionsCropNames(List<SelectItem> optionsCropNames) {
+	public void setOptionsCropNames(List<SelectItem> optionsCropNames) {
 		this.optionsCropNames = optionsCropNames;
 	}
 

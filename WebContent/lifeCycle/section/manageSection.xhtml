@@ -14,6 +14,7 @@
 		value="mensaje.label_manage,messageLifeCycle.section_label_s" />
 	<ui:define name="body">
 		<t:saveState value="#{sectionAction}" />
+		<t:saveState value="#{plotAction}" />
 		<ui:param name="listaVacia"
 			value="#{sectionAction.listSection eq null or (empty sectionAction.listSection)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
@@ -33,62 +34,155 @@
 
 		<h:form id="formSection">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listing} #{messageLifeCycle.section_label_s}"
-				id="pnlSection">
-				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-					<ui:param name="tieneVigencia" value="no" />
-				</ui:include>
-				<rich:dataTable value="#{sectionAction.listSection}" var="section"
-					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
-					rowClasses="odd-row, even-row" footerClass="H130P">
+				header="#{messageLifeCycle.section_label_s}" id="pnlSection">
+				<h:panelGrid columns="3"
+					cellpadding="#{propNomina['locate.fields.cellpadding']}"
+					cellspacing="#{propNomina['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,tdAlignTop">
+					<h:outputText value="#{messageLifeCycle.crop_names_label}"
+						styleClass="etiquetaTitulo" />
+					<h:selectOneMenu id="plantation"
+						value="#{sectionAction.idCropNames}">
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
+						<f:selectItems value="#{sectionAction.itemsCropNames}" />
+						<f:ajax event="change" listener="#{sectionAction.loadList()}"
+							render=":formSection" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+				<br />
+				<t:fieldset styleClass="anchoDos BorderW2P">
+					<legend class="etiquetaTitulo">#{messageLifeCycle.section_label_s}</legend>
+					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+						<ui:param name="tieneVigencia" value="no" />
+					</ui:include>
+					<rich:dataTable value="#{sectionAction.listSection}" var="section"
+						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+						rowClasses="#{section.selected ? 'rf-ddm-itm-sel backgroundNone left, rf-ddm-itm-sel backgroundNone left':'odd-row, even-row'}"
+						footerClass="H130P">
 
-					<rich:column styleClass="colIconoUno"
-						rendered="#{(identity.autorizado('sectionAction','A') or identity.autorizado('sectionAction','D'))}">
-						<a:outputPanel>
-							<a:commandLink render="popupEliminar"
-								actionListener="#{sectionAction.setSection(section)}"
-								oncomplete="#{rich:component('popupEliminar')}.show()">
-								<h:graphicImage value="/img/delete_16.png" />
-								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.button_remove}" />
-								</rich:tooltip>
+						<rich:column styleClass="colIconoUno">
+							<a:commandLink render="formSection"
+								actionListener="#{sectionAction.selectSection(section)}"
+								action="#{sectionAction.showPlots()}"
+								oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+								<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+									styleClass="verticalAlignMiddle"
+									rendered="#{section.selected eq true}" />
+								<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+									styleClass="verticalAlignMiddle"
+									rendered="#{section.selected eq false}" />
+								<f:param name="param2" value="si" />
 							</a:commandLink>
-						</a:outputPanel>
-					</rich:column>
-					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensaje.label_name}</f:facet>
-						<h:commandLink value="#{section.name}"
-							action="#{sectionAction.addEditSection(section)}"
-							onclick="#{rich:component('statPane')}.show();">
-						</h:commandLink>
-					</rich:column>
-					<rich:column styleClass="colTextoLargo">
-						<f:facet name="header">#{mensaje.label_description}</f:facet>
-						<h:outputText value="#{section.description}" />
-					</rich:column>
-					<f:facet name="footer">
-						<rich:columnGroup rendered="#{listaVacia}">
-							<rich:column colspan="3" styleClass="footTabla">
-								<h:outputText
-									value="#{mensaje.message_no_existen_registros_tabla}" />
+						</rich:column>
+
+						<rich:column styleClass="colIconoUno"
+							rendered="#{(identity.autorizado('sectionAction','A') or identity.autorizado('sectionAction','D'))}">
+							<a:outputPanel>
+								<a:commandLink render="popupEliminar"
+									actionListener="#{sectionAction.setSection(section)}"
+									oncomplete="#{rich:component('popupEliminar')}.show()">
+									<h:graphicImage value="/img/delete_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.button_remove}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</a:outputPanel>
+						</rich:column>
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{mensaje.label_name}</f:facet>
+							<h:commandLink value="#{section.name}"
+								action="#{sectionAction.addEditSection(section)}"
+								onclick="#{rich:component('statPane')}.show();">
+							</h:commandLink>
+						</rich:column>
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{messageLifeCycle.crop_names_label}</f:facet>
+							<h:outputText value="#{section.cropNames.cropName}" />
+						</rich:column>
+						<rich:column styleClass="colTextoLargo">
+							<f:facet name="header">#{mensaje.label_description}</f:facet>
+							<h:outputText value="#{section.description}" />
+						</rich:column>
+						<f:facet name="footer">
+							<rich:columnGroup rendered="#{listaVacia}">
+								<rich:column colspan="5" styleClass="footTabla">
+									<h:outputText
+										value="#{mensaje.message_no_existen_registros_tabla}" />
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+					</rich:dataTable>
+					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+						<ui:param name="botonesAbajo" value="si" />
+						<ui:param name="tieneVigencia" value="no" />
+					</ui:include>
+					<a:outputPanel rendered="#{!listaVacia}">
+						<br />
+						<div class="#{anchoTabla} center inBlock">
+							<ui:include src="/plantillas/templatePagination.xhtml">
+								<ui:param name="valReder" value="pnlSection" />
+								<ui:param name="beanActionParam" value="#{sectionAction}" />
+								<ui:param name="metodoActionParam" value="loadList" />
+							</ui:include>
+						</div>
+					</a:outputPanel>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="anchoDos BorderW2P"
+					rendered="#{sectionAction.sectionSelected ne null}">
+					<legend class="etiquetaTitulo">#{messageLifeCycle.plot_label_s}</legend>
+					<a:outputPanel id="pnlPlots">
+						<ui:param name="listaVaciaA"
+							value="#{plotAction.listPlots.size() eq 0 or (plotAction.listPlots eq null)}" />
+						<rich:dataTable value="#{plotAction.listPlots}" id="plotsTable"
+							var="plot"
+							styleClass="#{listaVaciaA ? 'BCTransparente W100Per' : 'dataTable'} #{anchoTabla}"
+							rowClasses="odd-row, even-row" footerClass="H130P">
+							<rich:column styleClass="colTextoCorto">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText value="#{plot.name}" />
 							</rich:column>
-						</rich:columnGroup>
-					</f:facet>
-				</rich:dataTable>
-				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-					<ui:param name="botonesAbajo" value="si" />
-					<ui:param name="tieneVigencia" value="no" />
-				</ui:include>
-				<a:outputPanel rendered="#{!listaVacia}">
-					<br />
-					<div class="#{anchoTabla} center inBlock">
-						<ui:include src="/plantillas/templatePagination.xhtml">
-							<ui:param name="valReder" value="pnlSection" />
-							<ui:param name="beanActionParam" value="#{sectionAction}" />
-							<ui:param name="metodoActionParam" value="consultSection" />
-						</ui:include>
-					</div>
-				</a:outputPanel>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_description}</f:facet>
+								<h:outputText value="#{plot.description}" />
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{mensaje.label_location_map_link}</f:facet>
+								<h:outputText value="#{plot.locationLinkToMap}" />
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{mensaje.label_size}</f:facet>
+								<h:outputText value="#{plot.size}">
+									<f:convertNumber pattern="#,##0.00" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{messageLifeCycle.plot_numbers_trees}</f:facet>
+								<h:outputText value="#{plot.numberOfTrees}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVaciaA}">
+									<rich:column colspan="5" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<a:outputPanel rendered="#{!listaVaciaA}">
+							<br />
+							<div class="#{anchoTabla} center inBlock W100Per">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valId" value="2" />
+									<ui:param name="valParam2" value="si" />
+									<ui:param name="valReder" value="pnlPlots" />
+									<ui:param name="beanActionParam" value="#{plotAction}" />
+									<ui:param name="metodoActionParam" value="consultPlots" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+				</t:fieldset>
 			</rich:panel>
 		</h:form>
 		<h:form id="formBuscar">

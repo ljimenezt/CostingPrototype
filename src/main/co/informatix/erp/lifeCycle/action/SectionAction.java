@@ -16,7 +16,9 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.SectionDao;
+import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Section;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
@@ -37,11 +39,17 @@ import co.informatix.erp.utils.ValidacionesAction;
 public class SectionAction implements Serializable {
 	@EJB
 	private SectionDao sectionDao;
+	@EJB
+	private CropNamesDao cropNamesDao;
 
 	private List<Section> listSection;
+	private List<SelectItem> itemsCropNames;
 	private Section section;
+	private Section sectionSelected;
+	private PlotAction plotAction;
 	private Paginador pagination = new Paginador();
 	private String nameSearch;
+	private int idCropNames;
 
 	/**
 	 * @return listSection: list of section
@@ -59,6 +67,21 @@ public class SectionAction implements Serializable {
 	}
 
 	/**
+	 * @return itemsCropNames: cropName associated with a section.
+	 */
+	public List<SelectItem> getItemsCropNames() {
+		return itemsCropNames;
+	}
+
+	/**
+	 * @param itemsCropNames
+	 *            :cropName associated with a section.
+	 */
+	public void setItemsCropNames(List<SelectItem> itemsCropNames) {
+		this.itemsCropNames = itemsCropNames;
+	}
+
+	/**
 	 * @return section: gets the registration of section
 	 */
 	public Section getSection() {
@@ -71,6 +94,21 @@ public class SectionAction implements Serializable {
 	 */
 	public void setSection(Section section) {
 		this.section = section;
+	}
+
+	/**
+	 * @return sectionSelected: Section selected in the section table.
+	 */
+	public Section getSectionSelected() {
+		return sectionSelected;
+	}
+
+	/**
+	 * @param sectionSelected
+	 *            :Section selected in the section table.
+	 */
+	public void setSectionSelected(Section sectionSelected) {
+		this.sectionSelected = sectionSelected;
 	}
 
 	/**
@@ -104,14 +142,51 @@ public class SectionAction implements Serializable {
 	}
 
 	/**
+	 * @return idCropNames: CropNames identifier.
+	 */
+	public int getIdCropNames() {
+		return idCropNames;
+	}
+
+	/**
+	 * @param idCropNames
+	 *            : CropNames identifier.
+	 */
+	public void setIdCropNames(int idCropNames) {
+		this.idCropNames = idCropNames;
+	}
+
+	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * listing of the section
+	 * 
+	 * @modify 17/08/2016 Wilhelm.Boada
 	 * 
 	 * @return consultSection :Consult the list of the section in the database
 	 */
 	public String initializeSearch() {
-		this.nameSearch = "";
+		try {
+			if (ControladorContexto.getFacesContext() != null) {
+				this.plotAction = ControladorContexto
+						.getContextBean(PlotAction.class);
+			}
+			this.nameSearch = "";
+			this.idCropNames = 0;
+			loadCropNames();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 		return consultSection();
+	}
+
+	/**
+	 * This method allows initialize values and load list.
+	 * 
+	 * @author 22/08/2016 Wilhelm.Boada
+	 */
+	public void loadList() {
+		this.sectionSelected = null;
+		consultSection();
 	}
 
 	/**
@@ -166,6 +241,8 @@ public class SectionAction implements Serializable {
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
 	 * 
+	 * @modify 17/08/2016 Wilhelm.Boada
+	 * 
 	 * @param consult
 	 *            : query to concatenate
 	 * @param parameters
@@ -174,13 +251,21 @@ public class SectionAction implements Serializable {
 	 *            :access language tags
 	 * @param unionMessagesSearch
 	 *            : message search
-	 * 
 	 */
 	private void searchAdvance(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
+		boolean selection = false;
+		if (this.idCropNames != 0) {
+			consult.append("WHERE c.idCropName=:keyword2 ");
+			SelectItem item = new SelectItem(this.idCropNames, "keyword2");
+			parameters.add(item);
+			selection = true;
+		}
+
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("WHERE UPPER(s.name) LIKE UPPER(:keyword) ");
+			consult.append(selection ? "AND " : "WHERE ");
+			consult.append("UPPER(s.name) LIKE UPPER(:keyword) ");
 			consult.append("OR UPPER(s.description) LIKE UPPER(:keyword)");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
@@ -193,16 +278,24 @@ public class SectionAction implements Serializable {
 	/**
 	 * Method to edit or create a new section.
 	 * 
+	 * @modify 17/08/2016 Wilhelm.Boada
+	 * 
 	 * @param section
 	 *            :section to be add or edit
-	 * 
 	 * @return "regSection":redirects to register section template.
 	 */
 	public String addEditSection(Section section) {
-		if (section != null) {
-			this.section = section;
-		} else {
-			this.section = new Section();
+		try {
+			if (section != null) {
+				this.section = section;
+			} else {
+				this.section = new Section();
+				this.section.setCropNames(new CropNames());
+				this.section.getCropNames().setIdCropName(idCropNames);
+			}
+			loadCropNames();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 		return "regSection";
 	}
@@ -247,6 +340,8 @@ public class SectionAction implements Serializable {
 	/**
 	 * Method allows save or edit the section
 	 * 
+	 * @modify 17/08/2016 Wilhelm.Boada
+	 * 
 	 * @return consultSection: Redirects to manage the list of sections
 	 */
 	public String saveSection() {
@@ -259,6 +354,7 @@ public class SectionAction implements Serializable {
 				messageRegister = "message_registro_guardar";
 				sectionDao.saveSection(section);
 			}
+			this.idCropNames = section.getCropNames().getIdCropName();
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(messageRegister), section.getName()));
 		} catch (Exception e) {
@@ -291,4 +387,55 @@ public class SectionAction implements Serializable {
 		return consultSection();
 	}
 
+	/**
+	 * This method allows load of nameCrops list.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @throws Exception
+	 */
+	private void loadCropNames() throws Exception {
+		itemsCropNames = new ArrayList<SelectItem>();
+		List<CropNames> listCropNames = cropNamesDao.listCropNames();
+		if (listCropNames != null) {
+			for (CropNames cropNames : listCropNames) {
+				itemsCropNames.add(new SelectItem(cropNames.getIdCropName(),
+						cropNames.getCropName()));
+			}
+		}
+	}
+
+	/**
+	 * Selects a single section for display the associated plots.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param sectionSelected
+	 *            : Section selected on the view.
+	 */
+	public void selectSection(Section sectionSelected) {
+		this.sectionSelected = new Section();
+		sectionSelected.setSelected(true);
+		for (Section section : listSection) {
+			if (section.isSelected()) {
+				if (section.getIdSection() == sectionSelected.getIdSection()) {
+					this.sectionSelected = section;
+				} else {
+					section.setSelected(false);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Show the plots associated to section.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void showPlots() {
+		if (plotAction != null) {
+			plotAction.setIdSection(sectionSelected.getIdSection());
+			plotAction.consultPlots();
+		}
+	}
 }

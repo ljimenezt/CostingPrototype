@@ -383,7 +383,7 @@ public class TeamAction implements Serializable {
 	}
 
 	/**
-	 * this method allows validate if be can add more workers to the team.
+	 * This method allows validate if be can add more workers to the team.
 	 * 
 	 */
 	public void validateSizeTeam() {

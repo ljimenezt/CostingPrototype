@@ -53,6 +53,7 @@ public class PlotAction implements Serializable {
 	private boolean farmParameter = false;
 	private boolean flagPlotActivity = false;
 	private int nameFarm;
+	private int idSection;
 	private Activities activity;
 
 	private List<SelectItem> optionsFarm;
@@ -236,6 +237,21 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
+	 * @return idSection: identifier section to look for.
+	 */
+	public int getIdSection() {
+		return idSection;
+	}
+
+	/**
+	 * @param idSection
+	 *            :identifier section to look for.
+	 */
+	public void setIdSection(int idSection) {
+		this.idSection = idSection;
+	}
+
+	/**
 	 * @return idActivity: Identifier of the activity associated to plot
 	 */
 	public Activities getActivity() {
@@ -271,6 +287,7 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @modify 21/07/2015 Andres.Gomez
 	 * @modify 01/10/2015 Gerardo.Herrera
+	 * @modify 22/08/2016 Wilhelm.Boada
 	 * 
 	 * @return consultPlots: plots query method returns to the template
 	 *         management.
@@ -280,6 +297,7 @@ public class PlotAction implements Serializable {
 		if (!farmParameter) {
 			this.farm = null;
 			this.nameFarm = 0;
+			this.idSection = 0;
 		}
 		return consultPlots();
 	}
@@ -388,6 +406,7 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @modify 17/07/2015 Andres.Gomez
 	 * @modify 08/07/2016 Gerardo.Herrera
+	 * @modify 22/08/2016 Wilhelm.Boada
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -431,6 +450,14 @@ public class PlotAction implements Serializable {
 			selection = true;
 		}
 
+		if (this.idSection != 0) {
+			consult.append(selection ? "AND " : "WHERE ");
+			consult.append("p.section.idSection = :keyword4 ");
+			SelectItem item = new SelectItem(this.idSection, "keyword4");
+			parameters.add(item);
+			selection = true;
+		}
+
 		if (flagPlotActivity && this.activity != null) {
 			consult.append(selection ? "AND " : "WHERE ");
 			consult.append("p NOT IN ");
@@ -445,8 +472,8 @@ public class PlotAction implements Serializable {
 						"idActivity");
 				parameters.add(item);
 			} else {
-				SelectItem item = new SelectItem(this.activity.getCycle().getIdCycle(),
-						"idCycle");
+				SelectItem item = new SelectItem(this.activity.getCycle()
+						.getIdCycle(), "idCycle");
 				parameters.add(item);
 			}
 			selection = true;
@@ -614,24 +641,6 @@ public class PlotAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return consultPlots();
-	}
-
-	/**
-	 * Method a list is saved with the selected plots in the harvest POPUP.
-	 * 
-	 * @author Sergio.Ortiz
-	 */
-	public void addSelected() {
-		listPlotsSelected = new ArrayList<Plot>();
-		try {
-			for (Plot plot : listPlotDate) {
-				if (plot.isSelected()) {
-					this.listPlotsSelected.add(plot);
-				}
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
 	}
 
 	/**

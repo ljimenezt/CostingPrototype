@@ -4,10 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * This class maps the section table, which contains section information.
@@ -21,6 +25,8 @@ public class Section implements Serializable {
 	private int idSection;
 	private String name;
 	private String description;
+	private boolean selected;
+	private CropNames cropNames;
 
 	/**
 	 * @return idSection: Identifier of Section.
@@ -70,6 +76,39 @@ public class Section implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return selected: object selected from a sections list.
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : object selected from a sections list.
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	/**
+	 * @return cropNames: CropNames to which the section belong.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idcropname", referencedColumnName = "idcropname", nullable = false)
+	public CropNames getCropNames() {
+		return cropNames;
+	}
+
+	/**
+	 * @param cropNames
+	 *            : CropNames to which the section belong.
+	 */
+	public void setCropNames(CropNames cropNames) {
+		this.cropNames = cropNames;
 	}
 
 	@Override
