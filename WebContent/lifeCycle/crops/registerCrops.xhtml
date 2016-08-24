@@ -175,8 +175,7 @@
 								</rich:columnGroup>
 							</f:facet>
 						</rich:dataTable>
-						<a:outputPanel>
-							<br />
+						<a:outputPanel rendered="#{!listaVaciaCrops}">
 							<div class="W560P center inBlock">
 								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valParam2" value="si" />
