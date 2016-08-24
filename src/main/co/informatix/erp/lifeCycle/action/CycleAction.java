@@ -687,7 +687,6 @@ public class CycleAction implements Serializable {
 	 * @modify 22/03/2016 Andres.Gomez
 	 * 
 	 * @return gesCycle: Template redirects to management Cycle.
-	 * 
 	 */
 	public String initializeCycle() {
 		try {
@@ -716,9 +715,7 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @param cycle
 	 *            :Object of cycle are adding or editing.
-	 * 
 	 * @return regCycle: Template redirects to register Cycle.
-	 * 
 	 */
 	public String addEditCycles(Cycle cycle) {
 		try {
@@ -778,7 +775,6 @@ public class CycleAction implements Serializable {
 	 * This method allows load of name crops list.
 	 * 
 	 * @throws Exception
-	 * 
 	 */
 	private void loadCropNames() throws Exception {
 		optionsCropNames = new ArrayList<SelectItem>();
@@ -1020,7 +1016,6 @@ public class CycleAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advanceSearchCycles(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -1308,7 +1303,6 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteFile(String fileName) {
 		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
@@ -1322,7 +1316,6 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @modify 06/07/2016 Gerardo.Herrera
 	 * @modify 14/07/2016 Andres.Gomez
-	 * 
 	 */
 	public void validateQuantityMaterialsAndDatesAllows() {
 		try {
@@ -1509,5 +1502,4 @@ public class CycleAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }

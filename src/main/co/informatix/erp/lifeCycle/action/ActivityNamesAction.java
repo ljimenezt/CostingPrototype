@@ -201,7 +201,6 @@ public class ActivityNamesAction implements Serializable {
 	 *            : Access language tags.
 	 * @param unionMessagesSearch
 	 *            : Message search.
-	 * 
 	 */
 	private void advancedQuery(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -221,7 +220,6 @@ public class ActivityNamesAction implements Serializable {
 	 * 
 	 * @param activityNames
 	 *            : Name of activity you are adding or editing.
-	 * 
 	 * @return "regActivityNames": redirects to the record template activity.
 	 */
 	public String addModifyActivityNames(ActivityNames activityNames) {
@@ -239,7 +237,6 @@ public class ActivityNamesAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -322,5 +319,4 @@ public class ActivityNamesAction implements Serializable {
 		}
 		return queryActivityNames();
 	}
-
 }

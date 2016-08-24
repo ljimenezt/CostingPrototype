@@ -432,7 +432,6 @@ public class CropActivitiesAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return clean: Cleans the standard list activities if its value is
 	 *         'true'.
 	 */
@@ -453,10 +452,8 @@ public class CropActivitiesAction implements Serializable {
 	 * 
 	 * @param activities
 	 *            :Object of activities are adding or editing.
-	 * 
 	 * @return regCropActivities: Template redirects to assign farming
 	 *         activities.
-	 * 
 	 */
 	public String addEditCropActivities(Activities activities) {
 		try {
@@ -671,7 +668,6 @@ public class CropActivitiesAction implements Serializable {
 	 * @return regCropActivities: Template redirects to assign farming
 	 *         activities.
 	 * @throws Exception
-	 * 
 	 */
 	private String addEditActivities() throws Exception {
 		cleanActivities();
@@ -684,7 +680,6 @@ public class CropActivitiesAction implements Serializable {
 	 * Consult the list of activities crops
 	 * 
 	 * @modify 09/03/2016 Mabell.Boada
-	 * 
 	 */
 	public void consultActivityNamesXCrops() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -757,7 +752,6 @@ public class CropActivitiesAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -984,7 +978,6 @@ public class CropActivitiesAction implements Serializable {
 	 * @author Mabell.Boada
 	 * @modify 20/04/2016 Wilhelm.Boada
 	 * @modify 17/06/2016 Andres.Gomez
-	 * 
 	 */
 	public void validateDatesAllowed() {
 		try {
@@ -1166,5 +1159,4 @@ public class CropActivitiesAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }

@@ -219,10 +219,8 @@ public class PluviometerAction implements Serializable {
 	 * 
 	 * @param pluviometer
 	 *            :Object of pluviometer are adding or editing.
-	 * 
 	 * @return regPluviometer: Template redirects to register rain gauge
 	 *         reading.
-	 * 
 	 */
 	public String addEditPluviometer(Pluviometer pluviometer) {
 		if (pluviometer != null) {
@@ -331,7 +329,6 @@ public class PluviometerAction implements Serializable {
 	 *            : Access language tags.
 	 * @param unionMessagesSearch
 	 *            : Message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -385,7 +382,6 @@ public class PluviometerAction implements Serializable {
 	 *            : this value is true if it is the view and false in other
 	 *            case.
 	 * @return date: date initial.
-	 * 
 	 */
 	public Date calculateRangeDate(Date date, boolean flagDate) {
 		try {
@@ -441,7 +437,6 @@ public class PluviometerAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
@@ -473,7 +468,6 @@ public class PluviometerAction implements Serializable {
 	 * 
 	 * @param pluviometerPojo
 	 *            : Object having information of readings taken in a week.
-	 * 
 	 */
 	public void loadList(PluviometerPojo pluviometerPojo) {
 		this.pluviometerPojo = pluviometerPojo;

@@ -174,7 +174,6 @@ public class GeneralTrendAction implements Serializable {
 	 * crop
 	 * 
 	 * @throws Exception
-	 * 
 	 */
 	public void initializeCropDefault() throws Exception {
 		crops = new Crops();
@@ -187,7 +186,6 @@ public class GeneralTrendAction implements Serializable {
 	 * CropNames method that loads a list
 	 * 
 	 * @author Andres.Gomez
-	 * 
 	 */
 	private void fillCropNames() {
 		itemsCropNames = new ArrayList<SelectItem>();
@@ -469,7 +467,6 @@ public class GeneralTrendAction implements Serializable {
 	 * @param maxCycle
 	 *            : The last cycle that is going to be presented on the report.
 	 * @return List<String> list of cycles to be presented on the report.
-	 * 
 	 */
 	private List<String> buildCyclesList(Integer minCycle, Integer maxCycle) {
 		List<String> cyclesList = new ArrayList<String>();
@@ -484,5 +481,4 @@ public class GeneralTrendAction implements Serializable {
 		}
 		return cyclesList;
 	}
-
 }
