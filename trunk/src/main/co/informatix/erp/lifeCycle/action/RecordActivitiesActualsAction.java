@@ -1155,7 +1155,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
-	 * this method allows control the queries of the resources assigned to the
+	 * This method allows control the queries of the resources assigned to the
 	 * activity.
 	 * 
 	 */
