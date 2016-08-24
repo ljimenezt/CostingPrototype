@@ -183,7 +183,6 @@ public class CropNamesAction implements Serializable {
 	 *            :access language tags
 	 * @param unionMessagesSearch
 	 *            : message search
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -203,7 +202,6 @@ public class CropNamesAction implements Serializable {
 	 * 
 	 * @param cropNames
 	 *            :Crop name to be add or edit
-	 * 
 	 * @return "regCropNames":redirects to the record template crop.
 	 */
 	public String addEditCropNames(CropNames cropNames) {
@@ -221,7 +219,6 @@ public class CropNamesAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context
-	 * 
 	 * @param toValidate
 	 *            : validate component
 	 * @param value
@@ -301,5 +298,4 @@ public class CropNamesAction implements Serializable {
 		}
 		return consultCropNames();
 	}
-
 }

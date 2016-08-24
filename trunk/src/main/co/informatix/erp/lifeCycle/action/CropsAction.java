@@ -329,7 +329,6 @@ public class CropsAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -550,7 +549,6 @@ public class CropsAction implements Serializable {
 	 * @author Sergio.Ortiz
 	 * @modify 24/06/2015 Gerardo.Herrera
 	 * @modify 06/05/2016 Wilhelm.Boada
-	 * 
 	 */
 	public void requiredOk() {
 		if (crops.getCropNames().getIdCropName() == 0
@@ -576,7 +574,6 @@ public class CropsAction implements Serializable {
 	 * 
 	 * @author Sergio.Ortiz
 	 * @modify 16/08/2016 Wilhelm.Boada
-	 * 
 	 */
 	public void plotsAssociates() {
 		PlotAction plot = ControladorContexto.getContextBean(PlotAction.class);
@@ -611,7 +608,7 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
-	 * method that eliminates the plot selected by the user from the list
+	 * Method that eliminates the plot selected by the user from the list
 	 * listPlotsAsocciates.
 	 * 
 	 * @author Sergio.Ortiz

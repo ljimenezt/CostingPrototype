@@ -416,7 +416,6 @@ public class PlotAction implements Serializable {
 	 *            :access language tags
 	 * @param unionMessagesSearch
 	 *            : message search
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -525,7 +524,6 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @param plot
 	 *            :plot to be add or edit.
-	 * 
 	 * @return "regPlot":redirects to register plot template.
 	 */
 	public String addEditPlot(Plot plot) {
@@ -554,7 +552,6 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
@@ -650,7 +647,6 @@ public class PlotAction implements Serializable {
 	 * @author Sergio.Ortiz
 	 * @modify Gerardo.Herrera
 	 * @modify 11/03/2016 Mabell.Boada
-	 * 
 	 */
 	public void consultPlotForDate() {
 		StringBuilder consult = new StringBuilder();
@@ -715,7 +711,6 @@ public class PlotAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void searchAdvancedPopup(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -729,5 +724,4 @@ public class PlotAction implements Serializable {
 					+ '"' + this.nameSearch + '"');
 		}
 	}
-
 }

@@ -301,7 +301,6 @@ public class BeanIndexAction implements Serializable {
 	 * 
 	 * @param beanIndex
 	 *            : Bean index that you are adding or editing.
-	 * 
 	 * @return "regBeanIndex": Redirects to the the register Bean Index
 	 *         template.
 	 */

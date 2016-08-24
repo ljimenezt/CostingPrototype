@@ -306,7 +306,6 @@ public class FarmAction implements Serializable {
 	 *            : Access language tags.
 	 * @param searchMessage
 	 *            : Message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder queryBuilder,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -328,7 +327,6 @@ public class FarmAction implements Serializable {
 	 * 
 	 * @param farm
 	 *            : Property that you are adding or editing.
-	 * 
 	 * @return "regFarm": Redirects to the record template farm.
 	 */
 	public String addEditFarm(Farm farm) {
@@ -452,7 +450,6 @@ public class FarmAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -490,7 +487,6 @@ public class FarmAction implements Serializable {
 	 * @author Cristhian.Pico
 	 * 
 	 * @throws Exception
-	 * 
 	 */
 	private void loadComboBoxes() throws Exception {
 		countryItems = new ArrayList<SelectItem>();
@@ -509,7 +505,6 @@ public class FarmAction implements Serializable {
 	 * database, associated with a selected country.
 	 * 
 	 * @author Cristhian.Pico
-	 * 
 	 */
 	public void loadDepartments() {
 		departmentItems = new ArrayList<SelectItem>();
@@ -541,7 +536,6 @@ public class FarmAction implements Serializable {
 	 * database, associated with a department selected a partner country.
 	 * 
 	 * @author Cristhian.Pico
-	 * 
 	 */
 	public void loadMunicipalities() {
 		municipalityItems = new ArrayList<SelectItem>();
@@ -627,7 +621,6 @@ public class FarmAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteFile(String fileName) {
 		String paths[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
@@ -642,7 +635,6 @@ public class FarmAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteRealFile(String fileName) {
 		String paths[] = {
