@@ -58,6 +58,7 @@ public class BeanIndexFiltersAction implements Serializable {
 	 * This method allows to execute the consult to create the reports.
 	 * 
 	 * @modify 2016/01/19 Andres.Gomez
+	 * 
 	 * @param type
 	 *            : integer that indicate the chart type.
 	 */
