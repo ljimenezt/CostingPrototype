@@ -24,16 +24,13 @@ public class BeanIndexFiltersAction implements Serializable {
 	 * this filters.
 	 * 
 	 * @modify 08/03/2016 Andres.Gomez
+	 * @modify 25/08/2016 Wilhelm.Boada
 	 * 
 	 * @return rptGeneralTrend : navigation rule to show the report of the
 	 *         general trend
 	 */
 	public String initBeanIndex() {
-		try {
-			filtersChange(1);
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e, null, null);
-		}
+		filtersChange(1);
 		return "rptGeneralTrend";
 	}
 
@@ -42,15 +39,12 @@ public class BeanIndexFiltersAction implements Serializable {
 	 * this filters.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 25/08/2016 Wilhelm.Boada
 	 * 
 	 * @return rptBySection: navigation rule to show the report of by section
 	 */
 	public String initBeanIndexBySection() {
-		try {
-			filtersChange(2);
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e, null, null);
-		}
+		filtersChange(2);
 		return "rptBySection";
 	}
 
