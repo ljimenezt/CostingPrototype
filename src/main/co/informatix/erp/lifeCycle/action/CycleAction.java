@@ -1448,19 +1448,16 @@ public class CycleAction implements Serializable {
 	 * Initialize activities search which are related to a given cycle.
 	 * 
 	 * @author Sergio.Gelves
+	 * @modify 25/08/2016 Wilhelm.Boada
 	 * 
 	 * @param selectedCycle
 	 *            : Cycle id.
 	 */
 	public void showActivitiesCycle(int selectedCycle) {
-		try {
-			this.listActivity = null;
-			this.selectedCycle = selectedCycle;
-			this.activitiesPagination = new Paginador();
-			searchActivityCycle();
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
+		this.listActivity = null;
+		this.selectedCycle = selectedCycle;
+		this.activitiesPagination = new Paginador();
+		searchActivityCycle();
 	}
 
 	/**
