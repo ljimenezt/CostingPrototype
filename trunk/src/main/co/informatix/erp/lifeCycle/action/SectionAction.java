@@ -182,7 +182,7 @@ public class SectionAction implements Serializable {
 	/**
 	 * This method allows initialize values and load list.
 	 * 
-	 * @author 22/08/2016 Wilhelm.Boada
+	 * @author Wilhelm.Boada
 	 */
 	public void loadList() {
 		this.sectionSelected = null;
