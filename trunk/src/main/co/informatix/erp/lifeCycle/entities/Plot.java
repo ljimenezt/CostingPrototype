@@ -32,6 +32,7 @@ public class Plot implements Serializable {
 	private boolean selected;
 	private Farm farm;
 	private Section section;
+	private CropNames cropNames;
 
 	/**
 	 * @return idPlot: plot identifier
@@ -181,6 +182,23 @@ public class Plot implements Serializable {
 	 */
 	public void setSection(Section section) {
 		this.section = section;
+	}
+
+	/**
+	 * @return cropNames: CropNames to which the plot belong.
+	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idcropname", referencedColumnName = "idcropname", nullable = false)
+	public CropNames getCropNames() {
+		return cropNames;
+	}
+
+	/**
+	 * @param cropNames
+	 *            : CropNames to which the plot belong.
+	 */
+	public void setCropNames(CropNames cropNames) {
+		this.cropNames = cropNames;
 	}
 
 	@Override
