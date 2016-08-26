@@ -30,7 +30,7 @@ public class ActivityNames implements Serializable {
 	private boolean selected = false;
 
 	/**
-	 * @return idActivityName: Activity_names identifier table.
+	 * @return idActivityName: Activity names identifier table.
 	 */
 	@Id
 	@Column(name = "idactivityname", nullable = false)
@@ -41,7 +41,7 @@ public class ActivityNames implements Serializable {
 
 	/**
 	 * @param idActivityName
-	 *            : Activity_names identifier table.
+	 *            : Activity names identifier table.
 	 */
 	public void setIdActivityName(int idActivityName) {
 		this.idActivityName = idActivityName;
@@ -140,7 +140,6 @@ public class ActivityNames implements Serializable {
 	 * @param selected
 	 *            : To validate whether the selected name on a list of
 	 *            activities, used by the management CycleStandardActivities
-	 * 
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
@@ -200,6 +199,4 @@ public class ActivityNames implements Serializable {
 			return false;
 		return true;
 	}
-
-	
 }

@@ -105,7 +105,6 @@ public class CropsDao implements Serializable {
 	 * 
 	 * @param id
 	 *            : Harvest identifier to consult.
-	 * 
 	 * @return: Crops object found with the search parameter identifier.
 	 * @throws Exception
 	 */
