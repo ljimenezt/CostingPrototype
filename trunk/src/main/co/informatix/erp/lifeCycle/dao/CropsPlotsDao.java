@@ -54,7 +54,6 @@ public class CropsPlotsDao implements Serializable {
 	 *            : crops to find the plot
 	 * @param plot
 	 *            : plot to find the crops.
-	 * 
 	 * @return CropsPlots and plot found by crops.
 	 * @throws Exception
 	 */
@@ -72,5 +71,4 @@ public class CropsPlotsDao implements Serializable {
 		}
 		return null;
 	}
-
 }

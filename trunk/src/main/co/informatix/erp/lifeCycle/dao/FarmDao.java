@@ -179,7 +179,6 @@ public class FarmDao implements Serializable {
 	 * Method to search the Farm object and store it in a List.
 	 * 
 	 * @author Andres.Gomez
-	 * 
 	 * @modify 15/03/2016 Wilhelm.Boada
 	 * 
 	 * @return List<Farm>: Farms list.
