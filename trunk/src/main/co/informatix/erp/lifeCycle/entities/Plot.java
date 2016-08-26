@@ -95,7 +95,6 @@ public class Plot implements Serializable {
 	/**
 	 * @param locationLinkToMap
 	 *            :link location plot
-	 * 
 	 */
 	public void setLocationLinkToMap(Double locationLinkToMap) {
 		this.locationLinkToMap = locationLinkToMap;
@@ -112,7 +111,6 @@ public class Plot implements Serializable {
 	/**
 	 * @param size
 	 *            :plot size
-	 * 
 	 */
 	public void setSize(Double size) {
 		this.size = size;
