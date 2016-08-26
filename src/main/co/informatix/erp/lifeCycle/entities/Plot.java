@@ -205,12 +205,16 @@ public class Plot implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + idPlot;
 		result = prime
 				* result
 				+ ((locationLinkToMap == null) ? 0 : locationLinkToMap
 						.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((numberOfTrees == null) ? 0 : numberOfTrees.hashCode());
 		result = prime * result + ((size == null) ? 0 : size.hashCode());
 		return result;
 	}
@@ -224,6 +228,11 @@ public class Plot implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Plot other = (Plot) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
 		if (idPlot != other.idPlot)
 			return false;
 		if (locationLinkToMap == null) {
@@ -236,6 +245,11 @@ public class Plot implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (numberOfTrees == null) {
+			if (other.numberOfTrees != null)
+				return false;
+		} else if (!numberOfTrees.equals(other.numberOfTrees))
+			return false;
 		if (size == null) {
 			if (other.size != null)
 				return false;
@@ -243,5 +257,4 @@ public class Plot implements Serializable {
 			return false;
 		return true;
 	}
-
 }
