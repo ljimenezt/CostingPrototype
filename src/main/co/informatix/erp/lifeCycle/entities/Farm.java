@@ -81,7 +81,6 @@ public class Farm implements Serializable, Comparable<Farm>, Cloneable {
 	/**
 	 * @param name
 	 *            :farm name
-	 * 
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -98,7 +97,6 @@ public class Farm implements Serializable, Comparable<Farm>, Cloneable {
 	/**
 	 * @param locationLinkToMap
 	 *            :location of the farm
-	 * 
 	 */
 	public void setLocationLinkToMap(Double locationLinkToMap) {
 		this.locationLinkToMap = locationLinkToMap;

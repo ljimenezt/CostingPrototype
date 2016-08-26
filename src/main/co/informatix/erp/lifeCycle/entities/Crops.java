@@ -95,7 +95,6 @@ public class Crops implements Serializable {
 	/**
 	 * @param initialDate
 	 *            :initial date of crop
-	 * 
 	 */
 	public void setInitialDate(Date initialDate) {
 		this.initialDate = initialDate;
