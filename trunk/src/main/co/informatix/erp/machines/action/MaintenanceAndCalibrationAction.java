@@ -96,7 +96,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * @param machinesItems
 	 *            : sets the list of the machines associated with the
 	 *            maintenance and calibration.
-	 * 
 	 */
 	public void setMachinesItems(List<SelectItem> machinesItems) {
 		this.machinesItems = machinesItems;
@@ -160,7 +159,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	/**
 	 * @param maintenanceAndCalibration
 	 *            : sets the object of the maintenance and calibration.
-	 * 
 	 */
 	public void setMaintenanceAndCalibration(
 			MaintenanceAndCalibration maintenanceAndCalibration) {
@@ -177,7 +175,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	/**
 	 * @param machines
 	 *            : sets object class of machines.
-	 * 
 	 */
 	public void setMachines(Machines machines) {
 		this.machines = machines;
@@ -523,10 +520,8 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * @param maintenanceAndCalibration
 	 *            :Maintenance and calibration object that you are adding or
 	 *            editing.
-	 * 
 	 * @return regMaintAndCal: Redirected to the template record maintenance and
 	 *         calibration.
-	 * 
 	 */
 	public String addEditMaintenanceAndCalibration(
 			MaintenanceAndCalibration maintenanceAndCalibration) {
@@ -629,7 +624,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * Method to load the machines on a list.
 	 * 
 	 * @author Andres.Gomez
-	 * 
 	 **/
 	public void loadMachine() {
 		int idMachine = 0;
@@ -670,7 +664,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * 
 	 * @param maintenanceLines
 	 *            :Object maintenance lines are adding or editing.
-	 * 
 	 */
 	public void addEditMaintenanceLines(MaintenanceLines maintenanceLines) {
 		if (maintenanceLines != null) {
@@ -692,7 +685,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * 
 	 * @param maintenanceLinesList
 	 *            :maintenanceLines List are adding or editing.
-	 * 
 	 */
 	public void saveMaintenanceLines(List<MaintenanceLines> maintenanceLinesList) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -738,5 +730,4 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }

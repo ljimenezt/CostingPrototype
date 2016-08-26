@@ -83,7 +83,6 @@ public class MachineTypesAction implements Serializable {
 
 	/**
 	 * @return Paginador: Management paginated list of the types of machines.
-	 * 
 	 */
 	public Paginador getPagination() {
 		return pagination;
@@ -188,7 +187,6 @@ public class MachineTypesAction implements Serializable {
 	 *            :access language tags
 	 * @param unionMessagesSearch
 	 *            : message search
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -208,7 +206,6 @@ public class MachineTypesAction implements Serializable {
 	 * 
 	 * @param machineTypes
 	 *            :types of machine that you are adding or editing
-	 * 
 	 * @return "regMachineTypes": redirected to the template record machine
 	 *         types.
 	 */
@@ -227,7 +224,6 @@ public class MachineTypesAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context
-	 * 
 	 * @param toValidate
 	 *            : validate component
 	 * @param value
@@ -285,7 +281,6 @@ public class MachineTypesAction implements Serializable {
 
 	/**
 	 * Method to delete a type of machine database
-	 * 
 	 * 
 	 * @return consultMachineTypes(): Consult the list of the types of machine
 	 *         and returns to manage one machine

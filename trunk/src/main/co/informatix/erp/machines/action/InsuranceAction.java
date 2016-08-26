@@ -38,10 +38,8 @@ public class InsuranceAction implements Serializable {
 
 	@EJB
 	private MachinesDao machinesDao;
-
 	@EJB
 	private InsuranceDao insuranceDao;
-
 	@EJB
 	private MachineTypesDao machineTypesDao;
 
@@ -300,7 +298,6 @@ public class InsuranceAction implements Serializable {
 	 *            : Context to access language tags.
 	 * @param jointSearchMessages
 	 *            : Search message.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -338,9 +335,7 @@ public class InsuranceAction implements Serializable {
 	 * 
 	 * @param insurance
 	 *            : Object of insurance to add or edit.
-	 * 
 	 * @return regInsurance: Redirects to the register insurance template.
-	 * 
 	 */
 	public String addEditInsurance(Insurance insurance) {
 		try {
@@ -444,7 +439,6 @@ public class InsuranceAction implements Serializable {
 
 	/**
 	 * Method that deletes an insurance of the database.
-	 * 
 	 * 
 	 * @return initializeSearch: Redirects to manage the insurance with an
 	 *         updated list of insurances.
