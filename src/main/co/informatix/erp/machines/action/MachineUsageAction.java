@@ -743,7 +743,6 @@ public class MachineUsageAction implements Serializable {
 	 * 
 	 * @param machineUsage
 	 *            : Machine usage that you are adding or editing.
-	 * 
 	 * @return "regMachineUsage": Redirects to the record machine usage
 	 *         template.
 	 */
@@ -809,7 +808,6 @@ public class MachineUsageAction implements Serializable {
 	/**
 	 * Method to delete a type of fuel of the database.
 	 * 
-	 * 
 	 * @return consultFuelTypes(): Consult the list of the types of fuel and
 	 *         redirects to manages the fuels.
 	 */
@@ -830,5 +828,4 @@ public class MachineUsageAction implements Serializable {
 		}
 		return consultMachineUsage();
 	}
-
 }

@@ -33,6 +33,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 @SuppressWarnings("serial")
 @RequestScoped
 public class MaintenanceLinesAction implements Serializable {
+
 	private List<MaintenanceLines> maintenanceLinesList;
 	private List<SelectItem> machineOptions;
 	private List<SelectItem> maintenanceOptions;
@@ -274,10 +275,8 @@ public class MaintenanceLinesAction implements Serializable {
 	 * 
 	 * @param maintenanceLines
 	 *            : Object of maintenance lines you want to add or edit.
-	 * 
 	 * @return regMaintLin: it redirects to the register a maintenance line
 	 *         template.
-	 * 
 	 */
 	public String addEditMaintenanceLines(MaintenanceLines maintenanceLines) {
 		try {
@@ -420,5 +419,4 @@ public class MaintenanceLinesAction implements Serializable {
 		}
 		return searchMaintenanceLines();
 	}
-
 }

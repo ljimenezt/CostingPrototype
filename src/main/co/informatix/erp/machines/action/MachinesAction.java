@@ -227,7 +227,6 @@ public class MachinesAction implements Serializable {
 		this.pagination = new Paginador();
 		this.nameMachines = 0;
 		return consultMachines();
-
 	}
 
 	/**
@@ -368,7 +367,6 @@ public class MachinesAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -426,7 +424,6 @@ public class MachinesAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearchActivityMachine(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -492,9 +489,7 @@ public class MachinesAction implements Serializable {
 	 * 
 	 * @param machines
 	 *            :machine that you are adding or editing.
-	 * 
 	 * @return "regMachines":redirected to the template record machine.
-	 * 
 	 * @throws Exception
 	 */
 	public String addEditMachines(Machines machines) throws Exception {
@@ -548,7 +543,6 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * Delete method that allows a machine to database.
-	 * 
 	 * 
 	 * @return consultMachines: Consult the list of machines and returns to
 	 *         manage machines.

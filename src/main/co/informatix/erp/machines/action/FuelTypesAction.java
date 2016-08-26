@@ -180,7 +180,6 @@ public class FuelTypesAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -200,7 +199,6 @@ public class FuelTypesAction implements Serializable {
 	 * 
 	 * @param fuelTypes
 	 *            :types of fuel that you are adding or editing.
-	 * 
 	 * @return "regFuelTypes": redirected to the template record fuel types.
 	 */
 	public String addEditFuelTypes(FuelTypes fuelTypes) {
@@ -218,7 +216,6 @@ public class FuelTypesAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
@@ -277,7 +274,6 @@ public class FuelTypesAction implements Serializable {
 	/**
 	 * Method to delete a type of fuel database.
 	 * 
-	 * 
 	 * @return consultFuelTypes(): Consult the list of the types of fuel and
 	 *         returns to manages the fuels.
 	 */
@@ -298,5 +294,4 @@ public class FuelTypesAction implements Serializable {
 		}
 		return consultFuelTypes();
 	}
-
 }
