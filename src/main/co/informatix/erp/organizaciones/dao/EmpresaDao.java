@@ -134,7 +134,6 @@ public class EmpresaDao implements Serializable {
 	 * 
 	 * @param empresa
 	 *            : company to edit the database.
-	 * 
 	 * @throws Exception
 	 */
 	public void modificarEmpresa(Empresa empresa) throws Exception {
@@ -181,7 +180,6 @@ public class EmpresaDao implements Serializable {
 	 * @param idEmpresa
 	 *            : id of the company to consult
 	 * @return List of Objects with information.
-	 * 
 	 * @throws Exception
 	 */
 	public List<?> consultarListaObjetosDeEmpresa(String nomObject,
@@ -304,5 +302,4 @@ public class EmpresaDao implements Serializable {
 
 		return null;
 	}
-
 }

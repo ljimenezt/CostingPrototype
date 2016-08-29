@@ -80,10 +80,8 @@ public class OrganizacionDao implements Serializable {
 	 * 
 	 * @param condicionVigencia
 	 *            : to select existing or not existing records
-	 * 
 	 * @param nombreBuscar
 	 *            Word you want to search in the names of organizations and NIT
-	 * 
 	 * @return Long: number of existing organizations in the database, or null
 	 *         otherwise.
 	 * @throws Exception
@@ -197,5 +195,4 @@ public class OrganizacionDao implements Serializable {
 				.setParameter("idOrganizacion", idOrganizacion)
 				.getSingleResult();
 	}
-
 }

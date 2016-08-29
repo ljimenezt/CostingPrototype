@@ -144,7 +144,6 @@ public class EmpresaAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return fileUploadBean: Variable that gets the object for loading files.
 	 */
 	public FileUploadBean getFileUploadBean() {
@@ -769,12 +768,11 @@ public class EmpresaAction implements Serializable {
 	 * This method allows you to load combo country, department, municipality
 	 * company, nature of business, organization and unit of measure
 	 * 
-	 * @throws Exception
-	 * 
 	 * @modify Luis.Ruiz
 	 * @modify 01/02/2012 marisol.calderon
 	 * @modify 21/01/2013 Adonay.Mantilla
 	 * 
+	 * @throws Exception
 	 */
 	private void cargarCombos() throws Exception {
 		itemsPaises = new ArrayList<SelectItem>();
@@ -802,7 +800,6 @@ public class EmpresaAction implements Serializable {
 	 * database, associated with a selected country.
 	 * 
 	 * @modify 16/02/2012 marisol.calderon
-	 * 
 	 */
 	public void cargarDepartamentos() {
 		itemDepartamentos = new ArrayList<SelectItem>();
@@ -837,7 +834,6 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @modify 16/02/2012 marisol.calderon
 	 * @modify 30/03/2012 angelica.amaya
-	 * 
 	 */
 	public void cargarMunicipios() {
 		itemsMunicipios = new ArrayList<SelectItem>();
@@ -869,7 +865,6 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context
-	 * 
 	 * @param toValidate
 	 *            : validate component
 	 * @param value
@@ -924,7 +919,6 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void borrarArchivo(String fileName) {
 		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
@@ -939,7 +933,6 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void borrarArchivoReal(String fileName) {
 		String ubicaciones[] = {
@@ -1085,5 +1078,4 @@ public class EmpresaAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }

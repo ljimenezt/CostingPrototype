@@ -74,5 +74,4 @@ public class SucursalDao implements Serializable {
 						+ "ORDER BY s.nombre").getResultList();
 		return sucursales;
 	}
-
 }
