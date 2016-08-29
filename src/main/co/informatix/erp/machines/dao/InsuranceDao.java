@@ -126,7 +126,6 @@ public class InsuranceDao implements Serializable {
 	 *            : Machine identifier to search.
 	 * @param year
 	 *            : Year to filter the insurance.
-	 * 
 	 * @return Double: Insurance value.
 	 * @throws Exception
 	 */
@@ -145,5 +144,4 @@ public class InsuranceDao implements Serializable {
 		}
 		return (0.0);
 	}
-
 }

@@ -51,7 +51,6 @@ public class Machines implements Serializable {
 
 	/**
 	 * Constructor that initializes the foreign key
-	 * 
 	 */
 	public Machines() {
 		this.machineTypes = new MachineTypes();

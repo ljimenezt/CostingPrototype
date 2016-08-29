@@ -176,7 +176,6 @@ public class MachineTypesDao implements Serializable {
 	 * @param idMachine
 	 *            : the machine identifier
 	 * @return MachineTypes: Object of the machine types
-	 * 
 	 * @throws Exception
 	 */
 	public MachineTypes machineTypeXMachine(int idMachine) throws Exception {
