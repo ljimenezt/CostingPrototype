@@ -53,7 +53,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @param id
 	 *            :ID (primary key) of the table
 	 */
@@ -62,7 +61,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @return nit: NIT of the organization
 	 */
 	@Column(name = "nit", length = 100, nullable = false)
@@ -71,7 +69,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @param nit
 	 *            : NIT of the organization
 	 */
@@ -80,7 +77,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @return razonSocial: Business name of the organization
 	 */
 	@Column(name = "razon_social", length = 150, nullable = false)
@@ -89,7 +85,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @param razonSocial
 	 *            : Business name of the organization
 	 */
@@ -98,7 +93,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @return direccion: direction of the organization
 	 */
 	@Column(name = "direccion", length = 200, nullable = true)
@@ -107,7 +101,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @param direccion
 	 *            : direction of the organizations
 	 */
@@ -116,7 +109,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @return telefono: Organization Phone
 	 */
 	@Column(name = "telefono", length = 100, nullable = true)
@@ -125,7 +117,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @param telefono
 	 *            : Organization Phone
 	 */
@@ -150,7 +141,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @return fechaCreacion: creation date of record
 	 */
 	@Column(name = "fecha_creacion", nullable = false)
@@ -160,7 +150,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @param fechaCreacion
 	 *            : creation date of record
 	 */
@@ -169,7 +158,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @return fechaFinVigencia: date of currency of the registration order
 	 */
 	@Column(name = "fecha_fin_vigencia", nullable = true)
@@ -179,7 +167,6 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * 
 	 * @param fechaFinVigencia
 	 *            : date of currency of the registration order
 	 */

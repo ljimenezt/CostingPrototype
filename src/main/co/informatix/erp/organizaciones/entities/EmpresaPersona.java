@@ -44,7 +44,6 @@ public class EmpresaPersona implements Serializable {
 	private TipoCargo tipoCargo;
 
 	/**
-	 * 
 	 * @return id: Unique identifier of the table or entity.
 	 */
 	@Id
@@ -135,7 +134,6 @@ public class EmpresaPersona implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return userName: User name session running in action on recording
 	 */
 	@Column(name = "user_name", length = 50, nullable = false)
