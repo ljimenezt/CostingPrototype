@@ -115,7 +115,6 @@ public class OrganizacionAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param carpetaArchivos
 	 *            :Variable that gets the path to the folder where the logo of
 	 *            the organization are stored
@@ -191,7 +190,6 @@ public class OrganizacionAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param organizacion
 	 *            : Object representing the Organization
 	 */
@@ -200,7 +198,6 @@ public class OrganizacionAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return organizaciones: Object list of organizations that are loaded into
 	 *         the interface table.
 	 */
@@ -218,7 +215,6 @@ public class OrganizacionAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return pagination: Pager object list of Organizations
 	 */
 	public Paginador getPagination() {
@@ -226,7 +222,6 @@ public class OrganizacionAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param pagination
 	 *            :Pager object list of Organizations
 	 */
@@ -235,7 +230,6 @@ public class OrganizacionAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return vigencia: It is giving the selected value 'yes' of existing and
 	 *         'no' for not applicable
 	 */
@@ -244,7 +238,6 @@ public class OrganizacionAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param vigencia
 	 *            : It is giving the selected value 'yes' of existing and 'no'
 	 *            for not applicable
@@ -548,7 +541,6 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context
-	 * 
 	 * @param toValidate
 	 *            : validate component
 	 * @param value
@@ -606,7 +598,6 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context
-	 * 
 	 * @param toValidate
 	 *            : validate component
 	 * @param value
@@ -741,7 +732,6 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void borrarArchivo(String fileName) {
 		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
@@ -794,7 +784,6 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            :Name of the file to delete.
-	 * 
 	 */
 	public void borrarArchivoReal(String fileName) {
 		String ubicaciones[] = {
@@ -846,7 +835,6 @@ public class OrganizacionAction implements Serializable {
 	 * regardless logo that are not filled out these fields
 	 * 
 	 * @author marisol.calderon
-	 * 
 	 */
 	public void requeridosOk() {
 		try {
@@ -872,5 +860,4 @@ public class OrganizacionAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }
