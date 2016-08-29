@@ -490,20 +490,23 @@ public class MachinesAction implements Serializable {
 	 * @param machines
 	 *            :machine that you are adding or editing.
 	 * @return "regMachines":redirected to the template record machine.
-	 * @throws Exception
 	 */
-	public String addEditMachines(Machines machines) throws Exception {
-		loadMachineTypes();
-		fillFuelTypes();
-		if (machines != null) {
-			this.machines = machines;
-			if (machines.getFuelTypes() == null) {
+	public String addEditMachines(Machines machines) {
+		try {
+			loadMachineTypes();
+			fillFuelTypes();
+			if (machines != null) {
+				this.machines = machines;
+				if (machines.getFuelTypes() == null) {
+					this.machines.setFuelTypes(new FuelTypes());
+				}
+			} else {
+				this.machines = new Machines();
+				this.machines.setMachineTypes(new MachineTypes());
 				this.machines.setFuelTypes(new FuelTypes());
 			}
-		} else {
-			this.machines = new Machines();
-			this.machines.setMachineTypes(new MachineTypes());
-			this.machines.setFuelTypes(new FuelTypes());
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 		return "regMachines";
 	}
@@ -517,7 +520,6 @@ public class MachinesAction implements Serializable {
 	public String saveMachines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageLog = "message_registro_modificar";
-
 		try {
 			if (machines.getFuelTypes().getIdFuelType() == 0) {
 				machines.setFuelTypes(null);
@@ -576,32 +578,25 @@ public class MachinesAction implements Serializable {
 		double yearLife = machines.getLifeYears();
 		double residual = machines.getResidualValue();
 		double investment = machines.getInvestment();
-		try {
-			validateFields();
-			if (yearLife <= 0) {
-				ControladorContexto.mensajeError(null,
-						"formMachines:txtTiemVida",
-						bundle.getString("message_campo_mayo_cero"));
-			}
-			if (investment <= 0) {
-				ControladorContexto.mensajeError(null,
-						"formMachines:txtinversion",
-						bundle.getString("message_campo_mayo_cero"));
-			}
-			if (investment <= residual && investment > 0) {
-				ControladorContexto.mensajeError(null,
-						"formMachines:txtResVal",
-						bundle.getString("message_field_lower_to") + " "
-								+ investment);
-			}
-			if (investment > 0 && yearLife > 0) {
-				double depreciation = ControllerAccounting.divide(
-						ControllerAccounting.subtract(investment, residual),
-						yearLife);
-				machines.setDepreciation(depreciation);
-			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
+		validateFields();
+		if (yearLife <= 0) {
+			ControladorContexto.mensajeError(null, "formMachines:txtTiemVida",
+					bundle.getString("message_campo_mayo_cero"));
+		}
+		if (investment <= 0) {
+			ControladorContexto.mensajeError(null, "formMachines:txtinversion",
+					bundle.getString("message_campo_mayo_cero"));
+		}
+		if (investment <= residual && investment > 0) {
+			ControladorContexto.mensajeError(null, "formMachines:txtResVal",
+					bundle.getString("message_field_lower_to") + " "
+							+ investment);
+		}
+		if (investment > 0 && yearLife > 0) {
+			double depreciation = ControllerAccounting.divide(
+					ControllerAccounting.subtract(investment, residual),
+					yearLife);
+			machines.setDepreciation(depreciation);
 		}
 	}
 
