@@ -470,6 +470,8 @@ public class MachineUsageAction implements Serializable {
 	 * This method calculates the allocate fields when the usage field is
 	 * changed.
 	 * 
+	 * @param machineUsage
+	 *            : Machine usage object to calculate allocations
 	 * @throws Exception
 	 */
 	private void calculateAllocate(MachineUsage machineUsage) throws Exception {
@@ -808,8 +810,8 @@ public class MachineUsageAction implements Serializable {
 	/**
 	 * Method to delete a type of fuel of the database.
 	 * 
-	 * @return consultFuelTypes(): Consult the list of the types of fuel and
-	 *         redirects to manages the fuels.
+	 * @return consultMachineUsage(): Consult the list of the machine usages and
+	 *         redirects to manages the usages.
 	 */
 	public String deleteManageUsage() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
