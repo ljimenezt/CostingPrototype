@@ -190,5 +190,4 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 		}
 		return (0.0);
 	}
-
 }

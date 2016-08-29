@@ -74,7 +74,6 @@ public class Insurance implements Serializable {
 	/**
 	 * @param dateTime
 	 *            : date and time of insurance
-	 * 
 	 */
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
@@ -91,7 +90,6 @@ public class Insurance implements Serializable {
 	/**
 	 * @param totalCostBudget
 	 *            : total cost budget
-	 * 
 	 */
 	public void setTotalCostBudget(Double totalCostBudget) {
 		this.totalCostBudget = totalCostBudget;

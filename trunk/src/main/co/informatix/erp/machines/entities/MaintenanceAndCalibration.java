@@ -54,7 +54,6 @@ public class MaintenanceAndCalibration implements Serializable {
 	/**
 	 * @param idMaintenance
 	 *            : Maintenance and calibration ID
-	 * 
 	 */
 	public void setIdMaintenance(int idMaintenance) {
 		this.idMaintenance = idMaintenance;
@@ -72,7 +71,6 @@ public class MaintenanceAndCalibration implements Serializable {
 	/**
 	 * @param dateTime
 	 *            : sets the date of the maintenance and calibration
-	 * 
 	 */
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
@@ -87,7 +85,6 @@ public class MaintenanceAndCalibration implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param totalCostBudget
 	 *            : sets the total budget cost
 	 */
@@ -96,7 +93,6 @@ public class MaintenanceAndCalibration implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return totalCostActual: gets the current total cost
 	 */
 	@Column(name = "total_cost_actual")
@@ -105,7 +101,6 @@ public class MaintenanceAndCalibration implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param totalCostActual
 	 *            : sets the current total cost
 	 */
@@ -114,7 +109,6 @@ public class MaintenanceAndCalibration implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return machineEquipementInGoodCondition: gets a Boolean value "true" if
 	 *         the machine equipment is in good condition otherwise false
 	 */
@@ -127,7 +121,6 @@ public class MaintenanceAndCalibration implements Serializable {
 	 * @param machineEquipementInGoodCondition
 	 *            : sets a Boolean value "true" if the machine equipment is in
 	 *            good condition otherwise false
-	 * 
 	 */
 	public void setMachineEquipementInGoodCondition(
 			Boolean machineEquipementInGoodCondition) {
@@ -148,7 +141,6 @@ public class MaintenanceAndCalibration implements Serializable {
 	 * @param machines
 	 *            : sets the relationship of the machines with the maintenance
 	 *            and calibration
-	 * 
 	 */
 	public void setMachines(Machines machines) {
 		this.machines = machines;

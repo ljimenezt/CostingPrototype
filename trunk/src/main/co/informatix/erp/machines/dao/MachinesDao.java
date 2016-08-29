@@ -29,7 +29,6 @@ public class MachinesDao implements Serializable {
 	 * parameter and filtering the information by the values sent search.
 	 * 
 	 * @modify 28/05/2015 Mabell.Boada
-	 * 
 	 * @modify 19/08/2015 Andres.Gomez
 	 * 
 	 * @param start
@@ -214,9 +213,7 @@ public class MachinesDao implements Serializable {
 	 *            : string value for validate.
 	 * @param id
 	 *            : identifier of the machine.
-	 * 
 	 * @return Machines: machine object found with the serial
-	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -238,5 +235,4 @@ public class MachinesDao implements Serializable {
 		}
 		return null;
 	}
-
 }

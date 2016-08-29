@@ -152,7 +152,6 @@ public class MachineUsageDao implements Serializable {
 	 * 
 	 * @param year
 	 *            : Year to search a machine usage.
-	 * 
 	 * @return List<MachineUsage>: Machine Usage list.
 	 * @throws Exception
 	 */
@@ -171,5 +170,4 @@ public class MachineUsageDao implements Serializable {
 		}
 		return null;
 	}
-
 }
