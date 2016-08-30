@@ -978,3 +978,9 @@ fieldset {
 .wordBreakNormal {
 	word-break: normal
 }
+
+rect:hover {
+	cursor: pointer;
+	opacity: 0.8;
+	background-color: black;
+}

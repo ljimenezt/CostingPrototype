@@ -16,6 +16,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import com.google.gson.JsonObject;
+
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
 import co.informatix.erp.lifeCycle.dao.CropsPlotsDao;
@@ -67,6 +69,9 @@ public class CropsAction implements Serializable {
 	private String nameSearch;
 	private int year;
 	private int nameCrop;
+
+	private JsonObject obj;
+	private JsonObject constructionParametersMap;
 
 	/**
 	 * @return cropNames: crop names associated with the crop.
@@ -248,6 +253,39 @@ public class CropsAction implements Serializable {
 	 */
 	public void setNameCrop(int nameCrop) {
 		this.nameCrop = nameCrop;
+	}
+
+	/**
+	 * @return obj: Object with the information of the plots
+	 */
+	public JsonObject getObj() {
+		return obj;
+	}
+
+	/**
+	 * @param obj
+	 *            Object with the information of the plots
+	 */
+	public void setObj(JsonObject obj) {
+		this.obj = obj;
+	}
+
+	/**
+	 * @return constructionParametersMap : JSON Object with the information of
+	 *         the location of the every plot to draw
+	 */
+	public JsonObject getConstructionParametersMap() {
+		return constructionParametersMap;
+	}
+
+	/**
+	 * @param constructionParametersMap
+	 *            :JSON Object with the information of the location of the every
+	 *            plot to draw
+	 */
+	public void setConstructionParametersMap(
+			JsonObject constructionParametersMap) {
+		this.constructionParametersMap = constructionParametersMap;
 	}
 
 	/**
@@ -640,4 +678,59 @@ public class CropsAction implements Serializable {
 			this.listPlotsAsocciates.removeAll(listPlotsAsocciates);
 		}
 	}
+
+	/**
+	 * This method allow load parameter in JSON to load the form of the
+	 * plantation
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 */
+	public void loadMapPlantation() {
+
+		constructionParametersMap = new JsonObject();
+		constructionParametersMap.addProperty("1", 5);
+		constructionParametersMap.addProperty("2", 5);
+		constructionParametersMap.addProperty("3", 6);
+		constructionParametersMap.addProperty("4", 6);
+		constructionParametersMap.addProperty("5", 6);
+		constructionParametersMap.addProperty("6", 7);
+		constructionParametersMap.addProperty("7", 7);
+		constructionParametersMap.addProperty("8", 8);
+		constructionParametersMap.addProperty("9", 8);
+		constructionParametersMap.addProperty("10", 10);
+		constructionParametersMap.addProperty("11", 9);
+		constructionParametersMap.addProperty("12", 9);
+		constructionParametersMap.addProperty("13", 10);
+		constructionParametersMap.addProperty("14", 11);
+		constructionParametersMap.addProperty("15", 11);
+		constructionParametersMap.addProperty("16", 12);
+		constructionParametersMap.addProperty("17", 12);
+		constructionParametersMap.addProperty("18", 6);
+		constructionParametersMap.addProperty("19", 5);
+		constructionParametersMap.addProperty("20", 5);
+		constructionParametersMap.addProperty("21", 5);
+		constructionParametersMap.addProperty("22", 5);
+		constructionParametersMap.addProperty("23", 5);
+		constructionParametersMap.addProperty("24", 5);
+		constructionParametersMap.addProperty("25", 5);
+		constructionParametersMap.addProperty("26", 5);
+		constructionParametersMap.addProperty("27", 5);
+		constructionParametersMap.addProperty("28", 5);
+		constructionParametersMap.addProperty("29", 5);
+		constructionParametersMap.addProperty("30", 5);
+		constructionParametersMap.addProperty("31", 5);
+		constructionParametersMap.addProperty("32", 4);
+		constructionParametersMap.addProperty("33", 2);
+		constructionParametersMap.addProperty("34", 3);
+
+		obj = new JsonObject();
+		int count = 1;
+		for (int i = 0; i <= 221; i++) {
+			String property = String.valueOf(count);
+			obj.addProperty(property, i);
+			count++;
+		}
+	}
+
 }

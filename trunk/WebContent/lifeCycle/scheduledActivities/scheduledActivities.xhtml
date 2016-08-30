@@ -26,6 +26,7 @@
 		<t:saveState value="#{controllerSortField}" />
 		<t:saveState value="#{cycleAction}" />
 		<t:saveState value="#{activitiesAndMachineAction}" />
+		<t:saveState value="#{cropsAction}" />
 		<!-- Parameters for the order list -->
 		<ui:param name="renderList" value="paginas" />
 		<ui:param name="actionList" value="#{activitiesAction}" />
@@ -239,6 +240,19 @@
 										<f:setPropertyActionListener value="f"
 											target="#{cropActivitiesAction.pagination.opcion}" />
 									</a:commandLink>
+
+									<a:commandLink styleClass="quitarDecoracionLink"
+										execute="@this" render="mapPlots:popupMapPlantation"
+										actionListener="#{cropsAction.loadMapPlantation()}"
+										oncomplete="#{rich:component('mapPlots:popupMapPlantation')}.show(), paint() "
+										rendered="#{!activitiesAction.flagCycle}">
+										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+											<h:graphicImage value="/img/mapPlantation_16.png" />
+											<h:outputText
+												value="#{messageLifeCycle.activity_plot_label_map_plantation}" />
+										</h:panelGrid>
+									</a:commandLink>
+
 									<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 										<ui:param name="tieneVigencia" value="no" />
 										<ui:param name="ocultarNuevo" value="si" />
@@ -809,5 +823,6 @@
 		<ui:include src="templateCycles.xhtml">
 			<ui:param name="beanActionParam" value="#{scheduledActivitiesAction}" />
 		</ui:include>
+		<ui:include src="/lifeCycle/templateMapPlantation.xhtml" />
 	</ui:define>
 </ui:composition>

@@ -1,0 +1,161 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	<t:saveState value="#{cropsAction}" />
+	<script type="text/javascript"
+		src="#{request.contextPath}/js/raphael-min.js" />
+	<h:form id="mapPlots">
+
+		<script type="text/javascript">
+	function paint(){
+			 attributes = {
+				            fill: '#d7965e',
+				            stroke: 'black',
+				            'stroke-width': 2,
+				            'stroke-linejoin': 'round'
+				        };
+			var plotsList=document.getElementById("#{plots.clientId}").value;
+			var constructionParametersMap=document.getElementById("#{constructionParametersMap.clientId}").value;
+			var plotList=JSON.parse(plotsList);
+			var listMap=JSON.parse(constructionParametersMap);
+			var paper = Raphael(document.getElementById('container'),800,1800);
+			paper.safari();
+			var group = paper.set();
+			var COLOR_BLUE = 'blue';
+			var COLOR_YELLOW = 'yellow';
+			var COLOR_RED = 'red';
+			var plotPosx=300;
+			var plotInitialPosx=300;
+			var plotPosy=20;
+			var count=1;
+			var limit=listMap[1];
+			var countTemp=1;
+			var countPlot =0;
+			var order = false;
+			var auxValue = 1;
+			var auxLimit =listMap[1];
+			var increment= true;
+			var value = 218;
+			for(var k in plotList ){
+				if(order){
+				 	value = 223-count;
+				 	if(countPlot > 218){
+					 	if(increment){
+					 		auxValue =1;
+					 		increment = false;
+						}
+						var val = auxValue * auxValue;
+						value = (auxValue % val) +1;
+					}else{
+						auxValue = 0;
+					}
+				}else{
+					var initValue = 222-limit;
+	            	value = initValue + auxValue;
+				}
+				if((countPlot > 129 &amp;&amp; !(countPlot > 135)) ||(countPlot > 141 &amp;&amp; !(countPlot > 147))){
+					value =value-1;
+				}
+				value = countPlot == 147 ? 86 : countPlot == 217 ? 2 : value;
+				if(countPlot+2 > limit) {
+					order = order==true?false:true;
+				}
+			rect =	paper.rect(plotPosx,plotPosy,50,50).attr({ title: value }).attr(attributes).data(k, plotList[k]);
+			paper.text(plotPosx + 25, plotPosy + 25, value ).attr({'fill': 'black'});
+			plotPosx=plotPosx+50;
+				 if(count > limit-1){
+					countTemp++;
+					limit=limit+listMap[countTemp];
+					plotPosy=plotPosy+50;
+						if(countTemp >= 18){
+							if(countTemp > 31){
+								switch(countTemp){
+								
+								case 32:
+									plotPosx=plotInitialPosx+25;
+									plotInitialPosx=plotPosx;
+									break;
+						
+								case 33:
+									plotPosx=plotInitialPosx+100;
+									plotInitialPosx=plotPosx;
+									break;
+								
+								case 34:
+									plotPosx=plotInitialPosx-50;
+									plotInitialPosx=plotPosx;
+									break;
+								}
+							} else {
+								plotPosx=plotInitialPosx;
+							}
+						} else {
+							if(listMap[countTemp] != listMap[countTemp-1]){
+								plotPosx=plotInitialPosx-25;
+								plotInitialPosx=plotPosx;
+							} else {
+								plotPosx=plotInitialPosx;
+							}
+						}
+				 }
+				 group.push(rect);
+				 if(countPlot == 146){
+					 plotPosx = plotPosx +25;
+				 }
+				 count++;
+				 countPlot++;
+				 auxValue++;
+				}
+				group.click(function(evt) {
+					var value = this.attr('title');
+					var color = this.attr('fill');
+					alert("You Selected the Plot: "+value);
+					if(color ==COLOR_BLUE ){
+						this.attr({'fill': COLOR_YELLOW});
+					}else if(color==COLOR_YELLOW ){
+						this.attr({'fill': COLOR_RED});
+					} else{
+						this.attr({'fill': COLOR_BLUE});
+					}
+			 	});
+			}
+	</script>
+		<rich:popupPanel id="popupMapPlantation" width="900" height="600"
+			header="#{messageLifeCycle.activity_plot_label_map_plantation}"
+			domElementAttachment="form">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						onclick="#{rich:component('popupMapPlantation')}.hide()"
+						styleClass="cursor" />
+				</h:panelGroup>
+			</f:facet>
+			<fieldset class="fieldsetStyle">
+				<legend class="fieldsetLegend"> #{mensajeMenu.mapa_label}</legend>
+
+				<div id="container"></div>
+				<div class="W100Per center inBlock">
+					<a:commandButton
+						onclick="#{rich:component('popupMapPlantation')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+				<a:outputPanel>
+					<h:inputHidden value="#{cropsAction.obj}" binding="#{plots}"
+						id="test" />
+					<h:inputHidden value="#{cropsAction.constructionParametersMap}"
+						binding="#{constructionParametersMap}" id="test1" />
+				</a:outputPanel>
+			</fieldset>
+		</rich:popupPanel>
+	</h:form>
+</ui:composition>
