@@ -142,10 +142,11 @@
 					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 						<ui:param name="botonesAbajo" value="si" />
 						<ui:param name="tieneVigencia" value="no" />
+						<ui:param name="anchoTabla" value="anchoTres" />
 					</ui:include>
 					<a:outputPanel rendered="#{!listaVacia}">
 						<br />
-						<div class="#{anchoT} center inBlock">
+						<div class="#{anchoT} right inBlock">
 							<ui:include src="/plantillas/templatePagination.xhtml">
 								<ui:param name="valReder" value="panelPlot" />
 								<ui:param name="beanActionParam" value="#{plotAction}" />
