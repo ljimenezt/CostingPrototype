@@ -176,7 +176,6 @@ public class CustomerAction implements Serializable {
 	 *            : Context to access language tags
 	 * @param jointSearchMessages
 	 *            : Message search.
-	 * 
 	 */
 	private void advancedQuery(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -197,7 +196,6 @@ public class CustomerAction implements Serializable {
 	 * 
 	 * @param customer
 	 *            : Customer that you are adding or editing.
-	 * 
 	 * @return "regCustomer": Redirects to the register customer template.
 	 */
 	public String addEditCustomer(Customer customer) {
@@ -215,7 +213,6 @@ public class CustomerAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -297,5 +294,4 @@ public class CustomerAction implements Serializable {
 
 		return searchCustomers();
 	}
-
 }

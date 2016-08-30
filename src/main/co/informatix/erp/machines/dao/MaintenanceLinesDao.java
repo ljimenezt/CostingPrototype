@@ -18,7 +18,6 @@ import co.informatix.erp.machines.entities.MaintenanceLines;
  * @author Mabell.Boada
  * 
  */
-
 @SuppressWarnings("serial")
 @Stateless
 public class MaintenanceLinesDao implements Serializable {
