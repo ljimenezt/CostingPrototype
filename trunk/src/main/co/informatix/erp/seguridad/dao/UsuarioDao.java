@@ -36,7 +36,6 @@ public class UsuarioDao implements Serializable {
 	 *            : To select existing or not existing records.
 	 * @param nameSearch
 	 *            : Name that the method is going to query.
-	 * 
 	 * @return List<Usuario>: Users list found in the database.
 	 * @throws Exception
 	 */
@@ -62,7 +61,6 @@ public class UsuarioDao implements Serializable {
 	 *            : To select existing or not existing registrations.
 	 * @param nameSearch
 	 *            : User name to search.
-	 * 
 	 * @return Long: Amount of users.
 	 * @throws Exception
 	 */
@@ -149,7 +147,6 @@ public class UsuarioDao implements Serializable {
 	 * 
 	 * @param userName
 	 *            : User name to be queried.
-	 * 
 	 * @return Usuario: User object that casts the query.
 	 * 
 	 * @throws Exception

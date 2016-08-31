@@ -96,7 +96,6 @@ public class UsuarioAction implements Serializable {
 	private boolean edited;
 
 	/**
-	 * 
 	 * @return user: User that is used when a user register or modification.
 	 */
 	public Usuario getUser() {
@@ -104,7 +103,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param user
 	 *            : User that is used when a user register or modification.
 	 */
@@ -113,7 +111,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return users: User List that is loaded into the user interface.
 	 */
 	public List<Usuario> getUsers() {
@@ -121,7 +118,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param users
 	 *            : User List that is loaded into the user interface.
 	 */
@@ -130,7 +126,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return pagination: management paged list of users in the view.
 	 */
 	public Paginador getPagination() {
@@ -138,7 +133,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param pagination
 	 *            : management paged list of users in the view.
 	 */
@@ -147,7 +141,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return renovateRol: Monitors the status POPUP effective to renovate or
 	 *         make a new user role.
 	 */
@@ -156,7 +149,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param renovateRol
 	 *            : Monitors the status POPUP effective to renovate or make a
 	 *            new user role.
@@ -173,7 +165,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param renovatePass
 	 *            : Controls whether to renew the password or not.
 	 */
@@ -188,7 +179,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return edited: Indicates if it is a user edition or insertion.
 	 */
 	public boolean isEdited() {
@@ -196,7 +186,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param edited
 	 *            : Indicates if it is a user edition or insertion.
 	 */
@@ -238,7 +227,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return roles: List of roles of a user.
 	 */
 	public List<Rol> getRoles() {
@@ -246,7 +234,6 @@ public class UsuarioAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param roles
 	 *            : List of roles of a user.
 	 */
@@ -772,7 +759,6 @@ public class UsuarioAction implements Serializable {
 	 *            : validate component.
 	 * @param value
 	 *            : Field value to be valid.
-	 * 
 	 * @throws Exception
 	 */
 	public void validateUserName(FacesContext context, UIComponent toValidate,
@@ -1081,7 +1067,6 @@ public class UsuarioAction implements Serializable {
 	 * This class is used to change the password.
 	 * 
 	 * @author Oscar.Amaya
-	 * 
 	 */
 	public class ChangedPassword implements Serializable {
 

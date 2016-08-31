@@ -241,7 +241,6 @@ public class MaterialsDao implements Serializable {
 	 * 
 	 * @param purchaseInvoice
 	 *            : Purchase invoice object
-	 * 
 	 * @return List<Materials>: List of materials.
 	 * @throws Exception
 	 */
@@ -260,5 +259,4 @@ public class MaterialsDao implements Serializable {
 		q.setParameter("purchaseInvoice", purchaseInvoice);
 		return q.getResultList();
 	}
-
 }

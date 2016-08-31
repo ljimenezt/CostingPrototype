@@ -667,7 +667,6 @@ public class DepositsAction implements Serializable {
 	 * 
 	 * @param deposits
 	 *            :deposit are adding or editing
-	 * 
 	 * @return "regDeposits":redirected to the template record deposits.
 	 */
 	public String addEditDeposits(Deposits deposits) {

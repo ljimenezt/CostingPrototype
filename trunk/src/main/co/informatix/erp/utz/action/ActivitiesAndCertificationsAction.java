@@ -67,7 +67,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param listActivities
 	 *            : List of activities.
-	 * 
 	 */
 	public void setListActivities(List<Activities> listActivities) {
 		this.listActivities = listActivities;
@@ -83,7 +82,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param itemsCertificationsAndRoles
 	 *            : List items certifications and roles.
-	 * 
 	 */
 	public void setItemsCertificationsAndRoles(
 			List<SelectItem> itemsCertificationsAndRoles) {
@@ -100,7 +98,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param itemsActivities
 	 *            : List of items of activities.
-	 * 
 	 */
 	public void setItemsActivities(List<SelectItem> itemsActivities) {
 		this.itemsActivities = itemsActivities;
@@ -117,7 +114,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param certificationsAndRoles
 	 *            : Object to certification and associated roles.
-	 * 
 	 */
 	public void setCertificationsAndRoles(
 			CertificationsAndRoles certificationsAndRoles) {
@@ -134,7 +130,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param activities
 	 *            : Object associated activities.
-	 * 
 	 */
 	public void setActivities(Activities activities) {
 		this.activities = activities;
@@ -150,7 +145,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param activityNames
 	 *            : Name Object associated activity.
-	 * 
 	 */
 	public void setActivityNames(ActivityNames activityNames) {
 		this.activityNames = activityNames;
@@ -166,7 +160,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param activitiesAndCertifications
 	 *            : Object and certification activities.
-	 * 
 	 */
 	public void setActivitiesAndCertifications(
 			ActivitiesAndCertifications activitiesAndCertifications) {
@@ -184,7 +177,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param activitiesAndCertificationsPK
 	 *            : Object the composite key activities and certifications.
-	 * 
 	 */
 	public void setActivitiesAndCertificationsPK(
 			ActivitiesAndCertificationsPK activitiesAndCertificationsPK) {
@@ -201,7 +193,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param idCertAndRoles
 	 *            : Identifier of certifications and roles.
-	 * 
 	 */
 	public void setIdCertAndRoles(int idCertAndRoles) {
 		this.idCertAndRoles = idCertAndRoles;
@@ -217,7 +208,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	/**
 	 * @param nameSearch
 	 *            : Activity name to search.
-	 * 
 	 */
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
@@ -268,7 +258,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * 
 	 * @param activitiesAndCertifications
 	 *            :Activity and certification are adding or editing.
-	 * 
 	 * @return regActivAndCert: Template redirects to record activities and
 	 *         certifications.
 	 */
@@ -395,7 +384,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * 
 	 * @return searchInitialization: Method to initialize the search parameters
 	 *         and load the template to manage activities and certifications.
-	 * 
 	 */
 	public String saveActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -449,7 +437,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 *            :access language tags
 	 * @param unionMessagesSearch
 	 *            : message search
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,

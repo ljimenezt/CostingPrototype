@@ -77,7 +77,6 @@ public class RolMetodoDao implements Serializable {
 	 * 
 	 * @param rol
 	 *            : Role permissions to find the corresponding method.
-	 * 
 	 * @return List<RolMetodo>: List of rolMethod permissions, regardless of the
 	 *         term.
 	 * @throws Exception

@@ -322,10 +322,8 @@ public class ActivitiesAndServicesAction implements Serializable {
 	 * 
 	 * @param activitiesAndServices
 	 *            : Object of activities and services that to add or edit.
-	 * 
 	 * @return regActivitiesAndServices: Redirects to register activities and
 	 *         services template.
-	 * 
 	 */
 	public String addEditActivitiesAndServices(
 			ActivitiesAndServices activitiesAndServices) {
@@ -380,7 +378,6 @@ public class ActivitiesAndServicesAction implements Serializable {
 	 * Method that fills the list of crops according to the selected name.
 	 * 
 	 * @modify 13/06/2016 Wilhelm.Boada
-	 * 
 	 */
 	public void fillCropNamesCrop() {
 		try {
@@ -418,7 +415,6 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * Load the list of activities depending on the crop.
-	 * 
 	 */
 	public void consultActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -473,7 +469,6 @@ public class ActivitiesAndServicesAction implements Serializable {
 	 *            : Context to access language tags.
 	 * @param jointSearchMessages
 	 *            : Search message.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder query,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -493,7 +488,6 @@ public class ActivitiesAndServicesAction implements Serializable {
 	 * 
 	 * @param activities
 	 *            : Object of activities that will be added or edited a service.
-	 * 
 	 * @return regServices: Redirects to register a service in an activity.
 	 */
 	public String addEditServices(Activities activities) {
@@ -562,7 +556,7 @@ public class ActivitiesAndServicesAction implements Serializable {
 	 *            : Crops that will have its details modified.
 	 * @throws Exception
 	 */
-	public void loadDetailsCrop(Crops crops) throws Exception {
+	private void loadDetailsCrop(Crops crops) throws Exception {
 		int idCrop = crops.getIdCrop();
 		CropNames cropName = (CropNames) this.cropsDao.consultObjectCrop(
 				"cropNames", idCrop);
@@ -571,7 +565,6 @@ public class ActivitiesAndServicesAction implements Serializable {
 
 	/**
 	 * Adds a service in the list of the user interface.
-	 * 
 	 */
 	public void addListServices() {
 		this.activitiesAndServices = new ActivitiesAndServices();

@@ -86,5 +86,4 @@ public class TransactionType implements Serializable {
 			return false;
 		return true;
 	}
-
 }

@@ -918,7 +918,6 @@ public class PersonaAction implements Serializable {
 
 	/**
 	 * Allows erase the default filename.
-	 * 
 	 */
 	public void deleteFilename() {
 		if (fileUploadBean.getFileName() != null
@@ -935,7 +934,6 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteFile(String fileName) {
 		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
@@ -950,7 +948,6 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteFileReal(String fileName) {
 		String locations[] = {
@@ -1086,7 +1083,6 @@ public class PersonaAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
@@ -1142,5 +1138,4 @@ public class PersonaAction implements Serializable {
 		this.searchFilter = "";
 		return consultPersons();
 	}
-
 }

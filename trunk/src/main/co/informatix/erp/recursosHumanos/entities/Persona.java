@@ -31,7 +31,6 @@ import co.informatix.security.entities.Usuario;
  * @author marisol.calderon
  * @modify Luz.Jaimes 09/08/2013
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "persona", schema = "recursos_humanos")

@@ -113,7 +113,6 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return pagination: pagination controls menu list.
 	 */
 	public Paginador getPagination() {
@@ -121,7 +120,6 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param pagination
 	 *            : pagination controls menu list.
 	 */
@@ -130,7 +128,6 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return menuPadre: Variable that gets the parent menu item.
 	 */
 	public Menu getMenuPadre() {
@@ -138,7 +135,6 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param menuPadre
 	 *            : Variable that gets the parent menu item.
 	 */
@@ -147,7 +143,6 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return nameSearch: Variable that gets the name of the menu that search
 	 *         the user interface.
 	 */
@@ -156,7 +151,6 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param nameSearch
 	 *            : Variable sets the name of the menu that will search the user
 	 *            interface.
@@ -198,7 +192,6 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param nameIconSearch
 	 *            : variable that gets the icon name is sought in the user
 	 *            interface.
@@ -259,7 +252,6 @@ public class GestionarMenuAction implements Serializable {
 	 * Method that allows you to load the initial data.
 	 * 
 	 * @modify 16/05/2016 Wilhelm.Boada
-	 * 
 	 */
 	public void initialData() {
 		this.nameSearch = "";
@@ -379,7 +371,6 @@ public class GestionarMenuAction implements Serializable {
 	 * 
 	 * @param listTdosMenus
 	 *            : List of all existing menus.
-	 * 
 	 * @return listMenusData: List of menus filtered by name.
 	 */
 	public List<Menu> filterMenusByName(List<Menu> listTdosMenus) {
@@ -467,7 +458,6 @@ public class GestionarMenuAction implements Serializable {
 	 * 
 	 * @param menu
 	 *            : Menu sent to load the details.
-	 * 
 	 * @return Menu item loaded with details.
 	 * @throws Exception
 	 */
@@ -522,7 +512,6 @@ public class GestionarMenuAction implements Serializable {
 	 * @param menu
 	 *            : Object menu to record or edit.
 	 * @return regMenu: redirected to the registration page menu.
-	 * 
 	 */
 	public String registerMenu(Menu menu) {
 		listMenus = new ArrayList<Menu>();
@@ -676,5 +665,4 @@ public class GestionarMenuAction implements Serializable {
 	public void loadIconMenu(Icono icon) {
 		this.menuAction.setIcono(icon);
 	}
-
 }

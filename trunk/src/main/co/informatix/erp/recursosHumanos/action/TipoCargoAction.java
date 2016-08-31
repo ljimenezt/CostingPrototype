@@ -313,7 +313,6 @@ public class TipoCargoAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context
-	 * 
 	 * @param toValidate
 	 *            : validate component
 	 * @param value

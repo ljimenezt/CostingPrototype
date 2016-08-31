@@ -199,7 +199,6 @@ public class MaterialsTypeAction implements Serializable {
 	 *            :access language tags
 	 * @param unionMessagesSearch
 	 *            : message search
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -211,9 +210,7 @@ public class MaterialsTypeAction implements Serializable {
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
-
 		}
-
 	}
 
 	/**
@@ -221,7 +218,6 @@ public class MaterialsTypeAction implements Serializable {
 	 * 
 	 * @param materialsType
 	 *            :Type materials that are adding or editing
-	 * 
 	 * @return "regMaterialsType":redirected to the template record Material
 	 *         Type.
 	 */
@@ -296,7 +292,6 @@ public class MaterialsTypeAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context
-	 * 
 	 * @param toValidate
 	 *            : validate component
 	 * @param value

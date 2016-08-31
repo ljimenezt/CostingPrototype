@@ -44,7 +44,6 @@ public class InvoiceItemsAction implements Serializable {
 
 	@EJB
 	private InvoiceItemsDao invoiceItemsDao;
-
 	@EJB
 	private FarmDao farmDao;
 	@EJB
@@ -346,7 +345,6 @@ public class InvoiceItemsAction implements Serializable {
 	 * 
 	 * @param invoiceItems
 	 *            : Invoice items to validate if is already created
-	 * 
 	 */
 	public void validateInvoiceItemsToEdit(InvoiceItems invoiceItems) {
 		ResourceBundle bundle = ControladorContexto
@@ -378,7 +376,6 @@ public class InvoiceItemsAction implements Serializable {
 
 	/**
 	 * This method allows to clean lists and initialize
-	 * 
 	 */
 	public void cleanLists() {
 		invoiceItemsList = new ArrayList<InvoiceItems>();
@@ -440,7 +437,6 @@ public class InvoiceItemsAction implements Serializable {
 	 * Method used to save edit or remove the invoiceItem
 	 * 
 	 * @modify 06/04/2016 Andres.Gomez
-	 * 
 	 */
 	public void saveUpdateInvoiceItem() {
 		try {
@@ -485,7 +481,6 @@ public class InvoiceItemsAction implements Serializable {
 
 	/**
 	 * This method clean the value of material for invoice item
-	 * 
 	 */
 	public void cleanMaterial() {
 		this.invoiceItem.setMaterial(new Materials());
@@ -617,7 +612,6 @@ public class InvoiceItemsAction implements Serializable {
 	/**
 	 * This method allow calculate the total according with the values that user
 	 * enter in the view
-	 * 
 	 */
 	public void calculateTotal() {
 		try {
@@ -653,7 +647,6 @@ public class InvoiceItemsAction implements Serializable {
 	/**
 	 * This method allow add the invoice item in a list to show and save if the
 	 * purchase invoice is saved
-	 * 
 	 */
 	public void addTemporalList() {
 		try {
@@ -679,7 +672,6 @@ public class InvoiceItemsAction implements Serializable {
 	/**
 	 * This method allows remove the invoice item in the list of the purchase
 	 * items.
-	 * 
 	 */
 	public void removeInvoiceItem() {
 		int idInvoice = this.invoiceItem.getIdInvoiceItem();
@@ -764,13 +756,11 @@ public class InvoiceItemsAction implements Serializable {
 					"formRegInvoiceItems:discountItem",
 					bundle.getString("message_campo_positivo"));
 		}
-
 	}
 
 	/**
 	 * This method allows you to load the IVA rate in interface for registering
 	 * a new invoice items.
-	 * 
 	 * 
 	 * @throws Exception
 	 */

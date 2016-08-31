@@ -79,7 +79,6 @@ public class RolAction implements Serializable {
 	private RolMetodoDao rolMetodoDao;
 
 	/**
-	 * 
 	 * @return rolesList: List of roles that are loaded into the user interface.
 	 */
 	public List<Rol> getRolesList() {
@@ -266,7 +265,6 @@ public class RolAction implements Serializable {
 	 * 
 	 * @param rol
 	 *            : role to be edited.
-	 * 
 	 * @return "regRol": redirects to the template to register a role.
 	 */
 	public String addEditRol(Rol rol) {
@@ -517,7 +515,6 @@ public class RolAction implements Serializable {
 	 * @param menu
 	 *            : Menu to be added or edited and there will be found its
 	 *            father.
-	 * 
 	 * @throws Exception
 	 */
 	private void searchSaveFatherMenu(Menu menu) throws Exception {
@@ -646,12 +643,10 @@ public class RolAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
 	 *            : field value to be valid.
-	 * 
 	 * @throws Exception
 	 */
 	public void validateName(FacesContext context, UIComponent toValidate,
@@ -752,7 +747,6 @@ public class RolAction implements Serializable {
 	 *            : Permission associated with the method.
 	 * @param methodId
 	 *            : Method identifier associated with permission.
-	 * 
 	 * @return: Permission object and the loaded method.
 	 */
 	public RolMetodo loadRolMethod(String permission, Integer methodId) {
@@ -773,7 +767,6 @@ public class RolAction implements Serializable {
 	 * 
 	 * @param menu
 	 *            : Menu that is associated with the role.
-	 * 
 	 * @return: RolMenu object associated with the menu and the role.
 	 */
 	public RolMenu loadRolMenu(Menu menu) {
@@ -854,7 +847,6 @@ public class RolAction implements Serializable {
 	 *            : List to seek a permission.
 	 * @param permission
 	 *            : Permission to look for.
-	 * 
 	 * @return boolean: True if the permission is selected, false otherwise.
 	 */
 	private boolean permSel(HashMap<String, Boolean> permissions,
@@ -870,7 +862,6 @@ public class RolAction implements Serializable {
 	 *            : ID of the selected method.
 	 * @param permission
 	 *            : Permission to query select.
-	 * 
 	 * @return True if the permission in the method is selected, otherwise
 	 *         false.
 	 */
@@ -954,7 +945,6 @@ public class RolAction implements Serializable {
 	 * @param id
 	 *            : Menu identifier to see if it has permission to be displayed
 	 *            or not.
-	 * 
 	 * @return boolean: True if it has permissions for viewing, otherwise false.
 	 */
 	public boolean notSelectedMenu(Integer id) {

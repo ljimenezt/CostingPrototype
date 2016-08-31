@@ -127,7 +127,6 @@ public class InvoiceItemsDao implements Serializable {
 	 * 
 	 * @param idPurchaseInvoice
 	 *            : Identifier of the purchase invoice to filter the consult
-	 * 
 	 * @return Object[]:List of doubles with the values of the query
 	 * @throws Exception
 	 */
@@ -171,5 +170,4 @@ public class InvoiceItemsDao implements Serializable {
 		}
 		return invoiceItems.get(0);
 	}
-
 }

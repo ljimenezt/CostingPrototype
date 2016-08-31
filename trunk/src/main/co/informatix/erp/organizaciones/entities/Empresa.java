@@ -25,7 +25,6 @@ import co.informatix.erp.informacionBase.entities.Pais;
  * @author marisol.calderon
  * 
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "empresa", schema = "organizaciones")

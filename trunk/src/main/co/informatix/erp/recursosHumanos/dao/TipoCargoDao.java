@@ -34,7 +34,6 @@ public class TipoCargoDao implements Serializable {
 	 * @param variableBuscar
 	 *            : Word you want to search the records of types of jobs.
 	 * @return Long Numbers of types of existing office in the database.
-	 * 
 	 * @throws Exception
 	 */
 	public Long contarTiposCargo(String condicionVigencia, String variableBuscar)

@@ -31,7 +31,6 @@ public class ControllerAccounting implements Serializable {
 	 *            : value of the dividend.
 	 * @param value2
 	 *            : divider value.
-	 * 
 	 * @return division as a result of double value.
 	 */
 	public static double divide(Double value1, Double value2) {

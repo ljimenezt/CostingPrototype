@@ -19,9 +19,7 @@ import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizaciones.action.EmpresaAction;
 import co.informatix.erp.organizaciones.dao.EmpresaDao;
-import co.informatix.erp.organizaciones.dao.SucursalDao;
 import co.informatix.erp.organizaciones.entities.Empresa;
-import co.informatix.erp.organizaciones.entities.Sucursal;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.dao.PermisoPersonaEmpresaDao;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
@@ -50,8 +48,6 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	private EmpresaDao empresaDao;
 	@EJB
 	private PermisoPersonaEmpresaDao permisoPersonaEmpresaDao;
-	@EJB
-	private SucursalDao sucursalDao;
 	@EJB
 	private FarmDao farmDao;
 
@@ -608,13 +604,7 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 */
 	public void nullValidate(PermisoPersonaEmpresa permisoPersonaEmpresaVal) {
 		if (permisoPersonaEmpresaVal != null) {
-			Sucursal sucursal = permisoPersonaEmpresaVal.getSucursal();
 			Farm farm = permisoPersonaEmpresaVal.getFarm();
-			if (sucursal != null
-					&& (sucursal.getId() == null || (sucursal.getId() != null && sucursal
-							.getId() == 0))) {
-				permisoPersonaEmpresaVal.setSucursal(null);
-			}
 			if (farm != null && farm.getIdFarm() == 0) {
 				permisoPersonaEmpresaVal.setFarm(null);
 			}
@@ -696,14 +686,6 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 */
 	private void loadCombos() throws Exception {
 		itemsBranchOffices = new ArrayList<SelectItem>();
-		List<Sucursal> sucursalesVigentes = sucursalDao
-				.consultarSucursalesVigentes();
-		if (sucursalesVigentes != null) {
-			for (Sucursal sucursal : sucursalesVigentes) {
-				itemsBranchOffices.add(new SelectItem(sucursal.getId(),
-						sucursal.getNombre()));
-			}
-		}
 		itemsFarms = new ArrayList<SelectItem>();
 		List<Farm> farmsCurrent = farmDao.farmsList();
 		if (farmsCurrent != null) {
@@ -734,28 +716,22 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 		try {
 			if (Constantes.NEW_PERMISO.equals(option)) {
 				this.permisoPersonaEmpresa = new PermisoPersonaEmpresa();
-				this.permisoPersonaEmpresa.setSucursal(new Sucursal());
 				this.permisoPersonaEmpresa.setFarm(new Farm());
 				this.permisoPersonaEmpresa.setPersona(persona);
 				this.permisoPersonaEmpresa.setEmpresa(selectedCompany);
-				loadCombosCompany(selectedCompany);
 				idBranchOffice = 0;
 				idFarm = 0;
 			} else if (Constantes.ADD_PERMISO.equals(option)) {
 				String message = "person_permission_company_label_associated";
 				if (idBranchOffice != 0) {
 					message = "person_permission_company_label_associated_branch";
-					Sucursal sucursal = sucursalDao
-							.consultarSucursal(idBranchOffice);
-					permisoPersonaEmpresa.setSucursal(sucursal);
 				} else if (idFarm != 0) {
 					message = "person_permission_company_label_associated_farm";
 					Farm farm = farmDao.farmXId(idFarm);
 					permisoPersonaEmpresa.setFarm(farm);
 				}
 				if (!validateExistsPermissionAssociated(this.selectedCompany,
-						permisoPersonaEmpresa.getFarm(),
-						permisoPersonaEmpresa.getSucursal())) {
+						permisoPersonaEmpresa.getFarm())) {
 					listPermisoPersonaEmpresaTemp.add(permisoPersonaEmpresa);
 				} else {
 					ControladorContexto.mensajeError("popupForm:mensajesPopup",
@@ -780,32 +756,20 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 	 *            : company selected to associate permissions.
 	 * @param farm
 	 *            : Selected finance company.
-	 * @param sucursal
-	 *            : Selected branch of the company.
 	 * @return boolean to true if it is already associated or false otherwise.
 	 */
 	private boolean validateExistsPermissionAssociated(Empresa empresaSel,
-			Farm farm, Sucursal sucursal) {
+			Farm farm) {
 		if (listPermisoPersonaEmpresaTemp != null) {
 			for (PermisoPersonaEmpresa permPersonaEmp : listPermisoPersonaEmpresaTemp) {
 				Empresa companyList = permPersonaEmp.getEmpresa();
 				Farm farmList = permPersonaEmp.getFarm();
-				Sucursal sucursalList = permPersonaEmp.getSucursal();
-				if (sucursal != null && sucursal.getId() != null
-						&& sucursalList != null
-						&& sucursalList.equals(sucursal)
-						&& companyList.equals(empresaSel)) {
-					return true;
-
-				}
 				if (farm != null && farm.getIdFarm() != 0 && farmList != null
 						&& farmList.equals(farm)
 						&& companyList.equals(empresaSel)) {
 					return true;
 				}
 				if ((farm == null || farm.getIdFarm() == 0)
-						&& (sucursal == null || sucursal.getId() == null || sucursal
-								.getId() == 0)
 						&& companyList.equals(empresaSel)) {
 					return true;
 				}
@@ -815,17 +779,9 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 			for (PermisoPersonaEmpresa permisoPerEmp : listPermisoPersonaEmpresa) {
 				Date endDateValidity = permisoPerEmp.getFechaFinVigencia();
 				Empresa empresaList = permisoPerEmp.getEmpresa();
-				Sucursal sucursalList = permisoPerEmp.getSucursal();
+
 				Farm farmList = permisoPerEmp.getFarm();
-				if (sucursal != null
-						&& sucursal.getId() != null
-						&& sucursalList != null
-						&& sucursalList.equals(sucursal)
-						&& empresaList.equals(empresaSel)
-						&& (endDateValidity == null || endDateValidity
-								.after(new Date()))) {
-					return true;
-				}
+
 				if (farm != null
 						&& farm.getIdFarm() != 0
 						&& farmList != null
@@ -836,8 +792,6 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 					return true;
 				}
 				if ((farm == null || farm.getIdFarm() == 0)
-						&& (sucursal == null || sucursal.getId() == null || sucursal
-								.getId() == 0)
 						&& empresaList.equals(empresaSel)
 						&& (endDateValidity == null || endDateValidity
 								.after(new Date()))) {
@@ -846,32 +800,6 @@ public class PermisoPersonaEmpresaAction implements Serializable {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Method of uploading the information combo branches and farm combo in the
-	 * user interface.
-	 * 
-	 * @modify 02/05/2016 Wilhelm.Boada
-	 * 
-	 * @param empresaSelect
-	 *            : Selected business listing to which you are charged combo
-	 *            branches and farms.
-	 * @throws Exception
-	 */
-	private void loadCombosCompany(Empresa empresaSelect) throws Exception {
-		itemsBranchOfficesCompany = new ArrayList<SelectItem>();
-		itemsFarmsCompany = new ArrayList<SelectItem>();
-		if (empresaSelect != null) {
-			List<Sucursal> sucursalesEmpresa = sucursalDao
-					.consultarSucursalesXEmpresa(empresaSelect.getId());
-			if (sucursalesEmpresa != null) {
-				for (Sucursal sucursal : sucursalesEmpresa) {
-					itemsBranchOfficesCompany.add(new SelectItem(sucursal
-							.getId(), sucursal.getNombre()));
-				}
-			}
-		}
 	}
 
 	/**

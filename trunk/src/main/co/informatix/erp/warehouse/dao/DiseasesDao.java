@@ -18,7 +18,6 @@ import co.informatix.erp.warehouse.entities.Diseases;
  * @author Mabell.Boada
  * 
  */
-
 @SuppressWarnings("serial")
 @Stateless
 public class DiseasesDao implements Serializable {
@@ -148,5 +147,4 @@ public class DiseasesDao implements Serializable {
 		}
 		return null;
 	}
-
 }
