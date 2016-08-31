@@ -69,7 +69,6 @@ public class MetodoDao implements Serializable {
 	 * 
 	 * @param name
 	 *            : Name that the method is going to query.
-	 * 
 	 * @return Long: Number of methods that were found in the database.
 	 * @throws Exception
 	 */
@@ -121,7 +120,6 @@ public class MetodoDao implements Serializable {
 	 *            : Name of the method to find.
 	 * @param id
 	 *            : Method identifier edition.
-	 * 
 	 * @return Method: Method object that was found, otherwise null.
 	 * @throws Exception
 	 */
@@ -156,7 +154,6 @@ public class MetodoDao implements Serializable {
 	 *            : Action name of the method to find.
 	 * @param id
 	 *            : ID of the method.
-	 * 
 	 * @return Method: Method object that matches<s the action name, null
 	 *         otherwise.
 	 * @throws Exception

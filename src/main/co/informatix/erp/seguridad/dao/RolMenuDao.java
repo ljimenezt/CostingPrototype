@@ -56,7 +56,6 @@ public class RolMenuDao implements Serializable {
 	 * 
 	 * @param role
 	 *            : Role to find menus.
-	 * 
 	 * @return Role menu list, regardless of duration.
 	 * @throws Exception
 	 */

@@ -12,7 +12,6 @@ import javax.persistence.Query;
 
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizaciones.entities.Empresa;
-import co.informatix.erp.organizaciones.entities.Sucursal;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
 import co.informatix.erp.utils.Constantes;
@@ -132,17 +131,10 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 				Constantes.EMPRESA, id);
 		Persona persona = (Persona) consultarObjetoPermisoPersonaEmpresa(
 				Constantes.PERSONA, id);
-		Sucursal sucursal = (Sucursal) consultarObjetoPermisoPersonaEmpresa(
-				Constantes.SUCURSAL, id);
 		Farm farm = (Farm) consultarObjetoPermisoPersonaEmpresa(
 				Constantes.Farm, id);
 		permisoPersonaEmpresa.setEmpresa(empresa);
 		permisoPersonaEmpresa.setPersona(persona);
-		if (sucursal != null) {
-			permisoPersonaEmpresa.setSucursal(sucursal);
-		} else {
-			permisoPersonaEmpresa.setSucursal(new Sucursal());
-		}
 		if (farm != null) {
 			permisoPersonaEmpresa.setFarm(farm);
 		} else {

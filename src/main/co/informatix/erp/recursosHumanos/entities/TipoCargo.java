@@ -19,7 +19,6 @@ import javax.persistence.TemporalType;
  * @author Liseth.Jimenez
  * 
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "tipo_cargo", schema = "recursos_humanos")

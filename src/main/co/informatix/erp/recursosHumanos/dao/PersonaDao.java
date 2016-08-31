@@ -92,7 +92,6 @@ public class PersonaDao implements Serializable {
 	 * 
 	 * @param person
 	 *            : object recorded in the database.
-	 * 
 	 * @throws Exception
 	 */
 	public void createPerson(Persona person) throws Exception {
@@ -107,7 +106,6 @@ public class PersonaDao implements Serializable {
 	 * 
 	 * @param person
 	 *            : subject to updating.
-	 * 
 	 * @throws Exception
 	 */
 	public void editPerson(Persona person) throws Exception {
@@ -202,5 +200,4 @@ public class PersonaDao implements Serializable {
 		}
 		return null;
 	}
-
 }

@@ -86,7 +86,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	private int idSupplier;
 
 	/**
-	 * 
 	 * @return fileUploadBean: Variable that gets the object for uploading
 	 *         files.
 	 */
@@ -570,7 +569,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * 
 	 * @param invoices
 	 *            :invoice are adding or editing
-	 * 
 	 * @return "regInvoice":redirected to the template record invoice.
 	 */
 	public String addEditInvoices(PurchaseInvoices invoices) {
@@ -609,7 +607,6 @@ public class PurchaseInvoicesAction implements Serializable {
 
 	/**
 	 * This method allow clean the list of the invoiceItems list
-	 * 
 	 */
 	private void cleanItemList() {
 		this.invoiceItemsAction = ControladorContexto
@@ -624,7 +621,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * temporal folder when the invoice have a document
 	 * 
 	 * @throws Exception
-	 * 
 	 */
 	private void relocateFileTemp() throws Exception {
 		getPathLocation();
@@ -652,7 +648,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	/**
 	 * This method allows you to load the suppliers in interface for registering
 	 * a new invoice.
-	 * 
 	 * 
 	 * @throws Exception
 	 */
@@ -752,7 +747,6 @@ public class PurchaseInvoicesAction implements Serializable {
 
 	/**
 	 * Delete the file name.
-	 * 
 	 */
 	public void deleteFilename() {
 		if (this.nameDocument != null && !"".equals(this.nameDocument)
@@ -768,7 +762,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteFile(String fileName) {
 		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
@@ -868,7 +861,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * This method allow save the file in the server and the local path
 	 * 
 	 * @throws Exception
-	 * 
 	 */
 	private void saveFiles() throws Exception {
 		String location = Constantes.RUTA_UPLOADFILE_GLASFISH
@@ -885,7 +877,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * values and compare with the value of the purchase invoice
 	 * 
 	 * @modify 23/05/2016 Gerardo.Herrera
-	 * 
 	 */
 	public void calculateValuesInvoices() {
 		try {
@@ -983,7 +974,6 @@ public class PurchaseInvoicesAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value

@@ -20,7 +20,6 @@ public class Serializer implements Serializable {
 	 * 
 	 * @param object
 	 *            : Object to convert in JSON format.
-	 * 
 	 * @return String in JSON format.
 	 */
 	public static String serialize(Object object) {
@@ -35,7 +34,6 @@ public class Serializer implements Serializable {
 	 *            : String in JSON format.
 	 * @param javaClass
 	 *            : Class than represent the JSON.
-	 * 
 	 * @return Java class list than represent the JSON.
 	 */
 	public static <T> T deserialize(String json, Class<T> javaClass) {
@@ -49,7 +47,6 @@ public class Serializer implements Serializable {
 	 *            : String in JSON format.
 	 * @param typeList
 	 *            : Type than represent the JSON.
-	 * 
 	 * @return Java class list than represent the JSON.
 	 */
 	@SuppressWarnings("unchecked")

@@ -17,7 +17,6 @@ import javax.persistence.TemporalType;
 
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizaciones.entities.Empresa;
-import co.informatix.erp.organizaciones.entities.Sucursal;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 
 /**
@@ -42,7 +41,6 @@ public class PermisoPersonaEmpresa implements Serializable {
 
 	private Empresa empresa;
 	private Persona persona;
-	private Sucursal sucursal;
 	private Farm farm;
 
 	/**
@@ -186,23 +184,6 @@ public class PermisoPersonaEmpresa implements Serializable {
 	 */
 	public void setPersona(Persona persona) {
 		this.persona = persona;
-	}
-
-	/**
-	 * @return sucursal: branch in which the authorized person in the company.
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_sucursal", referencedColumnName = "id", nullable = true)
-	public Sucursal getSucursal() {
-		return sucursal;
-	}
-
-	/**
-	 * @param sucursal
-	 *            : branch in which the authorized person in the company.
-	 */
-	public void setSucursal(Sucursal sucursal) {
-		this.sucursal = sucursal;
 	}
 
 	/**

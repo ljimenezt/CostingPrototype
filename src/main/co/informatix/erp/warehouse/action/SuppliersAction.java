@@ -180,7 +180,6 @@ public class SuppliersAction implements Serializable {
 	 *            : Context to access language tags.
 	 * @param jointSearchMessages
 	 *            : Search message.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder queryBuilder,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -200,9 +199,7 @@ public class SuppliersAction implements Serializable {
 	 * 
 	 * @param suppliers
 	 *            : Provider object that you are adding or editing.
-	 * 
 	 * @return regSuppliers: Template that redirects to register suppliers.
-	 * 
 	 */
 	public String addEditSuppliers(Suppliers suppliers) {
 		if (suppliers != null) {
@@ -279,7 +276,6 @@ public class SuppliersAction implements Serializable {
 	/**
 	 * Method to delete a provider of database.
 	 * 
-	 * 
 	 * @return searchSuppliers: Consult the list of providers and redirects to
 	 *         suppliers manage template.
 	 */
@@ -301,5 +297,4 @@ public class SuppliersAction implements Serializable {
 
 		return searchSuppliers();
 	}
-
 }

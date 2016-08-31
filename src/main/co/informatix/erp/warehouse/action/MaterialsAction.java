@@ -475,7 +475,6 @@ public class MaterialsAction implements Serializable {
 	 * 
 	 * @param materiales
 	 *            : Material to modify.
-	 * 
 	 * @return "regMaterials": Redirects to the register materials template.
 	 */
 	public String addEditMaterials(Materials materiales) {
@@ -618,7 +617,6 @@ public class MaterialsAction implements Serializable {
 	 * 
 	 * @author Sergio.Gelves
 	 * @modify 11/04/2016 Liseth.Jimenez
-	 * 
 	 */
 	public void validateMaterialPresentation() {
 		try {

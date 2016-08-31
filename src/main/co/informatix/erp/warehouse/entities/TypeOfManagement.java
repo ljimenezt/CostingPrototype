@@ -14,7 +14,6 @@ import javax.persistence.Table;
  * 
  * @author Mabell.Boada
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "type_of_management", schema = "warehouse")
@@ -107,5 +106,4 @@ public class TypeOfManagement implements Serializable {
 			return false;
 		return true;
 	}
-
 }

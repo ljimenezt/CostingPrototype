@@ -149,5 +149,4 @@ public class TransactionsAction implements Serializable {
 			parameters.add(item);
 		}
 	}
-
 }

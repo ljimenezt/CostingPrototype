@@ -86,7 +86,6 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return methods: List of methods that are loaded into the user interface.
 	 */
 	public List<Metodo> getMethods() {
@@ -94,7 +93,6 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param methods
 	 *            : List of methods that are loaded into the user interface.
 	 */
@@ -103,7 +101,6 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return pagination: Management of the pagination of the list of menus in
 	 *         record method.
 	 */
@@ -112,7 +109,6 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param pagination
 	 *            : Management of the pagination of the list of menus in record
 	 *            method.
@@ -122,7 +118,6 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return paginationMenus: Mmanagement of the pagination of the list of
 	 *         menus in record method.
 	 */
@@ -131,7 +126,6 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param paginationMenus
 	 *            : Management of the pagination of the list of menus in record
 	 *            method.
@@ -335,7 +329,6 @@ public class MetodoAction implements Serializable {
 	 * 
 	 * @param menu
 	 *            : Menu related to the method.
-	 * 
 	 * @throws Exception
 	 */
 	private void saveMethodMenu(Menu menu) throws Exception {

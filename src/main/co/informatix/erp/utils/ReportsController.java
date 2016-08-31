@@ -100,7 +100,6 @@ public class ReportsController implements Serializable {
 	 *            : report name to run
 	 * @param mapAttribute
 	 *            :map of attributes to display in the report
-	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
@@ -185,7 +184,6 @@ public class ReportsController implements Serializable {
 	 *            : Local output file path and file name.
 	 * @param emitterId
 	 *            : Is the id of the Emitter and depends on the format.
-	 * 
 	 * @throws Exception
 	 * @throws IOException
 	 * @throws InvalidFormatException
@@ -258,7 +256,6 @@ public class ReportsController implements Serializable {
 	 *            :pluviometerPojo list of the report.
 	 * @param year
 	 *            :year of the report.
-	 * 
 	 * @throws Exception
 	 */
 	public void generateReportPluviometer(Object pluviometerPojoList, int year)

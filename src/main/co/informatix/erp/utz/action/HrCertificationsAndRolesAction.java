@@ -86,7 +86,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * @param itemsCertificationsAndRoles
 	 *            : List of certifications and roles associated with human
 	 *            resources.
-	 * 
 	 */
 	public void setItemsCertificationsAndRoles(
 			List<SelectItem> itemsCertificationsAndRoles) {
@@ -104,7 +103,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	/**
 	 * @param listHrCertificationsAndRoles
 	 *            : List of human resources and certifications.
-	 * 
 	 */
 	public void setListHrCertificationsAndRoles(
 			List<HrCertificationsAndRoles> listHrCertificationsAndRoles) {
@@ -121,7 +119,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	/**
 	 * @param hr
 	 *            : Human resources object.
-	 * 
 	 */
 	public void setHr(Hr hr) {
 		this.hr = hr;
@@ -137,7 +134,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	/**
 	 * @param certificationsAndRoles
 	 *            : Object certifications and roles.
-	 * 
 	 */
 	public void setCertificationsAndRoles(
 			CertificationsAndRoles certificationsAndRoles) {
@@ -155,7 +151,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	/**
 	 * @param hrCertificationsAndRoles
 	 *            : Human resources object and certifications and roles.
-	 * 
 	 */
 	public void setHrCertificationsAndRoles(
 			HrCertificationsAndRoles hrCertificationsAndRoles) {
@@ -176,7 +171,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * @param hrCertificationsAndRolesPK
 	 *            : Object of the primary key human resources and certifications
 	 *            and roles.
-	 * 
 	 */
 	public void setHrCertificationsAndRolesPK(
 			HrCertificationsAndRolesPK hrCertificationsAndRolesPK) {
@@ -193,7 +187,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	/**
 	 * @param nameSearch
 	 *            : Human resource name for.
-	 * 
 	 */
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
@@ -280,7 +273,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * 
 	 * @param hrCertificationsAndRoles
 	 *            :Activity and certification are adding or editing.
-	 * 
 	 * @return regHrCertRoles: Template redirects to record activities and
 	 *         certifications.
 	 */
@@ -421,7 +413,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * 
 	 * @return searchInitialization: Redirects to initialize variables and load
 	 *         the template HRM and certifications.
-	 * 
 	 */
 	public String saveHrCertRoles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -484,7 +475,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -517,7 +507,6 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * Method that allows delete a record of Human Resources and certifications
 	 * database.
 	 * 
-	 * 
 	 * @return searchInitialization: Redirects to initialize variables and load
 	 *         the template human resources management and certifications.
 	 */
@@ -542,5 +531,4 @@ public class HrCertificationsAndRolesAction implements Serializable {
 
 		return searchInitialization();
 	}
-
 }

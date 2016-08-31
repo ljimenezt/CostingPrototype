@@ -176,7 +176,6 @@ public class DiseasesAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -196,7 +195,6 @@ public class DiseasesAction implements Serializable {
 	 * 
 	 * @param diseases
 	 *            : Disease are adding or editing.
-	 * 
 	 * @return regDiseases: Template redirects to register disease.
 	 */
 	public String addEditDiseases(Diseases diseases) {
@@ -214,7 +212,6 @@ public class DiseasesAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -277,7 +274,6 @@ public class DiseasesAction implements Serializable {
 	/**
 	 * Method for eliminating a disease of the database.
 	 * 
-	 * 
 	 * @return consultDiseases: Redirects to manage the disease with the list of
 	 *         names updated.
 	 */
@@ -298,5 +294,4 @@ public class DiseasesAction implements Serializable {
 		}
 		return consultDiseases();
 	}
-
 }

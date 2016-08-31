@@ -195,9 +195,7 @@ public class MeasurementUnitsAction implements Serializable {
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
-
 		}
-
 	}
 
 	/**
@@ -205,7 +203,6 @@ public class MeasurementUnitsAction implements Serializable {
 	 * 
 	 * @param measurementUnits
 	 *            :Measurement Units to be add or edit.
-	 * 
 	 * @return "regMeasurementUnits":redirected to the template to manage
 	 *         Measurement Units.
 	 */
@@ -284,7 +281,6 @@ public class MeasurementUnitsAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value

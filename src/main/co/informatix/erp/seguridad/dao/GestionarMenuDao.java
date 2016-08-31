@@ -35,9 +35,7 @@ public class GestionarMenuDao implements Serializable {
 	 *            the user.
 	 * @param parameters
 	 *            : Parameters of the query.
-	 * 
 	 * @return Long: Number of menus found.
-	 * 
 	 * @throws Exception
 	 */
 	public Long quantityMenus(StringBuilder consult, List<SelectItem> parameters)
@@ -140,7 +138,6 @@ public class GestionarMenuDao implements Serializable {
 	 * 
 	 * @param idIcono
 	 *            : Icon identifier by which the menus are queried.
-	 * 
 	 * @return List<Menu>: Menus list objects associated with the icon.
 	 * 
 	 * @throws Exception
@@ -193,9 +190,7 @@ public class GestionarMenuDao implements Serializable {
 	 * 
 	 * @param menusSelected
 	 *            : List of menus to filter the query.
-	 * 
 	 * @return List<Menu>: List of menus found in the database.
-	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

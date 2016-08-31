@@ -78,10 +78,8 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 *            the user.
 	 * @param parameters
 	 *            : Parameters of the query.
-	 * 
 	 * @return List <HrCertificationsAndRoles> : List of human resources and
 	 *         certified according to the search criteria.
-	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -117,10 +115,8 @@ public class HrCertificationsAndRolesDao implements Serializable {
 	 *            the user.
 	 * @param parameters
 	 *            : Parameters of the query.
-	 * 
 	 * @return Long : Number of human resources and certifications according to
 	 *         the search criteria.
-	 * 
 	 * @throws Exception
 	 */
 	public Long quantXIdCertRol(StringBuilder consult,

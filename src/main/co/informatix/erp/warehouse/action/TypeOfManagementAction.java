@@ -183,7 +183,6 @@ public class TypeOfManagementAction implements Serializable {
 	 *            : Access to the language tags.
 	 * @param unionMessagesSearch
 	 *            : Message search.
-	 * 
 	 */
 	private void advancedQuery(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -203,7 +202,6 @@ public class TypeOfManagementAction implements Serializable {
 	 * 
 	 * @param typeOfManagement
 	 *            : Name the type of management that will add or edit.
-	 * 
 	 * @return regTypeManag: Redirected to the register management type
 	 *         template.
 	 */
@@ -222,7 +220,6 @@ public class TypeOfManagementAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : Application context.
-	 * 
 	 * @param toValidate
 	 *            : Validate component.
 	 * @param value
@@ -285,7 +282,6 @@ public class TypeOfManagementAction implements Serializable {
 	/**
 	 * Method to delete a type of management of the database.
 	 * 
-	 * 
 	 * @return searchTypeOfManagement: Look for the list of the types of
 	 *         management and returns to the template manage types of
 	 *         management.
@@ -308,5 +304,4 @@ public class TypeOfManagementAction implements Serializable {
 
 		return searchTypeOfManagement();
 	}
-
 }

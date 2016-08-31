@@ -47,7 +47,6 @@ public class CertificationsAndRolesAction implements Serializable {
 	/**
 	 * @return certificationsAndRoles: object containing data type
 	 *         certifications and roles.
-	 * 
 	 */
 	public CertificationsAndRoles getCertificationsAndRoles() {
 		return certificationsAndRoles;
@@ -185,7 +184,6 @@ public class CertificationsAndRolesAction implements Serializable {
 	 *            :access language tags.
 	 * @param unionMessagesSearch
 	 *            : message search.
-	 * 
 	 */
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -205,7 +203,6 @@ public class CertificationsAndRolesAction implements Serializable {
 	 * 
 	 * @param certificationsAndRoles
 	 *            :certicicationsAndRoles types that are adding or editing.
-	 * 
 	 * @return "regCertifi":redirects to register certicicationsAndRoles
 	 *         template.
 	 */
@@ -227,7 +224,6 @@ public class CertificationsAndRolesAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
@@ -266,7 +262,6 @@ public class CertificationsAndRolesAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageLog = "message_registro_modificar";
 		try {
-
 			if (certificationsAndRoles.getIdCertificactionsAndRoles() != 0) {
 				certificationsAndRolesDao
 						.editCertificationsAndRoles(certificationsAndRoles);
@@ -312,5 +307,4 @@ public class CertificationsAndRolesAction implements Serializable {
 
 		return consultCertificationsAndRoles();
 	}
-
 }
