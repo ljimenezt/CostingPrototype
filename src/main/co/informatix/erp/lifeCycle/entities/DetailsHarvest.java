@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import co.informatix.erp.costs.entities.Activities;
+
 /**
  * This class maps the details harvest table, which contains the information of
  * the details harvest.
@@ -31,7 +33,7 @@ public class DetailsHarvest implements Serializable {
 	private double dispatch;
 	private double poundage;
 	private double totalSacks;
-	private Cycle cycle;
+	private Activities activities;
 
 	/**
 	 * @return id: Details harvest identifier.
@@ -148,20 +150,20 @@ public class DetailsHarvest implements Serializable {
 	}
 
 	/**
-	 * @return cycle: Cycle that the harvest belongs.
+	 * @return Activities: Activities that the harvest belongs.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idcycle", referencedColumnName = "idcycle", nullable = false)
-	public Cycle getCycle() {
-		return cycle;
+	@JoinColumn(name = "idactivity", referencedColumnName = "idactivity", nullable = false)
+	public Activities getActivities() {
+		return activities;
 	}
 
 	/**
-	 * @param cycle
-	 *            : Cycle that the harvest belongs.
+	 * @param Activities
+	 *            : Activities that the harvest belongs.
 	 */
-	public void setCycle(Cycle cycle) {
-		this.cycle = cycle;
+	public void setActivities(Activities activities) {
+		this.activities = activities;
 	}
 
 	@Override
