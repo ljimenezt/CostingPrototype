@@ -110,13 +110,10 @@ public class TransactionTypeAction implements Serializable {
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
-	 * @author Sergio.Ortiz
-	 * 
 	 * @return consultTransactionType: TransactionType consulting method and
 	 *         redirects to the template to manage TransactionType.
 	 */
 	public String searchInitialization() {
-
 		this.nameSearch = null;
 		this.transactionType = new TransactionType();
 		return consultTransactionType();
@@ -124,8 +121,6 @@ public class TransactionTypeAction implements Serializable {
 
 	/**
 	 * Consult the list of transactionType
-	 * 
-	 * @author Sergio.Ortiz
 	 * 
 	 * @return gesTrans: Navigation rule that redirects to manage
 	 *         transactionType
@@ -208,11 +203,8 @@ public class TransactionTypeAction implements Serializable {
 	/**
 	 * Method to edit or create a new transactionType.
 	 * 
-	 * @author Sergio.Ortiz
-	 * 
 	 * @param transactionType
 	 *            :transactionType are adding or editing.
-	 * 
 	 * @return "regTrans":redirected to the template record transactionType.
 	 */
 	public String addEditTransactionType(TransactionType transactionType) {
@@ -227,8 +219,6 @@ public class TransactionTypeAction implements Serializable {
 	/**
 	 * Method used to save or edit the transactionType.
 	 * 
-	 * @author Sergio.Ortiz
-	 * 
 	 * @return contulTransactionType: Redirects to manage transactionType with a
 	 *         list of updated transactionType.
 	 */
@@ -236,7 +226,6 @@ public class TransactionTypeAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageLog = "message_registro_modificar";
 		try {
-
 			if (transactionType.getIdTransactionType() != 0) {
 				transactionTypeDao.editTransactionType(transactionType);
 			} else {
@@ -254,8 +243,6 @@ public class TransactionTypeAction implements Serializable {
 
 	/**
 	 * Method that allows contulTransactionType to delete one database.
-	 * 
-	 * @author Sergio.Ortiz
 	 * 
 	 * @return consultTransactionType: Consult the list of transactionType and
 	 *         returns to manage TransactionType.
@@ -286,7 +273,6 @@ public class TransactionTypeAction implements Serializable {
 	 * 
 	 * @param context
 	 *            : application context.
-	 * 
 	 * @param toValidate
 	 *            : validate component.
 	 * @param value
