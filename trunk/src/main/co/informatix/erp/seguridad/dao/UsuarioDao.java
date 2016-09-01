@@ -148,7 +148,6 @@ public class UsuarioDao implements Serializable {
 	 * @param userName
 	 *            : User name to be queried.
 	 * @return Usuario: User object that casts the query.
-	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
