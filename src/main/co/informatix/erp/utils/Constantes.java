@@ -209,4 +209,7 @@ public class Constantes implements Serializable {
 	public static final short PLUVIOMETER_MIN_DAY = 4;
 	public static final short PLUVIOMETER_SUM_DAY = 364;
 
+	/* Value Generic */
+	public static final short VALUE_ZERO = 0;
+
 }

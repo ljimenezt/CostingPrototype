@@ -25,8 +25,23 @@ public class PlotDao implements Serializable {
 	private EntityManager em;
 
 	/**
+	 * This method allow made the consult the plot by identifier
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param id
+	 *            :Plot identifier.
+	 * @return Plot: plot found according to the identifier sent like parameter
+	 */
+	public Plot plotById(int id) throws Exception {
+		return em.find(Plot.class, id);
+	}
+
+	/**
 	 * This method consult a particular parcel sent as a parameter range and
 	 * filtering the information sent search values.
+	 * 
+	 * @modify 29/08/2016 Wilhelm.Boada
 	 * 
 	 * @param start
 	 *            :where he started the consultation record.
@@ -36,15 +51,20 @@ public class PlotDao implements Serializable {
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : consult parameters.
+	 * @param flagSection
+	 *            : this field valid if the section is consulted.
 	 * @return List<Plot>: plot list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Plot> consultPlots(int start, int range, StringBuilder consult,
-			List<SelectItem> parameters) throws Exception {
+			List<SelectItem> parameters, boolean flagSection) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT p FROM  Plot p ");
-		query.append("JOIN FETCH p.farm ");
+		query.append("JOIN FETCH p.cropNames cn ");
+		if (flagSection) {
+			query.append("JOIN FETCH p.section s ");
+		}
 		query.append(consult);
 		query.append("ORDER BY p.name ");
 		Query q = em.createQuery(query.toString());
@@ -98,18 +118,26 @@ public class PlotDao implements Serializable {
 	 * Returns the number of existing parcels in the database by filtering
 	 * information sent search values.
 	 * 
+	 * @modify 29/08/2016 Wilhelm.Boada
+	 * 
 	 * @param consult
 	 *            : String containing the query for which the properties are
 	 *            filtered.
 	 * @param parameters
 	 *            : query parameters.
+	 * @param flagSection
+	 *            : this field valid if the section is consulted.
 	 * @return Long: amount of plots records found
 	 * @throws Exception
 	 */
-	public Long quantityPlots(StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
+	public Long quantityPlots(StringBuilder consult,
+			List<SelectItem> parameters, boolean flagSection) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(p) FROM Plot p ");
+		query.append("JOIN p.cropNames cn ");
+		if (flagSection) {
+			query.append("JOIN p.section s ");
+		}
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parametro : parameters) {
@@ -123,29 +151,30 @@ public class PlotDao implements Serializable {
 	 * database when storing or editing.
 	 * 
 	 * @modify 14/03/2016 Jhair.Leal
+	 * @modify 29/08/2016 Wilhelm.Boada
 	 * 
 	 * @param name
 	 *            : plot name to verify.
 	 * @param id
 	 *            : identifier to verify the plot.
-	 * @param idFarm
-	 *            : identifier to verify the farm.
+	 * @param idCropName
+	 *            : identifier to verify the cropName.
 	 * @return Plot: plot object found with the search parameters name and
 	 *         identifier.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Plot nameExist(String name, int id, int idFarm) throws Exception {
+	public Plot nameExist(String name, int id, int idCropName) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT p FROM Plot p JOIN p.farm f ");
+		query.append("SELECT p FROM Plot p JOIN p.cropNames cn ");
 		query.append("WHERE UPPER(p.name)=UPPER(:name) ");
-		query.append("AND f.idFarm = :idFarm ");
+		query.append("AND cn.idCropName = :idCropName ");
 		if (id != 0) {
 			query.append("AND p.idPlot <>:idPlot ");
 		}
 		Query q = em.createQuery(query.toString());
 		q.setParameter("name", name);
-		q.setParameter("idFarm", idFarm);
+		q.setParameter("idCropName", idCropName);
 		if (id != 0) {
 			q.setParameter("idPlot", id);
 		}
@@ -317,5 +346,48 @@ public class PlotDao implements Serializable {
 		}
 
 		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * Returns the number of existing plots in the database that are existing or
+	 * not existing.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idSection
+	 *            : Section identifier.
+	 * @return Long: quantity of registers.
+	 * @throws Exception
+	 */
+	public Long quantityPlotsBySection(int idSection) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(p) FROM Plot p ");
+		query.append("JOIN p.section s ");
+		query.append("WHERE s.idSection = :idSection ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idSection", idSection);
+		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * Consult the plot list that comply with the option of force.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idSection
+	 *            : Section identifier.
+	 * @return List<Plot>:plot list that comply with the condition of validity.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Plot> consultPlotsBySection(int idSection) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT p FROM Plot p ");
+		query.append("JOIN FETCH p.section s ");
+		query.append("WHERE s.idSection = :idSection ");
+		query.append("ORDER BY p.name ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idSection", idSection);
+		return q.getResultList();
 	}
 }

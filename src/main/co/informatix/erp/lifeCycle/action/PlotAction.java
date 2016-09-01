@@ -18,10 +18,14 @@ import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.action.ActivityPlotAction;
 import co.informatix.erp.costs.entities.Activities;
+import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.dao.PlotDao;
+import co.informatix.erp.lifeCycle.dao.SectionDao;
+import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.lifeCycle.entities.Plot;
+import co.informatix.erp.lifeCycle.entities.Section;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
@@ -48,20 +52,28 @@ public class PlotAction implements Serializable {
 	private PlotDao plotDao;
 	@EJB
 	private FarmDao farmDao;
+	@EJB
+	private CropNamesDao cropNamesDao;
+	@EJB
+	private SectionDao sectionDao;
 
 	private boolean pagerState;
 	private boolean farmParameter = false;
 	private boolean flagPlotActivity = false;
-	private int nameFarm;
+	private boolean flagSection = false;
+	private boolean flagPlotSection = false;
 	private int idSection;
-	private Activities activity;
+	private int idCropNames;
 
 	private List<SelectItem> optionsFarm;
 	private List<Plot> listPlots;
 	private List<Plot> listPlotsSelected;
 	private List<Plot> listPlotDate;
+	private List<SelectItem> itemsCropNames;
+	private List<SelectItem> itemsSection;
 	private Plot plot;
 	private Farm farm;
+	private Activities activity;
 	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
@@ -171,6 +183,36 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
+	 * @return itemsCropNames: cropName associated with a plot.
+	 */
+	public List<SelectItem> getItemsCropNames() {
+		return itemsCropNames;
+	}
+
+	/**
+	 * @param itemsCropNames
+	 *            :cropName associated with a plot.
+	 */
+	public void setItemsCropNames(List<SelectItem> itemsCropNames) {
+		this.itemsCropNames = itemsCropNames;
+	}
+
+	/**
+	 * @return itemsSection: section associated with a plot.
+	 */
+	public List<SelectItem> getItemsSection() {
+		return itemsSection;
+	}
+
+	/**
+	 * @param itemsSection
+	 *            :section associated with a plot.
+	 */
+	public void setItemsSection(List<SelectItem> itemsSection) {
+		this.itemsSection = itemsSection;
+	}
+
+	/**
 	 * 
 	 * @return pagerState: Pager state, "true" if first initialized, "false" If
 	 *         you are browsing pager.
@@ -222,18 +264,18 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * @return nameFarm: identifier name of the farm to look for.
+	 * @return flagPlotSection: Flag from plotSection for modify query
 	 */
-	public int getNameFarm() {
-		return nameFarm;
+	public boolean isFlagPlotSection() {
+		return flagPlotSection;
 	}
 
 	/**
-	 * @param nameFarm
-	 *            :identifier name of the farm to look for.
+	 * @param flagPlotSection
+	 *            : Flag from plotSection for modify query
 	 */
-	public void setNameFarm(int nameFarm) {
-		this.nameFarm = nameFarm;
+	public void setFlagPlotSection(boolean flagPlotSection) {
+		this.flagPlotSection = flagPlotSection;
 	}
 
 	/**
@@ -249,6 +291,21 @@ public class PlotAction implements Serializable {
 	 */
 	public void setIdSection(int idSection) {
 		this.idSection = idSection;
+	}
+
+	/**
+	 * @return idCropNames: CropNames identifier.
+	 */
+	public int getIdCropNames() {
+		return idCropNames;
+	}
+
+	/**
+	 * @param idCropNames
+	 *            : CropNames identifier.
+	 */
+	public void setIdCropNames(int idCropNames) {
+		this.idCropNames = idCropNames;
 	}
 
 	/**
@@ -293,11 +350,17 @@ public class PlotAction implements Serializable {
 	 *         management.
 	 */
 	public String searchInitialization() {
-		nameSearch = "";
-		if (!farmParameter) {
-			this.farm = null;
-			this.nameFarm = 0;
-			this.idSection = 0;
+		try {
+			nameSearch = "";
+			if (!this.flagSection && !this.flagPlotSection) {
+				this.idCropNames = 0;
+				this.idSection = 0;
+			}
+			this.flagSection = false;
+			loadCropNames();
+			pagination = new Paginador();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 		return consultPlots();
 	}
@@ -306,12 +369,14 @@ public class PlotAction implements Serializable {
 	 * It is responsible for initializing the changing state flag farmParameter.
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 01/09/2016 Wilhelm.Boada
 	 * 
 	 * @return searchInitialization(): method to initialize the parameters of
 	 *         the search and load the initial listing of the plots.
 	 */
 	public String initializeSearchPlot() {
 		this.farmParameter = false;
+		this.flagPlotSection = false;
 		return searchInitialization();
 	}
 
@@ -321,6 +386,7 @@ public class PlotAction implements Serializable {
 	 * @modify 21/07/2015 Andres.Gomez
 	 * @modify 15/05/2015 Sergio.Ortiz
 	 * @modify 05/08/2016 Gerardo.Herrera
+	 * @modify 29/08/2016 Wilhelm.Boada
 	 * 
 	 * @return back: redirects to the template to manage parcels or register
 	 *         popups Crops.
@@ -336,15 +402,21 @@ public class PlotAction implements Serializable {
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
+		boolean flagSection;
 
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
 				: false;
 		String back = fromModal ? "" : "gesPlot";
-
 		try {
+			if (this.idSection > 0 && !this.flagPlotSection) {
+				flagSection = true;
+			} else {
+				flagSection = false;
+			}
 			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
-			Long quantity = plotDao.quantityPlots(consult, parameters);
+			Long quantity = plotDao.quantityPlots(consult, parameters,
+					flagSection);
 			if (quantity != null) {
 				if (fromModal) {
 					pagination.paginarRangoDefinido(quantity, 5);
@@ -353,8 +425,7 @@ public class PlotAction implements Serializable {
 				}
 			}
 			listPlots = plotDao.consultPlots(pagination.getInicio(),
-					pagination.getRango(), consult, parameters);
-			listFarms();
+					pagination.getRango(), consult, parameters, flagSection);
 			if ((listPlots == null || listPlots.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat
@@ -370,6 +441,9 @@ public class PlotAction implements Serializable {
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleLifeCycle.getString("plot_label_s"),
 								unionMessagesSearch);
+			}
+			if (listPlotsSelected != null) {
+				maintainPlotsSelected(listPlots, listPlotsSelected);
 			}
 			maintainPlots(fromModal);
 			validations.setMensajeBusquedaPopUp(messageSearch);
@@ -422,6 +496,24 @@ public class PlotAction implements Serializable {
 			StringBuilder unionMessagesSearch) {
 		boolean selection = false;
 
+		if (this.idCropNames != 0) {
+			consult.append("WHERE cn.idCropName=:keyword2 ");
+			SelectItem item = new SelectItem(this.idCropNames, "keyword2");
+			parameters.add(item);
+			selection = true;
+		}
+
+		if (this.idSection != 0 && !this.flagPlotSection) {
+			consult.append(selection ? "AND " : "WHERE ");
+			consult.append(idSection < 0 ? "p.section.idSection IS NULL "
+					: "s.idSection = :keyword4 ");
+			if (this.idSection > 0) {
+				SelectItem item = new SelectItem(this.idSection, "keyword4");
+				parameters.add(item);
+			}
+			selection = true;
+		}
+
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 			consult.append(selection ? "AND " : "WHERE ");
 			consult.append("UPPER(p.name) LIKE UPPER(:keyword) ");
@@ -433,26 +525,11 @@ public class PlotAction implements Serializable {
 			selection = true;
 		}
 
-		if (this.farm != null) {
+		if (flagPlotSection) {
 			consult.append(selection ? "AND " : "WHERE ");
-			consult.append("p.farm.idFarm=:keyword2 ");
-			SelectItem item = new SelectItem(farm.getIdFarm(), "keyword2");
-			parameters.add(item);
-			selection = true;
-		}
-
-		if (this.nameFarm != 0) {
-			consult.append(selection ? "AND " : "WHERE ");
-			consult.append("p.farm.idFarm = :keyword3 ");
-			SelectItem item = new SelectItem(this.nameFarm, "keyword3");
-			parameters.add(item);
-			selection = true;
-		}
-
-		if (this.idSection != 0) {
-			consult.append(selection ? "AND " : "WHERE ");
-			consult.append("p.section.idSection = :keyword4 ");
-			SelectItem item = new SelectItem(this.idSection, "keyword4");
+			consult.append("p.section.idSection = :idSection ");
+			consult.append("OR p.section.idSection IS NULL ");
+			SelectItem item = new SelectItem(this.idSection, "idSection");
 			parameters.add(item);
 			selection = true;
 		}
@@ -481,46 +558,11 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * This method fills the various objects associated with a plot.
-	 * 
-	 * @author Andres.Gomez
-	 * @modify 27/04/2016 Gerardo.Herrera
-	 * 
-	 * @throws Exception
-	 */
-	private void loadDetailsPlot() throws Exception {
-		if (this.listPlots != null) {
-			for (Plot plot : this.listPlots) {
-				Farm farm = (Farm) this.plotDao.consultObjectPlot("farm",
-						plot.getIdPlot());
-				plot.setFarm(farm);
-			}
-		}
-	}
-
-	/**
-	 * Method that loads a farms list.
-	 * 
-	 * @author Andres.Gomez
-	 * 
-	 * @throws Exception
-	 */
-	private void listFarms() throws Exception {
-		optionsFarm = new ArrayList<SelectItem>();
-		List<Farm> listFarms = farmDao.farmsList();
-		if (listFarms != null) {
-			for (Farm farms : listFarms) {
-				optionsFarm.add(new SelectItem(farms.getIdFarm(), farms
-						.getName()));
-			}
-		}
-	}
-
-	/**
 	 * Method to edit or create a new plot.
 	 * 
 	 * @modify 21/07/2015 Andres.Gomez
 	 * @modify 01/10/2015 Gerardo.Herrera
+	 * @modify 29/08/2016 Wilhelm.Boada
 	 * 
 	 * @param plot
 	 *            :plot to be add or edit.
@@ -528,16 +570,24 @@ public class PlotAction implements Serializable {
 	 */
 	public String addEditPlot(Plot plot) {
 		try {
+			Section section = new Section();
 			if (plot != null) {
 				this.plot = plot;
-				this.farm = this.plot.getFarm();
+				section = sectionDao.consultSectionByPlot(plot.getIdPlot());
+				this.idCropNames = this.plot.getCropNames().getIdCropName();
 			} else {
 				this.plot = new Plot();
-				if (!farmParameter)
-					this.farm = new Farm();
+				this.plot.setCropNames(new CropNames());
+				this.plot.getCropNames().setIdCropName(this.idCropNames);
 			}
-			listFarms();
-			loadDetailsPlot();
+
+			if (section == null || this.idSection < 0) {
+				this.idSection = 0;
+			} else {
+				this.idSection = section.getIdSection();
+			}
+			this.flagSection = false;
+			loadCropNames();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -549,6 +599,7 @@ public class PlotAction implements Serializable {
 	 * in the database and valid against XSS.
 	 * 
 	 * @modify 14/03/2016 Jhair.Leal
+	 * @modify 29/08/2016 Wilhelm.Boada
 	 * 
 	 * @param context
 	 *            : application context.
@@ -564,8 +615,8 @@ public class PlotAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = plot.getIdPlot();
-			int idFarm = farm.getIdFarm();
-			Plot plotAux = plotDao.nameExist(name, id, idFarm);
+			Plot plotAux = plotDao.nameExist(name, id, plot.getCropNames()
+					.getIdCropName());
 			if (plotAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
@@ -587,6 +638,7 @@ public class PlotAction implements Serializable {
 	 * Method used to save or edit the plots.
 	 * 
 	 * @modify 21/07/2015 Andres.Gomez
+	 * @modify 29/08/2016 Wilhelm.Boada
 	 * 
 	 * @return searchInitialization: Redirects to manage the list of sites with
 	 *         plots updated
@@ -595,7 +647,13 @@ public class PlotAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageLog = "message_registro_modificar";
 		try {
-			plot.setFarm(farm);
+			plot.getCropNames().setIdCropName(idCropNames);
+			if (this.idSection != 0) {
+				plot.setSection(new Section());
+				plot.getSection().setIdSection(this.idSection);
+			} else {
+				plot.setSection(null);
+			}
 			if (plot.getIdPlot() != 0) {
 				plotDao.editPlot(plot);
 			} else {
@@ -609,6 +667,7 @@ public class PlotAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+		this.flagSection = true;
 		return searchInitialization();
 	}
 
@@ -723,5 +782,114 @@ public class PlotAction implements Serializable {
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
+	}
+
+	/**
+	 * This method allows load of cropNames list.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @throws Exception
+	 */
+	private void loadCropNames() throws Exception {
+		itemsCropNames = new ArrayList<SelectItem>();
+		List<CropNames> listCropNames = cropNamesDao.listCropNames();
+		if (listCropNames != null) {
+			for (CropNames cropNames : listCropNames) {
+				itemsCropNames.add(new SelectItem(cropNames.getIdCropName(),
+						cropNames.getCropName()));
+			}
+		}
+		loadSection();
+	}
+
+	/**
+	 * This method allows load of sections list.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void loadSection() {
+		try {
+			itemsSection = new ArrayList<SelectItem>();
+			List<Section> listSection = sectionDao
+					.listSection(this.idCropNames);
+			if (listSection != null) {
+				for (Section section : listSection) {
+					itemsSection.add(new SelectItem(section.getIdSection(),
+							section.getName()));
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows load the drop down and the list.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void loadComboAndList() {
+		this.idSection = 0;
+		loadSection();
+		consultPlots();
+	}
+
+	/**
+	 * This method allows maintaining list of selected plot whether the search
+	 * of plot is run again.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param plotsList
+	 *            : plotsList consult of the database.
+	 * @param plotsListSelected
+	 *            : plotsListSelected for compare to the hrList.
+	 */
+	private void maintainPlotsSelected(List<Plot> plotsList,
+			List<Plot> plotsListSelected) {
+		for (Plot plot : plotsList) {
+			for (Plot selectedPlot : plotsListSelected) {
+				if (plot.getIdPlot() == selectedPlot.getIdPlot()) {
+					plot.setSelected(true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Selects a single plot for display the associated transaction.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param flagSelected
+	 *            : plot selected on the view.
+	 */
+	public void selectPlot(boolean flagSelected) {
+		this.plot.setSelected(flagSelected);
+		if (this.plot.isSelected()) {
+			this.listPlotsSelected.add(plot);
+		} else {
+			this.listPlotsSelected.remove(plot);
+		}
+	}
+
+	/**
+	 * This method allows initialize the values on the plotAction for display in
+	 * the view.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param plotsList
+	 *            : plotsList consult of the database associated to the section.
+	 * 
+	 */
+	public void initializePlotsBySection(List<Plot> plotList) {
+		if (plotList != null) {
+			listPlotsSelected = new ArrayList<Plot>();
+			listPlotsSelected.addAll(plotList);
+		}
+		flagPlotSection = true;
+		searchInitialization();
 	}
 }

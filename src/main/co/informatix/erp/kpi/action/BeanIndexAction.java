@@ -20,6 +20,7 @@ import co.informatix.erp.lifeCycle.dao.SectionDao;
 import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
 import co.informatix.erp.lifeCycle.entities.Section;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -342,11 +343,13 @@ public class BeanIndexAction implements Serializable {
 	 * Method that checks the itemsSection to fill the combo of the user
 	 * interface.
 	 * 
+	 * @modify 29/08/2016 Wilhelm.Boada
+	 * 
 	 * @throws Exception
 	 */
 	private void loadComboSection() throws Exception {
 		itemsSection = new ArrayList<SelectItem>();
-		List<Section> sections = sectionDao.listSection();
+		List<Section> sections = sectionDao.listSection(Constantes.VALUE_ZERO);
 		if (sections != null) {
 			for (Section section : sections) {
 				itemsSection.add(new SelectItem(section.getIdSection(), section
