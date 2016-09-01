@@ -139,7 +139,6 @@ public class GestionarMenuDao implements Serializable {
 	 * @param idIcono
 	 *            : Icon identifier by which the menus are queried.
 	 * @return List<Menu>: Menus list objects associated with the icon.
-	 * 
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
