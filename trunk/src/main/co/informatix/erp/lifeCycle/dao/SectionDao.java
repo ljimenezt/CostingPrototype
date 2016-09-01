@@ -73,13 +73,23 @@ public class SectionDao implements Serializable {
 	/**
 	 * Method that consult all section objects and stores it in a list
 	 * 
+	 * @modify 29/08/2016 Wilhelm.Boada
+	 * 
 	 * @return List<Section>: Section list
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Section> listSection() throws Exception {
-		Query q = em.createQuery("SELECT s FROM Section s "
-				+ " ORDER BY s.name ");
+	public List<Section> listSection(int idCropsName) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT s FROM Section s ");
+		if (idCropsName != 0) {
+			query.append("WHERE s.cropNames.idCropName=:idCropsName ");
+		}
+		query.append("ORDER BY s.name ");
+		Query q = em.createQuery(query.toString());
+		if (idCropsName != 0) {
+			q.setParameter("idCropsName", idCropsName);
+		}
 		return q.getResultList();
 	}
 
@@ -180,4 +190,27 @@ public class SectionDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * This method allows to consult the section to which belongs the plot.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idplot
+	 *            : plot identifier
+	 * @return Section: section object found with the search parameters send.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Section consultSectionByPlot(int idplot) {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT p.section FROM Plot p ");
+		query.append("WHERE p.idPlot=:idplot ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idplot", idplot);
+		List<Section> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
 }

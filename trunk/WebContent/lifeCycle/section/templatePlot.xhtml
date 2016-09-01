@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	<t:fieldset styleClass="anchoDos BorderW2P"
+		rendered="#{sectionSelected ne null}">
+		<legend class="etiquetaTitulo">#{messageLifeCycle.plot_label_s}</legend>
+		<a:outputPanel id="pnlPlots">
+			<ui:param name="listaVaciaA"
+				value="#{sectionAction.subListPlot.size() eq 0 or (sectionAction.subListPlot eq null)}" />
+			<a:outputPanel id="mensajeBusquedaMenu">
+				<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+					<ui:param name="width" value="anchoCuatro" />
+					<ui:param name="id" value="popupBuscarMenu" />
+				</ui:include>
+			</a:outputPanel>
+			<div align="right" class="anchoCuatro">
+				<h:panelGrid id="pnlButtons" columns="6" cellpadding="0"
+					cellspacing="0">
+					<a:commandLink id="lnkPlots" styleClass="quitarDecoracionLink"
+						execute="@this" rendered="#{sectionAction.flagButton eq true}"
+						actionListener="#{plotAction.initializePlotsBySection(sectionAction.plotList)}"
+						render=":formPlots:popupPlots"
+						oncomplete="#{rich:component('popupPlots')}.show(); setFocus('formPlots:txtPlotSearch');">
+						<div align="right">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/plots_16.png"
+									styleClass="verticalAlignMiddle" />
+								<h:outputText value="#{messageLifeCycle.plot_label_add}" />
+							</h:panelGrid>
+						</div>
+						<f:param name="param2" value="si" />
+					</a:commandLink>
+				</h:panelGrid>
+			</div>
+			<rich:dataTable value="#{sectionAction.subListPlot}" id="plotsTable"
+				var="plot"
+				styleClass="#{listaVaciaA ? 'BCTransparente anchoCuatro' : 'dataTable'} #{anchoTabla}"
+				rowClasses="odd-row, even-row" footerClass="H130P">
+				<rich:column styleClass="colIconoUno"
+					rendered="#{sectionAction.flagButton eq true}">
+					<a:commandLink render="pnlPlots" execute="@this"
+						actionListener="#{sectionAction.removePlotList(plot)}">
+						<h:graphicImage value="/img/delete_16.png"
+							styleClass="hidelink cursor" />
+						<rich:tooltip layout="block">
+							<h:outputText value="#{mensaje.button_remove}" />
+						</rich:tooltip>
+					</a:commandLink>
+				</rich:column>
+				<rich:column styleClass="colTextoXCorto">
+					<f:facet name="header">#{mensaje.label_name}</f:facet>
+					<h:outputText value="#{plot.name}" />
+				</rich:column>
+				<rich:column styleClass="colTextoLargo">
+					<f:facet name="header">#{mensaje.label_description}</f:facet>
+					<h:outputText value="#{plot.description}" />
+				</rich:column>
+				<rich:column styleClass="colNumero">
+					<f:facet name="header">#{mensaje.label_location_map_link}</f:facet>
+					<h:outputText value="#{plot.locationLinkToMap}" />
+				</rich:column>
+				<rich:column styleClass="colNumero">
+					<f:facet name="header">#{mensaje.label_size}</f:facet>
+					<h:outputText value="#{plot.size}">
+						<f:convertNumber pattern="#,##0.00" />
+					</h:outputText>
+				</rich:column>
+				<rich:column styleClass="colNumero">
+					<f:facet name="header">#{messageLifeCycle.plot_numbers_trees}</f:facet>
+					<h:outputText value="#{plot.numberOfTrees}" />
+				</rich:column>
+				<f:facet name="footer">
+					<rich:columnGroup rendered="#{listaVaciaA}">
+						<rich:column colspan="6" styleClass="footTabla">
+							<h:outputText
+								value="#{mensaje.message_no_existen_registros_tabla}" />
+						</rich:column>
+					</rich:columnGroup>
+				</f:facet>
+			</rich:dataTable>
+			<a:outputPanel rendered="#{!listaVaciaA}">
+				<br />
+				<div class="#{anchoTabla} center inBlock W100Per">
+					<ui:include src="/plantillas/templatePagination.xhtml">
+						<ui:param name="valId" value="2" />
+						<ui:param name="valParam2" value="si" />
+						<ui:param name="valReder" value="pnlPlots" />
+						<ui:param name="pager" value="paginationPlot" />
+						<ui:param name="beanActionParam" value="#{sectionAction}" />
+						<ui:param name="metodoActionParam" value="initializeList" />
+					</ui:include>
+				</div>
+			</a:outputPanel>
+		</a:outputPanel>
+	</t:fieldset>
+</ui:composition>

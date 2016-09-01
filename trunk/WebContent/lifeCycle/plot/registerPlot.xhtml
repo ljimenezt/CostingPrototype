@@ -37,22 +37,27 @@
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,">
 
-					<h:outputText value="#{messageLifeCycle.farm_label}"
+					<h:outputText value="#{messageLifeCycle.crop_names_label}"
 						styleClass="etiquetaTitulo" />
-					<h:outputText
-						value="#{plotAction.farmParameter eq false ? '*' : ''}"
-						styleClass="required" />
-					<h:selectOneMenu id="farm1" value="#{plotAction.farm.idFarm}"
-						rendered="#{plotAction.farmParameter eq false}"
-						styleClass="colTextoMediano" required="true"
-						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_select}" />
-						<f:selectItems value="#{plotAction.optionsFarm}" />
+					<h:outputText value="*" styleClass="required" />
+					<h:selectOneMenu id="plantation" value="#{plotAction.idCropNames}"
+						required="true"
+						validator="#{validacionesAction.validarComboRequerido}">
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
+						<f:selectItems value="#{plotAction.itemsCropNames}" />
+						<f:ajax event="change" listener="#{plotAction.loadSection()}"
+							render=":formPlot" />
 					</h:selectOneMenu>
-					<h:outputText value="#{plotAction.farm.name}"
-						styleClass="MarginL0P"
-						rendered="#{plotAction.farmParameter eq true}" />
-					<rich:message for="farm1" />
+					<rich:message for="plantation" />
+
+					<h:outputText value="#{messageLifeCycle.section_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" styleClass="required" />
+					<h:selectOneMenu id="section" value="#{plotAction.idSection}">
+						<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
+						<f:selectItems value="#{plotAction.itemsSection}" />
+					</h:selectOneMenu>
+					<rich:message for="section" />
 
 					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
@@ -103,7 +108,7 @@
 						validator="#{encodeFilter.validarScripting}">
 						<f:validateLength maximum="250" />
 					</h:inputTextarea>
-					<rich:message for="txaDescripcion"/>
+					<rich:message for="txaDescripcion" />
 
 				</h:panelGrid>
 				<br />

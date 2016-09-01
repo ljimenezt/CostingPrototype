@@ -13,6 +13,7 @@
 	<ui:param name="titulo"
 		value="mensaje.label_register,messageLifeCycle.section_label" />
 	<ui:define name="body">
+		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
@@ -28,48 +29,55 @@
 			});		
 		</script>
 		<t:saveState value="#{sectionAction}" />
+		<t:saveState value="#{plotAction}" />
 		<h:form id="formSection">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageLifeCycle.section_label}"
 				styleClass="anchoUno MinH253P" id="pnlRegisterSection">
-				<h:panelGrid columns="4"
-					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-					columnClasses="tdAlignTop,,,">
+				<t:fieldset styleClass="anchoDos BorderW2P">
+					<legend class="etiquetaTitulo">#{messageLifeCycle.section_label_s}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,,,">
 
-					<h:outputText value="#{mensaje.label_name}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:inputText value="#{sectionAction.section.name}"
-						styleClass="colTextoMediano" id="txtNombre" required="true"
-						size="41" maxlength="70"
-						validator="#{sectionAction.validateNameXSS}"
-						requiredMessage="#{mensaje.message_campo_requerido}" />
-					<rich:message for="txtNombre" />
+						<h:outputText value="#{mensaje.label_name}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText value="#{sectionAction.section.name}"
+							styleClass="colTextoMediano" id="txtNombre" required="true"
+							size="41" maxlength="70"
+							validator="#{sectionAction.validateNameXSS}"
+							requiredMessage="#{mensaje.message_campo_requerido}" />
+						<rich:message for="txtNombre" />
 
-					<h:outputText value="#{messageLifeCycle.crop_names_label}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:selectOneMenu id="plantation"
-						value="#{sectionAction.section.cropNames.idCropName}"
-						required="true"
-						validator="#{validacionesAction.validarComboRequerido}">
-						<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-						<f:selectItems value="#{sectionAction.itemsCropNames}" />
-					</h:selectOneMenu>
-					<rich:message for="plantation" />
+						<h:outputText value="#{messageLifeCycle.crop_names_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="plantation"
+							value="#{sectionAction.section.cropNames.idCropName}"
+							required="true"
+							validator="#{validacionesAction.validarComboRequerido}">
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
+							<f:selectItems value="#{sectionAction.itemsCropNames}" />
+						</h:selectOneMenu>
+						<rich:message for="plantation" />
 
-					<h:outputText value="#{mensaje.label_description}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="" />
-					<h:inputTextarea value="#{sectionAction.section.description}"
-						styleClass="colTextoMedianoTextArea" id="txaDescripcion"
-						validator="#{encodeFilter.validarScripting}">
-						<f:validateLength maximum="250" />
-					</h:inputTextarea>
-					<rich:message for="txaDescripcion" />
-
-				</h:panelGrid>
+						<h:outputText value="#{mensaje.label_description}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputTextarea value="#{sectionAction.section.description}"
+							styleClass="colTextoMedianoTextArea" id="txaDescripcion"
+							validator="#{encodeFilter.validarScripting}">
+							<f:validateLength maximum="250" />
+						</h:inputTextarea>
+						<rich:message for="txaDescripcion" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<ui:include src="templatePlot.xhtml">
+					<ui:param name="sectionSelected" value="true" />
+				</ui:include>
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
@@ -110,6 +118,135 @@
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="formPlots">
+			<rich:popupPanel id="popupPlots" autosized="true"
+				domElementAttachment="form"
+				header="#{messageLifeCycle.plot_label_s}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupPlots')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:panel styleClass="H385P fondoAnchoUno W400P">
+					<a:outputPanel id="outPutSearchPlot">
+						<t:fieldset styleClass="BorderW2P">
+							<legend class="etiquetaTitulo">#{mensaje.label_search}
+								#{messageLifeCycle.plot_names_label_s}</legend>
+							<h:panelGrid columns="3" cellpadding="7">
+								<h:outputText value="#{mensaje.label_name}"
+									styleClass="etiquetaTitulo" />
+								<h:inputText size="20" maxlength="100" id="txtPlotSearch"
+									value="#{plotAction.nameSearch}"
+									onkeypress="return submitByEnter(event,'formPlots:btnBuscarHr')" />
+								<a:commandButton value="#{mensaje.button_search}"
+									id="btnBuscarHr" actionListener="#{plotAction.consultPlots()}"
+									render="outputPlots, outPutSearchPlot">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+							</h:panelGrid>
+						</t:fieldset>
+						<br />
+						<a:outputPanel>
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W370P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
+						<br />
+						<ui:param name="listaVacia"
+							value="#{plotAction.listPlots eq null or (empty plotAction.listPlots)}" />
+						<div align="right" class="W370P">
+							<h:panelGrid>
+								<a:commandLink render="outPutSearchPlot, outputPlots"
+									styleClass="quitarDecoracionLink"
+									action="#{plotAction.consultPlots()}"
+									actionListener="#{plotAction.setNameSearch(null)}">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/listarTodos_16.png" />
+										<h:outputText value="#{mensaje.button_list_all}" />
+									</h:panelGrid>
+									<f:param name="param2" value="si" />
+								</a:commandLink>
+							</h:panelGrid>
+						</div>
+						<a:outputPanel id="outputPlots">
+							<rich:dataTable value="#{plotAction.listPlots}" var="plot"
+								id="plotsTable" footerClass="H130P"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W370P"
+								rowClasses="odd-row, even-row">
+								<rich:column styleClass="colIconoUno">
+									<f:facet name="header" />
+									<a:commandLink rendered="#{plot.selected eq true}"
+										actionListener="#{plotAction.setPlot(plot)}"
+										action="#{plotAction.selectPlot(false)}" render="plotsTable"
+										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+										<h:graphicImage value="/img/okPermiso_16.png"
+											styleClass="verticalAlignMiddle" />
+									</a:commandLink>
+									<a:commandLink rendered="#{plot.selected eq false}"
+										actionListener="#{plotAction.setPlot(plot)}"
+										action="#{plotAction.selectPlot(true)}"
+										render="plotsTable, outPutSearchPlot"
+										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+										<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+											styleClass="verticalAlignMiddle" />
+									</a:commandLink>
+								</rich:column>
+								<rich:column styleClass="colTextoLargo">
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
+									<h:outputText value="#{plot.name}" />
+								</rich:column>
+								<rich:column styleClass="colTextoLargo">
+									<f:facet name="header">#{mensaje.label_size}</f:facet>
+									<h:outputText value="#{plot.size}">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:outputText>
+								</rich:column>
+								<rich:column styleClass="colTextoLargo">
+									<f:facet name="header">#{mensaje.label_location_map_link}</f:facet>
+									<h:outputText value="#{plot.locationLinkToMap}" />
+								</rich:column>
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia}">
+										<rich:column colspan="5" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listaVacia}">
+								<div class="W370P center inBlock">
+									<ui:include src="/plantillas/templatePagination.xhtml">
+										<ui:param name="valParam2" value="si" />
+										<ui:param name="conParam2" value="1" />
+										<ui:param name="pager" value="pagination" />
+										<ui:param name="valReder" value=":formPlots:outputPlots" />
+										<ui:param name="beanActionParam" value="#{plotAction}" />
+										<ui:param name="metodoActionParam" value="consultPlots" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</a:outputPanel>
+						<br />
+						<br />
+						<div align="center">
+							<a:commandButton render="formSection:pnlPlots"
+								actionListener="#{sectionAction.setPlotList(plotAction.listPlotsSelected)}"
+								action="#{sectionAction.initializeList()}"
+								oncomplete="#{rich:component('popupPlots')}.hide();"
+								value="#{mensaje.button_add}" />
+							<a:commandButton value="#{mensaje.button_cancel}"
+								onclick="#{rich:component('popupPlots')}.hide()" />
+						</div>
+					</a:outputPanel>
+				</rich:panel>
 			</rich:popupPanel>
 		</h:form>
 	</ui:define>

@@ -22,7 +22,7 @@ import javax.persistence.Transient;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "plot", schema = "life_cycle")
-public class Plot implements Serializable {
+public class Plot implements Serializable, Comparable<Plot> {
 	private int idPlot;
 	private String name;
 	private String description;
@@ -254,5 +254,11 @@ public class Plot implements Serializable {
 		} else if (!size.equals(other.size))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Plot o) {
+		return this.getName().toUpperCase()
+				.compareTo(o.getName().toUpperCase());
 	}
 }

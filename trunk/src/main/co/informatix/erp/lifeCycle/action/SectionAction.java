@@ -3,6 +3,7 @@ package co.informatix.erp.lifeCycle.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -17,13 +18,17 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
+import co.informatix.erp.lifeCycle.dao.PlotDao;
 import co.informatix.erp.lifeCycle.dao.SectionDao;
 import co.informatix.erp.lifeCycle.entities.CropNames;
+import co.informatix.erp.lifeCycle.entities.Plot;
 import co.informatix.erp.lifeCycle.entities.Section;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
+import co.informatix.erp.utils.ValidacionesAction.DatosGuardar;
 
 /**
  * This class allows the logic of the section that may be in the BD
@@ -41,15 +46,22 @@ public class SectionAction implements Serializable {
 	private SectionDao sectionDao;
 	@EJB
 	private CropNamesDao cropNamesDao;
+	@EJB
+	private PlotDao plotDao;
 
 	private List<Section> listSection;
+	private List<Plot> plotList;
+	private List<Plot> subListPlot;
 	private List<SelectItem> itemsCropNames;
 	private Section section;
 	private Section sectionSelected;
+	private Plot plotSelected;
 	private PlotAction plotAction;
 	private Paginador pagination = new Paginador();
+	private Paginador paginationPlot = new Paginador();
 	private String nameSearch;
 	private int idCropNames;
+	private boolean flagButton;
 
 	/**
 	 * @return listSection: list of section
@@ -64,6 +76,36 @@ public class SectionAction implements Serializable {
 	 */
 	public void setListSection(List<Section> listSection) {
 		this.listSection = listSection;
+	}
+
+	/**
+	 * @return listPlots: list of plots.
+	 */
+	public List<Plot> getPlotList() {
+		return plotList;
+	}
+
+	/**
+	 * @param listPlots
+	 *            :list of plots.
+	 */
+	public void setPlotList(List<Plot> plotList) {
+		this.plotList = plotList;
+	}
+
+	/**
+	 * @return subListPlot: sublist of plots.
+	 */
+	public List<Plot> getSubListPlot() {
+		return subListPlot;
+	}
+
+	/**
+	 * @param subListPlot
+	 *            :sublist of plots.
+	 */
+	public void setSubListPlot(List<Plot> subListPlot) {
+		this.subListPlot = subListPlot;
 	}
 
 	/**
@@ -112,6 +154,21 @@ public class SectionAction implements Serializable {
 	}
 
 	/**
+	 * @return plotSelected: Plot selected in the plot table.
+	 */
+	public Plot getPlotSelected() {
+		return plotSelected;
+	}
+
+	/**
+	 * @param plotSelected
+	 *            :Plot selected in the plot table.
+	 */
+	public void setPlotSelected(Plot plotSelected) {
+		this.plotSelected = plotSelected;
+	}
+
+	/**
 	 * @return pagination: Management paged list section.
 	 */
 	public Paginador getPagination() {
@@ -124,6 +181,21 @@ public class SectionAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	/**
+	 * @return paginationPlot: Management paged list plots.
+	 */
+	public Paginador getPaginationPlot() {
+		return paginationPlot;
+	}
+
+	/**
+	 * @param paginationPlot
+	 *            :Management paged list plots.
+	 */
+	public void setPaginationPlot(Paginador paginationPlot) {
+		this.paginationPlot = paginationPlot;
 	}
 
 	/**
@@ -157,6 +229,21 @@ public class SectionAction implements Serializable {
 	}
 
 	/**
+	 * @return flagButton: this flag is true if it is loaded from the register.
+	 */
+	public boolean isFlagButton() {
+		return flagButton;
+	}
+
+	/**
+	 * @param flagButton
+	 *            : this flag is true if it is loaded from the register.
+	 */
+	public void setFlagButton(boolean flagButton) {
+		this.flagButton = flagButton;
+	}
+
+	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * listing of the section
 	 * 
@@ -172,6 +259,9 @@ public class SectionAction implements Serializable {
 			}
 			this.nameSearch = "";
 			this.idCropNames = 0;
+			this.sectionSelected = null;
+			this.flagButton = false;
+			this.plotList = null;
 			loadCropNames();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -286,13 +376,20 @@ public class SectionAction implements Serializable {
 	 */
 	public String addEditSection(Section section) {
 		try {
+			this.plotAction = ControladorContexto
+					.getContextBean(PlotAction.class);
 			if (section != null) {
 				this.section = section;
+				selectSection(section);
+				showPlots();
 			} else {
 				this.section = new Section();
 				this.section.setCropNames(new CropNames());
 				this.section.getCropNames().setIdCropName(idCropNames);
+				this.plotList = new ArrayList<Plot>();
+				this.subListPlot = null;
 			}
+			this.flagButton = true;
 			loadCropNames();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -341,7 +438,7 @@ public class SectionAction implements Serializable {
 	 * 
 	 * @modify 17/08/2016 Wilhelm.Boada
 	 * 
-	 * @return consultSection: Redirects to manage the list of sections
+	 * @return initializeSearch(): Redirects to manage the list of sections
 	 */
 	public String saveSection() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -353,24 +450,36 @@ public class SectionAction implements Serializable {
 				messageRegister = "message_registro_guardar";
 				sectionDao.saveSection(section);
 			}
+			savePlotsBySection();
 			this.idCropNames = section.getCropNames().getIdCropName();
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(messageRegister), section.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultSection();
+		this.flagButton = false;
+		return initializeSearch();
 	}
 
 	/**
 	 * Method to remove a section of the database
 	 * 
-	 * @return consultSection(): Consult the list of sections and returns to
+	 * @modify 01/09/2016 Wilhelm.Boada
+	 * 
+	 * @return initializeSearch(): Consult the list of sections and returns to
 	 *         manage view
 	 */
 	public String deleteSection() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
+			List<Plot> plotListBySection = plotDao
+					.consultPlotsBySection(section.getIdSection());
+			if (plotListBySection != null) {
+				for (Plot plot : plotListBySection) {
+					plot.setSection(null);
+					plotDao.editPlot(plot);
+				}
+			}
 			sectionDao.deleteSection(section);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
@@ -383,7 +492,7 @@ public class SectionAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultSection();
+		return initializeSearch();
 	}
 
 	/**
@@ -405,6 +514,49 @@ public class SectionAction implements Serializable {
 	}
 
 	/**
+	 * Consult the plots list associated to the section.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void consultPlotsBySection() {
+		try {
+			Long quantity = plotDao.quantityPlotsBySection(this.sectionSelected
+					.getIdSection());
+			if (quantity != null && quantity > 0) {
+				this.plotList = plotDao
+						.consultPlotsBySection(this.sectionSelected
+								.getIdSection());
+				initializeList();
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * It initializes the pager with a fixed range to manage the plot list and
+	 * it gets a sublist of plots.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void initializeList() {
+		subListPlot = new ArrayList<Plot>();
+		if (this.plotList != null) {
+			Collections.sort(this.plotList);
+			subListPlot.addAll(this.plotList);
+		}
+		Long paginationAmount = (long) this.subListPlot.size();
+		try {
+			this.paginationPlot.paginarRangoDefinido(paginationAmount, 5);
+			int inicial = this.paginationPlot.getItemInicial() - 1;
+			int fin = this.paginationPlot.getItemFinal();
+			this.subListPlot = this.subListPlot.subList(inicial, fin);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
 	 * Selects a single section for display the associated plots.
 	 * 
 	 * @author Wilhelm.Boada
@@ -414,6 +566,7 @@ public class SectionAction implements Serializable {
 	 */
 	public void selectSection(Section sectionSelected) {
 		this.sectionSelected = new Section();
+		this.flagButton = false;
 		sectionSelected.setSelected(true);
 		for (Section section : listSection) {
 			if (section.isSelected()) {
@@ -434,7 +587,61 @@ public class SectionAction implements Serializable {
 	public void showPlots() {
 		if (plotAction != null) {
 			plotAction.setIdSection(sectionSelected.getIdSection());
-			plotAction.consultPlots();
+			consultPlotsBySection();
 		}
+	}
+
+	/**
+	 * This method allows save the plot list related to the section.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @throws Exception
+	 */
+	private void savePlotsBySection() throws Exception {
+		List<Plot> listPlotsSectionAsocciates = plotDao
+				.consultPlotsBySection(this.section.getIdSection());
+		if (this.plotList != null && listPlotsSectionAsocciates != null) {
+			List<Integer> currentIds = new ArrayList<Integer>();
+			List<Integer> newsIds = new ArrayList<Integer>();
+			for (Plot listPlots : listPlotsSectionAsocciates) {
+				currentIds.add(listPlots.getIdPlot());
+			}
+			for (Plot listPlotTem : this.plotList) {
+				newsIds.add(listPlotTem.getIdPlot());
+			}
+			List<DatosGuardar> dataList = ValidacionesAction.validarListas(
+					currentIds, newsIds);
+			for (DatosGuardar saveData : dataList) {
+				String action = saveData.getAccion();
+				Plot plot = plotDao.plotById(saveData.getIdClase());
+				if (Constantes.QUERY_DELETE.equals(action)) {
+					plot.setSection(null);
+					plotDao.editPlot(plot);
+				} else if (Constantes.QUERY_INSERT.equals(action)) {
+					plot.setSection(this.section);
+					plotDao.editPlot(plot);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Method that eliminates the plot selected by the user from the list
+	 * plotList.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param plot
+	 *            : plot to remove of the list.
+	 */
+	public void removePlotList(Plot plot) {
+		for (Plot plotSelected : this.plotList) {
+			if (plotSelected.equals(plot)) {
+				this.plotList.remove(plot);
+				break;
+			}
+		}
+		initializeList();
 	}
 }

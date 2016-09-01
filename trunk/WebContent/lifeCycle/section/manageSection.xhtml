@@ -93,6 +93,7 @@
 							<h:commandLink value="#{section.name}"
 								action="#{sectionAction.addEditSection(section)}"
 								onclick="#{rich:component('statPane')}.show();">
+								<f:param name="param2" value="si" />
 							</h:commandLink>
 						</rich:column>
 						<rich:column styleClass="colTextoCorto">
@@ -117,7 +118,6 @@
 						<ui:param name="tieneVigencia" value="no" />
 					</ui:include>
 					<a:outputPanel rendered="#{!listaVacia}">
-						<br />
 						<div class="#{anchoTabla} center inBlock">
 							<ui:include src="/plantillas/templatePagination.xhtml">
 								<ui:param name="valReder" value="pnlSection" />
@@ -128,61 +128,10 @@
 					</a:outputPanel>
 				</t:fieldset>
 				<br />
-				<t:fieldset styleClass="anchoDos BorderW2P"
-					rendered="#{sectionAction.sectionSelected ne null}">
-					<legend class="etiquetaTitulo">#{messageLifeCycle.plot_label_s}</legend>
-					<a:outputPanel id="pnlPlots">
-						<ui:param name="listaVaciaA"
-							value="#{plotAction.listPlots.size() eq 0 or (plotAction.listPlots eq null)}" />
-						<rich:dataTable value="#{plotAction.listPlots}" id="plotsTable"
-							var="plot"
-							styleClass="#{listaVaciaA ? 'BCTransparente W100Per' : 'dataTable'} #{anchoTabla}"
-							rowClasses="odd-row, even-row" footerClass="H130P">
-							<rich:column styleClass="colTextoCorto">
-								<f:facet name="header">#{mensaje.label_name}</f:facet>
-								<h:outputText value="#{plot.name}" />
-							</rich:column>
-							<rich:column styleClass="colTextoLargo">
-								<f:facet name="header">#{mensaje.label_description}</f:facet>
-								<h:outputText value="#{plot.description}" />
-							</rich:column>
-							<rich:column styleClass="colNumero">
-								<f:facet name="header">#{mensaje.label_location_map_link}</f:facet>
-								<h:outputText value="#{plot.locationLinkToMap}" />
-							</rich:column>
-							<rich:column styleClass="colNumero">
-								<f:facet name="header">#{mensaje.label_size}</f:facet>
-								<h:outputText value="#{plot.size}">
-									<f:convertNumber pattern="#,##0.00" />
-								</h:outputText>
-							</rich:column>
-							<rich:column styleClass="colNumero">
-								<f:facet name="header">#{messageLifeCycle.plot_numbers_trees}</f:facet>
-								<h:outputText value="#{plot.numberOfTrees}" />
-							</rich:column>
-							<f:facet name="footer">
-								<rich:columnGroup rendered="#{listaVaciaA}">
-									<rich:column colspan="5" styleClass="footTabla">
-										<h:outputText
-											value="#{mensaje.message_no_existen_registros_tabla}" />
-									</rich:column>
-								</rich:columnGroup>
-							</f:facet>
-						</rich:dataTable>
-						<a:outputPanel rendered="#{!listaVaciaA}">
-							<br />
-							<div class="#{anchoTabla} center inBlock W100Per">
-								<ui:include src="/plantillas/templatePagination.xhtml">
-									<ui:param name="valId" value="2" />
-									<ui:param name="valParam2" value="si" />
-									<ui:param name="valReder" value="pnlPlots" />
-									<ui:param name="beanActionParam" value="#{plotAction}" />
-									<ui:param name="metodoActionParam" value="consultPlots" />
-								</ui:include>
-							</div>
-						</a:outputPanel>
-					</a:outputPanel>
-				</t:fieldset>
+				<ui:include src="templatePlot.xhtml">
+					<ui:param name="sectionSelected"
+						value="#{sectionAction.sectionSelected}" />
+				</ui:include>
 			</rich:panel>
 		</h:form>
 		<h:form id="formBuscar">
