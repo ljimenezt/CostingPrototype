@@ -249,5 +249,38 @@
 				</rich:panel>
 			</rich:popupPanel>
 		</h:form>
+		<h:form>
+			<rich:popupPanel id="popupDeletePlot" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupDeletePlot')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:" />
+						<h:outputText value="#{sectionAction.plotSelected.name}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							actionListener="#{sectionAction.removePlotList(sectionAction.plotSelected)}"
+							onclick="#{rich:component('popupDeletePlot')}.hide()"
+							render="pnlPlots" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupDeletePlot')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
 	</ui:define>
 </ui:composition>

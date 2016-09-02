@@ -59,6 +59,7 @@ public class CropsAction implements Serializable {
 
 	private CropNames cropNames;
 	private Crops crops;
+	private Plot plot;
 	private List<Crops> listCrops;
 	private List<Plot> listPlotsAsocciates;
 	private List<Plot> subListPlotsAsocciates;
@@ -101,6 +102,21 @@ public class CropsAction implements Serializable {
 	 */
 	public void setCrops(Crops crops) {
 		this.crops = crops;
+	}
+
+	/**
+	 * @return plot: Plot selected in the plot table.
+	 */
+	public Plot getPlot() {
+		return plot;
+	}
+
+	/**
+	 * @param plot
+	 *            :Plot selected in the plot table.
+	 */
+	public void setPlot(Plot plot) {
+		this.plot = plot;
 	}
 
 	/**
