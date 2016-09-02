@@ -882,7 +882,6 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @param plotsList
 	 *            : plotsList consult of the database associated to the section.
-	 * 
 	 */
 	public void initializePlotsBySection(List<Plot> plotList) {
 		if (plotList != null) {

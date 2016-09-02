@@ -75,6 +75,9 @@ public class SectionDao implements Serializable {
 	 * 
 	 * @modify 29/08/2016 Wilhelm.Boada
 	 * 
+	 * @param idCropsName
+	 *            : CropNames identifier.
+	 * 
 	 * @return List<Section>: Section list
 	 * @throws Exception
 	 */
@@ -201,7 +204,7 @@ public class SectionDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Section consultSectionByPlot(int idplot) {
+	public Section consultSectionByPlot(int idplot) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT p.section FROM Plot p ");
 		query.append("WHERE p.idPlot=:idplot ");

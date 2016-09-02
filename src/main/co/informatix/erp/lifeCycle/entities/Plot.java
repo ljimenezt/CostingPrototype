@@ -200,6 +200,12 @@ public class Plot implements Serializable, Comparable<Plot> {
 	}
 
 	@Override
+	public int compareTo(Plot o) {
+		return this.getName().toUpperCase()
+				.compareTo(o.getName().toUpperCase());
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -254,11 +260,5 @@ public class Plot implements Serializable, Comparable<Plot> {
 		} else if (!size.equals(other.size))
 			return false;
 		return true;
-	}
-
-	@Override
-	public int compareTo(Plot o) {
-		return this.getName().toUpperCase()
-				.compareTo(o.getName().toUpperCase());
 	}
 }
