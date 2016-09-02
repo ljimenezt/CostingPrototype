@@ -137,7 +137,7 @@
 							</a:commandLink>
 						</div>
 						<ui:param name="listaVaciaCrops"
-							value="#{cropsAction.subListPlotsAsocciates.size() eq 0 or (cropsAction.subListPlotsAsocciates eq null)}" />
+							value="#{cropsAction.subListPlotsAsocciates eq null or (empty cropsAction.subListPlotsAsocciates)}" />
 						<rich:dataTable value="#{cropsAction.subListPlotsAsocciates}"
 							var="plot" id="tablaAsociada"
 							styleClass="#{listaVaciaCrops ? 'BCTransparente' : 'dataTable'} W560P"
