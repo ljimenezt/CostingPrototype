@@ -11,7 +11,7 @@
 		<legend class="etiquetaTitulo">#{messageLifeCycle.plot_label_s}</legend>
 		<a:outputPanel id="pnlPlots">
 			<ui:param name="listaVaciaA"
-				value="#{sectionAction.subListPlot eq null or sectionAction.subListPlot.size() eq 0}" />
+				value="#{sectionAction.subListPlot eq null or (empty sectionAction.subListPlot)}" />
 			<a:outputPanel id="mensajeBusquedaMenu">
 				<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
 					<ui:param name="width" value="anchoCuatro" />
