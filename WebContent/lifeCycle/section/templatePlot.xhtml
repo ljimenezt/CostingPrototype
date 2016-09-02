@@ -42,9 +42,21 @@
 				styleClass="#{listaVaciaA ? 'BCTransparente anchoCuatro' : 'dataTable'} #{anchoTabla}"
 				rowClasses="odd-row, even-row" footerClass="H130P">
 				<rich:column styleClass="colIconoUno"
-					rendered="#{sectionAction.flagButton eq true}">
+					rendered="#{sectionAction.flagButton eq true and sectionAction.section.idSection eq 0}">
 					<a:commandLink render="pnlPlots" execute="@this"
 						actionListener="#{sectionAction.removePlotList(plot)}">
+						<h:graphicImage value="/img/delete_16.png"
+							styleClass="hidelink cursor" />
+						<rich:tooltip layout="block">
+							<h:outputText value="#{mensaje.button_remove}" />
+						</rich:tooltip>
+					</a:commandLink>
+				</rich:column>
+				<rich:column styleClass="colIconoUno"
+					rendered="#{sectionAction.flagButton eq true and sectionAction.section.idSection ne 0}">
+					<a:commandLink render="popupDeletePlot" execute="@this"
+						actionListener="#{sectionAction.setPlotSelected(plot)}"
+						oncomplete="#{rich:component('popupDeletePlot')}.show()">
 						<h:graphicImage value="/img/delete_16.png"
 							styleClass="hidelink cursor" />
 						<rich:tooltip layout="block">
