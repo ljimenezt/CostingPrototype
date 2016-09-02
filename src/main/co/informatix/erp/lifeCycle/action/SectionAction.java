@@ -520,6 +520,7 @@ public class SectionAction implements Serializable {
 	 */
 	public void consultPlotsBySection() {
 		try {
+			subListPlot = new ArrayList<Plot>();
 			Long quantity = plotDao.quantityPlotsBySection(this.sectionSelected
 					.getIdSection());
 			if (quantity != null && quantity > 0) {
@@ -540,13 +541,14 @@ public class SectionAction implements Serializable {
 	 * @author Wilhelm.Boada
 	 */
 	public void initializeList() {
-		subListPlot = new ArrayList<Plot>();
-		if (this.plotList != null) {
-			Collections.sort(this.plotList);
-			subListPlot.addAll(this.plotList);
-		}
-		Long paginationAmount = (long) this.subListPlot.size();
 		try {
+			subListPlot = new ArrayList<Plot>();
+			if (this.plotList != null) {
+				Collections.sort(this.plotList);
+				subListPlot.addAll(this.plotList);
+			}
+			Long paginationAmount = (long) this.subListPlot.size();
+
 			this.paginationPlot.paginarRangoDefinido(paginationAmount, 5);
 			int inicial = this.paginationPlot.getItemInicial() - 1;
 			int fin = this.paginationPlot.getItemFinal();
