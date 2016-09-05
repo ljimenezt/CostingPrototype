@@ -16,8 +16,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
-import com.google.gson.JsonObject;
-
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
 import co.informatix.erp.lifeCycle.dao.CropsDao;
 import co.informatix.erp.lifeCycle.dao.CropsPlotsDao;
@@ -33,6 +31,8 @@ import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.utils.ValidacionesAction.DatosGuardar;
+
+import com.google.gson.JsonObject;
 
 /**
  * This class allows the logic of the crops that may be in the BD.
