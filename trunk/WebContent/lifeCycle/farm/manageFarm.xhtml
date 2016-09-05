@@ -40,19 +40,7 @@
 				<rich:dataTable value="#{farmAction.farmsList}" var="farm"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
-					<rich:column styleClass="colIconoAjustable">
-						<a:outputPanel>
-							<h:commandLink onclick="#{rich:component('statPane')}.show();"
-								actionListener="#{plotAction.setFarm(farm)}"
-								action="#{plotAction.searchInitialization()}">
-								<f:setPropertyActionListener
-									target="#{plotAction.farmParameter}" value="true" />
-								<h:graphicImage value="/img/add_16.png" />
-							</h:commandLink>
-							<rich:tooltip layout="block">
-								<h:outputText value="#{messageLifeCycle.plot_label_add}" />
-							</rich:tooltip>
-						</a:outputPanel>
+					<rich:column styleClass="colIconoUno">
 						<a:outputPanel
 							rendered="#{(identity.autorizado('farmAction','A') or identity.autorizado('farmAction','D'))}">
 							<a:commandLink render="popupEliminar"
