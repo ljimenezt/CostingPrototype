@@ -30,7 +30,6 @@ public class Plot implements Serializable, Comparable<Plot> {
 	private Double size;
 	private Integer numberOfTrees;
 	private boolean selected;
-	private Farm farm;
 	private Section section;
 	private CropNames cropNames;
 
@@ -146,23 +145,6 @@ public class Plot implements Serializable, Comparable<Plot> {
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
-	}
-
-	/**
-	 * @return farm: farm relate with a plot
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_farm", referencedColumnName = "idfarm", nullable = false)
-	public Farm getFarm() {
-		return farm;
-	}
-
-	/**
-	 * @param farm
-	 *            : farm relate with a plot
-	 */
-	public void setFarm(Farm farm) {
-		this.farm = farm;
 	}
 
 	/**
