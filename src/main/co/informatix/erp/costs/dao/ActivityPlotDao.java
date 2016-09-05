@@ -11,7 +11,6 @@ import javax.persistence.Query;
 
 import co.informatix.erp.costs.entities.ActivityPlot;
 
-
 /**
  * DAO class that establishes the connection between business logic and data
  * base information management activities and plots.

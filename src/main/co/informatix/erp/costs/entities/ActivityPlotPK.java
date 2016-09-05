@@ -7,7 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.lifeCycle.entities.Plot;
 
 /**

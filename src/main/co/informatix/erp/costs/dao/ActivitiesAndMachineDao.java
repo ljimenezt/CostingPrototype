@@ -205,7 +205,7 @@ public class ActivitiesAndMachineDao implements Serializable {
 		q.setParameter("idActivity", idActivity);
 		return (Double) q.getSingleResult();
 	}
-	
+
 	/**
 	 * Consult the relation between activities and machines for his identifier.
 	 * 
@@ -218,5 +218,4 @@ public class ActivitiesAndMachineDao implements Serializable {
 			ActivityMachinePK activityMachinePK) throws Exception {
 		return em.find(ActivityMachine.class, activityMachinePK);
 	}
-	
 }

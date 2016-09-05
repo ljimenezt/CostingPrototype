@@ -71,7 +71,7 @@ public class ActivityPlot implements Serializable {
 	public void setReplatedPlants(Integer replatedPlants) {
 		this.replatedPlants = replatedPlants;
 	}
-	
+
 	public ActivityPlot clone() {
 		Object clone = null;
 		try {
@@ -120,6 +120,4 @@ public class ActivityPlot implements Serializable {
 			return false;
 		return true;
 	}
-
-	
 }
