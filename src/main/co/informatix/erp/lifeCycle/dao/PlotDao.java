@@ -51,20 +51,15 @@ public class PlotDao implements Serializable {
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : consult parameters.
-	 * @param flagSection
-	 *            : this field valid if the section is consulted.
 	 * @return List<Plot>: plot list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Plot> consultPlots(int start, int range, StringBuilder consult,
-			List<SelectItem> parameters, boolean flagSection) throws Exception {
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT p FROM  Plot p ");
 		query.append("JOIN FETCH p.cropNames cn ");
-		if (flagSection) {
-			query.append("JOIN FETCH p.section s ");
-		}
 		query.append(consult);
 		query.append("ORDER BY p.name ");
 		Query q = em.createQuery(query.toString());
@@ -125,19 +120,14 @@ public class PlotDao implements Serializable {
 	 *            filtered.
 	 * @param parameters
 	 *            : query parameters.
-	 * @param flagSection
-	 *            : this field valid if the section is consulted.
 	 * @return Long: amount of plots records found
 	 * @throws Exception
 	 */
-	public Long quantityPlots(StringBuilder consult,
-			List<SelectItem> parameters, boolean flagSection) throws Exception {
+	public Long quantityPlots(StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(p) FROM Plot p ");
 		query.append("JOIN p.cropNames cn ");
-		if (flagSection) {
-			query.append("JOIN p.section s ");
-		}
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parametro : parameters) {

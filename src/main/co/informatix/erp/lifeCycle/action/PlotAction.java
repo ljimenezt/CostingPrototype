@@ -402,21 +402,14 @@ public class PlotAction implements Serializable {
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
-		boolean flagSection;
 
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
 				: false;
 		String back = fromModal ? "" : "gesPlot";
 		try {
-			if (this.idSection > 0 && !this.flagPlotSection) {
-				flagSection = true;
-			} else {
-				flagSection = false;
-			}
 			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
-			Long quantity = plotDao.quantityPlots(consult, parameters,
-					flagSection);
+			Long quantity = plotDao.quantityPlots(consult, parameters);
 			if (quantity != null) {
 				if (fromModal) {
 					pagination.paginarRangoDefinido(quantity, 5);
@@ -425,7 +418,7 @@ public class PlotAction implements Serializable {
 				}
 			}
 			listPlots = plotDao.consultPlots(pagination.getInicio(),
-					pagination.getRango(), consult, parameters, flagSection);
+					pagination.getRango(), consult, parameters);
 			if ((listPlots == null || listPlots.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat
@@ -506,7 +499,7 @@ public class PlotAction implements Serializable {
 		if (this.idSection != 0 && !this.flagPlotSection) {
 			consult.append(selection ? "AND " : "WHERE ");
 			consult.append(idSection < 0 ? "p.section.idSection IS NULL "
-					: "s.idSection = :keyword4 ");
+					: "p.section.idSection = :keyword4 ");
 			if (this.idSection > 0) {
 				SelectItem item = new SelectItem(this.idSection, "keyword4");
 				parameters.add(item);
@@ -884,8 +877,8 @@ public class PlotAction implements Serializable {
 	 *            : plotsList consult of the database associated to the section.
 	 */
 	public void initializePlotsBySection(List<Plot> plotList) {
+		listPlotsSelected = new ArrayList<Plot>();
 		if (plotList != null) {
-			listPlotsSelected = new ArrayList<Plot>();
 			listPlotsSelected.addAll(plotList);
 		}
 		flagPlotSection = true;
