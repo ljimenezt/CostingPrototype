@@ -305,4 +305,29 @@ public class ActivitiesAndHrDao implements Serializable {
 		}
 		return false;
 	}
+
+	/**
+	 * Consult the relation between activities and human resources for cycle
+	 * 
+	 * @param cycle
+	 *            : Cycle of activity.
+	 * @return List<ActivitiesAndHr> : List of relation between activities and
+	 *         human resources
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivitiesAndHr> activitiesAndHrByCycle(int idActivity)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ahr FROM  ActivitiesAndHr ahr ");
+		query.append("JOIN FETCH ahr.activitiesAndHrPK.hr hr ");
+		query.append("JOIN FETCH ahr.activitiesAndHrPK.activities a ");
+		query.append("WHERE a.idActivity = :idActivity ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idActivity", idActivity);
+		List<ActivitiesAndHr> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }
