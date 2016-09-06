@@ -39,6 +39,7 @@
 		<t:saveState value="#{activitiesAndMachineAction}" />
 		<t:saveState value="#{plotAction}" />
 		<t:saveState value="#{activityPlotAction}" />
+		<t:saveState value="#{detailsHarvestAction}" />
 		<h:form id="formHrReporting">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageLifeCycle.record_activities_actuals_label_actual}"
@@ -221,6 +222,21 @@
 									<f:setPropertyActionListener
 										target="#{activitiesAndMachineAction.pagination.opcion}"
 										value="f" />
+								</a:commandLink>
+							</rich:column>
+
+							<rich:column styleClass="colIconoUno verticalAlignMiddle">
+								<a:commandLink
+									actionListener="#{detailsHarvestAction.consultDetailsHarvest(activity)}"
+									render=":formHarvest:popupHarvest, mensajes, mensajeBusqueda"
+									oncomplete="#{rich:component('popupHarvest')}.show();">
+									<h:graphicImage value="/img/harvest_16.png"
+										styleClass="verticalAlignMiddle" />
+									<rich:tooltip layout="block" styleClass="campoTooltip">
+										<h:outputText
+											value="#{messageLifeCycle.harvest_details_label}" />
+									</rich:tooltip>
+									<f:param name="param2" value="si" />
 								</a:commandLink>
 							</rich:column>
 
@@ -414,7 +430,7 @@
 					</t:fieldset>
 				</a:outputPanel>
 				<br />
-				
+
 				<a:outputPanel
 					rendered="#{recordActivitiesActualsAction.selectedActivity.idActivity gt 0 and recordActivitiesActualsAction.selectedActivity.hrRequired eq true }">
 					<t:fieldset styleClass="anchoDos BorderW2P">
@@ -652,7 +668,7 @@
 							</rich:column>
 							<f:facet name="footer">
 								<rich:columnGroup rendered="#{listaVaciaA}">
-									<rich:column colspan="3" styleClass="footTabla">
+									<rich:column colspan="4" styleClass="footTabla">
 										<h:outputText
 											value="#{mensaje.message_no_existen_registros_tabla}" />
 									</rich:column>
@@ -689,5 +705,7 @@
 			<ui:param name="beanActionParam"
 				value="#{recordActivitiesActualsAction}" />
 		</ui:include>
+		<ui:include src="templateHarvest.xhtml" />
+
 	</ui:define>
 </ui:composition>
