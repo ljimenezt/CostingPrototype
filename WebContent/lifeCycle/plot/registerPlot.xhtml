@@ -109,6 +109,32 @@
 						<f:validateLength maximum="250" />
 					</h:inputTextarea>
 					<rich:message for="txaDescripcion" />
+					
+					<h:outputText value="#{messageLifeCycle.plot_label_map_row}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:inputText value="#{plotAction.plot.mapRow}"
+						styleClass="colTextoMediano" id="txtMapRow"
+						label="#{messageLifeCycle.plot_label_map_row}"
+						converterMessage="#{mensaje.message_campo_positivo}"
+						maxlength="100">
+						<f:validateDoubleRange minimum="1" />
+					</h:inputText>
+					<rich:message for="txtMapRow" />
+					
+					<h:outputText value="#{messageLifeCycle.plot_label_position_row}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:inputText value="#{plotAction.plot.positionRow}"
+						styleClass="colTextoMediano" id="txtPositionRow"
+						label="#{messageLifeCycle.plot_label_position_row}"
+						converterMessage="#{mensaje.message_campo_positivo}"
+						maxlength="100">
+						<f:validateDoubleRange minimum="1" />
+					</h:inputText>
+					<rich:message for="txtMapRow" />
+					
+					
 
 				</h:panelGrid>
 				<br />

@@ -358,6 +358,18 @@
 									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
 							</a:commandLink>
+							<h:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+								rendered="#{recordActivitiesActualsAction.selectedActivity.cycle ne null}"
+								execute="@this"
+								action="#{activityPlotAction.createExcelPlot(recordActivitiesActualsAction.selectedActivity.cycle.idCycle)}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/excel_16.png" />
+									<h:outputText value="#{messageLifeCycle.cycle_label_report}" />
+								</h:panelGrid>
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_select}" />
+								</rich:tooltip>
+							</h:commandLink>
 						</div>
 						<ui:param name="listaVacia1"
 							value="#{activityPlotAction.listActivityPlotTemp.size() eq 0 or (activityPlotAction.listActivityPlotTemp eq null)}" />
