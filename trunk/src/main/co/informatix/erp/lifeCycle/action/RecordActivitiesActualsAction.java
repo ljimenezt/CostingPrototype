@@ -42,6 +42,7 @@ import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
 import co.informatix.erp.lifeCycle.entities.Cycle;
+import co.informatix.erp.lifeCycle.entities.DetailsHarvest;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
@@ -106,6 +107,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private ActivityMachine activityMachine;
 	private ActivityMaterials activityMaterial;
 	private Cycle cycle;
+	private DetailsHarvest harvestDetails;
 
 	private Date maxDate;
 	private Date minDate;
@@ -463,6 +465,22 @@ public class RecordActivitiesActualsAction implements Serializable {
 	public void setCycle(Cycle cycle) {
 		this.cycle = cycle;
 		this.idCycle = this.cycle.getIdCycle();
+	}
+
+	/**
+	 * @return harvestDetails: Object Harvest Details associated to the activity
+	 *         to record
+	 */
+	public DetailsHarvest getHarvestDetails() {
+		return harvestDetails;
+	}
+
+	/**
+	 * @param harvestDetails
+	 *            :Object Harvest Details associated to the activity to record
+	 */
+	public void setHarvestDetails(DetailsHarvest harvestDetails) {
+		this.harvestDetails = harvestDetails;
 	}
 
 	/**

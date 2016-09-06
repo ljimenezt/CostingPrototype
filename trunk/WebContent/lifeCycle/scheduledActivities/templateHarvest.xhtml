@@ -1,0 +1,199 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	<h:body>
+		<t:saveState value="#{cropsAction}" />
+		<t:saveState value="#{detailsHarvestAction}" />
+		<h:form id="formHarvest">
+			<rich:popupPanel id="popupHarvest" minWidth="400" autosized="true"
+				header="#{messageLifeCycle.harvest_details_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupHarvest')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<script type="text/javascript">
+			$g=jQuery.noConflict();	
+			</script>
+				<fieldset class="fieldsetStyle">
+					<legend class="fieldsetLegend">
+						#{messageLifeCycle.harvest_details_label_register}</legend>
+					<h:panelGrid columns="4"
+						columnClasses="tdAlignTop H30P,tdAlignTop,,tdAlignTop2">
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageLifeCycle.activity_names_label}:" />
+						<h:outputText value="" />
+						<h:outputText
+							value="#{detailsHarvestAction.selectedActivity.activityName.activityName}"
+							styleClass="PaddingL6P" />
+						<h:outputText value="" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageLifeCycle.harvest_details_label_previous_sacks}:" />
+						<h:outputText value="" styleClass="required" />
+						<h:inputText styleClass="colTextoXCorto"
+							label="#{messageLifeCycle.harvest_details_label_previous_sacks}"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							value="#{detailsHarvestAction.detailsHarvest.previousSacks}"
+							readonly="true" id="txtPreviousSacks">
+							<f:validateDoubleRange minimum="0" />
+						</h:inputText>
+						<rich:message for="txtPreviousSacks" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageLifeCycle.harvest_details_label_sacks_day}:" />
+						<h:outputText value="" styleClass="required" />
+						<h:inputText styleClass="colTextoXCorto" required="true"
+							label="#{messageLifeCycle.harvest_details_label_sacks_day}"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							value="#{detailsHarvestAction.detailsHarvest.sacksDay}"
+							id="txtSacksDay">
+							<f:validateDoubleRange minimum="0" />
+							<f:ajax event="change" execute="@this"
+								listener="#{detailsHarvestAction.calculatedCurrentSacks()}"
+								render=":formHarvest:txtCurrentSacks :formHarvest:txtTotalSacks" />
+						</h:inputText>
+						<rich:message for="txtSacksDay" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageLifeCycle.harvest_details_label_current_sacks}:" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText styleClass="colTextoXCorto"
+							label="#{messageLifeCycle.harvest_details_label_current_sacks}"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							value="#{detailsHarvestAction.detailsHarvest.currentSacks}"
+							readonly="true" id="txtCurrentSacks">
+							<f:validateDoubleRange minimum="0" />
+						</h:inputText>
+						<rich:message for="txtCurrentSacks" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageLifeCycle.harvest_details_label_dispatch}:" />
+						<h:outputText value="" styleClass="required" />
+						<h:inputText styleClass="colTextoXCorto"
+							label="#{messageLifeCycle.harvest_details_label_dispatch}"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							value="#{detailsHarvestAction.detailsHarvest.dispatch}"
+							id="txtDispatch">
+							<f:validateDoubleRange minimum="0" />
+							<f:ajax event="change" execute="@this"
+								listener="#{detailsHarvestAction.calculatedCurrentSacks()}"
+								render=":formHarvest:txtTotalSacks :formHarvest:txtDispatch" />
+						</h:inputText>
+						<rich:message for="txtDispatch" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageLifeCycle.harvest_details_label_poundage}:" />
+						<h:outputText value="" styleClass="required" />
+						<h:inputText styleClass="colTextoXCorto" required="true"
+							label="#{messageLifeCycle.harvest_details_label_poundage}"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							value="#{detailsHarvestAction.detailsHarvest.poundage}"
+							id="txtPoundage">
+							<f:validateDoubleRange minimum="0" />
+						</h:inputText>
+						<rich:message for="txtPoundage" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageLifeCycle.harvest_details_label_total_sacks}:" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText styleClass="colTextoXCorto" required="true"
+							label="#{messageLifeCycle.harvest_details_label_total_sacks}"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							value="#{detailsHarvestAction.detailsHarvest.totalSacks}"
+							readonly="true" id="txtTotalSacks">
+							<f:validateDoubleRange minimum="0" />
+						</h:inputText>
+						<rich:message for="txtTotalSacks" />
+
+					</h:panelGrid>
+
+					<br />
+					<div class="W100Per center inBlock">
+						<a:commandButton value="#{mensaje.button_save}"
+							actionListener="#{detailsHarvestAction.validateFields()}"
+							execute="formHarvest"
+							render="formConfirmHarvest:popUpConfirmHarvest"
+							oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popUpConfirmHarvest')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+						<a:commandButton
+							onclick="#{rich:component('popupHarvest')}.hide()"
+							value="#{mensaje.button_cancel}" />
+					</div>
+				</fieldset>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="formConfirmHarvest">
+			<rich:popupPanel id="popUpConfirmHarvest" modal="true"
+				autosized="true" maxWidth="500"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmHarvest')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{messageLifeCycle.activity_names_label}:" />
+						<h:outputText
+							value="#{detailsHarvestAction.selectedActivity.activityName.activityName}" />
+						<h:outputText
+							value="#{messageLifeCycle.harvest_details_label_previous_sacks}:" />
+						<h:outputText
+							value="#{detailsHarvestAction.detailsHarvest.previousSacks}" />
+						<h:outputText
+							value="#{messageLifeCycle.harvest_details_label_sacks_day}:" />
+						<h:outputText
+							value="#{detailsHarvestAction.detailsHarvest.sacksDay}" />
+						<h:outputText
+							value="#{messageLifeCycle.harvest_details_label_current_sacks}:" />
+						<h:outputText
+							value="#{detailsHarvestAction.detailsHarvest.currentSacks}" />
+						<h:outputText
+							value="#{messageLifeCycle.harvest_details_label_dispatch}:" />
+						<h:outputText
+							value="#{detailsHarvestAction.detailsHarvest.dispatch}" />
+						<h:outputText
+							value="#{messageLifeCycle.harvest_details_label_poundage}:" />
+						<h:outputText
+							value="#{detailsHarvestAction.detailsHarvest.poundage}" />
+						<h:outputText
+							value="#{messageLifeCycle.harvest_details_label_total_sacks}:" />
+						<h:outputText
+							value="#{detailsHarvestAction.detailsHarvest.totalSacks}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{detailsHarvestAction.saveOrUpdateDetailsHarvest()}"
+							oncomplete="#{rich:component('popUpConfirmHarvest')}.hide(); {rich:component('popupHarvest')}.hide(); ">
+							<f:param name="param2" value="si" />
+						</h:commandButton>
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmHarvest')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</h:body>
+</ui:composition>
