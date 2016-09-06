@@ -705,9 +705,7 @@ public class ActivityPlotAction implements Serializable {
 			if (listPlots.size() > 0) {
 				for (int i = 1; i <= (buildMap.size() * 2); i = i + 2) {
 
-					if (i > 1) {
-						numberRow = ((i - 1) / 2) + 1;
-					}
+					numberRow = ((i - 1) / 2) + 1;
 
 					fila = cReportPoi.getSheet().createRow(i + startFile);
 					if (buildMap.get("" + (numberRow - 1)) != null
@@ -753,6 +751,9 @@ public class ActivityPlotAction implements Serializable {
 						Plot plot = listPlots
 								.get(numberRow + "" + positionFile);
 
+						if (numberRow == 18 && positionFile == 6)
+							startNumberColumn = startNumberColumn + 1;
+
 						celda = fila.createCell(j + startNumberColumn);
 
 						String namePlot = "";
@@ -790,12 +791,21 @@ public class ActivityPlotAction implements Serializable {
 						celda = fila.createCell(j + startNumberColumn + 1);
 						celda.setCellStyle(stylePlotUnseeded);
 						contStyle++;
+
+						if (numberRow == 18 && positionFile == 6)
+							startNumberColumn = startNumberColumn - 1;
 					}
 
 					fila = cReportPoi.getSheet().createRow(i + startFile + 1);
+					int position = 0;
 					for (int a = 1; a <= (contStyle * 2); a++) {
+						position = ((a - 1) / 2) + 1;
+						if (position == 6 && numberRow == 18)
+							startNumberColumn = startNumberColumn + 1;
 						celda = fila.createCell(startNumberColumn + a);
 						celda.setCellStyle(stylePlotUnseeded);
+						if (position == 6 && numberRow == 18)
+							startNumberColumn = startNumberColumn - 1;
 					}
 				}
 
