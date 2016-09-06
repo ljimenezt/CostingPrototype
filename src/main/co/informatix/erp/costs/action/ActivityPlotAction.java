@@ -538,7 +538,8 @@ public class ActivityPlotAction implements Serializable {
 		ResourceBundle bundleMessage = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMessageLifeCycle = ControladorContexto
 				.getBundle("messageLifeCycle");
-		String fileName = "mapplots";
+		String fileName = bundleMessageLifeCycle
+				.getString("cycle_label_report");
 		try {
 			List<ActivitiesAndHr> listActivitiesHr = activitiesAndHrDao
 					.activitiesAndHrByCycle(activity.getIdActivity());
