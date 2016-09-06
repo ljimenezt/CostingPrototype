@@ -121,4 +121,50 @@ public class ActivityPlotDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * Consult all the plots associated to activity.
+	 * 
+	 * @param idActivity
+	 *            : Identifier Activity.
+	 * @return List<ActivityPlot>: List the relations between activities and
+	 *         plots.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivityPlot> queryActivityPlot(int idActivity)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT ap FROM ActivityPlot ap ");
+		queryBuilder.append("JOIN FETCH ap.activityPlotPK.activity a ");
+		queryBuilder.append("JOIN FETCH a.activityName an ");
+		queryBuilder.append("JOIN FETCH ap.activityPlotPK.plot p ");
+		queryBuilder.append("WHERE a.idActivity = :idActivity");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idActivity", idActivity);
+		List<ActivityPlot> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * Quantity of tachos for activity
+	 * 
+	 * @param idActivity
+	 *            : Identifier of activity
+	 * @return Long: Quantity of tachos
+	 * @throws Exception
+	 */
+	public Long queryTachosCollected(int idActivity) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder
+				.append("SELECT SUM(ap.tachosCollected) FROM ActivityPlot ap ");
+		queryBuilder.append("JOIN ap.activityPlotPK.activity a ");
+		queryBuilder.append("WHERE a.idActivity = :idActivity");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idActivity", idActivity);
+		return (Long) queryResult.getSingleResult();
+	}
 }

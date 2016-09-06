@@ -211,5 +211,21 @@ public class Constantes implements Serializable {
 
 	/* Value Generic */
 	public static final short VALUE_ZERO = 0;
+	
+	/*Cycle report*/
+	public static final String COMPANY = "LANCACAO S.A.";
+	
+	/* Reports on POI */
+	public static final String COLOR_BLACK = "BLACK";
+	public static final String COLOR_BLUE = "BLUE";
+	public static final String COLOR_RED = "RED";
+	public static final String FONT_COOPER_BLACK = "Cooper Black";
+	public static final String FONT_CALIBRI = "Calibri";
+	public static final String LEFT = "L";
+	public static final String RIGHT = "R";
+	public static final String TOP = "T";
+	public static final String BOTTOM = "B";
+	public static final String CENTER = "C";
+
 
 }

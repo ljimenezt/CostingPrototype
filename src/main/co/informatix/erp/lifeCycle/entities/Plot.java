@@ -24,6 +24,9 @@ import javax.persistence.Transient;
 @Table(name = "plot", schema = "life_cycle")
 public class Plot implements Serializable, Comparable<Plot> {
 	private int idPlot;
+	private short positionRow;
+	private short mapRow;
+	private short statusPlot;
 	private String name;
 	private String description;
 	private Double locationLinkToMap;
@@ -49,6 +52,54 @@ public class Plot implements Serializable, Comparable<Plot> {
 	 */
 	public void setIdPlot(int idPlot) {
 		this.idPlot = idPlot;
+	}
+
+	/**
+	 * @return positionRow: Plot position into the row for paint the plot map.
+	 */
+	@Column(name = "position_row")
+	public short getPositionRow() {
+		return positionRow;
+	}
+
+	/**
+	 * @param positionRow
+	 *            : Plot position into the row for paint the plot map.
+	 */
+	public void setPositionRow(short positionRow) {
+		this.positionRow = positionRow;
+	}
+
+	/**
+	 * @return mapRow: Number of row into the map for plot.
+	 */
+	@Column(name = "map_row")
+	public short getMapRow() {
+		return mapRow;
+	}
+
+	/**
+	 * @param mapRow
+	 *            : Number of row into the map for plot.
+	 */
+	public void setMapRow(short mapRow) {
+		this.mapRow = mapRow;
+	}
+
+	/**
+	 * @return statusPlot: Status of plot into the cycle.
+	 */
+	@Transient
+	public short getStatusPlot() {
+		return statusPlot;
+	}
+
+	/**
+	 * @param statusPlot
+	 *            : Status of plot into the cycle.
+	 */
+	public void setStatusPlot(short statusPlot) {
+		this.statusPlot = statusPlot;
 	}
 
 	/**
@@ -198,9 +249,11 @@ public class Plot implements Serializable, Comparable<Plot> {
 				* result
 				+ ((locationLinkToMap == null) ? 0 : locationLinkToMap
 						.hashCode());
+		result = prime * result + mapRow;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result
 				+ ((numberOfTrees == null) ? 0 : numberOfTrees.hashCode());
+		result = prime * result + positionRow;
 		result = prime * result + ((size == null) ? 0 : size.hashCode());
 		return result;
 	}
@@ -226,6 +279,8 @@ public class Plot implements Serializable, Comparable<Plot> {
 				return false;
 		} else if (!locationLinkToMap.equals(other.locationLinkToMap))
 			return false;
+		if (mapRow != other.mapRow)
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -236,6 +291,8 @@ public class Plot implements Serializable, Comparable<Plot> {
 				return false;
 		} else if (!numberOfTrees.equals(other.numberOfTrees))
 			return false;
+		if (positionRow != other.positionRow)
+			return false;
 		if (size == null) {
 			if (other.size != null)
 				return false;
@@ -243,4 +300,5 @@ public class Plot implements Serializable, Comparable<Plot> {
 			return false;
 		return true;
 	}
+
 }

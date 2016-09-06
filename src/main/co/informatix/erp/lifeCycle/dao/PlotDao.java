@@ -380,4 +380,58 @@ public class PlotDao implements Serializable {
 		q.setParameter("idSection", idSection);
 		return q.getResultList();
 	}
+
+	/**
+	 * Consult all the plots not present int the parameter list
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param listPlots
+	 *            : List of plots
+	 * @return List<Plot>: List of plots
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Plot> queryPlotsMissing(List<Plot> listPlots) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("SELECT p FROM Plot p ");
+		stringBuilder.append(listPlots != null ? "WHERE p NOT IN (:listPlots) "
+				: "");
+		Query q = em.createQuery(stringBuilder.toString());
+		if (listPlots != null)
+			q.setParameter("listPlots", listPlots);
+		List<Plot> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * Consult all the plots executed pending cycle.
+	 * 
+	 * @author Gerardo.Herrera
+	 * 
+	 * @param idCycle
+	 *            : Identifier cycle
+	 * @return List<Plot>: List of plots
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Plot> queryActivityPlotByCycle(int idCycle) {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT p FROM Plot p ");
+		queryBuilder.append("WHERE p IN ");
+		queryBuilder.append("(SELECT p FROM ActivityPlot ap ");
+		queryBuilder.append("JOIN ap.activityPlotPK.activity a ");
+		queryBuilder.append("JOIN ap.activityPlotPK.plot p ");
+		queryBuilder.append("JOIN a.cycle c ");
+		queryBuilder.append("WHERE c.idCycle = :idCycle) ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idCycle", idCycle);
+		List<Plot> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
 }
