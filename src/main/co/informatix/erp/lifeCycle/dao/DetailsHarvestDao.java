@@ -85,9 +85,11 @@ public class DetailsHarvestDao implements Serializable {
 	 * @param idActivity
 	 *            : identifier of the activity to search.
 	 * @return DetailsHarvest : Value of the object details harvest consulted.
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public DetailsHarvest detailsHarvestXActivity(int idActivity) {
+	public DetailsHarvest detailsHarvestXActivity(int idActivity)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT dh FROM DetailsHarvest dh ");
 		query.append("JOIN dh.activities a ");
