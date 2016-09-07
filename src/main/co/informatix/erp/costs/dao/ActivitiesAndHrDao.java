@@ -309,8 +309,8 @@ public class ActivitiesAndHrDao implements Serializable {
 	/**
 	 * Consult the relation between activities and human resources for cycle
 	 * 
-	 * @param cycle
-	 *            : Cycle of activity.
+	 * @param idActivity
+	 *            : Identifier of activity.
 	 * @return List<ActivitiesAndHr> : List of relation between activities and
 	 *         human resources
 	 */
