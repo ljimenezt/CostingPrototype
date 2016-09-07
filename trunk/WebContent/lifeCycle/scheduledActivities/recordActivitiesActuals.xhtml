@@ -225,7 +225,9 @@
 								</a:commandLink>
 							</rich:column>
 
-							<rich:column styleClass="colIconoUno verticalAlignMiddle">
+							<rich:column
+								styleClass="#{(recordActivitiesActualsAction.cycle ne null and recordActivitiesActualsAction.cycle.idCycle gt 0) ? 'colIconoAjustable' : 'colIconoUno'}">
+								<f:facet name="header" />
 								<a:commandLink
 									actionListener="#{detailsHarvestAction.consultDetailsHarvest(activity)}"
 									render=":formHarvest:popupHarvest, mensajes, mensajeBusqueda"
@@ -238,6 +240,26 @@
 									</rich:tooltip>
 									<f:param name="param2" value="si" />
 								</a:commandLink>
+								<h:outputText value="&#32;&#32;&#32;" />
+								<a:commandLink
+									rendered="#{recordActivitiesActualsAction.cycle ne null and recordActivitiesActualsAction.cycle.idCycle gt 0}"
+									actionListener="#{recordActivitiesActualsAction.assignActivity(activity)}"
+									action="#{recordActivitiesActualsAction.consultResourcesByActivity()}"
+									oncomplete="clickButton('#{rich:clientId('downloadReportCycle')}');"
+									render="formHrReporting, seleccionadas, mensajes, mensajeBusqueda">
+									<h:graphicImage value="/img/excel_16.png"
+										styleClass="verticalAlignMiddle" />
+									<rich:tooltip layout="block" styleClass="campoTooltip">
+										<h:outputText value="#{messageLifeCycle.cycle_label_report}" />
+									</rich:tooltip>
+									<f:param name="param2" value="si" />
+									<f:setPropertyActionListener
+										target="#{activitiesAndMachineAction.pagination.opcion}"
+										value="f" />
+								</a:commandLink>
+								<h:commandButton styleClass="ocultar" id="downloadReportCycle"
+									action="#{activityPlotAction.createExcelPlot(recordActivitiesActualsAction.selectedActivity.cycle.idCycle)}">
+								</h:commandButton>
 							</rich:column>
 
 							<rich:column styleClass="colTextoCorto verticalAlignMiddle">
@@ -255,12 +277,7 @@
 								</rich:tooltip>
 							</rich:column>
 
-							<rich:column styleClass="colNumeroMini verticalAlignMiddle">
-								<f:facet name="header">#{messageCosts.cycle_standard_activities_label_sequence_abbr}</f:facet>
-								<h:outputText value="#{activity.sequenceNumber}" />
-							</rich:column>
-
-							<rich:column styleClass="colFecha verticalAlignMiddle">
+							<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
 								<f:facet name="header">#{messageCosts.actual_label_start_time}</f:facet>
 								<h:outputText value="#{activity.initialDtBudget}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
@@ -268,7 +285,7 @@
 								</h:outputText>
 							</rich:column>
 
-							<rich:column styleClass="colFecha verticalAlignMiddle">
+							<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
 								<f:facet name="header">#{messageCosts.actual_label_end_time}</f:facet>
 								<h:outputText value="#{activity.finalDtBudget}">
 									<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
@@ -276,12 +293,12 @@
 								</h:outputText>
 							</rich:column>
 
-							<rich:column styleClass="colNumero verticalAlignMiddle">
+							<rich:column styleClass="colNumeroMini verticalAlignMiddle">
 								<f:facet name="header">#{messageCosts.actual_label_duration}</f:facet>
 								<h:outputText value="#{activity.durationBudget}" />
 							</rich:column>
 
-							<rich:column styleClass="center colIconoDos verticalAlignMiddle">
+							<rich:column styleClass="center colIconoUno verticalAlignMiddle">
 								<f:facet name="header">#{messageCosts.cycle_standard_activities_label_dangerous}</f:facet>
 								<h:graphicImage value="/img/peligroso_19.png"
 									rendered="#{activity.dangerous eq true}" />
