@@ -389,9 +389,10 @@ public class PlotDao implements Serializable {
 	 * @param listPlots
 	 *            : List of plots
 	 * @return List<Plot>: List of plots
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Plot> queryPlotsMissing(List<Plot> listPlots) {
+	public List<Plot> queryPlotsMissing(List<Plot> listPlots) throws Exception {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("SELECT p FROM Plot p ");
 		stringBuilder.append(listPlots != null ? "WHERE p NOT IN (:listPlots) "
@@ -414,9 +415,10 @@ public class PlotDao implements Serializable {
 	 * @param idCycle
 	 *            : Identifier cycle
 	 * @return List<Plot>: List of plots
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Plot> queryActivityPlotByCycle(int idCycle) {
+	public List<Plot> queryActivityPlotByCycle(int idCycle) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT p FROM Plot p ");
 		queryBuilder.append("WHERE p IN ");

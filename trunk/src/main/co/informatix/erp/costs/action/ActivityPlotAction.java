@@ -443,6 +443,7 @@ public class ActivityPlotAction implements Serializable {
 	 *            : Identifier of Cycle.
 	 * @return HashMap<String, Plot>: Hashmap when the key is the concatenation
 	 *         of map row and position into the this row (paint map).
+	 * @throws Exception
 	 */
 	private HashMap<String, Plot> buildPlotStatus(int idCycle) throws Exception {
 		String key = "";

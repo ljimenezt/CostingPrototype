@@ -285,6 +285,7 @@ public class ActivitiesAndHrDao implements Serializable {
 	 * @param finalDate
 	 *            : Final Date.
 	 * @return boolean: Its 'true' if it find data
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean activitiesAndHrByDate(Cycle cycle, Date finalDate)
@@ -313,6 +314,7 @@ public class ActivitiesAndHrDao implements Serializable {
 	 *            : Identifier of activity.
 	 * @return List<ActivitiesAndHr> : List of relation between activities and
 	 *         human resources
+	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<ActivitiesAndHr> activitiesAndHrByCycle(int idActivity)
