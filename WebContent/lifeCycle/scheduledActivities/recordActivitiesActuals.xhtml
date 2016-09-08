@@ -243,10 +243,10 @@
 								<h:outputText value="&#32;&#32;&#32;" />
 								<a:commandLink
 									rendered="#{recordActivitiesActualsAction.cycle ne null and recordActivitiesActualsAction.cycle.idCycle gt 0}"
-									actionListener="#{recordActivitiesActualsAction.assignActivity(activity)}"
 									action="#{recordActivitiesActualsAction.consultResourcesByActivity()}"
+									actionListener="#{recordActivitiesActualsAction.assignActivity(activity)}"
 									oncomplete="clickButton('#{rich:clientId('downloadReportCycle')}');"
-									render="formHrReporting, seleccionadas, mensajes, mensajeBusqueda">
+									render="formHrReporting, mensajes, mensajeBusqueda">
 									<h:graphicImage value="/img/excel_16.png"
 										styleClass="verticalAlignMiddle" />
 									<rich:tooltip layout="block" styleClass="campoTooltip">
@@ -258,6 +258,7 @@
 										value="f" />
 								</a:commandLink>
 								<h:commandButton styleClass="ocultar" id="downloadReportCycle"
+									onclick="this.form.target='_blank'"
 									action="#{activityPlotAction.createExcelPlot(recordActivitiesActualsAction.selectedActivity.cycle.idCycle)}">
 								</h:commandButton>
 							</rich:column>
