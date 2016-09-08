@@ -63,13 +63,16 @@ public class DetailsHarvestDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT dh.totalSacks FROM DetailsHarvest dh ");
 		query.append("JOIN dh.activities a ");
-		query.append("WHERE a.activityName.idActivityName =:idActivityName ");
-		query.append("AND a.cycle.idCycle =:idCycle ");
+		query.append("JOIN a.activityName an ");
+		query.append("JOIN a.cycle c ");
+		query.append("WHERE an.idActivityName =:idActivityName ");
+		query.append("AND c.idCycle =:idCycle ");
 		query.append("AND a.initialDtBudget = (SELECT MAX(a1.initialDtBudget) ");
 		query.append("	FROM Activities a1 JOIN a1.activityName an1 ");
-		query.append("	WHERE a1.activityName.idActivityName =:idActivityName ");
+		query.append("	WHERE an1.idActivityName =:idActivityName ");
 		query.append("	AND a1.cycle.idCycle =:idCycle ");
-		query.append("	AND an1.harvest = true ) ");
+		query.append("	AND an1.harvest = true ");
+		query.append("	AND a.idActivity = a1.idActivity ) ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idActivityName", idActivityName).setParameter(
 				"idCycle", idCycle);
