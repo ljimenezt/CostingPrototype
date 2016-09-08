@@ -61,17 +61,18 @@ public class DetailsHarvestDao implements Serializable {
 	public Double consultPreviousSacksHarvestActivity(int idActivityName,
 			int idCycle) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT SUM(dh.previousSacks) FROM DetailsHarvest dh ");
+		query.append("SELECT dh.totalSacks FROM DetailsHarvest dh ");
 		query.append("JOIN dh.activities a ");
 		query.append("WHERE a.activityName.idActivityName =:idActivityName ");
-		if (idCycle != 0) {
-			query.append("AND a.cycle.idCycle =:idCycle ");
-		}
+		query.append("AND a.cycle.idCycle =:idCycle ");
+		query.append("AND a.initialDtBudget = (SELECT MAX(a1.initialDtBudget) ");
+		query.append("	FROM Activities a1 JOIN a1.activityName an ");
+		query.append("	WHERE a.activityName.idActivityName =:idActivityName ");
+		query.append("	AND a.cycle.idCycle =:idCycle ");
+		query.append("	AND an.harvest = true ) ");
 		Query q = em.createQuery(query.toString());
-		q.setParameter("idActivityName", idActivityName);
-		if (idCycle != 0) {
-			q.setParameter("idCycle", idCycle);
-		}
+		q.setParameter("idActivityName", idActivityName).setParameter(
+				"idCycle", idCycle);
 		if (q.getSingleResult() != null) {
 			return (Double) q.getSingleResult();
 		}

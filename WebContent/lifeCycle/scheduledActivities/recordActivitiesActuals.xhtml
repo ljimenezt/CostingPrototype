@@ -226,11 +226,13 @@
 							</rich:column>
 
 							<rich:column
-								styleClass="#{(recordActivitiesActualsAction.cycle ne null and recordActivitiesActualsAction.cycle.idCycle gt 0) ? 'colIconoAjustable' : 'colIconoUno'}">
+								styleClass="#{(recordActivitiesActualsAction.cycle ne null and recordActivitiesActualsAction.cycle.idCycle gt 0) ? 'colIconoAjustable' : 'colIconoUno'}"
+								rendered="#{recordActivitiesActualsAction.cycle ne null and recordActivitiesActualsAction.cycle.idCycle gt 0}">
 								<f:facet name="header" />
 								<a:commandLink
+									rendered="#{activity.activityName.harvest eq true}"
 									actionListener="#{detailsHarvestAction.consultDetailsHarvest(activity)}"
-									render=":formHarvest:popupHarvest, mensajes, mensajeBusqueda"
+									render=":formHarvest:popupHarvest, formHrReporting, seleccionadas"
 									oncomplete="#{rich:component('popupHarvest')}.show();">
 									<h:graphicImage value="/img/harvest_16.png"
 										styleClass="verticalAlignMiddle" />
