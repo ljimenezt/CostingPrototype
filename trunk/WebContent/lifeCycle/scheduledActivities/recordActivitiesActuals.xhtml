@@ -74,9 +74,7 @@
 							disabled="#{recordActivitiesActualsAction.listActivities.size() gt 0}">
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{recordActivitiesActualsAction.listCrops}" />
-							<a:ajax event="change"
-								listener="#{recordActivitiesActualsAction.loadCycles}"
-								render="@form" />
+							<a:ajax event="change" render="@form" />
 						</h:selectOneMenu>
 						<rich:message for="crop" />
 						<h:outputText value="" />
@@ -123,7 +121,7 @@
 				</t:fieldset>
 				<br />
 				<t:fieldset styleClass="anchoDos BorderW2P"
-					rendered="#{recordActivitiesActualsAction.idCrop gt 0}">
+					rendered="#{recordActivitiesActualsAction.idCrop gt 0 and recordActivitiesActualsAction.idCropName gt 0}">
 					<legend class="etiquetaTitulo">#{messageCosts.activities_label_s}</legend>
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"

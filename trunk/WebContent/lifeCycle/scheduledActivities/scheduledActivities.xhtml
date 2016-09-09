@@ -94,6 +94,7 @@
 							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null }">
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{scheduledActivitiesAction.optionsCrops}" />
+							<f:ajax event="change" render="@form" />
 						</h:selectOneMenu>
 						<rich:message for="crop" />
 						<h:outputText value="" styleClass="etiquetaTitulo" />

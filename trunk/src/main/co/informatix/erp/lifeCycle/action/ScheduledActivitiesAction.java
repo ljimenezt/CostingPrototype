@@ -63,6 +63,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	private int idCycle;
 	private boolean fromModal;
 	private boolean fromActivity = false;
+	private boolean flagStart;
 
 	private List<Activities> listActivities;
 	private List<SelectItem> optionsCropNames;
@@ -359,6 +360,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	 * 
 	 * @modify 22/03/2016 Andres.Gomez
 	 * @modify 20/06/2016 Liseth.Jimenez
+	 * @modify 08/09/2016 Wilhelm.Boada
 	 * 
 	 * @return scheduledActivities: Redirects to scheduled activities view.
 	 */
@@ -383,6 +385,7 @@ public class ScheduledActivitiesAction implements Serializable {
 				idCrop = 0;
 				idCropName = 0;
 			}
+			this.flagStart = false;
 			loadCropNames();
 			loadCropNamesCrop();
 			cleanCycle();
@@ -411,9 +414,14 @@ public class ScheduledActivitiesAction implements Serializable {
 
 	/**
 	 * Complete the list of crops harvested according to the selected name.
+	 * 
+	 * @modify 08/09/2016 Wilhelm.Boada
 	 */
 	public void loadCropNamesCrop() {
 		try {
+			if (this.flagStart) {
+				idCrop = 0;
+			}
 			optionsCrops = new ArrayList<SelectItem>();
 			List<Crops> listCropsVigentes = cropsDao
 					.consultCropNamesCropsCurrent(idCropName);
@@ -423,6 +431,7 @@ public class ScheduledActivitiesAction implements Serializable {
 							.getDescription()));
 				}
 			}
+			this.flagStart = true;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

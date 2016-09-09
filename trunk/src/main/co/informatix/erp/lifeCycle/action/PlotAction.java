@@ -58,7 +58,6 @@ public class PlotAction implements Serializable {
 	private SectionDao sectionDao;
 
 	private boolean pagerState;
-	private boolean farmParameter = false;
 	private boolean flagPlotActivity = false;
 	private boolean flagSection = false;
 	private boolean flagPlotSection = false;
@@ -232,23 +231,6 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * @return farmParameter: parameter that takes the 'true' value if a farm or
-	 *         'false' if there is none.
-	 */
-	public boolean isFarmParameter() {
-		return farmParameter;
-	}
-
-	/**
-	 * @param farmParameter
-	 *            : parameter that takes the 'true' value if a farm or 'false'
-	 *            if there is none.
-	 */
-	public void setFarmParameter(boolean farmParameter) {
-		this.farmParameter = farmParameter;
-	}
-
-	/**
 	 * @return flagPlotActivity: Flag from activityPlot for modify query
 	 */
 	public boolean isFlagPlotActivity() {
@@ -366,7 +348,8 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * It is responsible for initializing the changing state flag farmParameter.
+	 * It is responsible for initializing the changing state flag
+	 * flagPlotSection.
 	 * 
 	 * @author Gerardo.Herrera
 	 * @modify 01/09/2016 Wilhelm.Boada
@@ -375,7 +358,6 @@ public class PlotAction implements Serializable {
 	 *         the search and load the initial listing of the plots.
 	 */
 	public String initializeSearchPlot() {
-		this.farmParameter = false;
 		this.flagPlotSection = false;
 		return searchInitialization();
 	}

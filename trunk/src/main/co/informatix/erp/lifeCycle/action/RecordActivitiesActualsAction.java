@@ -88,6 +88,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private int idOvertimePaymentsRate;
 	private int idCycle;
 	private boolean calculateCostsButtonActivated;
+	private boolean flagStart;
 
 	private List<SelectItem> listCropNames;
 	private List<SelectItem> listCrops;
@@ -501,6 +502,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * 
 	 * @modify 22/03/2016 Andres.Gomez
 	 * @modify 20/06/2016 Liseth.Jimenez
+	 * @modify 08/09/2016 Wilhelm.Boada
 	 * 
 	 * @return recordActivitiesActuals: redirected to the management to keep
 	 *         actual activities
@@ -531,6 +533,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 				idCrop = 0;
 				idCropName = 0;
 			}
+			this.flagStart = false;
 			loadComboCrops();
 			loadComboCropName();
 			cleanCycle();
@@ -558,9 +561,14 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * To load the associated crops to a CropName.
+	 * 
+	 * @modify 08/09/2016 Wilhelm.Boada
 	 */
 	public void loadComboCrops() {
 		try {
+			if (this.flagStart) {
+				idCrop = 0;
+			}
 			listCrops = new ArrayList<SelectItem>();
 			List<Crops> cropTypes = cropDao
 					.consultCropNamesCropsCurrent(idCropName);
@@ -570,6 +578,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 							.getDescription()));
 				}
 			}
+			this.flagStart = true;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
