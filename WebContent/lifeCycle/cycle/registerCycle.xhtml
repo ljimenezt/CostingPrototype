@@ -390,6 +390,7 @@
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						rendered="#{cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}"
 						actionListener="#{cycleAction.validateQuantityMaterialsAndDatesAllows()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
