@@ -148,7 +148,7 @@
 							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 							columnClasses="tdAlignTop W82P,,tdAlignTop"
-							rendered="#{emptyList and !scheduledActivitiesAction.fromActivity}">
+							rendered="#{emptyList}">
 							<h:outputText value="#{messageLifeCycle.activity_names_label}"
 								styleClass="etiquetaTitulo"
 								rendered="#{scheduledActivitiesAction.idCycle eq 0}" />
@@ -200,8 +200,7 @@
 							<rich:message for="description" />
 						</h:panelGrid>
 						<div align="center">
-							<a:commandButton id="lnkActivityStandard"
-								rendered="#{emptyList and !scheduledActivitiesAction.fromActivity}"
+							<a:commandButton id="lnkActivityStandard" rendered="#{emptyList}"
 								disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
 								render="formScheduledActivities, mensajes, mensajeBusqueda"
 								action="#{activitiesAction.initializeActivities(scheduledActivitiesAction.activities, scheduledActivitiesAction.idCrop, scheduledActivitiesAction.idCycle, null)}"
@@ -211,7 +210,8 @@
 							</a:commandButton>
 						</div>
 
-						<a:outputPanel id="paginas" rendered="#{activitiesAction ne null}">
+						<a:outputPanel id="paginas"
+							rendered="#{activitiesAction ne null and !emptyList}">
 							<script type="text/javascript">
 							$g = jQuery.noConflict();
 						</script>
