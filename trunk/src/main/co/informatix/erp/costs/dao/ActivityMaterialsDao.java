@@ -146,4 +146,24 @@ public class ActivityMaterialsDao implements Serializable {
 		q.setParameter("idActivity", idActivity);
 		return (Double) q.getSingleResult();
 	}
+
+	/**
+	 * Sum total budgeted amount of material all activities.
+	 * 
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @return Double: sum of the amount of materials budgeted.
+	 * @throws Exception
+	 */
+	public Double calculateTotalQuantityBudgetByMaterial(int idMaterial)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT SUM(am.quantityBudget) FROM  ActivityMaterials am ");
+		query.append("JOIN am.activityMaterialsPK.materials m ");
+		query.append("WHERE m.idMaterial = :idMaterial  ");
+		query.append("AND am.quantityActual IS NULL ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idMaterial", idMaterial);
+		return (Double) q.getSingleResult();
+	}
 }
