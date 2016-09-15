@@ -230,6 +230,14 @@
 								<h:outputText
 									value="#{material.name} #{material.presentation} #{material.measurementUnits.name}" />
 							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{messageCosts.activities_and_materials_label_budgeted_total_material}</f:facet>
+								<h:outputText value="#{material.totalMaterialsBudget}" />
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{messageCosts.activities_and_materials_label_material_deposit}</f:facet>
+								<h:outputText value="#{material.totalMaterialsDeposits}" />
+							</rich:column>
 							<f:facet name="footer">
 								<rich:columnGroup rendered="#{listEmpty}">
 									<rich:column colspan="4" styleClass="footTabla">

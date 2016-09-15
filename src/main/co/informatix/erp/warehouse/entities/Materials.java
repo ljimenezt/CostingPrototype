@@ -43,6 +43,8 @@ public class Materials implements Serializable {
 
 	private Double actualQuantity;
 	private Double totalCost;
+	private Double totalMaterialsBudget;
+	private Double totalMaterialsDeposits;
 
 	private double quantityHectarPlot;
 
@@ -586,6 +588,38 @@ public class Materials implements Serializable {
 	 */
 	public void setTotalCost(Double totalCost) {
 		this.totalCost = totalCost;
+	}
+
+	/**
+	 * @return totalMaterialsBudget: Total material budgeted
+	 */
+	@Transient
+	public Double getTotalMaterialsBudget() {
+		return totalMaterialsBudget;
+	}
+
+	/**
+	 * @param totalMaterialsBudget
+	 *            : Total material budgeted
+	 */
+	public void setTotalMaterialsBudget(Double totalMaterialsBudget) {
+		this.totalMaterialsBudget = totalMaterialsBudget;
+	}
+
+	/**
+	 * @return totalMaterialsDeposits: Material in the deposit
+	 */
+	@Transient
+	public Double getTotalMaterialsDeposits() {
+		return totalMaterialsDeposits;
+	}
+
+	/**
+	 * @param totalMaterialsDeposits
+	 *            : Material in the deposit
+	 */
+	public void setTotalMaterialsDeposits(Double totalMaterialsDeposits) {
+		this.totalMaterialsDeposits = totalMaterialsDeposits;
 	}
 
 	@Override

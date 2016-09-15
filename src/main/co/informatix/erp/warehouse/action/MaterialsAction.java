@@ -13,11 +13,13 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.action.ActivityMaterialsAction;
+import co.informatix.erp.costs.dao.ActivityMaterialsDao;
 import co.informatix.erp.costs.entities.ActivityMaterials;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
+import co.informatix.erp.warehouse.dao.DepositsDao;
 import co.informatix.erp.warehouse.dao.MaterialsDao;
 import co.informatix.erp.warehouse.dao.MaterialsTypeDao;
 import co.informatix.erp.warehouse.dao.MeasurementUnitsDao;
@@ -48,6 +50,10 @@ public class MaterialsAction implements Serializable {
 	private MeasurementUnitsDao measurementUnitsDao;
 	@EJB
 	private TypeOfManagementDao typeOfManagementDao;
+	@EJB
+	private ActivityMaterialsDao activityMaterialsDao;
+	@EJB
+	private DepositsDao depositsDao;
 
 	private String nameSearch;
 
@@ -641,8 +647,9 @@ public class MaterialsAction implements Serializable {
 	 * whether this materials run the search again.
 	 * 
 	 * @author Wilhelm.Boada
+	 * @throws Exception
 	 */
-	private void persistMaterials() {
+	private void persistMaterials() throws Exception {
 		if (this.materialsList != null) {
 			for (Materials material : this.materialsList) {
 				for (ActivityMaterials activityMaterialsSelected : activityMaterialsAction
@@ -653,6 +660,11 @@ public class MaterialsAction implements Serializable {
 					if (material.getIdMaterial() == idMaterialsSelected)
 						material.setSelected(true);
 				}
+				material.setTotalMaterialsBudget(activityMaterialsDao
+						.calculateTotalQuantityBudgetByMaterial(material
+								.getIdMaterial()));
+				material.setTotalMaterialsDeposits(depositsDao
+						.quantityMaterialsById(material.getIdMaterial(), null));
 			}
 		}
 	}
