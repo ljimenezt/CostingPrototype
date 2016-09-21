@@ -87,9 +87,9 @@ public class ActivityMaterialsDao implements Serializable {
 	}
 
 	/**
-	 * This method queries the relationship between activities and human
-	 * resources sending a certain range as a parameter and filtering
-	 * information search for the values sent.
+	 * This method queries the relationship between activities and materials
+	 * sending a certain range as a parameter and filtering information search
+	 * for the values sent.
 	 * 
 	 * @param start
 	 *            : The first record that is retrieved from the result.
@@ -100,8 +100,7 @@ public class ActivityMaterialsDao implements Serializable {
 	 *            selected by the user.
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return List<ActivitiesAndHr>: List of human resources and activities.
-	 *         associations found.
+	 * @return List<ActivityMaterials>: ActivityMaterials associations found.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
