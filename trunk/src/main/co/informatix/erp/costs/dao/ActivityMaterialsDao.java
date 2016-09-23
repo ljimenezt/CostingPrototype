@@ -147,6 +147,36 @@ public class ActivityMaterialsDao implements Serializable {
 	}
 
 	/**
+	 * This method allows consult the list of the activity materials according a
+	 * identifier activity
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param idActivity
+	 *            identifier of the activity
+	 * @return List<ActivityMaterials>: List of activity materials found.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivityMaterials> consultMaterialsByActivity(int idActivity)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT am FROM ActivityMaterials am ");
+		queryBuilder.append("JOIN FETCH am.activityMaterialsPK.materials m ");
+		queryBuilder.append("JOIN FETCH m.measurementUnits ");
+		queryBuilder.append("JOIN FETCH am.activityMaterialsPK.activities ac ");
+		queryBuilder.append("WHERE ac.idActivity =:idActivity ");
+		queryBuilder.append("ORDER by m.name ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		queryResult.setParameter("idActivity", idActivity);
+		List<ActivityMaterials> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
 	 * Sum total budgeted amount of material all activities.
 	 * 
 	 * @param idMaterial

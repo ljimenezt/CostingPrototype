@@ -167,4 +167,36 @@ public class ActivityPlotDao implements Serializable {
 		queryResult.setParameter("idActivity", idActivity);
 		return (Long) queryResult.getSingleResult();
 	}
+
+	/**
+	 * This method allows consult the quantity of tachos recollected by plot
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param idActivity
+	 *            : Identifier of activity
+	 * @param idPlot
+	 *            : Identifier of plot
+	 * @return Long: Quantity of tachos by plots
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Integer queryTachosCollectedByPlot(int idActivity, int idPlot)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT ap.tachosCollected FROM ActivityPlot ap ");
+		queryBuilder.append("JOIN ap.activityPlotPK.activity a ");
+		queryBuilder.append("JOIN ap.activityPlotPK.plot p ");
+		queryBuilder.append("WHERE a.idActivity = :idActivity ");
+		queryBuilder.append("AND p.idPlot =:idPlot ");
+		Query q = em.createQuery(queryBuilder.toString());
+		q.setParameter("idActivity", idActivity).setParameter("idPlot", idPlot);
+		List<Integer> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return (Integer) resultList.get(0);
+		}
+
+		return null;
+	}
+
 }

@@ -436,4 +436,26 @@ public class PlotDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Consult the plot list register in the DB to create the reports.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @return List<Plot>:plot list that comply with the condition of validity.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object[]> listPlots() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT p.idplot, p.name, p.number_of_trees ");
+		query.append("FROM life_cycle.plot p ");
+		query.append("ORDER BY cast(NULLIF(regexp_replace(p.name, E'\\D', '', 'g'), '') AS integer)");
+		Query q = em.createNativeQuery(query.toString());
+		List<Object[]> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
 }

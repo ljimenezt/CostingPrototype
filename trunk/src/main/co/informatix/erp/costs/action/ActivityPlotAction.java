@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,9 +24,11 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import co.informatix.erp.costs.dao.ActivitiesAndHrDao;
+import co.informatix.erp.costs.dao.ActivityMaterialsDao;
 import co.informatix.erp.costs.dao.ActivityPlotDao;
 import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivitiesAndHr;
+import co.informatix.erp.costs.entities.ActivityMaterials;
 import co.informatix.erp.costs.entities.ActivityPlot;
 import co.informatix.erp.costs.entities.ActivityPlotPK;
 import co.informatix.erp.lifeCycle.action.PlotAction;
@@ -58,6 +61,8 @@ public class ActivityPlotAction implements Serializable {
 	private PlotDao plotDao;
 	@EJB
 	private ActivitiesAndHrDao activitiesAndHrDao;
+	@EJB
+	private ActivityMaterialsDao activityMaterialsDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -532,6 +537,8 @@ public class ActivityPlotAction implements Serializable {
 	/**
 	 * This method create Report on excel for the plots map.
 	 * 
+	 * @modify 21/09/2016 Andres.Gomez
+	 * 
 	 * @param cycle
 	 *            : Cycle identifier.
 	 */
@@ -541,23 +548,24 @@ public class ActivityPlotAction implements Serializable {
 				.getBundle("messageLifeCycle");
 		String fileName = bundleMessageLifeCycle
 				.getString("cycle_label_report");
+		Calendar now = Calendar.getInstance();
+		String currentDate = String.valueOf(now.getTimeInMillis());
 		try {
 			List<ActivitiesAndHr> listActivitiesHr = activitiesAndHrDao
 					.activitiesAndHrByCycle(activity.getIdActivity());
 			HashMap<String, Integer> buildMap = createMapModel();
 			HashMap<String, Plot> listPlots = buildPlotStatus(cycle);
+
 			Long tachos = activityPlotDao.queryTachosCollected(activity
 					.getIdActivity());
-
-			String formatName = fileName.toLowerCase() + ".xls";
+			String formatName = fileName.toLowerCase() + "_" + currentDate
+					+ ".xls";
 			String urlServer = Constantes.RUTA_UPLOADFILE_GLASFISH;
 			String pathname = urlServer + Constantes.CARPETA_ARCHIVOS_TEMP;
 
 			FileUploadBean.fileExist(pathname);
 			File file = new File(pathname, formatName);
-
 			FileOutputStream outputFile = new FileOutputStream(file);
-
 			ControllerReportPoi cReportPoi = new ControllerReportPoi();
 			cReportPoi.loadStylesXls();
 
@@ -787,8 +795,8 @@ public class ActivityPlotAction implements Serializable {
 								new CellRangeAddress(i + startFile, i
 										+ startFile + 1, j + startNumberColumn,
 										j + startNumberColumn + 1));
-						celda.setCellType(HSSFCell.CELL_TYPE_STRING);
-						celda.setCellValue(new HSSFRichTextString(namePlot));
+						celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+						celda.setCellValue(Integer.parseInt(namePlot));
 						celda = fila.createCell(j + startNumberColumn + 1);
 						celda.setCellStyle(stylePlotUnseeded);
 						contStyle++;
@@ -796,7 +804,6 @@ public class ActivityPlotAction implements Serializable {
 						if (numberRow == 18 && positionFile == 6)
 							startNumberColumn = startNumberColumn - 1;
 					}
-
 					fila = cReportPoi.getSheet().createRow(i + startFile + 1);
 					int position = 0;
 					for (int a = 1; a <= (contStyle * 2); a++) {
@@ -809,7 +816,6 @@ public class ActivityPlotAction implements Serializable {
 							startNumberColumn = startNumberColumn - 1;
 					}
 				}
-
 				for (int i = 1; i < 30; i++) {
 					cReportPoi.getSheet().setColumnWidth(i, 700);
 				}
@@ -993,10 +999,142 @@ public class ActivityPlotAction implements Serializable {
 				cReportPoi.getSheet().addMergedRegion(
 						new CellRangeAddress(startFile + 8, startFile + 7
 								+ listActivitiesHr.size(), 34, 34));
+				int rowCount = 0;
 
+				boolean flagHarvest = activity.getActivityName().getHarvest() != null ? activity
+						.getActivityName().getHarvest() : false;
+
+				if (!flagHarvest) {
+					List<ActivityMaterials> listMaterials = activityMaterialsDao
+							.consultMaterialsByActivity(activity
+									.getIdActivity());
+
+					if (listMaterials != null) {
+						/* Create list of products used */
+						int rowProducts = startFile + 10 + contHr;
+						int mergeCells = listMaterials.size() > 3 ? 3
+								: listMaterials.size();
+						fila = cReportPoi.getSheet().getRow(rowProducts);
+						celda = fila.createCell(31);
+						celda.setCellStyle(styleWorkersTitles);
+						cReportPoi.getSheet().addMergedRegion(
+								new CellRangeAddress(rowProducts, rowProducts,
+										31, 30 + mergeCells));
+						celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+						celda.setCellValue(new HSSFRichTextString(
+								bundleMessageLifeCycle.getString(
+										"activity_plot_products_used")
+										.toUpperCase()));
+						for (int i = 2; i <= mergeCells; i++) {
+							celda = fila.createCell(30 + i);
+							celda.setCellStyle(styleWorkersTitles);
+						}
+						rowCount = rowProducts + 1;
+						int count = 0;
+						for (ActivityMaterials material : listMaterials) {
+							rowCount = count == 3 ? rowCount + 6 : rowCount;
+							count = count == 3 ? count = 0 : count;
+
+							fila = cReportPoi.getSheet().getRow(rowCount);
+							celda = fila.createCell(31 + count);
+							celda.setCellStyle(styleWorkersTitles);
+							celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+							celda.setCellValue(new HSSFRichTextString(material
+									.getActivityMaterialsPK().getMaterials()
+									.getName()));
+
+							fila = cReportPoi.getSheet().getRow(rowCount + 1);
+							celda = fila.createCell(31 + count);
+							cReportPoi.getSheet().addMergedRegion(
+									new CellRangeAddress(rowCount + 1,
+											rowCount + 5, 31 + count,
+											31 + count));
+							celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+							celda.setCellStyle(styleBigText);
+							if (material.getQuantityActual() != null) {
+								celda.setCellValue(material.getQuantityActual());
+							}
+							for (int i = 1; i <= 4; i++) {
+								fila = cReportPoi.getSheet().getRow(
+										rowCount + 1 + i);
+								celda = fila.createCell(31 + count);
+								celda.setCellStyle(styleBigText);
+							}
+							count++;
+						}
+
+					}
+				} else {
+					int rowCountTachos = rowCount == 0 ? startFile + 10
+							+ contHr : rowCount + 8;
+					fila = cReportPoi.getSheet().getRow(rowCountTachos);
+					celda = fila.createCell(31);
+					celda.setCellStyle(styleBlackBorder);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(
+							bundleMessageLifeCycle
+									.getString("activity_plot_label_valves_s")));
+
+					celda = fila.createCell(32);
+					celda.setCellStyle(styleBlackBorder);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(
+							bundleMessageLifeCycle
+									.getString("activity_plot_label_tachos_collected")));
+
+					List<Object[]> plots = plotDao.listPlots();
+					int i = 1;
+					int idActivity = activity.getIdActivity();
+					for (Object[] plot : plots) {
+						int idPlot = Integer.parseInt(plot[0].toString());
+						int namePlot = Integer.parseInt(plot[1].toString());
+						if (plot[2] != null) {
+							Integer tachosByPlot = activityPlotDao
+									.queryTachosCollectedByPlot(idActivity,
+											idPlot);
+							fila = cReportPoi.getSheet().getRow(
+									rowCountTachos + i);
+							if (fila == null) {
+								fila = cReportPoi.getSheet().createRow(
+										rowCountTachos + i);
+							}
+							celda = fila.createCell(31);
+							celda.setCellStyle(styleBlackBorder);
+							celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+							celda.setCellValue(namePlot);
+
+							celda = fila.createCell(32);
+							celda.setCellStyle(styleWorkers);
+							celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+							if (tachosByPlot != null) {
+								celda.setCellValue(tachosByPlot);
+							}
+							i++;
+						}
+					}
+					Long totalTachos = activityPlotDao
+							.queryTachosCollected(idActivity);
+					fila = cReportPoi.getSheet().getRow(rowCountTachos + i);
+					if (fila == null) {
+						fila = cReportPoi.getSheet().createRow(
+								rowCountTachos + i);
+					}
+					celda = fila.createCell(31);
+					celda.setCellStyle(styleBlackBorder);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(bundleMessage
+							.getString("label_total")));
+
+					celda = fila.createCell(32);
+					celda.setCellStyle(styleBlackBorder);
+					celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+					if (totalTachos != null) {
+						celda.setCellValue(totalTachos);
+					}
+				}
 				cReportPoi.getSheet().setColumnWidth(30, 1000);
 				cReportPoi.getSheet().setColumnWidth(31, 7000);
-				cReportPoi.getSheet().setColumnWidth(32, 4000);
+				cReportPoi.getSheet().setColumnWidth(32, 6500);
 				cReportPoi.getSheet().setColumnWidth(33, 6000);
 				cReportPoi.getSheet().setColumnWidth(34, 5000);
 				cReportPoi.getSheet().setColumnWidth(35, 5000);
@@ -1011,6 +1149,5 @@ public class ActivityPlotAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-
 	}
 }

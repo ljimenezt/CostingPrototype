@@ -650,6 +650,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * resources have a value in the field of current total cost.
 	 * 
 	 * @modify 06/07/2016 Wilhelm.Boada
+	 * @modify 21/09/2016 Andres.Gomez
 	 */
 	public void currentCost() {
 		this.activitiesAndMachineAction = ControladorContexto
@@ -679,9 +680,10 @@ public class RecordActivitiesActualsAction implements Serializable {
 				}
 			}
 		}
+		boolean materiaRequired = this.selectedActivity.getMaterialsRequired() != null ? selectedActivity
+				.getMaterialsRequired() : false;
 		if ((this.activityMaterialsAction.getListActivityMaterialsTemp() == null || this.activityMaterialsAction
-				.getListActivityMaterialsTemp().size() <= 0)
-				&& this.selectedActivity.getMaterialsRequired() == true) {
+				.getListActivityMaterialsTemp().size() <= 0) && materiaRequired) {
 			this.calculateCostsButtonActivated = true;
 		}
 		if (this.listActivitiesAndHr == null
