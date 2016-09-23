@@ -177,7 +177,7 @@ public class ActivityPlotDao implements Serializable {
 	 *            : Identifier of activity
 	 * @param idPlot
 	 *            : Identifier of plot
-	 * @return Long: Quantity of tachos by plots
+	 * @return Integer: Quantity of tachos by plots
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
