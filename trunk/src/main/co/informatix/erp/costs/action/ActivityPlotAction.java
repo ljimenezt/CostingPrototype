@@ -32,8 +32,10 @@ import co.informatix.erp.costs.entities.ActivityMaterials;
 import co.informatix.erp.costs.entities.ActivityPlot;
 import co.informatix.erp.costs.entities.ActivityPlotPK;
 import co.informatix.erp.lifeCycle.action.PlotAction;
+import co.informatix.erp.lifeCycle.dao.DetailsHarvestDao;
 import co.informatix.erp.lifeCycle.dao.PlotDao;
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
+import co.informatix.erp.lifeCycle.entities.DetailsHarvest;
 import co.informatix.erp.lifeCycle.entities.Plot;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorArchivos;
@@ -63,6 +65,8 @@ public class ActivityPlotAction implements Serializable {
 	private ActivitiesAndHrDao activitiesAndHrDao;
 	@EJB
 	private ActivityMaterialsDao activityMaterialsDao;
+	@EJB
+	private DetailsHarvestDao detailsHarvestDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -489,6 +493,30 @@ public class ActivityPlotAction implements Serializable {
 	}
 
 	/**
+	 * This method allows consult the harvest details of the activity according
+	 * a cycle if this a harvest cycle.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @return HarvestDetails : Object of the harvest details
+	 * @throws Exception
+	 */
+	private DetailsHarvest getHarvestDetails() throws Exception {
+		DetailsHarvest harvestDetails = detailsHarvestDao
+				.detailsHarvestXActivity(activity.getIdActivity());
+		if (harvestDetails == null) {
+			harvestDetails = new DetailsHarvest();
+			int idCycle = activity.getCycle() != null ? activity.getCycle()
+					.getIdCycle() : 0;
+			Double previousSacks = detailsHarvestDao
+					.consultPreviousSacksHarvestActivity(activity
+							.getActivityName().getIdActivityName(), idCycle);
+			harvestDetails.setPreviousSacks(previousSacks);
+		}
+		return harvestDetails;
+	}
+
+	/**
 	 * This method build hash map with number row and number de plots into the
 	 * row.
 	 * 
@@ -623,6 +651,22 @@ public class ActivityPlotAction implements Serializable {
 					.getGeneralStyle());
 			cReportPoi.changeCellStyle(styleBigText, "0,0,0", null, 24, true,
 					null, "LRTB", "C");
+			CellStyle styleHarvestDetail = cReportPoi.clonStylePoi(cReportPoi
+					.getGeneralStyle());
+			cReportPoi.changeCellStyle(styleHarvestDetail, "0,0,0", null, 10,
+					true, null, "LRTB", "L");
+			CellStyle styleHarvestDetailPlotActual = cReportPoi
+					.clonStylePoi(cReportPoi.getGeneralStyle());
+			cReportPoi.changeCellStyle(styleHarvestDetailPlotActual, "0,0,0",
+					null, 10, true, "255,255,0", "LRTB", "L");
+			CellStyle styleHarvestDetailTitle = cReportPoi
+					.clonStylePoi(cReportPoi.getGeneralStyle());
+			cReportPoi.changeCellStyle(styleHarvestDetailTitle, "0,0,255",
+					null, 10, true, null, "LRTB", "L");
+			CellStyle styleHarvestDetailTotal = cReportPoi
+					.clonStylePoi(cReportPoi.getGeneralStyle());
+			cReportPoi.changeCellStyle(styleHarvestDetailTotal, "255,0,0",
+					null, 10, true, null, "LRTB", "L");
 
 			/* Create the header for report */
 			HSSFRow fila = cReportPoi.getSheet().createRow(0);
@@ -921,6 +965,130 @@ public class ActivityPlotAction implements Serializable {
 				celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 				celda.setCellValue(new HSSFRichTextString(""));
 
+				boolean flagHarvest = activity.getActivityName().getHarvest() != null ? activity
+						.getActivityName().getHarvest() : false;
+
+				if (flagHarvest) {
+					startFile += 7;
+					DetailsHarvest harvestDetails = getHarvestDetails();
+					fila = cReportPoi.getSheet().getRow(startFile);
+					celda = fila.createCell(31);
+					celda.setCellStyle(styleWorkersTitles);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(bundleMessage
+							.getString("label_details").toUpperCase()));
+					cReportPoi.getSheet().addMergedRegion(
+							new CellRangeAddress(startFile, startFile, 31, 32));
+					celda = fila.createCell(33);
+					celda.setCellStyle(styleWorkersTitles);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(bundleMessage
+							.getString("label_quantity").toUpperCase()));
+
+					fila = cReportPoi.getSheet().getRow(startFile + 1);
+					celda = fila.createCell(31);
+					celda.setCellStyle(styleHarvestDetail);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(
+							bundleMessageLifeCycle.getString(
+									"harvest_details_label_previous_sacks")
+									.toUpperCase()));
+					cReportPoi.getSheet().addMergedRegion(
+							new CellRangeAddress(startFile + 1, startFile + 1,
+									31, 32));
+					celda = fila.createCell(33);
+					celda.setCellStyle(styleHarvestDetail);
+					celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+					celda.setCellValue(harvestDetails.getPreviousSacks());
+
+					fila = cReportPoi.getSheet().getRow(startFile + 2);
+					celda = fila.createCell(31);
+					celda.setCellStyle(styleHarvestDetail);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(
+							bundleMessageLifeCycle.getString(
+									"harvest_details_label_sacks_day")
+									.toUpperCase()));
+					cReportPoi.getSheet().addMergedRegion(
+							new CellRangeAddress(startFile + 2, startFile + 2,
+									31, 32));
+					celda = fila.createCell(33);
+					celda.setCellStyle(styleHarvestDetailPlotActual);
+					celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+					celda.setCellValue(harvestDetails.getSacksDay());
+
+					fila = cReportPoi.getSheet().getRow(startFile + 3);
+					celda = fila.createCell(31);
+					celda.setCellStyle(styleHarvestDetail);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(
+							bundleMessageLifeCycle.getString(
+									"harvest_details_label_current_sacks")
+									.toUpperCase()));
+					cReportPoi.getSheet().addMergedRegion(
+							new CellRangeAddress(startFile + 3, startFile + 3,
+									31, 32));
+					celda = fila.createCell(33);
+					celda.setCellStyle(styleHarvestDetail);
+					celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+					celda.setCellValue(harvestDetails.getCurrentSacks());
+
+					fila = cReportPoi.getSheet().getRow(startFile + 4);
+					celda = fila.createCell(31);
+					celda.setCellStyle(styleHarvestDetail);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(
+							bundleMessageLifeCycle.getString(
+									"harvest_details_label_dispatch")
+									.toUpperCase()));
+					cReportPoi.getSheet().addMergedRegion(
+							new CellRangeAddress(startFile + 4, startFile + 4,
+									31, 32));
+					celda = fila.createCell(33);
+					celda.setCellStyle(styleHarvestDetail);
+					celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+					celda.setCellValue(harvestDetails.getDispatch());
+
+					fila = cReportPoi.getSheet().getRow(startFile + 5);
+					celda = fila.createCell(31);
+					celda.setCellStyle(styleHarvestDetail);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(
+							bundleMessageLifeCycle.getString(
+									"harvest_details_label_poundage")
+									.toUpperCase()));
+					cReportPoi.getSheet().addMergedRegion(
+							new CellRangeAddress(startFile + 5, startFile + 5,
+									31, 32));
+					celda = fila.createCell(33);
+					celda.setCellStyle(styleHarvestDetail);
+					celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+					celda.setCellValue(harvestDetails.getPoundage());
+
+					fila = cReportPoi.getSheet().getRow(startFile + 6);
+					celda = fila.createCell(31);
+					celda.setCellStyle(styleHarvestDetailTitle);
+					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+					celda.setCellValue(new HSSFRichTextString(
+							bundleMessageLifeCycle.getString(
+									"harvest_details_label_total_sacks")
+									.toUpperCase()));
+					cReportPoi.getSheet().addMergedRegion(
+							new CellRangeAddress(startFile + 6, startFile + 6,
+									31, 32));
+					celda = fila.createCell(33);
+					celda.setCellStyle(styleHarvestDetailTotal);
+					celda.setCellType(HSSFCell.CELL_TYPE_NUMERIC);
+					celda.setCellValue(harvestDetails.getTotalSacks());
+
+					for (int i = startFile; i <= startFile + 6; i++) {
+						fila = cReportPoi.getSheet().getRow(i);
+						celda = fila.createCell(32);
+						celda.setCellStyle(styleWorkers);
+					}
+					startFile += 2;
+				}
+
 				/* Create list of laborers into the activity */
 				fila = cReportPoi.getSheet().getRow(startFile + 7);
 				celda = fila.createCell(30);
@@ -1000,9 +1168,6 @@ public class ActivityPlotAction implements Serializable {
 						new CellRangeAddress(startFile + 8, startFile + 7
 								+ listActivitiesHr.size(), 34, 34));
 				int rowCount = 0;
-
-				boolean flagHarvest = activity.getActivityName().getHarvest() != null ? activity
-						.getActivityName().getHarvest() : false;
 
 				if (!flagHarvest) {
 					List<ActivityMaterials> listMaterials = activityMaterialsDao
