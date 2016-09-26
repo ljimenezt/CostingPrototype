@@ -58,6 +58,7 @@ public class DetailsHarvestDao implements Serializable {
 	 * @return Double: value of the previous details harvest object consulted.
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public Double consultPreviousSacksHarvestActivity(int idActivityName,
 			int idCycle) throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -76,8 +77,9 @@ public class DetailsHarvestDao implements Serializable {
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idActivityName", idActivityName).setParameter(
 				"idCycle", idCycle);
-		if (q.getSingleResult() != null) {
-			return (Double) q.getSingleResult();
+		List<Double> results = q.getResultList();
+		if (results.size() > 0) {
+			return (Double) results.get(0);
 		}
 		return (0.0);
 	}
