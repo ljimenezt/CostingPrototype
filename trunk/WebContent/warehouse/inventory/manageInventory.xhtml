@@ -96,7 +96,8 @@
 							<rich:dataTable value="#{inventoryControlAction.listInventory}"
 								var="inventory"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoTres"
-								rowClasses="odd-row, even-row" footerClass="H130P">
+								rowClasses="#{inventory.selected ? 'rf-ddm-itm-sel backgroundNone left, rf-ddm-itm-sel backgroundNone left':'odd-row, even-row'}"
+								footerClass="H130P">
 
 								<rich:column styleClass="colIconoUno">
 									<a:commandLink render="pnlInventory, pnlDeposits"
