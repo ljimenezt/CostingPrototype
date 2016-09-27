@@ -379,8 +379,8 @@
 							value="#{mensaje.label_start_date}" />
 						<p:calendar value="#{cycleAction.initialDateSearch}"
 							showOn="button" navigator="true"
-							maxdate="#{cycleAction.finalDateSearch}"
-							onSelectUpdate="fechFin" id="fechaInicio" pattern="MM/dd/yyyy"
+							maxdate="#{cycleAction.finalDateSearch}" onSelectUpdate="fechFin"
+							id="fechaInicio" pattern="MM/dd/yyyy"
 							label="#{mensaje.label_start_date}">
 							<p:ajax process="@form" event="dateSelect"
 								update="formSearch:pnSearch" />
@@ -392,7 +392,7 @@
 							navigator="true" mindate="#{cycleAction.initialDateSearch}"
 							id="fechFin" pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'formSearch:btnBuscar')"
-							label="#{mensaje.label_end_date}" >
+							label="#{mensaje.label_end_date}">
 							<p:ajax process="@form" event="dateSelect"
 								update="formSearch:pnSearch" />
 						</p:calendar>
