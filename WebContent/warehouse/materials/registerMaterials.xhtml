@@ -122,7 +122,7 @@
 								readonly="true" />
 							<a:commandLink id="lnkResponsable"
 								render=":popupForm:popupResponsable"
-								actionListener="#{hrAction.searchHrs}" execute="@this"
+								actionListener="#{hrAction.initializeSearch}" execute="@this"
 								oncomplete="#{rich:component('popupResponsable')}.show(); setFocus('popupForm:txtNombreBuscar');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />
@@ -406,7 +406,7 @@
 						<br />
 						<a:outputPanel>
 							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
-								<ui:param name="width" value="W520P" />
+								<ui:param name="width" value="W560P" />
 								<ui:param name="id" value="popupBuscarMenu" />
 							</ui:include>
 						</a:outputPanel>
