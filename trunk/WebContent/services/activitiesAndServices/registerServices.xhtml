@@ -114,7 +114,8 @@
 								navigator="true"
 								converterMessage="#{mensaje.message_validar_formato_fecha}"
 								id="fechaInicio" pattern="MM/dd/yyyy"
-								validator="#{controladorFechas.validarRangoFecha}">
+								validator="#{controladorFechas.validarRangoFecha}"
+								maxdate="#{varServices.finalDt}">
 								<p:ajax event="dateSelect" update="fechFin" />
 								<f:attribute name="validarHora" value="si" />
 							</p:calendar>
@@ -135,7 +136,7 @@
 							<rich:message for="fechFin" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_activities_duration} #{mensaje.label_presupuesto}" />
+								value="#{mensaje.label_activities_duration} #{mensaje.label_budget}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.durationBudget}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
@@ -155,7 +156,7 @@
 							<rich:message for="txtDurationActual" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{messageHumanResources.human_resource_label_hour_cost} #{mensaje.label_presupuesto}" />
+								value="#{messageHumanResources.human_resource_label_hour_cost} #{mensaje.label_budget}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.hourCostBudget}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
@@ -175,7 +176,7 @@
 							<rich:message for="txtCostHourActual" />
 
 							<h:outputText styleClass="etiquetaTitulo"
-								value="#{mensaje.label_total} #{mensaje.label_presupuesto}" />
+								value="#{mensaje.label_total} #{mensaje.label_budget}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{varServices.totalCostBudget}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}"
