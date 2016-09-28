@@ -58,6 +58,9 @@
 							<f:selectItem itemLabel="#{mensaje.label_select}" />
 							<f:selectItems
 								value="#{maintenanceAndCalibrationAction.machinesItems}" />
+							<f:ajax event="change"
+								listener="#{maintenanceAndCalibrationAction.machineData(maintenanceAndCalibrationAction.machines.idMachine)}"
+								render=":formMaintenanceAndCalibration:fechMaint" />
 						</h:selectOneMenu>
 						<rich:message for="maquina" />
 					</h:panelGrid>
@@ -76,6 +79,7 @@
 						<p:calendar readonlyInput="true"
 							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}"
 							id="fechMaint" showOn="button" navigator="true"
+							mindate="#{maintenanceAndCalibrationAction.machines.purchaseDate}"
 							pattern="MM/dd/yyyy" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"

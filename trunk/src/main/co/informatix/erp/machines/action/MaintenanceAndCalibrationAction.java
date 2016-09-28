@@ -296,6 +296,23 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	}
 
 	/**
+	 * Method to get the fields of a selected machine.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param id
+	 *            : identity of a machine to search.
+	 */
+	public void machineData(int id) {
+		try {
+			this.machines = machinesDao.machinesXId(id);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+
+	}
+
+	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of the maintenance and calibration and the items of machines and
 	 * machine types.
@@ -638,6 +655,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 
 				machineTypes = machineTypesDao.machineTypeXMachine(idMachine);
 				machines.setMachineTypes(machineTypesConsult);
+
 			} else {
 				if (machineTypes != null) {
 					idMachine = machineTypes.getIdMachineType();
