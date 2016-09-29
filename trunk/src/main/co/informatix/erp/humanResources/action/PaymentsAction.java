@@ -8,8 +8,10 @@ import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.dao.ContractDao;
@@ -287,7 +289,9 @@ public class PaymentsAction implements Serializable {
 	 * Method for cleaning the contract associated with the payment.
 	 */
 	public void cleanContract() {
-		this.payments.setContract(new Contract());
+		Contract contract = new Contract();
+		contract.setHr(new Hr());
+		this.payments.setContract(contract);
 	}
 
 	/**
@@ -343,4 +347,36 @@ public class PaymentsAction implements Serializable {
 		}
 		return searchInitialization();
 	}
+
+	/**
+	 * Validates interface required fields.
+	 * 
+	 * @author Luna.Granados
+	 */
+	public void validarRequeridos() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = context.getApplication().getResourceBundle(
+				context, "mensaje");
+		try {
+			if (this.payments.getHr().getName() == null) {
+				context.addMessage(
+						"formPayments:txtHrs",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								MessageFormat.format(bundle
+										.getString("message_campo_requerido"),
+										"hr"), null));
+			}
+			if (this.payments.getContract().getHr().getName() == null) {
+				context.addMessage(
+						"formPayments:txtContratos",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								MessageFormat.format(bundle
+										.getString("message_campo_requerido"),
+										"c"), null));
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
 }
