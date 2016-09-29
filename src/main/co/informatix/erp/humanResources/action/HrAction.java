@@ -1269,6 +1269,8 @@ public class HrAction implements Serializable {
 	/**
 	 * This method allows validate the action that show in the view.
 	 * 
+	 * @author Wilhelm.Boada
+	 * 
 	 * @param hr
 	 *            : Hr than will be shown in the view.
 	 * 
