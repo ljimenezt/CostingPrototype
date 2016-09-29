@@ -1,0 +1,315 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="movementsAction.initializeExpirationConsult" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,mensajeWarehouse.movements_label_expiration" />
+
+	<ui:define name="body">
+		<t:saveState value="#{movementsAction}" />
+		<ui:param name="listaVacia"
+			value="#{movementsAction.listDepositsExpired eq null or (empty movementsAction.listDepositsExpired)}" />
+		<ui:param name="listaVaciaSelected"
+			value="#{movementsAction.listDepositsExpiredSelected eq null or (empty movementsAction.listDepositsExpiredSelected)}" />
+		<ui:param name="anchoTabla" value="anchoDos" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{movementsAction}" />
+		<ui:param name="renderLista"
+			value="panelDepositsExpired vigenciaPopup" />
+		<ui:param name="metodoLista" value="consultExpirationMaterials" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="movementsAction" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="initializeExpirationConsult" />
+
+		<h:form id="formDepositsExpire">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listing} #{mensajeWarehouse.movements_label_expiration}"
+				id="panelDepositsExpired">
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos ">
+					<legend class="etiquetaTitulo">#{mensajeWarehouse.materials_label_s}
+						#{mensajeWarehouse.movements_label_expiration}</legend>
+					<h:panelGrid columns="3"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,,,tdAlignTop">
+						<h:outputText
+							value="#{mensajeWarehouse.movements_label_expire_in}"
+							styleClass="etiquetaTitulo" />
+						<h:selectOneMenu id="materialType"
+							value="#{movementsAction.rangeExpiration}"
+							styleClass="colTextoXCorto">
+							<f:selectItem itemLabel="#{mensaje.label_current}" itemValue="0" />
+							<f:selectItems value="#{movementsAction.rangeItems}" />
+							<f:ajax event="change"
+								listener="#{movementsAction.consultExpirationMaterials()}"
+								render=":mensajes :formDepositsExpire:panelDepositsExpired :mensajeBusqueda" />
+						</h:selectOneMenu>
+						<h:outputText value="#{mensaje.label_days}"
+							styleClass="etiquetaTitulo" />
+					</h:panelGrid>
+
+					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+						<ui:param name="tieneVigencia" value="no" />
+						<ui:param name="ocultarNuevo" value="si" />
+					</ui:include>
+					<rich:dataTable value="#{movementsAction.listDepositsExpired}"
+						var="depositE"
+						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+						rowClasses="odd-row, even-row" footerClass="H130P">
+
+						<rich:column styleClass="colIconoUno"
+							rendered="#{(identity.autorizado('movementsAction','A') or identity.autorizado('movementsAction','D'))}">
+							<f:facet name="header">#{mensaje.label_select_all} <br />
+								<a:commandLink actionListener="#{movementsAction.selectAll()}"
+									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);"
+									render="panelDepositsExpired">
+									<h:graphicImage value="/img/checkboxChecked_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{movementsAction.selected eq true}" />
+									<h:graphicImage value="/img/checkboxUnchecked_16.png"
+										styleClass="verticalAlignMiddle"
+										rendered="#{movementsAction.selected eq false}" />
+								</a:commandLink>
+							</f:facet>
+							<a:commandLink
+								actionListener="#{depositE.setSelected(depositE.selected?false:true)}"
+								action="#{movementsAction.validateSelected()}"
+								oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);"
+								render="panelDepositsExpired">
+								<h:graphicImage value="/img/checkboxChecked_16.png"
+									styleClass="verticalAlignMiddle"
+									rendered="#{depositE.selected eq true}" />
+								<h:graphicImage value="/img/checkboxUnchecked_16.png"
+									styleClass="verticalAlignMiddle"
+									rendered="#{depositE.selected eq false}" />
+							</a:commandLink>
+						</rich:column>
+
+						<rich:column styleClass="colFecha">
+							<f:facet name="header">#{mensaje.label_record_date}</f:facet>
+							<h:outputText value="#{depositE.dateTime}">
+								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+									locale="#{idioma.locale}" />
+							</h:outputText>
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
+							<h:outputText value="#{depositE.materials.name}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{mensajeWarehouse.materials_label_presentation}</f:facet>
+							<h:outputText
+								value="#{depositE.materials.presentation} #{depositE.materials.measurementUnits.name}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{mensajeWarehouse.materials_type_label}</f:facet>
+							<h:outputText value="#{depositE.materials.materialType.name}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{mensaje.label_brand}</f:facet>
+							<h:outputText value="#{depositE.materials.productTradeBrandName}" />
+						</rich:column>
+
+						<rich:column styleClass="colTextoCorto">
+							<f:facet name="header">#{mensajeWarehouse.materials_label_active_ingredients}</f:facet>
+							<h:outputText value="#{depositE.materials.activeIngredients}" />
+						</rich:column>
+
+						<rich:column styleClass="colValor">
+							<f:facet name="header">#{mensajeWarehouse.deposits_label_real_quantity_actual}</f:facet>
+							<h:outputText value="#{depositE.actualQuantity}">
+								<f:convertNumber pattern="#,##0.00" />
+							</h:outputText>
+						</rich:column>
+
+						<rich:column styleClass="colFecha">
+							<f:facet name="header">#{mensaje.label_expiration_date}</f:facet>
+							<h:outputText value="#{depositE.expireDate}">
+								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+									locale="#{idioma.locale}" />
+							</h:outputText>
+						</rich:column>
+
+						<rich:column styleClass="colTextoMini">
+							<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label}</f:facet>
+							<h:outputText value="#{depositE.purchaseInvoices.invoiceNumber}" />
+						</rich:column>
+						<f:facet name="footer">
+							<rich:columnGroup rendered="#{listaVacia}">
+								<rich:column colspan="10" styleClass="footTabla">
+									<h:outputText
+										value="#{mensaje.message_no_existen_registros_tabla}" />
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+					</rich:dataTable>
+					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+						<ui:param name="botonesAbajo" value="si" />
+						<ui:param name="tieneVigencia" value="no" />
+						<ui:param name="ocultarNuevo" value="si" />
+					</ui:include>
+					<a:outputPanel rendered="#{!listaVacia}">
+						<br />
+						<div class="#{anchoTabla} center inBlock">
+							<ui:include src="/plantillas/templatePagination.xhtml">
+								<ui:param name="valReder" value="panelDepositsExpired" />
+								<ui:param name="beanActionParam" value="#{movementsAction}" />
+								<ui:param name="metodoActionParam"
+									value="consultExpirationMaterials" />
+							</ui:include>
+						</div>
+					</a:outputPanel>
+				</t:fieldset>
+				<br />
+				<div align="center">
+					<a:commandButton
+						render="formConfirmar:popUpConfirmar,formGenerico,formDepositsExpire,mensajes, mensajeBusqueda"
+						actionListener="#{movementsAction.validateDepositSelected}"
+						execute="formDepositsExpire"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_expire}" />
+
+				</div>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="780"
+				header="#{mensajeWarehouse.movements_message_expired_deposits_adjustment}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" columnClasses="tdAlignTop">
+					<h:graphicImage value="/img/warnRojo_16.png" />
+					<h:outputText
+						value="#{mensajeWarehouse.movements_message_warning_expiration}" />
+				</h:panelGrid>
+				<a:outputPanel id="tblConfirmation">
+					<rich:dataTable
+						value="#{movementsAction.listDepositsExpiredSelected}"
+						var="depositE" rowKeyVar="key"
+						styleClass="#{listaVaciaSelected ? 'BCTransparente' : 'dataTable'} anchoCuatro"
+						rowClasses="odd-row, even-row" footerClass="H130P">
+						<rich:column styleClass="colTextoMini">
+							<h:outputText value="#{key+1}" />
+						</rich:column>
+						<rich:column styleClass="colFecha">
+							<f:facet name="header">#{mensaje.label_record_date}</f:facet>
+							<h:outputText value="#{depositE.dateTime}">
+								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+									locale="#{idioma.locale}" />
+							</h:outputText>
+						</rich:column>
+						<rich:column styleClass="colTextoXCorto">
+							<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
+							<h:outputText value="#{depositE.materials.name}" />
+						</rich:column>
+						<rich:column styleClass="colTextoXCorto">
+							<f:facet name="header">#{mensajeWarehouse.materials_label_presentation}</f:facet>
+							<h:outputText
+								value="#{depositE.materials.presentation} #{depositE.materials.measurementUnits.name}" />
+						</rich:column>
+						<rich:column styleClass="colTextoXCorto">
+							<f:facet name="header">#{mensajeWarehouse.materials_type_label}</f:facet>
+							<h:outputText value="#{depositE.materials.materialType.name}" />
+						</rich:column>
+						<rich:column styleClass="colFecha">
+							<f:facet name="header">#{mensaje.label_expiration_date}</f:facet>
+							<h:outputText value="#{depositE.expireDate}">
+								<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+									locale="#{idioma.locale}" />
+							</h:outputText>
+						</rich:column>
+						<f:facet name="footer">
+							<rich:columnGroup rendered="#{listaVaciaSelected}">
+								<rich:column colspan="6" styleClass="footTabla">
+									<h:outputText
+										value="#{mensaje.message_no_existen_registros_tabla}" />
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+					</rich:dataTable>
+					<a:outputPanel rendered="#{!listaVaciaSelected}">
+						<div class="anchoCuatro center inBlock">
+							<ui:include src="/plantillas/templatePagination.xhtml">
+								<ui:param name="valReder" value="tblConfirmation" />
+								<ui:param name="pager" value="paginationExpire" />
+								<ui:param name="beanActionParam" value="#{movementsAction}" />
+								<ui:param name="metodoActionParam"
+									value="setListDepositsExpiredSelected" />
+
+							</ui:include>
+						</div>
+					</a:outputPanel>
+					<br />
+					<br />
+					<div class="center">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{movementsAction.adjustedDepositsAsExpired()}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</div>
+				</a:outputPanel>
+
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formBuscar">
+			<rich:popupPanel id="popupBuscar" autosized="true" maxWidth="500"
+				header="#{mensaje.button_search} #{mensajeWarehouse.materials_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensajeWarehouse.materials_label}:"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" maxlength="100"
+						id="txtNombreBuscar" value="#{movementsAction.nameSearch}"
+						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+						actionListener="#{movementsAction.consultExpirationMaterials()}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelDepositsExpired, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -38,6 +38,7 @@ public class Constantes implements Serializable {
 
 	/* Adjust to deposit */
 	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE = 1;
+	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE_EXPIRED = 4;
 
 	/* Organizations */
 	public static final String CARPETA_ARCHIVOS_ORGANIZACIONES = PropertiesManager
@@ -211,10 +212,10 @@ public class Constantes implements Serializable {
 
 	/* Value Generic */
 	public static final short VALUE_ZERO = 0;
-	
-	/*Cycle report*/
+
+	/* Cycle report */
 	public static final String COMPANY = "LANCACAO S.A.";
-	
+
 	/* Reports on POI */
 	public static final String COLOR_BLACK = "BLACK";
 	public static final String COLOR_BLUE = "BLUE";
@@ -226,6 +227,5 @@ public class Constantes implements Serializable {
 	public static final String TOP = "T";
 	public static final String BOTTOM = "B";
 	public static final String CENTER = "C";
-
 
 }
