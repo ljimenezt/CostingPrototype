@@ -94,7 +94,7 @@
 									rendered="#{hrAction.flagButton eq false}">
 									<f:facet name="header" />
 									<a:commandLink
-										render=":formPayments:txtHr , :formPayments:txtHrs, :formWithdraws:txtHr , :formWithdraws:txtHrs "
+										render=":formPayments:txtHrs, :formWithdraws:txtHr, :formWithdraws:txtHrs"
 										actionListener="#{hrAction.loadHr(hr)}"
 										oncomplete="#{rich:component('popupHR')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
