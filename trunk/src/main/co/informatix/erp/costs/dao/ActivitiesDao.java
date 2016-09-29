@@ -529,4 +529,83 @@ public class ActivitiesDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * Returns the number of existing activities in the database, and it filters
+	 * the records with search values.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param query
+	 *            : String containing the query why the leak.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Number of activity records found.
+	 * @throws Exception
+	 */
+	public Long amountActivitiesByActivityMaterials(StringBuilder query,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT COUNT(a) FROM Activities a ");
+		queryBuilder.append("JOIN a.activityName an ");
+		queryBuilder.append("WHERE a.materialsRequired = true ");
+		queryBuilder.append("AND a.idActivity IN ");
+		queryBuilder
+				.append("(SELECT ac.idActivity FROM  ActivityMaterials am ");
+		queryBuilder.append("JOIN am.activityMaterialsPK.activities ac ");
+		queryBuilder.append("WHERE am.quantityBudget >0 ");
+		queryBuilder.append(") ");
+		queryBuilder.append(query);
+		Query q = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * This method query activities with a certain range sent as a parameter and
+	 * it filters the records with search values.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param start
+	 *            : The first record that is retrieved from the result.
+	 * @param range
+	 *            : Range of the records to be retrieved.
+	 * @param query
+	 *            : Record filters depending on the parameters selected by the
+	 *            user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<Activities>: List of activities.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Activities> queryActivitiesByActivityMaterials(int start,
+			int range, StringBuilder query, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT a FROM  Activities a ");
+		queryBuilder.append("JOIN FETCH a.activityName an ");
+		queryBuilder.append("WHERE a.materialsRequired = true ");
+		queryBuilder.append("AND a.idActivity IN ");
+		queryBuilder
+				.append("(SELECT ac.idActivity FROM  ActivityMaterials am ");
+		queryBuilder.append("JOIN am.activityMaterialsPK.activities ac ");
+		queryBuilder.append("WHERE am.quantityBudget >0 ");
+		queryBuilder.append(") ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parametro : parameters) {
+			queryResult
+					.setParameter(parametro.getLabel(), parametro.getValue());
+		}
+		queryResult.setFirstResult(start).setMaxResults(range);
+		List<Activities> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }

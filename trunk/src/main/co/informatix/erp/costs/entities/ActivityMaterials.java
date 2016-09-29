@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * This entity contains information of materials that need activity.
@@ -28,6 +29,7 @@ public class ActivityMaterials implements Serializable, Cloneable {
 	private Double quantityActual;
 	private Double costActual;
 	private Date dateTime;
+	private boolean selected;
 
 	/**
 	 * @return activityMaterialsPK: composite primary key of activities and
@@ -126,6 +128,24 @@ public class ActivityMaterials implements Serializable, Cloneable {
 	 */
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
+	}
+
+	/**
+	 * @return selected: true if the object is selected and 'false' if it is not
+	 *         selected.
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : true if the object is selected and 'false' if it is not
+	 *            selected.
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	public ActivityMaterials clone() {

@@ -38,6 +38,7 @@ import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
+import co.informatix.erp.warehouse.action.MovementsAction;
 
 /**
  * This class implements the business logic: creating, deleting and updating
@@ -94,6 +95,7 @@ public class HrAction implements Serializable {
 
 	private boolean temporalPicLoaded;
 	private boolean flagButton;
+	private boolean flagAction;
 
 	/**
 	 * @return hrList: gets the list of human resources.
@@ -395,6 +397,21 @@ public class HrAction implements Serializable {
 	 */
 	public void setFlagButton(boolean flagButton) {
 		this.flagButton = flagButton;
+	}
+
+	/**
+	 * @return the flagAction
+	 */
+	public boolean isFlagAction() {
+		return flagAction;
+	}
+
+	/**
+	 * @param flagAction
+	 *            the flagAction to set
+	 */
+	public void setFlagAction(boolean flagAction) {
+		this.flagAction = flagAction;
 	}
 
 	/**
@@ -1246,6 +1263,26 @@ public class HrAction implements Serializable {
 		}
 		if (addFlag) {
 			hrList.add(hr);
+		}
+	}
+
+	/**
+	 * This method allows validate the action that show in the view.
+	 * 
+	 * @param hr
+	 *            : Hr than will be shown in the view.
+	 * 
+	 */
+	public void loadHr(Hr hr) {
+		if (this.flagAction) {
+			MovementsAction movementsAction = (MovementsAction) ControladorContexto
+					.getContextBean(MovementsAction.class);
+			movementsAction.loadHr(hr);
+
+		} else {
+			PaymentsAction paymentsAction = (PaymentsAction) ControladorContexto
+					.getContextBean(PaymentsAction.class);
+			paymentsAction.loadHr(hr);
 		}
 	}
 }

@@ -47,7 +47,8 @@
 								value="#{paymentsAction.payments.hr.name}"
 								validator="#{encodeFilter.validarScripting}" />
 							<a:commandLink id="lnkHr" render=":popupFormHr:popupHR"
-								actionListener="#{hrAction.initializeSearch}" execute="@this"
+								actionListener="#{hrAction.setFlagAction(false)}"
+								action="#{hrAction.initializeSearch}" execute="@this"
 								oncomplete="#{rich:component('popupHR')}.show(); setFocus('popupFormHr:txtHrBuscar');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />

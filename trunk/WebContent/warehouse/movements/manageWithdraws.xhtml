@@ -1,0 +1,315 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="movementsAction.initializeWithdraws" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,messageHumanResources.team_label" />
+	<ui:define name="body">
+		<ui:param name="listaVacia"
+			value="#{movementsAction.activitiesList eq null or (empty movementsAction.activitiesList)}" />
+		<ui:param name="anchoTabla" value="anchoDos" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{movementsAction}" />
+		<ui:param name="renderLista" value="panelWithdraws" />
+		<ui:param name="metodoLista" value="consultActivities" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="movementsAction" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
+		<ui:param name="popupBuscar" value="popupSearch" />
+		<ui:param name="metodoListarTodos" value="initializeWithdraws" />
+		<t:saveState value="#{movementsAction}" />
+		<t:saveState value="#{hrAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		    $g=jQuery.noConflict();
+		</script>
+		<h:form id="formWithdraws">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listing} #{messageLifeCycle.rain_gauge_label_s}"
+				id="panelWithdraws">
+				<a:outputPanel>
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<h:panelGrid columns="4"
+							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+							columnClasses="tdAlignTop,,,tdAlignTop">
+							<h:outputText
+								value="#{mensajeWarehouse.materials_label_responsible}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
+								<h:inputText styleClass="colTextoMediano"
+									value="#{movementsAction.hr.name} #{movementsAction.hr.familyName}"
+									id="txtHr" readonly="true"
+									validator="#{encodeFilter.validarScripting}" />
+								<h:inputHidden id="txtHrs" value="#{movementsAction.hr.name}"
+									validator="#{encodeFilter.validarScripting}" />
+								<a:commandLink id="lnkHr" render=":popupFormHr:popupHR"
+									actionListener="#{hrAction.setFlagAction(true)}"
+									action="#{hrAction.initializeSearch}" execute="@this"
+									oncomplete="#{rich:component('popupHR')}.show(); setFocus('popupFormHr:txtHrBuscar');">
+									<h:graphicImage value="/img/add_22.png"
+										styleClass="verticalAlignMiddle" />
+									<f:param name="param2" value="si" />
+									<f:setPropertyActionListener value=""
+										target="#{hrAction.nameSearch}" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_select}" />
+									</rich:tooltip>
+									<f:param name="param2" value="si" />
+								</a:commandLink>
+								<h:outputText value="&#32;&#32;&#32;" />
+								<a:commandLink actionListener="#{movementsAction.cleanHr()}"
+									render=":formWithdraws:txtHr , :formWithdraws:txtHrs"
+									execute="@this">
+									<h:graphicImage value="/img/editRemove_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_remove}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</h:panelGrid>
+							<rich:message for="txtHrs" />
+						</h:panelGrid>
+					</t:fieldset>
+					<br />
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<legend class="etiquetaTitulo">#{messageCosts.activities_label_s}</legend>
+						<a:outputPanel>
+							<rich:dataTable value="#{movementsAction.activitiesList}"
+								var="activity" id="activitiesTable" footerClass="H130P"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
+								rowClasses="#{activity.seleccionado ? 'rf-ddm-itm-sel backgroundNone left':'odd-row'} , #{activity.seleccionado ? 'rf-ddm-itm-sel backgroundNone left' : 'even-row'}"
+								rendered="#{movementsAction.activitiesList.size() gt 0}">
+								<rich:column styleClass="colIconoUno">
+									<a:outputPanel>
+										<a:commandLink render="formWithdraws, activitiesTable"
+											actionListener="#{movementsAction.selectActivity(activity)}"
+											action="#{movementsAction.consultMaterialsByActivity()}"
+											oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+											<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
+												styleClass="verticalAlignMiddle"
+												rendered="#{activity.seleccionado eq true}" />
+											<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+												styleClass="verticalAlignMiddle"
+												rendered="#{activity.seleccionado eq false}" />
+											<f:param name="param2" value="si" />
+										</a:commandLink>
+									</a:outputPanel>
+								</rich:column>
+								<rich:column styleClass="colTextoCorto verticalAlignMiddle">
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
+									<h:outputText value="#{activity.activityName.activityName}" />
+								</rich:column>
+
+								<rich:column styleClass="colTextoCorto verticalAlignMiddle">
+									<f:facet name="header">#{mensaje.label_description}</f:facet>
+									<h:outputText
+										value="#{activity.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? activity.description.substring(0, propPrototipoCostos['locate.activitiesandhr.long.descripcion']) : activity.description} #{activity.description.length() gt propPrototipoCostos['locate.activitiesandhr.long.descripcion'] ? '...' : ''}" />
+									<rich:tooltip layout="block" styleClass="campoTooltip"
+										rendered="#{activity.description ne null}">
+										<h:outputText value="#{activity.description}" />
+									</rich:tooltip>
+								</rich:column>
+
+								<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
+									<f:facet name="header">#{messageCosts.actual_label_start_time}</f:facet>
+									<h:outputText value="#{activity.initialDtBudget}">
+										<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+											locale="#{idioma.locale}" />
+									</h:outputText>
+								</rich:column>
+
+								<rich:column styleClass="colFechaExtraLarga verticalAlignMiddle">
+									<f:facet name="header">#{messageCosts.actual_label_end_time}</f:facet>
+									<h:outputText value="#{activity.finalDtBudget}">
+										<f:convertDateTime type="date" pattern="MMM dd, yyyy HH:mm:ss"
+											locale="#{idioma.locale}" />
+									</h:outputText>
+								</rich:column>
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia}">
+										<rich:column colspan="5" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listaVacia}">
+								<br />
+								<div class="#{anchoTabla} center inBlock">
+									<ui:include src="/plantillas/templatePagination.xhtml">
+										<ui:param name="valReder" value="panelWithdraws" />
+										<ui:param name="beanActionParam" value="#{movementsAction}" />
+										<ui:param name="metodoActionParam" value="consultActivities" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+				<br />
+				<a:outputPanel
+					rendered="#{movementsAction.activityActualSelected.idActivity gt 0 and movementsAction.activityActualSelected.materialsRequired eq true }">
+					<t:fieldset styleClass="anchoDos BorderW2P">
+						<legend class="etiquetaTitulo">
+							#{mensajeWarehouse.materials_label_s} -
+							#{movementsAction.activityActualSelected.activityName.activityName}</legend>
+						<br />
+						<ui:param name="listaVaciaA"
+							value="#{movementsAction.listActivityMaterials eq null}" />
+						<div align="right" class="anchoDos">
+							<h:panelGrid id="pnlButtons" columns="6" cellpadding="0"
+								cellspacing="0">
+								<a:commandLink id="withdrawButton"
+									styleClass="quitarDecoracionLink" execute="@form"
+									render="formConfirmarwithdraw:popupConfirmarwithdraw"
+									actionListener="#{movementsAction.createTransactionWithdrawal()}"
+									oncomplete="#{rich:component('popupConfirmarwithdraw')}.show();">
+									<div align="right">
+										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+											<h:graphicImage value="/img/withdraw_16.png"
+												styleClass="verticalAlignMiddle" />
+											<h:outputText
+												value="#{mensajeWarehouse.movements_label_withdraw}" />
+										</h:panelGrid>
+									</div>
+								</a:commandLink>
+								<a:commandLink render="formSearchTeamMembers"
+									styleClass="quitarDecoracionLink"
+									actionListener="#{teamMembersAction.setTeamMembers(teamMembers)}"
+									oncomplete="#{rich:component('popupSearchTeamMembers')}.show()">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/consultar_16.png" />
+										<h:outputText value="#{mensaje.button_search}" />
+									</h:panelGrid>
+								</a:commandLink>
+								<a:commandLink
+									render="pnlTeamMembers, mensajes, mensajeBusqueda"
+									styleClass="quitarDecoracionLink"
+									action="#{teamMembersAction.initializeTeamMembers()}">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/listarTodos_16.png" />
+										<h:outputText value="#{mensaje.button_list_all}" />
+									</h:panelGrid>
+								</a:commandLink>
+							</h:panelGrid>
+						</div>
+						<rich:dataTable value="#{movementsAction.listActivityMaterials}"
+							var="activityMaterial" id="materialsList" footerClass="H130P"
+							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoDos"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<f:facet name="header" />
+								<a:commandLink rendered="#{activityMaterial.selected eq true}"
+									actionListener="#{movementsAction.setActivityMaterials(activityMaterial)}"
+									action="#{movementsAction.selectActivityMaterials(false)}"
+									render="materialsList"
+									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+									<h:graphicImage value="/img/okPermiso_16.png"
+										styleClass="verticalAlignMiddle" />
+								</a:commandLink>
+								<a:commandLink rendered="#{activityMaterial.selected eq false}"
+									actionListener="#{movementsAction.setActivityMaterials(activityMaterial)}"
+									action="#{movementsAction.selectActivityMaterials(true)}"
+									render="materialsList"
+									oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+									<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+										styleClass="verticalAlignMiddle" />
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText
+									value="#{activityMaterial.activityMaterialsPK.materials.name} #{activityMaterial.activityMaterialsPK.materials.presentation} #{activityMaterial.activityMaterialsPK.materials.measurementUnits.name}" />
+							</rich:column>
+							<rich:column styleClass="colFechaExtraLarga center">
+								<f:facet name="header">#{messageCosts.actual_label_start_time}</f:facet>
+								<h:outputText value="#{activityMaterial.dateTime}">
+									<f:convertDateTime pattern="MMM dd, yyyy HH:mm:ss"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colNumeroMini">
+								<f:facet name="header">#{mensajeWarehouse.deposits_label_actual_quantity}</f:facet>
+								<h:outputText value="#{activityMaterial.quantityActual}" />
+							</rich:column>
+							<rich:column styleClass="colValorTextoLargo">
+								<h:outputText value="#{activityMaterial.costActual}">
+									<f:convertNumber maxFractionDigits="1" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputText>
+								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVaciaA}">
+									<rich:column colspan="5" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<br />
+						<a:outputPanel id="pagerActivityMaterial"
+							rendered="#{movementsAction.listActivityMaterials.size() gt 0}">
+							<div class="#{anchoTabla} center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valId" value="2" />
+									<ui:param name="pager" value="paginationExpire" />
+									<ui:param name="valReder"
+										value="materialsList pagerActivityMaterial" />
+									<ui:param name="beanActionParam" value="#{movementsAction}" />
+									<ui:param name="metodoActionParam"
+										value="consultMaterialsByActivity" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+		<h:form id="formConfirmarwithdraw">
+			<rich:popupPanel id="popupConfirmarwithdraw" modal="true"
+				autosized="true" maxWidth="500"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popupConfirmarwithdraw')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							onclick="#{rich:component('popupConfirmarwithdraw')}.hide();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupConfirmarwithdraw')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+		<ui:include src="/humanResources/templateHr/templateHr.xhtml" />
+	</ui:define>
+</ui:composition>
