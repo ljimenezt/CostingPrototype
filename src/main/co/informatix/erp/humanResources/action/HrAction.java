@@ -400,7 +400,7 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * @return the flagAction
+	 * @return flagAction: Flag indicating which action should be directed.
 	 */
 	public boolean isFlagAction() {
 		return flagAction;
@@ -408,7 +408,7 @@ public class HrAction implements Serializable {
 
 	/**
 	 * @param flagAction
-	 *            the flagAction to set
+	 *            : Flag indicating which action should be directed.
 	 */
 	public void setFlagAction(boolean flagAction) {
 		this.flagAction = flagAction;
