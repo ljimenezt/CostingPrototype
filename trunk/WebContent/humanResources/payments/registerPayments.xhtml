@@ -24,124 +24,115 @@
 		<t:saveState value="#{paymentsAction}" />
 		<t:saveState value="#{contractAction}" />
 		<t:saveState value="#{hrAction}" />
+
 		<h:form id="formPayments">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageHumanResources.payments_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarPayments">
-				<h:panelGrid columns="2" columnClasses="W70Per,W30Per tdAlignTop">
-					<h:panelGrid columns="4"
-						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,,,">
-						<h:outputText
-							value="#{messageHumanResources.human_resource_label}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
-							<h:inputText styleClass="colTextoMediano"
-								value="#{paymentsAction.payments.hr.name} #{paymentsAction.payments.hr.familyName}"
-								id="txtHr" readonly="true"
-								validator="#{encodeFilter.validarScripting}" />
-							<h:inputHidden id="txtHrs" required="true"
-								requiredMessage="#{mensaje.message_campo_requerido}"
-								value="#{paymentsAction.payments.hr.name}"
-								validator="#{encodeFilter.validarScripting}" />
-							<a:commandLink id="lnkHr" render=":popupFormHr:popupHR"
-								actionListener="#{hrAction.setFlagAction(false)}"
-								action="#{hrAction.initializeSearch}" execute="@this"
-								oncomplete="#{rich:component('popupHR')}.show(); setFocus('popupFormHr:txtHrBuscar');">
-								<h:graphicImage value="/img/add_22.png"
-									styleClass="verticalAlignMiddle" />
-								<f:param name="param2" value="si" />
-								<f:setPropertyActionListener value=""
-									target="#{hrAction.nameSearch}" />
-								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_select}" />
-								</rich:tooltip>
-								<f:param name="param2" value="si" />
-							</a:commandLink>
-							<h:outputText value="&#32;&#32;&#32;" />
-							<a:commandLink actionListener="#{paymentsAction.cleanHr()}"
-								render=":formPayments:txtHr , :formPayments:txtHrs"
-								execute="@this">
-								<h:graphicImage value="/img/editRemove_16.png" />
-								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_remove}" />
-								</rich:tooltip>
-							</a:commandLink>
-						</h:panelGrid>
-						<rich:message for="txtHrs" />
-
-						<h:outputText value="#{messageHumanResources.contract_label}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
-							<h:inputText styleClass="colTextoMediano"
-								value="#{paymentsAction.payments.contract.hr.name}"
-								id="txtContrato" readonly="true"
-								validator="#{encodeFilter.validarScripting}" />
-							<h:inputHidden id="txtContratos"
-								value="#{paymentsAction.payments.contract.hr.name}"
-								requiredMessage="#{mensaje.message_campo_requerido}"
-								required="true" validator="#{encodeFilter.validarScripting}" />
-							<a:commandLink id="lnkContrato" render=":popupForm:popupContrato"
-								actionListener="#{contractAction.initializeSearch}"
-								execute="@this"
-								oncomplete="#{rich:component('popupContrato')}.show(); setFocus('popupForm:txtNombreBuscar');">
-								<h:graphicImage value="/img/add_22.png"
-									styleClass="verticalAlignMiddle" />
-								<f:param name="param2" value="si" />
-								<f:setPropertyActionListener value=""
-									target="#{contractAction.nameSearch}" />
-								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_select}" />
-								</rich:tooltip>
-								<f:param name="param2" value="si" />
-							</a:commandLink>
-							<h:outputText value="&#32;&#32;&#32;" />
-							<a:commandLink actionListener="#{paymentsAction.cleanContract()}"
-								render=":formPayments:txtContrato , :formPayments:txtContratos"
-								execute="@this">
-								<h:graphicImage value="/img/editRemove_16.png" />
-								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_remove}" />
-								</rich:tooltip>
-							</a:commandLink>
-						</h:panelGrid>
-						<rich:message for="txtContratos" />
-
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_emission_date}" />
-						<h:outputText value="" />
-						<p:calendar value="#{paymentsAction.payments.emissionDate}"
-							showOn="button" navigator="true"
-							converterMessage="#{mensaje.message_validar_formato_fecha}"
-							id="fechaEmissionDate" pattern="MM/dd/yyyy hh:mm"
-							readonlyInput="true"
-							validator="#{controladorFechas.validarRangoFecha}">
-							<f:attribute name="validarHora" value="si" />
-						</p:calendar>
-						<rich:message for="fechaEmissionDate" />
-
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_taskwork}" />
-						<h:outputText value="" />
-						<h:selectBooleanCheckbox styleClass="marginCheckbox"
-							value="#{paymentsAction.payments.taskWork}" id="txtTaskWork">
-						</h:selectBooleanCheckbox>
-						<rich:message for="txtTaskWork" />
+				<h:panelGrid columns="4"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,,,">
+					<h:outputText value="#{messageHumanResources.human_resource_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
+						<h:inputText styleClass="colTextoMediano"
+							value="#{paymentsAction.payments.hr.name} #{paymentsAction.payments.hr.familyName}"
+							id="txtHrs" readonly="true"
+							validator="#{encodeFilter.validarScripting}" />
+						<a:commandLink id="lnkHr" render=":popupFormHr:popupHR"
+							actionListener="#{hrAction.setFlagAction(false)}"
+							action="#{hrAction.initializeSearch}" execute="@this"
+							oncomplete="#{rich:component('popupHR')}.show(); setFocus('popupFormHr:txtHrBuscar');">
+							<h:graphicImage value="/img/add_22.png"
+								styleClass="verticalAlignMiddle" />
+							<f:param name="param2" value="si" />
+							<f:setPropertyActionListener value=""
+								target="#{hrAction.nameSearch}" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_select}" />
+							</rich:tooltip>
+							<f:param name="param2" value="si" />
+						</a:commandLink>
+						<h:outputText value="&#32;&#32;&#32;" />
+						<a:commandLink actionListener="#{paymentsAction.cleanHr()}"
+							render=":formPayments:txtHrs" execute="@this">
+							<h:graphicImage value="/img/editRemove_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_remove}" />
+							</rich:tooltip>
+						</a:commandLink>
 					</h:panelGrid>
+					<rich:message for="txtHrs" />
+
+					<h:outputText value="#{messageHumanResources.contract_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
+						<h:inputText styleClass="colTextoMediano"
+							value="#{paymentsAction.payments.contract.hr.name}"
+							id="txtContratos" readonly="true"
+							validator="#{encodeFilter.validarScripting}" />
+						<a:commandLink id="lnkContrato" render=":popupForm:popupContrato"
+							actionListener="#{contractAction.initializeSearch}"
+							execute="@this"
+							oncomplete="#{rich:component('popupContrato')}.show(); setFocus('popupForm:txtNombreBuscar');">
+							<h:graphicImage value="/img/add_22.png"
+								styleClass="verticalAlignMiddle" />
+							<f:param name="param2" value="si" />
+							<f:setPropertyActionListener value=""
+								target="#{contractAction.nameSearch}" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_select}" />
+							</rich:tooltip>
+							<f:param name="param2" value="si" />
+						</a:commandLink>
+						<h:outputText value="&#32;&#32;&#32;" />
+						<a:commandLink actionListener="#{paymentsAction.cleanContract()}"
+							render=":formPayments:txtContratos" execute="@this">
+							<h:graphicImage value="/img/editRemove_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_remove}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</h:panelGrid>
+					<rich:message for="txtContratos" />
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensaje.label_emission_date}" />
+					<h:outputText value="" />
+					<p:calendar value="#{paymentsAction.payments.emissionDate}"
+						showOn="button" navigator="true"
+						converterMessage="#{mensaje.message_validar_formato_fecha}"
+						id="fechaEmissionDate" pattern="MM/dd/yyyy hh:mm"
+						readonlyInput="true"
+						validator="#{controladorFechas.validarRangoFecha}">
+						<f:attribute name="validarHora" value="si" />
+					</p:calendar>
+					<rich:message for="fechaEmissionDate" />
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensaje.label_taskwork}" />
+					<h:outputText value="" />
+					<h:selectBooleanCheckbox styleClass="marginCheckbox"
+						value="#{paymentsAction.payments.taskWork}" id="txtTaskWork">
+					</h:selectBooleanCheckbox>
+					<rich:message for="txtTaskWork" />
 				</h:panelGrid>
+
 				<br />
 				<div align="center">
 					<a:commandButton
 						render="formConfirmar:popUpConfirmar, formGenerico"
 						execute="formPayments"
+						actionListener="#{paymentsAction.validarRequeridos()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>
 			</rich:panel>
 		</h:form>
+
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
 				maxWidth="500" header="#{mensaje.label_confirmation}">
@@ -176,6 +167,7 @@
 				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
+
 		<h:form id="popupForm">
 			<rich:popupPanel id="popupContrato" autosized="true"
 				domElementAttachment="form"
@@ -240,8 +232,7 @@
 								</f:facet>
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header" />
-									<a:commandLink
-										render=":formPayments:txtContrato , :formPayments:txtContratos "
+									<a:commandLink render=":formPayments:txtContratos"
 										actionListener="#{paymentsAction.loadContract(contract)}"
 										oncomplete="#{rich:component('popupContrato')}.hide();">
 										<h:graphicImage value="/img/add_16.png" />
@@ -289,6 +280,8 @@
 				</rich:panel>
 			</rich:popupPanel>
 		</h:form>
+
 		<ui:include src="/humanResources/templateHr/templateHr.xhtml" />
+
 	</ui:define>
 </ui:composition>
