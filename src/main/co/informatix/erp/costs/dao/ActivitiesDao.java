@@ -589,13 +589,13 @@ public class ActivitiesDao implements Serializable {
 		queryBuilder.append("SELECT a FROM  Activities a ");
 		queryBuilder.append("JOIN FETCH a.activityName an ");
 		queryBuilder.append("WHERE a.materialsRequired = true ");
+		queryBuilder.append(query);
 		queryBuilder.append("AND a.idActivity IN ");
 		queryBuilder
 				.append("(SELECT ac.idActivity FROM  ActivityMaterials am ");
 		queryBuilder.append("JOIN am.activityMaterialsPK.activities ac ");
 		queryBuilder.append("WHERE am.quantityBudget >0 ");
 		queryBuilder.append(") ");
-		queryBuilder.append(query);
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parametro : parameters) {
 			queryResult
