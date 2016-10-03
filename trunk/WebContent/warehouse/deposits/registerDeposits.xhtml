@@ -160,7 +160,7 @@
 
 							<h:outputText value="#{mensaje.label_expiration_date}"
 								styleClass="etiquetaTitulo" />
-							<h:outputText value="" />
+							<h:outputText value="*" styleClass="required" />
 							<p:calendar value="#{depositsAction.deposits.expireDate}"
 								showOn="button" navigator="true"
 								converterMessage="#{mensaje.message_validar_formato_fecha}"
