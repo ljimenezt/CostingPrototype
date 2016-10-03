@@ -454,7 +454,7 @@
 		</h:form>
 		<h:form id="formPopUpConvert">
 			<rich:popupPanel id="popUpConvert" domElementAttachment="form"
-				width="455" height="535"
+				width="470" height="535"
 				header="#{mensajeWarehouse.invoice_items_label_convert_deposit}">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -551,12 +551,14 @@
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_expiration_date}:" />
-							<h:outputText value="" />
+							<h:outputText value="*" styleClass="required" />
 							<p:calendar value="#{invoiceItemsAction.expirationDate}"
-								styleClass="W90P" showOn="button" navigator="true"
-								pattern="MM/dd/yyyy" readonlyInput="true"
+								id="expirationDate" styleClass="W90P" showOn="button"
+								navigator="true" required="true" pattern="MM/dd/yyyy"
+								readonlyInput="true"
+								requiredMessage="#{mensaje.message_campo_requerido}"
 								mindate="#{invoiceItemsAction.invoiceItems.purchaseInvoice.dateTime}" />
-							<h:outputText value="" />
+							<rich:message for="expirationDate" />
 
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_purchase_date}:" />

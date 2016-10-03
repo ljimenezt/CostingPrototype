@@ -416,7 +416,7 @@ public class MovementsAction implements Serializable {
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
-		consult.append("AND TO_CHAR(a.initialDtBudget,'YYYY-mm-dd') = :date ");
+		consult.append("AND TO_CHAR(a.initialDtBudget,'YYYY-MM-dd') = :date ");
 		SelectItem item2 = new SelectItem(
 				ControladorFechas
 						.getFechaActual(Constantes.DATE_FORMAT_CONSULT),

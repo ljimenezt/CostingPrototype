@@ -1154,5 +1154,8 @@ public class DepositsAction implements Serializable {
 		if (this.deposits.getFarm().getIdFarm() == 0) {
 			ControladorContexto.mensajeRequeridos("formDeposits:farm");
 		}
+		if (this.deposits.getExpireDate() == null) {
+			ControladorContexto.mensajeRequeridos("formDeposits:dateExpire");
+		}
 	}
 }
