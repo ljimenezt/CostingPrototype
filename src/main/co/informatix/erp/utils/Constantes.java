@@ -159,6 +159,7 @@ public class Constantes implements Serializable {
 	public static final String DATE_FORMAT_MESSAGE_SIMPLE = "MMM dd yyyy";
 	public static final String DATE_FORMAT_MESSAGE_MMDDYYYY = "MM/dd/yyyy";
 	public static final String DATE_FORMAT_REPORT = "MMM yy";
+	public static final String DATE_FORMAT_CONSULT = "YYYY-mm-dd";
 
 	/* Sort */
 	public static final String DESCENDING = "DESC";

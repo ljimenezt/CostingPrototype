@@ -126,4 +126,38 @@ public class TransactionsDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method allows consult a transaction in the database filtering
+	 * information search by the values sent.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idActivity
+	 *            : activity identifier.
+	 * @param idTransactionType
+	 *            : transactionType identifier.
+	 * @return List<Transactions>:List of transactions that comply with the
+	 *         condition of validity.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Transactions> consultTransactionsByActivityAndTransactionType(
+			int idActivity, int idTransactionType) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT t FROM Transactions t ");
+		query.append("JOIN FETCH t.deposits d ");
+		query.append("JOIN FETCH d.materials ");
+		query.append("JOIN FETCH t.hr ");
+		query.append("WHERE t.activities.idActivity=:idActivity ");
+		query.append("AND t.transactionType.idTransactionType=:idTransactionType ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idActivity", idActivity);
+		q.setParameter("idTransactionType", idTransactionType);
+		List<Transactions> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }

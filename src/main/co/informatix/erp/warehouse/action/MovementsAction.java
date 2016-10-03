@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -67,6 +68,7 @@ public class MovementsAction implements Serializable {
 	private List<Activities> activitiesList;
 	private List<ActivityMaterials> listActivityMaterials;
 	private List<ActivityMaterials> listActivityMaterialsSelected;
+	private HashMap<Integer, String> humanMaterialMap;
 	private Paginador pagination = new Paginador();
 	private Paginador paginationExpire = new Paginador();
 	private Activities activityActualSelected;
@@ -171,6 +173,22 @@ public class MovementsAction implements Serializable {
 	public void setListActivityMaterialsSelected(
 			List<ActivityMaterials> listActivityMaterialsSelected) {
 		this.listActivityMaterialsSelected = listActivityMaterialsSelected;
+	}
+
+	/**
+	 * @return humanMaterialMap: Save the responsible of the materials
+	 *         withdrawal.
+	 */
+	public HashMap<Integer, String> getHumanMaterialMap() {
+		return humanMaterialMap;
+	}
+
+	/**
+	 * @param humanMaterialMap
+	 *            : Save the responsible of the materials withdrawal.
+	 */
+	public void setHumanMaterialMap(HashMap<Integer, String> humanMaterialMap) {
+		this.humanMaterialMap = humanMaterialMap;
 	}
 
 	/**
@@ -302,8 +320,22 @@ public class MovementsAction implements Serializable {
 	 *         the template with the information found.
 	 */
 	public String initializeWithdraws() {
-		this.hr = new Hr();
+		cleanparameters();
 		return consultActivities();
+	}
+
+	/**
+	 * This method allows clean the variables of this class
+	 */
+	private void cleanparameters() {
+		this.rangeExpiration = 0;
+		this.selected = false;
+		this.nameSearch = "";
+		this.listActivityMaterialsSelected = null;
+		this.listActivityMaterials = null;
+		this.activityActualSelected = null;
+		this.hr = new Hr();
+		pagination = new Paginador();
 	}
 
 	/**
@@ -323,6 +355,7 @@ public class MovementsAction implements Serializable {
 		StringBuilder unionSearchMessages = new StringBuilder();
 		String searchMessages = "";
 		try {
+			advancedSearch(query, parameters, bundle, unionSearchMessages);
 			Long quantity = activitiesDao.amountActivitiesByActivityMaterials(
 					query, parameters);
 			if (quantity != null && quantity > 0) {
@@ -340,8 +373,10 @@ public class MovementsAction implements Serializable {
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionSearchMessages);
 			} else if (activitiesList == null || activitiesList.size() <= 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString("message_not_exists_activities_hr"));
+				ControladorContexto
+						.mensajeInfoEspecifico(
+								"movements_message_no_activities_for_withdraw_materials",
+								"mensajeWarehouse");
 			} else if (!"".equals(unionSearchMessages.toString())) {
 				searchMessages = MessageFormat
 						.format(bundle
@@ -354,6 +389,39 @@ public class MovementsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return "gesWithdraws";
+	}
+
+	/**
+	 * This method builds a query with advanced search; it also render the
+	 * messages to be displayed depending on the search criteria selected by the
+	 * user.
+	 * 
+	 * @param consult
+	 *            : query to concatenate.
+	 * @param parameters
+	 *            : list of search parameters.
+	 * @param bundle
+	 *            :access language tags.
+	 * @param unionMessagesSearch
+	 *            : message search.
+	 */
+	private void advancedSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("AND UPPER(an.activityName) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
+					"keyword");
+			parameters.add(item);
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
+					+ '"' + this.nameSearch + '"');
+		}
+		consult.append("AND TO_CHAR(a.initialDtBudget,'YYYY-mm-dd') = :date ");
+		SelectItem item2 = new SelectItem(
+				ControladorFechas
+						.getFechaActual(Constantes.DATE_FORMAT_CONSULT),
+				"date");
+		parameters.add(item2);
 	}
 
 	/**
@@ -396,17 +464,30 @@ public class MovementsAction implements Serializable {
 	}
 
 	/**
+	 * Method to initialize the fields in the search.
+	 */
+	public void initializeMaterialsByActivity() {
+		this.nameSearch = "";
+		consultMaterialsByActivity();
+	}
+
+	/**
 	 * Consult the material list associated to the activity.
 	 * 
 	 */
 	public void consultMaterialsByActivity() {
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleWarehouse = ControladorContexto
+				.getBundle("mensajeWarehouse");
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
 		String messageSearch = "";
+		StringBuilder unionSearchMessages = new StringBuilder();
 		try {
-			advancedSearchMaterialsByActivity(consult, parameters);
+			advancedSearchMaterialsByActivity(consult, parameters, bundle,
+					unionSearchMessages);
 			Long quantity = activityMaterialsDao.amountMaterialsByActivity(
 					consult, parameters);
 			if (quantity != null) {
@@ -415,12 +496,42 @@ public class MovementsAction implements Serializable {
 						.queryMaterialsByActivity(paginationExpire.getInicio(),
 								paginationExpire.getRango(), consult,
 								parameters);
+				List<Transactions> transactionsList = transactionsDao
+						.consultTransactionsByActivityAndTransactionType(
+								this.activityActualSelected.getIdActivity(),
+								Constantes.TRANSACTION_TYPE_ID_WITHDRAWAL);
+				humanMaterialMap = new HashMap<Integer, String>();
+				if (transactionsList != null) {
+					for (Transactions transactions : transactionsList) {
+						Hr hr = transactions.getHr();
+						humanMaterialMap.put(transactions.getDeposits()
+								.getMaterials().getIdMaterial(), hr.getName()
+								+ " " + hr.getFamilyName());
+					}
+				}
 			}
-			if (this.listActivityMaterialsSelected != null
-					&& this.listActivityMaterialsSelected.size() >= 0) {
+			if (this.listActivityMaterials != null
+					&& this.listActivityMaterials.size() >= 0) {
 				persistentActivityMaterialsSelected();
 			}
-			validations.setMensajeBusqueda(messageSearch);
+			if ((listActivityMaterials == null || listActivityMaterials.size() <= 0)
+					&& !"".equals(unionSearchMessages.toString())) {
+				messageSearch = MessageFormat
+						.format(bundle
+								.getString("message_no_existen_registros_criterio_busqueda"),
+								unionSearchMessages);
+			} else if (listActivityMaterials == null
+					|| listActivityMaterials.size() <= 0) {
+				messageSearch = bundle
+						.getString("message_no_existen_registros");
+			} else if (!"".equals(unionSearchMessages.toString())) {
+				String message = bundle
+						.getString("message_existen_registros_criterio_busqueda");
+				messageSearch = MessageFormat.format(message,
+						bundleWarehouse.getString("materials_label_s"),
+						unionSearchMessages);
+			}
+			validations.setMensajeBusquedaPopUp(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -435,13 +546,28 @@ public class MovementsAction implements Serializable {
 	 *            : query to concatenate.
 	 * @param parameters
 	 *            : list of the search parameters.
+	 * @param bundle
+	 *            :access language tags.
+	 * @param unionMessagesSearch
+	 *            : message search.
 	 */
 	private void advancedSearchMaterialsByActivity(StringBuilder consult,
-			List<SelectItem> parameters) {
-		consult.append("WHERE ac.idActivity = :id ");
-		SelectItem item = new SelectItem(
-				this.activityActualSelected.getIdActivity(), "id");
-		parameters.add(item);
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
+		if (this.activityActualSelected.getIdActivity() != 0) {
+			consult.append("WHERE ac.idActivity = :id ");
+			SelectItem item = new SelectItem(
+					this.activityActualSelected.getIdActivity(), "id");
+			parameters.add(item);
+		}
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("AND UPPER(m.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
+					"keyword");
+			parameters.add(item);
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
+					+ '"' + this.nameSearch + '"');
+		}
 	}
 
 	/**
@@ -459,6 +585,36 @@ public class MovementsAction implements Serializable {
 			this.listActivityMaterialsSelected.remove(activityMaterials);
 		}
 
+	}
+
+	/**
+	 * This method allows validate if the materials quantity in the deposits is
+	 * enough.
+	 */
+	public void validateQuantityMaterials() {
+		Double materialQuantity;
+		try {
+			ValidacionesAction validations = (ValidacionesAction) ControladorContexto
+					.getContextBean(ValidacionesAction.class);
+			ResourceBundle bundle = ControladorContexto
+					.getBundle("mensajeWarehouse");
+			materialQuantity = depositsDao.quantityMaterialsById(
+					this.activityMaterials.getActivityMaterialsPK()
+							.getMaterials().getIdMaterial(), null);
+
+			if (materialQuantity < this.activityMaterials.getQuantityBudget()) {
+				String searchMessages = MessageFormat.format(bundle
+						.getString("deposits_message_not_enough_materials"),
+						this.activityMaterials.getActivityMaterialsPK()
+								.getMaterials().getName());
+				validations.setMensajeBusquedaPopUp(searchMessages);
+
+			} else {
+				selectActivityMaterials(true);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 
 	/**
@@ -481,8 +637,7 @@ public class MovementsAction implements Serializable {
 
 	/**
 	 * This method allows create the withdrawal transaction and edit the
-	 * deposits.
-	 * 
+	 * deposits for save in the database.
 	 */
 	public void createTransactionWithdrawal() {
 		List<Deposits> depositsListEdit = new ArrayList<Deposits>();
@@ -491,8 +646,9 @@ public class MovementsAction implements Serializable {
 			if (this.listActivityMaterialsSelected != null
 					&& this.listActivityMaterialsSelected.size() >= 0) {
 				for (ActivityMaterials activityMaterials : this.listActivityMaterialsSelected) {
+					double costActual = 0.0;
 					if (activityMaterials.getQuantityBudget() > 0) {
-						double amount = activityMaterials.getQuantityActual();
+						double amount = activityMaterials.getQuantityBudget();
 						List<Deposits> depositsListActual = depositsDao
 								.consultDepositsActualQuantityById(activityMaterials
 										.getActivityMaterialsPK()
@@ -503,6 +659,9 @@ public class MovementsAction implements Serializable {
 							Transactions transactions = new Transactions();
 							Deposits depositsActual = depositsListActual.get(0);
 							if (amount > depositsActual.getActualQuantity()) {
+								costActual = costActual
+										+ depositsActual.getActualQuantity()
+										* depositsActual.getUnitCost();
 								transactions.setQuantity(depositsActual
 										.getActualQuantity());
 								amount = amount
@@ -510,6 +669,8 @@ public class MovementsAction implements Serializable {
 								depositsListActual.remove(depositsActual);
 								depositsActual.setActualQuantity(0.0);
 							} else {
+								costActual = costActual + amount
+										* depositsActual.getUnitCost();
 								transactions.setQuantity(amount);
 								depositsListActual.remove(depositsActual);
 								depositsActual.setActualQuantity(depositsActual
@@ -523,8 +684,14 @@ public class MovementsAction implements Serializable {
 							transactions.setHr(hr);
 							transactions
 									.setActivities(this.activityActualSelected);
+							transactions.setUserName(identity.getUserName());
 							transactionsList.add(transactions);
 						}
+						activityMaterials.setCostActual(costActual);
+						activityMaterials.setQuantityActual(activityMaterials
+								.getQuantityBudget());
+						activityMaterialsDao
+								.editActivityMaterials(activityMaterials);
 					}
 				}
 				if (transactionsList != null) {
@@ -538,8 +705,34 @@ public class MovementsAction implements Serializable {
 					}
 				}
 			}
+			ControladorContexto.mensajeInfoArg2(
+					"movements_message_withdrawal_materials_succesfully",
+					"mensajeWarehouse", this.activityActualSelected
+							.getActivityName().getActivityName());
+			consultMaterialsByActivity();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows validate if be can add more workers to the team.
+	 */
+	public void validateRequired() {
+		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		if (hr.getName() == null || hr.getName().equals("")) {
+			ControladorContexto.mensajeRequeridos("formWithdraws:txtHrs");
+		}
+
+		if (this.listActivityMaterialsSelected == null
+				|| this.listActivityMaterialsSelected.size() <= 0) {
+			String searchMessage = bundle
+					.getString("movements_message_no_materials_selected");
+			validations.setMensajeBusquedaPopUp(searchMessage);
+
 		}
 	}
 
