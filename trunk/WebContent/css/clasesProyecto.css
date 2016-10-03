@@ -382,6 +382,12 @@ table.radio input[type=radio] {
 	text-align: left;
 }
 
+.colNumeroExtraLargo {
+	width: 130px;
+	vertical-align: top;
+	text-align: left;
+}
+
 /* Estilos para las columnas o campos texto que son identificadores de un objeto */
 
 /* Estilos para las columnas o campos texto que son caracteres */
@@ -504,6 +510,12 @@ table.radio input[type=radio] {
 
 .colFechaExtraLarga {
 	width: 140px;
+	vertical-align: top;
+	text-align: center;
+}
+
+.colFechaExtraXLarga {
+	width: 160px;
 	vertical-align: top;
 	text-align: center;
 }
