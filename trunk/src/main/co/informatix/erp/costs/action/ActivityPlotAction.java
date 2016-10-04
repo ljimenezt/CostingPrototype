@@ -903,7 +903,7 @@ public class ActivityPlotAction implements Serializable {
 				celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 				celda.setCellValue(new HSSFRichTextString(
 						bundleMessageLifeCycle
-								.getString("activity_plot_unseeded_area")));
+								.getString("activity_plot_label_unseeded_area")));
 
 				fila = cReportPoi.getSheet().getRow(startFile + 2);
 				celda = fila.createCell(31);
@@ -917,7 +917,7 @@ public class ActivityPlotAction implements Serializable {
 				celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 				celda.setCellValue(new HSSFRichTextString(
 						bundleMessageLifeCycle
-								.getString("activity_plot_Accumulative_area")));
+								.getString("activity_plot_label_Accumulative_area")));
 
 				fila = cReportPoi.getSheet().getRow(startFile + 3);
 				celda = fila.createCell(31);
@@ -931,7 +931,7 @@ public class ActivityPlotAction implements Serializable {
 				celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 				celda.setCellValue(new HSSFRichTextString(
 						bundleMessageLifeCycle
-								.getString("activity_plot_execute_area")));
+								.getString("activity_plot_label_execute_area")));
 
 				fila = cReportPoi.getSheet().getRow(startFile + 4);
 				celda = fila.createCell(31);
@@ -945,7 +945,7 @@ public class ActivityPlotAction implements Serializable {
 				celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 				celda.setCellValue(new HSSFRichTextString(
 						bundleMessageLifeCycle
-								.getString("activity_plot_pending_area")));
+								.getString("activity_plot_label_pending_area")));
 
 				fila = cReportPoi.getSheet().getRow(startFile + 5);
 				celda = fila.createCell(31);
@@ -1188,7 +1188,7 @@ public class ActivityPlotAction implements Serializable {
 						celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 						celda.setCellValue(new HSSFRichTextString(
 								bundleMessageLifeCycle.getString(
-										"activity_plot_products_used")
+										"activity_plot_label_products_used")
 										.toUpperCase()));
 						for (int i = 2; i <= mergeCells; i++) {
 							celda = fila.createCell(30 + i);
