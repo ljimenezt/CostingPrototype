@@ -11,7 +11,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="recordActivitiesActualsAction.initializeHrReportingActual()" />
+		value="recordActivitiesActualsAction.initializeRecordActual()" />
 	<ui:param name="titulo"
 		value="messageLifeCycle.record_activities_actuals_label_actual" />
 	<ui:define name="body">
@@ -309,8 +309,7 @@
 							<rich:column styleClass="colIconoUno verticalAlignMiddle center">
 								<f:facet name="header">#{mensaje.label_cost_activity}</f:facet>
 								<a:commandLink
-									rendered="#{activity.seleccionado ne false 
-										and recordActivitiesActualsAction.calculateCostsButtonActivated eq false 
+									rendered="#{activity.calculateCosts eq true 
 										and activity.costHrActual eq null 
 										and activity.costMachinesEqActual eq null
 										and activity.costMaterialsActual eq null}"

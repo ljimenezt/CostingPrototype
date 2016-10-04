@@ -218,4 +218,32 @@ public class ActivitiesAndMachineDao implements Serializable {
 			ActivityMachinePK activityMachinePK) throws Exception {
 		return em.find(ActivityMachine.class, activityMachinePK);
 	}
+
+	/**
+	 * Consult the relation between activities and machines
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param idActivity
+	 *            : Identifier of activity.
+	 * @return List<ActivityMachine>: List of relation between activities and
+	 *         machines
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivityMachine> listActivitiesAndMachine(int idActivity)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT am FROM ActivityMachine am ");
+		query.append("JOIN FETCH am.activityMachinePK.machines m ");
+		query.append("JOIN FETCH am.activityMachinePK.activities ac ");
+		query.append("WHERE ac.idActivity = :idActivity ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idActivity", idActivity);
+		List<ActivityMachine> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }

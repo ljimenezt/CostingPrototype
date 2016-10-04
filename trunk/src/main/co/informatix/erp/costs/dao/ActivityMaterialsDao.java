@@ -195,4 +195,32 @@ public class ActivityMaterialsDao implements Serializable {
 		q.setParameter("idMaterial", idMaterial);
 		return (Double) q.getSingleResult();
 	}
+
+	/**
+	 * Consult the relation between activities and materials
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param idActivity
+	 *            : Identifier of activity.
+	 * @return List<ActivityMaterials>: List of relation between activities and
+	 *         materials
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivityMaterials> listActivitiesAndMaterials(int idActivity)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT am FROM ActivityMaterials am ");
+		query.append("JOIN FETCH am.activityMaterialsPK.materials m ");
+		query.append("JOIN FETCH am.activityMaterialsPK.activities ac ");
+		query.append("WHERE ac.idActivity =:idActivity ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idActivity", idActivity);
+		List<ActivityMaterials> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }
