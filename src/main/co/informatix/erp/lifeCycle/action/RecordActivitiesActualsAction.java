@@ -87,7 +87,6 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private int idCropName;
 	private int idOvertimePaymentsRate;
 	private int idCycle;
-	private boolean calculateCostsButtonActivated;
 	private boolean flagStart;
 
 	private List<SelectItem> listCropNames;
@@ -171,24 +170,6 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void setIdOvertimePaymentsRate(int idOvertimePaymentsRate) {
 		this.idOvertimePaymentsRate = idOvertimePaymentsRate;
-	}
-
-	/**
-	 * @return calculateCostsButtonActivated: It sets a value for determining
-	 *         whether a button is shown or not. setEstadoBotonCalcularCosto
-	 */
-	public boolean isCalculateCostsButtonActivated() {
-		return calculateCostsButtonActivated;
-	}
-
-	/**
-	 * @param calculateCostsButtonActivated
-	 *            : It sets a value for determining whether a button is shown or
-	 *            not.
-	 */
-	public void setCalculateCostsButtonActivated(
-			boolean calculateCostsButtonActivated) {
-		this.calculateCostsButtonActivated = calculateCostsButtonActivated;
 	}
 
 	/**
@@ -651,16 +632,17 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * 
 	 * @modify 06/07/2016 Wilhelm.Boada
 	 * @modify 21/09/2016 Andres.Gomez
+	 * @modify 04/10/2016 Luna.Granados
 	 */
 	public void currentCost() {
 		this.activitiesAndMachineAction = ControladorContexto
 				.getContextBean(ActivitiesAndMachineAction.class);
 
-		this.calculateCostsButtonActivated = false;
+		this.selectedActivity.setCalculateCosts(true);
 		if (this.listActivitiesAndHr != null) {
 			for (ActivitiesAndHr activitiesAndHr : this.listActivitiesAndHr) {
 				if (activitiesAndHr.getTotalCostActual() == null) {
-					this.calculateCostsButtonActivated = true;
+					this.selectedActivity.setCalculateCosts(false);
 				}
 			}
 		}
@@ -668,7 +650,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 			for (ActivityMachine activityMachine : this.activitiesAndMachineAction
 					.getListActivityMachine()) {
 				if (activityMachine.getConsumablesCostActual() == null) {
-					this.calculateCostsButtonActivated = true;
+					this.selectedActivity.setCalculateCosts(false);
 				}
 			}
 		}
@@ -676,7 +658,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 			for (ActivityMaterials activityMaterials : this.activityMaterialsAction
 					.getListActivityMaterialsTemp()) {
 				if (activityMaterials.getCostActual() == null) {
-					this.calculateCostsButtonActivated = true;
+					this.selectedActivity.setCalculateCosts(false);
 				}
 			}
 		}
@@ -684,11 +666,11 @@ public class RecordActivitiesActualsAction implements Serializable {
 				.getMaterialsRequired() : false;
 		if ((this.activityMaterialsAction.getListActivityMaterialsTemp() == null || this.activityMaterialsAction
 				.getListActivityMaterialsTemp().size() <= 0) && materiaRequired) {
-			this.calculateCostsButtonActivated = true;
+			this.selectedActivity.setCalculateCosts(false);
 		}
 		if (this.listActivitiesAndHr == null
 				&& this.activitiesAndMachineAction.getListActivityMachine() == null) {
-			this.calculateCostsButtonActivated = true;
+			this.selectedActivity.setCalculateCosts(false);
 		}
 	}
 

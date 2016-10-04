@@ -13,8 +13,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.model.SelectItem;
 
+import co.informatix.erp.costs.dao.ActivitiesAndHrDao;
+import co.informatix.erp.costs.dao.ActivitiesAndMachineDao;
 import co.informatix.erp.costs.dao.ActivitiesDao;
+import co.informatix.erp.costs.dao.ActivityMaterialsDao;
 import co.informatix.erp.costs.entities.Activities;
+import co.informatix.erp.costs.entities.ActivitiesAndHr;
+import co.informatix.erp.costs.entities.ActivityMachine;
+import co.informatix.erp.costs.entities.ActivityMaterials;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.lifeCycle.entities.Crops;
@@ -42,6 +48,12 @@ import co.informatix.erp.utz.entities.CertificationsAndRoles;
 public class ActivitiesAction implements Serializable {
 	@EJB
 	private ActivitiesDao activitiesDao;
+	@EJB
+	private ActivitiesAndHrDao activitiesAndHrDao;
+	@EJB
+	private ActivitiesAndMachineDao activitiesAndMachineDao;
+	@EJB
+	private ActivityMaterialsDao activityMaterialsDao;
 	@EJB
 	private CertificationsAndRolesDao certificationsAndRolesDao;
 	@EJB
@@ -355,6 +367,7 @@ public class ActivitiesAction implements Serializable {
 	 * 
 	 * @author Gerardo.Herrera
 	 * @modify 12/07/2016 Wilhelm.Boada
+	 * @modify 04/10/2016 Luna.Granados
 	 */
 	public void searchActivities() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -395,6 +408,8 @@ public class ActivitiesAction implements Serializable {
 				this.listActivities = activitiesDao.queryActivities(
 						pager.getInicio(), pager.getRango(), query, parameters,
 						stringCycle);
+
+				currentCost();
 
 				if (fromModal) {
 					RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
@@ -710,4 +725,59 @@ public class ActivitiesAction implements Serializable {
 		}
 	}
 
+	/**
+	 * It verifies that all records from the list of activities and human
+	 * resources have a value in the field of current total cost.
+	 * 
+	 * @author Luna.Granados
+	 */
+	public void currentCost() {
+		boolean materiaRequired;
+		List<ActivitiesAndHr> ahr;
+		List<ActivityMachine> am;
+		List<ActivityMaterials> amt;
+		try {
+			for (Activities a : this.listActivities) {
+				ahr = activitiesAndHrDao.activitiesAndHrByCycle(a
+						.getIdActivity());
+				am = activitiesAndMachineDao.listActivitiesAndMachine(a
+						.getIdActivity());
+				amt = activityMaterialsDao.listActivitiesAndMaterials(a
+						.getIdActivity());
+
+				a.setCalculateCosts(true);
+				if (ahr != null) {
+					for (ActivitiesAndHr activitiesAndHr : ahr) {
+						if (activitiesAndHr.getTotalCostActual() == null) {
+							a.setCalculateCosts(false);
+						}
+					}
+				}
+				if (am != null) {
+					for (ActivityMachine activityMachine : am) {
+						if (activityMachine.getConsumablesCostActual() == null) {
+							a.setCalculateCosts(false);
+						}
+					}
+				}
+				if (amt != null) {
+					for (ActivityMaterials activityMaterials : amt) {
+						if (activityMaterials.getCostActual() == null) {
+							a.setCalculateCosts(false);
+						}
+					}
+				}
+				materiaRequired = a.getMaterialsRequired() != null ? a
+						.getMaterialsRequired() : false;
+				if ((amt == null || amt.size() <= 0) && materiaRequired) {
+					a.setCalculateCosts(false);
+				}
+				if (ahr == null && am == null) {
+					a.setCalculateCosts(false);
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
 }

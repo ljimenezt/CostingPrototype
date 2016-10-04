@@ -1096,7 +1096,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * Check the relationship between activities and human resources
 	 * 
 	 * @modify 12/01/2016 Wilhelm.Boada
-	 * 
+	 * @modify 04/10/2016 Luna.Granados
 	 */
 	public void consultActivitiesAndHrByActivity() {
 		ValidacionesAction validations = ControladorContexto
@@ -1131,8 +1131,7 @@ public class ActivitiesAndHrAction implements Serializable {
 				if (param2 != null && (fromModal || param2.equals("mostrar"))) {
 					recordActivitiesActualsAction
 							.setListActivitiesAndHr(listActivitiesAndHrTemp);
-					recordActivitiesActualsAction
-							.setCalculateCostsButtonActivated(false);
+					this.selectedActivity.setCalculateCosts(true);
 				}
 			}
 			loadOvertimePaymentRate();

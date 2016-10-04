@@ -28,7 +28,7 @@ import co.informatix.erp.lifeCycle.entities.Cycle;
  * 
  * @modify 23/06/2015 Mabell.Boada
  * @modify 22/07/2015 Gerardo.Herrera
- * 
+ * @modify 04/10/2016 Luna.Granados
  */
 @SuppressWarnings("serial")
 @Entity
@@ -61,6 +61,7 @@ public class Activities implements Serializable {
 	private Boolean materialsRequired;
 	private boolean routine;
 	private boolean seleccionado;
+	private boolean calculateCosts;
 
 	private Crops crop;
 	private ActivityNames activityName;
@@ -495,6 +496,22 @@ public class Activities implements Serializable {
 	 */
 	public void setSeleccionado(boolean seleccionado) {
 		this.seleccionado = seleccionado;
+	}
+
+	/**
+	 * @return calculateCosts: Object calculateCosts from the list of activities
+	 */
+	@Transient
+	public boolean isCalculateCosts() {
+		return calculateCosts;
+	}
+
+	/**
+	 * @param calculateCosts
+	 *            : Object calculateCosts from the list of activities
+	 */
+	public void setCalculateCosts(boolean calculateCosts) {
+		this.calculateCosts = calculateCosts;
 	}
 
 	/**
