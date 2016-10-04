@@ -24,6 +24,7 @@ import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.DepositsDao;
@@ -602,7 +603,9 @@ public class MovementsAction implements Serializable {
 					this.activityMaterials.getActivityMaterialsPK()
 							.getMaterials().getIdMaterial(), null);
 
-			if (materialQuantity < this.activityMaterials.getQuantityBudget()) {
+			if (materialQuantity == null
+					|| materialQuantity < this.activityMaterials
+							.getQuantityBudget()) {
 				String searchMessages = MessageFormat.format(bundle
 						.getString("deposits_message_not_enough_materials"),
 						this.activityMaterials.getActivityMaterialsPK()
@@ -659,22 +662,31 @@ public class MovementsAction implements Serializable {
 							Transactions transactions = new Transactions();
 							Deposits depositsActual = depositsListActual.get(0);
 							if (amount > depositsActual.getActualQuantity()) {
-								costActual = costActual
-										+ depositsActual.getActualQuantity()
-										* depositsActual.getUnitCost();
+								costActual = ControllerAccounting
+										.add(costActual, ControllerAccounting
+												.multiply(depositsActual
+														.getActualQuantity(),
+														depositsActual
+																.getUnitCost()));
 								transactions.setQuantity(depositsActual
 										.getActualQuantity());
-								amount = amount
-										- depositsActual.getActualQuantity();
+								amount = ControllerAccounting.subtract(amount,
+										depositsActual.getActualQuantity());
 								depositsListActual.remove(depositsActual);
 								depositsActual.setActualQuantity(0.0);
 							} else {
-								costActual = costActual + amount
-										* depositsActual.getUnitCost();
+								costActual = ControllerAccounting
+										.add(costActual, ControllerAccounting
+												.multiply(amount,
+														depositsActual
+																.getUnitCost()));
 								transactions.setQuantity(amount);
 								depositsListActual.remove(depositsActual);
-								depositsActual.setActualQuantity(depositsActual
-										.getActualQuantity() - amount);
+								depositsActual
+										.setActualQuantity(ControllerAccounting
+												.subtract(depositsActual
+														.getActualQuantity(),
+														amount));
 								amount = 0;
 							}
 							depositsListEdit.add(depositsActual);

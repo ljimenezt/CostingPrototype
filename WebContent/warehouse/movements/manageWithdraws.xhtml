@@ -250,7 +250,7 @@
 									<a:commandLink rendered="#{activityMaterial.selected eq true}"
 										actionListener="#{movementsAction.setActivityMaterials(activityMaterial)}"
 										action="#{movementsAction.selectActivityMaterials(false)}"
-										render="materialsList"
+										render="materialsList, mensajeBusquedaMenu"
 										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
 										<h:graphicImage value="/img/checkboxChecked_16.png"
 											styleClass="verticalAlignMiddle" />
@@ -262,6 +262,19 @@
 										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
 										<h:graphicImage value="/img/checkboxUnchecked_16.png"
 											styleClass="verticalAlignMiddle" />
+									</a:commandLink>
+
+									<a:commandLink
+										actionListener="#{depositE.setSelected(depositE.selected?false:true)}"
+										action="#{movementsAction.validateSelected()}"
+										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);"
+										render="panelDepositsExpired">
+										<h:graphicImage value="/img/checkboxChecked_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{depositE.selected eq true}" />
+										<h:graphicImage value="/img/checkboxUnchecked_16.png"
+											styleClass="verticalAlignMiddle"
+											rendered="#{depositE.selected eq false}" />
 									</a:commandLink>
 								</a:outputPanel>
 								<a:outputPanel
