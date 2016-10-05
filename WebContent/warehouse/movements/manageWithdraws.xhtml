@@ -206,20 +206,6 @@
 						<div align="right" class="anchoDos">
 							<h:panelGrid id="pnlButtonsActivityMaterials" columns="6"
 								cellpadding="0" cellspacing="0">
-								<a:commandLink id="withdrawButton"
-									actionListener="#{movementsAction.validateRequired()}"
-									styleClass="quitarDecoracionLink" execute="@form"
-									render="formConfirmarwithdraw:popupConfirmarwithdraw, mensajeBusquedaMenu"
-									oncomplete="if (#{!(movementsAction.listActivityMaterialsSelected == null or (empty movementsAction.listActivityMaterialsSelected)) and !(empty movementsAction.hr.name) }) {#{rich:component('popupConfirmarwithdraw')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
-									<div align="right">
-										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-											<h:graphicImage value="/img/withdraw_16.png"
-												styleClass="verticalAlignMiddle" />
-											<h:outputText
-												value="#{mensajeWarehouse.movements_label_withdraw}" />
-										</h:panelGrid>
-									</div>
-								</a:commandLink>
 								<a:commandLink render="formSearchActivityMaterials"
 									styleClass="quitarDecoracionLink"
 									oncomplete="#{rich:component('popupSearchActivityMaterials')}.show()">
@@ -247,34 +233,19 @@
 								<f:facet name="header" />
 								<a:outputPanel
 									rendered="#{movementsAction.humanMaterialMap[activityMaterial.activityMaterialsPK.materials.idMaterial]==null}">
-									<a:commandLink rendered="#{activityMaterial.selected eq true}"
-										actionListener="#{movementsAction.setActivityMaterials(activityMaterial)}"
-										action="#{movementsAction.selectActivityMaterials(false)}"
-										render="materialsList, mensajeBusquedaMenu"
-										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
-										<h:graphicImage value="/img/checkboxChecked_16.png"
-											styleClass="verticalAlignMiddle" />
-									</a:commandLink>
-									<a:commandLink rendered="#{activityMaterial.selected eq false}"
-										actionListener="#{movementsAction.setActivityMaterials(activityMaterial)}"
-										action="#{movementsAction.validateQuantityMaterials()}"
-										render="materialsList, mensajeBusquedaMenu"
-										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
-										<h:graphicImage value="/img/checkboxUnchecked_16.png"
-											styleClass="verticalAlignMiddle" />
-									</a:commandLink>
-
 									<a:commandLink
-										actionListener="#{depositE.setSelected(depositE.selected?false:true)}"
-										action="#{movementsAction.validateSelected()}"
-										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);"
-										render="panelDepositsExpired">
-										<h:graphicImage value="/img/checkboxChecked_16.png"
-											styleClass="verticalAlignMiddle"
-											rendered="#{depositE.selected eq true}" />
-										<h:graphicImage value="/img/checkboxUnchecked_16.png"
-											styleClass="verticalAlignMiddle"
-											rendered="#{depositE.selected eq false}" />
+										actionListener="#{activityMaterial.setSelected(activityMaterial.selected?false:true)}"
+										action="#{movementsAction.selectActivityMaterials(activityMaterial)}"
+										render="materialsList, mensajeBusquedaMenu"
+										oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+										<h:graphicImage
+											rendered="#{activityMaterial.selected eq true}"
+											value="/img/checkboxChecked_16.png"
+											styleClass="verticalAlignMiddle" />
+										<h:graphicImage
+											rendered="#{activityMaterial.selected eq false}"
+											value="/img/checkboxUnchecked_16.png"
+											styleClass="verticalAlignMiddle" />
 									</a:commandLink>
 								</a:outputPanel>
 								<a:outputPanel
@@ -346,6 +317,16 @@
 							</div>
 						</a:outputPanel>
 					</t:fieldset>
+					<br />
+					<div align="center">
+						<a:commandButton
+							rendered="#{movementsAction.activityActualSelected.idActivity gt 0 and movementsAction.activityActualSelected.materialsRequired eq true }"
+							render="formConfirmarwithdraw:popupConfirmarwithdraw, mensajeBusquedaMenu"
+							actionListener="#{movementsAction.validateRequired()}"
+							execute="formWithdraws"
+							oncomplete="if (#{!(movementsAction.listActivityMaterialsSelected == null or (empty movementsAction.listActivityMaterialsSelected)) and !(empty movementsAction.hr.name) }) {#{rich:component('popupConfirmarwithdraw')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+							value="#{mensaje.button_withdraw}" />
+					</div>
 				</a:outputPanel>
 			</rich:panel>
 		</h:form>
