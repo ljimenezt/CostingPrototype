@@ -655,15 +655,7 @@
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{mensaje.label_name}</f:facet>
-								<a:commandLink
-									actionListener="#{activityMaterialsAction.cloneActivityMaterials(activityMaterial.clone(), true)}"
-									oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupAddActivitiesMaterials')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-									value="#{activityMaterial.activityMaterialsPK.materials.name} #{activityMaterial.activityMaterialsPK.materials.presentation} #{activityMaterial.activityMaterialsPK.materials.measurementUnits.name}"
-									render="popupAddActivitiesMaterials"
-									rendered="#{recordActivitiesActualsAction.selectedActivity.costMaterialsActual eq null}">
-								</a:commandLink>
 								<h:outputText
-									rendered="#{recordActivitiesActualsAction.selectedActivity.costMaterialsActual ne null}"
 									value="#{activityMaterial.activityMaterialsPK.materials.name} #{activityMaterial.activityMaterialsPK.materials.presentation} #{activityMaterial.activityMaterialsPK.materials.measurementUnits.name}" />
 							</rich:column>
 							<rich:column styleClass="colFechaExtraLarga center">
