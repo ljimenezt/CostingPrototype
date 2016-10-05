@@ -762,7 +762,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * 
 	 * @modify 06/07/2016 Wilhelm.Boada
 	 * @modify 25/07/2016 Gerardo.Herrera
-	 * 
+	 * @modify 05/10/2016 Luna.Granados
 	 */
 	public void endActivity() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -794,13 +794,13 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 				if (flag == true) {
 					activitiesDao.editActivities(this.selectedActivity);
-					if (selectedActivity.getActivityName().getCycle()) {
+					if (selectedActivity.getActivityName().getCycle()
+							&& selectedActivity.getCycle() != null) {
 						cycleDao.editCycle(selectedActivity.getCycle());
 					}
 					ControladorContexto.mensajeInformacion(null, MessageFormat
 							.format(bundle.getString(registerMessage),
 									selectedActivity.getActivityName()));
-					initializeRecordActual();
 				} else {
 					ControladorContexto
 							.mensajeInformacion(
