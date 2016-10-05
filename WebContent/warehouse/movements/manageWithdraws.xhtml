@@ -102,8 +102,7 @@
 							<rich:dataTable value="#{movementsAction.activitiesList}"
 								var="activity" id="activitiesTable" footerClass="H130P"
 								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
-								rowClasses="#{activity.seleccionado ? 'rf-ddm-itm-sel backgroundNone left':'odd-row'} , #{activity.seleccionado ? 'rf-ddm-itm-sel backgroundNone left' : 'even-row'}"
-								rendered="#{movementsAction.activitiesList.size() gt 0}">
+								rowClasses="#{activity.seleccionado ? 'rf-ddm-itm-sel backgroundNone left':'odd-row'} , #{activity.seleccionado ? 'rf-ddm-itm-sel backgroundNone left' : 'even-row'}">
 								<rich:column styleClass="colIconoUno">
 									<a:outputPanel>
 										<a:commandLink render="formWithdraws, activitiesTable"
@@ -251,6 +250,10 @@
 								<a:outputPanel
 									rendered="#{movementsAction.humanMaterialMap[activityMaterial.activityMaterialsPK.materials.idMaterial]!=null}">
 									<h:graphicImage value="/img/checkboxUncheckedDisabled_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText
+											value="#{mensajeWarehouse.moviments_label_withdrawn_material}" />
+									</rich:tooltip>
 								</a:outputPanel>
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
