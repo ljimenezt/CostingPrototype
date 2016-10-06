@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
@@ -77,7 +78,6 @@ public class CropsAction implements Serializable {
 	private JsonObject obj;
 	private JsonObject constructionParametersMap;
 
-	
 	/**
 	 * @return cropNames: crop names associated with the crop.
 	 */
@@ -274,7 +274,7 @@ public class CropsAction implements Serializable {
 	public void setNameCrop(int nameCrop) {
 		this.nameCrop = nameCrop;
 	}
-	
+
 	/**
 	 * @return flagButton: this flag is true if it is loaded from the register.
 	 */
@@ -656,6 +656,30 @@ public class CropsAction implements Serializable {
 		}
 		if (crops.getDescription() == null || "".equals(crops.getDescription())) {
 			ControladorContexto.mensajeRequeridos("formCrops:txtDescripcion");
+		}
+	}
+
+	/**
+	 * Method to validate that the start date and end date are selected.
+	 */
+	public void requiredDates() {
+		FacesContext contexto = FacesContext.getCurrentInstance();
+		String searchMessages = "";
+		ResourceBundle bundleCrop = contexto.getApplication()
+				.getResourceBundle(contexto, "messageLifeCycle");
+		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		try {
+			if ((crops.getInitialDate() == null || "".equals(crops
+					.getInitialDate()))
+					|| (crops.getFinalDate() == null || "".equals(crops
+							.getFinalDate()))) {
+				searchMessages = bundleCrop
+						.getString("crops_label_date_required");
+			}
+			validations.setMensajeBusquedaPopUp(searchMessages);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
