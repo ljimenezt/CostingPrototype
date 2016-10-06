@@ -127,7 +127,6 @@ public class TransactionsAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-
 	}
 
 	/**
@@ -142,11 +141,11 @@ public class TransactionsAction implements Serializable {
 	 */
 	private void advancedSearchTransactions(StringBuilder consult,
 			List<SelectItem> parameters) {
-
 		if (this.depositSelected != null) {
 			consult.append("WHERE t.deposits = :deposit ");
 			SelectItem item = new SelectItem(this.depositSelected, "deposit");
 			parameters.add(item);
 		}
 	}
+
 }

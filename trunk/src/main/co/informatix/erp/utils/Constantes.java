@@ -38,7 +38,6 @@ public class Constantes implements Serializable {
 
 	/* Adjust to deposit */
 	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE = 1;
-	public static final Integer IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE_EXPIRED = 4;
 
 	/* Organizations */
 	public static final String CARPETA_ARCHIVOS_ORGANIZACIONES = PropertiesManager
@@ -197,6 +196,8 @@ public class Constantes implements Serializable {
 	public static final short TRANSACTION_TYPE_ID_WITHDRAWAL = 3;
 	public static final short TRANSACTION_TYPE_ID_RETURN = 2;
 	public static final int TRANSACTION_TYPE_RETURN = 2;
+	public static final int TRANSACTION_TYPE_EXPIRED = 4;
+	public static final int TRANSACTION_TYPE_WITHDRAWAL = 3;
 
 	/* Files */
 	public static final String EXTENSION_XLSX = ".xlsx";

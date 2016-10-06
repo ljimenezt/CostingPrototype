@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import co.informatix.erp.utils.Constantes;
+import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.warehouse.entities.Deposits;
 import co.informatix.erp.warehouse.entities.Materials;
 
@@ -430,4 +431,45 @@ public class DepositsDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method allows consult the deposits used by the transaction withdraw
+	 * in the database filtering information search by the values sent.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @param idActivity
+	 *            : Activity identifier.
+	 * @return List<Deposits>:List of Deposits that comply with the condition of
+	 *         validity.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Deposits> consultDepositsToReturns(int idMaterial,
+			int idActivity) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT d FROM Transactions t ");
+		query.append("JOIN t.deposits d ");
+		query.append("WHERE d.materials.idMaterial=:idMaterial ");
+		query.append("AND t.activities.idActivity=:idActivity ");
+		query.append("AND t.transactionType.idTransactionType=:idTransactionType ");
+		query.append("AND t.activities.idActivity=:idActivity ");
+		query.append("AND TO_CHAR(t.dateTime,'YYYY-mm-dd') = :dateTime ");
+		query.append("ORDER BY d.dateTime ASC, d.idDeposit ASC ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idMaterial", idMaterial);
+		q.setParameter("idActivity", idActivity);
+		q.setParameter("idTransactionType",
+				Constantes.TRANSACTION_TYPE_WITHDRAWAL);
+		q.setParameter("dateTime", ControladorFechas
+				.getFechaActual(Constantes.DATE_FORMAT_CONSULT));
+		List<Deposits> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
 }

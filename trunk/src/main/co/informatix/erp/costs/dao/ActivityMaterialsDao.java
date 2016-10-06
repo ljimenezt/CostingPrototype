@@ -10,6 +10,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import co.informatix.erp.costs.entities.ActivityMaterials;
+import co.informatix.erp.utils.Constantes;
+import co.informatix.erp.utils.ControladorFechas;
 
 /**
  * DAO class that establishes the connection between business logic and data
@@ -223,4 +225,42 @@ public class ActivityMaterialsDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method allows consult the list of the activity materials in
+	 * transaction withdraw
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @return List<ActivityMaterials>: List of activity materials found.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivityMaterials> consultActivityMaterialInTrasaction()
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT am FROM ActivityMaterials am  ");
+		query.append("JOIN FETCH am.activityMaterialsPK.materials m ");
+		query.append("JOIN FETCH am.activityMaterialsPK.activities a ");
+		query.append("JOIN FETCH a.activityName ");
+		query.append("WHERE m.idMaterial IN (SELECT ma.idMaterial FROM Transactions t  ");
+		query.append("		JOIN t.deposits d ");
+		query.append("		JOIN d.materials ma ");
+		query.append("		JOIN t.activities ac ");
+		query.append("		WHERE a.idActivity = ac.idActivity  ");
+		query.append("		AND t.transactionType.idTransactionType = :idTransaction ");
+		query.append("		AND TO_CHAR(t.dateTime,'YYYY-mm-dd') = :dateTime )");
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("idTransaction",
+				Constantes.TRANSACTION_TYPE_WITHDRAWAL).setParameter(
+				"dateTime",
+				ControladorFechas
+						.getFechaActual(Constantes.DATE_FORMAT_CONSULT));
+		List<ActivityMaterials> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
 }
