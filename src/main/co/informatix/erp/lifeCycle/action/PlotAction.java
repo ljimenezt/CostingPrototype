@@ -348,6 +348,8 @@ public class PlotAction implements Serializable {
 	 * @modify 22/08/2016 Wilhelm.Boada
 	 * @modify 06/10/2016 Claudia.Rey
 	 * 
+	 * @param flagAction
+	 *            : flag that indicated to which action belongs.
 	 * @return consultPlots: plots query method returns to the template
 	 *         management.
 	 */
@@ -896,6 +898,8 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @param plotsList
 	 *            : plotsList consult of the database associated to the section.
+	 * @param flagAction
+	 *            : flag that indicated to which action belongs.
 	 */
 	public void initializePlotsBySection(List<Plot> plotList, String flagAction) {
 		listPlotsSelected = new ArrayList<Plot>();
