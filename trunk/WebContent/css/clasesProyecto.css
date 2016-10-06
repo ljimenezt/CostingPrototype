@@ -704,6 +704,15 @@ table.radio input[type=radio] {
 }
 
 /*Estilos nuevos listados*/
+.rowAdd {
+	background-color: #C0C0C0 !important;
+	font-size: 12px !important;
+	font-weight: bold !important;
+	text-align: right !important;
+	height: 25px !important;
+	padding-left: 55%;
+}
+
 .BCTransparente {
 	background-color: transparent !important;
 }

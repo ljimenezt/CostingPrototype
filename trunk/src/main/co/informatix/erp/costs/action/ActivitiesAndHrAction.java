@@ -1128,6 +1128,10 @@ public class ActivitiesAndHrAction implements Serializable {
 								paginationActivitiesAndHr.getInicio(),
 								paginationActivitiesAndHr.getRango(), consult,
 								parameters);
+
+				recordActivitiesActualsAction.setTotalCostHr(activitiesAndHrDao
+						.totalCost(this.selectedActivity.getIdActivity()));
+
 				if (param2 != null && (fromModal || param2.equals("mostrar"))) {
 					recordActivitiesActualsAction
 							.setListActivitiesAndHr(listActivitiesAndHrTemp);

@@ -234,6 +234,7 @@ public class ActivitiesAndMachineAction implements Serializable {
 	/**
 	 * Check the relations between activities and human resources.
 	 * 
+	 * @modify 05/10/2016 Luna.Granados
 	 */
 	public void showActivitiesAndMachineForActivity() {
 		ValidacionesAction validation = ControladorContexto
@@ -242,9 +243,9 @@ public class ActivitiesAndMachineAction implements Serializable {
 		StringBuilder queryBuilder = new StringBuilder();
 		String SearchMessage = "";
 		try {
+			RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
+					.getContextBean(RecordActivitiesActualsAction.class);
 			if (fromModal) {
-				RecordActivitiesActualsAction recordActivitiesActualsAction = ControladorContexto
-						.getContextBean(RecordActivitiesActualsAction.class);
 				this.selectedActivity = recordActivitiesActualsAction
 						.getSelectedActivity();
 			}
@@ -260,6 +261,11 @@ public class ActivitiesAndMachineAction implements Serializable {
 				this.listActivityMachine = activitiesAndMachineDao
 						.consultingActivitiesAndMachine(pagination.getInicio(),
 								pagination.getRango(), queryBuilder, parameters);
+
+				recordActivitiesActualsAction
+						.setTotalCostMachine(activitiesAndMachineDao
+								.calculateTotalCostMachine(this.selectedActivity
+										.getIdActivity()));
 			}
 			validation.setMensajeBusqueda(SearchMessage);
 		} catch (Exception e) {
