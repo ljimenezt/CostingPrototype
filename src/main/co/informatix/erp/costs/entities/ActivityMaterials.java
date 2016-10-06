@@ -26,8 +26,10 @@ public class ActivityMaterials implements Serializable, Cloneable {
 
 	private double quantityBudget;
 	private double costBudget;
+	private double quantityReturn;
 	private Double quantityActual;
 	private Double costActual;
+	private Double quantityWithdrawn;
 	private Date dateTime;
 	private boolean selected;
 
@@ -146,6 +148,38 @@ public class ActivityMaterials implements Serializable, Cloneable {
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+	}
+
+	/**
+	 * @return quantityWithdrawn : Actual quantity of material withdrawn
+	 */
+	@Transient
+	public Double getQuantityWithdrawn() {
+		return quantityWithdrawn;
+	}
+
+	/**
+	 * @param quantityWithdrawn
+	 *            :Actual quantity of material withdrawn
+	 */
+	public void setQuantityWithdrawn(Double quantityWithdrawn) {
+		this.quantityWithdrawn = quantityWithdrawn;
+	}
+
+	/**
+	 * @return quantityReturn : Quantity to return material
+	 */
+	@Transient
+	public double getQuantityReturn() {
+		return quantityReturn;
+	}
+
+	/**
+	 * @param quantityReturn
+	 *            : Quantity to return material
+	 */
+	public void setQuantityReturn(double quantityReturn) {
+		this.quantityReturn = quantityReturn;
 	}
 
 	public ActivityMaterials clone() {

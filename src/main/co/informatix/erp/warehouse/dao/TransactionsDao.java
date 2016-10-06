@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.warehouse.entities.Transactions;
 
 /**
@@ -37,6 +38,8 @@ public class TransactionsDao implements Serializable {
 	/**
 	 * Consult the list of transactions that comply with the option of force.
 	 * 
+	 * @modify 06/10/2016 Andres.Gomez
+	 * 
 	 * @param start
 	 *            : Registry where consultation begins
 	 * @param range
@@ -59,7 +62,9 @@ public class TransactionsDao implements Serializable {
 		query.append("LEFT JOIN FETCH t.activities a ");
 		query.append("LEFT JOIN FETCH a.activityName ");
 		query.append("LEFT JOIN FETCH t.hr ");
-		query.append("JOIN FETCH t.transactionType ");
+		query.append("LEFT JOIN FETCH t.deposits d ");
+		query.append("LEFT JOIN FETCH d.materials ");
+		query.append("JOIN FETCH t.transactionType tt ");
 		query.append(consult);
 		query.append(" ORDER BY t.idTransaction");
 		Query q = em.createQuery(query.toString());
@@ -73,6 +78,8 @@ public class TransactionsDao implements Serializable {
 	/**
 	 * Returns the number of existing transactions in the database.
 	 * 
+	 * @modify 06/10/2016 Andres.Gomez
+	 * 
 	 * @param consult
 	 *            : Query running on SQL.
 	 * @param parameters
@@ -84,6 +91,7 @@ public class TransactionsDao implements Serializable {
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(t) FROM Transactions t ");
+		query.append("JOIN t.transactionType tt ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parametro : parameters) {
@@ -160,4 +168,38 @@ public class TransactionsDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method allows sum of the total quantity withdrawn according a
+	 * activity materials identifier and transaction type withdraw
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param idActivity
+	 *            : Activity identifier.
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @return Double: Sum of the total quantity withdrawn.
+	 * @throws Exception
+	 */
+	public Double totalQuantityWithdrawn(int idActivity, int idMaterial)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT SUM(t.quantity) FROM  Transactions t ");
+		query.append("JOIN t.deposits d ");
+		query.append("JOIN d.materials m ");
+		query.append("WHERE t.transactionType.idTransactionType=:idTransactionType ");
+		query.append("AND t.activities.idActivity=:idActivity ");
+		query.append("AND m.idMaterial = :idMaterial ");
+		Query queryResult = em.createQuery(query.toString());
+		queryResult.setParameter("idTransactionType",
+				Constantes.TRANSACTION_TYPE_WITHDRAWAL);
+		queryResult.setParameter("idActivity", idActivity);
+		queryResult.setParameter("idMaterial", idMaterial);
+		if (queryResult.getSingleResult() != null) {
+			return (Double) queryResult.getSingleResult();
+		}
+		return (0.0);
+	}
+
 }

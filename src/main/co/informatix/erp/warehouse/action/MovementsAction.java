@@ -69,6 +69,7 @@ public class MovementsAction implements Serializable {
 	private List<Activities> activitiesList;
 	private List<ActivityMaterials> listActivityMaterials;
 	private List<ActivityMaterials> listActivityMaterialsSelected;
+	private List<Transactions> listMaterialsTransaction;
 	private HashMap<Integer, String> humanMaterialMap;
 	private Paginador pagination = new Paginador();
 	private Paginador paginationExpire = new Paginador();
@@ -78,6 +79,7 @@ public class MovementsAction implements Serializable {
 	private Integer rangeExpiration;
 	private String nameSearch;
 	private boolean selected = false;
+	private boolean isReturns = false;
 
 	/**
 	 * @return listDepositsExpired : List of the deposits with materials expired
@@ -174,6 +176,24 @@ public class MovementsAction implements Serializable {
 	public void setListActivityMaterialsSelected(
 			List<ActivityMaterials> listActivityMaterialsSelected) {
 		this.listActivityMaterialsSelected = listActivityMaterialsSelected;
+	}
+
+	/**
+	 * @return listMaterialsTransaction : List of the materials of have a
+	 *         transaction withdraw the current day
+	 */
+	public List<Transactions> getListMaterialsTransaction() {
+		return listMaterialsTransaction;
+	}
+
+	/**
+	 * @param listMaterialsTransaction
+	 *            :List of the materials of have a transaction withdraw the
+	 *            current day
+	 */
+	public void setListMaterialsTransaction(
+			List<Transactions> listMaterialsTransaction) {
+		this.listMaterialsTransaction = listMaterialsTransaction;
 	}
 
 	/**
@@ -332,8 +352,8 @@ public class MovementsAction implements Serializable {
 		this.rangeExpiration = 0;
 		this.selected = false;
 		this.nameSearch = "";
-		this.listActivityMaterialsSelected = null;
-		this.listActivityMaterials = null;
+		this.listActivityMaterialsSelected = new ArrayList<ActivityMaterials>();
+		this.listActivityMaterials = new ArrayList<ActivityMaterials>();
 		this.activityActualSelected = null;
 		this.hr = new Hr();
 		pagination = new Paginador();
@@ -575,36 +595,44 @@ public class MovementsAction implements Serializable {
 	 * Selects a single activityMaterials for display the associated
 	 * transaction.
 	 * 
-	 * @param activityMaterials
+	 * @param flag
 	 *            : this field validate if activityMaterials is selected.
 	 */
-	public void selectActivityMaterials(ActivityMaterials activityMaterials) {
-		try {
-			if (activityMaterials.isSelected()) {
-				Double materialQuantity;
-				ValidacionesAction validations = (ValidacionesAction) ControladorContexto
-						.getContextBean(ValidacionesAction.class);
-				ResourceBundle bundle = ControladorContexto
-						.getBundle("mensajeWarehouse");
-				materialQuantity = depositsDao.quantityMaterialsById(
-						activityMaterials.getActivityMaterialsPK()
-								.getMaterials().getIdMaterial(), null);
+	public void selectActivityMaterials(boolean flag) {
+		activityMaterials.setSelected(flag);
+		if (activityMaterials.isSelected()) {
+			this.listActivityMaterialsSelected.add(activityMaterials);
+		} else {
+			this.listActivityMaterialsSelected.remove(activityMaterials);
+		}
+	}
 
-				if (materialQuantity == null
-						|| materialQuantity < activityMaterials
-								.getQuantityBudget()) {
-					String searchMessages = MessageFormat
-							.format(bundle
-									.getString("deposits_message_not_enough_materials"),
-									activityMaterials.getActivityMaterialsPK()
-											.getMaterials().getName());
-					activityMaterials.setSelected(false);
-					validations.setMensajeBusquedaPopUp(searchMessages);
-				} else {
-					this.listActivityMaterialsSelected.add(activityMaterials);
-				}
+	/**
+	 * This method allows validate if the materials quantity in the deposits is
+	 * enough.
+	 */
+	public void validateQuantityMaterials() {
+		Double materialQuantity;
+		try {
+			ValidacionesAction validations = (ValidacionesAction) ControladorContexto
+					.getContextBean(ValidacionesAction.class);
+			ResourceBundle bundle = ControladorContexto
+					.getBundle("mensajeWarehouse");
+			materialQuantity = depositsDao.quantityMaterialsById(
+					this.activityMaterials.getActivityMaterialsPK()
+							.getMaterials().getIdMaterial(), null);
+
+			if (materialQuantity == null
+					|| materialQuantity < this.activityMaterials
+							.getQuantityBudget()) {
+				String searchMessages = MessageFormat.format(bundle
+						.getString("deposits_message_not_enough_materials"),
+						this.activityMaterials.getActivityMaterialsPK()
+								.getMaterials().getName());
+				validations.setMensajeBusquedaPopUp(searchMessages);
+
 			} else {
-				this.listActivityMaterialsSelected.remove(activityMaterials);
+				selectActivityMaterials(true);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -726,16 +754,31 @@ public class MovementsAction implements Serializable {
 				.getContextBean(ValidacionesAction.class);
 		ResourceBundle bundle = ControladorContexto
 				.getBundle("mensajeWarehouse");
-		if (hr.getName() == null || hr.getName().equals("")) {
-			ControladorContexto.mensajeRequeridos("formWithdraws:txtHrs");
-		}
 
+		if (hr.getName() == null || hr.getName().equals("")) {
+			String field = isReturns ? "formReturns:txtHrs"
+					: "formWithdraws:txtHrs";
+			ControladorContexto.mensajeRequeridos(field);
+		}
 		if (this.listActivityMaterialsSelected == null
 				|| this.listActivityMaterialsSelected.size() <= 0) {
 			String searchMessage = bundle
 					.getString("movements_message_no_materials_selected");
 			validations.setMensajeBusquedaPopUp(searchMessage);
-
+		}
+		if (isReturns) {
+			boolean flagError = true;
+			for (ActivityMaterials am : listActivityMaterialsSelected) {
+				if (am.isSelected()) {
+					flagError = false;
+					break;
+				}
+			}
+			String message = "movements_message_no_material_selected_return";
+			if (flagError) {
+				ControladorContexto.mensajeError(null, null,
+						bundle.getString(message));
+			}
 		}
 	}
 
@@ -747,9 +790,7 @@ public class MovementsAction implements Serializable {
 	 *         expired
 	 */
 	public String initializeExpirationConsult() {
-		this.rangeExpiration = 0;
-		this.selected = false;
-		this.nameSearch = "";
+		cleanparameters();
 		loadRange();
 		consultExpirationMaterials();
 		return "gesExpiration";
@@ -825,6 +866,10 @@ public class MovementsAction implements Serializable {
 	 *            : query to concatenate
 	 * @param parameters
 	 *            : list of search parameters.
+	 * @param bundle
+	 *            :access language tags
+	 * @param unionMessagesSearch
+	 *            : message search
 	 */
 	private void advanceSearchExpiration(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
@@ -859,7 +904,6 @@ public class MovementsAction implements Serializable {
 					+ '"'
 					+ this.nameSearch + '"' + " ");
 		}
-
 	}
 
 	/**
@@ -896,9 +940,7 @@ public class MovementsAction implements Serializable {
 	}
 
 	/**
-	 * This method allows set the list deposits expire selected by the user
-	 * 
-	 * @throws Exception
+	 * This method allows set the list deposits expire selected by the user.
 	 * 
 	 */
 	public void setListDepositsExpiredSelected() {
@@ -941,6 +983,9 @@ public class MovementsAction implements Serializable {
 	/**
 	 * This method allows adjust the list of deposits selected by user as
 	 * expired
+	 * 
+	 * @return gesExpiration: Navigation rules to redirect a manage of materials
+	 *         expired
 	 */
 	public String adjustedDepositsAsExpired() {
 		ResourceBundle bundle = ControladorContexto
@@ -952,7 +997,7 @@ public class MovementsAction implements Serializable {
 				Double quantity = deposit.getActualQuantity();
 				deposit.setActualQuantity(0d);
 				TransactionType transactionType = transactionTypeDao
-						.transactionTypeById(Constantes.IDENTIFIER_ADJUSTEMENT_ADJUST_TYPE_EXPIRED);
+						.transactionTypeById(Constantes.TRANSACTION_TYPE_EXPIRED);
 				depositsDao.editDeposits(deposit);
 				transactions.setTransactionType(transactionType);
 				transactions.setUserName(identity.getUserName());
@@ -976,6 +1021,219 @@ public class MovementsAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return initializeExpirationConsult();
+	}
+
+	/**
+	 * This method allow initialize the parameter of the consult and get the
+	 * navigation rule to manage the returns of the materials
+	 * 
+	 * @return gesExpiration: Navigation rules to redirect a manage of materials
+	 *         returns.
+	 */
+	public String initializeReturns() {
+		cleanparameters();
+		isReturns = true;
+		consultMaterialsTransactionToday();
+		return "gesReturns";
+	}
+
+	/**
+	 * This method allow consult the materials with transaction like withdraw in
+	 * the current day
+	 * 
+	 */
+	public void consultMaterialsTransactionToday() {
+		ValidacionesAction validations = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		String messageSearch = "";
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String param2 = ControladorContexto.getParam("param2");
+		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
+				: false;
+		try {
+			if (!fromModal) {
+				List<ActivityMaterials> listActivityM = activityMaterialsDao
+						.consultActivityMaterialInTrasaction();
+				if (listActivityM != null) {
+					setTotalQuantityWithdrawn(listActivityM);
+				}
+			} else {
+				this.listActivityMaterials = this.listActivityMaterialsSelected;
+			}
+			if (listActivityMaterials.size() > 0) {
+				Long amount = (long) listActivityMaterials.size();
+				pagination.paginar(amount);
+				int inicial = this.pagination.getItemInicial() - 1;
+				int fin = this.pagination.getItemFinal();
+				this.listActivityMaterials = listActivityMaterials.subList(
+						inicial, fin);
+			}
+			if (listActivityMaterials == null
+					|| listActivityMaterials.size() <= 0) {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_existen_registros"));
+			}
+			validations.setMensajeBusqueda(messageSearch);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows validate and add the flag selected to another list of
+	 * the activity materials
+	 * 
+	 * @param activityM
+	 *            : object to change the values to selected
+	 */
+	public void validateSelectionActivityMaterial(ActivityMaterials activityM) {
+		boolean flag = activityM.isSelected();
+		int idActivity = activityM.getActivityMaterialsPK().getActivities()
+				.getIdActivity();
+		int idMaterial = activityM.getActivityMaterialsPK().getMaterials()
+				.getIdMaterial();
+		for (ActivityMaterials am : this.listActivityMaterialsSelected) {
+			int auxIdActivity = am.getActivityMaterialsPK().getActivities()
+					.getIdActivity();
+			int auxIdMaterial = am.getActivityMaterialsPK().getMaterials()
+					.getIdMaterial();
+			if (idActivity == idMaterial && auxIdActivity == auxIdMaterial) {
+				am.setSelected(flag);
+			}
+		}
+	}
+
+	/**
+	 * This method allows consult the total quantity withdraw of every activity
+	 * materials
+	 * 
+	 * @param listActivityM
+	 *            : list of materials activity to consult the total quantity
+	 *            withdraw
+	 * @throws Exception
+	 */
+	private void setTotalQuantityWithdrawn(List<ActivityMaterials> listActivityM)
+			throws Exception {
+		for (ActivityMaterials am : listActivityM) {
+			int idActivity = am.getActivityMaterialsPK().getActivities()
+					.getIdActivity();
+			int idMaterial = am.getActivityMaterialsPK().getMaterials()
+					.getIdMaterial();
+			Double quantityWithdrawn = transactionsDao.totalQuantityWithdrawn(
+					idActivity, idMaterial);
+			am.setQuantityWithdrawn(quantityWithdrawn);
+		}
+		this.listActivityMaterials = listActivityM;
+		this.listActivityMaterialsSelected = listActivityM;
+	}
+
+	/**
+	 * This method allows save the material activity returned by the user
+	 * creating a transaction editing the deposit of the material
+	 */
+	public void saveReturnMaterialActivity() {
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		try {
+			this.userTransaction.begin();
+			for (ActivityMaterials am : this.listActivityMaterialsSelected) {
+				if (am.isSelected()) {
+					int idMaterial = am.getActivityMaterialsPK().getMaterials()
+							.getIdMaterial();
+					int idActivity = am.getActivityMaterialsPK()
+							.getActivities().getIdActivity();
+					Double returned = am.getQuantityReturn();
+					Double withdraw = am.getQuantityActual();
+					Double quantityActual = ControllerAccounting.subtract(
+							withdraw, returned);
+					am.setQuantityActual(quantityActual);
+					TransactionType transactionType = transactionTypeDao
+							.transactionTypeById(Constantes.TRANSACTION_TYPE_RETURN);
+					List<Deposits> listDeposits = depositsDao
+							.consultDepositsToReturns(idMaterial, idActivity);
+					int count = 0;
+					double costActual = am.getCostActual();
+					while (returned > 0) {
+						Transactions transaction = new Transactions();
+						Deposits deposit = listDeposits.get(count);
+						Transactions transactionAux = transactionsDao
+								.consultTransactionsByDepositsActivityAndTransactionType(
+										deposit.getIdDeposit(), idActivity,
+										Constantes.TRANSACTION_TYPE_WITHDRAWAL);
+						Double depositQuantity = deposit.getActualQuantity();
+						Double unitCost = deposit.getUnitCost();
+						if (returned > transactionAux.getQuantity()) {
+							returned = ControllerAccounting.add(returned,
+									depositQuantity);
+							transaction.setQuantity(depositQuantity);
+							deposit.setActualQuantity(0d);
+							costActual = ControllerAccounting.subtract(
+									costActual, ControllerAccounting.multiply(
+											depositQuantity, unitCost));
+						} else {
+							deposit.setActualQuantity(ControllerAccounting.add(
+									depositQuantity, returned));
+							transaction.setQuantity(returned);
+							costActual = ControllerAccounting.subtract(
+									costActual, ControllerAccounting.multiply(
+											returned, unitCost));
+							returned = 0d;
+						}
+						transaction.setTransactionType(transactionType);
+						transaction.setDateTime(new Date());
+						transaction.setDeposits(deposit);
+						transaction.setHr(hr);
+						transaction.setActivities(am.getActivityMaterialsPK()
+								.getActivities());
+						transaction.setUserName(identity.getUserName());
+						transactionsDao.saveTransaction(transaction);
+						depositsDao.editDeposits(deposit);
+						count++;
+					}
+					am.setCostActual(costActual);
+					activityMaterialsDao.editActivityMaterials(am);
+				}
+			}
+			userTransaction.commit();
+			ControladorContexto
+					.mensajeInformacion(
+							null,
+							bundle.getString("movements_message_expired_deposit_succesfully"));
+		} catch (Exception e) {
+			try {
+				this.userTransaction.rollback();
+			} catch (Exception e1) {
+				ControladorContexto.printErrorLog(e1);
+			}
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows validate the return value enter by the user
+	 */
+	public void validateQuantityReturn() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String idForm = "";
+		int count = 0;
+		for (ActivityMaterials am : this.listActivityMaterialsSelected) {
+			if (am.isSelected()) {
+				idForm = "formConfirmar:repeatInputs:" + count + ":message";
+				if (am.getQuantityReturn() > 0) {
+					Double returned = am.getQuantityReturn();
+					Double withdraw = am.getQuantityWithdrawn();
+					if (returned.compareTo(withdraw) > 0) {
+						ControladorContexto.mensajeErrorEspecifico(idForm,
+								"movements_messasge_quantity_greater_withdraw",
+								"mensajeWarehouse");
+					}
+				} else {
+					ControladorContexto.mensajeError(null, idForm,
+							bundle.getString("message_campo_mayo_cero"));
+				}
+			}
+			count++;
+		}
 	}
 
 }
