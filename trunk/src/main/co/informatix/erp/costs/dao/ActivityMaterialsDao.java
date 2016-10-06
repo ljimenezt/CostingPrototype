@@ -242,6 +242,7 @@ public class ActivityMaterialsDao implements Serializable {
 		query.append("SELECT am FROM ActivityMaterials am  ");
 		query.append("JOIN FETCH am.activityMaterialsPK.materials m ");
 		query.append("JOIN FETCH am.activityMaterialsPK.activities a ");
+		query.append("JOIN FETCH m.measurementUnits ");
 		query.append("JOIN FETCH a.activityName ");
 		query.append("WHERE m.idMaterial IN (SELECT ma.idMaterial FROM Transactions t  ");
 		query.append("		JOIN t.deposits d ");

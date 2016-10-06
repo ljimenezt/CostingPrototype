@@ -1186,7 +1186,7 @@ public class MovementsAction implements Serializable {
 			ControladorContexto
 					.mensajeInformacion(
 							null,
-							bundle.getString("movements_message_expired_deposit_succesfully"));
+							bundle.getString("movements_message_return_materials_succesfully"));
 		} catch (Exception e) {
 			try {
 				this.userTransaction.rollback();
