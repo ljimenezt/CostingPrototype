@@ -230,4 +230,8 @@ public class Constantes implements Serializable {
 	public static final String BOTTOM = "B";
 	public static final String CENTER = "C";
 
+
+	/* plots and crops */
+	public static final String FLAG_ACTION_SECTION = "SECTION";
+	public static final String FLAG_ACTION_CROPS = "CROPS";
 }

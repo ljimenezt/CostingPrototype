@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -70,10 +71,13 @@ public class CropsAction implements Serializable {
 	private String nameSearch;
 	private int year;
 	private int nameCrop;
+	private boolean flagButton;
+	private boolean guarded;
 
 	private JsonObject obj;
 	private JsonObject constructionParametersMap;
 
+	
 	/**
 	 * @return cropNames: crop names associated with the crop.
 	 */
@@ -270,6 +274,36 @@ public class CropsAction implements Serializable {
 	public void setNameCrop(int nameCrop) {
 		this.nameCrop = nameCrop;
 	}
+	
+	/**
+	 * @return flagButton: this flag is true if it is loaded from the register.
+	 */
+	public boolean isFlagButton() {
+		return flagButton;
+	}
+
+	/**
+	 * @param flagButton
+	 *            : this flag is true if it is loaded from the register.
+	 */
+	public void setFlagButton(boolean flagButton) {
+		this.flagButton = flagButton;
+	}
+
+	/**
+	 * @return guarded: flag that indicate when a plot is selected.
+	 */
+	public boolean isGuarded() {
+		return guarded;
+	}
+
+	/**
+	 * @param guarded
+	 *            : flag that indicate when a plot is selected.
+	 */
+	public void setGuarded(boolean guarded) {
+		this.guarded = guarded;
+	}
 
 	/**
 	 * @return obj: Object with the information of the plots
@@ -330,6 +364,7 @@ public class CropsAction implements Serializable {
 				.getBundle("messageLifeCycle");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
+		guarded = false;
 		listCrops = new ArrayList<Crops>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder query = new StringBuilder();
@@ -425,6 +460,7 @@ public class CropsAction implements Serializable {
 			listCropNames();
 			selectYear = ControladorFechas.loadYears();
 			paginationPlotsAsocciates = new Paginador();
+			this.flagButton = true;
 			if (crops != null) {
 				this.crops = crops;
 				this.listPlotsAsocciates = plotsDao
@@ -624,22 +660,6 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
-	 * Plots query associated with the Crop
-	 * 
-	 * @author Sergio.Ortiz
-	 * @modify 16/08/2016 Wilhelm.Boada
-	 */
-	public void plotsAssociates() {
-		PlotAction plot = ControladorContexto.getContextBean(PlotAction.class);
-		for (Plot plotAsociados : plot.getListPlotDate()) {
-			if (plotAsociados.isSelected()) {
-				this.listPlotsAsocciates.add(plotAsociados);
-			}
-		}
-		updateSubList();
-	}
-
-	/**
 	 * This method allows update the crops list that be shown in the view.
 	 * 
 	 * @author Wilhelm.Boada
@@ -656,6 +676,7 @@ public class CropsAction implements Serializable {
 			}
 			this.subListPlotsAsocciates = listPlotsAsocciates.subList(start,
 					rank);
+
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -692,6 +713,53 @@ public class CropsAction implements Serializable {
 	public void compareCrops() {
 		if (!this.options.get(0).getValue().equals(this.crops)) {
 			this.listPlotsAsocciates.removeAll(listPlotsAsocciates);
+		}
+	}
+
+	/**
+	 * This method maintain the plots selected.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param plots
+	 *            : List of plots.
+	 * @param listPlotCrops
+	 *            : Relation between plots and crops.
+	 */
+	public void maintainPlotSelect(List<Plot> plots, List<Plot> listPlotCrops) {
+		for (Plot plot : plots) {
+			for (Plot plot2 : listPlotCrops) {
+				if (plot.getIdPlot() == plot2.getIdPlot()) {
+					plot.setSelected(true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * This method initializes the pager with a fixed range to manage the plot
+	 * list and it gets a sublist of plots.
+	 * 
+	 * @author Claudia.Rey
+	 */
+	public void initializeList() {
+		try {
+			guarded = false;
+			subListPlotsAsocciates = new ArrayList<Plot>();
+			if (this.listPlotsAsocciates != null) {
+				Collections.sort(this.listPlotsAsocciates);
+				subListPlotsAsocciates.addAll(this.listPlotsAsocciates);
+			}
+			Long paginationAmount = (long) this.subListPlotsAsocciates.size();
+
+			this.paginationPlotsAsocciates.paginarRangoDefinido(
+					paginationAmount, 5);
+			int inicial = this.paginationPlotsAsocciates.getItemInicial() - 1;
+			int fin = this.paginationPlotsAsocciates.getItemFinal();
+			this.subListPlotsAsocciates = this.subListPlotsAsocciates.subList(
+					inicial, fin);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
