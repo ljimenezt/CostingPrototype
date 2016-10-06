@@ -258,7 +258,9 @@
 										maxlength="25"
 										requiredMessage="#{mensaje.message_campo_requerido}">
 										<f:validateLength maximum="25" />
-										<a:ajax event="valueChange" render="hourCost" execute="@this" />
+										<a:ajax event="valueChange"
+											listener="#{hrAction.calculateCostPerHour()}"
+											render="hourCost" execute="@this" />
 									</h:inputText>
 									<rich:message for="annualWage" />
 
@@ -271,7 +273,9 @@
 										required="true"
 										requiredMessage="#{mensaje.message_campo_requerido}">
 										<f:validateLength maximum="25" />
-										<a:ajax event="valueChange" render="hourCost" execute="@this" />
+										<a:ajax event="valueChange"
+											listener="#{hrAction.calculateCostPerHour()}"
+											render="hourCost" execute="@this" />
 									</h:inputText>
 									<rich:message for="hoursPerDay" />
 
@@ -284,7 +288,9 @@
 										required="true"
 										requiredMessage="#{mensaje.message_campo_requerido}">
 										<f:validateLength maximum="25" />
-										<a:ajax event="valueChange" render="hourCost" execute="@this" />
+										<a:ajax event="valueChange"
+											listener="#{hrAction.calculateCostPerHour()}"
+											render="hourCost" execute="@this" />
 									</h:inputText>
 									<rich:message for="totalNumberDays" />
 
@@ -293,13 +299,9 @@
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
 									<h:inputText styleClass="colTextoMini" maxlength="25"
-										id="hourCost" value="#{hrAction.calculateCostPerHour()}"
-										required="true"
-										requiredMessage="#{mensaje.message_campo_requerido}"
-										readonly="true">
+										id="hourCost" value="#{hrAction.hr.hourCost}" required="true"
+										requiredMessage="#{mensaje.message_campo_requerido}">
 										<f:validateLength maximum="25" />
-										<f:convertNumber maxFractionDigits="2" type="currency"
-											currencySymbol="$" locale="#{idioma.locale}" />
 									</h:inputText>
 									<rich:message for="hourCost" />
 

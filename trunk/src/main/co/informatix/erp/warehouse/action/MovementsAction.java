@@ -662,8 +662,6 @@ public class MovementsAction implements Serializable {
 	 * deposits for save in the database.
 	 */
 	public void createTransactionWithdrawal() {
-		List<Deposits> depositsListEdit = new ArrayList<Deposits>();
-		List<Transactions> transactionsList = new ArrayList<Transactions>();
 		try {
 			if (this.listActivityMaterialsSelected != null
 					&& this.listActivityMaterialsSelected.size() >= 0) {
@@ -708,7 +706,6 @@ public class MovementsAction implements Serializable {
 														amount));
 								amount = 0;
 							}
-							depositsListEdit.add(depositsActual);
 							transactions.setTransactionType(transactionType);
 							transactions.setDateTime(new Date());
 							transactions.setDeposits(depositsActual);
@@ -716,23 +713,14 @@ public class MovementsAction implements Serializable {
 							transactions
 									.setActivities(this.activityActualSelected);
 							transactions.setUserName(identity.getUserName());
-							transactionsList.add(transactions);
+							depositsDao.editDeposits(depositsActual);
+							transactionsDao.saveTransaction(transactions);
 						}
 						activityMaterials.setCostActual(costActual);
 						activityMaterials.setQuantityActual(activityMaterials
 								.getQuantityBudget());
 						activityMaterialsDao
 								.editActivityMaterials(activityMaterials);
-					}
-				}
-				if (transactionsList != null) {
-					for (Transactions transactions : transactionsList) {
-						transactionsDao.saveTransaction(transactions);
-					}
-				}
-				if (depositsListEdit != null) {
-					for (Deposits deposits : depositsListEdit) {
-						depositsDao.editDeposits(deposits);
 					}
 				}
 			}

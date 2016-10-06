@@ -1192,10 +1192,9 @@ public class HrAction implements Serializable {
 	 * information of the payment information in the form registrarHR view.
 	 * 
 	 * @author Dario.Lopez
-	 * 
-	 * @return hourCost: cost per hour.
+	 * @modify 06/10/2016 Wilhelm.Boada
 	 */
-	public double calculateCostPerHour() {
+	public void calculateCostPerHour() {
 		double hourCost = 0;
 		double annualWage = 0;
 		double hoursPerDay = 0;
@@ -1207,11 +1206,7 @@ public class HrAction implements Serializable {
 			totalDays = this.hr.getTotalNumbersDays();
 			hourCost = (annualWage / (hoursPerDay * totalDays));
 			hr.setHourCost(hourCost);
-		} else {
-			hourCost = 0;
-			return hourCost;
 		}
-		return hourCost;
 	}
 
 	/**
