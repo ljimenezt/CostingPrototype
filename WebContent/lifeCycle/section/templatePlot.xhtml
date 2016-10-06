@@ -23,7 +23,7 @@
 					cellspacing="0">
 					<a:commandLink id="lnkPlots" styleClass="quitarDecoracionLink"
 						execute="@this" rendered="#{sectionAction.flagButton eq true}"
-						actionListener="#{plotAction.initializePlotsBySection(sectionAction.plotList)}"
+						actionListener="#{plotAction.initializePlotsBySection(sectionAction.plotList, plotAction.flagActionSection)}"
 						render=":formPlots:popupPlots"
 						oncomplete="#{rich:component('popupPlots')}.show(); setFocus('formPlots:txtPlotSearch');">
 						<div align="right">

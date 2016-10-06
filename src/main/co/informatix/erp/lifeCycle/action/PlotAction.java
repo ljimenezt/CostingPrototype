@@ -26,6 +26,7 @@ import co.informatix.erp.lifeCycle.entities.CropNames;
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.lifeCycle.entities.Plot;
 import co.informatix.erp.lifeCycle.entities.Section;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
@@ -76,6 +77,24 @@ public class PlotAction implements Serializable {
 	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
+	private String flagActionSection = Constantes.FLAG_ACTION_SECTION;
+	private String flagActionCrop = Constantes.FLAG_ACTION_CROPS;
+
+	/**
+	 * @return flagActionSection: flag that indicate that the action is of
+	 *         section
+	 */
+	public String getFlagActionSection() {
+		return flagActionSection;
+	}
+
+	/**
+	 * @return flagActionCrop: flag that indicate that the action is of crop
+	 */
+	public String getFlagActionCrop() {
+		return flagActionCrop;
+	}
+
 	/**
 	 * @return farm: farm related a plot.
 	 */
@@ -85,7 +104,7 @@ public class PlotAction implements Serializable {
 
 	/**
 	 * @param farm
-	 *            farm related a plot.
+	 *            : farm related a plot.
 	 */
 	public void setFarm(Farm farm) {
 		this.farm = farm;
@@ -327,24 +346,34 @@ public class PlotAction implements Serializable {
 	 * @modify 21/07/2015 Andres.Gomez
 	 * @modify 01/10/2015 Gerardo.Herrera
 	 * @modify 22/08/2016 Wilhelm.Boada
+	 * @modify 06/10/2016 Claudia.Rey
 	 * 
 	 * @return consultPlots: plots query method returns to the template
 	 *         management.
 	 */
-	public String searchInitialization() {
+	public String searchInitialization(String flagAction) {
+		String flag = "";
 		try {
 			nameSearch = "";
-			if (!this.flagSection && !this.flagPlotSection) {
-				this.idCropNames = 0;
-				this.idSection = 0;
+			if (flagAction != "" && flagAction != null) {
+				if ((flagAction.equals(flagActionSection)) && !this.flagSection
+						&& !this.flagPlotSection) {
+					this.idCropNames = 0;
+					this.idSection = 0;
+				}
+				this.flagSection = false;
+				loadCropNames();
+				pagination = new Paginador();
+				if (flagAction.equals(flagActionCrop)) {
+					consultPlotForDate();
+				} else {
+					flag = consultPlots();
+				}
 			}
-			this.flagSection = false;
-			loadCropNames();
-			pagination = new Paginador();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultPlots();
+		return flag;
 	}
 
 	/**
@@ -359,7 +388,7 @@ public class PlotAction implements Serializable {
 	 */
 	public String initializeSearchPlot() {
 		this.flagPlotSection = false;
-		return searchInitialization();
+		return searchInitialization(flagActionSection);
 	}
 
 	/**
@@ -643,7 +672,7 @@ public class PlotAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		this.flagSection = true;
-		return searchInitialization();
+		return searchInitialization(flagActionSection);
 	}
 
 	/**
@@ -681,6 +710,7 @@ public class PlotAction implements Serializable {
 	 * @author Sergio.Ortiz
 	 * @modify Gerardo.Herrera
 	 * @modify 11/03/2016 Mabell.Boada
+	 * @modify 05/10/2016 Claudia.Rey
 	 */
 	public void consultPlotForDate() {
 		StringBuilder consult = new StringBuilder();
@@ -695,12 +725,15 @@ public class PlotAction implements Serializable {
 		CropsAction crops = ControladorContexto
 				.getContextBean(CropsAction.class);
 		listPlotDate = new ArrayList<Plot>();
+		String param2 = ControladorContexto.getParam("param2");
+		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
+				: false;
 		try {
 			searchAdvancedPopup(consult, parameters, bundle, unionMessageSearch);
 			Long amount = plotDao.quantityPlotsFiltered(crops
 					.getListPlotsAsocciates(), crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(),
-					consult, parameters);
+					consult, parameters, crops.isGuarded());
 			if (pagerState) {
 				pagination = new Paginador();
 				pagerState = false;
@@ -711,7 +744,8 @@ public class PlotAction implements Serializable {
 			listPlotDate = plotDao.searchCopsPlotsDate(crops.getCrops()
 					.getInitialDate(), crops.getCrops().getFinalDate(), crops
 					.getListPlotsAsocciates(), pagination.getInicio(),
-					pagination.getRango(), consult, parameters);
+					pagination.getRango(), consult, parameters, crops
+							.isGuarded());
 			if ((listPlotDate == null || listPlotDate.size() <= 0)
 					&& !"".equals(unionMessageSearch.toString())) {
 				messageSearch = MessageFormat
@@ -728,6 +762,10 @@ public class PlotAction implements Serializable {
 						bundleLifeCycle.getString("plot_label_s"),
 						unionMessageSearch);
 			}
+			if (listPlotsSelected != null) {
+				maintainPlotsSelected(listPlotDate, listPlotsSelected);
+			}
+			maintainPlotsCrops(fromModal);
 			validations.setMensajeBusquedaPopUp(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -854,16 +892,38 @@ public class PlotAction implements Serializable {
 	 * the view.
 	 * 
 	 * @author Wilhelm.Boada
+	 * @modify 06/10/2016 Claudia.Rey
 	 * 
 	 * @param plotsList
 	 *            : plotsList consult of the database associated to the section.
 	 */
-	public void initializePlotsBySection(List<Plot> plotList) {
+	public void initializePlotsBySection(List<Plot> plotList, String flagAction) {
 		listPlotsSelected = new ArrayList<Plot>();
 		if (plotList != null) {
 			listPlotsSelected.addAll(plotList);
 		}
 		flagPlotSection = true;
-		searchInitialization();
+		searchInitialization(flagAction);
 	}
+
+	/**
+	 * new This method maintain the plots selected when there are pagination
+	 * into the crop plot management.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param fromModal
+	 *            : flag for identifier the call.
+	 */
+	private void maintainPlotsCrops(boolean fromModal) {
+		if (fromModal) {
+			CropsAction cropAction = ControladorContexto
+					.getContextBean(CropsAction.class);
+			if (cropAction.getListPlotsAsocciates() != null
+					&& cropAction.getListPlotsAsocciates().size() > 0)
+				cropAction.maintainPlotSelect(listPlotDate,
+						cropAction.getListPlotsAsocciates());
+		}
+	}
+
 }

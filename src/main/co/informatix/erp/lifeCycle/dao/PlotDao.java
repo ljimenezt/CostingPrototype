@@ -223,6 +223,9 @@ public class PlotDao implements Serializable {
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : consult parameters.
+	 * @param guarded
+	 *            : flag that indicate when a plot is selected.
+	 *             
 	 * @return List<Plot>: Plot list that are available for the date range
 	 *         selected by the user
 	 * @throws Exception
@@ -230,9 +233,8 @@ public class PlotDao implements Serializable {
 	@SuppressWarnings("unchecked")
 	public List<Plot> searchCopsPlotsDate(Date dateStart, Date dateEnd,
 			List<Plot> plotSelected, int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
+			StringBuilder consult, List<SelectItem> parameters, boolean guarded)
 			throws Exception {
-
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT p FROM Plot p");
 		query.append(" WHERE p.idPlot NOT IN ");
@@ -241,7 +243,7 @@ public class PlotDao implements Serializable {
 		query.append(" (SELECT cr.idCrop FROM Crops cr WHERE ");
 		query.append(" ((:fechaInicio  >= cr.initialDate AND :fechaInicio <= cr.finalDate)");
 		query.append(" OR (:fechaInicio <= cr.initialDate AND :fechaFin >= cr.initialDate)))) ");
-		if (plotSelected != null && plotSelected.size() > 0) {
+		if (guarded && plotSelected != null && plotSelected.size() > 0) {
 			query.append(" AND p NOT IN (:plotSeleccionado) ");
 		}
 		query.append(consult);
@@ -250,7 +252,7 @@ public class PlotDao implements Serializable {
 		q.setParameter("fechaInicio", dateStart).setParameter("fechaFin",
 				dateEnd);
 
-		if (plotSelected != null && plotSelected.size() > 0) {
+		if (guarded && plotSelected != null && plotSelected.size() > 0) {
 			q.setParameter("plotSeleccionado", plotSelected);
 		}
 		for (SelectItem parameter : parameters) {
@@ -305,12 +307,14 @@ public class PlotDao implements Serializable {
 	 *            : String containing the query why the names are filtered plot.
 	 * @param parameters
 	 *            : query parameters.
+	 * @param guarded
+	 *            : flag that indicate when a plot is selected.
 	 * @return Long: plot number of records found
 	 * @throws Exception
 	 */
 	public Long quantityPlotsFiltered(List<Plot> plotSelected, Date dateStart,
-			Date dateEnd, StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
+			Date dateEnd, StringBuilder consult, List<SelectItem> parameters,
+			boolean guarded) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append(" SELECT COUNT(p) FROM Plot p");
 		query.append(" WHERE p.idPlot NOT IN ");
@@ -319,7 +323,7 @@ public class PlotDao implements Serializable {
 		query.append(" (SELECT cr.idCrop FROM Crops cr WHERE ");
 		query.append(" ((:fechaInicio  >= cr.initialDate AND :fechaInicio <= cr.finalDate)");
 		query.append(" OR (:fechaInicio <= cr.initialDate AND :fechaFin >= cr.initialDate)))) ");
-		if (plotSelected != null && plotSelected.size() > 0) {
+		if (guarded && plotSelected != null && plotSelected.size() > 0) {
 			query.append(" AND p NOT IN (:plotSeleccionado) ");
 		}
 		query.append(consult);
@@ -327,7 +331,7 @@ public class PlotDao implements Serializable {
 		q.setParameter("fechaInicio", dateStart).setParameter("fechaFin",
 				dateEnd);
 
-		if (plotSelected != null && plotSelected.size() > 0) {
+		if (guarded && plotSelected != null && plotSelected.size() > 0) {
 			q.setParameter("plotSeleccionado", plotSelected);
 		}
 
