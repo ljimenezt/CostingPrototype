@@ -107,7 +107,7 @@
 							styleClass="#{listaVacia? 'BCTransparente' : 'dataTable'} anchoTres"
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass="colIconoUno">
-								<a:commandLink
+								<a:commandLink rendered="#{activityMaterial.quantityActual > 0}"
 									actionListener="#{activityMaterial.setSelected(activityMaterial.selected ?false:true)}"
 									action="#{movementsAction.validateSelectionActivityMaterial(activityMaterial)}"
 									render="pnlMaterialsT">
@@ -118,6 +118,14 @@
 										styleClass="verticalAlignMiddle"
 										rendered="#{activityMaterial.selected eq false}" />
 								</a:commandLink>
+								<a:outputPanel
+									rendered="#{activityMaterial.quantityActual == 0}">
+									<h:graphicImage value="/img/checkboxUncheckedDisabled_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText
+											value="#{mensajeWarehouse.moviments_label_return_disable}" />
+									</rich:tooltip>
+								</a:outputPanel>
 							</rich:column>
 							<rich:column styleClass="colTextoCorto">
 								<f:facet name="header">#{messageCosts.activities_label}</f:facet>
@@ -125,9 +133,9 @@
 									value="#{activityMaterial.activityMaterialsPK.activities.activityName.activityName}" />
 							</rich:column>
 							<rich:column styleClass="colTextoCorto">
-								<f:facet name="header">#{mensajeWarehouse.materials_label}</f:facet>
+								<f:facet name="header">#{mensajeWarehouse.materials_label} </f:facet>
 								<h:outputText
-									value="#{activityMaterial.activityMaterialsPK.materials.name}" />
+									value="#{activityMaterial.activityMaterialsPK.materials.name} #{activityMaterial.activityMaterialsPK.materials.presentation} #{activityMaterial.activityMaterialsPK.materials.measurementUnits.name}" />
 							</rich:column>
 							<rich:column styleClass="colNumeroLargo">
 								<f:facet name="header">#{mensajeWarehouse.deposits_label_actual_quantity}</f:facet>
@@ -197,23 +205,33 @@
 				<script type="text/javascript">
 		    $g=jQuery.noConflict();
 		</script>
-
-				<h:panelGrid columns="1" cellpadding="5" columnClasses="tdAlignTop">
-
-					<h:outputText styleClass="etiquetaTitulo"
-						value="#{mensajeWarehouse.movements_message_info_return}" />
-				</h:panelGrid>
-				<br />
-				<a:outputPanel id="tblConfirmation">
-					<h:panelGrid>
+				<rich:panel>
+					<h:panelGrid columns="2" cellpadding="5" columnClasses="tdAlignTop">
+						<h:graphicImage value="/img/info_16.png" />
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensajeWarehouse.movements_message_info_return}" />
+					</h:panelGrid>
+					<hr />
+					<br />
+					<a:outputPanel id="tblConfirmation">
 						<ui:repeat id="repeatInputs"
 							value="#{movementsAction.listActivityMaterialsSelected}"
-							var="varFields">
+							var="varFields" varStatus="row">
+							<h:panelGrid columns="3" columnClasses="W185P,,W180P"
+								rendered="#{row.index eq 0}">
+								<h:outputText
+									value="#{messageCosts.activities_label} - #{mensajeWarehouse.materials_label}"
+									styleClass="etiquetaTitulo" />
+								<h:outputText value="" />
+								<h:outputText value="#{mensaje.label_quantity}"
+									styleClass="etiquetaTitulo" />
+								<br />
+							</h:panelGrid>
+
 							<h:panelGrid columns="3" rendered="#{varFields.selected}"
 								columnClasses="W180P,,W180P">
-								<h:outputText
-									value="#{varFields.activityMaterialsPK.activities.activityName.activityName} - #{varFields.activityMaterialsPK.materials.name} :"
-									styleClass="etiquetaTitulo" />
+								<h:outputText escape="false"
+									value="#{varFields.activityMaterialsPK.activities.activityName.activityName} &lt;br/&gt; #{varFields.activityMaterialsPK.materials.name} :" />
 								<h:inputText value="#{varFields.quantityReturn}" id="value"
 									maxlength="25" styleClass="colTextoXCorto"
 									label="#{varFields.activityMaterialsPK.materials.name}"
@@ -224,21 +242,21 @@
 								</a:outputPanel>
 							</h:panelGrid>
 						</ui:repeat>
-					</h:panelGrid>
-					<br />
-					<div class="center">
-						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{movementsAction.validateQuantityReturn()}"
-							render="formConfirmarReturn:popUpConfirmarReturn"
-							execute="tblConfirmation"
-							oncomplete="if (#{facesContext.maximumSeverity==null})
+						<br />
+						<br />
+						<div class="center">
+							<a:commandButton value="#{mensaje.button_accept}"
+								actionListener="#{movementsAction.validateQuantityReturn()}"
+								render="formConfirmarReturn:popUpConfirmarReturn"
+								execute="tblConfirmation"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmarReturn')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
-						<a:commandButton value="#{mensaje.button_cancel}"
-							onclick="#{rich:component('popUpConfirmar')}.hide()" />
-					</div>
-				</a:outputPanel>
-
+							<a:commandButton value="#{mensaje.button_cancel}"
+								onclick="#{rich:component('popUpConfirmar')}.hide()" />
+						</div>
+					</a:outputPanel>
+				</rich:panel>
 			</rich:popupPanel>
 		</h:form>
 
@@ -261,7 +279,6 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
