@@ -249,6 +249,7 @@ public class ActivityMaterialsAction implements Serializable {
 	/**
 	 * Consult the material list associated to the activity.
 	 * 
+	 * @modify 05/10/2016 Luna.Granados
 	 */
 	public void consultMaterialsByActivity() {
 		ValidacionesAction validations = ControladorContexto
@@ -276,6 +277,11 @@ public class ActivityMaterialsAction implements Serializable {
 								paginationActivityMaterials.getInicio(),
 								paginationActivityMaterials.getRango(),
 								consult, parameters);
+
+				recordActivitiesActualsAction
+						.setTotalCostMaterials(activityMaterialsDao
+								.calculateTotalCostMaterials(this.selectedActivity
+										.getIdActivity()));
 			}
 			if (fromModal) {
 				recordActivitiesActualsAction.currentCost();

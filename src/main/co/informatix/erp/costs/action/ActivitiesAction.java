@@ -733,47 +733,71 @@ public class ActivitiesAction implements Serializable {
 	 */
 	public void currentCost() {
 		boolean materiaRequired;
+		Double totalCosts = 0.0;
 		List<ActivitiesAndHr> ahr;
 		List<ActivityMachine> am;
 		List<ActivityMaterials> amt;
 		try {
-			for (Activities a : this.listActivities) {
-				ahr = activitiesAndHrDao.activitiesAndHrByCycle(a
-						.getIdActivity());
-				am = activitiesAndMachineDao.listActivitiesAndMachine(a
-						.getIdActivity());
-				amt = activityMaterialsDao.listActivitiesAndMaterials(a
-						.getIdActivity());
+			if (this.listActivities != null) {
+				for (Activities a : this.listActivities) {
+					ahr = activitiesAndHrDao.activitiesAndHrByCycle(a
+							.getIdActivity());
+					am = activitiesAndMachineDao.listActivitiesAndMachine(a
+							.getIdActivity());
+					amt = activityMaterialsDao.listActivitiesAndMaterials(a
+							.getIdActivity());
 
-				a.setCalculateCosts(true);
-				if (ahr != null) {
-					for (ActivitiesAndHr activitiesAndHr : ahr) {
-						if (activitiesAndHr.getTotalCostActual() == null) {
-							a.setCalculateCosts(false);
+					a.setCalculateCosts(true);
+					if (ahr != null) {
+						for (ActivitiesAndHr activitiesAndHr : ahr) {
+							if (activitiesAndHr.getTotalCostActual() == null) {
+								a.setCalculateCosts(false);
+							}
 						}
 					}
-				}
-				if (am != null) {
-					for (ActivityMachine activityMachine : am) {
-						if (activityMachine.getConsumablesCostActual() == null) {
-							a.setCalculateCosts(false);
+					if (am != null) {
+						for (ActivityMachine activityMachine : am) {
+							if (activityMachine.getConsumablesCostActual() == null) {
+								a.setCalculateCosts(false);
+							}
 						}
 					}
-				}
-				if (amt != null) {
-					for (ActivityMaterials activityMaterials : amt) {
-						if (activityMaterials.getCostActual() == null) {
-							a.setCalculateCosts(false);
+					if (amt != null) {
+						for (ActivityMaterials activityMaterials : amt) {
+							if (activityMaterials.getCostActual() == null) {
+								a.setCalculateCosts(false);
+							}
 						}
 					}
-				}
-				materiaRequired = a.getMaterialsRequired() != null ? a
-						.getMaterialsRequired() : false;
-				if ((amt == null || amt.size() <= 0) && materiaRequired) {
-					a.setCalculateCosts(false);
-				}
-				if (ahr == null && am == null) {
-					a.setCalculateCosts(false);
+					materiaRequired = a.getMaterialsRequired() != null ? a
+							.getMaterialsRequired() : false;
+					if ((amt == null || amt.size() <= 0) && materiaRequired) {
+						a.setCalculateCosts(false);
+					}
+					if (ahr == null && am == null) {
+						a.setCalculateCosts(false);
+					}
+					// calculates the sum of the total costs of human resources,
+					// machines and materials
+					if (a.getHrRequired() == true) {
+						totalCosts = activitiesAndHrDao.totalCost(a
+								.getIdActivity());
+					}
+
+					if (a.getMachineRequired() == true) {
+						totalCosts = totalCosts
+								+ (activitiesAndMachineDao
+										.calculateTotalCostMachine(a
+												.getIdActivity()));
+					}
+
+					if (a.getMaterialsRequired() == true) {
+						totalCosts = totalCosts
+								+ (activityMaterialsDao
+										.calculateTotalCostMaterials(a
+												.getIdActivity()));
+					}
+					a.setTotalCosts(totalCosts);
 				}
 			}
 		} catch (Exception e) {

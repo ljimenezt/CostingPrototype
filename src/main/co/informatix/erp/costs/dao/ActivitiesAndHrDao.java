@@ -211,6 +211,8 @@ public class ActivitiesAndHrDao implements Serializable {
 	 * Compute the sum of the total costs for every human resources of an
 	 * activity.
 	 * 
+	 * @modify 06/10/2016 Luna.Granados
+	 * 
 	 * @param idActivity
 	 *            : Activity identifier.
 	 * @return Double: Sum of the costs.
@@ -223,7 +225,10 @@ public class ActivitiesAndHrDao implements Serializable {
 		query.append("WHERE a.idActivity = :idActivity  ");
 		Query queryResult = em.createQuery(query.toString());
 		queryResult.setParameter("idActivity", idActivity);
-		return (Double) queryResult.getSingleResult();
+		if (queryResult.getSingleResult() != null) {
+			return (Double) queryResult.getSingleResult();
+		}
+		return (0.0);
 	}
 
 	/**

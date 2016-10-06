@@ -310,9 +310,9 @@
 								<f:facet name="header">#{mensaje.label_cost_activity}</f:facet>
 								<a:commandLink
 									rendered="#{activity.calculateCosts eq true 
-										and activity.costHrActual eq null 
-										and activity.costMachinesEqActual eq null
-										and activity.costMaterialsActual eq null}"
+										and activity.costHrActual eq null  
+ 										and activity.costMachinesEqActual eq null 
+ 										and activity.costMaterialsActual eq null}"
 									oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmEndActivity')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
@@ -321,6 +321,13 @@
 										<h:outputText value="#{mensaje.button_calculate}" />
 									</rich:tooltip>
 								</a:commandLink>
+								<h:outputText value="#{activity.totalCosts}"
+									rendered="#{activity.costHrActual ne null  
+ 										or activity.costMachinesEqActual ne null 
+ 										or activity.costMaterialsActual ne null}">
+									<f:convertNumber maxFractionDigits="1" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
 
 							<f:facet name="footer">
@@ -505,7 +512,10 @@
 
 							<rich:column styleClass="colValor">
 								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
-								<h:outputText value="#{actividadesTrabajadores.totalCostActual}" />
+								<h:outputText value="#{actividadesTrabajadores.totalCostActual}">
+									<f:convertNumber maxFractionDigits="1" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
 
 							<rich:column styleClass="colNumero">
@@ -532,6 +542,15 @@
 								</rich:columnGroup>
 							</f:facet>
 						</rich:dataTable>
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="4"
+							styleClass="rowAdd anchoDos" rendered="#{!listaVaciaA}">
+							<h:outputText value="#{mensaje.label_total_cost}:" />
+							<h:outputText
+								value="#{recordActivitiesActualsAction.totalCostHr}">
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
+						</h:panelGrid>
 						<br />
 						<a:outputPanel id="paginadoActivities"
 							rendered="#{activitiesAndHrAction.listActivitiesAndHrTemp.size() gt 0}">
@@ -606,7 +625,10 @@
 							<rich:column styleClass="colValor">
 								<f:facet name="header">#{mensaje.label_cost} #{mensaje.label_total}</f:facet>
 								<h:outputText
-									value="#{machinesActivities.consumablesCostActual}" />
+									value="#{machinesActivities.consumablesCostActual}">
+									<f:convertNumber maxFractionDigits="1" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
 
 							<f:facet name="footer">
@@ -618,6 +640,15 @@
 								</rich:columnGroup>
 							</f:facet>
 						</rich:dataTable>
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="4"
+							styleClass="rowAdd anchoCuatro" rendered="#{!listaVaciaA}">
+							<h:outputText value="#{mensaje.label_total_cost}:" />
+							<h:outputText
+								value="#{recordActivitiesActualsAction.totalCostMachine}">
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
+						</h:panelGrid>
 						<br />
 						<a:outputPanel id="pagerActivitiesMachines"
 							rendered="#{activitiesAndMachineAction.listActivityMachine.size() gt 0}">
@@ -685,6 +716,15 @@
 								</rich:columnGroup>
 							</f:facet>
 						</rich:dataTable>
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="4"
+							styleClass="rowAdd anchoCuatro" rendered="#{!listaVaciaA}">
+							<h:outputText value="#{mensaje.label_total_cost}:" />
+							<h:outputText
+								value="#{recordActivitiesActualsAction.totalCostMaterials}">
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
+						</h:panelGrid>
 						<br />
 						<a:outputPanel id="pagerActivityMaterial"
 							rendered="#{activityMaterialsAction.listActivityMaterialsTemp.size() gt 0}">

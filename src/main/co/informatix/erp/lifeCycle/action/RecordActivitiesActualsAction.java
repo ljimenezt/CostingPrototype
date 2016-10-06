@@ -88,6 +88,9 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private int idOvertimePaymentsRate;
 	private int idCycle;
 	private boolean flagStart;
+	private Double totalCostHr;
+	private Double totalCostMachine;
+	private Double totalCostMaterials;
 
 	private List<SelectItem> listCropNames;
 	private List<SelectItem> listCrops;
@@ -162,6 +165,51 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void setIdCycle(int idCycle) {
 		this.idCycle = idCycle;
+	}
+
+	/**
+	 * @return totalCostHr: Sum total costs of resources humans
+	 */
+	public Double getTotalCostHr() {
+		return totalCostHr;
+	}
+
+	/**
+	 * @param totalCostHr
+	 *            : Sum total costs of resources humans
+	 */
+	public void setTotalCostHr(Double totalCostHr) {
+		this.totalCostHr = totalCostHr;
+	}
+
+	/**
+	 * @return totalCostMachine: Sum total costs of machines
+	 */
+	public Double getTotalCostMachine() {
+		return totalCostMachine;
+	}
+
+	/**
+	 * @param totalCostMachine
+	 *            : Sum total costs of machines
+	 */
+	public void setTotalCostMachine(Double totalCostMachine) {
+		this.totalCostMachine = totalCostMachine;
+	}
+
+	/**
+	 * @return totalCostMaterials: Sum total costs of materials
+	 */
+	public Double getTotalCostMaterials() {
+		return totalCostMaterials;
+	}
+
+	/**
+	 * @param totalCostMaterials
+	 *            : Sum total costs of materials
+	 */
+	public void setTotalCostMaterials(Double totalCostMaterials) {
+		this.totalCostMaterials = totalCostMaterials;
 	}
 
 	/**
@@ -635,42 +683,70 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @modify 04/10/2016 Luna.Granados
 	 */
 	public void currentCost() {
-		this.activitiesAndMachineAction = ControladorContexto
-				.getContextBean(ActivitiesAndMachineAction.class);
+		try {
+			this.activitiesAndMachineAction = ControladorContexto
+					.getContextBean(ActivitiesAndMachineAction.class);
 
-		this.selectedActivity.setCalculateCosts(true);
-		if (this.listActivitiesAndHr != null) {
-			for (ActivitiesAndHr activitiesAndHr : this.listActivitiesAndHr) {
-				if (activitiesAndHr.getTotalCostActual() == null) {
-					this.selectedActivity.setCalculateCosts(false);
+			this.selectedActivity.setCalculateCosts(true);
+			if (this.listActivitiesAndHr != null) {
+				for (ActivitiesAndHr activitiesAndHr : this.listActivitiesAndHr) {
+					if (activitiesAndHr.getTotalCostActual() == null) {
+						this.selectedActivity.setCalculateCosts(false);
+					}
 				}
 			}
-		}
-		if (this.activitiesAndMachineAction.getListActivityMachine() != null) {
-			for (ActivityMachine activityMachine : this.activitiesAndMachineAction
-					.getListActivityMachine()) {
-				if (activityMachine.getConsumablesCostActual() == null) {
-					this.selectedActivity.setCalculateCosts(false);
+			if (this.activitiesAndMachineAction.getListActivityMachine() != null) {
+				for (ActivityMachine activityMachine : this.activitiesAndMachineAction
+						.getListActivityMachine()) {
+					if (activityMachine.getConsumablesCostActual() == null) {
+						this.selectedActivity.setCalculateCosts(false);
+					}
 				}
 			}
-		}
-		if (this.activityMaterialsAction.getListActivityMaterialsTemp() != null) {
-			for (ActivityMaterials activityMaterials : this.activityMaterialsAction
-					.getListActivityMaterialsTemp()) {
-				if (activityMaterials.getCostActual() == null) {
-					this.selectedActivity.setCalculateCosts(false);
+			if (this.activityMaterialsAction.getListActivityMaterialsTemp() != null) {
+				for (ActivityMaterials activityMaterials : this.activityMaterialsAction
+						.getListActivityMaterialsTemp()) {
+					if (activityMaterials.getCostActual() == null) {
+						this.selectedActivity.setCalculateCosts(false);
+					}
 				}
 			}
-		}
-		boolean materiaRequired = this.selectedActivity.getMaterialsRequired() != null ? selectedActivity
-				.getMaterialsRequired() : false;
-		if ((this.activityMaterialsAction.getListActivityMaterialsTemp() == null || this.activityMaterialsAction
-				.getListActivityMaterialsTemp().size() <= 0) && materiaRequired) {
-			this.selectedActivity.setCalculateCosts(false);
-		}
-		if (this.listActivitiesAndHr == null
-				&& this.activitiesAndMachineAction.getListActivityMachine() == null) {
-			this.selectedActivity.setCalculateCosts(false);
+			boolean materiaRequired = this.selectedActivity
+					.getMaterialsRequired() != null ? selectedActivity
+					.getMaterialsRequired() : false;
+			if ((this.activityMaterialsAction.getListActivityMaterialsTemp() == null || this.activityMaterialsAction
+					.getListActivityMaterialsTemp().size() <= 0)
+					&& materiaRequired) {
+				this.selectedActivity.setCalculateCosts(false);
+			}
+			if (this.listActivitiesAndHr == null
+					&& this.activitiesAndMachineAction.getListActivityMachine() == null) {
+				this.selectedActivity.setCalculateCosts(false);
+			}
+			// calculates the sum of the total costs of human resources,
+			// machines and materials
+			Double totalCosts = 0.0;
+			if (this.selectedActivity.getHrRequired() == true) {
+				totalCosts = activitiesAndHrDao.totalCost(this.selectedActivity
+						.getIdActivity());
+			}
+
+			if (this.selectedActivity.getMachineRequired() == true) {
+				totalCosts = totalCosts
+						+ (activitiesAndMachineDao
+								.calculateTotalCostMachine(this.selectedActivity
+										.getIdActivity()));
+			}
+
+			if (this.selectedActivity.getMaterialsRequired() == true) {
+				totalCosts = totalCosts
+						+ (activityMaterialsDao
+								.calculateTotalCostMaterials(this.selectedActivity
+										.getIdActivity()));
+			}
+			this.selectedActivity.setTotalCosts(totalCosts);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
@@ -1168,7 +1244,6 @@ public class RecordActivitiesActualsAction implements Serializable {
 	/**
 	 * This method allows control the queries of the resources assigned to the
 	 * activity.
-	 * 
 	 */
 	public void consultResourcesByActivity() {
 		this.activitiesAndHrAction = ControladorContexto

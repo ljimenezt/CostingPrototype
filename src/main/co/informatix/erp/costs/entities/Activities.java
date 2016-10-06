@@ -62,6 +62,7 @@ public class Activities implements Serializable {
 	private boolean routine;
 	private boolean seleccionado;
 	private boolean calculateCosts;
+	private Double totalCosts;
 
 	private Crops crop;
 	private ActivityNames activityName;
@@ -512,6 +513,23 @@ public class Activities implements Serializable {
 	 */
 	public void setCalculateCosts(boolean calculateCosts) {
 		this.calculateCosts = calculateCosts;
+	}
+
+	/**
+	 * @return totalCosts: Sum total costs of resources humans, machines and
+	 *         materials
+	 */
+	@Transient
+	public Double getTotalCosts() {
+		return totalCosts;
+	}
+
+	/**
+	 * @param totalCosts
+	 *            : Sum total costs of resources humans, machines and materials
+	 */
+	public void setTotalCosts(Double totalCosts) {
+		this.totalCosts = totalCosts;
 	}
 
 	/**

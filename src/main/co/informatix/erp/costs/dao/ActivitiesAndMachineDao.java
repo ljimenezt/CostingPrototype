@@ -191,6 +191,8 @@ public class ActivitiesAndMachineDao implements Serializable {
 	/**
 	 * Consult the sum of the total cost of each of the machines activity
 	 * 
+	 * @modify 06/10/2016 Luna.Granados
+	 * 
 	 * @param idActivity
 	 *            : Activity identifier.
 	 * @return Double: Sum of machine costs
@@ -203,7 +205,10 @@ public class ActivitiesAndMachineDao implements Serializable {
 		query.append("WHERE a.idActivity = :idActivity  ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idActivity", idActivity);
-		return (Double) q.getSingleResult();
+		if (q.getSingleResult() != null) {
+			return (Double) q.getSingleResult();
+		}
+		return (0.0);
 	}
 
 	/**
