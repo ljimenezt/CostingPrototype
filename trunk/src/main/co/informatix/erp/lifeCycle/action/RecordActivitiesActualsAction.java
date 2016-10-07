@@ -726,19 +726,22 @@ public class RecordActivitiesActualsAction implements Serializable {
 			// calculates the sum of the total costs of human resources,
 			// machines and materials
 			Double totalCosts = 0.0;
-			if (this.selectedActivity.getHrRequired() == true) {
+			if (this.selectedActivity.getHrRequired() != null
+					&& this.selectedActivity.getHrRequired() == true) {
 				totalCosts = activitiesAndHrDao.totalCost(this.selectedActivity
 						.getIdActivity());
 			}
 
-			if (this.selectedActivity.getMachineRequired() == true) {
+			if (this.selectedActivity.getMachineRequired() != null
+					&& this.selectedActivity.getMachineRequired() == true) {
 				totalCosts = totalCosts
 						+ (activitiesAndMachineDao
 								.calculateTotalCostMachine(this.selectedActivity
 										.getIdActivity()));
 			}
 
-			if (this.selectedActivity.getMaterialsRequired() == true) {
+			if (this.selectedActivity.getMaterialsRequired() != null
+					&& this.selectedActivity.getMaterialsRequired() == true) {
 				totalCosts = totalCosts
 						+ (activityMaterialsDao
 								.calculateTotalCostMaterials(this.selectedActivity
