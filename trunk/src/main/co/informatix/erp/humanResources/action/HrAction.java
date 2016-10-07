@@ -636,6 +636,7 @@ public class HrAction implements Serializable {
 	 * Method to edit or create a new human resource.
 	 * 
 	 * @modify 15/03/2016 Sergio.Gelves
+	 * @modify 07/10/2016 Wilhelm.Boada
 	 * 
 	 * @param hr
 	 *            : human resource that will add or edit.
@@ -676,6 +677,9 @@ public class HrAction implements Serializable {
 							.getDepartamentoResidencia());
 				} else {
 					this.hr.setDepartamentoResidencia(new Departamento());
+				}
+				if (this.hr.getCivilStatus() == null) {
+					this.hr.setCivilStatus(new CivilStatus());
 				}
 			} else {
 				this.hr = new Hr();
