@@ -940,6 +940,7 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @modify 22/06/2016 Sergio.Gelves
 	 * @modify 23/06/2016 Liseth.Jimenez
+	 * @modify 07/10/2016 Claudia.Rey
 	 */
 	public void consultCycles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -960,7 +961,7 @@ public class CycleAction implements Serializable {
 					unionMessagesSearch);
 			Long amount = cycleDao.amountCycleCrop(consult, parameters,
 					this.idCrops);
-			if (amount != null) {
+			if (amount != null && amount > 0) {
 				if (fromModal) {
 					paginationForm.paginarRangoDefinido(amount, 5);
 					listCycles = cycleDao.consultCycleByCrop(
@@ -973,6 +974,11 @@ public class CycleAction implements Serializable {
 							pagination.getInicio(), pagination.getRango(),
 							consult, parameters, this.idCrops);
 				}
+			} else {
+				ControladorContexto.mensajeError(null,
+						"formScheduledActivities:mensajeBusquedaMenu",
+						bundleLifeCycle.getString("scheduled_activities_messages_cycles"));
+
 			}
 
 			if ((listCycles == null || listCycles.size() <= 0)
