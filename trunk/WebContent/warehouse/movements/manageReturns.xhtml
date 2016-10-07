@@ -106,7 +106,7 @@
 										<a:commandLink
 											actionListener="#{activityMaterial.setSelected(activityMaterial.selected ?false:true)}"
 											action="#{movementsAction.validateSelectionActivityMaterial(activityMaterial)}"
-											render="formReturns, materialsList"
+											render="materialsList"
 											oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
 											<h:graphicImage value="/img/checkboxChecked_16.png"
 												styleClass="verticalAlignMiddle"
