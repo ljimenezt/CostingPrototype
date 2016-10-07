@@ -42,7 +42,7 @@
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listing} #{mensajeWarehouse.materials_label_s}"
 				id="pnlReturns">
-				<a:outputPanel>
+				<a:outputPanel id="pnlHr">
 					<t:fieldset styleClass="anchoTres BorderW2P">
 						<h:panelGrid columns="4"
 							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -110,7 +110,7 @@
 								<a:commandLink rendered="#{activityMaterial.quantityActual > 0}"
 									actionListener="#{activityMaterial.setSelected(activityMaterial.selected ?false:true)}"
 									action="#{movementsAction.validateSelectionActivityMaterial(activityMaterial)}"
-									render="formReturns">
+									render="pnlMaterialsT, pnlHr ">
 									<h:graphicImage value="/img/checkboxChecked_16.png"
 										styleClass="verticalAlignMiddle"
 										rendered="#{activityMaterial.selected eq true}" />
