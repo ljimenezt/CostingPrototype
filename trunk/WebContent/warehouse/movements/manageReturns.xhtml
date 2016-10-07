@@ -60,7 +60,7 @@
 								<a:commandLink id="lnkHr" render=":popupFormHr:popupHR"
 									actionListener="#{hrAction.setFlagAction(true)}"
 									action="#{hrAction.initializeSearch}" execute="@this"
-									oncomplete="#{rich:component('popupFormHr:popupHR')}.show(); setFocus('popupFormHr:popupFormHr:txtHrBuscar');">
+									oncomplete="#{rich:component(':popupFormHr:popupHR')}.show(); setFocus(':popupFormHr:popupFormHr:txtHrBuscar');">
 									<h:graphicImage value="/img/add_22.png"
 										styleClass="verticalAlignMiddle" />
 									<f:param name="param2" value="si" />
@@ -106,7 +106,7 @@
 										<a:commandLink
 											actionListener="#{activityMaterial.setSelected(activityMaterial.selected ?false:true)}"
 											action="#{movementsAction.validateSelectionActivityMaterial(activityMaterial)}"
-											render="materialsList"
+											render="formReturns"
 											oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
 											<h:graphicImage value="/img/checkboxChecked_16.png"
 												styleClass="verticalAlignMiddle"
@@ -202,9 +202,6 @@
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</h:panelGroup>
 				</f:facet>
-				<script type="text/javascript">
-		    $g=jQuery.noConflict();
-		</script>
 				<rich:panel>
 					<h:panelGrid columns="2" cellpadding="5" columnClasses="tdAlignTop">
 						<h:graphicImage value="/img/info_16.png" />
@@ -236,7 +233,8 @@
 								<h:inputText value="#{varFields.quantityReturn}" id="value"
 									maxlength="25" styleClass="colTextoXCorto"
 									label="#{varFields.activityMaterialsPK.materials.name}"
-									converterMessage="#{mensaje.message_campo_positivo}">
+									converterMessage="#{mensaje.message_campo_positivo}"
+									validator="#{encodeFilter.validarScripting}">
 									<f:validateDoubleRange minimum="0" />
 								</h:inputText>
 								<rich:message id="message" for="message" />
