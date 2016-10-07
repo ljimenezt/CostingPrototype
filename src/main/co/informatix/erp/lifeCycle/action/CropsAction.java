@@ -664,20 +664,17 @@ public class CropsAction implements Serializable {
 	 */
 	public void requiredDates() {
 		FacesContext contexto = FacesContext.getCurrentInstance();
-		String searchMessages = "";
 		ResourceBundle bundleCrop = contexto.getApplication()
 				.getResourceBundle(contexto, "messageLifeCycle");
-		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
-				.getContextBean(ValidacionesAction.class);
 		try {
 			if ((crops.getInitialDate() == null || "".equals(crops
 					.getInitialDate()))
 					|| (crops.getFinalDate() == null || "".equals(crops
 							.getFinalDate()))) {
-				searchMessages = bundleCrop
-						.getString("crops_label_date_required");
+				ControladorContexto.mensajeError(null,
+						"formCrops:mensajeBusquedaMenu",
+						bundleCrop.getString("crops_label_date_required"));
 			}
-			validations.setMensajeBusquedaPopUp(searchMessages);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
