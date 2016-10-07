@@ -230,14 +230,14 @@
 								columnClasses="W180P,,W180P">
 								<h:outputText escape="false"
 									value="#{varFields.activityMaterialsPK.activities.activityName.activityName} &lt;br/&gt; #{varFields.activityMaterialsPK.materials.name} :" />
-								<h:inputText value="#{varFields.quantityReturn}" id="value"
+								<h:inputText value="#{varFields.quantityReturn}" id="message"
 									maxlength="25" styleClass="colTextoXCorto"
 									label="#{varFields.activityMaterialsPK.materials.name}"
 									converterMessage="#{mensaje.message_campo_positivo}"
 									validator="#{encodeFilter.validarScripting}">
 									<f:validateDoubleRange minimum="0" />
 								</h:inputText>
-								<rich:message id="message" for="message" />
+								<rich:message for="message" />
 							</h:panelGrid>
 						</ui:repeat>
 						<br />
