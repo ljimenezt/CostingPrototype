@@ -214,6 +214,7 @@
 					<hr />
 					<br />
 					<a:outputPanel id="tblConfirmation">
+						<rich:messages for="value" />
 						<ui:repeat id="repeatInputs"
 							value="#{movementsAction.listActivityMaterialsSelected}"
 							var="varFields" varStatus="row">
@@ -233,9 +234,10 @@
 								<h:outputText escape="false"
 									value="#{varFields.activityMaterialsPK.activities.activityName.activityName} &lt;br/&gt; #{varFields.activityMaterialsPK.materials.name} :" />
 								<h:inputText value="#{varFields.quantityReturn}" id="value"
-									maxlength="25" styleClass="colTextoXCorto" required="true"
+									maxlength="25" styleClass="colTextoXCorto"
 									label="#{varFields.activityMaterialsPK.materials.name}"
 									converterMessage="#{mensaje.message_campo_positivo}">
+									<f:validateDoubleRange minimum="0" />
 								</h:inputText>
 								<rich:message id="message" for="message" />
 							</h:panelGrid>
