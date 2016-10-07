@@ -595,44 +595,36 @@ public class MovementsAction implements Serializable {
 	 * Selects a single activityMaterials for display the associated
 	 * transaction.
 	 * 
-	 * @param flag
+	 * @param activityMaterials
 	 *            : this field validate if activityMaterials is selected.
 	 */
-	public void selectActivityMaterials(boolean flag) {
-		activityMaterials.setSelected(flag);
-		if (activityMaterials.isSelected()) {
-			this.listActivityMaterialsSelected.add(activityMaterials);
-		} else {
-			this.listActivityMaterialsSelected.remove(activityMaterials);
-		}
-	}
-
-	/**
-	 * This method allows validate if the materials quantity in the deposits is
-	 * enough.
-	 */
-	public void validateQuantityMaterials() {
-		Double materialQuantity;
+	public void selectActivityMaterials(ActivityMaterials activityMaterials) {
 		try {
-			ValidacionesAction validations = (ValidacionesAction) ControladorContexto
-					.getContextBean(ValidacionesAction.class);
-			ResourceBundle bundle = ControladorContexto
-					.getBundle("mensajeWarehouse");
-			materialQuantity = depositsDao.quantityMaterialsById(
-					this.activityMaterials.getActivityMaterialsPK()
-							.getMaterials().getIdMaterial(), null);
+			if (activityMaterials.isSelected()) {
+				Double materialQuantity;
+				ValidacionesAction validations = (ValidacionesAction) ControladorContexto
+						.getContextBean(ValidacionesAction.class);
+				ResourceBundle bundle = ControladorContexto
+						.getBundle("mensajeWarehouse");
+				materialQuantity = depositsDao.quantityMaterialsById(
+						activityMaterials.getActivityMaterialsPK()
+								.getMaterials().getIdMaterial(), null);
 
-			if (materialQuantity == null
-					|| materialQuantity < this.activityMaterials
-							.getQuantityBudget()) {
-				String searchMessages = MessageFormat.format(bundle
-						.getString("deposits_message_not_enough_materials"),
-						this.activityMaterials.getActivityMaterialsPK()
-								.getMaterials().getName());
-				validations.setMensajeBusquedaPopUp(searchMessages);
-
+				if (materialQuantity == null
+						|| materialQuantity < activityMaterials
+								.getQuantityBudget()) {
+					String searchMessages = MessageFormat
+							.format(bundle
+									.getString("deposits_message_not_enough_materials"),
+									activityMaterials.getActivityMaterialsPK()
+											.getMaterials().getName());
+					activityMaterials.setSelected(false);
+					validations.setMensajeBusquedaPopUp(searchMessages);
+				} else {
+					this.listActivityMaterialsSelected.add(activityMaterials);
+				}
 			} else {
-				selectActivityMaterials(true);
+				this.listActivityMaterialsSelected.remove(activityMaterials);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
