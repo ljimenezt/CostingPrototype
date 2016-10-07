@@ -235,9 +235,7 @@
 								<h:inputText value="#{varFields.quantityReturn}" id="value"
 									maxlength="25" styleClass="colTextoXCorto" required="true"
 									label="#{varFields.activityMaterialsPK.materials.name}"
-									converterMessage="#{mensaje.message_campo_positivo}"
-									requiredMessage="#{mensaje.message_campo_requerido}"
-									validator="#{movementsAction.validarFormula}">
+									converterMessage="#{mensaje.message_campo_positivo}">
 								</h:inputText>
 							</h:panelGrid>
 							<rich:message for="value" />
