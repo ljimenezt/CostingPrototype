@@ -108,33 +108,43 @@
 							id="txtCycle" readonly="true"
 							validator="#{encodeFilter.validarScripting}"
 							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null }" />
-						<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
-							render=":popupSearchCycle, :outputBuscar"
-							action="#{cycleAction.initializeSearch()}"
-							actionListener="#{cycleAction.setIdCrops(scheduledActivitiesAction.idCrop)}"
-							execute="formActivitiesAndHr"
-							rendered="#{activitiesAction.listActivities eq null}"
-							oncomplete="if (#{facesContext.maximumSeverity==null})
+						<h:panelGrid columns="2">
+							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+								render=":popupSearchCycle, :outputBuscar, :mensajeBusquedaMenu"
+								action="#{cycleAction.initializeSearch()}"
+								actionListener="#{cycleAction.setIdCrops(scheduledActivitiesAction.idCrop)}"
+								execute="formActivitiesAndHr"
+								rendered="#{activitiesAction.listActivities eq null}"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popupSearchCycle')}.show();} ">
-							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-								<h:graphicImage value="/img/add_22.png"
-									styleClass="verticalAlignMiddle" />
-							</h:panelGrid>
-							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_select}" />
-							</rich:tooltip>
-							<f:param name="param2" value="si" />
-						</a:commandLink>
-						<a:commandLink
-							rendered="#{activitiesAction.listActivities eq null}"
-							actionListener="#{scheduledActivitiesAction.cleanCycle()}"
-							render=":formScheduledActivities:txtCycle , :formScheduledActivities:txtCycles, formScheduledActivities"
-							execute="@this">
-							<h:graphicImage value="/img/editRemove_16.png" />
-							<rich:tooltip layout="block">
-								<h:outputText value="#{mensaje.label_remove}" />
-							</rich:tooltip>
-						</a:commandLink>
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/add_22.png"
+										styleClass="verticalAlignMiddle" />
+								</h:panelGrid>
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_select}" />
+								</rich:tooltip>
+								<f:param name="param2" value="si" />
+							</a:commandLink>
+							<a:commandLink
+								rendered="#{activitiesAction.listActivities eq null}"
+								actionListener="#{scheduledActivitiesAction.cleanCycle()}"
+								render=":formScheduledActivities:txtCycle , :formScheduledActivities:txtCycles, formScheduledActivities"
+								execute="@this">
+								<h:graphicImage value="/img/editRemove_16.png" />
+								<rich:tooltip layout="block">
+									<h:outputText value="#{mensaje.label_remove}" />
+								</rich:tooltip>
+							</a:commandLink>
+						</h:panelGrid>
+
+						<rich:message for="mensajeBusquedaMenu" />
+						<a:outputPanel id="mensajeBusquedaMenu">
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W560P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
 						<h:inputHidden id="txtCycles"
 							value="#{scheduledActivitiesAction.cycle.activiyNames.idActivityName}" />
 					</h:panelGrid>
