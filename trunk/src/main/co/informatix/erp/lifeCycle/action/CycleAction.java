@@ -85,6 +85,7 @@ public class CycleAction implements Serializable {
 	private String folderFile;
 	private String folderFileTemporal;
 	private String units;
+	private String template;
 
 	private Date initialDateSearch;
 	private Date finalDateSearch;
@@ -660,6 +661,20 @@ public class CycleAction implements Serializable {
 	public void setQuote(double quote) {
 		this.quote = quote;
 	}
+	
+	/**
+	 * @return template: Name of template that call the action.
+	 */
+	public String getTemplate() {
+		return template;
+	}
+
+	/**
+	 * @param template: Name of template that call the action.
+	 */
+	public void setTemplate(String template) {
+		this.template = template;
+	}
 
 	/**
 	 * This method allows initialize all the cycle.
@@ -975,9 +990,10 @@ public class CycleAction implements Serializable {
 							consult, parameters, this.idCrops);
 				}
 			} else {
-				ControladorContexto.mensajeError(null,
-						"formScheduledActivities:mensajeBusquedaMenu",
-						bundleLifeCycle.getString("scheduled_activities_messages_cycles"));
+
+				ControladorContexto.mensajeError(null, template
+						+ ":mensajeBusquedaMenu", bundleLifeCycle
+						.getString("scheduled_activities_messages_cycles"));
 
 			}
 
