@@ -110,7 +110,7 @@
 							disabled="#{activitiesAction.listActivities.size() gt 0 and activitiesAction ne null }" />
 						<h:panelGrid columns="2">
 							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
-								render=":popupSearchCycle, :outputBuscar, :mensajeBusquedaMenu"
+								render=":popupSearchCycle, :outputBuscar, formScheduledActivities:mensajeBusquedaMenu"
 								action="#{cycleAction.initializeSearch()}"
 								actionListener="#{cycleAction.setIdCrops(scheduledActivitiesAction.idCrop)}"
 								execute="formActivitiesAndHr"
@@ -125,6 +125,8 @@
 									<h:outputText value="#{mensaje.label_select}" />
 								</rich:tooltip>
 								<f:param name="param2" value="si" />
+								<f:setPropertyActionListener target="#{cycleAction.template}"
+									value="formScheduledActivities"></f:setPropertyActionListener>
 							</a:commandLink>
 							<a:commandLink
 								rendered="#{activitiesAction.listActivities eq null}"
