@@ -42,10 +42,11 @@
 				<t:fieldset styleClass="BorderW2P anchoDos ">
 					<legend class="etiquetaTitulo">#{mensajeWarehouse.materials_label_s}
 						#{mensajeWarehouse.movements_label_expiration}</legend>
-					<h:panelGrid columns="3"
+					<br />
+					<h:panelGrid columns="5"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop,,,tdAlignTop">
+						columnClasses=",tdAlignTop,tdAlignTop,W32P,">
 						<h:outputText
 							value="#{mensajeWarehouse.movements_label_expire_in}"
 							styleClass="etiquetaTitulo" />
@@ -54,12 +55,25 @@
 							styleClass="colTextoXCorto">
 							<f:selectItem itemLabel="#{mensaje.label_current}" itemValue="0" />
 							<f:selectItems value="#{movementsAction.rangeItems}" />
+							<f:selectItem itemLabel="#{mensaje.label_others}" itemValue="-1" />
 							<f:ajax event="change"
 								listener="#{movementsAction.consultExpirationMaterials()}"
 								render=":mensajes :formDepositsExpire:panelDepositsExpired :mensajeBusqueda" />
 						</h:selectOneMenu>
+						<h:inputText value="#{movementsAction.rangeExpirationAux}"
+							id="txtRange" maxlength="25" styleClass="colTextoXCorto"
+							required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							rendered="#{movementsAction.rangeExpiration lt 0}">
+							<f:validateLongRange minimum="1"></f:validateLongRange>
+							<f:ajax event="blur"
+								listener="#{movementsAction.consultExpirationMaterials()}"
+								render=":mensajes :formDepositsExpire:panelDepositsExpired :mensajeBusqueda" />
+						</h:inputText>
 						<h:outputText value="#{mensaje.label_days}"
 							styleClass="etiquetaTitulo" />
+						<rich:message for="txtRange" />
 					</h:panelGrid>
 
 					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
