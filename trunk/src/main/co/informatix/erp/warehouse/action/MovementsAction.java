@@ -77,6 +77,7 @@ public class MovementsAction implements Serializable {
 	private ActivityMaterials activityMaterials;
 	private Hr hr;
 	private Integer rangeExpiration;
+	private Integer rangeExpirationAux;
 	private String nameSearch;
 	private boolean selected = false;
 	private boolean isReturns = false;
@@ -305,6 +306,23 @@ public class MovementsAction implements Serializable {
 	}
 
 	/**
+	 * @return rangeExpirationAux: number of the day that user selected outside
+	 *         the set range to consult the materials expired
+	 */
+	public Integer getRangeExpirationAux() {
+		return rangeExpirationAux;
+	}
+
+	/**
+	 * @param rangeExpirationAux
+	 *            : number of the day that user selected outside the set range
+	 *            to consult the materials expired
+	 */
+	public void setRangeExpirationAux(Integer rangeExpirationAux) {
+		this.rangeExpirationAux = rangeExpirationAux;
+	}
+
+	/**
 	 * @return nameSearch : Material name to search.
 	 */
 	public String getNameSearch() {
@@ -350,6 +368,7 @@ public class MovementsAction implements Serializable {
 	 */
 	private void cleanparameters() {
 		this.rangeExpiration = 0;
+		this.rangeExpirationAux = 0;
 		this.selected = false;
 		this.nameSearch = "";
 		this.listActivityMaterialsSelected = new ArrayList<ActivityMaterials>();
@@ -795,6 +814,9 @@ public class MovementsAction implements Serializable {
 	 * range selected by the user
 	 */
 	public void consultExpirationMaterials() {
+		if (this.rangeExpiration < 0 && this.rangeExpiration == 0) {
+			return;
+		}
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleWarehouse = ControladorContexto
 				.getBundle("mensajeWarehouse");
@@ -857,16 +879,15 @@ public class MovementsAction implements Serializable {
 		ResourceBundle bundleWarehouse = ControladorContexto
 				.getBundle("mensajeWarehouse");
 		Date expireDate = new Date();
-		if (this.rangeExpiration != 0) {
-			expireDate = ControladorFechas.setDay(rangeExpiration, null);
+		Integer rangeE = this.rangeExpiration > 0 ? this.rangeExpiration
+				: this.rangeExpirationAux > 0 ? this.rangeExpirationAux : 0;
+		if (rangeE != 0) {
+			expireDate = ControladorFechas.setDay(rangeE, null);
 			unionMessagesSearch.append(bundleWarehouse
 					.getString("movements_label_expire_in")
 					+ ": "
 					+ '"'
-					+ this.rangeExpiration
-					+ '"'
-					+ " "
-					+ bundle.getString("label_days"));
+					+ rangeE + '"' + " " + bundle.getString("label_days"));
 		}
 		consult.append("WHERE d.expireDate <= :expireDate ");
 		consult.append("AND d.actualQuantity > 0 ");
