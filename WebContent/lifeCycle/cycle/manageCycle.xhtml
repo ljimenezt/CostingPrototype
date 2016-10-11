@@ -127,7 +127,7 @@
 								<a:commandLink render="popupDelete, formCycle"
 									oncomplete="#{rich:component('popupDelete')}.show()"
 									actionListener="#{cycleAction.setCycle(cycle)}"
-									action="#{cycleAction.showActivitiesCycle(cycle.idCycle)}">
+									action="#{cycleAction.setFlagDelete(true)}">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.button_remove}" />
@@ -216,7 +216,7 @@
 				<ui:param name="listaVaciaActividades"
 					value="#{cycleAction.listActivity.size() eq 0}" />
 				<a:outputPanel id="pnlActivityCycles"
-					rendered="#{cycleAction.listActivity != null}">
+					rendered="#{cycleAction.listActivity != null and cycleAction.flagDelete eq false}">
 					<t:fieldset styleClass="anchoDos BorderW2P">
 						<legend class="etiquetaTitulo">#{messageCosts.activities_label_s}</legend>
 						<rich:dataTable value="#{cycleAction.listActivity}" var="activity"
@@ -340,6 +340,7 @@
 							onclick="#{rich:component('popupDelete')}.hide()"
 							render="pnlCycles, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"
+							actionListener="#{cycleAction.setFlagDelete(false)}"
 							onclick="#{rich:component('popupDelete')}.hide()" />
 					</ui:define>
 				</ui:decorate>
