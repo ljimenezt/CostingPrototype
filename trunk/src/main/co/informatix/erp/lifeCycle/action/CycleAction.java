@@ -661,7 +661,7 @@ public class CycleAction implements Serializable {
 	public void setQuote(double quote) {
 		this.quote = quote;
 	}
-	
+
 	/**
 	 * @return template: Name of template that call the action.
 	 */
@@ -670,7 +670,8 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * @param template: Name of template that call the action.
+	 * @param template
+	 *            : Name of template that call the action.
 	 */
 	public void setTemplate(String template) {
 		this.template = template;
@@ -1471,6 +1472,7 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @author Sergio.Gelves
 	 * @modify 25/08/2016 Wilhelm.Boada
+	 * @modify 10/10/2016 Claudia.Rey
 	 * 
 	 * @param selectedCycle
 	 *            : Cycle id.
@@ -1479,7 +1481,30 @@ public class CycleAction implements Serializable {
 		this.listActivity = null;
 		this.selectedCycle = selectedCycle;
 		this.activitiesPagination = new Paginador();
+		if (this.cycle != null) {
+			validateBudgetCost();
+		}
 		searchActivityCycle();
+	}
+
+	/**
+	 * method that sets zero if budget cost values are null.
+	 * 
+	 * @author Claudia.Rey
+	 */
+	public void validateBudgetCost() {
+		if (this.cycle.getCostHrBudget() == null) {
+			this.cycle.setCostHrBudget(0.0);
+		}
+		if (this.cycle.getCostMachinesEqBudget() == null) {
+			this.cycle.setCostMachinesEqBudget(0.0);
+		}
+		if (this.cycle.getCostMaterialsBudget() == null) {
+			this.cycle.setCostMaterialsBudget(0.0);
+		}
+		if (this.cycle.getCostServicesBudget() == null) {
+			this.cycle.setCostServicesBudget(0.0);
+		}
 	}
 
 	/**
