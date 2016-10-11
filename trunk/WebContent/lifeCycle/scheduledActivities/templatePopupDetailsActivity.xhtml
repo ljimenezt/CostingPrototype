@@ -97,14 +97,16 @@
 
 					<h:outputText value="#{mensaje.label_description}:"
 						styleClass="etiquetaTitulo" />
-					<h:outputText value="#{scheduledActivitiesAction.selectedActivity.description}"
+					<h:outputText
+						value="#{scheduledActivitiesAction.selectedActivity.description}"
 						rendered="#{scheduledActivitiesAction.selectedActivity.description ne null}" />
 					<h:outputText value=""
 						rendered="#{scheduledActivitiesAction.selectedActivity.description eq null}" />
 
 					<h:outputText value="#{mensaje.label_activities_duration}:"
 						styleClass="etiquetaTitulo" />
-					<h:outputText value="#{scheduledActivitiesAction.selectedActivity.durationBudget}" />
+					<h:outputText
+						value="#{scheduledActivitiesAction.selectedActivity.durationBudget}" />
 
 					<h:outputText value="#{mensaje.label_general_cost}:"
 						styleClass="etiquetaTitulo" />
@@ -116,7 +118,8 @@
 
 					<h:outputText value="#{mensaje.label_hr_cost}:"
 						styleClass="etiquetaTitulo" />
-					<h:outputText value="#{scheduledActivitiesAction.selectedActivity.costHrBudget}">
+					<h:outputText
+						value="#{scheduledActivitiesAction.selectedActivity.costHrBudget}">
 						<f:convertNumber maxFractionDigits="2" type="currency"
 							currencySymbol="$" locale="#{idioma.locale}" />
 					</h:outputText>
@@ -190,8 +193,9 @@
 				<ui:define name="botones">
 					<a:commandButton value="#{mensaje.button_accept}"
 						actionListener="#{cropActivitiesAction.removeSelected()}"
+						action="#{scheduledActivitiesAction.setSelectedActivity(null)}"
 						onclick="#{rich:component('popupEliminarLista')}.hide();"
-						render="paginas, mensajes, mensajeBusqueda" />
+						render="mensajes, mensajeBusqueda, formScheduledActivities" />
 					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popupEliminarLista')}.hide()" />
 				</ui:define>
