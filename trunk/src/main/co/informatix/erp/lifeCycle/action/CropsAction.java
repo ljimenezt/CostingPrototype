@@ -62,6 +62,7 @@ public class CropsAction implements Serializable {
 	private CropNames cropNames;
 	private Crops crops;
 	private Plot plot;
+	private PlotAction plotAction;
 	private List<Crops> listCrops;
 	private List<Plot> listPlotsAsocciates;
 	private List<Plot> subListPlotsAsocciates;
@@ -450,6 +451,7 @@ public class CropsAction implements Serializable {
 	 * 
 	 * @modify 03/06/2015 Sergio.Ortiz
 	 * @modify 22/08/2016 Wilhelm.Boada
+	 * @modify 11/10/2016 Claudia.Rey
 	 * 
 	 * @param crops
 	 *            :crop to be add or edit.
@@ -459,6 +461,9 @@ public class CropsAction implements Serializable {
 		try {
 			listCropNames();
 			selectYear = ControladorFechas.loadYears();
+			this.plotAction = ControladorContexto
+					.getContextBean(PlotAction.class);
+			this.plotAction.setFlagAction(Constantes.FLAG_ACTION_CROPS);
 			paginationPlotsAsocciates = new Paginador();
 			this.flagButton = true;
 			if (crops != null) {

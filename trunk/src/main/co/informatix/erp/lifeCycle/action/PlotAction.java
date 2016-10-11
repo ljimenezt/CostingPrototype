@@ -77,22 +77,21 @@ public class PlotAction implements Serializable {
 	private Paginador pagination = new Paginador();
 	private String nameSearch;
 
-	private String flagActionSection = Constantes.FLAG_ACTION_SECTION;
-	private String flagActionCrop = Constantes.FLAG_ACTION_CROPS;
+	private String flagAction;
 
 	/**
-	 * @return flagActionSection: flag that indicate that the action is of
-	 *         section
+	 * @return flagAction: flag that indicate that the action is of section
 	 */
-	public String getFlagActionSection() {
-		return flagActionSection;
+	public String getFlagAction() {
+		return flagAction;
 	}
 
 	/**
-	 * @return flagActionCrop: flag that indicate that the action is of crop
+	 * @param flagAction
+	 *            : flag that indicate that the action is of section
 	 */
-	public String getFlagActionCrop() {
-		return flagActionCrop;
+	public void setFlagAction(String flagAction) {
+		this.flagAction = flagAction;
 	}
 
 	/**
@@ -348,25 +347,23 @@ public class PlotAction implements Serializable {
 	 * @modify 22/08/2016 Wilhelm.Boada
 	 * @modify 06/10/2016 Claudia.Rey
 	 * 
-	 * @param flagAction
-	 *            : flag that indicated to which action belongs.
 	 * @return consultPlots: plots query method returns to the template
 	 *         management.
 	 */
-	public String searchInitialization(String flagAction) {
+	public String searchInitialization() {
 		String flag = "";
 		try {
 			nameSearch = "";
 			if (flagAction != "" && flagAction != null) {
-				if ((flagAction.equals(flagActionSection)) && !this.flagSection
-						&& !this.flagPlotSection) {
+				if ((flagAction.equals(Constantes.FLAG_ACTION_SECTION))
+						&& !this.flagSection && !this.flagPlotSection) {
 					this.idCropNames = 0;
 					this.idSection = 0;
 				}
 				this.flagSection = false;
 				loadCropNames();
 				pagination = new Paginador();
-				if (flagAction.equals(flagActionCrop)) {
+				if (flagAction.equals(Constantes.FLAG_ACTION_CROPS)) {
 					consultPlotForDate();
 				} else {
 					flag = consultPlots();
@@ -384,13 +381,15 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @author Gerardo.Herrera
 	 * @modify 01/09/2016 Wilhelm.Boada
+	 * @modify 11/10/2016 Claudia.Rey
 	 * 
 	 * @return searchInitialization(): method to initialize the parameters of
 	 *         the search and load the initial listing of the plots.
 	 */
 	public String initializeSearchPlot() {
 		this.flagPlotSection = false;
-		return searchInitialization(flagActionSection);
+		this.flagAction = Constantes.FLAG_ACTION_SECTION;
+		return searchInitialization();
 	}
 
 	/**
@@ -674,7 +673,7 @@ public class PlotAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		this.flagSection = true;
-		return searchInitialization(flagActionSection);
+		return searchInitialization();
 	}
 
 	/**
@@ -901,13 +900,13 @@ public class PlotAction implements Serializable {
 	 * @param flagAction
 	 *            : flag that indicated to which action belongs.
 	 */
-	public void initializePlotsBySection(List<Plot> plotList, String flagAction) {
+	public void initializePlotsBySection(List<Plot> plotList) {
 		listPlotsSelected = new ArrayList<Plot>();
 		if (plotList != null) {
 			listPlotsSelected.addAll(plotList);
 		}
 		flagPlotSection = true;
-		searchInitialization(flagAction);
+		searchInitialization();
 	}
 
 	/**

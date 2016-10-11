@@ -369,6 +369,7 @@ public class SectionAction implements Serializable {
 	 * Method to edit or create a new section.
 	 * 
 	 * @modify 17/08/2016 Wilhelm.Boada
+	 * @modify 11/10/2016 Claudia.Rey
 	 * 
 	 * @param section
 	 *            :section to be add or edit
@@ -378,6 +379,7 @@ public class SectionAction implements Serializable {
 		try {
 			this.plotAction = ControladorContexto
 					.getContextBean(PlotAction.class);
+			this.plotAction.setFlagAction(Constantes.FLAG_ACTION_SECTION);
 			if (section != null) {
 				this.section = section;
 				selectSection(section);
