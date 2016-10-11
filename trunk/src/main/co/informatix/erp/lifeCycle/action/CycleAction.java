@@ -97,6 +97,7 @@ public class CycleAction implements Serializable {
 	private boolean flagCycle;
 	private boolean flagDate;
 	private boolean flagActivityNames;
+	private boolean flagDelete;
 
 	private int idCrops;
 	private int idCropsName;
@@ -521,6 +522,21 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
+	 * @return flagDelete: Flag that indicate when it is eliminated.
+	 */
+	public boolean isFlagDelete() {
+		return flagDelete;
+	}
+
+	/**
+	 * @param flagDelete
+	 *            : Flag that indicate when it is eliminated.
+	 */
+	public void setFlagDelete(boolean flagDelete) {
+		this.flagDelete = flagDelete;
+	}
+
+	/**
 	 * @return idCrops: Crop identifier.
 	 */
 	public int getIdCrops() {
@@ -688,12 +704,15 @@ public class CycleAction implements Serializable {
 
 	/**
 	 * This method allows initialize and clean the values of the search cycle.
+	 * 
+	 * @modify 11/10/2016 Claudia.Rey
 	 */
 	public void searchCycles() {
 		this.idActivitiesName = 0;
 		this.initialDateSearch = null;
 		this.finalDateSearch = null;
 		this.flagActivityNames = false;
+		this.flagDelete = false;
 		loadActivities();
 	}
 
