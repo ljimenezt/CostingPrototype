@@ -479,13 +479,29 @@
 							#{messageHumanResources.human_resource_label} -
 							#{recordActivitiesActualsAction.selectedActivity.activityName.activityName}</legend>
 						<br />
-						<ui:param name="listaVaciaA"
+						<div class="anchoDos">
+							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+								execute="@this"
+								rendered="#{recordActivitiesActualsAction.selectedActivity.seleccionado ne false and recordActivitiesActualsAction.selectedActivity.costHrActual eq null}"
+								render="popUpConfirmHRCostingBudget"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popUpConfirmHRCostingBudget')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/calculateBudget_16.png"
+										styleClass="verticalAlignMiddle" />
+									<h:outputText
+										value="#{mensaje.label_assign} #{mensaje.button_as_budgeted}" />
+								</h:panelGrid>
+							</a:commandLink>
+						</div>
+						<ui:param name="listaVaciaHR"
 							value="#{activitiesAndHrAction.listActivitiesAndHrTemp eq null}" />
 						<rich:dataTable
 							value="#{activitiesAndHrAction.listActivitiesAndHrTemp}"
 							var="actividadesTrabajadores" id="listaEmpleados"
 							footerClass="H130P"
-							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoDos"
+							styleClass="#{listaVaciaHR ? 'BCTransparente' : 'dataTable'} anchoDos"
 							rowClasses="odd-row, even-row">
 
 							<rich:column styleClass="colTextoMediano">
@@ -550,7 +566,7 @@
 							</rich:column>
 
 							<f:facet name="footer">
-								<rich:columnGroup rendered="#{listaVaciaA}">
+								<rich:columnGroup rendered="#{listaVaciaHR}">
 									<rich:column colspan="8" styleClass="footTabla">
 										<h:outputText
 											value="#{mensaje.message_no_existen_registros_tabla}" />
@@ -559,7 +575,7 @@
 							</f:facet>
 						</rich:dataTable>
 						<h:panelGrid columns="2" cellpadding="2" cellspacing="4"
-							styleClass="rowAdd anchoDos" rendered="#{!listaVaciaA}">
+							styleClass="rowAdd anchoDos" rendered="#{!listaVaciaHR}">
 							<h:outputText value="#{mensaje.label_total_cost}:" />
 							<h:outputText
 								value="#{recordActivitiesActualsAction.totalCostHr}">
@@ -595,12 +611,29 @@
 							-
 							#{recordActivitiesActualsAction.selectedActivity.activityName.activityName}</legend>
 						<br />
-						<ui:param name="listaVaciaA"
+						<ui:param name="listaVaciaM"
 							value="#{activitiesAndMachineAction.listActivityMachine eq null}" />
+						<div class="anchoCuatro">
+							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+								execute="@this"
+								rendered="#{!listaVaciaM and recordActivitiesActualsAction.selectedActivity.costMachinesEqActual eq null}"
+								render="popUpConfirmMachinesCostingBudget"
+								oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popUpConfirmMachinesCostingBudget')}.show();} else{ 
+								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/calculateBudget_16.png"
+										styleClass="verticalAlignMiddle" />
+									<h:outputText
+										value="#{mensaje.label_assign} #{mensaje.button_as_budgeted}" />
+								</h:panelGrid>
+							</a:commandLink>
+						</div>
+
 						<rich:dataTable
 							value="#{activitiesAndMachineAction.listActivityMachine}"
 							var="machinesActivities" id="activityMachine" footerClass="H130P"
-							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoCuatro"
+							styleClass="#{listaVaciaM ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 							rowClasses="odd-row, even-row">
 
 							<rich:column styleClass="colTextoMediano">
@@ -648,7 +681,7 @@
 							</rich:column>
 
 							<f:facet name="footer">
-								<rich:columnGroup rendered="#{listaVaciaA}">
+								<rich:columnGroup rendered="#{listaVaciaM}">
 									<rich:column colspan="8" styleClass="footTabla">
 										<h:outputText
 											value="#{mensaje.message_no_existen_registros_tabla}" />
@@ -657,7 +690,7 @@
 							</f:facet>
 						</rich:dataTable>
 						<h:panelGrid columns="2" cellpadding="2" cellspacing="4"
-							styleClass="rowAdd anchoCuatro" rendered="#{!listaVaciaA}">
+							styleClass="rowAdd anchoCuatro" rendered="#{!listaVaciaM}">
 							<h:outputText value="#{mensaje.label_total_cost}:" />
 							<h:outputText
 								value="#{recordActivitiesActualsAction.totalCostMachine}">
@@ -693,12 +726,12 @@
 							#{mensajeWarehouse.materials_label_s} -
 							#{recordActivitiesActualsAction.selectedActivity.activityName.activityName}</legend>
 						<br />
-						<ui:param name="listaVaciaA"
+						<ui:param name="listaVaciaMaterials"
 							value="#{activityMaterialsAction.listActivityMaterialsTemp eq null}" />
 						<rich:dataTable
 							value="#{activityMaterialsAction.listActivityMaterialsTemp}"
 							var="activityMaterial" id="materialsList" footerClass="H130P"
-							styleClass="#{listaVaciaA ? 'BCTransparente' : 'dataTable'} anchoCuatro"
+							styleClass="#{listaVaciaMaterials ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{mensaje.label_name}</f:facet>
@@ -724,7 +757,7 @@
 								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
 							</rich:column>
 							<f:facet name="footer">
-								<rich:columnGroup rendered="#{listaVaciaA}">
+								<rich:columnGroup rendered="#{listaVaciaMaterials}">
 									<rich:column colspan="4" styleClass="footTabla">
 										<h:outputText
 											value="#{mensaje.message_no_existen_registros_tabla}" />
@@ -733,7 +766,8 @@
 							</f:facet>
 						</rich:dataTable>
 						<h:panelGrid columns="2" cellpadding="2" cellspacing="4"
-							styleClass="rowAdd anchoCuatro" rendered="#{!listaVaciaA}">
+							styleClass="rowAdd anchoCuatro"
+							rendered="#{!listaVaciaMaterials}">
 							<h:outputText value="#{mensaje.label_total_cost}:" />
 							<h:outputText
 								value="#{recordActivitiesActualsAction.totalCostMaterials}">
