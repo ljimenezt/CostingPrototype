@@ -7,7 +7,7 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 	<t:fieldset styleClass="anchoDos BorderW2P"
-		rendered="#{sectionSelected ne null}">
+		rendered="#{sectionSelected ne null and sectionAction.flagDelete eq false and sectionAction.subListPlot != null}">
 		<legend class="etiquetaTitulo">#{messageLifeCycle.plot_label_s}</legend>
 		<a:outputPanel id="pnlPlots">
 			<ui:param name="listaVaciaA"
