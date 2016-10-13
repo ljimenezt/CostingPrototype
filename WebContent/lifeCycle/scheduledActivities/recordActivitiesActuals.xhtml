@@ -478,10 +478,12 @@
 							#{messageHumanResources.human_resource_label} -
 							#{recordActivitiesActualsAction.selectedActivity.activityName.activityName}</legend>
 						<br />
+						<ui:param name="listaVaciaHR"
+							value="#{activitiesAndHrAction.listActivitiesAndHrTemp eq null}" />
 						<div class="anchoDos">
 							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
 								execute="@this"
-								rendered="#{recordActivitiesActualsAction.selectedActivity.seleccionado ne false and recordActivitiesActualsAction.selectedActivity.costHrActual eq null}"
+								rendered="#{!listaVaciaHR and recordActivitiesActualsAction.selectedActivity.costHrActual eq null}"
 								render="popUpConfirmHRCostingBudget"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popUpConfirmHRCostingBudget')}.show();} else{ 
