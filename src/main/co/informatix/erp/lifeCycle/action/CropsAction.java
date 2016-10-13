@@ -730,19 +730,6 @@ public class CropsAction implements Serializable {
 	}
 
 	/**
-	 * Method verifies that the user selected crop the list of plots remain in
-	 * sight, otherwise clean selected.
-	 * 
-	 * @author Sergio.Ortiz
-	 * @modify 10/12/2015 Andres.Gomez
-	 */
-	public void compareCrops() {
-		if (!this.options.get(0).getValue().equals(this.crops)) {
-			this.listPlotsAsocciates.removeAll(listPlotsAsocciates);
-		}
-	}
-
-	/**
 	 * This method maintain the plots selected.
 	 * 
 	 * @author Claudia.Rey
