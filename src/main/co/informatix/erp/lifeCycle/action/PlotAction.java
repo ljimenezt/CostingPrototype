@@ -532,8 +532,8 @@ public class PlotAction implements Serializable {
 
 		if (flagPlotSection) {
 			consult.append(selection ? "AND " : "WHERE ");
-			consult.append("p.section.idSection = :idSection ");
-			consult.append("OR p.section.idSection IS NULL ");
+			consult.append("(p.section.idSection = :idSection ");
+			consult.append("OR p.section.idSection IS NULL) ");
 			SelectItem item = new SelectItem(this.idSection, "idSection");
 			parameters.add(item);
 			selection = true;

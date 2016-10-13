@@ -78,8 +78,9 @@
 						<rich:column styleClass="colIconoUno"
 							rendered="#{(identity.autorizado('sectionAction','A') or identity.autorizado('sectionAction','D'))}">
 							<a:outputPanel>
-								<a:commandLink render="popupEliminar"
+								<a:commandLink render="popupEliminar, formSection"
 									actionListener="#{sectionAction.setSection(section)}"
+									action="#{sectionAction.setFlagDelete(true)}"
 									oncomplete="#{rich:component('popupEliminar')}.show()">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
@@ -193,7 +194,7 @@
 							onclick="#{rich:component('popupEliminar')}.hide()"
 							render="pnlSection, mensajes, mensajeBusqueda" />
 						<a:commandButton value="#{mensaje.button_cancel}"
-							onclick="#{rich:component('popupEliminar')}.hide()" />
+							onclick="#{rich:component('popupEliminar')}.hide()"/>
 					</ui:define>
 				</ui:decorate>
 			</rich:popupPanel>

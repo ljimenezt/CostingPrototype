@@ -62,6 +62,7 @@ public class SectionAction implements Serializable {
 	private String nameSearch;
 	private int idCropNames;
 	private boolean flagButton;
+	private boolean flagDelete;
 
 	/**
 	 * @return listSection: list of section
@@ -241,6 +242,21 @@ public class SectionAction implements Serializable {
 	 */
 	public void setFlagButton(boolean flagButton) {
 		this.flagButton = flagButton;
+	}
+
+	/**
+	 * @return flagDelete: Flag that indicate when it is eliminated.
+	 */
+	public boolean isFlagDelete() {
+		return flagDelete;
+	}
+
+	/**
+	 * @param flagDelete
+	 *            : Flag that indicate when it is eliminated.
+	 */
+	public void setFlagDelete(boolean flagDelete) {
+		this.flagDelete = flagDelete;
 	}
 
 	/**
@@ -519,9 +535,11 @@ public class SectionAction implements Serializable {
 	 * Consult the plots list associated to the section.
 	 * 
 	 * @author Wilhelm.Boada
+	 * @modify 13/10/2016 Claudia.Rey
 	 */
 	public void consultPlotsBySection() {
 		try {
+			this.flagDelete = false;
 			subListPlot = new ArrayList<Plot>();
 			Long quantity = plotDao.quantityPlotsBySection(this.sectionSelected
 					.getIdSection());
