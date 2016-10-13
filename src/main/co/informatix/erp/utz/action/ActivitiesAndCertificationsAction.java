@@ -55,7 +55,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	private int idCertAndRoles;
 
 	private String nameSearch;
-	private String template;
 
 	@EJB
 	private CertificationsAndRolesDao certificationsAndRolesDao;
@@ -235,21 +234,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 */
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
-	}
-
-	/**
-	 * @return template: Name of template that call the action.
-	 */
-	public String getTemplate() {
-		return template;
-	}
-
-	/**
-	 * @param template
-	 *            : Name of template that call the action.
-	 */
-	public void setTemplate(String template) {
-		this.template = template;
 	}
 
 	/**
