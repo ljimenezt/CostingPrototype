@@ -1272,4 +1272,56 @@ public class RecordActivitiesActualsAction implements Serializable {
 		activityPlotAction.consultActivityPlot();
 	}
 
+	/**
+	 * This method allows calculate the actual cost of the human resources
+	 * setting the values from budget cost.
+	 * 
+	 * @author Andres.Gomez
+	 */
+	public void calculateHRCost() {
+		ActivitiesAndHrAction activitiesAndHrAction = ControladorContexto
+				.getContextBean(ActivitiesAndHrAction.class);
+		try {
+			List<ActivitiesAndHr> listActivitiesAndHr = activitiesAndHrAction
+					.getListActivitiesAndHrTemp();
+			for (ActivitiesAndHr aHR : listActivitiesAndHr) {
+				setActivitiesAndHr(aHR);
+				budgetCopy();
+				OvertimePaymentRate overtimePaymentRate = overtimePaymentRateDao
+						.overtimePaymentRateXId(idOvertimePaymentsRate);
+				activitiesAndHr.setOvertimePaymentRate(overtimePaymentRate);
+				activitiesAndHrDao.editActivitiesAndHr(aHR);
+			}
+			setTotalCostHr(activitiesAndHrDao.totalCost(this.selectedActivity
+					.getIdActivity()));
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows calculate the actual cost of machines setting the
+	 * values from budget cost.
+	 * 
+	 * @author Andres.Gomez
+	 */
+	public void calculateMachinesCost() {
+		ActivitiesAndMachineAction activitiesAndMachineAction = ControladorContexto
+				.getContextBean(ActivitiesAndMachineAction.class);
+		try {
+			List<ActivityMachine> listActivityMachines = activitiesAndMachineAction
+					.getListActivityMachine();
+			for (ActivityMachine am : listActivityMachines) {
+				setActivityMachine(am);
+				budgetCopy();
+				activitiesAndMachineDao.editActivitiesAndMachine(am);
+				setTotalCostMachine(activitiesAndMachineDao
+						.calculateTotalCostMachine(this.selectedActivity
+								.getIdActivity()));
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
 }

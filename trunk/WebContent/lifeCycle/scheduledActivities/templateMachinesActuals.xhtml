@@ -123,4 +123,36 @@
 			</ui:decorate>
 		</rich:popupPanel>
 	</h:form>
+	<h:form id="formConfirmMachinesCostingBudget">
+		<rich:popupPanel id="popUpConfirmMachinesCostingBudget" modal="true"
+			autosized="true" maxWidth="800"
+			header="#{mensaje.label_confirmation}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="hidelink cursor"
+						onclick="#{rich:component('popUpConfirmMachinesCostingBudget')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+				<ui:define name="mensaje">
+					<h:outputText
+						value="#{mensaje.message_activity_machines_cost_budget}"
+						styleClass="etiquetaTitulo" />
+				</ui:define>
+				<ui:define name="botones">
+					<a:commandButton value="#{mensaje.button_accept}"
+						render="formHrReporting, mensajes, mensajeBusqueda"
+						actionListener="#{recordActivitiesActualsAction.calculateMachinesCost()}"
+						onclick="#{rich:component('popUpConfirmMachinesCostingBudget')}.hide(); #{rich:component('statPane')}.show();">
+						<f:param name="param2" value="si" />
+					</a:commandButton>
+					<a:commandButton value="#{mensaje.button_cancel}"
+						onclick="#{rich:component('popUpConfirmMachinesCostingBudget')}.hide()" />
+				</ui:define>
+			</ui:decorate>
+		</rich:popupPanel>
+	</h:form>
 </ui:composition>
