@@ -8,7 +8,7 @@
 	xmlns:a="http://richfaces.org/a4j"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	xmlns:p="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
 		value="activitiesAndCertificationsAction.addEditActiAndCert(null)" />
@@ -19,47 +19,72 @@
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g = jQuery.noConflict();
+		</script>
 		<t:saveState value="#{activitiesAndCertificationsAction}" />
 		<h:form id="formActCert">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageLifeCycle.activities_certifications_label}"
 				styleClass="anchoUno MinH253P" id="panelRegistrarActiCert">
-				<h:panelGrid columns="4" columnClasses="tdAlignTop,,,">
+				<h:panelGrid columns="6" columnClasses="tdAlignTop,,,">
 					<h:outputText
 						value="#{messageLifeCycle.activities_certifications_label_certifications}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu id="certificacion"
 						value="#{activitiesAndCertificationsAction.certificationsAndRoles.idCertificactionsAndRoles}"
-						styleClass="colTextoMediano" required="true"
-						requiredMessage="#{mensaje.message_campo_requerido}">
+						styleClass="colTextoMediano">
 						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems
 							value="#{activitiesAndCertificationsAction.itemsCertificationsAndRoles}" />
 					</h:selectOneMenu>
+					<h:outputText value="&#32;&#32;&#32;" />
+					<h:outputText value="&#32;&#32;&#32;" />
 					<rich:message for="certificacion" />
+
 					<h:outputText value="#{messageLifeCycle.activity_names_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
-					<h:selectOneMenu id="actividad"
-						value="#{activitiesAndCertificationsAction.activityNames.idActivityName}"
-						styleClass="colTextoMediano" required="true"
-						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:selectItem itemLabel="#{mensaje.label_select}" />
-						<f:selectItems
-							value="#{activitiesAndCertificationsAction.itemsActivities}" />
-					</h:selectOneMenu>
-					<rich:message for="actividad" />
+					<h:inputText styleClass="colTextoMediano"
+						value="#{activitiesAndCertificationsAction.activityNames.activityName}"
+						id="txtActivity" readonly="true"
+						validator="#{encodeFilter.validarScripting}" />
+					<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
+						render=":popupSearchActivity, :outputBuscar"
+						actionListener="#{activitiesAndCertificationsAction.initializeSearch()}"
+						oncomplete="if (#{facesContext.maximumSeverity==null})
+								{#{rich:component('popupSearchActivity')}.show();} ">
+						<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+							<h:graphicImage value="/img/add_22.png"
+								styleClass="verticalAlignMiddle" />
+						</h:panelGrid>
+						<rich:tooltip layout="block">
+							<h:outputText value="#{mensaje.label_select}" />
+						</rich:tooltip>
+						<f:param name="param2" value="si" />
+					</a:commandLink>
+					<a:commandLink
+						actionListener="#{activitiesAndCertificationsAction.clearActivity()}"
+						render=":formActCert:txtActivity, formActCert" execute="@this">
+						<h:graphicImage value="/img/editRemove_16.png" />
+						<rich:tooltip layout="block">
+							<h:outputText value="#{mensaje.label_remove}" />
+						</rich:tooltip>
+					</a:commandLink>
+					<rich:message for="txtActivity" />
 				</h:panelGrid>
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
 						execute="formActCert"
+						actionListener="#{activitiesAndCertificationsAction.validateRequired()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>
 			</rich:panel>
 		</h:form>
+
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
 				maxWidth="500" header="#{mensaje.label_confirmation}">
@@ -94,6 +119,153 @@
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formSearch">
+			<rich:popupPanel id="popupSearchActivity" height="480"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.button_search} #{messageLifeCycle.activity_names_label_s}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupSearchActivity')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:panel styleClass="H450P fondoAnchoUno W530P">
+					<a:outputPanel id="pnSearch">
+						<t:fieldset styleClass="BorderW2P">
+							<legend class="etiquetaTitulo">#{messageLifeCycle.activity_names_label}</legend>
+							<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+								<h:outputText value="#{messageLifeCycle.activity_names_label}"
+									styleClass="etiquetaTitulo" />
+								<h:selectOneMenu id="cmbActivities"
+									value="#{activitiesAndCertificationsAction.activityNames.idActivityName}"
+									styleClass="colTextoMediano">
+									<f:selectItem itemLabel="#{mensaje.label_select}" />
+									<f:selectItems
+										value="#{activitiesAndCertificationsAction.itemsActivities}" />
+								</h:selectOneMenu>
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensaje.label_start_date}" />
+								<p:calendar
+									value="#{activitiesAndCertificationsAction.activities.initialDtBudget}"
+									showOn="button" navigator="true"
+									maxdate="#{activitiesAndCertificationsAction.activities.finalDtBudget}"
+									id="fechaInicio" pattern="MM/dd/yyyy"
+									label="#{mensaje.label_start_date}">
+									<p:ajax event="dateSelect" update="fechFin" />
+								</p:calendar>
+
+								<h:outputText styleClass="etiquetaTitulo"
+									value="#{mensaje.label_end_date}" />
+								<p:calendar
+									value="#{activitiesAndCertificationsAction.activities.finalDtBudget}"
+									showOn="button" navigator="true"
+									mindate="#{activitiesAndCertificationsAction.activities.initialDtBudget}"
+									id="fechFin" pattern="MM/dd/yyyy"
+									label="#{mensaje.label_end_date}">
+									<p:ajax event="dateSelect" update="fechaInicio" />
+								</p:calendar>
+							</h:panelGrid>
+							<br />
+							<div class="W100Per center inBlock">
+								<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+									actionListener="#{activitiesAndCertificationsAction.consultActivities()}"
+									render="outputBuscar msjSearch">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+							</div>
+						</t:fieldset>
+						<br />
+						<a:outputPanel id="msjSearch">
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W510P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
+						<br />
+						<a:outputPanel id="outputBuscar">
+							<ui:param name="listaVacia"
+								value="#{activitiesAndCertificationsAction.listActivities eq null or (empty activitiesAndCertificationsAction.listActivities)}" />
+							<div align="right" class="W500P">
+								<a:commandLink render="pnSearch"
+									styleClass="quitarDecoracionLink"
+									action="#{activitiesAndCertificationsAction.initializeSearch()}">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/listarTodos_16.png" />
+										<h:outputText value="#{mensaje.button_list_all}" />
+									</h:panelGrid>
+									<f:param name="param2" value="si" />
+								</a:commandLink>
+							</div>
+							<rich:dataTable
+								value="#{activitiesAndCertificationsAction.listActivities}"
+								var="activity" id="activities" footerClass="H130P"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W500P"
+								rowClasses="odd-row, even-row">
+								<rich:column styleClass="colIconoUno">
+									<f:facet name="header" />
+									<a:commandLink render=":formActCert:txtActivity, formActCert"
+										actionListener="#{activitiesAndCertificationsAction.loadActivity(activity)}"
+										oncomplete="#{rich:component('popupSearchActivity')}.hide();">
+										<h:graphicImage value="/img/add_16.png" />
+										<rich:tooltip layout="block">
+											<h:outputText value="#{mensaje.label_select}" />
+										</rich:tooltip>
+									</a:commandLink>
+								</rich:column>
+								<rich:column styleClass="colTextoMediano">
+									<f:facet name="header">#{messageLifeCycle.crops_label}</f:facet>
+									<h:outputText value="#{activity.crop.cropNames.cropName}" />
+								</rich:column>
+								<rich:column styleClass="colTextoLargo">
+									<f:facet name="header">#{messageLifeCycle.activity_names_label}</f:facet>
+									<h:outputText value="#{activity.activityName.activityName}" />
+								</rich:column>
+								<rich:column styleClass="colFechaExtraLarga">
+									<f:facet name="header">#{mensaje.label_start_date}</f:facet>
+									<h:outputText value="#{activity.initialDtBudget}">
+										<f:convertDateTime pattern="MMM dd, yyyy"
+											locale="#{idioma.locale}" />
+									</h:outputText>
+								</rich:column>
+								<rich:column styleClass="colFechaExtraLarga">
+									<f:facet name="header">#{mensaje.label_end_date}</f:facet>
+									<h:outputText value="#{activity.finalDtBudget}">
+										<f:convertDateTime pattern="MMM dd, yyyy"
+											locale="#{idioma.locale}" />
+									</h:outputText>
+								</rich:column>
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia}">
+										<rich:column colspan="5" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listaVacia}" id="pagerActivities">
+								<div class="W430P center inBlock">
+									<ui:include src="/plantillas/templatePagination.xhtml">
+										<ui:param name="valParam2" value="si" />
+										<ui:param name="conParam2" value="1" />
+										<ui:param name="pager" value="activitiesPagination" />
+										<ui:param name="valReder" value="pagerActivities activities" />
+										<ui:param name="beanActionParam"
+											value="#{activitiesAndCertificationsAction}" />
+										<ui:param name="metodoActionParam" value="consultActivities" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</a:outputPanel>
+					</a:outputPanel>
+				</rich:panel>
 			</rich:popupPanel>
 		</h:form>
 	</ui:define>

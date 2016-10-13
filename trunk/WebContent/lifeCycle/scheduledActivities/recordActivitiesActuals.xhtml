@@ -93,7 +93,6 @@
 								render=":popupSearchCycle, :outputBuscar, formHrReporting:mensajeBusquedaMenu"
 								action="#{cycleAction.initializeSearch()}"
 								actionListener="#{cycleAction.setIdCrops(recordActivitiesActualsAction.idCrop)}"
-								execute="formActivitiesAndHr"
 								rendered="#{recordActivitiesActualsAction.listActivities eq null or (empty recordActivitiesActualsAction.listActivities)}"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popupSearchCycle')}.show();} ">
