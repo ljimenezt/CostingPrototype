@@ -53,8 +53,7 @@
 								requiredMessage="#{mensaje.message_campo_requerido}">
 								<f:selectItem itemLabel="#{mensaje.label_select}" />
 								<f:selectItems value="#{cropsAction.options}" />
-								<f:ajax event="change" listener="#{cropsAction.compareCrops()}"
-									render=":formCrops:panelPlotsAsocciates" />
+								
 								<f:attribute name="tipo" value="Int" />
 							</h:selectOneMenu>
 							<h:outputText value="#{cropsAction.crops.cropNames.cropName}"
