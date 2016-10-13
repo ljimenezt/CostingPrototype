@@ -60,6 +60,27 @@ public class ActivityNamesDao implements Serializable {
 	}
 
 	/**
+	 * This method allows to look for all activity names.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @return List<ActivityNames>: list of the names of activities.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivityNames> queryActivityNames() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT an FROM ActivityNames an ");
+		query.append("ORDER BY an.activityName ");
+		Query q = em.createQuery(query.toString());
+		List<ActivityNames> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
 	 * Save an ActivityName in the DataBase.
 	 * 
 	 * @param activityNames

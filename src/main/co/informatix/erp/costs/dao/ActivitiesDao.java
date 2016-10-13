@@ -170,6 +170,7 @@ public class ActivitiesDao implements Serializable {
 	 * 
 	 * @author Mabell.Boada
 	 * @modify 17/03/2016 Wilhelm.Boada
+	 * @modify 12/10/2016 Luna.Granados
 	 * 
 	 * @param start
 	 *            : The first record that is retrieved from the result.
@@ -180,11 +181,46 @@ public class ActivitiesDao implements Serializable {
 	 *            user.
 	 * @param parameters
 	 *            : Query parameters.
+	 * @param fromModal
+	 *            :Flag indicating that the method is called from the pop-up
+	 *            search.
 	 * @return List<Activities>: List of names of activities.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Activities> queryActivityNamesByIdCert(int start, int range,
+			StringBuilder query, List<SelectItem> parameters, boolean fromModal)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT a FROM Activities a ");
+		queryBuilder.append("JOIN FETCH a.activityName an ");
+		queryBuilder.append("JOIN FETCH a.crop c ");
+		queryBuilder.append("JOIN FETCH c.cropNames cn ");
+		if (!fromModal) {
+			queryBuilder
+					.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
+			queryBuilder
+					.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
+			queryBuilder
+					.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
+		}
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY a.idActivity ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		queryResult.setFirstResult(start).setMaxResults(range);
+		List<Activities> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Activities> queryActivityNamesByIdCert2(int start, int range,
 			StringBuilder query, List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT a FROM Activities a ");
@@ -218,27 +254,33 @@ public class ActivitiesDao implements Serializable {
 	 * 
 	 * @author Mabell.Boada
 	 * @modify 17/03/2016 Wilhelm.Boada
+	 * @modify 12/10/2016 Luna.Granados
 	 * 
 	 * @param query
 	 *            : String containing the query that filters activities.
 	 * @param parameters
 	 *            : Parameters of the query.
+	 * @param fromModal
+	 *            :Flag indicating that the method is called from the pop-up
+	 *            search.
 	 * @return Long: Number of activities records found.
 	 * @throws Exception
 	 */
 	public Long queryActivitiesByIdCert(StringBuilder query,
-			List<SelectItem> parameters) throws Exception {
+			List<SelectItem> parameters, boolean fromModal) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT COUNT(a) FROM Activities a ");
 		queryBuilder.append("JOIN a.activityName an ");
 		queryBuilder.append("JOIN a.crop c ");
 		queryBuilder.append("JOIN c.cropNames cn ");
-		queryBuilder
-				.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
-		queryBuilder
-				.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
-		queryBuilder
-				.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
+		if (!fromModal) {
+			queryBuilder
+					.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
+			queryBuilder
+					.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
+			queryBuilder
+					.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
+		}
 		queryBuilder.append(query);
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parameter : parameters) {

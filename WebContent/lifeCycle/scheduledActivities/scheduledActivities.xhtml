@@ -113,7 +113,6 @@
 								render=":popupSearchCycle, :outputBuscar, formScheduledActivities:mensajeBusquedaMenu"
 								action="#{cycleAction.initializeSearch()}"
 								actionListener="#{cycleAction.setIdCrops(scheduledActivitiesAction.idCrop)}"
-								execute="formActivitiesAndHr"
 								rendered="#{activitiesAction.listActivities eq null}"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popupSearchCycle')}.show();} ">
@@ -422,7 +421,6 @@
 								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false and scheduledActivitiesAction.selectedActivity.costHrActual eq null}"
 								render="seleccionarTrabajador:popupTrabajador seleccionarTrabajador:trabajadores mensajes mensajeBusqueda"
 								actionListener="#{activitiesAndHrAction.showTypeWorker()}"
-								execute="formActivitiesAndHr"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popupTrabajador')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
@@ -440,7 +438,6 @@
 								rendered="#{scheduledActivitiesAction.selectedActivity.seleccionado ne false and scheduledActivitiesAction.selectedActivity.costHrActual eq null}"
 								render="selectTeam:popupTeam selectTeam:team mensajes mensajeBusqueda"
 								actionListener="#{teamAction.initializeTeam()}"
-								execute="formActivitiesAndHr"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popupTeam')}.show();} else{ 
 								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
