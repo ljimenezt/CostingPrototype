@@ -219,35 +219,6 @@ public class ActivitiesDao implements Serializable {
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Activities> queryActivityNamesByIdCert2(int start, int range,
-			StringBuilder query, List<SelectItem> parameters) throws Exception {
-		StringBuilder queryBuilder = new StringBuilder();
-		queryBuilder.append("SELECT a FROM Activities a ");
-		queryBuilder.append("JOIN FETCH a.activityName an ");
-		queryBuilder.append("JOIN FETCH a.crop c ");
-		queryBuilder.append("JOIN FETCH c.cropNames cn ");
-		queryBuilder
-				.append("WHERE a IN (SELECT at FROM ActivitiesAndCertifications ac ");
-		queryBuilder
-				.append("JOIN ac.activitiesAndCertificationsPK.activities at ");
-		queryBuilder
-				.append("JOIN ac.activitiesAndCertificationsPK.certificationsAndRoles cr ");
-		queryBuilder.append(query);
-		queryBuilder.append("ORDER BY a.idActivity ");
-		Query queryResult = em.createQuery(queryBuilder.toString());
-		for (SelectItem parameter : parameters) {
-			queryResult
-					.setParameter(parameter.getLabel(), parameter.getValue());
-		}
-		queryResult.setFirstResult(start).setMaxResults(range);
-		List<Activities> resultList = queryResult.getResultList();
-		if (resultList.size() > 0) {
-			return resultList;
-		}
-		return null;
-	}
-
 	/**
 	 * Returns the number of existing activities in the database; it filters the
 	 * records with search values.
