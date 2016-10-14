@@ -902,6 +902,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	/**
 	 * Calculate the final cost for human resources into de selected activity
 	 * 
+	 * @modify 12/10/2016 Wilhelm.Boada
+	 * 
 	 * @return boolean: Its 'true' if there are cost for this item
 	 * @throws Exception
 	 */
@@ -914,7 +916,12 @@ public class RecordActivitiesActualsAction implements Serializable {
 			this.selectedActivity.setGeneralCostActual(ControllerAccounting
 					.add(selectedActivity.getGeneralCostActual(), totalCostHr));
 			if (selectedActivity.getCycle() != null) {
-				selectedActivity.getCycle().setCostHrActual(totalCostHr);
+				if (selectedActivity.getCycle().getCostHrActual() == null) {
+					selectedActivity.getCycle().setCostHrActual(0.0);
+				}
+				selectedActivity.getCycle().setCostHrActual(
+						ControllerAccounting.add(selectedActivity.getCycle()
+								.getCostHrActual(), totalCostHr));
 			}
 			requiredCost = true;
 		}
@@ -923,6 +930,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * Calculate the final cost for machines into de selected activity
+	 * 
+	 * @modify 12/10/2016 Wilhelm.Boada
 	 * 
 	 * @return boolean: Its 'true' if there are cost for this item
 	 * @throws Exception
@@ -937,8 +946,12 @@ public class RecordActivitiesActualsAction implements Serializable {
 					.add(selectedActivity.getGeneralCostActual(),
 							totalCostMachine));
 			if (selectedActivity.getCycle() != null) {
+				if (selectedActivity.getCycle().getCostMachinesEqActual() == null) {
+					selectedActivity.getCycle().setCostMachinesEqActual(0.0);
+				}
 				selectedActivity.getCycle().setCostMachinesEqActual(
-						totalCostMachine);
+						ControllerAccounting.add(selectedActivity.getCycle()
+								.getCostMachinesEqActual(), totalCostMachine));
 			}
 			requiredCost = true;
 		}
@@ -947,6 +960,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * Calculate the final cost for materials into de selected activity
+	 * 
+	 * @modify 12/10/2016 Wilhelm.Boada
 	 * 
 	 * @return boolean: Its 'true' if there are cost for this item
 	 * @throws Exception
@@ -962,8 +977,12 @@ public class RecordActivitiesActualsAction implements Serializable {
 					.add(selectedActivity.getGeneralCostActual(),
 							totalCostMaterial));
 			if (selectedActivity.getCycle() != null) {
+				if (selectedActivity.getCycle().getCostMaterialsActual() == null) {
+					selectedActivity.getCycle().setCostMaterialsActual(0.0);
+				}
 				selectedActivity.getCycle().setCostMaterialsActual(
-						totalCostMaterial);
+						ControllerAccounting.add(selectedActivity.getCycle()
+								.getCostMaterialsActual(), totalCostMaterial));
 			}
 			requiredCost = true;
 		}

@@ -324,13 +324,14 @@
 							<rich:column styleClass="colIconoUno verticalAlignMiddle center">
 								<f:facet name="header">#{mensaje.label_cost_activity}</f:facet>
 								<a:commandLink
+									actionListener="#{recordActivitiesActualsAction.assignActivity(activity)}"
+									action="#{recordActivitiesActualsAction.consultResourcesByActivity()}"
+									render="formHrReporting, popUpConfirmEndActivity"
 									rendered="#{activity.calculateCosts eq true 
 										and activity.costHrActual eq null  
  										and activity.costMachinesEqActual eq null 
  										and activity.costMaterialsActual eq null}"
-									oncomplete="if (#{facesContext.maximumSeverity==null})
-								{#{rich:component('popUpConfirmEndActivity')}.show();} else{ 
-								setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
+									oncomplete="#{rich:component('popUpConfirmEndActivity')}.show();">
 									<h:graphicImage value="/img/finalizarActividad_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.button_calculate}" />

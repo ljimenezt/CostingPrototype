@@ -112,11 +112,12 @@
 				<ui:define name="campos">
 				</ui:define>
 				<ui:define name="botones">
-					<h:commandButton value="#{mensaje.button_accept}"
+					<a:commandButton value="#{mensaje.button_accept}"
+						render="formHrReporting, mensajes, mensajeBusqueda"
 						action="#{recordActivitiesActualsAction.updateActivitiesAndHr()}"
-						onclick="#{rich:component('popUpConfirmActual')}.hide(); #{rich:component('statPane')}.show();">
+						onclick="#{rich:component('popUpConfirmActual')}.hide(); #{rich:component('popUpRecordMachineActual')}.hide();">
 						<f:param name="param2" value="si" />
-					</h:commandButton>
+					</a:commandButton>
 					<a:commandButton value="#{mensaje.button_cancel}"
 						onclick="#{rich:component('popUpConfirmActual')}.hide()" />
 				</ui:define>

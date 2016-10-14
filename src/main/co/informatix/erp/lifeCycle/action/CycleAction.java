@@ -40,6 +40,7 @@ import co.informatix.erp.services.entities.ServiceType;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.FileUploadBean;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -1561,6 +1562,49 @@ public class CycleAction implements Serializable {
 	public void searchActivityCycleDetails(int activityId) {
 		try {
 			this.activity = activitiesDao.activityById(activityId);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows calculate the actual cost of the cycle for verify that
+	 * the values are correct.
+	 * 
+	 */
+	public void calculateCostActual() {
+		try {
+			List<Activities> activitiesList = activitiesDao
+					.searchActivitiesByIdCycle(cycle.getIdCycle());
+			this.cycle.setCostMaterialsActual(0.0);
+			this.cycle.setCostMachinesEqActual(0.0);
+			this.cycle.setCostHrActual(0.0);
+			this.cycle.setCostServicesActual(0.0);
+			if (activitiesList != null) {
+				for (Activities activity : activitiesList) {
+					if (activity.getCostMaterialsActual() != null) {
+						this.cycle.setCostMaterialsActual(ControllerAccounting
+								.add(cycle.getCostMaterialsActual(),
+										activity.getCostMaterialsActual()));
+					}
+					if (activity.getCostMachinesEqActual() != null) {
+						this.cycle.setCostMachinesEqActual(ControllerAccounting
+								.add(cycle.getCostMachinesEqActual(),
+										activity.getCostMachinesEqActual()));
+					}
+					if (activity.getCostHrActual() != null) {
+						this.cycle.setCostHrActual(ControllerAccounting.add(
+								cycle.getCostHrActual(),
+								activity.getCostHrActual()));
+					}
+					if (activity.getCostServicesActual() != null) {
+						this.cycle.setCostServicesActual(ControllerAccounting
+								.add(cycle.getCostServicesActual(),
+										activity.getCostServicesActual()));
+					}
+				}
+				cycleDao.editCycle(this.cycle);
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

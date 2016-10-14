@@ -621,4 +621,27 @@ public class ActivitiesDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * Query all activities which have a reference to a specified cycle.
+	 * 
+	 * @param cycleId
+	 *            : Cycle identifier.
+	 * @return A list with the activities.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Activities> searchActivitiesByIdCycle(int cycleId)
+			throws Exception {
+		StringBuilder q = new StringBuilder();
+		q.append("SELECT a FROM Activities a ");
+		q.append("WHERE a.cycle.idCycle =:cycleId ");
+		Query queryResult = em.createQuery(q.toString());
+		queryResult.setParameter("cycleId", cycleId);
+		List<Activities> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }
