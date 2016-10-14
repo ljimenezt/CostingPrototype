@@ -544,13 +544,6 @@
 								<h:outputText value="#{actividadesTrabajadores.durationActual}" />
 							</rich:column>
 
-							<rich:column styleClass="colValor">
-								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
-								<h:outputText value="#{actividadesTrabajadores.totalCostActual}">
-									<f:convertNumber maxFractionDigits="1" type="currency"
-										currencySymbol="$" locale="#{idioma.locale}" />
-								</h:outputText>
-							</rich:column>
 
 							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{messageCosts.activities_and_hr_label_normal_hours}</f:facet>
@@ -565,6 +558,14 @@
 							<rich:column styleClass="colNumero">
 								<f:facet name="header">#{messageCosts.activities_and_hr_label_total_hours}</f:facet>
 								<h:outputText value="#{actividadesTrabajadores.totalHours}" />
+							</rich:column>
+
+							<rich:column styleClass="colValor">
+								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
+								<h:outputText value="#{actividadesTrabajadores.totalCostActual}">
+									<f:convertNumber maxFractionDigits="1" type="currency"
+										currencySymbol="$" locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
 
 							<f:facet name="footer">
