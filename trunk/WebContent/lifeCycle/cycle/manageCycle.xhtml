@@ -427,7 +427,7 @@
 				</f:facet>
 				<t:fieldset styleClass="BorderW2P">
 					<legend class="etiquetaTitulo">#{cycleAction.cycle.activiyNames.activityName}</legend>
-					<h:panelGrid columns="3"
+					<h:panelGrid columns="3" id="panelCycleDetails"
 						columnClasses="right W91P tdAlignTop PaddingT10P, tdAlignTop center, tdAlignTop center W155P, tdAlignTop verticalAlignMiddle ">
 
 						<h:outputText value="" />
@@ -511,6 +511,9 @@
 					</h:panelGrid>
 					<br />
 					<div align="center">
+						<a:commandButton value="#{mensaje.button_calculate}"
+							render="formDetalles:panelCycleDetails"
+							actionListener="#{cycleAction.calculateCostActual()}" />
 						<a:commandButton value="#{mensaje.button_accept}"
 							onclick="#{rich:component('PopUpDetails')}.hide()" />
 					</div>

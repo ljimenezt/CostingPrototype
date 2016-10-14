@@ -37,7 +37,7 @@ public class Hr implements Serializable {
 	private double annualWage;
 	private double hoursPerDay;
 	private double hourCost;
-	private Double hourCostOvertime;
+	private double hourCostOvertime;
 	private Integer totalNumbersDays;
 
 	private Date birthDate;
@@ -189,7 +189,7 @@ public class Hr implements Serializable {
 	 * @return hourCostOvertime: Hour per cost time
 	 */
 	@Column(name = "hour_cost_overtime")
-	public Double getHourCostOvertime() {
+	public double getHourCostOvertime() {
 		return hourCostOvertime;
 	}
 
@@ -197,7 +197,7 @@ public class Hr implements Serializable {
 	 * @param hourCostOvertime
 	 *            : Hour per cost time
 	 */
-	public void setHourCostOvertime(Double hourCostOvertime) {
+	public void setHourCostOvertime(double hourCostOvertime) {
 		this.hourCostOvertime = hourCostOvertime;
 	}
 
@@ -648,9 +648,8 @@ public class Hr implements Serializable {
 		result = prime * result + ((genero == null) ? 0 : genero.hashCode());
 		temp = Double.doubleToLongBits(hourCost);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime
-				* result
-				+ ((hourCostOvertime == null) ? 0 : hourCostOvertime.hashCode());
+		temp = Double.doubleToLongBits(hourCostOvertime);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(hoursPerDay);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + idHr;
@@ -734,10 +733,8 @@ public class Hr implements Serializable {
 		if (Double.doubleToLongBits(hourCost) != Double
 				.doubleToLongBits(other.hourCost))
 			return false;
-		if (hourCostOvertime == null) {
-			if (other.hourCostOvertime != null)
-				return false;
-		} else if (!hourCostOvertime.equals(other.hourCostOvertime))
+		if (Double.doubleToLongBits(hourCostOvertime) != Double
+				.doubleToLongBits(other.hourCostOvertime))
 			return false;
 		if (Double.doubleToLongBits(hoursPerDay) != Double
 				.doubleToLongBits(other.hoursPerDay))
@@ -781,5 +778,4 @@ public class Hr implements Serializable {
 			return false;
 		return true;
 	}
-
 }

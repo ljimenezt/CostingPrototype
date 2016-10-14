@@ -79,6 +79,7 @@ public class MovementsAction implements Serializable {
 	private Integer rangeExpiration;
 	private Integer rangeExpirationAux;
 	private String nameSearch;
+	private String nameSearchMaterials;
 	private boolean selected = false;
 	private boolean isReturns = false;
 
@@ -338,6 +339,21 @@ public class MovementsAction implements Serializable {
 	}
 
 	/**
+	 * @return nameSearchMaterials : Material name to search.
+	 */
+	public String getNameSearchMaterials() {
+		return nameSearchMaterials;
+	}
+
+	/**
+	 * @param nameSearchMaterials
+	 *            : Material name to search.
+	 */
+	public void setNameSearchMaterials(String nameSearchMaterials) {
+		this.nameSearchMaterials = nameSearchMaterials;
+	}
+
+	/**
 	 * @return selected : boolean flag to mark all deposits selected
 	 */
 	public boolean isSelected() {
@@ -507,7 +523,7 @@ public class MovementsAction implements Serializable {
 	 * Method to initialize the fields in the search.
 	 */
 	public void initializeMaterialsByActivity() {
-		this.nameSearch = "";
+		this.nameSearchMaterials = "";
 		consultMaterialsByActivity();
 	}
 
@@ -600,13 +616,14 @@ public class MovementsAction implements Serializable {
 					this.activityActualSelected.getIdActivity(), "id");
 			parameters.add(item);
 		}
-		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+		if (this.nameSearchMaterials != null
+				&& !"".equals(this.nameSearchMaterials)) {
 			consult.append("AND UPPER(m.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
-					"keyword");
+			SelectItem item = new SelectItem("%" + this.nameSearchMaterials
+					+ "%", "keyword");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
-					+ '"' + this.nameSearch + '"');
+					+ '"' + this.nameSearchMaterials + '"');
 		}
 	}
 
