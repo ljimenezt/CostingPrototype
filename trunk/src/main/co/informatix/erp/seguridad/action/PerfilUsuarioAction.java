@@ -22,7 +22,7 @@ import co.informatix.erp.recursosHumanos.action.PersonaAction;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.dao.PermisoPersonaEmpresaDao;
-import co.informatix.erp.seguridad.dao.UsuarioDao;
+import co.informatix.erp.seguridad.dao.UserDao;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
@@ -48,7 +48,7 @@ public class PerfilUsuarioAction implements Serializable {
 	@EJB
 	private PersonaDao personaDao;
 	@EJB
-	private UsuarioDao usuarioDao;
+	private UserDao usuarioDao;
 	@EJB
 	private PermisoPersonaEmpresaDao permisoPersonaEmpresaDao;
 

@@ -25,8 +25,8 @@ import co.informatix.erp.informacionBase.entities.CivilStatus;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.dao.RoleDao;
-import co.informatix.erp.seguridad.dao.RolUsuarioDao;
-import co.informatix.erp.seguridad.dao.UsuarioDao;
+import co.informatix.erp.seguridad.dao.RolUserDao;
+import co.informatix.erp.seguridad.dao.UserDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
@@ -56,9 +56,9 @@ import co.informatix.security.entities.Usuario;
 public class UsuarioAction implements Serializable {
 
 	@EJB
-	private UsuarioDao usuarioDao;
+	private UserDao usuarioDao;
 	@EJB
-	private RolUsuarioDao rolUsuarioDao;
+	private RolUserDao rolUsuarioDao;
 	@EJB
 	private RoleDao rolDao;
 	@EJB

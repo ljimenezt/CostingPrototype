@@ -18,7 +18,7 @@ import co.informatix.security.entities.Usuario;
  */
 @Stateless
 @SuppressWarnings("serial")
-public class RolUsuarioDao implements Serializable {
+public class RolUserDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;

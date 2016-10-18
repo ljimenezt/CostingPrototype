@@ -36,7 +36,7 @@ import co.informatix.erp.informacionBase.entities.TipoDocumento;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.action.PerfilUsuarioAction;
-import co.informatix.erp.seguridad.dao.UsuarioDao;
+import co.informatix.erp.seguridad.dao.UserDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
@@ -69,7 +69,7 @@ public class PersonaAction implements Serializable {
 	@EJB
 	private TipoDocumentoDao tipoDocumentoDao;
 	@EJB
-	private UsuarioDao usuarioDao;
+	private UserDao usuarioDao;
 	@EJB
 	private FileUploadBean fileUploadBean;
 	@EJB
