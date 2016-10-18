@@ -13,7 +13,7 @@ import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 
-import co.informatix.erp.seguridad.dao.GestionarPerfilSistemaDao;
+import co.informatix.erp.seguridad.dao.ManageProfileSystemDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
@@ -37,7 +37,7 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	private IdentityAction identity;
 
 	@EJB
-	private GestionarPerfilSistemaDao perfilSistemaDao;
+	private ManageProfileSystemDao perfilSistemaDao;
 
 	private PerfilSistema perfilSistema;
 
