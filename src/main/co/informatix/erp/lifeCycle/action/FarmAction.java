@@ -334,39 +334,39 @@ public class FarmAction implements Serializable {
 			if (farm != null) {
 				this.farm = farm;
 				// Managing fetch.LAZY for foreign keys
-				if (this.farm.getPais() != null) {
+				if (this.farm.getCountry() != null) {
 					Pais knownCountry;
 
-					knownCountry = paisDao
-							.consultarPais(farm.getPais().getId());
+					knownCountry = paisDao.consultarPais(farm.getCountry()
+							.getId());
 
-					this.farm.setPais(knownCountry);
+					this.farm.setCountry(knownCountry);
 				} else {
-					this.farm.setPais(new Pais());
+					this.farm.setCountry(new Pais());
 				}
-				if (this.farm.getDepartamento() != null) {
+				if (this.farm.getDepartment() != null) {
 					Departamento knownDepartment = departamentoDao
-							.consultarDepartamentoXId(farm.getDepartamento()
+							.consultarDepartamentoXId(farm.getDepartment()
 									.getId());
-					this.farm.setDepartamento(knownDepartment);
+					this.farm.setDepartment(knownDepartment);
 				} else {
-					this.farm.setDepartamento(new Departamento());
+					this.farm.setDepartment(new Departamento());
 				}
-				if (this.farm.getMunicipio() != null) {
+				if (this.farm.getTown() != null) {
 					Municipio knownMunicipality = municipioDao
-							.consultarMunicipio(farm.getMunicipio().getId());
-					this.farm.setMunicipio(knownMunicipality);
+							.consultarMunicipio(farm.getTown().getId());
+					this.farm.setTown(knownMunicipality);
 				} else {
-					this.farm.setMunicipio(new Municipio());
+					this.farm.setTown(new Municipio());
 				}
 
 				this.logoPicName = this.farm.getLogo();
 				this.temporalPicLoading = false;
 			} else {
 				this.farm = new Farm();
-				this.farm.setPais(new Pais());
-				this.farm.setDepartamento(new Departamento());
-				this.farm.setMunicipio(new Municipio());
+				this.farm.setCountry(new Pais());
+				this.farm.setDepartment(new Departamento());
+				this.farm.setTown(new Municipio());
 				this.logoPicName = null;
 				this.fileUploadBean = new FileUploadBean();
 				this.temporalPicLoading = true;
@@ -391,14 +391,14 @@ public class FarmAction implements Serializable {
 		String deletePicName = null;
 		try {
 			/* They are not required fields */
-			if (this.farm.getPais().getId() == 0) {
-				this.farm.setPais(null);
+			if (this.farm.getCountry().getId() == 0) {
+				this.farm.setCountry(null);
 			}
-			if (this.farm.getDepartamento().getId() == 0) {
-				this.farm.setDepartamento(null);
+			if (this.farm.getDepartment().getId() == 0) {
+				this.farm.setDepartment(null);
 			}
-			if (this.farm.getMunicipio().getId() == 0) {
-				this.farm.setMunicipio(null);
+			if (this.farm.getTown().getId() == 0) {
+				this.farm.setTown(null);
 			}
 			if (farm.getIdFarm() != 0) {
 				if (this.farm.getLogo() != null
@@ -509,7 +509,7 @@ public class FarmAction implements Serializable {
 	public void loadDepartments() {
 		departmentItems = new ArrayList<SelectItem>();
 		try {
-			Pais country = farm.getPais();
+			Pais country = farm.getCountry();
 			if (country != null && country.getId() > 0) {
 				short countryId = country.getId();
 				List<Departamento> departments = departamentoDao
@@ -522,9 +522,9 @@ public class FarmAction implements Serializable {
 				}
 				loadMunicipalities();
 			} else {
-				farm.setDepartamento(new Departamento());
-				farm.setMunicipio(new Municipio());
-				farm.getDepartamento().setId(0);
+				farm.setDepartment(new Departamento());
+				farm.setTown(new Municipio());
+				farm.getDepartment().setId(0);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -540,7 +540,7 @@ public class FarmAction implements Serializable {
 	public void loadMunicipalities() {
 		municipalityItems = new ArrayList<SelectItem>();
 		try {
-			Departamento department = farm.getDepartamento();
+			Departamento department = farm.getDepartment();
 			if (department != null && department.getId() > 0
 					&& this.departmentItems.size() > 0) {
 				int departmentId = department.getId();
@@ -554,8 +554,8 @@ public class FarmAction implements Serializable {
 				}
 			} else {
 				municipalityItems = new ArrayList<SelectItem>();
-				farm.setDepartamento(new Departamento());
-				farm.setMunicipio(new Municipio());
+				farm.setDepartment(new Departamento());
+				farm.setTown(new Municipio());
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -594,9 +594,9 @@ public class FarmAction implements Serializable {
 				"departamento", farmId);
 		Municipio municipality = (Municipio) this.farmDao.searchFarmObject(
 				"municipio", farmId);
-		farm.setPais(country);
-		farm.setDepartamento(department);
-		farm.setMunicipio(municipality);
+		farm.setCountry(country);
+		farm.setDepartment(department);
+		farm.setTown(municipality);
 	}
 
 	/**

@@ -130,12 +130,12 @@ public class FarmDao implements Serializable {
 	public Farm nameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT f FROM Farm f ");
-		query.append("WHERE UPPER(f.name)=UPPER(:nombre) ");
+		query.append("WHERE UPPER(f.name)=UPPER(:name) ");
 		if (id != 0) {
 			query.append("AND f.idFarm <>:idFarm ");
 		}
 		Query q = em.createQuery(query.toString());
-		q.setParameter("nombre", name);
+		q.setParameter("name", name);
 		if (id != 0) {
 			q.setParameter("idFarm", id);
 		}
