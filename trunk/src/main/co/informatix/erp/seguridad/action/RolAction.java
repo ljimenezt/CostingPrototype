@@ -19,8 +19,8 @@ import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
 import co.informatix.erp.seguridad.dao.ManageMenuDao;
-import co.informatix.erp.seguridad.dao.RolDao;
-import co.informatix.erp.seguridad.dao.RolMenuDao;
+import co.informatix.erp.seguridad.dao.RoleDao;
+import co.informatix.erp.seguridad.dao.RoleMenuDao;
 import co.informatix.erp.seguridad.dao.RolMetodoDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
@@ -70,9 +70,9 @@ public class RolAction implements Serializable {
 	@Resource
 	private UserTransaction userTransaction;
 	@EJB
-	private RolDao rolDao;
+	private RoleDao rolDao;
 	@EJB
-	private RolMenuDao rolMenuDao;
+	private RoleMenuDao rolMenuDao;
 	@EJB
 	private ManageMenuDao menuDao;
 	@EJB
@@ -504,7 +504,7 @@ public class RolAction implements Serializable {
 		for (RolMenu rolMenu : this.rolMenus) {
 			rolMenu.setFechaFinVigencia(new Date());
 			rolMenu.setUserName(identity.getUserName());
-			rolMenuDao.editRolMenu(rolMenu);
+			rolMenuDao.editRoleMenu(rolMenu);
 		}
 	}
 
@@ -526,7 +526,7 @@ public class RolAction implements Serializable {
 			if (menuRol.getId() == menu.getId()) {
 				rolMenu.setFechaFinVigencia(null);
 				rolMenu.setUserName(identity.getUserName());
-				rolMenuDao.editRolMenu(rolMenu);
+				rolMenuDao.editRoleMenu(rolMenu);
 				this.rolMenus.remove(rolMenu);
 				createMenu = false;
 				break;
@@ -535,7 +535,7 @@ public class RolAction implements Serializable {
 		if (createMenu) {
 			RolMenu rolMenu = loadRolMenu(menu);
 			rolMenu.setFechaCreacion(new Date());
-			rolMenuDao.saveRolMenu(rolMenu);
+			rolMenuDao.saveRoleMenu(rolMenu);
 		}
 		Menu menuPadre = menuDao.consultMenuFather(menu.getId());
 		if (menuPadre != null) {

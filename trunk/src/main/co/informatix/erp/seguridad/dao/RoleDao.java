@@ -14,11 +14,10 @@ import co.informatix.security.entities.Usuario;
  * Allows the basic management (CRUD) for Role entity.
  * 
  * @author Oscar.Amaya
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class RolDao implements Serializable {
+public class RoleDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -36,7 +35,7 @@ public class RolDao implements Serializable {
 	 * @param validityCondition
 	 *            : validity condition.
 	 * @param nameSearch
-	 *            role name to search.
+	 *            : role name to search.
 	 * @return List<Rol>: list of roles found in the database.
 	 * @throws Exception
 	 */
@@ -102,13 +101,13 @@ public class RolDao implements Serializable {
 	 * 
 	 * @param name
 	 *            : name to verify
-	 * @return: role object found with the name
+	 * @return Role: role object found with the name
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public Rol nameExists(String name) throws Exception {
-		List<Rol> results = em.createQuery("FROM Rol WHERE nombre=:nombre")
-				.setParameter("nombre", name).getResultList();
+		List<Rol> results = em.createQuery("FROM Rol WHERE nombre=:name")
+				.setParameter("name", name).getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -122,14 +121,14 @@ public class RolDao implements Serializable {
 	 *            : name in which you query the role.
 	 * @param id
 	 *            : id of the role object that is being edited.
-	 * @return role object according to the name.
+	 * @return Role: role object according to the name.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public Rol updateNameExists(String name, short id) throws Exception {
 		List<Rol> results = em
-				.createQuery("FROM Rol WHERE nombre=:nombre AND id <>:id")
-				.setParameter("nombre", name).setParameter("id", id)
+				.createQuery("FROM Rol WHERE nombre=:name AND id <>:id")
+				.setParameter("name", name).setParameter("id", id)
 				.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
@@ -144,12 +143,11 @@ public class RolDao implements Serializable {
 	 *            : role identifier.
 	 * @param relatedEntity
 	 *            : entity that is related to the role.
-	 * @return: true whether it is related or false otherwise.
+	 * @return boolean: true whether it is related or false otherwise.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public boolean relatedRole(short id, String relatedEntity) throws Exception {
-
 		List<Rol> roles = em
 				.createQuery(
 						"SELECT r FROM Rol r JOIN r." + relatedEntity
@@ -176,8 +174,8 @@ public class RolDao implements Serializable {
 		List<Rol> roles = em
 				.createQuery(
 						"SELECT rs.rolUsuarioPK.rol FROM RolUsuario rs "
-								+ "WHERE rs.rolUsuarioPK.usuario=:usuario")
-				.setParameter("usuario", user).getResultList();
+								+ "WHERE rs.rolUsuarioPK.usuario=:user")
+				.setParameter("user", user).getResultList();
 		if (roles.size() > 0)
 			return em
 					.createQuery(

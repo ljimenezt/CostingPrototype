@@ -24,7 +24,7 @@ import javax.transaction.UserTransaction;
 import co.informatix.erp.informacionBase.entities.CivilStatus;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.recursosHumanos.entities.Persona;
-import co.informatix.erp.seguridad.dao.RolDao;
+import co.informatix.erp.seguridad.dao.RoleDao;
 import co.informatix.erp.seguridad.dao.RolUsuarioDao;
 import co.informatix.erp.seguridad.dao.UsuarioDao;
 import co.informatix.erp.utils.Constantes;
@@ -60,7 +60,7 @@ public class UsuarioAction implements Serializable {
 	@EJB
 	private RolUsuarioDao rolUsuarioDao;
 	@EJB
-	private RolDao rolDao;
+	private RoleDao rolDao;
 	@EJB
 	protected IdentityDao dao;
 	@EJB
