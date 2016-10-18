@@ -14,11 +14,10 @@ import co.informatix.security.entities.Usuario;
  * database. UsuarioActionmanages users and roles in the application users.
  * 
  * @author Gabriel.Moreno
- * 
  */
 @Stateless
 @SuppressWarnings("serial")
-public class UsuarioDao implements Serializable {
+public class UserDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -26,7 +25,7 @@ public class UsuarioDao implements Serializable {
 	/**
 	 * Query users in the database.
 	 * 
-	 * @modify Liseth Jimenez 19/06/2012
+	 * @modify Liseth.Jimenez 19/06/2012
 	 * 
 	 * @param start
 	 *            : The first record that is retrieve of the query result.
@@ -81,7 +80,8 @@ public class UsuarioDao implements Serializable {
 	 * 
 	 * @param userName
 	 *            : User name to query.
-	 * @return: It is only null if there is no such user name in the database.
+	 * @return User: It is only null if there is no such user name in the
+	 *         database.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -99,20 +99,21 @@ public class UsuarioDao implements Serializable {
 	 * Query if the user name and id of a specific user exists in the database,
 	 * then it retrieves the corresponding user record.
 	 * 
-	 * @param username
+	 * @param userName
 	 *            : User name to query.
 	 * @param id
 	 *            : User identifier.
-	 * @return: It is only null if there is no such user name in the database.
+	 * @return User: It is only null if there is no such user name in the
+	 *         database.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Usuario userNameExists(String username, Integer id) throws Exception {
+	public Usuario userNameExists(String userName, Integer id) throws Exception {
 		List<Usuario> results = em
 				.createQuery(
-						"FROM Usuario u WHERE u.nombreUsuario=:nombreUsuario "
+						"FROM Usuario u WHERE u.nombreUsuario=:userName "
 								+ "AND u.id <>:id")
-				.setParameter("nombreUsuario", username).setParameter("id", id)
+				.setParameter("userName", userName).setParameter("id", id)
 				.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
@@ -147,7 +148,7 @@ public class UsuarioDao implements Serializable {
 	 * 
 	 * @param userName
 	 *            : User name to be queried.
-	 * @return Usuario: User object that casts the query.
+	 * @return User: User object that casts the query.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -169,18 +170,18 @@ public class UsuarioDao implements Serializable {
 	 * 
 	 * @author Gabriel.Moreno
 	 * 
-	 * @param idPersona
+	 * @param idPerson
 	 *            : Person identifier that is related to the user.
-	 * @return Usuario: User object found or null otherwise.
+	 * @return User: User object found or null otherwise.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Usuario searchPersonUser(int idPersona) throws Exception {
+	public Usuario searchPersonUser(int idPerson) throws Exception {
 		List<Usuario> results = em
 				.createQuery(
 						"SELECT p.usuario FROM Persona p "
-								+ "WHERE p.id=:idPersona ")
-				.setParameter("idPersona", idPersona).getResultList();
+								+ "WHERE p.id=:idPerson ")
+				.setParameter("idPerson", idPerson).getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}

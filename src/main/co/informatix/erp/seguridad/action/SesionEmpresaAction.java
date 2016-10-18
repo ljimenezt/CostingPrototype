@@ -19,7 +19,7 @@ import co.informatix.erp.organizaciones.dao.EmpresaDao;
 import co.informatix.erp.organizaciones.entities.Empresa;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.seguridad.dao.PermisoPersonaEmpresaDao;
-import co.informatix.erp.seguridad.dao.UsuarioDao;
+import co.informatix.erp.seguridad.dao.UserDao;
 import co.informatix.erp.utils.ControladorContexto;
 
 /**
@@ -53,7 +53,7 @@ public class SesionEmpresaAction implements Serializable {
 	@EJB
 	private PersonaDao personaDao;
 	@EJB
-	private UsuarioDao usuarioDao;
+	private UserDao usuarioDao;
 	@EJB
 	private FarmDao farmDao;
 	@EJB
