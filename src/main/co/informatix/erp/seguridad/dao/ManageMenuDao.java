@@ -16,13 +16,11 @@ import co.informatix.security.entities.Rol;
  * DAO class that establishes the connection between business logic and
  * database. GestionarMenuAction used for managing the application menus.
  * 
- * 
  * @author marisol.calderon
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class GestionarMenuDao implements Serializable {
+public class ManageMenuDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -155,7 +153,7 @@ public class GestionarMenuDao implements Serializable {
 	 * 
 	 * @param rol
 	 *            : Role to consult the menus.
-	 * @return List<Menu>:List of menus role.
+	 * @return List<Menu>: List of menus role.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -222,7 +220,7 @@ public class GestionarMenuDao implements Serializable {
 	 * @modify 23/12/2014 Cristhian.Pico
 	 * 
 	 * @param idMetodo
-	 *            :Method identifier to find menus.
+	 *            : Method identifier to find menus.
 	 * @return List<Menu>: Method identifier to find menus.
 	 * @throws Exception
 	 */
@@ -244,8 +242,8 @@ public class GestionarMenuDao implements Serializable {
 	 * 
 	 * @param idMenu
 	 *            : id of the menu you want to remove.
-	 * @return: Boolean that indicates whether the menu to delete or not
-	 *          associated menus.
+	 * @return boolean: indicates whether the menu to delete or not associated
+	 *         menus.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

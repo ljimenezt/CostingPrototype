@@ -18,11 +18,10 @@ import co.informatix.security.entities.Icono;
  * 
  * @author marisol.calderon
  * @modify 18/05/2016 Gerardo.Herrera
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class GestionarIconoDao implements Serializable {
+public class ManageIconDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
