@@ -31,25 +31,25 @@ public class Farm implements Serializable, Comparable<Farm>, Cloneable {
 	private Double locationLinkToMap;
 	private String otherFieldAddress;
 	private String nit;
-	private String nombreComercial;
+	private String commercialName;
 	private String logo;
-	private String direccion;
-	private String telefono;
-	private String correo;
+	private String address;
+	private String phone;
+	private String mail;
 	private String fax;
-	private String movil;
+	private String mobile;
 
-	private Pais pais;
-	private Departamento departamento;
-	private Municipio municipio;
-
+	private Pais country;
+	private Departamento department;
+	private Municipio town;
+	
 	/**
 	 * Empty constructor to initialize the necessary variables.
 	 */
 	public Farm() {
-		this.pais = new Pais();
-		this.departamento = new Departamento();
-		this.municipio = new Municipio();
+		this.country = new Pais();
+		this.department = new Departamento();
+		this.town = new Municipio();
 	}
 
 	/**
@@ -135,19 +135,19 @@ public class Farm implements Serializable, Comparable<Farm>, Cloneable {
 	}
 
 	/**
-	 * @return nombreComercial: Get the trade name of the estate.
+	 * @return commercialName: Get the trade name of the estate.
 	 */
 	@Column(name = "nombre_comercial", length = 100)
-	public String getNombreComercial() {
-		return nombreComercial;
+	public String getCommercialName() {
+		return commercialName;
 	}
 
 	/**
-	 * @param nombre
+	 * @param commercialName
 	 *            : Sets the trade name of the estate.
 	 */
-	public void setNombreComercial(String nombreComercial) {
-		this.nombreComercial = nombreComercial;
+	public void setCommercialName(String commercialName) {
+		this.commercialName = commercialName;
 	}
 
 	/**
@@ -167,51 +167,51 @@ public class Farm implements Serializable, Comparable<Farm>, Cloneable {
 	}
 
 	/**
-	 * @return direccion: gets the address of the farm.
+	 * @return address: gets the address of the farm.
 	 */
 	@Column(name = "direccion", length = 50)
-	public String getDireccion() {
-		return direccion;
+	public String getAddress() {
+		return address;
 	}
 
 	/**
-	 * @param direccion
+	 * @param address
 	 *            : sets the address of the farm.
 	 */
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	/**
-	 * @return telefono: get the phone of a farm
+	 * @return phone: get the phone of a farm
 	 */
 	@Column(name = "telefono", length = 150)
-	public String getTelefono() {
-		return telefono;
+	public String getPhone() {
+		return phone;
 	}
 
 	/**
-	 * @param telefono
+	 * @param phone
 	 *            : set the phone of a farm
 	 */
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	/**
-	 * @return correo: getting mail from a farm.
+	 * @return mail: getting mail from a farm.
 	 */
 	@Column(name = "correo", length = 50)
-	public String getCorreo() {
-		return correo;
+	public String getMail() {
+		return mail;
 	}
 
 	/**
-	 * @param correo
+	 * @param mail
 	 *            : setting mail from a farm.
 	 */
-	public void setCorreo(String correo) {
-		this.correo = correo;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 
 	/**
@@ -231,70 +231,71 @@ public class Farm implements Serializable, Comparable<Farm>, Cloneable {
 	}
 
 	/**
-	 * @return movil: mobile phone farm.
+	 * @return mobile: mobile phone farm.
 	 */
 	@Column(name = "movil", length = 20)
-	public String getMovil() {
-		return movil;
+	public String getMobile() {
+		return mobile;
 	}
 
 	/**
-	 * @param movil
+	 * @param mobile
 	 *            : mobile phone farm.
 	 */
-	public void setMovil(String movil) {
-		this.movil = movil;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	/**
-	 * @return pais: Country to which the farm belongs
+	 * @return country: Country to which the farm belongs
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_pais", referencedColumnName = "id")
-	public Pais getPais() {
-		return pais;
+	public Pais getCountry() {
+		return country;
 	}
 
 	/**
-	 * @param pais
+	 * @param country
 	 *            :Country to which the farm belongs
 	 */
-	public void setPais(Pais pais) {
-		this.pais = pais;
+	public void setCountry(Pais country) {
+		this.country = country;
 	}
 
 	/**
-	 * @return departamento : Department to which the farm belongs
+	 * @return department : Department to which the farm belongs
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_departamento", referencedColumnName = "id")
-	public Departamento getDepartamento() {
-		return departamento;
+	public Departamento getDepartment() {
+		return department;
 	}
 
 	/**
-	 * @param departamento
+	 * @param department
 	 *            : Department to which the farm belongs
 	 */
-	public void setDepartamento(Departamento departamento) {
-		this.departamento = departamento;
+	public void setDepartment(Departamento department) {
+		this.department = department;
 	}
 
 	/**
-	 * @return municipio: get the town relate of a farm
+	 * @return town: get the town relate of a farm
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_municipio", referencedColumnName = "id")
-	public Municipio getMunicipio() {
-		return municipio;
+	public Municipio getTown() {
+		return town;
 	}
 
+
 	/**
-	 * @param municipio
+	 * @param town
 	 *            : set the town relate of a farm
 	 */
-	public void setMunicipio(Municipio municipio) {
-		this.municipio = municipio;
+	public void setTown(Municipio town) {
+		this.town = town;
 	}
 
 	@Override
@@ -327,15 +328,13 @@ public class Farm implements Serializable, Comparable<Farm>, Cloneable {
 						.hashCode());
 		result = prime * result + ((nit == null) ? 0 : nit.hashCode());
 		result = prime * result
-				+ ((nombreComercial == null) ? 0 : nombreComercial.hashCode());
+				+ ((commercialName == null) ? 0 : commercialName.hashCode());
 		result = prime * result + ((logo == null) ? 0 : logo.hashCode());
-		result = prime * result
-				+ ((direccion == null) ? 0 : direccion.hashCode());
-		result = prime * result
-				+ ((telefono == null) ? 0 : telefono.hashCode());
-		result = prime * result + ((correo == null) ? 0 : correo.hashCode());
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+		result = prime * result + ((mail == null) ? 0 : mail.hashCode());
 		result = prime * result + ((fax == null) ? 0 : fax.hashCode());
-		result = prime * result + ((movil == null) ? 0 : movil.hashCode());
+		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
 		return result;
 	}
 
@@ -370,40 +369,40 @@ public class Farm implements Serializable, Comparable<Farm>, Cloneable {
 				return false;
 		} else if (!nit.equals(other.nit))
 			return false;
-		if (nombreComercial == null) {
-			if (other.nombreComercial != null)
+		if (commercialName == null) {
+			if (other.commercialName != null)
 				return false;
-		} else if (!nombreComercial.equals(other.nombreComercial))
+		} else if (!commercialName.equals(other.commercialName))
 			return false;
 		if (logo == null) {
 			if (other.logo != null)
 				return false;
 		} else if (!logo.equals(other.logo))
 			return false;
-		if (direccion == null) {
-			if (other.direccion != null)
+		if (address == null) {
+			if (other.address != null)
 				return false;
-		} else if (!direccion.equals(other.direccion))
+		} else if (!address.equals(other.address))
 			return false;
-		if (telefono == null) {
-			if (other.telefono != null)
+		if (phone == null) {
+			if (other.phone != null)
 				return false;
-		} else if (!telefono.equals(other.telefono))
+		} else if (!phone.equals(other.phone))
 			return false;
-		if (correo == null) {
-			if (other.correo != null)
+		if (mail == null) {
+			if (other.mail != null)
 				return false;
-		} else if (!correo.equals(other.correo))
+		} else if (!mail.equals(other.mail))
 			return false;
 		if (fax == null) {
 			if (other.fax != null)
 				return false;
 		} else if (!fax.equals(other.fax))
 			return false;
-		if (movil == null) {
-			if (other.movil != null)
+		if (mobile == null) {
+			if (other.mobile != null)
 				return false;
-		} else if (!movil.equals(other.movil))
+		} else if (!mobile.equals(other.mobile))
 			return false;
 		return true;
 	}

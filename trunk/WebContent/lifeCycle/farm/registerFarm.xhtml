@@ -70,7 +70,7 @@
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoMediano" maxlength="100"
 							id="nombreComercial" validator="#{encodeFilter.validarScripting}"
-							value="#{farmAction.farm.nombreComercial}">
+							value="#{farmAction.farm.commercialName}">
 							<f:validateLength maximum="100" />
 						</h:inputText>
 						<rich:message for="nombreComercial" />
@@ -80,7 +80,7 @@
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoMediano" id="direccion"
 							validator="#{encodeFilter.validarScripting}"
-							value="#{farmAction.farm.direccion}">
+							value="#{farmAction.farm.address}">
 							<f:validateLength maximum="50" />
 						</h:inputText>
 						<rich:message for="direccion" />
@@ -90,7 +90,7 @@
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoCorto" maxlength="20"
 							validator="#{encodeFilter.validarScripting}" id="telefono"
-							value="#{farmAction.farm.telefono}">
+							value="#{farmAction.farm.phone}">
 							<f:attribute name="nameRegEx" value="locate.regex.numeros.guion" />
 							<f:validateLength maximum="20" />
 						</h:inputText>
@@ -100,7 +100,7 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoMediano" maxlength="50"
-							id="correo" value="#{farmAction.farm.correo}"
+							id="correo" value="#{farmAction.farm.mail}"
 							validator="#{validacionesAction.validarEmailXSS}">
 							<f:validateLength maximum="50" />
 						</h:inputText>
@@ -122,7 +122,7 @@
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoCorto" maxlength="20" id="movil"
 							validator="#{encodeFilter.validarScripting}"
-							value="#{farmAction.farm.movil}"
+							value="#{farmAction.farm.mobile}"
 							converterMessage="#{mensaje.message_validacion_decimal}">
 							<f:attribute name="nameRegEx" value="locate.regex.numeros.guion" />
 							<f:validateLength maximum="20" />
@@ -132,7 +132,7 @@
 						<h:outputText value="#{messageBaseInformation.country_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
-						<h:selectOneMenu value="#{farmAction.farm.pais.id}"
+						<h:selectOneMenu value="#{farmAction.farm.country.id}"
 							id="comboPaisFarm">
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{farmAction.countryItems}" />
@@ -145,7 +145,7 @@
 						<h:outputText value="#{messageBaseInformation.department_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
-						<h:selectOneMenu value="#{farmAction.farm.departamento.id}"
+						<h:selectOneMenu value="#{farmAction.farm.department.id}"
 							id="comboDepartamentoFarm">
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{farmAction.departmentItems}" />
@@ -157,7 +157,7 @@
 						<h:outputText value="#{messageBaseInformation.municipality_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
-						<h:selectOneMenu value="#{farmAction.farm.municipio.id}"
+						<h:selectOneMenu value="#{farmAction.farm.town.id}"
 							id="comboMunicipioFarm">
 							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{farmAction.municipalityItems}" />
