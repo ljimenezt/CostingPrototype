@@ -14,7 +14,7 @@ import co.informatix.security.entities.Rol;
 
 /**
  * DAO class that establishes the connection between business logic and
- * database. GestionarMenuAction used for managing the application menus.
+ * database. ManageMenuAction used for managing the application menus.
  * 
  * @author marisol.calderon
  */

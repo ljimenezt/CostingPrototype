@@ -229,8 +229,8 @@ public class MetodoAction implements Serializable {
 	 *         or edit a method.
 	 */
 	public String registerMethod(Metodo method) {
-		GestionarMenuAction menuAction = ControladorContexto
-				.getContextBean(GestionarMenuAction.class);
+		ManageMenuAction menuAction = ControladorContexto
+				.getContextBean(ManageMenuAction.class);
 		try {
 			this.menusSelected = new ArrayList<Menu>();
 			if (method != null) {
@@ -346,10 +346,10 @@ public class MetodoAction implements Serializable {
 	 * @modify 20/05/2016 Gerardo.Herrera
 	 */
 	public void eraseAvailableMenus() {
-		GestionarMenuAction menuAction = ControladorContexto
-				.getContextBean(GestionarMenuAction.class);
+		ManageMenuAction menuAction = ControladorContexto
+				.getContextBean(ManageMenuAction.class);
 		menuAction.setFromMethod(true);
-		menuAction.setFromRol(false);
+		menuAction.setFromRole(false);
 		menuAction.setNameSearch("");
 		menuAction.consultMenus();
 	}
@@ -362,8 +362,8 @@ public class MetodoAction implements Serializable {
 	 *            menus.
 	 */
 	public void addRemoveAllMenus(String flag) {
-		GestionarMenuAction menuAction = ControladorContexto
-				.getContextBean(GestionarMenuAction.class);
+		ManageMenuAction menuAction = ControladorContexto
+				.getContextBean(ManageMenuAction.class);
 		try {
 			if (flag.equals(Constantes.ADD)) {
 				List<Menu> tempSelectedMenu = menuDao
@@ -406,8 +406,8 @@ public class MetodoAction implements Serializable {
 				}
 			}
 		}
-		GestionarMenuAction menuAction = ControladorContexto
-				.getContextBean(GestionarMenuAction.class);
+		ManageMenuAction menuAction = ControladorContexto
+				.getContextBean(ManageMenuAction.class);
 		menuAction.consultMenus();
 	}
 

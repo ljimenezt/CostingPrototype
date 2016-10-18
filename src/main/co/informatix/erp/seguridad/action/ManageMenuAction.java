@@ -14,7 +14,6 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
-import co.informatix.erp.seguridad.dao.ManageIconDao;
 import co.informatix.erp.seguridad.dao.ManageMenuDao;
 import co.informatix.erp.seguridad.dao.RoleMenuDao;
 import co.informatix.erp.utils.Constantes;
@@ -36,24 +35,21 @@ import co.informatix.security.utils.Parametros;
  * @author marisol.calderon
  * @modify 19/06/2014 Gabriel.Moreno
  * @modify 18/05/2016 Gerardo.Herrera
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean(name = "menuAction")
 @RequestScoped
-public class GestionarMenuAction implements Serializable {
+public class ManageMenuAction implements Serializable {
 	@Inject
 	private IdentityAction identity;
 	@EJB
 	private ManageMenuDao menuDao;
 	@EJB
-	private RoleMenuDao rolMenuDao;
+	private RoleMenuDao roleMenuDao;
 	@EJB
-	private MetodoMenuDao metodoMenuDao;
+	private MetodoMenuDao methodMenuDao;
 	@EJB
-	private IconoDao iconoDao;
-	@EJB
-	private ManageIconDao gesIconoDao;
+	private IconoDao iconDao;
 
 	private List<Menu> listMenus;
 	private List<Menu> listAllMenus;
@@ -61,13 +57,13 @@ public class GestionarMenuAction implements Serializable {
 
 	private Paginador pagination = new Paginador();
 	private Menu menuAction;
-	private Menu menuPadre;
+	private Menu menuFather;
 
 	private String nameSearch;
 	private String nameIconSearch;
 	private String folderFilesIcons;
 
-	private boolean fromRol = false;
+	private boolean fromRole = false;
 	private boolean fromMethod = false;
 
 	/**
@@ -128,18 +124,18 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * @return menuPadre: Variable that gets the parent menu item.
+	 * @return menuFather: Variable that gets the parent menu item.
 	 */
-	public Menu getMenuPadre() {
-		return menuPadre;
+	public Menu getMenuFather() {
+		return menuFather;
 	}
 
 	/**
-	 * @param menuPadre
+	 * @param menuFather
 	 *            : Variable that gets the parent menu item.
 	 */
-	public void setMenuPadre(Menu menuPadre) {
-		this.menuPadre = menuPadre;
+	public void setMenuFather(Menu menuFather) {
+		this.menuFather = menuFather;
 	}
 
 	/**
@@ -201,20 +197,20 @@ public class GestionarMenuAction implements Serializable {
 	}
 
 	/**
-	 * @return fromRol: Indicates whether the action is executed from RolAction,
-	 *         to perform special actions.
+	 * @return fromRole: Indicates whether the action is executed from
+	 *         RoleAction, to perform special actions.
 	 */
-	public boolean isFromRol() {
-		return fromRol;
+	public boolean isFromRole() {
+		return fromRole;
 	}
 
 	/**
-	 * @param fromRol
-	 *            : Indicates whether the action is executed from RolAction, to
+	 * @param fromRole
+	 *            : Indicates whether the action is executed from RoleAction, to
 	 *            perform special actions.
 	 */
-	public void setFromRol(boolean fromRol) {
-		this.fromRol = fromRol;
+	public void setFromRole(boolean fromRole) {
+		this.fromRole = fromRole;
 	}
 
 	/**
@@ -255,13 +251,13 @@ public class GestionarMenuAction implements Serializable {
 	 */
 	public void initialData() {
 		this.nameSearch = "";
-		this.fromRol = false;
+		this.fromRole = false;
 		this.fromMethod = false;
 		pagination = new Paginador();
 	}
 
 	/**
-	 * ListaMenus provides access existing in the database
+	 * ListMenus provides access existing in the database
 	 * 
 	 * @return back: depending to a flag desdeModal redirects to the Manage
 	 *         menus or not redirect.
@@ -286,7 +282,7 @@ public class GestionarMenuAction implements Serializable {
 		try {
 			advancedSearch(consult, order, parameters, bundle,
 					unionMessageSearch);
-			if (fromRol
+			if (fromRole
 					|| (this.nameSearch != null && !"".equals(this.nameSearch))
 					|| fromMethod) {
 				if (fromMethod) {
@@ -369,14 +365,14 @@ public class GestionarMenuAction implements Serializable {
 	 * Allows you to filter the list of menus for the selected name in the
 	 * search criteria.
 	 * 
-	 * @param listTdosMenus
+	 * @param temporaryList
 	 *            : List of all existing menus.
 	 * @return listMenusData: List of menus filtered by name.
 	 */
-	public List<Menu> filterMenusByName(List<Menu> listTdosMenus) {
+	public List<Menu> filterMenusByName(List<Menu> temporaryList) {
 		List<Menu> listMenusData = new ArrayList<Menu>();
-		if (listTdosMenus != null) {
-			for (Menu menu : listTdosMenus) {
+		if (temporaryList != null) {
+			for (Menu menu : temporaryList) {
 				convertNameMenuDescript(menu);
 				String nameMenu = menu.getNombre().toUpperCase();
 				if (nameMenu.indexOf(this.nameSearch.toUpperCase()) != -1) {
@@ -414,17 +410,17 @@ public class GestionarMenuAction implements Serializable {
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
-		if (fromRol) {
+		if (fromRole) {
 			RolAction rolAction = ControladorContexto
 					.getContextBean(RolAction.class);
 			consult.append("AND m IN(SELECT DISTINCT mm.menu FROM MetodoMenu mm ");
-			consult.append("WHERE mm.metodo.id IN (:idsMetodo)) ");
-			List<Integer> idsMetodo = new ArrayList<Integer>(rolAction
+			consult.append("WHERE mm.metodo.id IN (:idsMethod)) ");
+			List<Integer> idsMethod = new ArrayList<Integer>(rolAction
 					.getMethodsPermissions().keySet());
-			if (idsMetodo.size() <= 0) {
-				idsMetodo.add(-1);
+			if (idsMethod.size() <= 0) {
+				idsMethod.add(-1);
 			}
-			SelectItem item = new SelectItem(idsMetodo, "idsMetodo");
+			SelectItem item = new SelectItem(idsMethod, "idsMethod");
 			parameters.add(item);
 		}
 		order.append(" ORDER BY m.nombre");
@@ -465,7 +461,7 @@ public class GestionarMenuAction implements Serializable {
 		convertNameMenuDescript(menu);
 		Icono icon = menu.getIcono();
 		if (icon != null) {
-			icon = iconoDao.iconoXId(icon.getId());
+			icon = iconDao.iconoXId(icon.getId());
 			menu.setIcono(icon);
 		}
 		Menu menuFatherInfo = menuDao.consultMenuFather(menu.getId());
@@ -515,7 +511,7 @@ public class GestionarMenuAction implements Serializable {
 	 */
 	public String registerMenu(Menu menu) {
 		listMenus = new ArrayList<Menu>();
-		this.menuPadre = new Menu();
+		this.menuFather = new Menu();
 		nameSearch = "";
 		try {
 			if (menu != null) {
@@ -524,7 +520,7 @@ public class GestionarMenuAction implements Serializable {
 				menu.setDescripcion(menuUpdated.getDescripcion());
 				this.menuAction = menu;
 				if (this.menuAction.getMenuPadre() != null) {
-					this.menuPadre = this.menuAction.getMenuPadre();
+					this.menuFather = this.menuAction.getMenuPadre();
 				}
 			} else {
 				this.menuAction = new Menu();
@@ -547,8 +543,8 @@ public class GestionarMenuAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String key = "message_registro_modificar";
 		try {
-			if (this.menuPadre != null && this.menuPadre.getId() != 0) {
-				menuAction.setMenuPadre(this.menuPadre);
+			if (this.menuFather != null && this.menuFather.getId() != 0) {
+				menuAction.setMenuPadre(this.menuFather);
 			} else {
 				menuAction.setMenuPadre(null);
 			}
@@ -627,16 +623,16 @@ public class GestionarMenuAction implements Serializable {
 	 * 
 	 * @param idMenu
 	 *            : id of the menu that you want to validate.
-	 * @return: String returns the string with the message of the entities which
-	 *          have relation with the menu.
+	 * @return String: returns the string with the message of the entities which
+	 *         have relation with the menu.
 	 * @throws Exception
 	 */
 	private String validateRelations(int idMenu) throws Exception {
 		String messageResult = "";
 		boolean result1 = false;
 		boolean result2 = false;
-		result1 = rolMenuDao.rolMenuRelations(idMenu);
-		result2 = metodoMenuDao.relacionesMetodoMenu(idMenu);
+		result1 = roleMenuDao.rolMenuRelations(idMenu);
+		result2 = methodMenuDao.relacionesMetodoMenu(idMenu);
 		if (result1 && result2) {
 			messageResult = "menu_message_not_delete_rol_method";
 		} else {

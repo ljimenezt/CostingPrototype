@@ -293,8 +293,8 @@ public class RolAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void loadNotSelectedViewMenu() throws Exception {
-		GestionarMenuAction menuAction = ControladorContexto
-				.getContextBean(GestionarMenuAction.class);
+		ManageMenuAction menuAction = ControladorContexto
+				.getContextBean(ManageMenuAction.class);
 		List<Menu> allMenusList = menuAction.getListAllMenus();
 		if (allMenusList != null && allMenusList.size() > 0 && this.rol != null
 				&& this.rol.getId() > 0) {
@@ -457,8 +457,8 @@ public class RolAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void addRolMethodMenu() throws Exception {
-		GestionarMenuAction menuAction = ControladorContexto
-				.getContextBean(GestionarMenuAction.class);
+		ManageMenuAction menuAction = ControladorContexto
+				.getContextBean(ManageMenuAction.class);
 		List<RolMetodo> rolMethods = this.rolMetodoDao
 				.queryAllRolMethods(this.rol);
 		for (Integer methodId : this.methodsPermissions.keySet()) {
@@ -879,10 +879,10 @@ public class RolAction implements Serializable {
 	 */
 	public void initializeRelatedMethods() {
 		try {
-			GestionarMenuAction menuAction = ControladorContexto
-					.getContextBean(GestionarMenuAction.class);
+			ManageMenuAction menuAction = ControladorContexto
+					.getContextBean(ManageMenuAction.class);
 			menuAction.initialData();
-			menuAction.setFromRol(true);
+			menuAction.setFromRole(true);
 			menuAction.setFromMethod(false);
 			loadRelatedMenus();
 		} catch (Exception e) {
@@ -896,8 +896,8 @@ public class RolAction implements Serializable {
 	public void loadRelatedMenus() {
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		GestionarMenuAction menuAction = ControladorContexto
-				.getContextBean(GestionarMenuAction.class);
+		ManageMenuAction menuAction = ControladorContexto
+				.getContextBean(ManageMenuAction.class);
 		menuAction.consultMenus();
 		this.paginationMenu = menuAction.getPagination();
 		String searchPopupMessage = validations.getMensajeBusqueda();
@@ -908,8 +908,8 @@ public class RolAction implements Serializable {
 	 * This method verifies menus which are not selected in the view.
 	 */
 	private void removeMenuViewNoSelected() {
-		GestionarMenuAction menuAction = ControladorContexto
-				.getContextBean(GestionarMenuAction.class);
+		ManageMenuAction menuAction = ControladorContexto
+				.getContextBean(ManageMenuAction.class);
 		List<Integer> menuViewNoSelectedTemp = new ArrayList<Integer>();
 		menuViewNoSelectedTemp.addAll(this.menuViewNoSelected);
 		this.menuViewNoSelected = new ArrayList<Integer>();
