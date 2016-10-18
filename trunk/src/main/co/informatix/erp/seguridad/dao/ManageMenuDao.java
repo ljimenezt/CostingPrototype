@@ -151,20 +151,20 @@ public class ManageMenuDao implements Serializable {
 	/**
 	 * Method to consult menus with a role associated.
 	 * 
-	 * @param rol
+	 * @param role
 	 *            : Role to consult the menus.
 	 * @return List<Menu>: List of menus role.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Menu> consultMenusRol(Rol rol) throws Exception {
+	public List<Menu> consultMenusRole(Rol role) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT DISTINCT rm.rolMenuPK.menu FROM RolMenu rm ");
-		query.append("WHERE rm.rolMenuPK.rol=:rol ");
+		query.append("WHERE rm.rolMenuPK.rol=:role ");
 		query.append("AND rm.fechaFinVigencia IS NULL ");
 		query.append("AND rm.rolMenuPK.menu.fechaFinVigencia IS NULL ");
 		Query q = em.createQuery(query.toString());
-		q.setParameter("rol", rol);
+		q.setParameter("role", role);
 		return q.getResultList();
 	}
 

@@ -17,11 +17,10 @@ import co.informatix.security.entities.Metodo;
  * 
  * @author marisol.calderon
  * @modify 19/06/2014 Gabriel.Moreno
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class MetodoDao implements Serializable {
+public class MethodDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -58,7 +57,6 @@ public class MetodoDao implements Serializable {
 		}
 		queryResult.setFirstResult(start).setMaxResults(range);
 		return queryResult.getResultList();
-
 	}
 
 	/**
@@ -86,7 +84,6 @@ public class MetodoDao implements Serializable {
 			queryResult.setParameter("keyword", "%" + name + "%");
 		}
 		return (Long) queryResult.getSingleResult();
-
 	}
 
 	/**
@@ -127,13 +124,13 @@ public class MetodoDao implements Serializable {
 	public Metodo methodNameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Metodo m ");
-		query.append("WHERE UPPER(m.nombre)=UPPER(:nombre) ");
+		query.append("WHERE UPPER(m.nombre)=UPPER(:name) ");
 		query.append(" AND m.fechaFinVigencia IS NULL ");
 		if (id != 0) {
 			query.append("AND m.id <>:id ");
 		}
 		Query queryResult = em.createQuery(query.toString());
-		queryResult.setParameter("nombre", name);
+		queryResult.setParameter("name", name);
 		if (id != 0) {
 			queryResult.setParameter("id", id);
 		}
@@ -162,13 +159,13 @@ public class MetodoDao implements Serializable {
 	public Metodo actionNameExists(String methodName, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT m FROM Metodo m ");
-		query.append("WHERE UPPER(m.nombreMetodo)=UPPER(:nombreMetodo) ");
+		query.append("WHERE UPPER(m.nombreMetodo)=UPPER(:methodName) ");
 		query.append(" AND m.fechaFinVigencia IS NULL ");
 		if (id != 0) {
 			query.append("AND m.id <>:id ");
 		}
 		Query queryResult = em.createQuery(query.toString());
-		queryResult.setParameter("nombreMetodo", methodName);
+		queryResult.setParameter("methodName", methodName);
 		if (id != 0) {
 			queryResult.setParameter("id", id);
 		}

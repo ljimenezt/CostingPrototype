@@ -53,7 +53,7 @@ public class ManageIconDao implements Serializable {
 	 * 
 	 * @param name
 	 *            : name to verify.
-	 * @return Icono: Icon object found with the name or null but there
+	 * @return Icon: Icon object found with the name or null but there
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

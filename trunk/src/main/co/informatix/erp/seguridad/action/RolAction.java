@@ -298,7 +298,7 @@ public class RolAction implements Serializable {
 		List<Menu> allMenusList = menuAction.getListAllMenus();
 		if (allMenusList != null && allMenusList.size() > 0 && this.rol != null
 				&& this.rol.getId() > 0) {
-			List<Menu> listMenusRol = menuDao.consultMenusRol(this.rol);
+			List<Menu> listMenusRol = menuDao.consultMenusRole(this.rol);
 			menu: for (Menu menu : allMenusList) {
 				for (Menu menuRol : listMenusRol) {
 					if (menu.getId() == menuRol.getId()) {
