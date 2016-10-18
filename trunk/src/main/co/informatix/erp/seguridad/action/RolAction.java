@@ -21,7 +21,7 @@ import javax.transaction.UserTransaction;
 import co.informatix.erp.seguridad.dao.ManageMenuDao;
 import co.informatix.erp.seguridad.dao.RoleDao;
 import co.informatix.erp.seguridad.dao.RoleMenuDao;
-import co.informatix.erp.seguridad.dao.RolMetodoDao;
+import co.informatix.erp.seguridad.dao.RoleMethodDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
@@ -76,7 +76,7 @@ public class RolAction implements Serializable {
 	@EJB
 	private ManageMenuDao menuDao;
 	@EJB
-	private RolMetodoDao rolMetodoDao;
+	private RoleMethodDao rolMetodoDao;
 
 	/**
 	 * @return rolesList: List of roles that are loaded into the user interface.
@@ -473,7 +473,7 @@ public class RolAction implements Serializable {
 								&& perm.equals(rolMetodoPK.getPermiso())) {
 							rolMethod.setFechaFinVigencia(null);
 							rolMethod.setUserName(identity.getUserName());
-							rolMetodoDao.editRolMethod(rolMethod);
+							rolMetodoDao.editRoleMethod(rolMethod);
 							rolMethods.remove(rolMethod);
 							continue permiso;
 						}
@@ -481,14 +481,14 @@ public class RolAction implements Serializable {
 
 					RolMetodo rolMethod = loadRolMethod(perm, methodId);
 					rolMethod.setFechaCreacion(new Date());
-					rolMetodoDao.saveRolMethod(rolMethod);
+					rolMetodoDao.saveRoleMethod(rolMethod);
 				}
 			}
 		}
 		for (RolMetodo rolMethod : rolMethods) {
 			rolMethod.setFechaFinVigencia(new Date());
 			rolMethod.setUserName(identity.getUserName());
-			rolMetodoDao.editRolMethod(rolMethod);
+			rolMetodoDao.editRoleMethod(rolMethod);
 		}
 
 		this.listaMenus = new ArrayList<Menu>();

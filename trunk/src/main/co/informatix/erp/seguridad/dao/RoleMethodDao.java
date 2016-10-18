@@ -17,11 +17,10 @@ import co.informatix.security.entities.RolMetodo;
  * observance of rolesMethods.
  * 
  * @author marisol.calderon
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class RolMetodoDao implements Serializable {
+public class RoleMethodDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -29,23 +28,23 @@ public class RolMetodoDao implements Serializable {
 	/**
 	 * This method saves a rolMethod.
 	 * 
-	 * @param rolMethod
-	 *            : rolMethod to save.
+	 * @param roleMethod
+	 *            : roleMethod to save.
 	 * @throws Exception
 	 */
-	public void saveRolMethod(RolMetodo rolMethod) throws Exception {
-		em.persist(rolMethod);
+	public void saveRoleMethod(RolMetodo roleMethod) throws Exception {
+		em.persist(roleMethod);
 	}
 
 	/**
 	 * This method edits the rolMethods.
 	 * 
-	 * @param rolMethod
-	 *            : rolMethod to edit.
+	 * @param roleMethod
+	 *            : roleMethod to edit.
 	 * @throws Exception
 	 */
-	public void editRolMethod(RolMetodo rolMethod) throws Exception {
-		em.merge(rolMethod);
+	public void editRoleMethod(RolMetodo roleMethod) throws Exception {
+		em.merge(roleMethod);
 	}
 
 	/**
@@ -53,19 +52,19 @@ public class RolMetodoDao implements Serializable {
 	 * 
 	 * @author Gabriel.Moreno
 	 * 
-	 * @param rol
-	 *            : Role to seek its permitions.
-	 * @return: RolMetodo list.
+	 * @param role
+	 *            : Role to seek its permissions.
+	 * @return List<RolMetodo>: RoleMetodo list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<RolMetodo> queryRolMethods(Rol rol) throws Exception {
+	public List<RolMetodo> queryRolMethods(Rol role) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT rm FROM RolMetodo rm ");
-		query.append("WHERE rm.rolMetodoPK.rol=:rol ");
+		query.append("WHERE rm.rolMetodoPK.rol=:role ");
 		query.append("AND rm.fechaFinVigencia IS NULL");
 		Query queryResult = em.createQuery(query.toString());
-		queryResult.setParameter("rol", rol);
+		queryResult.setParameter("role", role);
 		return queryResult.getResultList();
 	}
 
@@ -75,19 +74,19 @@ public class RolMetodoDao implements Serializable {
 	 * 
 	 * @author Gabriel.Moreno
 	 * 
-	 * @param rol
+	 * @param role
 	 *            : Role permissions to find the corresponding method.
-	 * @return List<RolMetodo>: List of rolMethod permissions, regardless of the
-	 *         term.
+	 * @return List<RolMetodo>: List of roleMethod permissions, regardless of
+	 *         the term.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<RolMetodo> queryAllRolMethods(Rol rol) throws Exception {
+	public List<RolMetodo> queryAllRolMethods(Rol role) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT rm FROM RolMetodo rm ");
-		query.append("WHERE rm.rolMetodoPK.rol=:rol ");
+		query.append("WHERE rm.rolMetodoPK.rol=:role ");
 		Query queryResult = em.createQuery(query.toString());
-		queryResult.setParameter("rol", rol);
+		queryResult.setParameter("role", role);
 		return queryResult.getResultList();
 	}
 

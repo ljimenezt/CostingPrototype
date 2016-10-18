@@ -20,7 +20,7 @@ import javax.transaction.UserTransaction;
 
 import co.informatix.erp.seguridad.dao.ManageMenuDao;
 import co.informatix.erp.seguridad.dao.MethodDao;
-import co.informatix.erp.seguridad.dao.RolMetodoDao;
+import co.informatix.erp.seguridad.dao.RoleMethodDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
@@ -53,7 +53,7 @@ public class MetodoAction implements Serializable {
 	@EJB
 	private MethodDao metodoDao;
 	@EJB
-	private RolMetodoDao rolMetodoDao;
+	private RoleMethodDao rolMetodoDao;
 	@EJB
 	private ManageMenuDao menuDao;
 	@EJB
