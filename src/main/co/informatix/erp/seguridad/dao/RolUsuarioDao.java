@@ -15,7 +15,6 @@ import co.informatix.security.entities.Usuario;
  * database. UsuarioAction used for managing roles in application users.
  * 
  * @author Gabriel.Moreno
- * 
  */
 @Stateless
 @SuppressWarnings("serial")
@@ -27,43 +26,42 @@ public class RolUsuarioDao implements Serializable {
 	/**
 	 * Returns a list of user roles in force or not in force for a certain role.
 	 * 
-	 * @param usuario
+	 * @param user
 	 *            : User who wants to consult.
-	 * @return: List of user roles.
+	 * @return List<RolUsuario>: List of user roles.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<RolUsuario> consultarUsuarioRoles(Usuario usuario)
-			throws Exception {
+	public List<RolUsuario> consultUserRole(Usuario user) throws Exception {
 		return em
 				.createQuery(
 						"SELECT rs FROM RolUsuario rs "
 								+ "JOIN FETCH rs.rolUsuarioPK.rol r "
 								+ "JOIN FETCH rs.rolUsuarioPK.usuario u "
-								+ "WHERE u=:usuario")
-				.setParameter("usuario", usuario).getResultList();
+								+ "WHERE u=:user").setParameter("user", user)
+				.getResultList();
 	}
 
 	/**
 	 * Save a user role in the database.
 	 * 
-	 * @param rolUsuario
+	 * @param userRole
 	 *            : User Roles saved.
 	 * @throws Exception
 	 */
-	public void guardarRolUsuario(RolUsuario rolUsuario) throws Exception {
-		em.persist(rolUsuario);
+	public void saveUserRole(RolUsuario userRole) throws Exception {
+		em.persist(userRole);
 	}
 
 	/**
 	 * To edit a user's role.
 	 * 
-	 * @param rolUsuario
+	 * @param userRole
 	 *            : object editing.
 	 * @throws Exception
 	 */
-	public void editarRolUsuario(RolUsuario rolUsuario) throws Exception {
-		em.merge(rolUsuario);
+	public void editUserRole(RolUsuario userRole) throws Exception {
+		em.merge(userRole);
 	}
 
 }

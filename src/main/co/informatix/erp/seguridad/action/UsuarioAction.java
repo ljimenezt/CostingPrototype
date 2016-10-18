@@ -616,7 +616,7 @@ public class UsuarioAction implements Serializable {
 	 */
 	public void searchUserRole(Usuario user) {
 		try {
-			createdUserRoles = rolUsuarioDao.consultarUsuarioRoles(user);
+			createdUserRoles = rolUsuarioDao.consultUserRole(user);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -737,13 +737,13 @@ public class UsuarioAction implements Serializable {
 		if (newUserRoles != null && newUserRoles.size() > 0) {
 			for (RolUsuario rolUsuario : newUserRoles) {
 				rolUsuario.setUserName(identity.getUserName());
-				rolUsuarioDao.guardarRolUsuario(rolUsuario);
+				rolUsuarioDao.saveUserRole(rolUsuario);
 			}
 		}
 		if (createdUserRoles != null && createdUserRoles.size() > 0) {
 			for (RolUsuario rolUsuario : createdUserRoles) {
 				rolUsuario.setUserName(identity.getUserName());
-				rolUsuarioDao.editarRolUsuario(rolUsuario);
+				rolUsuarioDao.editUserRole(rolUsuario);
 			}
 		}
 	}
