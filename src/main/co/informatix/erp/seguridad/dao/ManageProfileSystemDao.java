@@ -14,11 +14,10 @@ import co.informatix.security.entities.PerfilSistema;
  * database for handling the PerfilSistema entity.
  * 
  * @author Jhair.Leal
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class GestionarPerfilSistemaDao implements Serializable {
+public class ManageProfileSystemDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -26,23 +25,23 @@ public class GestionarPerfilSistemaDao implements Serializable {
 	/**
 	 * Save a profile system for users in database.
 	 * 
-	 * @param perfilSistema
+	 * @param profileSystem
 	 *            : profile system to save.
 	 * @throws Exception
 	 */
-	public void saveProfileSystem(PerfilSistema perfilSistema) throws Exception {
-		em.persist(perfilSistema);
+	public void saveProfileSystem(PerfilSistema profileSystem) throws Exception {
+		em.persist(profileSystem);
 	}
 
 	/**
 	 * Edit a profile system in database.
 	 * 
-	 * @param perfilSistema
+	 * @param profileSystem
 	 *            : profile system to edit.
 	 * @throws Exception
 	 */
-	public void editProfileSystem(PerfilSistema perfilSistema) throws Exception {
-		em.merge(perfilSistema);
+	public void editProfileSystem(PerfilSistema profileSystem) throws Exception {
+		em.merge(profileSystem);
 	}
 
 	/**
