@@ -366,6 +366,8 @@ public class ActivitiesAndMachineAction implements Serializable {
 
 	/**
 	 * Save the relations between activities and machines.
+	 * 
+	 * @modify 18/10/2016 Wilhelm.Boada
 	 */
 	public void saveActivitiesAndMachine() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -391,11 +393,25 @@ public class ActivitiesAndMachineAction implements Serializable {
 				if (selectedActivity.getCostMachinesEqBudget() == null) {
 					selectedActivity.setCostMachinesEqBudget(0.0);
 				}
+				double consActualActivity = costConsumableMachine;
 				costConsumableMachine = ControllerAccounting.add(
 						costConsumableMachine,
 						selectedActivity.getCostMachinesEqBudget());
 				calculateCostBudgetActivity(costConsumableMachine);
-				editCycleMachineBudget(costConsumableMachine);
+				if (selectedActivity.getCycle() != null) {
+					if (selectedActivity.getCycle().getCostMachinesEqBudget() != null
+							&& selectedActivity.getCycle()
+									.getCostMachinesEqBudget() > 0) {
+						selectedActivity.getCycle().setCostMachinesEqBudget(
+								ControllerAccounting.add(consActualActivity,
+										selectedActivity.getCycle()
+												.getCostMachinesEqBudget()));
+					} else {
+						selectedActivity.getCycle().setCostMachinesEqBudget(
+								costConsumableMachine);
+					}
+					cycleDao.editCycle(selectedActivity.getCycle());
+				}
 				userTransaction.commit();
 				setListActivityMachineTemp(null);
 				showActivitiesAndMachineForActivity();
