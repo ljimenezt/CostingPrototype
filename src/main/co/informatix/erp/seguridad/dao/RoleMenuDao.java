@@ -17,35 +17,34 @@ import co.informatix.security.entities.RolMenu;
  * observance of rolesMenu.
  * 
  * @author Oscar.Amaya
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class RolMenuDao implements Serializable {
+public class RoleMenuDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
 
 	/**
-	 * This method saves a rolMenu.
+	 * This method saves a roleMenu.
 	 * 
-	 * @param rolMenu
-	 *            : rolMenu to Save.
+	 * @param roleMenu
+	 *            : roleMenu to Save.
 	 * @throws Exception
 	 */
-	public void saveRolMenu(RolMenu rolMenu) throws Exception {
-		em.persist(rolMenu);
+	public void saveRoleMenu(RolMenu roleMenu) throws Exception {
+		em.persist(roleMenu);
 	}
 
 	/**
-	 * This method edits the rolMenu.
+	 * This method edits the roleMenu.
 	 * 
-	 * @param rolMenu
-	 *            : rolMenu to edit.
+	 * @param roleMenu
+	 *            : roleMenu to edit.
 	 * @throws Exception
 	 */
-	public void editRolMenu(RolMenu rolMenu) throws Exception {
-		em.merge(rolMenu);
+	public void editRoleMenu(RolMenu roleMenu) throws Exception {
+		em.merge(roleMenu);
 	}
 
 	/**
@@ -56,16 +55,16 @@ public class RolMenuDao implements Serializable {
 	 * 
 	 * @param role
 	 *            : Role to find menus.
-	 * @return Role menu list, regardless of duration.
+	 * @return List<RolMenu>: Role menu list, regardless of duration.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<RolMenu> queryAllRolMenu(Rol role) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT rm FROM RolMenu rm ");
-		query.append("WHERE rm.rolMenuPK.rol=:rol ");
+		query.append("WHERE rm.rolMenuPK.rol=:role ");
 		Query queryResult = em.createQuery(query.toString());
-		queryResult.setParameter("rol", role);
+		queryResult.setParameter("role", role);
 		return queryResult.getResultList();
 	}
 
