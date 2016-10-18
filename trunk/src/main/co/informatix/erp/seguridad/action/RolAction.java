@@ -18,7 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
-import co.informatix.erp.seguridad.dao.GestionarMenuDao;
+import co.informatix.erp.seguridad.dao.ManageMenuDao;
 import co.informatix.erp.seguridad.dao.RolDao;
 import co.informatix.erp.seguridad.dao.RolMenuDao;
 import co.informatix.erp.seguridad.dao.RolMetodoDao;
@@ -74,7 +74,7 @@ public class RolAction implements Serializable {
 	@EJB
 	private RolMenuDao rolMenuDao;
 	@EJB
-	private GestionarMenuDao menuDao;
+	private ManageMenuDao menuDao;
 	@EJB
 	private RolMetodoDao rolMetodoDao;
 

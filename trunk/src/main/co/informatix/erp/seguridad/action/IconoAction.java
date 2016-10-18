@@ -17,8 +17,8 @@ import javax.inject.Inject;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 
-import co.informatix.erp.seguridad.dao.GestionarIconoDao;
-import co.informatix.erp.seguridad.dao.GestionarMenuDao;
+import co.informatix.erp.seguridad.dao.ManageIconDao;
+import co.informatix.erp.seguridad.dao.ManageMenuDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorArchivos;
 import co.informatix.erp.utils.ControladorContexto;
@@ -43,9 +43,9 @@ import co.informatix.security.entities.Icono;
 public class IconoAction implements Serializable {
 
 	@EJB
-	private GestionarIconoDao iconoDao;
+	private ManageIconDao iconoDao;
 	@EJB
-	private GestionarMenuDao menuDao;
+	private ManageMenuDao menuDao;
 	@EJB
 	private FileUploadBean fileUploadBean;
 	@Inject

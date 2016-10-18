@@ -14,14 +14,13 @@ import javax.persistence.Table;
  * 
  * @author Mabell.Boada
  */
-
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "contract_type", schema = "human_resources")
 public class ContractType implements Serializable {
 	private int id;
-	private String nombre;
-	private String descripcion;
+	private String name;
+	private String description;
 
 	/**
 	 * @return id: Contract type identifier
@@ -42,35 +41,35 @@ public class ContractType implements Serializable {
 	}
 
 	/**
-	 * @return nombre: Name the type of contract
+	 * @return name: Name the type of contract
 	 */
 	@Column(name = "nombre", length = 50, nullable = false)
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * @param nombre
+	 * @param name
 	 *            : Name the type of contract
 	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
-	 * @return descripcion: Description of the type of contract
+	 * @return description: Description of the type of contract
 	 */
 	@Column(name = "descripcion", length = 255)
-	public String getDescripcion() {
-		return descripcion;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
-	 * @param descripcion
+	 * @param description
 	 *            : Description of the type of contract
 	 */
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -78,9 +77,9 @@ public class ContractType implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((descripcion == null) ? 0 : descripcion.hashCode());
+				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -93,17 +92,17 @@ public class ContractType implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		ContractType other = (ContractType) obj;
-		if (descripcion == null) {
-			if (other.descripcion != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!descripcion.equals(other.descripcion))
+		} else if (!description.equals(other.description))
 			return false;
 		if (id != other.id)
 			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!nombre.equals(other.nombre))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}

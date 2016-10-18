@@ -103,7 +103,7 @@ public class ContractTypeDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ct FROM ContractType ct ");
 		query.append(consult);
-		query.append("ORDER BY ct.nombre ");
+		query.append("ORDER BY ct.name ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
@@ -132,7 +132,7 @@ public class ContractTypeDao implements Serializable {
 	public ContractType nameExists(String name, int id) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ct FROM ContractType ct ");
-		query.append("WHERE UPPER(ct.nombre)=UPPER(:name) ");
+		query.append("WHERE UPPER(ct.name)=UPPER(:name) ");
 		if (id != 0) {
 			query.append("AND ct.id <>:id ");
 		}

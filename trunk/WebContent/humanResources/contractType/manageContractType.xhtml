@@ -58,7 +58,7 @@
 
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
-						<h:commandLink value="#{contractType.nombre}"
+						<h:commandLink value="#{contractType.name}"
 							action="#{contractTypeAction.addEditContractType(contractType)}"
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
@@ -66,7 +66,7 @@
 
 					<rich:column styleClass="colTextoExxtraLargo">
 						<f:facet name="header">#{mensaje.label_description}</f:facet>
-						<h:outputText value="#{contractType.descripcion}" />
+						<h:outputText value="#{contractType.description}" />
 					</rich:column>
 
 					<f:facet name="footer">
@@ -147,7 +147,7 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{contractTypeAction.contractType.nombre}" />
+						<h:outputText value="#{contractTypeAction.contractType.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"

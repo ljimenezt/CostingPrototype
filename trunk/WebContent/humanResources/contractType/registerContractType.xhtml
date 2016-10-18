@@ -40,7 +40,7 @@
 					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
-					<h:inputText value="#{contractTypeAction.contractType.nombre}"
+					<h:inputText value="#{contractTypeAction.contractType.name}"
 						styleClass="colTextoMediano" id="txtNombre" required="true"
 						size="41" maxlength="100"
 						validator="#{contractTypeAction.validateNameXSS}"
@@ -51,7 +51,7 @@
 						value="#{mensaje.label_description}" />
 					<h:outputText value="" />
 					<h:inputTextarea
-						value="#{contractTypeAction.contractType.descripcion}"
+						value="#{contractTypeAction.contractType.description}"
 						styleClass="colTextoMedianoTextArea" id="txaDescription"
 						validator="#{encodeFilter.validarScripting}">
 						<f:validateLength maximum="250" />
@@ -87,10 +87,10 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{contractTypeAction.contractType.nombre}" />
+						<h:outputText value="#{contractTypeAction.contractType.name}" />
 						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
-							value="#{contractTypeAction.contractType.descripcion}" />
+							value="#{contractTypeAction.contractType.description}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"

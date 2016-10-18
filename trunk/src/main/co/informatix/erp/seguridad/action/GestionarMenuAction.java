@@ -14,8 +14,8 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 
-import co.informatix.erp.seguridad.dao.GestionarIconoDao;
-import co.informatix.erp.seguridad.dao.GestionarMenuDao;
+import co.informatix.erp.seguridad.dao.ManageIconDao;
+import co.informatix.erp.seguridad.dao.ManageMenuDao;
 import co.informatix.erp.seguridad.dao.RolMenuDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
@@ -45,7 +45,7 @@ public class GestionarMenuAction implements Serializable {
 	@Inject
 	private IdentityAction identity;
 	@EJB
-	private GestionarMenuDao menuDao;
+	private ManageMenuDao menuDao;
 	@EJB
 	private RolMenuDao rolMenuDao;
 	@EJB
@@ -53,7 +53,7 @@ public class GestionarMenuAction implements Serializable {
 	@EJB
 	private IconoDao iconoDao;
 	@EJB
-	private GestionarIconoDao gesIconoDao;
+	private ManageIconDao gesIconoDao;
 
 	private List<Menu> listMenus;
 	private List<Menu> listAllMenus;

@@ -184,7 +184,7 @@ public class ContractTypeAction implements Serializable {
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append("WHERE UPPER(ct.nombre) LIKE UPPER(:keyword) ");
+			consult.append("WHERE UPPER(ct.name) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);
@@ -259,7 +259,7 @@ public class ContractTypeAction implements Serializable {
 				contractTypeDao.saveContractType(contractType);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(messageLog), contractType.getNombre()));
+					bundle.getString(messageLog), contractType.getName()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -278,11 +278,11 @@ public class ContractTypeAction implements Serializable {
 			contractTypeDao.removeContractType(contractType);
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_eliminar"),
-					contractType.getNombre()));
+					contractType.getName()));
 		} catch (EJBException e) {
 			String format = MessageFormat.format(
 					bundle.getString("message_existe_relacion_eliminar"),
-					contractType.getNombre());
+					contractType.getName());
 			ControladorContexto.mensajeError(e, null, format);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
