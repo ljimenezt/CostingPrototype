@@ -35,15 +35,14 @@ import co.informatix.security.entities.Icono;
  * The logic is to see, edit, add or remove an icon.
  * 
  * @author marisol.calderon
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class IconoAction implements Serializable {
+public class IconAction implements Serializable {
 
 	@EJB
-	private ManageIconDao iconoDao;
+	private ManageIconDao iconDao;
 	@EJB
 	private ManageMenuDao menuDao;
 	@EJB
@@ -65,7 +64,6 @@ public class IconoAction implements Serializable {
 	private boolean loadPhotoTemporal;
 
 	/**
-	 * 
 	 * @return icon: Icon object that apply to permits.
 	 */
 	public Icono getIcon() {
@@ -73,7 +71,6 @@ public class IconoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param icon
 	 *            : Icon object that apply to permits.
 	 */
@@ -82,7 +79,6 @@ public class IconoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return icons: List of icons that are loaded into the user interface.
 	 */
 	public List<Icono> getIcons() {
@@ -90,7 +86,6 @@ public class IconoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param icons
 	 *            :List of icons that are loaded into the user interface.
 	 */
@@ -99,7 +94,6 @@ public class IconoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return pagination: allows the handling of the pagination of table icons.
 	 */
 	public Paginador getPagination() {
@@ -107,7 +101,6 @@ public class IconoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param pagination
 	 *            : allows the handling of the pagination of table icons.
 	 */
@@ -142,7 +135,6 @@ public class IconoAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return fileUploadBean: variable that gets the object for file uploads.
 	 */
 	public FileUploadBean getFileUploadBean() {
@@ -243,7 +235,7 @@ public class IconoAction implements Serializable {
 		try {
 			validateIconsFolder();
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
-			Long quantityIcons = iconoDao.quantityIcons(query, parameters);
+			Long quantityIcons = iconDao.quantityIcons(query, parameters);
 			if (quantityIcons != null) {
 				if (fromModal) {
 					pagination.paginarRangoDefinido(quantityIcons, 5);
@@ -251,7 +243,7 @@ public class IconoAction implements Serializable {
 					pagination.paginar(quantityIcons);
 				}
 			}
-			icons = iconoDao.queryIcons(pagination.getInicio(),
+			icons = iconDao.queryIcons(pagination.getInicio(),
 					pagination.getRango(), query, parameters);
 
 			if (icons != null && !fromModal) {
@@ -335,14 +327,13 @@ public class IconoAction implements Serializable {
 				String nameIcon = file.getName();
 				String ext = FilenameUtils.getExtension(nameIcon);
 				if (ControladorArchivos.validateExtension(ext, extImg)) {
-					Icono iconExist = iconoDao
-							.nameExist(nameIcon.toUpperCase());
+					Icono iconExist = iconDao.nameExist(nameIcon.toUpperCase());
 					if (iconExist == null) {
 						Icono newIcon = new Icono();
 						newIcon.setFechaCreacion(new Date());
 						newIcon.setNombre(nameIcon);
 						newIcon.setUserName(identity.getUserName());
-						iconoDao.saveIcon(newIcon);
+						iconDao.saveIcon(newIcon);
 						File fileDestiny = new File(routeServer, nameIcon);
 						FileUploadBean.copyFile(file, fileDestiny);
 					}
@@ -415,7 +406,7 @@ public class IconoAction implements Serializable {
 					/* the image is load in a real path */
 					subirImageLocationReal();
 				}
-				iconoDao.editIcon(icon);
+				iconDao.editIcon(icon);
 			} else {
 				if (namValid() && !icon.getNombre().equals(nameFileActual)) {
 					/* changes the name, renames the icon */
@@ -428,7 +419,7 @@ public class IconoAction implements Serializable {
 				}
 				icon.setNombre(nameFileActual);
 				icon.setFechaCreacion(new Date());
-				iconoDao.saveIcon(icon);
+				iconDao.saveIcon(icon);
 			}
 			ControladorContexto.mensajeInformacion(
 					null,
@@ -549,7 +540,6 @@ public class IconoAction implements Serializable {
 
 	/**
 	 * Delete the file name.
-	 * 
 	 */
 	public void deleteFileName() {
 		if (fileUploadBean.getFileName() != null
@@ -566,7 +556,6 @@ public class IconoAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteFile(String fileName) {
 		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
@@ -579,7 +568,6 @@ public class IconoAction implements Serializable {
 	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
-	 * 
 	 */
 	public void deleteFileReal(String fileName) {
 		String locations[] = {
@@ -660,7 +648,7 @@ public class IconoAction implements Serializable {
 					deleteFileReal(icon.getNombre());
 				}
 				icon.setUserName(identity.getUserName());
-				iconoDao.removeIcon(icon);
+				iconDao.removeIcon(icon);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle.getString("message_registro_eliminar"),
 								icon.getNombre()));

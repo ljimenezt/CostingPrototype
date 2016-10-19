@@ -709,8 +709,8 @@ public class RolAction implements Serializable {
 	 * Initializes the list of methods to select their permissions.
 	 */
 	public void initializeMethodsPermissions() {
-		MetodoAction methodAction = ControladorContexto
-				.getContextBean(MetodoAction.class);
+		MethodAction methodAction = ControladorContexto
+				.getContextBean(MethodAction.class);
 		methodAction.initializeSearch();
 		adjustMethodPermissions(methodAction);
 	}
@@ -719,8 +719,8 @@ public class RolAction implements Serializable {
 	 * It loads the list of methods to select their permissions.
 	 */
 	public void loadMethodPermissions() {
-		MetodoAction methodAction = ControladorContexto
-				.getContextBean(MetodoAction.class);
+		MethodAction methodAction = ControladorContexto
+				.getContextBean(MethodAction.class);
 		methodAction.searchMethods();
 		adjustMethodPermissions(methodAction);
 	}
@@ -732,7 +732,7 @@ public class RolAction implements Serializable {
 	 *            : Action method to reuse the functions for the list of
 	 *            methods.
 	 */
-	private void adjustMethodPermissions(MetodoAction metodoAction) {
+	private void adjustMethodPermissions(MethodAction metodoAction) {
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.paginationMethod = metodoAction.getPagination();

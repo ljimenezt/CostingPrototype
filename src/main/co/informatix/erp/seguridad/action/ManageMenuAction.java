@@ -286,8 +286,8 @@ public class ManageMenuAction implements Serializable {
 					|| (this.nameSearch != null && !"".equals(this.nameSearch))
 					|| fromMethod) {
 				if (fromMethod) {
-					MetodoAction metodoAction = ControladorContexto
-							.getContextBean(MetodoAction.class);
+					MethodAction metodoAction = ControladorContexto
+							.getContextBean(MethodAction.class);
 					this.listAllMenus = menuDao
 							.consultAllMenusAction(metodoAction
 									.getMenusSelected());
