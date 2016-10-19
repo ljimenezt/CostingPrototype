@@ -28,13 +28,13 @@
 				  }); 
 				});		
 		</script>
-		<t:saveState value="#{iconoAction}" />
+		<t:saveState value="#{iconAction}" />
 		<t:saveState value="#{menuAction}" />
 		<t:saveState value="#{encodeFilter}" />
 		<t:saveState value="#{validacionesAction}" />
 		<h:form id="menuForm">
 			<ui:param name="listaVacia1"
-				value="#{iconoAction.icons eq null or (empty iconoAction.icons)}" />
+				value="#{iconAction.icons eq null or (empty iconAction.icons)}" />
 			<rich:panel
 				header="#{mensaje.label_register} #{messageSecurity.menu_label}"
 				styleClass="anchoUno">
@@ -102,7 +102,7 @@
 						validator="#{encodeFilter.validarScripting}" />
 					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
 						<a:commandLink render=":popupForm:popupIconos"
-							actionListener="#{iconoAction.searchInitialization}"
+							actionListener="#{iconAction.searchInitialization}"
 							execute="@this"
 							oncomplete="#{rich:component('popupIconos')}.show(); setFocus('popupForm:txtNombreBuscarIcono');">
 							<h:graphicImage value="/img/add_22.png"
@@ -299,11 +299,11 @@
 								<h:outputText value="#{mensaje.label_name}"
 									styleClass="etiquetaTitulo" />
 								<h:inputText size="40" maxlength="100" id="txtNombreBuscarIcono"
-									value="#{iconoAction.nameSearch}"
+									value="#{iconAction.nameSearch}"
 									onkeypress="return submitByEnter(event,'popupForm:btnBuscarI')" />
 								<a:commandButton value="#{mensaje.button_search}"
 									id="btnBuscarI"
-									actionListener="#{iconoAction.initializePagination()}"
+									actionListener="#{iconAction.initializePagination()}"
 									render="outPutBuscarIconos, msjSearch">
 									<f:param name="param2" value="si" />
 								</a:commandButton>
@@ -321,7 +321,7 @@
 								<a:commandLink
 									render="outPutBuscarIconos,mensaje,mensajeBusqueda"
 									styleClass="quitarDecoracionLink"
-									actionListener="#{iconoAction.searchInitialization}">
+									actionListener="#{iconAction.searchInitialization}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/listarTodos_16.png" />
 										<h:outputText value="#{mensaje.button_list_all}" />
@@ -329,7 +329,7 @@
 									<f:param name="param2" value="si" />
 								</a:commandLink>
 							</div>
-							<rich:dataTable value="#{iconoAction.icons}" var="iconoList"
+							<rich:dataTable value="#{iconAction.icons}" var="iconoList"
 								styleClass="#{listaVacia1 ? 'BCTransparente' : 'dataTable'} W470P"
 								footerClass="H130P" rowClasses="odd-row, even-row">
 								<f:facet name="header">
@@ -373,7 +373,7 @@
 										<ui:param name="valId" value="1" />
 										<ui:param name="valParam2" value="si" />
 										<ui:param name="valReder" value=":popupForm:outputIconos" />
-										<ui:param name="beanActionParam" value="#{iconoAction}" />
+										<ui:param name="beanActionParam" value="#{iconAction}" />
 										<ui:param name="metodoActionParam" value="consultIcons" />
 									</ui:include>
 								</div>

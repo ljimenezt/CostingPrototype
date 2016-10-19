@@ -13,8 +13,8 @@ import co.informatix.security.entities.Icono;
 
 /**
  * DAO class that establishes the connection between business logic and
- * database. IconoAction used for managing menu icons, has the name 'Manage'
- * that the jar contains security and IconoDao
+ * database. IconAction used for managing menu icons, has the name 'Manage' that
+ * the jar contains security and IconDao
  * 
  * @author marisol.calderon
  * @modify 18/05/2016 Gerardo.Herrera

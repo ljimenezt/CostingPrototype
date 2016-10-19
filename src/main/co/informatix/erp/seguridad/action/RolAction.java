@@ -728,14 +728,14 @@ public class RolAction implements Serializable {
 	/**
 	 * Adjust the list of methods of recording role.
 	 * 
-	 * @param metodoAction
+	 * @param methodAction
 	 *            : Action method to reuse the functions for the list of
 	 *            methods.
 	 */
-	private void adjustMethodPermissions(MethodAction metodoAction) {
+	private void adjustMethodPermissions(MethodAction methodAction) {
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		this.paginationMethod = metodoAction.getPagination();
+		this.paginationMethod = methodAction.getPagination();
 		String mensajeBusquedaPopUp = validations.getMensajeBusqueda();
 		validations.setMensajeBusquedaPopUp(mensajeBusquedaPopUp);
 	}

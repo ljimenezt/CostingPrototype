@@ -9,7 +9,7 @@
 	xmlns:a="http://richfaces.org/a4j"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="metodoAction.registerMethod(null)" />
+	<ui:param name="action" value="methodAction.registerMethod(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_register,messageSecurity.method_label" />
 	<ui:define name="body">
@@ -27,14 +27,14 @@
 				  }); 
 				});		
 		</script>
-		<t:saveState value="#{metodoAction}" />
+		<t:saveState value="#{methodAction}" />
 		<t:saveState value="#{menuAction}" />
 		<t:saveState value="#{encodeFilter}" />
 		<h:form id="metodoForm">
 			<ui:param name="listaVacia"
 				value="#{menuAction.listMenus eq null or empty menuAction.listMenus}" />
 			<ui:param name="listaVacia2"
-				value="#{metodoAction.menusSelected eq null or empty metodoAction.menusSelected}" />
+				value="#{methodAction.menusSelected eq null or empty methodAction.menusSelected}" />
 			<rich:panel header="#{messageSecurity.method_label}"
 				styleClass="anchoUno">
 				<t:fieldset styleClass="MinH208P BorderW2P anchoDos">
@@ -48,9 +48,9 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="txtnombre" maxlength="50" required="true"
-							validator="#{metodoAction.validateMethods}"
+							validator="#{methodAction.validateMethods}"
 							styleClass="colTextoMediano"
-							value="#{metodoAction.method.nombre}"
+							value="#{methodAction.method.nombre}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateLength maximum="50" />
 						</h:inputText>
@@ -60,9 +60,9 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="txtnombremetodo" maxlength="50" required="true"
-							validator="#{metodoAction.validateMethodName}"
+							validator="#{methodAction.validateMethodName}"
 							styleClass="colTextoMediano"
-							value="#{metodoAction.method.nombreMetodo}"
+							value="#{methodAction.method.nombreMetodo}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateLength maximum="50" />
 						</h:inputText>
@@ -71,7 +71,7 @@
 						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputTextarea value="#{metodoAction.method.descripcion}"
+						<h:inputTextarea value="#{methodAction.method.descripcion}"
 							id="txaDescripcion" required="true"
 							styleClass="colTextoMedianoTextArea"
 							validator="#{encodeFilter.validarScripting}"
@@ -110,7 +110,7 @@
 									</a:commandLink>
 									<a:commandLink
 										render=":popupFormSearch:popupSearch, menusPanel, mensajes"
-										action="#{metodoAction.eraseAvailableMenus()}"
+										action="#{methodAction.eraseAvailableMenus()}"
 										styleClass="quitarDecoracionLink" execute="@this">
 										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 											<h:graphicImage value="/img/listarTodos_16.png" />
@@ -143,7 +143,7 @@
 									<f:facet name="header">
 										<a:commandLink render="menusPanel, mensajes"
 											rendered="#{!listaVacia}" execute="@this"
-											actionListener="#{metodoAction.addRemoveAllMenus('add')}">
+											actionListener="#{methodAction.addRemoveAllMenus('add')}">
 											<h:graphicImage value="/img/agregar_16.png" />
 											<rich:tooltip layout="block">
 												<h:outputText value="#{mensaje.label_select_all}" />
@@ -151,7 +151,7 @@
 										</a:commandLink>
 									</f:facet>
 									<a:commandLink execute="@this" render="menusPanel, mensajes"
-										actionListener="#{metodoAction.addRemoveMenusListSelected('add',menuDisponible)}">
+										actionListener="#{methodAction.addRemoveMenusListSelected('add',menuDisponible)}">
 										<h:graphicImage value="/img/agregar_16.png" />
 										<rich:tooltip layout="block">
 											<h:outputText value="#{mensaje.label_select}" />
@@ -183,7 +183,7 @@
 						<t:fieldset styleClass="MinH208P BorderW0P Padding0P">
 							<div align="right" class="H24P" />
 							<rich:extendedDataTable id="tableSelected"
-								value="#{metodoAction.menusSelected}" var="selectedMenu"
+								value="#{methodAction.menusSelected}" var="selectedMenu"
 								styleClass="H172P W450P">
 								<f:facet name="header">
 									<h:outputText value="#{messageSecurity.menu_label_availables}" />
@@ -192,7 +192,7 @@
 									<f:facet name="header">
 										<a:commandLink render="menusPanel, mensajes" execute="@this"
 											rendered="#{!listaVacia2}"
-											actionListener="#{metodoAction.addRemoveAllMenus('remove')}">
+											actionListener="#{methodAction.addRemoveAllMenus('remove')}">
 											<h:graphicImage value="/img/quitar_16.png" />
 											<rich:tooltip layout="block">
 												<h:outputText value="#{mensaje.label_remove_all}" />
@@ -200,7 +200,7 @@
 										</a:commandLink>
 									</f:facet>
 									<a:commandLink execute="@this" render="menusPanel, mensajes"
-										actionListener="#{metodoAction.addRemoveMenusListSelected('remove',selectedMenu)}">
+										actionListener="#{methodAction.addRemoveMenusListSelected('remove',selectedMenu)}">
 										<h:graphicImage value="/img/quitar_16.png" />
 										<rich:tooltip layout="block">
 											<h:outputText value="#{mensaje.label_remove}" />
@@ -230,10 +230,10 @@
 				<div class="anchoDos center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,confirmacionPopUp"
-						actionListener="#{metodoAction.setMethod(metodoAction.method)}"
+						actionListener="#{methodAction.setMethod(methodAction.method)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 					           	else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						rendered="#{(metodoAction.method.id ne 0 and identity.autorizado('metodoAction','U')) or identity.autorizado('metodoAction','A') or identity.autorizado('metodoAction','I')}" />
+						rendered="#{(methodAction.method.id ne 0 and identity.autorizado('methodAction','U')) or identity.autorizado('methodAction','A') or identity.autorizado('methodAction','I')}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -256,12 +256,12 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_process}:" />
-						<h:outputText value="#{metodoAction.method.nombre}" />
+						<h:outputText value="#{methodAction.method.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_save}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide();#{rich:component('statPane')}.show();"
-							action="#{metodoAction.saveMethods}">
+							action="#{methodAction.saveMethods}">
 							<f:setPropertyActionListener value="true"
 								target="#{validacionesAction.conservarMsg}" />
 						</h:commandButton>

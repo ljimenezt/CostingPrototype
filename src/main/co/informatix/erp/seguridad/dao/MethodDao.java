@@ -12,7 +12,7 @@ import co.informatix.security.entities.Metodo;
 
 /**
  * DAO class that establishes the connection between business logic and
- * database. MetodoAction manages methods that have specific permissions on the
+ * database. MethodAction manages methods that have specific permissions on the
  * system
  * 
  * @author marisol.calderon
