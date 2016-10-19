@@ -153,9 +153,11 @@
 							value="#{activitiesAndMachineAction.listActivityMachine}"
 							var="machine"
 							rendered="#{recordActivitiesActualsAction.showMachineBudget}">
-							<li><h:outputText styleClass="etiquetaTitulo"
-									rendered="#{machine.durationActual eq null}"
-									value="#{machine.activityMachinePK.machines.name}" /></li>
+							<h:panelGrid columns="2"
+								rendered="#{machine.durationActual eq null}">
+								<li><h:outputText styleClass="etiquetaTitulo"
+										value="#{machine.activityMachinePK.machines.name}" /></li>
+							</h:panelGrid>
 							<br />
 						</a:repeat>
 					</ul>

@@ -248,10 +248,11 @@
 					<ul>
 						<a:repeat value="#{activitiesAndHrAction.listActivitiesAndHrTemp}"
 							var="hr" rendered="#{recordActivitiesActualsAction.showHrBudget}">
-							<li><h:outputText styleClass="etiquetaTitulo"
-									rendered="#{hr.totalCostActual eq null}"
-									value="#{hr.activitiesAndHrPK.hr.name} #{hr.activitiesAndHrPK.hr.familyName}" />
-							</li>
+							<h:panelGrid columns="2" rendered="#{hr.totalCostActual eq null}">
+								<li><h:outputText styleClass="etiquetaTitulo"
+										value="#{hr.activitiesAndHrPK.hr.name} #{hr.activitiesAndHrPK.hr.familyName}" />
+								</li>
+							</h:panelGrid>
 							<br />
 						</a:repeat>
 					</ul>
