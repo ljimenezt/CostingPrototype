@@ -41,23 +41,22 @@ import co.informatix.security.entities.MetodoMenu;
  * 
  * @author marisol.calderon
  * @modify 19/06/2014 Gabriel.Moreno
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class MetodoAction implements Serializable {
+public class MethodAction implements Serializable {
 
 	@Inject
 	private IdentityAction identity;
 	@EJB
-	private MethodDao metodoDao;
+	private MethodDao methodDao;
 	@EJB
-	private RoleMethodDao rolMetodoDao;
+	private RoleMethodDao roleMethodDao;
 	@EJB
 	private ManageMenuDao menuDao;
 	@EJB
-	private MetodoMenuDao metodoMenuDao;
+	private MetodoMenuDao methodMenuDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -118,7 +117,7 @@ public class MetodoAction implements Serializable {
 	}
 
 	/**
-	 * @return paginationMenus: Mmanagement of the pagination of the list of
+	 * @return paginationMenus: Management of the pagination of the list of
 	 *         menus in record method.
 	 */
 	public Paginador getPaginationMenus() {
@@ -192,8 +191,8 @@ public class MetodoAction implements Serializable {
 		String searchMessage = "";
 		methods = new ArrayList<Metodo>();
 		try {
-			pagination.paginar(metodoDao.methodsAmount(this.nameSearch));
-			this.methods = metodoDao.queryMethods(pagination.getInicio(),
+			pagination.paginar(methodDao.methodsAmount(this.nameSearch));
+			this.methods = methodDao.queryMethods(pagination.getInicio(),
 					pagination.getRango(), this.nameSearch);
 			if ((methods == null || methods.size() <= 0)
 					&& (this.nameSearch != null && !"".equals(this.nameSearch))) {
@@ -261,11 +260,11 @@ public class MetodoAction implements Serializable {
 			userTransaction.begin();
 			method.setUserName(identity.getUserName());
 			if (method.getId() != 0) {
-				metodoDao.editMethod(method);
+				methodDao.editMethod(method);
 				addEditMethodMenu();
 			} else {
 				method.setFechaCreacion(new Date());
-				metodoDao.saveMethod(method);
+				methodDao.saveMethod(method);
 				for (Menu menu : this.menusSelected) {
 					saveMethodMenu(menu);
 				}
@@ -314,9 +313,9 @@ public class MetodoAction implements Serializable {
 				Menu menu = new Menu();
 				menu.setId(saveData.getIdClase());
 				if (Constantes.QUERY_DELETE.equals(action)) {
-					MetodoMenu metodoMenu = metodoMenuDao.consultarMetodoMenu(
+					MetodoMenu metodoMenu = methodMenuDao.consultarMetodoMenu(
 							this.method, menu);
-					metodoMenuDao.eliminarMetodoMenu(metodoMenu);
+					methodMenuDao.eliminarMetodoMenu(metodoMenu);
 				} else if (Constantes.QUERY_INSERT.equals(action)) {
 					saveMethodMenu(menu);
 				}
@@ -337,7 +336,7 @@ public class MetodoAction implements Serializable {
 		menuMethod.setMenu(menu);
 		menuMethod.setFechaCreacion(new Date());
 		menuMethod.setUserName(identity.getUserName());
-		metodoMenuDao.guardarMetodoMenu(menuMethod);
+		methodMenuDao.guardarMetodoMenu(menuMethod);
 	}
 
 	/**
@@ -430,7 +429,7 @@ public class MetodoAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		String name = (String) value;
 		try {
-			Metodo auxMethod = metodoDao.methodNameExists(name,
+			Metodo auxMethod = methodDao.methodNameExists(name,
 					this.method.getId());
 			if (auxMethod != null) {
 				context.addMessage(
@@ -473,7 +472,7 @@ public class MetodoAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		String methodName = (String) value;
 		try {
-			Metodo auxMethod = metodoDao.actionNameExists(methodName,
+			Metodo auxMethod = methodDao.actionNameExists(methodName,
 					this.method.getId());
 			if (auxMethod != null) {
 				context.addMessage(
@@ -504,7 +503,7 @@ public class MetodoAction implements Serializable {
 				.getBundle("messageSecurity");
 		try {
 			if (this.method != null) {
-				boolean result1 = rolMetodoDao.rolMethodRelation(this.method
+				boolean result1 = roleMethodDao.rolMethodRelation(this.method
 						.getId());
 				if (result1) {
 					ControladorContexto
@@ -514,13 +513,13 @@ public class MetodoAction implements Serializable {
 									this.method.getNombre()));
 				} else {
 					userTransaction.begin();
-					List<MetodoMenu> menuMethods = metodoMenuDao
+					List<MetodoMenu> menuMethods = methodMenuDao
 							.consultarTodosMetodoMenu(this.method);
 					for (MetodoMenu menuMethod : menuMethods) {
-						metodoMenuDao.eliminarMetodoMenu(menuMethod);
+						methodMenuDao.eliminarMetodoMenu(menuMethod);
 					}
 					this.method.setFechaFinVigencia(new Date());
-					metodoDao.editMethod(this.method);
+					methodDao.editMethod(this.method);
 					userTransaction.commit();
 					ControladorContexto.mensajeInformacion(null, MessageFormat
 							.format(bundle
