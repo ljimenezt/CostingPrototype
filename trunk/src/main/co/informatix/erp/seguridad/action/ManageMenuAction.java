@@ -215,7 +215,7 @@ public class ManageMenuAction implements Serializable {
 
 	/**
 	 * @return fromMethod: Indicates whether the action is executed from
-	 *         MetodoAction, to perform special actions.
+	 *         MethodAction, to perform special actions.
 	 */
 	public boolean isFromMethod() {
 		return fromMethod;
@@ -223,7 +223,7 @@ public class ManageMenuAction implements Serializable {
 
 	/**
 	 * @param fromMethod
-	 *            : Indicates whether the action is executed from MetodoAction,
+	 *            : Indicates whether the action is executed from MethodAction,
 	 *            to perform special actions.
 	 */
 	public void setFromMethod(boolean fromMethod) {
@@ -286,10 +286,10 @@ public class ManageMenuAction implements Serializable {
 					|| (this.nameSearch != null && !"".equals(this.nameSearch))
 					|| fromMethod) {
 				if (fromMethod) {
-					MethodAction metodoAction = ControladorContexto
+					MethodAction methodAction = ControladorContexto
 							.getContextBean(MethodAction.class);
 					this.listAllMenus = menuDao
-							.consultAllMenusAction(metodoAction
+							.consultAllMenusAction(methodAction
 									.getMenusSelected());
 				} else {
 					this.listAllMenus = menuDao.consultMenus(null, null,
