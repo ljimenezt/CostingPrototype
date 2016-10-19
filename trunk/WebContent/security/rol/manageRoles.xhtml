@@ -11,26 +11,26 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 
-	<ui:param name="action" value="rolAction.inicializarBusqueda" />
+	<ui:param name="action" value="roleAction.initializeSearch()" />
 	<ui:param name="titulo"
 		value="mensaje.label_manage,messageSecurity.role_label_s" />
 
 	<ui:define name="body">
 		<h:form id="frmRol">
-			<t:saveState value="#{rolAction}" />
+			<t:saveState value="#{roleAction}" />
 
 			<ui:param name="listaVacia"
-				value="#{rolAction.rolesList eq null or (empty rolAction.rolesList)}" />
+				value="#{roleAction.rolesList eq null or (empty roleAction.rolesList)}" />
 			<ui:param name="anchoTabla" value="anchoCuatro" />
 			<!-- parametros para botones y ordenamiento del listado -->
-			<ui:param name="actionLista" value="#{rolAction}" />
+			<ui:param name="actionLista" value="#{roleAction}" />
 			<ui:param name="renderLista" value="panelTablaRol" />
 			<ui:param name="metodoLista" value="searchRoles" />
 			<!-- parametros solo para ordenamiento del listado -->
 			<ui:param name="ocultarOrden" value="#{listaVacia}" />
 			<!-- parametros solo para botones del listado -->
-			<ui:param name="nombreAction" value="rolAction" />
-			<ui:param name="metodoNuevo" value="addEditRol" />
+			<ui:param name="nombreAction" value="roleAction" />
+			<ui:param name="metodoNuevo" value="addEditRole" />
 			<ui:param name="parametroNuevo" value="#{null}" />
 			<ui:param name="renderBuscar" value="buscarForm:popupBuscar" />
 			<ui:param name="popupBuscar" value="popupBuscar" />
@@ -42,13 +42,13 @@
 
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml" />
 
-				<rich:dataTable value="#{rolAction.rolesList}" var="objRol"
+				<rich:dataTable value="#{roleAction.rolesList}" var="objRol"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoUno"
-						rendered="#{rolAction.vigencia eq 'si' and (identity.autorizado('rolAction','A') or identity.autorizado('rolAction','U'))}">
+						rendered="#{roleAction.vigencia eq 'si' and (identity.autorizado('roleAction','A') or identity.autorizado('roleAction','U'))}">
 						<a:commandLink render="popupVigencia"
-							actionListener="#{rolAction.setRol(objRol)}"
+							actionListener="#{roleAction.setRole(objRol)}"
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateDelete_16.png" />
 							<rich:tooltip layout="block">
@@ -57,9 +57,9 @@
 						</a:commandLink>
 					</rich:column>
 					<rich:column styleClass="colIconoUno"
-						rendered="#{rolAction.vigencia eq 'no' and (identity.autorizado('rolAction','A') or identity.autorizado('rolAction','U'))}">
+						rendered="#{roleAction.vigencia eq 'no' and (identity.autorizado('roleAction','A') or identity.autorizado('roleAction','U'))}">
 						<a:commandLink render="popupVigencia"
-							actionListener="#{rolAction.setRol(objRol)}"
+							actionListener="#{roleAction.setRole(objRol)}"
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateAdd_16.png" />
 							<rich:tooltip layout="block">
@@ -71,8 +71,8 @@
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
 						<c:choose>
 							<c:when
-								test="#{rolAction.vigencia eq 'si' and (identity.autorizado('rolAction','A') or identity.autorizado('rolAction','U'))}">
-								<h:commandLink action="#{rolAction.addEditRol(objRol)}"
+								test="#{roleAction.vigencia eq 'si' and (identity.autorizado('roleAction','A') or identity.autorizado('roleAction','U'))}">
+								<h:commandLink action="#{roleAction.addEditRole(objRol)}"
 									value="#{objRol.nombre}"
 									onclick="#{rich:component('statPane')}.show();" />
 							</c:when>
@@ -93,7 +93,7 @@
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colFecha"
-						rendered="#{rolAction.vigencia eq 'no'}">
+						rendered="#{roleAction.vigencia eq 'no'}">
 						<f:facet name="header">#{mensaje.label_effective_end_date}</f:facet>
 						<h:outputText value="#{objRol.fechaFinVigencia}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
@@ -118,7 +118,7 @@
 						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="panelTablaRol" />
-							<ui:param name="beanActionParam" value="#{rolAction}" />
+							<ui:param name="beanActionParam" value="#{roleAction}" />
 							<ui:param name="metodoActionParam" value="searchRoles" />
 						</ui:include>
 					</div>
@@ -145,20 +145,20 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{rolAction.rol.nombre}" />
+						<h:outputText value="#{roleAction.role.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
 							<a:commandButton value="#{mensaje.button_accept}"
-								actionListener="#{rolAction.rolesValidity('true')}"
+								actionListener="#{roleAction.rolesValidity('true')}"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								render="panelTablaRol, mensajes, mensajeBusqueda"
-								rendered="#{rolAction.vigencia eq 'si'}" />
+								rendered="#{roleAction.vigencia eq 'si'}" />
 							<a:commandButton value="#{mensaje.button_accept}"
-								actionListener="#{rolAction.rolesValidity('false')}"
+								actionListener="#{roleAction.rolesValidity('false')}"
 								onclick="#{rich:component('popupVigencia')}.hide()"
 								render="panelTablaRol, mensajes, mensajeBusqueda"
-								rendered="#{rolAction.vigencia eq 'no'}" />
+								rendered="#{roleAction.vigencia eq 'no'}" />
 						</a:outputPanel>
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
@@ -182,13 +182,13 @@
 					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
-						value="#{rolAction.nameSearch}"
+						value="#{roleAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						action="#{rolAction.searchRoles()}"
+						action="#{roleAction.searchRoles()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelTablaRol, mensajes, mensajeBusqueda">
 					</a:commandButton>

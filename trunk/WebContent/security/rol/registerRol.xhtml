@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="rolAction.addEditRol(null)" />
+	<ui:param name="action" value="roleAction.addEditRole(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_register,messageSecurity.role_label" />
 	<ui:define name="body">
@@ -29,7 +29,7 @@
 			});				
 		</script>
 		<h:form id="rolForm">
-			<t:saveState value="#{rolAction}" />
+			<t:saveState value="#{roleAction}" />
 			<t:saveState value="#{encodeFilter}" />
 			<t:saveState value="#{menuAction}" />
 			<t:saveState value="#{methodAction}" />
@@ -38,7 +38,7 @@
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
 					<a:outputPanel
-						rendered="#{rolAction.rol.id ne 0 and rolAction.editable ne 'true'}">
+						rendered="#{roleAction.role.id ne 0 and roleAction.edition ne 'true'}">
 						<hr class="W60Per MarginL0P" />
 						<h:panelGrid columns="2">
 							<h:graphicImage value="/img/warnRojo_16.png" />
@@ -57,14 +57,14 @@
 						<h:outputText value="*" styleClass="required" />
 						<c:choose>
 							<c:when
-								test="#{rolAction.rol.id ne 0 and rolAction.editable ne 'true'}">
-								<h:outputText value="#{rolAction.rol.nombre}"
+								test="#{roleAction.role.id ne 0 and roleAction.edition ne 'true'}">
+								<h:outputText value="#{roleAction.role.nombre}"
 									styleClass="etiquetaValor" />
 							</c:when>
 							<c:otherwise>
 								<h:inputText styleClass="colTextoMediano" id="txtNombre"
-									maxlength="50" value="#{rolAction.rol.nombre}" required="true"
-									validator="#{rolAction.validateName}"
+									maxlength="50" value="#{roleAction.role.nombre}"
+									required="true" validator="#{roleAction.validateName}"
 									requiredMessage="#{mensaje.message_campo_requerido}">
 									<f:validateLength maximum="50" />
 								</h:inputText>
@@ -75,7 +75,7 @@
 						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
-						<h:inputTextarea value="#{rolAction.rol.descripcion}"
+						<h:inputTextarea value="#{roleAction.role.descripcion}"
 							id="txaDescripcion" styleClass="colTextoMedianoTextArea"
 							validator="#{encodeFilter.validarScripting}">
 							<f:validateLength maximum="150" />
@@ -106,7 +106,7 @@
 								</a:commandLink>
 								<a:commandLink render="panelPermisos" execute="@this"
 									styleClass="quitarDecoracionLink"
-									action="#{rolAction.initializeMethodsPermissions}">
+									action="#{roleAction.initializeMethodsPermissions}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/listarTodos_16.png" />
 										<h:outputText value="#{mensaje.button_list_all}" />
@@ -133,8 +133,8 @@
 								<f:facet name="header">#{messageSecurity.menu_label_permission_a}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{!rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermA())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermA(),true)}">
+									rendered="#{!roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermA())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermA(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -142,8 +142,8 @@
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermA())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermA(),false)}">
+									rendered="#{roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermA())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermA(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -154,8 +154,8 @@
 								<f:facet name="header">#{messageSecurity.menu_label_permission_s}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{!rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermS())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermS(),true)}">
+									rendered="#{!roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermS())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermS(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -163,8 +163,8 @@
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermS())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermS(),false)}">
+									rendered="#{roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermS())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermS(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -175,8 +175,8 @@
 								<f:facet name="header">#{messageSecurity.menu_label_permission_u}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{!rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermU())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermU(),true)}">
+									rendered="#{!roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermU())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermU(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -184,8 +184,8 @@
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermU())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermU(),false)}">
+									rendered="#{roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermU())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermU(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -196,8 +196,8 @@
 								<f:facet name="header">#{messageSecurity.menu_label_permission_d}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{!rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermD())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermD(),true)}">
+									rendered="#{!roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermD())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermD(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -205,8 +205,8 @@
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermD())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermD(),false)}">
+									rendered="#{roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermD())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermD(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -217,8 +217,8 @@
 								<f:facet name="header">#{messageSecurity.menu_label_permission_i}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{!rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermI())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermI(),true)}">
+									rendered="#{!roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermI())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermI(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -226,8 +226,8 @@
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermI())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermI(),false)}">
+									rendered="#{roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermI())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermI(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -238,8 +238,8 @@
 								<f:facet name="header">#{messageSecurity.menu_label_permission_l}</f:facet>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{!rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermL())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermL(),true)}">
+									rendered="#{!roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermL())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermL(),true)}">
 									<h:graphicImage value="/img/sinSeleccion_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -247,8 +247,8 @@
 								</a:commandLink>
 								<a:commandLink render="tablaPermisos, panelTablaMenu"
 									execute="@this"
-									rendered="#{rolAction.selectedPermission(metodoPermisos.id,rolAction.getPermL())}"
-									actionListener="#{rolAction.addMenuCheck(metodoPermisos.id,rolAction.getPermL(),false)}">
+									rendered="#{roleAction.selectedPermission(metodoPermisos.id,roleAction.getPermL())}"
+									actionListener="#{roleAction.addMenuCheck(metodoPermisos.id,roleAction.getPermL(),false)}">
 									<h:graphicImage value="/img/seleccionado_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
@@ -269,7 +269,7 @@
 								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valId" value="12" />
 									<ui:param name="valReder" value=":rolForm:panelPermisos" />
-									<ui:param name="beanActionParam" value="#{rolAction}" />
+									<ui:param name="beanActionParam" value="#{roleAction}" />
 									<ui:param name="pager" value="paginationMethod" />
 									<ui:param name="metodoActionParam"
 										value="loadMethodPermissions" />
@@ -300,7 +300,7 @@
 								</a:commandLink>
 								<a:commandLink render="panelMenus" execute="@this"
 									styleClass="quitarDecoracionLink"
-									action="#{rolAction.initializeRelatedMethods}">
+									action="#{roleAction.initializeRelatedMethods}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/listarTodos_16.png" />
 										<h:outputText value="#{mensaje.button_list_all}" />
@@ -318,16 +318,16 @@
 								<rich:column styleClass="colIconoUno">
 									<f:facet name="header">#{mensaje.label_view}</f:facet>
 									<a:commandLink render="tablaMenus" execute="@this"
-										rendered="#{rolAction.notSelectedMenu(menu.id)}"
-										actionListener="#{rolAction.hideMenuCheck(menu.id,false)}">
+										rendered="#{roleAction.notSelectedMenu(menu.id)}"
+										actionListener="#{roleAction.hideMenuCheck(menu.id,false)}">
 										<h:graphicImage value="/img/sinSeleccion_16.png" />
 										<rich:tooltip layout="block">
 											<h:outputText value="#{mensaje.label_select}" />
 										</rich:tooltip>
 									</a:commandLink>
 									<a:commandLink render="tablaMenus" execute="@this"
-										rendered="#{!rolAction.notSelectedMenu(menu.id)}"
-										actionListener="#{rolAction.hideMenuCheck(menu.id,true)}">
+										rendered="#{!roleAction.notSelectedMenu(menu.id)}"
+										actionListener="#{roleAction.hideMenuCheck(menu.id,true)}">
 										<h:graphicImage value="/img/seleccionado_16.png" />
 										<rich:tooltip layout="block">
 											<h:outputText value="#{mensaje.label_select}" />
@@ -360,7 +360,7 @@
 									<ui:include src="/plantillas/templatePagination.xhtml">
 										<ui:param name="valId" value="13" />
 										<ui:param name="valReder" value=":rolForm:panelMenus" />
-										<ui:param name="beanActionParam" value="#{rolAction}" />
+										<ui:param name="beanActionParam" value="#{roleAction}" />
 										<ui:param name="pager" value="paginationMenu" />
 										<ui:param name="metodoActionParam" value="loadRelatedMenus" />
 									</ui:include>
@@ -373,10 +373,10 @@
 				<div class="anchoDos center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,confirmacionPopUp"
-						actionListener="#{rolAction.setRol(rolAction.rol)}"
+						actionListener="#{roleAction.setRole(roleAction.role)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						rendered="#{modal ne '1' and ((rolAction.rol.id ne 0 and identity.autorizado('rolAction','U')) or identity.autorizado('rolAction','A') or identity.autorizado('rolAction','I'))}" />
+						rendered="#{modal ne '1' and ((roleAction.role.id ne 0 and identity.autorizado('roleAction','U')) or identity.autorizado('roleAction','A') or identity.autorizado('roleAction','I'))}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -405,7 +405,7 @@
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						action="#{rolAction.loadMethodPermissions()}"
+						action="#{roleAction.loadMethodPermissions()}"
 						oncomplete="#{rich:component('popupBuscarMetodo')}.hide()"
 						render="rolForm:panelPermisos, mensajes">
 						<f:setPropertyActionListener value="f"
@@ -440,7 +440,7 @@
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscarSel"
-						action="#{rolAction.loadRelatedMenus()}"
+						action="#{roleAction.loadRelatedMenus()}"
 						oncomplete="#{rich:component('popupBuscarMenuRelacionado')}.hide()"
 						render="rolForm:panelMenus, mensajes">
 						<f:setPropertyActionListener value="f"
@@ -473,11 +473,11 @@
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}: "
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="#{rolAction.rol.nombre}" />
+						<h:outputText value="#{roleAction.role.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{rolAction.addRol()}"
+							action="#{roleAction.addRole()}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide();#{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide()" />
