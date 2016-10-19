@@ -17,6 +17,7 @@ import co.informatix.erp.costs.dao.ActivityMaterialsDao;
 import co.informatix.erp.costs.entities.ActivityMaterials;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.DepositsDao;
@@ -652,17 +653,25 @@ public class MaterialsAction implements Serializable {
 	private void persistMaterials() throws Exception {
 		if (this.materialsList != null) {
 			for (Materials material : this.materialsList) {
+				double quantityBudget = 0;
 				for (ActivityMaterials activityMaterialsSelected : activityMaterialsAction
 						.getListActivityMaterials()) {
 					int idMaterialsSelected = activityMaterialsSelected
 							.getActivityMaterialsPK().getMaterials()
 							.getIdMaterial();
-					if (material.getIdMaterial() == idMaterialsSelected)
+					if (material.getIdMaterial() == idMaterialsSelected) {
 						material.setSelected(true);
+						quantityBudget = activityMaterialsSelected
+								.getQuantityBudget();
+					}
 				}
-				material.setTotalMaterialsBudget(activityMaterialsDao
+				Double total = activityMaterialsDao
 						.calculateTotalQuantityBudgetByMaterial(material
-								.getIdMaterial()));
+								.getIdMaterial());
+				if (total != null) {
+					total = ControllerAccounting.add(total, quantityBudget);
+				}
+				material.setTotalMaterialsBudget(total);
 				material.setTotalMaterialsDeposits(depositsDao
 						.quantityMaterialsById(material.getIdMaterial(), null));
 			}
