@@ -68,7 +68,7 @@ public class UsuarioAction implements Serializable {
 	@Inject
 	private IdentityAction identity;
 	@Inject
-	private SesionEmpresaAction empresaHaciendaSesion;
+	private SessionBusinessAction empresaHaciendaSesion;
 	@Resource
 	private UserTransaction userTransaction;
 

@@ -21,7 +21,7 @@ import co.informatix.erp.organizaciones.entities.Empresa;
 import co.informatix.erp.recursosHumanos.action.PersonaAction;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.recursosHumanos.entities.Persona;
-import co.informatix.erp.seguridad.dao.PermisoPersonaEmpresaDao;
+import co.informatix.erp.seguridad.dao.PermissionPersonBusinessDao;
 import co.informatix.erp.seguridad.dao.UserDao;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
 import co.informatix.erp.utils.Constantes;
@@ -38,32 +38,31 @@ import co.informatix.security.entities.Usuario;
  * 
  * 
  * @author marisol.calderon
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class PerfilUsuarioAction implements Serializable {
+public class ProfileUserAction implements Serializable {
 
 	@EJB
-	private PersonaDao personaDao;
+	private PersonaDao personDao;
 	@EJB
-	private UserDao usuarioDao;
+	private UserDao userDao;
 	@EJB
-	private PermisoPersonaEmpresaDao permisoPersonaEmpresaDao;
+	private PermissionPersonBusinessDao permissionPersonBusinessDao;
 
 	@Inject
 	private IdentityAction identity;
 	@Resource
 	private UserTransaction userTransaction;
 
-	private List<PermisoPersonaEmpresa> listaEmpresasConPermisoAcceso;
-	private List<SelectItem> itemsValores;
+	private List<PermisoPersonaEmpresa> listBusinessWithPermissionAcces;
+	private List<SelectItem> itemsValues;
 	private Paginador pagination = new Paginador();
-	private PermisoPersonaEmpresa permisoPersonaEmpresa;
-	private Persona personaSesion;
+	private PermisoPersonaEmpresa permissionPersonBusiness;
+	private Persona personSesion;
 	private String tabSelect = Constantes.N_TAB;
-	private boolean guardarPersonaDesdePerfil;
+	private boolean savePersonFromProfile;
 
 	/**
 	 * @return pagination: Object pager functions from the list of companies
@@ -101,61 +100,61 @@ public class PerfilUsuarioAction implements Serializable {
 	}
 
 	/**
-	 * @return listaEmpresasConPermisoAcceso: list of companies to which the
+	 * @return listBusinessWithPermissionAcces: list of companies to which the
 	 *         user has access.
 	 */
-	public List<PermisoPersonaEmpresa> getListaEmpresasConPermisoAcceso() {
-		return listaEmpresasConPermisoAcceso;
+	public List<PermisoPersonaEmpresa> getListBusinessWithPermissionAcces() {
+		return listBusinessWithPermissionAcces;
 	}
 
 	/**
-	 * @param listaEmpresasConPermisoAcceso
+	 * @param listBusinessWithPermissionAcces
 	 *            : list of companies to which the user has access.
 	 */
-	public void setListaEmpresasConPermisoAcceso(
-			List<PermisoPersonaEmpresa> listaEmpresasConPermisoAcceso) {
-		this.listaEmpresasConPermisoAcceso = listaEmpresasConPermisoAcceso;
+	public void setListBusinessWithPermissionAcces(
+			List<PermisoPersonaEmpresa> listBusinessWithPermissionAcces) {
+		this.listBusinessWithPermissionAcces = listBusinessWithPermissionAcces;
 	}
 
 	/**
-	 * @return permisoPersonaEmpresa: Business person covered by the permit.
+	 * @return permissionPersonBusiness: Business person covered by the permit.
 	 */
-	public PermisoPersonaEmpresa getPermisoPersonaEmpresa() {
-		return permisoPersonaEmpresa;
+	public PermisoPersonaEmpresa getPermissionPersonBusiness() {
+		return permissionPersonBusiness;
 	}
 
 	/**
-	 * @param permisoPersonaEmpresa
+	 * @param permissionPersonBusiness
 	 *            : Business person covered by the permit.
 	 */
-	public void setPermisoPersonaEmpresa(
-			PermisoPersonaEmpresa permisoPersonaEmpresa) {
-		this.permisoPersonaEmpresa = permisoPersonaEmpresa;
+	public void setPermissionPersonBusiness(
+			PermisoPersonaEmpresa permissionPersonBusiness) {
+		this.permissionPersonBusiness = permissionPersonBusiness;
 	}
 
 	/**
 	 * @return List<SelectItem>: The list of items of the values that can take
 	 *         the parameter.
 	 */
-	public List<SelectItem> getItemsValores() {
-		return itemsValores;
+	public List<SelectItem> getItemsValues() {
+		return itemsValues;
 	}
 
 	/**
-	 * @return guardarPersonaDesdePerfil: variable that shows whether a person
+	 * @return savePersonFromProfile: variable that shows whether a person
 	 *         is saved from the user profile.
 	 */
-	public boolean isGuardarPersonaDesdePerfil() {
-		return guardarPersonaDesdePerfil;
+	public boolean isSavePersonFromProfile() {
+		return savePersonFromProfile;
 	}
 
 	/**
-	 * @param guardarPersonaDesdePerfil
+	 * @param savePersonFromProfile
 	 *            : variable that shows whether a person is saved from the user
 	 *            profile.
 	 */
-	public void setGuardarPersonaDesdePerfil(boolean guardarPersonaDesdePerfil) {
-		this.guardarPersonaDesdePerfil = guardarPersonaDesdePerfil;
+	public void setSavePersonFromProfile(boolean savePersonFromProfile) {
+		this.savePersonFromProfile = savePersonFromProfile;
 	}
 
 	/**
@@ -164,26 +163,26 @@ public class PerfilUsuarioAction implements Serializable {
 	 * @param pestana
 	 *            : variable that lets you know which tab is loaded and
 	 *            information being queried.
-	 * @return navigation rule that loads the template with user profile
+	 * @return gesProfileUser: navigation rule that loads the template with user profile
 	 *         information.
 	 */
-	public String cargarPerfilDeUsuario(String pestana) {
+	public String loadProfileOfUser(String pestana) {
 		try {
-			Usuario usuarioSesion = usuarioDao.searchUsuario(identity
+			Usuario userSession = userDao.searchUsuario(identity
 					.getUserName());
-			Integer idUsuario = usuarioSesion.getId();
-			Persona personaSesionTemp = personaDao.consultPerson(idUsuario);
-			personaSesion = personaSesionTemp;
+			Integer idUsuario = userSession.getId();
+			Persona personaSesionTemp = personDao.consultPerson(idUsuario);
+			personSesion = personaSesionTemp;
 			if (Constantes.N_TAB.equals(pestana)) {
-				cargarDatosPersonales();
+				loadPersonalData();
 			} else if (Constantes.F_TAB.equals(pestana)) {
-				cargarEmpresasConPermisosAcceso();
+				loadBusinessWithPermissionAcces();
 			}
 			setTabSelect(pestana);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesPerfilUsuario";
+		return "gesProfileUser";
 	}
 
 	/**
@@ -191,12 +190,12 @@ public class PerfilUsuarioAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarDatosPersonales() throws Exception {
-		PersonaAction personaAction = ControladorContexto
+	private void loadPersonalData() throws Exception {
+		PersonaAction personAction = ControladorContexto
 				.getContextBean(PersonaAction.class);
-		if (personaSesion != null) {
-			personaAction.loadDetailsOnePerson(personaSesion);
-			personaAction.registerPerson(personaSesion);
+		if (personSesion != null) {
+			personAction.loadDetailsOnePerson(personSesion);
+			personAction.registerPerson(personSesion);
 		}
 	}
 
@@ -206,23 +205,23 @@ public class PerfilUsuarioAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarEmpresasConPermisosAcceso() throws Exception {
-		EmpresaAction empresaAction = ControladorContexto
+	private void loadBusinessWithPermissionAcces() throws Exception {
+		EmpresaAction businessAction = ControladorContexto
 				.getContextBean(EmpresaAction.class);
-		listaEmpresasConPermisoAcceso = new ArrayList<PermisoPersonaEmpresa>();
-		if (personaSesion != null) {
+		listBusinessWithPermissionAcces = new ArrayList<PermisoPersonaEmpresa>();
+		if (personSesion != null) {
 			/* Companies with access permission of the person */
-			listaEmpresasConPermisoAcceso = permisoPersonaEmpresaDao
-					.consultarPermisosPersonaEmpresaAccesoUsuario(personaSesion
+			listBusinessWithPermissionAcces = permissionPersonBusinessDao
+					.consultPermissionsPersonEBusinessAccessUser(personSesion
 							.getDocumento());
-			if (listaEmpresasConPermisoAcceso != null) {
-				for (PermisoPersonaEmpresa permisoPerEmp : listaEmpresasConPermisoAcceso) {
-					permisoPersonaEmpresaDao
-							.consultarDetallesPermisoPersonaEmpresa(permisoPerEmp);
+			if (listBusinessWithPermissionAcces != null) {
+				for (PermisoPersonaEmpresa permissionPersonBusiness : listBusinessWithPermissionAcces) {
+					permissionPersonBusinessDao
+							.consultDetailsPermissionPersonBusiness(permissionPersonBusiness);
 					/* Company details are loaded */
-					Empresa empresaPermiso = permisoPerEmp.getEmpresa();
-					empresaAction.cargarDetallesUnaEmpresa(empresaPermiso);
-					permisoPerEmp.setEmpresa(empresaPermiso);
+					Empresa empresaPermiso = permissionPersonBusiness.getEmpresa();
+					businessAction.cargarDetallesUnaEmpresa(empresaPermiso);
+					permissionPersonBusiness.setEmpresa(empresaPermiso);
 				}
 			}
 		}
@@ -235,14 +234,14 @@ public class PerfilUsuarioAction implements Serializable {
 	 * @param event
 	 *            : event that runs when a tab is selected
 	 */
-	public void cambioPestana(ItemChangeEvent event) {
+	public void changedTab(ItemChangeEvent event) {
 		try {
-			String idPestana = event.getNewItemName();
-			if (idPestana != null && !"".equals(idPestana)) {
-				if (Constantes.N_TAB.equals(idPestana)) {
-					cargarDatosPersonales();
-				} else if (Constantes.F_TAB.equals(idPestana)) {
-					cargarEmpresasConPermisosAcceso();
+			String idTab = event.getNewItemName();
+			if (idTab != null && !"".equals(idTab)) {
+				if (Constantes.N_TAB.equals(idTab)) {
+					loadPersonalData();
+				} else if (Constantes.F_TAB.equals(idTab)) {
+					loadBusinessWithPermissionAcces();
 				}
 			}
 		} catch (Exception e) {
@@ -254,35 +253,34 @@ public class PerfilUsuarioAction implements Serializable {
 	 * This method allows change the company selects a default when you log into
 	 * the system.
 	 * 
-	 * @return cargarPerfilDeUsuario: method to load the user profile in the
+	 * @return loadProfileOfUser: method to load the user profile in the
 	 *         required Tab.
 	 */
-	public String predeterminarEmpresa() {
-		ResourceBundle bundleSeguridad = ControladorContexto
+	public String predetermineBusiness() {
+		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
-		PermisoPersonaEmpresaAction permisoPersonaEmpresaAction = ControladorContexto
-				.getContextBean(PermisoPersonaEmpresaAction.class);
+		PermissionPersonBusinessAction permissionPersonBusinessAction = ControladorContexto
+				.getContextBean(PermissionPersonBusinessAction.class);
 		try {
-			if (permisoPersonaEmpresa != null && personaSesion != null) {
+			if (permissionPersonBusiness != null && personSesion != null) {
 				this.userTransaction.begin();
-				PermisoPersonaEmpresa permPersonaEmpresaPre = permisoPersonaEmpresaDao
-						.consultarExistePredeterminado(personaSesion
-								.getDocumento());
-				if (permPersonaEmpresaPre != null) {
-					permPersonaEmpresaPre.setPredeterminado(false);
-					permisoPersonaEmpresaDao
-							.modificarPermisoPersonaEmpresa(permPersonaEmpresaPre);
+				PermisoPersonaEmpresa permissionPersonBusinessPre = permissionPersonBusinessDao
+						.consultExistPredetermined(personSesion.getDocumento());
+				if (permissionPersonBusinessPre != null) {
+					permissionPersonBusinessPre.setPredeterminado(false);
+					permissionPersonBusinessDao
+							.editPermissionPersonCompany(permissionPersonBusinessPre);
 				}
-				permisoPersonaEmpresa.setUserName(identity.getUserName());
-				permisoPersonaEmpresa.setPredeterminado(true);
-				permisoPersonaEmpresaAction.nullValidate(permisoPersonaEmpresa);
-				permisoPersonaEmpresaDao
-						.modificarPermisoPersonaEmpresa(permisoPersonaEmpresa);
+				permissionPersonBusiness.setUserName(identity.getUserName());
+				permissionPersonBusiness.setPredeterminado(true);
+				permissionPersonBusinessAction.nullValidate(permissionPersonBusiness);
+				permissionPersonBusinessDao
+						.editPermissionPersonCompany(permissionPersonBusiness);
 				this.userTransaction.commit();
-				String message = bundleSeguridad
+				String message = bundleSecurity
 						.getString("user_profile_message_modify_default");
 				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(message, permisoPersonaEmpresa.getEmpresa()
+						.format(message, permissionPersonBusiness.getEmpresa()
 								.getNombre()));
 			}
 		} catch (Exception e) {
@@ -294,7 +292,7 @@ public class PerfilUsuarioAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
-		return cargarPerfilDeUsuario(Constantes.F_TAB);
+		return loadProfileOfUser(Constantes.F_TAB);
 	}
 
 }

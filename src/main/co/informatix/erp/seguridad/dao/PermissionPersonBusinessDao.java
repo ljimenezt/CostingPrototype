@@ -22,11 +22,10 @@ import co.informatix.erp.utils.Constantes;
  * properties to control access from the action PermisoPersonaEmpresaAction.
  * 
  * @author marisol.calderon
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class PermisoPersonaEmpresaDao implements Serializable {
+public class PermissionPersonBusinessDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -34,25 +33,25 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	/**
 	 * Save a person who is assigned access rights to a company.
 	 * 
-	 * @param permisoPersonaEmpresa
+	 * @param permissionPersonCompany
 	 *            : Company relationship with the person you want to save.
 	 * @throws Exception
 	 */
-	public void guardarPermisoPersonaEmpresa(
-			PermisoPersonaEmpresa permisoPersonaEmpresa) throws Exception {
-		em.persist(permisoPersonaEmpresa);
+	public void savePermissionPersonCompany(
+			PermisoPersonaEmpresa permissionPersonCompany) throws Exception {
+		em.persist(permissionPersonCompany);
 	}
 
 	/**
 	 * Modifies a person who is assigned access rights to a company.
 	 * 
-	 * @param permisoPersonaEmpresa
+	 * @param permissionPersonCompany
 	 *            : Company relationship with the person you want to modify.
 	 * @throws Exception
 	 */
-	public void modificarPermisoPersonaEmpresa(
-			PermisoPersonaEmpresa permisoPersonaEmpresa) throws Exception {
-		em.merge(permisoPersonaEmpresa);
+	public void editPermissionPersonCompany(
+			PermisoPersonaEmpresa permissionPersonCompany) throws Exception {
+		em.merge(permissionPersonCompany);
 	}
 
 	/**
@@ -68,12 +67,12 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	 *            : value in initiating the inquiry.
 	 * @param range
 	 *            : amount or range of records to consult.
-	 * @return List of companies associated with access permissions to the
-	 *         person.
+	 * @return List<PermissionPersonBusiness>: List of companies associated with
+	 *         access permissions to the person.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<PermisoPersonaEmpresa> consultarEmpresasAccesoPersona(
+	public List<PermisoPersonaEmpresa> consultBusinessAccessPerson(
 			StringBuilder consult, List<SelectItem> parameters, int start,
 			int range) throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -92,22 +91,22 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	 * Check the number of companies that have access permissions in place or
 	 * not in place and that have been associated with a particular person.
 	 * 
-	 * @param consulta
+	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
-	 * @param parametros
+	 * @param parameters
 	 *            : query parameters.
 	 * @return Long: Number of records found.
 	 * @throws Exception
 	 */
-	public Long cantidadEmpresasAccesoPersona(StringBuilder consulta,
-			List<SelectItem> parametros) throws Exception {
+	public Long amountBusinessAccessPerson(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(ppe) FROM PermisoPersonaEmpresa ppe ");
-		query.append(consulta);
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
-			q.setParameter(parametro.getLabel(), parametro.getValue());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		return (Long) q.getSingleResult();
 	}
@@ -118,29 +117,29 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	 * 
 	 * @modify 04/05/2016 Wilhelm.Boada
 	 * 
-	 * @param permisoPersonaEmpresa
+	 * @param permissionPersonBusiness
 	 *            : covered by the permit of the person in the company.
-	 * @return permisoPersonaEmpresa: The found object information detail to
+	 * @return permissionPersonBusiness: The found object information detail to
 	 *         permit a person in business.
 	 * @throws Exception
 	 */
-	public PermisoPersonaEmpresa consultarDetallesPermisoPersonaEmpresa(
-			PermisoPersonaEmpresa permisoPersonaEmpresa) throws Exception {
-		Integer id = permisoPersonaEmpresa.getId();
-		Empresa empresa = (Empresa) consultarObjetoPermisoPersonaEmpresa(
+	public PermisoPersonaEmpresa consultDetailsPermissionPersonBusiness(
+			PermisoPersonaEmpresa permissionPersonBusiness) throws Exception {
+		Integer id = permissionPersonBusiness.getId();
+		Empresa business = (Empresa) consultObjectPermissionPersonBusiness(
 				Constantes.EMPRESA, id);
-		Persona persona = (Persona) consultarObjetoPermisoPersonaEmpresa(
+		Persona person = (Persona) consultObjectPermissionPersonBusiness(
 				Constantes.PERSONA, id);
-		Farm farm = (Farm) consultarObjetoPermisoPersonaEmpresa(
+		Farm farm = (Farm) consultObjectPermissionPersonBusiness(
 				Constantes.Farm, id);
-		permisoPersonaEmpresa.setEmpresa(empresa);
-		permisoPersonaEmpresa.setPersona(persona);
+		permissionPersonBusiness.setEmpresa(business);
+		permissionPersonBusiness.setPersona(person);
 		if (farm != null) {
-			permisoPersonaEmpresa.setFarm(farm);
+			permissionPersonBusiness.setFarm(farm);
 		} else {
-			permisoPersonaEmpresa.setFarm(new Farm());
+			permissionPersonBusiness.setFarm(new Farm());
 		}
-		return permisoPersonaEmpresa;
+		return permissionPersonBusiness;
 	}
 
 	/**
@@ -149,22 +148,22 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	 * 
 	 * @param nomObject
 	 *            : in order to consult permisoPersonaEmpresa.
-	 * @param idPermisoPersonaEmpresa
+	 * @param idPermissionPersonBusiness
 	 *            : permisoPersonaEmpresa ID is consulted.
 	 * @return The found object information that is associated with the business
 	 *         person permission.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoPermisoPersonaEmpresa(String nomObject,
-			int idPermisoPersonaEmpresa) throws Exception {
+	public Object consultObjectPermissionPersonBusiness(String nomObject,
+			int idPermissionPersonBusiness) throws Exception {
 		List<Object> results = em
 				.createQuery(
 						"SELECT ppe." + nomObject
 								+ " FROM PermisoPersonaEmpresa ppe "
 								+ "WHERE ppe.id=:idPermisoPersonaEmpresa")
 				.setParameter("idPermisoPersonaEmpresa",
-						idPermisoPersonaEmpresa).getResultList();
+						idPermissionPersonBusiness).getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -177,24 +176,24 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	 * 
 	 * @author marisol.calderon
 	 * 
-	 * @param documentoPersona
+	 * @param documentPerson
 	 *            : person document in session.
-	 * @return List<PermisoPersonaEmpresa>: List of permits to which the person
+	 * @return List<PermissionPersonBusiness>: List of permits to which the person
 	 *         has access.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<PermisoPersonaEmpresa> consultarPermisosPersonaEmpresaAccesoUsuario(
-			String documentoPersona) throws Exception {
+	public List<PermisoPersonaEmpresa> consultPermissionsPersonEBusinessAccessUser(
+			String documentPerson) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ppe FROM PermisoPersonaEmpresa ppe ");
-		query.append("WHERE ppe.persona.documento=:documentoPersona ");
+		query.append("WHERE ppe.persona.documento=:documentPerson ");
 		query.append("AND (ppe.fechaFinVigencia IS NULL ");
-		query.append("OR ppe.fechaFinVigencia >= :fechaActual) ");
+		query.append("OR ppe.fechaFinVigencia >= :currentDate) ");
 		query.append("ORDER BY ppe.empresa.nombre ");
 		Query q = em.createQuery(query.toString());
-		q.setParameter("documentoPersona", documentoPersona);
-		q.setParameter("fechaActual", new Date());
+		q.setParameter("documentPerson", documentPerson);
+		q.setParameter("currentDate", new Date());
 		return q.getResultList();
 	}
 
@@ -202,25 +201,25 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	 * Method to consult if there is a company with permits
 	 * (PermisoPersonaEmpresa) default user or person.
 	 * 
-	 * @param documentoPersona
+	 * @param documentPerson
 	 *            : document of the person to whom permits the company is
 	 *            consulted.
-	 * @return PermisoPersonaEmpresa object that is predetermined or null but
-	 *         there.
+	 * @return PermissionPersonBusiness: object that is predetermined or null
+	 *         but there.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public PermisoPersonaEmpresa consultarExistePredeterminado(
-			String documentoPersona) throws Exception {
+	public PermisoPersonaEmpresa consultExistPredetermined(String documentPerson)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ppe FROM PermisoPersonaEmpresa ppe ");
 		query.append("WHERE ppe.predeterminado = TRUE ");
-		query.append("AND ppe.persona.documento=:documentoPersona ");
+		query.append("AND ppe.persona.documento=:documentPerson ");
 		Query q = em.createQuery(query.toString());
-		q.setParameter("documentoPersona", documentoPersona);
-		List<PermisoPersonaEmpresa> listaPerPerEmp = q.getResultList();
-		if (listaPerPerEmp.size() > 0) {
-			return listaPerPerEmp.get(0);
+		q.setParameter("documentPerson", documentPerson);
+		List<PermisoPersonaEmpresa> listPermissionPersonBusiness = q.getResultList();
+		if (listPermissionPersonBusiness.size() > 0) {
+			return listPermissionPersonBusiness.get(0);
 		}
 		return null;
 	}
@@ -241,8 +240,8 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean haciendaPredeterminada(int idPerson, int idCompany,
-			int idFarm) throws Exception {
+	public boolean farmPredetermined(int idPerson, int idCompany, int idFarm)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ppe.empresa FROM PermisoPersonaEmpresa ppe ");
 		query.append("WHERE ppe.persona.id=:idPerson ");
@@ -256,8 +255,8 @@ public class PermisoPersonaEmpresaDao implements Serializable {
 		q.setParameter("idFarm", idFarm);
 		q.setParameter("idCompany", idCompany);
 		q.setParameter("currentDate", new Date());
-		List<Empresa> empresas = q.getResultList();
-		if (empresas != null && empresas.size() > 0) {
+		List<Empresa> business = q.getResultList();
+		if (business != null && business.size() > 0) {
 			return true;
 		}
 		return false;

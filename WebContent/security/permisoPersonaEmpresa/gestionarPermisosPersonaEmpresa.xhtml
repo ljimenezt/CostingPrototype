@@ -10,14 +10,14 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="permisoPersonaEmpresaAction.initializeSearch()" />
+		value="PermissionPersonBusinessAction.initializeSearch()" />
 	<ui:param name="titulo"
 		value="mensaje.label_manage,messageSecurity.person_permission_company_label" />
 	<ui:define name="body">
 		<h:form id="frmGestionarPermisosEmpresa">
 			<ui:param name="listaVacia"
-				value="#{permisoPersonaEmpresaAction.listPermisoPersonaEmpresa eq null or (empty permisoPersonaEmpresaAction.listPermisoPersonaEmpresa)}" />
-			<t:saveState value="#{permisoPersonaEmpresaAction}" />
+				value="#{permissionPersonBusinessAction.listPermissionPersonBusiness eq null or (empty PermissionPersonBusinessAction.listPermissionPersonBusiness)}" />
+			<t:saveState value="#{PermissionPersonBusinessAction}" />
 			<t:saveState value="#{empresaAction}" />
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_manage} #{messageSecurity.person_permission_company_label}">
@@ -28,16 +28,16 @@
 						cellspacing="7">
 						<h:outputText value="#{mensaje.label_identification}: " />
 						<h:outputText
-							value="#{permisoPersonaEmpresaAction.persona.documento}" />
+							value="#{PermissionPersonBusinessAction.person.documento}" />
 						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText
-							value="#{permisoPersonaEmpresaAction.persona.nombres}" />
+							value="#{PermissionPersonBusinessAction.person.nombres}" />
 						<h:outputText value="#{mensaje.label_surname}: " />
 						<h:outputText
-							value="#{permisoPersonaEmpresaAction.persona.apellidos}" />
+							value="#{PermissionPersonBusinessAction.person.apellidos}" />
 						<h:outputText value="#{mensaje.label_telephone_number}: " />
 						<h:outputText
-							value="#{permisoPersonaEmpresaAction.persona.telefono}" />
+							value="#{PermissionPersonBusinessAction.person.telefono}" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -49,13 +49,13 @@
 						<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 							columnClasses="W50Per,W50Per" styleClass="anchoDos">
 							<h:selectOneRadio styleClass="rdVigencia"
-								value="#{permisoPersonaEmpresaAction.validity}">
+								value="#{PermissionPersonBusinessAction.validity}">
 								<f:selectItem itemValue="si"
 									itemLabel="#{mensaje.label_current}" />
 								<f:selectItem itemValue="no"
 									itemLabel="#{mensaje.label_not_current}" />
 								<a:ajax event="click"
-									listener="#{permisoPersonaEmpresaAction.consultPermissionPersonCompany()}"
+									listener="#{PermissionPersonBusinessAction.consultPermissionPersonCompany()}"
 									render="panelEmpresaPermiso, mensajes, vigenciaPopup, mensajeBusqueda">
 								</a:ajax>
 							</h:selectOneRadio>
@@ -64,9 +64,9 @@
 									<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 										<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 											onclick="document.getElementById('frmGestionarPermisosEmpresa:idButtonNuevo').click()"
-											rendered="#{permisoPersonaEmpresaAction.validity eq 'si' and (identity.autorizado('permisoPersonaEmpresaAction','A') or identity.autorizado('permisoPersonaEmpresaAction','I'))}">
+											rendered="#{PermissionPersonBusinessAction.validity eq 'si' and (identity.autorizado('PermissionPersonBusinessAction','A') or identity.autorizado('PermissionPersonBusinessAction','I'))}">
 											<h:commandButton
-												action="#{permisoPersonaEmpresaAction.newPermissionPersonCompany}"
+												action="#{PermissionPersonBusinessAction.newPermissionPersonCompany}"
 												image="/img/new_16.png" id="idButtonNuevo"
 												onclick="#{rich:component('statPane')}.show();" />
 											<h:outputText
@@ -85,7 +85,7 @@
 											onclick="document.getElementById('frmGestionarPermisosEmpresa:idButtonLisTodos').click()">
 											<a:commandButton image="/img/listarTodos_16.png"
 												id="idButtonLisTodos"
-												actionListener="#{permisoPersonaEmpresaAction.initializeSearch}"
+												actionListener="#{PermissionPersonBusinessAction.initializeSearch}"
 												render="panelEmpresaPermiso, mensajes, mensajeBusqueda">
 											</a:commandButton>
 											<h:outputText value="#{mensaje.button_list_all}" />
@@ -95,12 +95,12 @@
 							</a:outputPanel>
 						</h:panelGrid>
 						<rich:dataTable
-							value="#{permisoPersonaEmpresaAction.listPermisoPersonaEmpresa}"
+							value="#{PermissionPersonBusinessAction.listPermissionPersonBusiness}"
 							var="permisoEmpresa" footerClass="H130P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass="colIconoDos"
-								rendered="#{permisoPersonaEmpresaAction.validity eq 'si'}">
+								rendered="#{PermissionPersonBusinessAction.validity eq 'si'}">
 								<a:commandLink render="PopupDetalles"
 									oncomplete="#{rich:component('PopupDetalles')}.show()"
 									actionListener="#{empresaAction.setEmpresa(permisoEmpresa.empresa)}">
@@ -112,10 +112,10 @@
 								</a:commandLink>
 								<h:outputText value="&#32;&#32;&#32;" />
 								<a:commandLink
-									actionListener="#{permisoPersonaEmpresaAction.setPermisoPersonaEmpresa(permisoEmpresa)}"
+									actionListener="#{PermissionPersonBusinessAction.setPermissionPersonBusiness(permisoEmpresa)}"
 									onclick="#{rich:component('popupVigencia')}.show()"
 									render="frmVigencia:nombreEmpresaVigencia"
-									rendered="#{identity.autorizado('permisoPersonaEmpresaAction','A') or identity.autorizado('permisoPersonaEmpresaAction','U')}">
+									rendered="#{identity.autorizado('PermissionPersonBusinessAction','A') or identity.autorizado('PermissionPersonBusinessAction','U')}">
 									<h:graphicImage value="/img/dateDelete_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.button_finish_force}" />
@@ -123,9 +123,9 @@
 								</a:commandLink>
 							</rich:column>
 							<rich:column styleClass="colIconoUno"
-								rendered="#{permisoPersonaEmpresaAction.validity eq 'no' and (identity.autorizado('permisoPersonaEmpresaAction','A') or identity.autorizado('permisoPersonaEmpresaAction','U'))}">
+								rendered="#{PermissionPersonBusinessAction.validity eq 'no' and (identity.autorizado('PermissionPersonBusinessAction','A') or identity.autorizado('PermissionPersonBusinessAction','U'))}">
 								<a:commandLink render="popupVigencia"
-									actionListener="#{permisoPersonaEmpresaAction.setPermisoPersonaEmpresa(permisoEmpresa)}"
+									actionListener="#{PermissionPersonBusinessAction.setPermissionPersonBusiness(permisoEmpresa)}"
 									oncomplete="#{rich:component('popupVigencia')}.show()">
 									<h:graphicImage value="/img/dateAdd_16.png" />
 									<rich:tooltip layout="block">
@@ -178,9 +178,9 @@
 								<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 										onclick="document.getElementById('frmGestionarPermisosEmpresa:idButtonNuevoInf').click()"
-										rendered="#{permisoPersonaEmpresaAction.validity eq 'si' and (identity.autorizado('permisoPersonaEmpresaAction','A') or identity.autorizado('permisoPersonaEmpresaAction','I'))}">
+										rendered="#{PermissionPersonBusinessAction.validity eq 'si' and (identity.autorizado('PermissionPersonBusinessAction','A') or identity.autorizado('PermissionPersonBusinessAction','I'))}">
 										<h:commandButton
-											action="#{permisoPersonaEmpresaAction.newPermissionPersonCompany}"
+											action="#{PermissionPersonBusinessAction.newPermissionPersonCompany}"
 											image="/img/new_16.png" id="idButtonNuevoInf"
 											onclick="#{rich:component('statPane')}.show();" />
 										<h:outputText
@@ -199,7 +199,7 @@
 										onclick="document.getElementById('frmGestionarPermisosEmpresa:idButtonLisTodosInf').click()">
 										<a:commandButton image="/img/listarTodos_16.png"
 											id="idButtonLisTodosInf"
-											actionListener="#{permisoPersonaEmpresaAction.initializeSearch}"
+											actionListener="#{PermissionPersonBusinessAction.initializeSearch}"
 											render="panelEmpresaPermiso, mensajes, mensajeBusqueda">
 										</a:commandButton>
 										<h:outputText value="#{mensaje.button_list_all}" />
@@ -213,7 +213,7 @@
 									<ui:param name="valId" value="1" />
 									<ui:param name="valReder" value="panelEmpresaPermiso" />
 									<ui:param name="beanActionParam"
-										value="#{permisoPersonaEmpresaAction}" />
+										value="#{PermissionPersonBusinessAction}" />
 									<ui:param name="metodoActionParam"
 										value="consultPermissionPersonCompany" />
 								</ui:include>
@@ -243,22 +243,22 @@
 					<h:outputText value="#{mensaje.label_name}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-						value="#{permisoPersonaEmpresaAction.searchCompanyManage}" />
+						value="#{PermissionPersonBusinessAction.searchCompanyManage}" />
 
 					<h:outputText styleClass="etiquetaTitulo"
 						value="#{messageOrganizations.farm_label}:" />
 					<h:selectOneMenu
-						value="#{permisoPersonaEmpresaAction.idFarmSearch}"
+						value="#{PermissionPersonBusinessAction.idFarmSearch}"
 						id="cmbHacienda">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
 							itemValue="0" />
-						<f:selectItems value="#{permisoPersonaEmpresaAction.itemsFarms}" />
+						<f:selectItems value="#{PermissionPersonBusinessAction.itemsFarms}" />
 					</h:selectOneMenu>
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}"
-						actionListener="#{permisoPersonaEmpresaAction.consultPermissionPersonCompany()}"
+						actionListener="#{PermissionPersonBusinessAction.consultPermissionPersonCompany()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelEmpresaPermiso, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
@@ -288,20 +288,20 @@
 					<ui:define name="campos">
 						<h:outputText value="#{messageOrganizations.company_label}: " />
 						<h:outputText id="nombreEmpresaVigencia"
-							value="#{permisoPersonaEmpresaAction.permisoPersonaEmpresa.empresa.nombre}" />
+							value="#{PermissionPersonBusinessAction.permissionPersonBusiness.empresa.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
 							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelEmpresaPermiso, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
-								actionListener="#{permisoPersonaEmpresaAction.changeValidityPermissionCompany('true')}"
-								rendered="#{permisoPersonaEmpresaAction.validity eq 'si'}" />
+								actionListener="#{PermissionPersonBusinessAction.changeValidityPermissionCompany('true')}"
+								rendered="#{PermissionPersonBusinessAction.validity eq 'si'}" />
 							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelEmpresaPermiso, mensajes, mensajeBusqueda"
 								onclick="#{rich:component('popupVigencia')}.hide()"
-								actionListener="#{permisoPersonaEmpresaAction.changeValidityPermissionCompany('false')}"
-								rendered="#{permisoPersonaEmpresaAction.validity eq 'no'}" />
+								actionListener="#{PermissionPersonBusinessAction.changeValidityPermissionCompany('false')}"
+								rendered="#{PermissionPersonBusinessAction.validity eq 'no'}" />
 						</a:outputPanel>
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />

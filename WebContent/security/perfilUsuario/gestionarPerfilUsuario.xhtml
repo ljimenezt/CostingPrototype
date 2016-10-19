@@ -11,13 +11,13 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="perfilUsuarioAction.cargarPerfilDeUsuario('n')" />
+		value="ProfileUserAction.loadProfileOfUser('n')" />
 	<ui:param name="titulo" value="messageSecurity.user_profile_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/validacion.js"></script>
 		<h:form id="formPerfilUsuario">
-			<t:saveState value="#{perfilUsuarioAction}" />
+			<t:saveState value="#{ProfileUserAction}" />
 			<t:saveState value="#{personaAction}" />
 			<t:saveState value="#{empresaAction}" />
 			<t:saveState value="#{validacionesAction}" />
@@ -25,8 +25,8 @@
 			<rich:panel id="pnlPerfilUsuario" styleClass="anchoUno MinH230P"
 				header="#{messageSecurity.user_profile_label}">
 				<rich:tabPanel switchType="ajax" id="tabsPerfil"
-					activeItem="#{perfilUsuarioAction.tabSelect}"
-					itemChangeListener="#{perfilUsuarioAction.cambioPestana}">
+					activeItem="#{ProfileUserAction.tabSelect}"
+					itemChangeListener="#{ProfileUserAction.changedTab}">
 					<rich:tab name="n" id="n"
 						render="pnlPerfilUsuario, tabsPerfil, mensajes, mensajeBusqueda">
 						<f:facet name="header">
@@ -43,7 +43,7 @@
 						<br />
 						<div class="inBlock W100Per center">
 							<a:commandButton value="#{mensaje.button_save}"
-								actionListener="#{perfilUsuarioAction.setGuardarPersonaDesdePerfil('true')}"
+								actionListener="#{ProfileUserAction.setSavePersonFromProfile('true')}"
 								action="#{personaAction.requiredOk('formPerfilUsuario')}"
 								render="formGenerico,confirmacionPopUp"
 								oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
@@ -62,7 +62,7 @@
 						</f:facet>
 						<br />
 						<rich:dataTable id="tableEmpresasPermisos"
-							value="#{perfilUsuarioAction.listaEmpresasConPermisoAcceso}"
+							value="#{ProfileUserAction.listBusinessWithPermissionAcces}"
 							var="permisoEmpresa" styleClass="dataTable anchoTres"
 							rowClasses="odd-row, even-row">
 							<rich:column styleClass="colIconoDos">
@@ -79,7 +79,7 @@
 								<a:commandLink render="popupPredeterminada"
 									rendered="#{!permisoEmpresa.predeterminado}"
 									oncomplete="#{rich:component('popupPredeterminada')}.show()"
-									actionListener="#{perfilUsuarioAction.setPermisoPersonaEmpresa(permisoEmpresa)}">
+									actionListener="#{ProfileUserAction.setPermissionPersonBusiness(permisoEmpresa)}">
 									<h:graphicImage value="/img/seleccionarPredeterminado_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText
@@ -105,7 +105,7 @@
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{messageOrganizations.farm_label}</f:facet>
-								<h:outputText value="#{permisoEmpresa.hacienda.nombre}" />
+								<h:outputText value="#{permisoEmpresa.farm.name}" />
 							</rich:column>
 							<rich:column styleClass="colFecha">
 								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
@@ -156,13 +156,13 @@
 					<ui:define name="campos">
 						<h:outputText value="#{messageOrganizations.company_label}: " />
 						<h:outputText id="nombreEmpresa"
-							value="#{perfilUsuarioAction.permisoPersonaEmpresa.empresa.nombre}" />
+							value="#{ProfileUserAction.permissionPersonBusiness.empresa.nombre}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
 							render="tableEmpresasPermisos, mensajes, mensajeBusqueda"
 							onclick="#{rich:component('popupPredeterminada')}.hide()"
-							actionListener="#{perfilUsuarioAction.predeterminarEmpresa()}" />
+							actionListener="#{ProfileUserAction.predetermineBusiness()}" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupPredeterminada')}.hide()" />
 					</ui:define>

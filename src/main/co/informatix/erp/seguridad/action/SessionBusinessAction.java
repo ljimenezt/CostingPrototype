@@ -18,7 +18,7 @@ import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizaciones.dao.EmpresaDao;
 import co.informatix.erp.organizaciones.entities.Empresa;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
-import co.informatix.erp.seguridad.dao.PermisoPersonaEmpresaDao;
+import co.informatix.erp.seguridad.dao.PermissionPersonBusinessDao;
 import co.informatix.erp.seguridad.dao.UserDao;
 import co.informatix.erp.utils.ControladorContexto;
 
@@ -32,12 +32,11 @@ import co.informatix.erp.utils.ControladorContexto;
  * #{sesionEmpresa.nombre} #{sesionEmpresa.id}
  * 
  * @author Gabriel.Moreno
- * 
  */
 @SuppressWarnings("serial")
 @Named("sesionEmpresa")
 @SessionScoped
-public class SesionEmpresaAction implements Serializable {
+public class SessionBusinessAction implements Serializable {
 
 	private List<SelectItem> itemsCompanies;
 	private List<SelectItem> itemsFarms;
@@ -49,18 +48,17 @@ public class SesionEmpresaAction implements Serializable {
 	protected int idPersonSession;
 
 	@EJB
-	protected EmpresaDao empresaDao;
+	protected EmpresaDao businessDao;
 	@EJB
-	private PersonaDao personaDao;
+	private PersonaDao personDao;
 	@EJB
-	private UserDao usuarioDao;
+	private UserDao userDao;
 	@EJB
 	private FarmDao farmDao;
 	@EJB
-	private PermisoPersonaEmpresaDao permisoPersonaEmpresaDao;
+	private PermissionPersonBusinessDao permissionPersonBusinessDao;
 
 	/**
-	 * 
 	 * @return id: Returns the identification of the company in session at which
 	 *         it makes the management of information in the system.
 	 */
@@ -69,7 +67,6 @@ public class SesionEmpresaAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param id
 	 *            : Returns the identification of the company in session at
 	 *            which it makes the management of information in the system.
@@ -79,7 +76,6 @@ public class SesionEmpresaAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return name: Returns the name of the company in session at which it
 	 *         makes the management of information in the system.
 	 */
@@ -196,8 +192,8 @@ public class SesionEmpresaAction implements Serializable {
 					this.nameFarm = farmsCompany.get(0).getName();
 				} else {
 					for (Farm farm : farmsCompany) {
-						boolean defaultFarm = permisoPersonaEmpresaDao
-								.haciendaPredeterminada(idPersonSession, id,
+						boolean defaultFarm = permissionPersonBusinessDao
+								.farmPredetermined(idPersonSession, id,
 										farm.getIdFarm());
 						if (defaultFarm) {
 							this.idFarm = farm.getIdFarm();
@@ -226,7 +222,7 @@ public class SesionEmpresaAction implements Serializable {
 	public String assignCompanyFarm() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			Empresa empresa = empresaDao.obtenerEmpresa(this.id);
+			Empresa empresa = businessDao.obtenerEmpresa(this.id);
 			Farm farm = farmDao.farmXId(this.idFarm);
 			if (empresa != null && farm != null) {
 				this.name = empresa.getNombre();

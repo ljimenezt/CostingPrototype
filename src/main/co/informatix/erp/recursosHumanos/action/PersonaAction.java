@@ -35,7 +35,7 @@ import co.informatix.erp.informacionBase.entities.Pais;
 import co.informatix.erp.informacionBase.entities.TipoDocumento;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.recursosHumanos.entities.Persona;
-import co.informatix.erp.seguridad.action.PerfilUsuarioAction;
+import co.informatix.erp.seguridad.action.ProfileUserAction;
 import co.informatix.erp.seguridad.dao.UserDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
@@ -613,8 +613,8 @@ public class PersonaAction implements Serializable {
 	 */
 	public String addEditPerson() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		PerfilUsuarioAction userProfileAction = ControladorContexto
-				.getContextBean(PerfilUsuarioAction.class);
+		ProfileUserAction userProfileAction = ControladorContexto
+				.getContextBean(ProfileUserAction.class);
 		String exit = "regPerson";
 		String messageInfo = "message_registro_modificar";
 		String namePhotoRemove = null;
@@ -668,10 +668,10 @@ public class PersonaAction implements Serializable {
 			if (namePhotoRemove != null && !"".equals(namePhotoRemove)) {
 				this.deleteFile(namePhotoRemove);
 			}
-			if (userProfileAction.isGuardarPersonaDesdePerfil()) {
+			if (userProfileAction.isSavePersonFromProfile()) {
 				nameShow = person.getNombres() + " " + person.getApellidos();
 				exit = userProfileAction
-						.cargarPerfilDeUsuario(Constantes.N_TAB);
+						.loadProfileOfUser(Constantes.N_TAB);
 			} else {
 				exit = initializeConsultation();
 			}
