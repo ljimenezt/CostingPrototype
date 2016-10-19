@@ -141,10 +141,28 @@
 				<ui:define name="mensaje">
 					<h:outputText
 						value="#{mensaje.message_activity_machines_cost_budget}"
-						styleClass="etiquetaTitulo" />
+						styleClass="etiquetaTitulo"
+						rendered="#{recordActivitiesActualsAction.showMachineBudget}" />
+					<h:outputText value="#{mensaje.message_not_records_calculated}"
+						styleClass="etiquetaTitulo"
+						rendered="#{!recordActivitiesActualsAction.showMachineBudget}" />
+				</ui:define>
+				<ui:define name="tabla">
+					<ul>
+						<a:repeat
+							value="#{activitiesAndMachineAction.listActivityMachine}"
+							var="machine"
+							rendered="#{recordActivitiesActualsAction.showMachineBudget}">
+							<li><h:outputText styleClass="etiquetaTitulo"
+									rendered="#{machine.durationActual eq null}"
+									value="#{machine.activityMachinePK.machines.name}" /></li>
+							<br />
+						</a:repeat>
+					</ul>
 				</ui:define>
 				<ui:define name="botones">
 					<a:commandButton value="#{mensaje.button_accept}"
+						rendered="#{recordActivitiesActualsAction.showMachineBudget}"
 						render="formHrReporting, mensajes, mensajeBusqueda"
 						actionListener="#{recordActivitiesActualsAction.calculateMachinesCost()}"
 						onclick="#{rich:component('popUpConfirmMachinesCostingBudget')}.hide(); #{rich:component('statPane')}.show();">
