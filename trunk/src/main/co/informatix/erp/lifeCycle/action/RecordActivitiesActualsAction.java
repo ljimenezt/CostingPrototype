@@ -88,6 +88,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private int idOvertimePaymentsRate;
 	private int idCycle;
 	private boolean flagStart;
+	private boolean showHrBudget;
+	private boolean showMachineBudget;
 	private Double totalCostHr;
 	private Double totalCostMachine;
 	private Double totalCostMaterials;
@@ -165,6 +167,40 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void setIdCycle(int idCycle) {
 		this.idCycle = idCycle;
+	}
+
+	/**
+	 * @return showHrBudget : This flag indicate if the button of calculate cost
+	 *         of HR as budget is show or not
+	 */
+	public boolean isShowHrBudget() {
+		return showHrBudget;
+	}
+
+	/**
+	 * @param showHrBudget
+	 *            :This flag indicate if the button of calculate cost of HR as
+	 *            budget is show or not
+	 */
+	public void setShowHrBudget(boolean showHrBudget) {
+		this.showHrBudget = showHrBudget;
+	}
+
+	/**
+	 * @return showMachineBudget : This flag indicate if the button of calculate
+	 *         cost of machines as budget is show or not
+	 */
+	public boolean isShowMachineBudget() {
+		return showMachineBudget;
+	}
+
+	/**
+	 * @param showMachineBudget
+	 *            :This flag indicate if the button of calculate cost of
+	 *            machines as budget is show or not
+	 */
+	public void setShowMachineBudget(boolean showMachineBudget) {
+		this.showMachineBudget = showMachineBudget;
 	}
 
 	/**
@@ -563,6 +599,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 				idCropName = 0;
 			}
 			this.flagStart = false;
+			this.showHrBudget = false;
+			this.showMachineBudget = false;
 			loadComboCrops();
 			loadComboCropName();
 			cleanCycle();
@@ -1304,15 +1342,18 @@ public class RecordActivitiesActualsAction implements Serializable {
 			List<ActivitiesAndHr> listActivitiesAndHr = activitiesAndHrAction
 					.getListActivitiesAndHrTemp();
 			for (ActivitiesAndHr aHR : listActivitiesAndHr) {
-				setActivitiesAndHr(aHR);
-				budgetCopy();
-				OvertimePaymentRate overtimePaymentRate = overtimePaymentRateDao
-						.overtimePaymentRateXId(idOvertimePaymentsRate);
-				activitiesAndHr.setOvertimePaymentRate(overtimePaymentRate);
-				activitiesAndHrDao.editActivitiesAndHr(aHR);
+				if (aHR.getDurationActual() == null) {
+					setActivitiesAndHr(aHR);
+					budgetCopy();
+					OvertimePaymentRate overtimePaymentRate = overtimePaymentRateDao
+							.overtimePaymentRateXId(idOvertimePaymentsRate);
+					activitiesAndHr.setOvertimePaymentRate(overtimePaymentRate);
+					activitiesAndHrDao.editActivitiesAndHr(aHR);
+				}
 			}
 			setTotalCostHr(activitiesAndHrDao.totalCost(this.selectedActivity
 					.getIdActivity()));
+			currentCost();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -1331,15 +1372,46 @@ public class RecordActivitiesActualsAction implements Serializable {
 			List<ActivityMachine> listActivityMachines = activitiesAndMachineAction
 					.getListActivityMachine();
 			for (ActivityMachine am : listActivityMachines) {
-				setActivityMachine(am);
-				budgetCopy();
-				activitiesAndMachineDao.editActivitiesAndMachine(am);
-				setTotalCostMachine(activitiesAndMachineDao
-						.calculateTotalCostMachine(this.selectedActivity
-								.getIdActivity()));
+				if (am.getDurationActual() == null) {
+					setActivityMachine(am);
+					budgetCopy();
+					activitiesAndMachineDao.editActivitiesAndMachine(am);
+				}
 			}
+			setTotalCostMachine(activitiesAndMachineDao
+					.calculateTotalCostMachine(this.selectedActivity
+							.getIdActivity()));
+			currentCost();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows validate if the list have a record to calculate
+	 * 
+	 * @param flag
+	 *            : indicate if the validation is HR or machines
+	 */
+	public void validateList(boolean flag) {
+		List<ActivitiesAndHr> listActivitiesAndHr = activitiesAndHrAction
+				.getListActivitiesAndHrTemp();
+		if (flag) {
+			this.showHrBudget = false;
+			for (ActivitiesAndHr aHR : listActivitiesAndHr) {
+				if (aHR.getDurationActual() == null) {
+					this.showHrBudget = true;
+				}
+			}
+		} else {
+			this.showMachineBudget = false;
+			List<ActivityMachine> listActivityMachines = activitiesAndMachineAction
+					.getListActivityMachine();
+			for (ActivityMachine am : listActivityMachines) {
+				if (am.getDurationActual() == null) {
+					this.showMachineBudget = true;
+				}
+			}
 		}
 	}
 

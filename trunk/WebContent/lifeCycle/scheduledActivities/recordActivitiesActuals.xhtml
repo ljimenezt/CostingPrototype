@@ -484,6 +484,7 @@
 						<div class="anchoDos">
 							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
 								execute="@this"
+								actionListener="#{recordActivitiesActualsAction.validateList(true)}"
 								rendered="#{!listaVaciaHR and recordActivitiesActualsAction.selectedActivity.costHrActual eq null}"
 								render="popUpConfirmHRCostingBudget"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
@@ -619,6 +620,7 @@
 						<div class="anchoCuatro">
 							<a:commandLink styleClass="iconsDataTable quitarDecoracionLink"
 								execute="@this"
+								actionListener="#{recordActivitiesActualsAction.validateList(false)}"
 								rendered="#{!listaVaciaM and recordActivitiesActualsAction.selectedActivity.costMachinesEqActual eq null}"
 								render="popUpConfirmMachinesCostingBudget"
 								oncomplete="if (#{facesContext.maximumSeverity==null})

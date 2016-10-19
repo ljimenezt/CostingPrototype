@@ -238,10 +238,28 @@
 			<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 				<ui:define name="mensaje">
 					<h:outputText value="#{mensaje.message_activity_hr_cost_budget}"
-						styleClass="etiquetaTitulo" />
+						styleClass="etiquetaTitulo"
+						rendered="#{recordActivitiesActualsAction.showHrBudget}" />
+					<h:outputText value="#{mensaje.message_not_records_calculated}"
+						styleClass="etiquetaTitulo"
+						rendered="#{!recordActivitiesActualsAction.showHrBudget}" />
 				</ui:define>
+				<ui:define name="tabla">
+					<ul>
+						<a:repeat value="#{activitiesAndHrAction.listActivitiesAndHrTemp}"
+							var="hr" rendered="#{recordActivitiesActualsAction.showHrBudget}">
+							<li><h:outputText styleClass="etiquetaTitulo"
+									rendered="#{hr.totalCostActual eq null}"
+									value="#{hr.activitiesAndHrPK.hr.name} #{hr.activitiesAndHrPK.hr.familyName}" />
+							</li>
+							<br />
+						</a:repeat>
+					</ul>
+				</ui:define>
+
 				<ui:define name="botones">
 					<a:commandButton value="#{mensaje.button_accept}"
+						rendered="#{recordActivitiesActualsAction.showHrBudget}"
 						render="formHrReporting, mensajes, mensajeBusqueda"
 						actionListener="#{recordActivitiesActualsAction.calculateHRCost()}"
 						onclick="#{rich:component('popUpConfirmHRCostingBudget')}.hide(); #{rich:component('statPane')}.show();" />
