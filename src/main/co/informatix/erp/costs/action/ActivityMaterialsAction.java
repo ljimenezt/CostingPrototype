@@ -400,6 +400,9 @@ public class ActivityMaterialsAction implements Serializable {
 				validateMaterial = true;
 				listActivityMaterials.remove(activityMaterials);
 				material.setSelected(false);
+				material.setTotalMaterialsBudget(ControllerAccounting.subtract(
+						material.getTotalMaterialsBudget(),
+						activityMaterials.getQuantityBudget()));
 				materialsList.remove(material);
 			}
 		} catch (Exception e) {
@@ -591,6 +594,8 @@ public class ActivityMaterialsAction implements Serializable {
 							"messageCosts");
 		} else {
 			materialSelected.setSelected(true);
+			materialSelected.setTotalMaterialsBudget(ControllerAccounting.add(
+					quantityEdit, materialSelected.getTotalMaterialsBudget()));
 			activityMaterials.setActivityMaterialsPK(new ActivityMaterialsPK());
 			activityMaterials.getActivityMaterialsPK().setMaterials(
 					materialSelected);
