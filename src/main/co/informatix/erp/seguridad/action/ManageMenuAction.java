@@ -411,11 +411,11 @@ public class ManageMenuAction implements Serializable {
 					+ '"' + this.nameSearch + '"');
 		}
 		if (fromRole) {
-			RolAction rolAction = ControladorContexto
-					.getContextBean(RolAction.class);
+			RoleAction roleAction = ControladorContexto
+					.getContextBean(RoleAction.class);
 			consult.append("AND m IN(SELECT DISTINCT mm.menu FROM MetodoMenu mm ");
 			consult.append("WHERE mm.metodo.id IN (:idsMethod)) ");
-			List<Integer> idsMethod = new ArrayList<Integer>(rolAction
+			List<Integer> idsMethod = new ArrayList<Integer>(roleAction
 					.getMethodsPermissions().keySet());
 			if (idsMethod.size() <= 0) {
 				idsMethod.add(-1);

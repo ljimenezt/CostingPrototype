@@ -45,11 +45,11 @@ import co.informatix.security.entities.RolMetodoPK;
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class RolAction implements Serializable {
+public class RoleAction implements Serializable {
 
 	private List<Rol> rolesList;
-	private List<Menu> listaMenus;
-	private List<RolMenu> rolMenus;
+	private List<Menu> listMenus;
+	private List<RolMenu> roleMenus;
 	private List<Integer> menuViewNoSelected;
 
 	private HashMap<Integer, HashMap<String, Boolean>> methodsPermissions;
@@ -58,25 +58,25 @@ public class RolAction implements Serializable {
 	private Paginador paginationMethod = new Paginador();
 	private Paginador paginationMenu = new Paginador();
 
-	private Rol rol;
+	private Rol role;
 
 	private String vigencia = Constantes.SI;
 	private String nameSearch = "";
 
-	private boolean editable = true;
+	private boolean edition = true;
 
 	@Inject
 	private IdentityAction identity;
 	@Resource
 	private UserTransaction userTransaction;
 	@EJB
-	private RoleDao rolDao;
+	private RoleDao roleDao;
 	@EJB
-	private RoleMenuDao rolMenuDao;
+	private RoleMenuDao roleMenuDao;
 	@EJB
 	private ManageMenuDao menuDao;
 	@EJB
-	private RoleMethodDao rolMetodoDao;
+	private RoleMethodDao roleMethodDao;
 
 	/**
 	 * @return rolesList: List of roles that are loaded into the user interface.
@@ -102,24 +102,24 @@ public class RolAction implements Serializable {
 	}
 
 	/**
-	 * @return rol: variable that represents a role object in which is made the
+	 * @return role: variable that represents a role object in which is made the
 	 *         management.
 	 */
-	public Rol getRol() {
-		return rol;
+	public Rol getRole() {
+		return role;
 	}
 
 	/**
-	 * @param rol
+	 * @param role
 	 *            : variable representing a role object in which is made the
 	 *            management.
 	 */
-	public void setRol(Rol rol) {
-		this.rol = rol;
+	public void setRole(Rol role) {
+		this.role = role;
 	}
 
 	/**
-	 * @return vigencia : option for modifying the validity of a role
+	 * @return vigencia: option for modifying the validity of a role
 	 */
 	public String getVigencia() {
 		return vigencia;
@@ -226,21 +226,21 @@ public class RolAction implements Serializable {
 	 * Get a boolean that shows whether the role can or can not edit the name
 	 * and it expires after.
 	 * 
-	 * @return editable: true if the variable can be edited or false otherwise.
+	 * @return edition: true if the variable can be edited or false otherwise.
 	 */
-	public boolean isEditable() {
-		return editable;
+	public boolean isEdition() {
+		return edition;
 	}
 
 	/**
 	 * Set a boolean that shows whether the role can or can not edit the name
 	 * and it expires after.
 	 * 
-	 * @param editable
+	 * @param edition
 	 *            : true if the variable can be edited or false otherwise.
 	 */
-	public void setEditable(boolean editable) {
-		this.editable = editable;
+	public void setEdition(boolean edition) {
+		this.edition = edition;
 	}
 
 	/**
@@ -263,20 +263,20 @@ public class RolAction implements Serializable {
 	 * 
 	 * modify 27/09/2012 marisol.calderon
 	 * 
-	 * @param rol
+	 * @param role
 	 *            : role to be edited.
-	 * @return "regRol": redirects to the template to register a role.
+	 * @return "regRole": redirects to the template to register a role.
 	 */
-	public String addEditRol(Rol rol) {
+	public String addEditRole(Rol role) {
 		methodsPermissions = new HashMap<Integer, HashMap<String, Boolean>>();
 		menuViewNoSelected = new ArrayList<Integer>();
 		try {
-			if (rol != null) {
-				this.rol = rol;
-				validateRolEdition(this.rol);
+			if (role != null) {
+				this.role = role;
+				validateRoleEdition(this.role);
 				loadMethodsPermissions();
 			} else {
-				this.rol = new Rol();
+				this.role = new Rol();
 			}
 			initializeMethodsPermissions();
 			initializeRelatedMethods();
@@ -284,7 +284,7 @@ public class RolAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "regRol";
+		return "regRole";
 	}
 
 	/**
@@ -296,11 +296,11 @@ public class RolAction implements Serializable {
 		ManageMenuAction menuAction = ControladorContexto
 				.getContextBean(ManageMenuAction.class);
 		List<Menu> allMenusList = menuAction.getListAllMenus();
-		if (allMenusList != null && allMenusList.size() > 0 && this.rol != null
-				&& this.rol.getId() > 0) {
-			List<Menu> listMenusRol = menuDao.consultMenusRole(this.rol);
+		if (allMenusList != null && allMenusList.size() > 0
+				&& this.role != null && this.role.getId() > 0) {
+			List<Menu> listMenusRole = menuDao.consultMenusRole(this.role);
 			menu: for (Menu menu : allMenusList) {
-				for (Menu menuRol : listMenusRol) {
+				for (Menu menuRol : listMenusRole) {
 					if (menu.getId() == menuRol.getId()) {
 						continue menu;
 					}
@@ -316,8 +316,8 @@ public class RolAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void loadMethodsPermissions() throws Exception {
-		List<RolMetodo> methodRoles = this.rolMetodoDao
-				.queryRolMethods(this.rol);
+		List<RolMetodo> methodRoles = this.roleMethodDao
+				.queryRolMethods(this.role);
 		for (RolMetodo methodRole : methodRoles) {
 			RolMetodoPK methodRolPk = methodRole.getRolMetodoPK();
 			int idMetodo = methodRolPk.getMetodo().getId();
@@ -335,23 +335,23 @@ public class RolAction implements Serializable {
 	 * Method to validate if the role id is in the range of roles that you can
 	 * not rename or terminate their validity.
 	 * 
-	 * @param rol
+	 * @param role
 	 *            : role to be validated
 	 */
-	public void validateRolEdition(Rol rol) {
-		if (rol.getId() <= Constantes.MAXIMO_ROLES_SIN_MODIFICAR) {
-			editable = false;
+	public void validateRoleEdition(Rol role) {
+		if (role.getId() <= Constantes.MAXIMO_ROLES_SIN_MODIFICAR) {
+			edition = false;
 		} else {
-			editable = true;
+			edition = true;
 		}
 	}
 
 	/**
 	 * It initializes search parameters and load the initial list of roles.
 	 * 
-	 * @author Liseth Jimenez
+	 * @author Liseth.Jimenez
 	 * 
-	 * @return searchRoles(): Consult a list of roles and redirects to the rol
+	 * @return searchRoles(): Consult a list of roles and redirects to the role
 	 *         management.
 	 */
 	public String initializeSearch() {
@@ -364,7 +364,7 @@ public class RolAction implements Serializable {
 	 * 
 	 * @modify 27/09/2012 marisol.calderon
 	 * 
-	 * @return gesRol: navigation rule that redirects to the product management
+	 * @return gesRole: navigation rule that redirects to the product management
 	 *         roles template.
 	 */
 	public String searchRoles() {
@@ -376,17 +376,17 @@ public class RolAction implements Serializable {
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		try {
-			this.rol = new Rol();
+			this.role = new Rol();
 			String validityCondition = Constantes.IS_NULL;
 			if (Constantes.NOT.equals(vigencia)) {
 				validityCondition = Constantes.IS_NOT_NULL;
 			}
-			Long rolesAmount = rolDao.rolesAmount(validityCondition,
+			Long rolesAmount = roleDao.rolesAmount(validityCondition,
 					this.nameSearch);
 			if (rolesAmount != null) {
 				pagination.paginar(rolesAmount);
 			}
-			rolesList = rolDao.queryRoles(pagination.getInicio(),
+			rolesList = roleDao.queryRoles(pagination.getInicio(),
 					pagination.getRango(), validityCondition, this.nameSearch);
 			if ((rolesList == null || rolesList.size() <= 0)
 					&& (this.nameSearch != null && !"".equals(this.nameSearch))) {
@@ -410,7 +410,7 @@ public class RolAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesRol";
+		return "gesRole";
 	}
 
 	/**
@@ -418,27 +418,27 @@ public class RolAction implements Serializable {
 	 * 
 	 * @return searchRoles: method to query roles.
 	 */
-	public String addRol() {
+	public String addRole() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String shownMessage = "message_registro_modificar";
 		try {
 			userTransaction.begin();
-			rol.setNombre(rol.getNombre());
-			rol.setUserName(identity.getUserName());
-			if (rol.getId() != 0) {
-				rolDao.editRole(rol);
+			role.setNombre(role.getNombre());
+			role.setUserName(identity.getUserName());
+			if (role.getId() != 0) {
+				roleDao.editRole(role);
 			} else {
 				shownMessage = "message_registro_guardar";
-				rol.setFechaCreacion(new Date());
-				rol.setFechaInicioVigencia(new Date());
-				rolDao.saveRole(rol);
+				role.setFechaCreacion(new Date());
+				role.setFechaInicioVigencia(new Date());
+				roleDao.saveRole(role);
 			}
-			addRolMethodMenu();
+			addRoleMethodMenu();
 			userTransaction.commit();
 			ControladorContexto.mensajeInformacion(
 					null,
 					MessageFormat.format(bundle.getString(shownMessage),
-							rol.getNombre()));
+							role.getNombre()));
 		} catch (Exception e) {
 			try {
 				this.userTransaction.rollback();
@@ -456,43 +456,43 @@ public class RolAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void addRolMethodMenu() throws Exception {
+	private void addRoleMethodMenu() throws Exception {
 		ManageMenuAction menuAction = ControladorContexto
 				.getContextBean(ManageMenuAction.class);
-		List<RolMetodo> rolMethods = this.rolMetodoDao
-				.queryAllRolMethods(this.rol);
+		List<RolMetodo> roleMethods = this.roleMethodDao
+				.queryAllRolMethods(this.role);
 		for (Integer methodId : this.methodsPermissions.keySet()) {
 			HashMap<String, Boolean> permissions = this.methodsPermissions
 					.get(methodId);
 			permiso: for (String perm : permissions.keySet()) {
 				if (permissions.get(perm)) {
-					for (RolMetodo rolMethod : rolMethods) {
-						RolMetodoPK rolMetodoPK = rolMethod.getRolMetodoPK();
+					for (RolMetodo roleMethod : roleMethods) {
+						RolMetodoPK rolMetodoPK = roleMethod.getRolMetodoPK();
 						Metodo method = rolMetodoPK.getMetodo();
 						if (method.getId() == methodId
 								&& perm.equals(rolMetodoPK.getPermiso())) {
-							rolMethod.setFechaFinVigencia(null);
-							rolMethod.setUserName(identity.getUserName());
-							rolMetodoDao.editRoleMethod(rolMethod);
-							rolMethods.remove(rolMethod);
+							roleMethod.setFechaFinVigencia(null);
+							roleMethod.setUserName(identity.getUserName());
+							roleMethodDao.editRoleMethod(roleMethod);
+							roleMethods.remove(roleMethod);
 							continue permiso;
 						}
 					}
 
-					RolMetodo rolMethod = loadRolMethod(perm, methodId);
-					rolMethod.setFechaCreacion(new Date());
-					rolMetodoDao.saveRoleMethod(rolMethod);
+					RolMetodo roleMethod = loadRoleMethod(perm, methodId);
+					roleMethod.setFechaCreacion(new Date());
+					roleMethodDao.saveRoleMethod(roleMethod);
 				}
 			}
 		}
-		for (RolMetodo rolMethod : rolMethods) {
-			rolMethod.setFechaFinVigencia(new Date());
-			rolMethod.setUserName(identity.getUserName());
-			rolMetodoDao.editRoleMethod(rolMethod);
+		for (RolMetodo roleMethod : roleMethods) {
+			roleMethod.setFechaFinVigencia(new Date());
+			roleMethod.setUserName(identity.getUserName());
+			roleMethodDao.editRoleMethod(roleMethod);
 		}
 
-		this.listaMenus = new ArrayList<Menu>();
-		this.rolMenus = rolMenuDao.queryAllRolMenu(this.rol);
+		this.listMenus = new ArrayList<Menu>();
+		this.roleMenus = roleMenuDao.queryAllRolMenu(this.role);
 		List<Menu> allMenusList = menuAction.getListAllMenus();
 		if (allMenusList != null) {
 			for (Menu menu : allMenusList) {
@@ -501,10 +501,10 @@ public class RolAction implements Serializable {
 				}
 			}
 		}
-		for (RolMenu rolMenu : this.rolMenus) {
-			rolMenu.setFechaFinVigencia(new Date());
-			rolMenu.setUserName(identity.getUserName());
-			rolMenuDao.editRoleMenu(rolMenu);
+		for (RolMenu roleMenu : this.roleMenus) {
+			roleMenu.setFechaFinVigencia(new Date());
+			roleMenu.setUserName(identity.getUserName());
+			roleMenuDao.editRoleMenu(roleMenu);
 		}
 	}
 
@@ -518,29 +518,29 @@ public class RolAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void searchSaveFatherMenu(Menu menu) throws Exception {
-		this.listaMenus.add(menu);
+		this.listMenus.add(menu);
 		boolean createMenu = true;
-		for (RolMenu rolMenu : this.rolMenus) {
+		for (RolMenu rolMenu : this.roleMenus) {
 			RolMenuPK rolMenuPK = rolMenu.getRolMenuPK();
 			Menu menuRol = rolMenuPK.getMenu();
 			if (menuRol.getId() == menu.getId()) {
 				rolMenu.setFechaFinVigencia(null);
 				rolMenu.setUserName(identity.getUserName());
-				rolMenuDao.editRoleMenu(rolMenu);
-				this.rolMenus.remove(rolMenu);
+				roleMenuDao.editRoleMenu(rolMenu);
+				this.roleMenus.remove(rolMenu);
 				createMenu = false;
 				break;
 			}
 		}
 		if (createMenu) {
-			RolMenu rolMenu = loadRolMenu(menu);
-			rolMenu.setFechaCreacion(new Date());
-			rolMenuDao.saveRoleMenu(rolMenu);
+			RolMenu roleMenu = loadRoleMenu(menu);
+			roleMenu.setFechaCreacion(new Date());
+			roleMenuDao.saveRoleMenu(roleMenu);
 		}
 		Menu menuPadre = menuDao.consultMenuFather(menu.getId());
 		if (menuPadre != null) {
-			for (Menu listaMenu : this.listaMenus) {
-				if (listaMenu.getId() == menuPadre.getId()) {
+			for (Menu listMenu : this.listMenus) {
+				if (listMenu.getId() == menuPadre.getId()) {
 					return;
 				}
 			}
@@ -566,25 +566,25 @@ public class RolAction implements Serializable {
 		try {
 			if (validity) {
 				validityChangeMess = "message_fin_vigencia_satisfactorio";
-				boolean relaciones = searchRelations(rol.getId());
+				boolean relaciones = searchRelations(role.getId());
 				if (!relaciones) {
-					validateRolEdition(rol);
-					if (editable) {
-						rol.setFechaFinVigencia(new Date());
-						rol.setUserName(identity.getUserName());
-						rolDao.editRole(rol);
-						regSuccess.append(rol.getNombre() + ", ");
+					validateRoleEdition(role);
+					if (edition) {
+						role.setFechaFinVigencia(new Date());
+						role.setUserName(identity.getUserName());
+						roleDao.editRole(role);
+						regSuccess.append(role.getNombre() + ", ");
 					} else {
-						regNotEditRoles.append(rol.getNombre() + ", ");
+						regNotEditRoles.append(role.getNombre() + ", ");
 					}
 				} else {
-					regValidUsers.append(rol.getNombre() + ", ");
+					regValidUsers.append(role.getNombre() + ", ");
 				}
 			} else {
-				rol.setFechaFinVigencia(null);
-				rol.setUserName(identity.getUserName());
-				rolDao.editRole(rol);
-				regSuccess.append(rol.getNombre() + ", ");
+				role.setFechaFinVigencia(null);
+				role.setUserName(identity.getUserName());
+				roleDao.editRole(role);
+				regSuccess.append(role.getNombre() + ", ");
 			}
 			if (regNotEditRoles.length() > 0) {
 				ControladorContexto.mensajeError(bundleSecurity
@@ -626,12 +626,12 @@ public class RolAction implements Serializable {
 	 */
 	private boolean searchRelations(short id) throws Exception {
 		boolean result = false;
-		result = rolDao.relatedRole(id, Constantes.ROLES_USUARIO);
+		result = roleDao.relatedRole(id, Constantes.ROLES_USUARIO);
 		if (!result) {
-			result = rolDao.relatedRole(id, Constantes.ROLES_MENU);
+			result = roleDao.relatedRole(id, Constantes.ROLES_MENU);
 		}
 		if (!result) {
-			result = rolDao.relatedRole(id, Constantes.ROLES_METODO);
+			result = roleDao.relatedRole(id, Constantes.ROLES_METODO);
 		}
 		return result;
 	}
@@ -656,10 +656,10 @@ public class RolAction implements Serializable {
 		try {
 			Rol rolAux = new Rol();
 
-			if (rol.getId() != 0) {
-				rolAux = rolDao.updateNameExists(name, rol.getId());
+			if (role.getId() != 0) {
+				rolAux = roleDao.updateNameExists(name, role.getId());
 			} else {
-				rolAux = rolDao.nameExists(name);
+				rolAux = roleDao.nameExists(name);
 			}
 			String result = validateValidity("", rolAux);
 
@@ -749,10 +749,10 @@ public class RolAction implements Serializable {
 	 *            : Method identifier associated with permission.
 	 * @return: Permission object and the loaded method.
 	 */
-	public RolMetodo loadRolMethod(String permission, Integer methodId) {
+	public RolMetodo loadRoleMethod(String permission, Integer methodId) {
 		RolMetodo rolMethod = new RolMetodo();
 		RolMetodoPK methodRolPk = new RolMetodoPK();
-		methodRolPk.setRol(this.rol);
+		methodRolPk.setRol(this.role);
 		Metodo method = new Metodo();
 		method.setId(methodId);
 		methodRolPk.setMetodo(method);
@@ -769,10 +769,10 @@ public class RolAction implements Serializable {
 	 *            : Menu that is associated with the role.
 	 * @return: RolMenu object associated with the menu and the role.
 	 */
-	public RolMenu loadRolMenu(Menu menu) {
+	public RolMenu loadRoleMenu(Menu menu) {
 		RolMenu rolMenu = new RolMenu();
 		RolMenuPK rolMenuPK = new RolMenuPK();
-		rolMenuPK.setRol(this.rol);
+		rolMenuPK.setRol(this.role);
 		rolMenuPK.setMenu(menu);
 		rolMenu.setRolMenuPK(rolMenuPK);
 		rolMenu.setUserName(identity.getUserName());

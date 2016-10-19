@@ -7,7 +7,7 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesMetodo</from-outcome>
+			<from-outcome>gesMethod</from-outcome>
 			<to-view-id>/security/method/manageMethods.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
@@ -15,7 +15,7 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regMetodo</from-outcome>
+			<from-outcome>regMethod</from-outcome>
 			<to-view-id>/security/method/registerMethod.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>

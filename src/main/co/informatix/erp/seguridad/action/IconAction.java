@@ -214,7 +214,7 @@ public class IconAction implements Serializable {
 	 * @modify 10/10/2012 Adonay.Mantilla
 	 * @modify 18/05/2016 Gerardo.Herrera
 	 * 
-	 * @return gesIcono: redirects to the Manage icon or "" if called from a
+	 * @return gesIcon: redirects to the Manage icon or "" if called from a
 	 *         popup.
 	 */
 	public String consultIcons() {
@@ -231,7 +231,7 @@ public class IconAction implements Serializable {
 		String param2 = ControladorContexto.getParam("param2");
 		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
 				: false;
-		String navigationRule = fromModal ? "" : "gesIcono";
+		String navigationRule = fromModal ? "" : "gesIcon";
 		try {
 			validateIconsFolder();
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
@@ -347,7 +347,7 @@ public class IconAction implements Serializable {
 	 * 
 	 * @param icon
 	 *            : Object of the icon you want to register or edit.
-	 * @return regIcono: page redirects to register the icon, which you can add
+	 * @return regIcon: page redirects to register the icon, which you can add
 	 *         or edit an icon.
 	 */
 	public String registerIcon(Icono icon) {
@@ -362,7 +362,7 @@ public class IconAction implements Serializable {
 			this.icon = new Icono();
 			this.loadPhotoTemporal = true;
 		}
-		return "regIcono";
+		return "regIcon";
 	}
 
 	/**
@@ -435,7 +435,7 @@ public class IconAction implements Serializable {
 				this.deleteFileReal(nameFileActual);
 			}
 			ControladorContexto.mensajeError(e);
-			return "regIcono";
+			return "regIcon";
 		}
 		return consultIcons();
 	}

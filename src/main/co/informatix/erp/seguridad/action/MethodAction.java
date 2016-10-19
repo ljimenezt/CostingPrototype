@@ -180,7 +180,7 @@ public class MethodAction implements Serializable {
 	 * 
 	 * @modify 10/10/2012 Adonay.Mantilla
 	 * 
-	 * @return gesMetodo: redirects to the Manage method
+	 * @return gesMethod: redirects to the Manage method
 	 */
 	public String searchMethods() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -216,7 +216,7 @@ public class MethodAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesMetodo";
+		return "gesMethod";
 	}
 
 	/**
@@ -224,7 +224,7 @@ public class MethodAction implements Serializable {
 	 * 
 	 * @param method
 	 *            : Object of method you want to register or edit.
-	 * @return regMetodo: It redirects to register a method, there you can add
+	 * @return regMethod: It redirects to register a method, there you can add
 	 *         or edit a method.
 	 */
 	public String registerMethod(Metodo method) {
@@ -245,7 +245,7 @@ public class MethodAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "regMetodo";
+		return "regMethod";
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class MethodAction implements Serializable {
 				ControladorContexto.mensajeError(e1);
 			}
 			ControladorContexto.mensajeError(e);
-			return "regMetodo";
+			return "regMethod";
 		}
 		return searchMethods();
 	}

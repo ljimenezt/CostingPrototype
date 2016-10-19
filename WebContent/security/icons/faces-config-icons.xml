@@ -7,7 +7,7 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesIcono</from-outcome>
+			<from-outcome>gesIcon</from-outcome>
 			<to-view-id>/security/icons/manageIcons.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
@@ -15,7 +15,7 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regIcono</from-outcome>
+			<from-outcome>regIcon</from-outcome>
 			<to-view-id>/security/icons/registerIcons.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
