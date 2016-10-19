@@ -7,7 +7,7 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesPermisoPersonaEmpresa</from-outcome>
+			<from-outcome>gesPermissionPersonBusiness</from-outcome>
 			<to-view-id>/security/permisoPersonaEmpresa/gestionarPermisosPersonaEmpresa.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
@@ -15,7 +15,7 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regPermisoPersonaEmpresa</from-outcome>
+			<from-outcome>regPermissionPersonBusiness</from-outcome>
 			<to-view-id>/security/permisoPersonaEmpresa/registrarPermisoPersonaEmpresa.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>

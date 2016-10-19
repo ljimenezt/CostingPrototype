@@ -16,7 +16,7 @@
 	<ui:define name="body">
 		<h:form id="usuarioForm">
 			<t:saveState value="#{usuarioAction}" />
-			<t:saveState value="#{permisoPersonaEmpresaAction}" />
+			<t:saveState value="#{PermissionPersonBusinessAction}" />
 
 			<ui:param name="listaVacia"
 				value="#{usuarioAction.users eq null or (empty usuarioAction.users)}" />
@@ -56,16 +56,16 @@
 						</a:commandLink>
 						<h:outputText value="&#32;&#32;&#32;" />
 						<a:outputPanel
-							rendered="#{identity.autorizado('permisoPersonaEmpresaAction','A') or identity.autorizado('permisoPersonaEmpresaAction','I')}">
+							rendered="#{identity.autorizado('PermissionPersonBusinessAction','A') or identity.autorizado('PermissionPersonBusinessAction','I')}">
 							<h:commandLink rendered="#{usuarioAction.vigencia eq 'si'}"
 								onclick="#{rich:component('statPane')}.show();"
 								actionListener="#{usuarioAction.searchUserPerson(usuarioList)}"
-								action="#{permisoPersonaEmpresaAction.consultPermissionPersonCompany()}">
+								action="#{PermissionPersonBusinessAction.consultPermissionPersonCompany()}">
 								<h:graphicImage value="/img/permisoPersonaEmpresa_16.png" />
 								<f:setPropertyActionListener value="#{usuarioAction.person}"
-									target="#{permisoPersonaEmpresaAction.persona}" />
+									target="#{PermissionPersonBusinessAction.person}" />
 								<f:setPropertyActionListener value="si"
-									target="#{permisoPersonaEmpresaAction.validity}" />
+									target="#{PermissionPersonBusinessAction.validity}" />
 							</h:commandLink>
 							<rich:tooltip layout="block">
 								<h:outputText
