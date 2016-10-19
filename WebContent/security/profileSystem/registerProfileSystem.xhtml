@@ -10,7 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="perfilSistemaAction.addEditProfileSystem(null)" />
+		value="profileSystemAction.addEditProfileSystem(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_register,messageSecurity.profile_system_label" />
 	<ui:define name="body">
@@ -28,7 +28,7 @@
 				  }); 
 			});		
 		</script>
-		<t:saveState value="#{perfilSistemaAction}" />
+		<t:saveState value="#{profileSystemAction}" />
 		<h:form id="formProfileSystem">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageSecurity.profile_system_label}"
@@ -42,7 +42,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText required="true"
-						value="#{perfilSistemaAction.perfilSistema.emailServerUser}"
+						value="#{profileSystemAction.profileSystem.emailServerUser}"
 						styleClass="colTextoMediano" id="txtEmailServerUser" size="41"
 						maxlength="99" validator="#{encodeFilter.validarScripting}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
@@ -56,7 +56,7 @@
 					<h:outputText value="*" styleClass="required" />
 					<h:inputSecret id="txtEmailServerPassword" required="true"
 						styleClass="colTextoLargo" maxlength="99" redisplay="true"
-						value="#{perfilSistemaAction.perfilSistema.emailServerPassword}"
+						value="#{profileSystemAction.profileSystem.emailServerPassword}"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						validator="#{encodeFilter.validarScripting}">
 						<f:validateLength minimum="6" maximum="99" />
@@ -67,8 +67,8 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText id="txtPort" maxlength="5" required="true"
-						validator="#{perfilSistemaAction.validateNumberOfPort}"
-						value="#{perfilSistemaAction.perfilSistema.emailServerPort}"
+						validator="#{profileSystemAction.validateNumberOfPort}"
+						value="#{profileSystemAction.profileSystem.emailServerPort}"
 						styleClass="colTextoMini"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						converterMessage="#{mensaje.message_campo_positivo}">
@@ -81,7 +81,7 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText required="true"
-						value="#{perfilSistemaAction.perfilSistema.emailServerHost}"
+						value="#{profileSystemAction.profileSystem.emailServerHost}"
 						styleClass="colTextoMediano" id="txtEmailServerHost" size="41"
 						maxlength="99" validator="#{encodeFilter.validarScripting}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
@@ -91,7 +91,7 @@
 						value="#{messageSecurity.profile_system_label_report_errors}" />
 					<h:outputText value="" styleClass="required" />
 					<h:selectBooleanCheckbox
-						value="#{perfilSistemaAction.perfilSistema.reportarErrores}"
+						value="#{profileSystemAction.profileSystem.reportarErrores}"
 						styleClass="marginCheckbox" id="chkReportarErrores">
 						<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 						<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
@@ -103,9 +103,9 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<h:inputTextarea
-						value="#{perfilSistemaAction.perfilSistema.emailReportarErrores}"
+						value="#{profileSystemAction.profileSystem.emailReportarErrores}"
 						styleClass="colTextoMedianoTextArea" id="txaEmailReportarErrores"
-						validator="#{perfilSistemaAction.validateMultipleEmails}"
+						validator="#{profileSystemAction.validateMultipleEmails}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:validateLength maximum="250" />
 					</h:inputTextarea>
@@ -115,7 +115,7 @@
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
-						actionListener="#{perfilSistemaAction.validatePassword()}"
+						actionListener="#{profileSystemAction.validatePassword()}"
 						execute="formProfileSystem"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
@@ -142,27 +142,27 @@
 					<ui:define name="campos">
 						<h:outputText value="#{messageSecurity.user_label}:" />
 						<h:outputText
-							value="#{perfilSistemaAction.perfilSistema.emailServerUser}" />
+							value="#{profileSystemAction.profileSystem.emailServerUser}" />
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_port}:" />
 						<h:outputText
-							value="#{perfilSistemaAction.perfilSistema.emailServerPort}" />
+							value="#{profileSystemAction.profileSystem.emailServerPort}" />
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_server_host}:" />
 						<h:outputText
-							value="#{perfilSistemaAction.perfilSistema.emailServerHost}" />
+							value="#{profileSystemAction.profileSystem.emailServerHost}" />
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_report_errors}:" />
 						<h:outputText
-							value="#{perfilSistemaAction.perfilSistema.reportarErrores eq 'true'? mensaje.label_yes:mensaje.label_no}" />
+							value="#{profileSystemAction.profileSystem.reportarErrores eq 'true'? mensaje.label_yes:mensaje.label_no}" />
 						<h:outputText
 							value="#{messageSecurity.profile_system_label_mail_report_errors}:" />
 						<h:outputText
-							value="#{perfilSistemaAction.perfilSistema.emailReportarErrores}" />
+							value="#{profileSystemAction.profileSystem.emailReportarErrores}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{perfilSistemaAction.saveProfileSystem}"
+							action="#{profileSystemAction.saveProfileSystem}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />

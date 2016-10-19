@@ -28,49 +28,48 @@ import co.informatix.security.entities.PerfilSistema;
  * 
  * @author Jhair.Leal
  */
-@ManagedBean(name = "perfilSistemaAction")
+@ManagedBean(name = "profileSystemAction")
 @RequestScoped
 @SuppressWarnings("serial")
-public class GestionarPerfilSistemaAction implements Serializable {
+public class ManageProfileSystemAction implements Serializable {
 
 	@Inject
 	private IdentityAction identity;
-
 	@EJB
-	private ManageProfileSystemDao perfilSistemaDao;
+	private ManageProfileSystemDao profileSystemDao;
 
-	private PerfilSistema perfilSistema;
+	private PerfilSistema profileSystem;
 
 	/**
-	 * @return perfilSistema: object that contains the data of profile system.
+	 * @return profileSystem: object that contains the data of profile system.
 	 */
-	public PerfilSistema getPerfilSistema() {
-		return perfilSistema;
+	public PerfilSistema getProfileSystem() {
+		return profileSystem;
 	}
 
 	/**
-	 * @param perfilSistema
+	 * @param profileSystem
 	 *            : object that contains the data of profile system.
 	 */
-	public void setPerfilSistema(PerfilSistema perfilSistema) {
-		this.perfilSistema = perfilSistema;
+	public void setProfileSystem(PerfilSistema profileSystem) {
+		this.profileSystem = profileSystem;
 	}
 
 	/**
 	 * Method to edit or create a new profile system.
 	 * 
-	 * @param perfilSistema
+	 * @param profileSystem
 	 *            : Profile system to be add or edit.
-	 * @return "regProfileSystem":redirected to the template to register profile
-	 *         system.
+	 * @return "regProfileSystem": redirected to the template to register
+	 *         profile system.
 	 */
-	public String addEditProfileSystem(PerfilSistema perfilSistema) {
+	public String addEditProfileSystem(PerfilSistema profileSystem) {
 		try {
-			perfilSistema = perfilSistemaDao.findProfileSystem();
-			if (perfilSistema != null) {
-				this.perfilSistema = perfilSistema;
+			profileSystem = profileSystemDao.findProfileSystem();
+			if (profileSystem != null) {
+				this.profileSystem = profileSystem;
 			} else {
-				this.perfilSistema = new PerfilSistema();
+				this.profileSystem = new PerfilSistema();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -88,17 +87,17 @@ public class GestionarPerfilSistemaAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageLog = "message_registro_modificar";
 		try {
-			perfilSistema.setUserName(identity.getUserName());
-			if (perfilSistema.getId() != 0) {
-				perfilSistemaDao.editProfileSystem(perfilSistema);
+			profileSystem.setUserName(identity.getUserName());
+			if (profileSystem.getId() != 0) {
+				profileSystemDao.editProfileSystem(profileSystem);
 			} else {
 				messageLog = "message_registro_guardar";
-				perfilSistema.setFechaCreacion(new Date());
-				perfilSistemaDao.saveProfileSystem(perfilSistema);
+				profileSystem.setFechaCreacion(new Date());
+				profileSystemDao.saveProfileSystem(profileSystem);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(messageLog),
-					perfilSistema.getEmailServerUser()));
+					profileSystem.getEmailServerUser()));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -179,19 +178,18 @@ public class GestionarPerfilSistemaAction implements Serializable {
 	 */
 	public void validatePassword() {
 		try {
-			PerfilSistema systemProf = perfilSistemaDao.findProfileSystem();
+			PerfilSistema systemProf = profileSystemDao.findProfileSystem();
 			String actualPassword = systemProf.getEmailServerPassword();
-			String newPassword = this.perfilSistema.getEmailServerPassword();
+			String newPassword = this.profileSystem.getEmailServerPassword();
 			if (!actualPassword.equals(newPassword)) {
 				newPassword = SecureIdentityLoginModule.doSign(newPassword);
-				this.perfilSistema.setEmailServerPassword(newPassword);
+				this.profileSystem.setEmailServerPassword(newPassword);
 			} else {
-				this.perfilSistema.setEmailServerPassword(actualPassword);
+				this.profileSystem.setEmailServerPassword(actualPassword);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-
 	}
 
 }
