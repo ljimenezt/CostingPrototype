@@ -1,0 +1,156 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="assistControlAction.initializeAttendance" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,messageHumanResources.team_label" />
+	<ui:define name="body">
+		<ui:param name="listaVacia"
+			value="#{assistControlAction.assistControlPojoSubList eq null or (empty assistControlAction.assistControlPojoSubList)}" />
+		<ui:param name="anchoTabla" value="anchoUno" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{assistControlAction}" />
+		<ui:param name="renderLista" value="panelAssistControl" />
+		<ui:param name="metodoLista" value="consultAssistControl" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="assistControlAction" />
+		<ui:param name="metodoNuevo" value="initializeAttendance" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
+		<ui:param name="popupBuscar" value="popupSearch" />
+		<ui:param name="metodoListarTodos" value="initializeAttendance" />
+		<t:saveState value="#{assistControlAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		    $g=jQuery.noConflict();
+		</script>
+		<h:form id="formAssistControl">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listing} #{messageLifeCycle.rain_gauge_label_s}"
+				id="panelAssistControl">
+				<a:outputPanel>
+					<t:fieldset styleClass="anchoUno BorderW2P">
+						<legend class="etiquetaTitulo">#{messageLifeCycle.rain_gauge_label_s}</legend>
+						<a:outputPanel>
+							<rich:dataTable
+								value="#{assistControlAction.assistControlPojoSubList}"
+								var="assistControlPojo" id="assistControlTable"
+								footerClass="H100P"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoUno"
+								rowClasses="odd-row, even-row">
+								<rich:column styleClass="colTextoMediano">
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
+									<h:outputText value="#{assistControlPojo.name}" />
+								</rich:column>
+								<rich:column styleClass="colFechaExtraLarga center">
+									<f:facet name="header">#{mensaje.label_since}</f:facet>
+									<h:outputText value="#{assistControlPojo.startWeek}">
+										<f:convertDateTime pattern="MMM dd, yyyy"
+											locale="#{idioma.locale}" />
+									</h:outputText>
+								</rich:column>
+								<rich:column styleClass="colFechaExtraLarga center">
+									<f:facet name="header">#{mensaje.label_until}</f:facet>
+									<h:outputText value="#{assistControlPojo.endWeek}">
+										<f:convertDateTime pattern="MMM dd, yyyy"
+											locale="#{idioma.locale}" />
+									</h:outputText>
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_monday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(0)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_tuesday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(1)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_wednesday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(2)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_thursday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(3)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_friday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(4)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_saturday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(5)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_sunday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(6)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_monday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(7)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_tuesday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(8)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_wednesday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(9)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_thursday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(10)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_friday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(11)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_saturday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(12)}" />
+								</rich:column>
+								<rich:column styleClass="colNumeroMini">
+									<f:facet name="header">#{mensaje.label_sunday}</f:facet>
+									<h:outputText value="#{assistControlPojo.getVectorPos(13)}" />
+								</rich:column>
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia}">
+										<rich:column colspan="17" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listaVacia}">
+								<br />
+								<div class="anchoUno center inBlock">
+									<ui:include src="/plantillas/templatePagination.xhtml">
+										<ui:param name="valReder" value="panelAssistControl" />
+										<ui:param name="beanActionParam"
+											value="#{assistControlAction}" />
+										<ui:param name="metodoActionParam"
+											value="consultAssistControl" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</a:outputPanel>
+					</t:fieldset>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

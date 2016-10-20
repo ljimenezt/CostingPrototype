@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * This class contains the fields necessary for the report of the rain gauge.
+ * This class contains the fields necessary for the report of the assist
+ * control.
  * 
  * @author Wilhelm.Boada
  * 
