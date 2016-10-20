@@ -70,7 +70,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 
 	private String searchCompany;
 	private String searchCompanyManage;
-	private String validity = Constantes.SI;
+	private String vigencia = Constantes.SI;
 	private int idBranchOffice;
 	private int idFarm;
 	private int idSearchBranchOffice;
@@ -229,20 +229,20 @@ public class PermissionPersonBusinessAction implements Serializable {
 	}
 
 	/**
-	 * @return validity: allows gets the selected value 'yes' of existing and
+	 * @return vigencia: allows gets the selected value 'yes' of existing and
 	 *         'no' for not applicable
 	 */
-	public String getValidity() {
-		return validity;
+	public String getVigencia() {
+		return vigencia;
 	}
 
 	/**
-	 * @param validity
+	 * @param vigencia
 	 *            : allows gets the selected value 'yes' of existing and 'no'
 	 *            for not applicable
 	 */
-	public void setValidity(String validity) {
-		this.validity = validity;
+	public void setVigencia(String vigencia) {
+		this.vigencia = vigencia;
 	}
 
 	/**
@@ -446,10 +446,10 @@ public class PermissionPersonBusinessAction implements Serializable {
 		SelectItem itemPer = new SelectItem(person.getId(), "idPerson");
 		parameters.add(itemPer);
 
-		if (Constantes.NOT.equals(validity)) {
+		if (Constantes.NOT.equals(vigencia)) {
 			consult.append("AND (ppe.fechaFinVigencia IS NOT NULL ");
 			consult.append("AND ppe.fechaFinVigencia <= :actualDate) ");
-		} else if (Constantes.SI.equals(validity)) {
+		} else if (Constantes.SI.equals(vigencia)) {
 			consult.append("AND (ppe.fechaFinVigencia IS NULL ");
 			consult.append("OR ppe.fechaFinVigencia > :actualDate) ");
 		}
