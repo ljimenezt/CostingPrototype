@@ -8,20 +8,20 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="usuarioAction.registerUser(null)" />
+	<ui:param name="action" value="userAction.registerUser(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_register,messageSecurity.user_label" />
 	<ui:define name="body">
 		<h:form id="usuarioForm" styleClass="edit">
-			<t:saveState value="#{usuarioAction}" />
+			<t:saveState value="#{userAction}" />
 			<t:saveState value="#{personaAction}" />
 
 			<rich:panel header="#{messageSecurity.user_label}"
 				styleClass="anchoUno">
 				<h:inputHidden styleClass="colTextoMediano" id="txtPersonaHidden"
-					value="#{usuarioAction.person.nombreCompleto}" required="true"
+					value="#{userAction.person.nombreCompleto}" required="true"
 					requiredMessage="#{mensaje.message_campo_requerido}"
-					rendered="#{!usuarioAction.edited}" />
+					rendered="#{!userAction.edited}" />
 
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
@@ -32,14 +32,14 @@
 							value="#{messageHumanResources.person_label}" />
 						<h:outputText value="*" styleClass="required" />
 						<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
-							rendered="#{!usuarioAction.edited}">
+							rendered="#{!userAction.edited}">
 							<a:outputPanel id="txtPersonaHidden2">
 								<h:inputText maxlength="100" styleClass="colTextoMediano"
 									validator="#{encodeFilter.validarScripting}"
-									value="#{usuarioAction.person.nombreCompleto}" readonly="true" />
+									value="#{userAction.person.nombreCompleto}" readonly="true" />
 								<rich:tooltip layout="block"
-									rendered="#{usuarioAction.person.nombreCompleto ne null and !(empty usuarioAction.person.nombreCompleto)}">
-									<h:outputText value="#{usuarioAction.person.nombreCompleto}" />
+									rendered="#{userAction.person.nombreCompleto ne null and !(empty userAction.person.nombreCompleto)}">
+									<h:outputText value="#{userAction.person.nombreCompleto}" />
 								</rich:tooltip>
 							</a:outputPanel>
 							<a:commandLink execute="@this"
@@ -56,9 +56,9 @@
 								</rich:tooltip>
 							</a:commandLink>
 						</h:panelGrid>
-						<h:outputText value="#{usuarioAction.person.nombreCompleto}"
+						<h:outputText value="#{userAction.person.nombreCompleto}"
 							styleClass="etiquetaValor etiquetaTitulo"
-							rendered="#{usuarioAction.edited}" />
+							rendered="#{userAction.edited}" />
 						<rich:message for="txtPersonaHidden" />
 
 						<h:outputText value="#{messageSecurity.user_label_name}"
@@ -66,66 +66,66 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText maxlength="50" id="txtNombreUsuario"
 							styleClass="colTextoMediano"
-							value="#{usuarioAction.user.nombreUsuario}" required="true"
-							rendered="#{!usuarioAction.edited}"
+							value="#{userAction.user.nombreUsuario}" required="true"
+							rendered="#{!userAction.edited}"
 							requiredMessage="#{mensaje.message_campo_requerido}"
-							validator="#{usuarioAction.validateUserName}">
+							validator="#{userAction.validateUserName}">
 							<f:validateLength maximum="50" />
 						</h:inputText>
-						<h:outputText value="#{usuarioAction.user.nombreUsuario}"
+						<h:outputText value="#{userAction.user.nombreUsuario}"
 							styleClass="etiquetaValor etiquetaTitulo"
-							rendered="#{usuarioAction.edited}" />
+							rendered="#{userAction.edited}" />
 						<rich:message for="txtNombreUsuario" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_password}"
-							rendered="#{!usuarioAction.edited}" />
+							rendered="#{!userAction.edited}" />
 						<h:outputText value="*" styleClass="required"
-							rendered="#{!usuarioAction.edited}" />
+							rendered="#{!userAction.edited}" />
 						<h:inputSecret id="txtPassword" styleClass="colTextoCorto"
-							maxlength="12" value="#{usuarioAction.user.password}"
-							required="true" validator="#{usuarioAction.validatePassword}"
+							maxlength="12" value="#{userAction.user.password}"
+							required="true" validator="#{userAction.validatePassword}"
 							requiredMessage="#{mensaje.message_campo_requerido}"
-							rendered="#{!usuarioAction.edited}">
+							rendered="#{!userAction.edited}">
 							<f:validateLength minimum="6" maximum="12" />
 							<f:attribute name="idAsociado" value="txtPasswordConfirmar" />
 						</h:inputSecret>
 						<rich:message for="txtPassword"
-							rendered="#{!usuarioAction.edited}" />
+							rendered="#{!userAction.edited}" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageSecurity.user_label_confirm_password}"
-							rendered="#{!usuarioAction.edited}" />
+							rendered="#{!userAction.edited}" />
 						<h:outputText value="*" styleClass="required"
-							rendered="#{!usuarioAction.edited}" />
+							rendered="#{!userAction.edited}" />
 						<h:inputSecret id="txtPasswordConfirmar"
 							styleClass="colTextoCorto" maxlength="12"
-							value="#{usuarioAction.password2}" required="true"
+							value="#{userAction.password2}" required="true"
 							validator="#{encodeFilter.validarScripting}"
 							requiredMessage="#{mensaje.message_campo_requerido}"
-							rendered="#{!usuarioAction.edited}">
+							rendered="#{!userAction.edited}">
 							<f:validateLength minimum="6" maximum="12" />
 						</h:inputSecret>
 						<rich:message for="txtPasswordConfirmar"
-							rendered="#{!usuarioAction.edited}" />
+							rendered="#{!userAction.edited}" />
 
 						<h:outputText value="#{mensaje.label_password}"
-							rendered="#{usuarioAction.edited}" styleClass="etiquetaTitulo" />
-						<h:outputText value="" rendered="#{usuarioAction.edited}" />
+							rendered="#{userAction.edited}" styleClass="etiquetaTitulo" />
+						<h:outputText value="" rendered="#{userAction.edited}" />
 						<a:outputPanel id="outChangePassword">
 							<a:commandButton render="modalContrasena:popupContrasena"
 								oncomplete="#{rich:component('popupContrasena')}.show();"
 								value="#{mensaje.button_renew}"
-								rendered="#{usuarioAction.edited and !usuarioAction.renovatePass}">
+								rendered="#{userAction.edited and !userAction.renovatePass}">
 							</a:commandButton>
 							<a:commandButton value="#{mensaje.button_cancel_renewal}"
-								actionListener="#{usuarioAction.setRenovatePass('false')}"
+								actionListener="#{userAction.setRenovatePass('false')}"
 								render=":usuarioForm:outChangePassword"
-								rendered="#{usuarioAction.edited and usuarioAction.renovatePass}">
+								rendered="#{userAction.edited and userAction.renovatePass}">
 							</a:commandButton>
 						</a:outputPanel>
 						<rich:message for="outChangePassword"
-							rendered="#{usuarioAction.edited}" />
+							rendered="#{userAction.edited}" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -135,7 +135,7 @@
 						<a:outputPanel id="outputRoles">
 							<rich:message for="tRoles" />
 							<br />
-							<rich:extendedDataTable value="#{usuarioAction.roles}"
+							<rich:extendedDataTable value="#{userAction.roles}"
 								var="objRol" id="tRoles" styleClass="H190P anchoCinco">
 								<f:facet name="header">
 									<h:outputText
@@ -144,12 +144,12 @@
 								<rich:column width="30px" styleClass="center">
 									<f:facet name="header" />
 									<a:commandLink render=":popupForm:popUpAsignarRol, mensajes"
-										actionListener="#{usuarioAction.rolesListControler('newRolUsuario', null)}"
+										actionListener="#{userAction.rolesListControler('newRolUsuario', null)}"
 										oncomplete="#{rich:component('popUpAsignarRol')}.show(); setFocus('popupForm:calFechaInicio_input');"
 										execute="@region">
 										<h:graphicImage value="/img/add_16.png" />
 										<f:setPropertyActionListener value="#{objRol}"
-											target="#{usuarioAction.role}" />
+											target="#{userAction.role}" />
 										<rich:tooltip layout="block">
 											<h:outputText value="#{mensaje.label_assign}" />
 										</rich:tooltip>
@@ -167,20 +167,20 @@
 							<br />
 							<rich:message for="selVigencia" />
 							<h:selectOneRadio id="selVigencia"
-								value="#{usuarioAction.userRoleValidity}"
-								rendered="#{usuarioAction.edited}">
+								value="#{userAction.userRoleValidity}"
+								rendered="#{userAction.edited}">
 								<f:selectItem itemValue="nuevo" itemLabel="#{mensaje.label_new}" />
 								<f:selectItem itemValue="si"
 									itemLabel="#{mensaje.label_current}" />
 								<f:selectItem itemValue="no"
 									itemLabel="#{mensaje.label_not_current}" />
 								<a:ajax event="click"
-									listener="#{usuarioAction.userRoleControler()}"
+									listener="#{userAction.userRoleControler()}"
 									render="tablaRolesUsuario, mensajes">
 								</a:ajax>
 							</h:selectOneRadio>
 							<a:outputPanel id="tablaRolesUsuario">
-								<rich:extendedDataTable value="#{usuarioAction.userRoles}"
+								<rich:extendedDataTable value="#{userAction.userRoles}"
 									var="rolesUsuarioList" id="rolesUsuarioSelect"
 									styleClass="H190P anchoCinco">
 									<f:facet name="header">
@@ -190,8 +190,8 @@
 									<rich:column width="30px" styleClass="center">
 										<f:facet name="header" />
 										<a:commandLink render=":usuarioForm:outputRoles, mensajes"
-											rendered="#{usuarioAction.userRoleValidity eq 'nuevo'}"
-											actionListener="#{usuarioAction.rolesListControler('borrar', rolesUsuarioList)}"
+											rendered="#{userAction.userRoleValidity eq 'nuevo'}"
+											actionListener="#{userAction.rolesListControler('borrar', rolesUsuarioList)}"
 											execute="@region">
 											<h:graphicImage value="/img/delete_16.png" />
 											<rich:tooltip layout="block">
@@ -199,13 +199,13 @@
 											</rich:tooltip>
 										</a:commandLink>
 										<a:commandLink render=":popupForm:popUpAsignarRol, mensajes"
-											rendered="#{usuarioAction.userRoleValidity ne 'nuevo'}"
-											actionListener="#{usuarioAction.rolesListControler('reNewRolUsuario', rolesUsuarioList)}"
+											rendered="#{userAction.userRoleValidity ne 'nuevo'}"
+											actionListener="#{userAction.rolesListControler('reNewRolUsuario', rolesUsuarioList)}"
 											oncomplete="#{rich:component('popUpAsignarRol')}.show(); setFocus('popupForm:calFechaInicio_input');"
 											execute="@region">
 											<h:graphicImage value="/img/renovar_16.png" />
 											<f:setPropertyActionListener value="#{rolesUsuarioList}"
-												target="#{usuarioAction.userRole}" />
+												target="#{userAction.userRole}" />
 											<rich:tooltip layout="block">
 												<h:outputText value="#{mensaje.button_renew}" />
 											</rich:tooltip>
@@ -239,10 +239,10 @@
 				<div class="anchoDos center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico,confirmacionPopUp"
-						actionListener="#{usuarioAction.setUser(usuarioAction.user)}"
+						actionListener="#{userAction.setUser(userAction.user)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						rendered="#{(usuarioAction.edited and identity.autorizado('usuarioAction','U')) or identity.autorizado('usuarioAction','A') or identity.autorizado('usuarioAction','I')}" />
+						rendered="#{(userAction.edited and identity.autorizado('userAction','U')) or identity.autorizado('userAction','A') or identity.autorizado('userAction','I')}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -258,7 +258,7 @@
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar onchange="setFocus('popupForm:calFechaInicio_input');"
 						onkeypress="return submitByEnter(event,'popupForm:btnBuscarC')"
-						value="#{usuarioAction.selectStartDate}" id="calFechaInicio"
+						value="#{userAction.selectStartDate}" id="calFechaInicio"
 						showOn="button" required="true"
 						label="#{mensaje.label_start_date}" />
 
@@ -267,20 +267,20 @@
 					<h:outputText value="" />
 					<p:calendar onchange="setFocus('popupForm:calFechaFin_input');"
 						onkeypress="return submitByEnter(event,'popupForm:btnBuscarC')"
-						value="#{usuarioAction.selectEndDate}" id="calFechaFin"
-						showOn="button" validator="#{usuarioAction.validateDates}" />
+						value="#{userAction.selectEndDate}" id="calFechaFin"
+						showOn="button" validator="#{userAction.validateDates}" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_accept}" id="btnBuscarC"
-						rendered="#{!usuarioAction.renovateRol}"
-						actionListener="#{usuarioAction.rolesListControler('addRolUsuario', null)}"
+						rendered="#{!userAction.renovateRol}"
+						actionListener="#{userAction.rolesListControler('addRolUsuario', null)}"
 						oncomplete="if (#{facesContext.maximumSeverity.ordinal == 0} || #{facesContext.maximumSeverity==null}) {#{rich:component('popUpAsignarRol')}.hide();}"
 						render=":usuarioForm:outputRoles, :usuarioForm:selVigencia, :usuarioForm:tablaRolesUsuario, mensajes">
 					</a:commandButton>
 					<a:commandButton value="#{mensaje.button_accept}"
-						rendered="#{usuarioAction.renovateRol}"
-						actionListener="#{usuarioAction.rolesListControler('changeRolUsuario', null)}"
+						rendered="#{userAction.renovateRol}"
+						actionListener="#{userAction.rolesListControler('changeRolUsuario', null)}"
 						oncomplete="if (#{facesContext.maximumSeverity.ordinal == 0} || #{facesContext.maximumSeverity==null}) {#{rich:component('popUpAsignarRol')}.hide();}"
 						render=":usuarioForm:outputRoles, :usuarioForm:selVigencia, :usuarioForm:tablaRolesUsuario, mensajes">
 					</a:commandButton>
@@ -311,7 +311,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
-							actionListener="#{usuarioAction.setRenovatePass('true')}"
+							actionListener="#{userAction.setRenovatePass('true')}"
 							oncomplete="#{rich:component('popupContrasena')}.hide()"
 							render=":usuarioForm:outChangePassword">
 						</a:commandButton>
@@ -339,13 +339,13 @@
 					<ui:define name="campos">
 						<h:outputText value="#{messageHumanResources.person_label}: " />
 						<h:outputText
-							value="#{usuarioAction.person.nombres} #{usuarioAction.person.apellidos}" />
+							value="#{userAction.person.nombres} #{userAction.person.apellidos}" />
 						<h:outputText value="#{messageSecurity.user_label_name}: " />
-						<h:outputText value="#{usuarioAction.user.nombreUsuario}" />
+						<h:outputText value="#{userAction.user.nombreUsuario}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{usuarioAction.saveUser}"
+							action="#{userAction.saveUser}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide();#{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide()" />
@@ -366,7 +366,7 @@
 				</f:facet>
 				<ui:include
 					src="/humanResources/person/templateSearchPerson.xhtml">
-					<ui:param name="selectedObject" value="#{usuarioAction.person}" />
+					<ui:param name="selectedObject" value="#{userAction.person}" />
 					<ui:param name="valRender"
 						value="usuarioForm:txtPersonaHidden, usuarioForm:txtPersonaHidden2" />
 					<ui:param name="conAccion" value="#{true}" />

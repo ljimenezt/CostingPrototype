@@ -7,12 +7,12 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:a="http://richfaces.org/a4j"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="PermissionPersonBusinessAction.initializeSearch()" />
+		value="permissionPersonBusinessAction.initializeSearch()" />
 	<ui:param name="titulo"
 		value="messageSecurity.person_permission_company_label_associate" />
 	<ui:define name="body">
 		<h:form id="frmAsociarPermisos">
-			<t:saveState value="#{PermissionPersonBusinessAction}" />
+			<t:saveState value="#{permissionPersonBusinessAction}" />
 			<t:saveState value="#{validacionesAction}" />
 			<rich:panel styleClass="anchoUno"
 				header="#{messageSecurity.person_permission_company_label_associate}">
@@ -24,19 +24,19 @@
 
 						<h:outputText value="#{mensaje.label_identification}: " />
 						<h:outputText
-							value="#{PermissionPersonBusinessAction.person.documento}" />
+							value="#{permissionPersonBusinessAction.person.documento}" />
 
 						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText
-							value="#{PermissionPersonBusinessAction.person.nombres}" />
+							value="#{permissionPersonBusinessAction.person.nombres}" />
 
 						<h:outputText value="#{mensaje.label_surname}: " />
 						<h:outputText
-							value="#{PermissionPersonBusinessAction.person.apellidos}" />
+							value="#{permissionPersonBusinessAction.person.apellidos}" />
 
 						<h:outputText value="#{mensaje.label_telephone_number}: " />
 						<h:outputText
-							value="#{PermissionPersonBusinessAction.person.telefono}" />
+							value="#{permissionPersonBusinessAction.person.telefono}" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -49,13 +49,13 @@
 								value="#{mensaje.label_identification} / #{mensaje.label_name}: "
 								styleClass="etiquetaTitulo" />
 							<h:inputText id="txtBuscarEmpresa"
-								value="#{PermissionPersonBusinessAction.searchCompany}" />
+								value="#{permissionPersonBusinessAction.searchCompany}" />
 							<a:commandButton value="#{mensaje.button_search}"
 								execute="empresas" render="empresas, mensajes"
-								actionListener="#{PermissionPersonBusinessAction.searchCompanies()}" />
+								actionListener="#{permissionPersonBusinessAction.searchCompanies()}" />
 						</h:panelGrid>
 						<rich:extendedDataTable
-							value="#{PermissionPersonBusinessAction.business}" var="empresa"
+							value="#{permissionPersonBusinessAction.business}" var="empresa"
 							styleClass="H190P W900P">
 							<f:facet name="header">
 								<h:outputText
@@ -64,8 +64,8 @@
 							<rich:column width="30px" styleClass="center top">
 								<a:commandLink
 									render=":popupForm:popUpPermisosAEmpresa, mensajes"
-									actionListener="#{PermissionPersonBusinessAction.setSelectedCompany(empresa)}"
-									action="#{PermissionPersonBusinessAction.controllerListPermission('newPermiso', null)}"
+									actionListener="#{permissionPersonBusinessAction.setSelectedCompany(empresa)}"
+									action="#{permissionPersonBusinessAction.controllerListPermission('newPermiso', null)}"
 									oncomplete="#{rich:component('popUpPermisosAEmpresa')}.show()">
 									<h:graphicImage value="/img/add_16.png" />
 									<rich:tooltip layout="block">
@@ -100,7 +100,7 @@
 					<a:outputPanel id="extDTPermisoPersonaEmpresa">
 						<rich:message for="extDTPermisoPersonaEmpresa" />
 						<rich:extendedDataTable
-							value="#{PermissionPersonBusinessAction.listPermissionPersonBusinessTemp}"
+							value="#{permissionPersonBusinessAction.listPermissionPersonBusinessTemp}"
 							var="permisoPersonaEmpresa" id="permisoPersonaEmpresaSelect"
 							styleClass="H190P W900P">
 							<f:facet name="header">
@@ -112,7 +112,7 @@
 								<a:commandLink
 									render=":popUpQuitar:popupValidarQuitar, mensajes"
 									execute="@this"
-									actionListener="#{PermissionPersonBusinessAction.setPermissionPersonBusiness(permisoPersonaEmpresa)}"
+									actionListener="#{permissionPersonBusinessAction.setPermissionPersonBusiness(permisoPersonaEmpresa)}"
 									oncomplete="#{rich:component('popupValidarQuitar')}.show()">
 									<h:graphicImage value="/img/delete_16.png" />
 									<rich:tooltip layout="block">
@@ -149,7 +149,7 @@
 				<br />
 				<div class="center inBlock W100Per">
 					<a:commandButton value="#{mensaje.button_save}"
-						actionListener="#{PermissionPersonBusinessAction.validatePermissionCompaniesSelected()}"
+						actionListener="#{permissionPersonBusinessAction.validatePermissionCompaniesSelected()}"
 						render="formGenerico,popupConfirmar"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupConfirmar')}.show();}
 						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
@@ -177,19 +177,19 @@
 					<h:outputText value="#{messageOrganizations.farm_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
-					<h:selectOneMenu value="#{PermissionPersonBusinessAction.idFarm}"
+					<h:selectOneMenu value="#{permissionPersonBusinessAction.idFarm}"
 						id="cmbHacienda" required="true"
 						label="#{messageOrganizations.farm_label}">
 						<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
 						<f:selectItems
-							value="#{PermissionPersonBusinessAction.itemsFarmsCompany}" />
+							value="#{permissionPersonBusinessAction.itemsFarmsCompany}" />
 					</h:selectOneMenu>
 
 					<h:outputText value="#{mensaje.label_start_date}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar readOnlyInputText="true"
-						value="#{PermissionPersonBusinessAction.permissionPersonBusiness.fechaInicioVigencia}"
+						value="#{permissionPersonBusinessAction.permissionPersonBusiness.fechaInicioVigencia}"
 						id="calFechaInicio" showOn="button" required="true"
 						onSelectUpdate="calFechaFin" label="#{mensaje.label_start_date}" />
 
@@ -197,16 +197,16 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="" />
 					<p:calendar readOnlyInputText="true"
-						value="#{PermissionPersonBusinessAction.permissionPersonBusiness.fechaFinVigencia}"
+						value="#{permissionPersonBusinessAction.permissionPersonBusiness.fechaFinVigencia}"
 						id="calFechaFin" showOn="button"
-						mindate="#{PermissionPersonBusinessAction.permissionPersonBusiness.fechaInicioVigencia}"
+						mindate="#{permissionPersonBusinessAction.permissionPersonBusiness.fechaInicioVigencia}"
 						validator="#{validacionesAction.validarFechasContrato}" />
 
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_accept}"
-						actionListener="#{PermissionPersonBusinessAction.controllerListPermission('addPermiso', null)}"
+						actionListener="#{permissionPersonBusinessAction.controllerListPermission('addPermiso', null)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpPermisosAEmpresa')}.hide();}"
 						render=":frmAsociarPermisos:empresas, :frmAsociarPermisos:extDTPermisoPersonaEmpresa, mensajes" />
 					<h:commandButton value="#{mensaje.button_cancel}">
@@ -239,16 +239,16 @@
 						<h:outputText value="#{messageOrganizations.company_label}:"
 							styleClass="etiquetaTitulo" />
 						<h:outputText
-							value="#{PermissionPersonBusinessAction.permissionPersonBusiness.empresa.nombre}" />
+							value="#{permissionPersonBusinessAction.permissionPersonBusiness.empresa.nombre}" />
 
 						<h:outputText value="#{messageOrganizations.farm_label}:"
 							styleClass="etiquetaTitulo" />
 						<h:outputText
-							value="#{PermissionPersonBusinessAction.permissionPersonBusiness.farm.name}" />
+							value="#{permissionPersonBusinessAction.permissionPersonBusiness.farm.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}" execute="@this"
-							actionListener="#{PermissionPersonBusinessAction.controllerListPermission('borrar', PermissionPersonBusinessAction.permissionPersonBusiness)}"
+							actionListener="#{permissionPersonBusinessAction.controllerListPermission('borrar', permissionPersonBusinessAction.permissionPersonBusiness)}"
 							onclick="#{rich:component('popupValidarQuitar')}.hide()"
 							render=":frmAsociarPermisos:empresas, :frmAsociarPermisos:extDTPermisoPersonaEmpresa, mensajes" />
 						<a:commandButton value="#{mensaje.button_cancel}" execute="@this"
@@ -279,7 +279,7 @@
 					</ui:define>
 					<ui:define name="tabla">
 						<rich:extendedDataTable
-							value="#{PermissionPersonBusinessAction.listPermissionPersonBusinessTemp}"
+							value="#{permissionPersonBusinessAction.listPermissionPersonBusinessTemp}"
 							var="permisoPersonaEmpTemp" id="tablaConfirm" styleClass="H130P">
 							<rich:column width="300px">
 								<f:facet name="header">
@@ -297,7 +297,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{PermissionPersonBusinessAction.savePermissionPersonCompany}"
+							action="#{permissionPersonBusinessAction.savePermissionPersonCompany}"
 							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 
 						<a:commandButton value="#{mensaje.button_cancel}"

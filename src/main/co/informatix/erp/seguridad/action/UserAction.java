@@ -53,22 +53,22 @@ import co.informatix.security.entities.Usuario;
 @ManagedBean
 @RequestScoped
 @SuppressWarnings("serial")
-public class UsuarioAction implements Serializable {
+public class UserAction implements Serializable {
 
 	@EJB
-	private UserDao usuarioDao;
+	private UserDao userDao;
 	@EJB
-	private RolUserDao rolUsuarioDao;
+	private RolUserDao rolUserDao;
 	@EJB
 	private RoleDao rolDao;
 	@EJB
 	protected IdentityDao dao;
 	@EJB
-	private PersonaDao personaDao;
+	private PersonaDao personDao;
 	@Inject
 	private IdentityAction identity;
 	@Inject
-	private SessionBusinessAction empresaHaciendaSesion;
+	private SessionBusinessAction businessFarmSession;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -456,13 +456,13 @@ public class UsuarioAction implements Serializable {
 				validityCondition = Constantes.IS_NOT_NULL;
 			}
 
-			Long usersAmount = usuarioDao.usersAmount(validityCondition,
+			Long usersAmount = userDao.usersAmount(validityCondition,
 					this.nameSearch);
 			if (usersAmount != null) {
 				pagination.paginar(usersAmount);
 			}
 
-			users = usuarioDao.queryUsers(pagination.getInicio(),
+			users = userDao.queryUsers(pagination.getInicio(),
 					pagination.getRango(), validityCondition, this.nameSearch);
 			if ((this.users == null || this.users.size() <= 0)
 					&& (this.nameSearch != null && !"".equals(this.nameSearch))) {
@@ -529,7 +529,7 @@ public class UsuarioAction implements Serializable {
 	 */
 	public void searchUserPerson(Usuario user) {
 		try {
-			person = personaDao.consultPersonUser(user);
+			person = personDao.consultPersonUser(user);
 			if (person == null) {
 				person = new Persona();
 			}
@@ -616,7 +616,7 @@ public class UsuarioAction implements Serializable {
 	 */
 	public void searchUserRole(Usuario user) {
 		try {
-			createdUserRoles = rolUsuarioDao.consultUserRole(user);
+			createdUserRoles = rolUserDao.consultUserRole(user);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -666,17 +666,17 @@ public class UsuarioAction implements Serializable {
 									Constantes.DATE_FORMAT_CREATION)));
 				}
 				user.setUserName(identity.getUserName());
-				usuarioDao.editUser(user);
-				Persona lastPerson = personaDao.consultPersonUser(user);
+				userDao.editUser(user);
+				Persona lastPerson = personDao.consultPersonUser(user);
 				if (!person.equals(lastPerson)) {
 					if (lastPerson != null) {
 						lastPerson.setUsuario(null);
 						lastPerson.setUserName(identity.getUserName());
-						personaDao.editPerson(lastPerson);
+						personDao.editPerson(lastPerson);
 					}
 					person.setUsuario(user);
 					person.setUserName(identity.getUserName());
-					personaDao.editPerson(person);
+					personDao.editPerson(person);
 				}
 			} else {
 				key = "message_registro_guardar";
@@ -687,10 +687,10 @@ public class UsuarioAction implements Serializable {
 						.getPassword()
 						+ ControladorFechas.formatDate(user.getFechaCreacion(),
 								Constantes.DATE_FORMAT_CREATION)));
-				usuarioDao.saveUser(user);
+				userDao.saveUser(user);
 				person.setUsuario(user);
 				person.setUserName(identity.getUserName());
-				personaDao.editPerson(person);
+				personDao.editPerson(person);
 			}
 			saveUserRole();
 			userTransaction.commit();
@@ -737,13 +737,13 @@ public class UsuarioAction implements Serializable {
 		if (newUserRoles != null && newUserRoles.size() > 0) {
 			for (RolUsuario rolUsuario : newUserRoles) {
 				rolUsuario.setUserName(identity.getUserName());
-				rolUsuarioDao.saveUserRole(rolUsuario);
+				rolUserDao.saveUserRole(rolUsuario);
 			}
 		}
 		if (createdUserRoles != null && createdUserRoles.size() > 0) {
 			for (RolUsuario rolUsuario : createdUserRoles) {
 				rolUsuario.setUserName(identity.getUserName());
-				rolUsuarioDao.editUserRole(rolUsuario);
+				rolUserDao.editUserRole(rolUsuario);
 			}
 		}
 	}
@@ -769,9 +769,9 @@ public class UsuarioAction implements Serializable {
 			Usuario userNAme = new Usuario();
 
 			if (edited) {
-				userNAme = usuarioDao.userNameExists(name, user.getId());
+				userNAme = userDao.userNameExists(name, user.getId());
 			} else {
-				userNAme = usuarioDao.userNameExists(name);
+				userNAme = userDao.userNameExists(name);
 			}
 			String result = checkValidity(userNAme);
 			if (Constantes.VIGENTE.equals(result)) {
@@ -913,12 +913,12 @@ public class UsuarioAction implements Serializable {
 				validityChangeMessage = "message_fin_vigencia_satisfactorio";
 				user.setFechaFinVigencia(new Date());
 				user.setUserName(identity.getUserName());
-				usuarioDao.editUser(user);
+				userDao.editUser(user);
 				successed.append(user.getNombreUsuario() + ", ");
 			} else {
 				user.setFechaFinVigencia(null);
 				user.setUserName(identity.getUserName());
-				usuarioDao.editUser(user);
+				userDao.editUser(user);
 				successed.append(user.getNombreUsuario() + ", ");
 			}
 			if (successed.length() > 0) {
@@ -1023,7 +1023,7 @@ public class UsuarioAction implements Serializable {
 	 */
 	public String newPassword() {
 		try {
-			user = usuarioDao.searchUsuario(identity.getUserName());
+			user = userDao.searchUsuario(identity.getUserName());
 			changePass = new ChangedPassword();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -1050,8 +1050,8 @@ public class UsuarioAction implements Serializable {
 							Constantes.DATE_FORMAT_CREATION));
 			user.setPassword(newPassword);
 			user.setUserName(identity.getUserName());
-			usuarioDao.editUser(user);
-			empresaHaciendaSesion.cleanCompanySession();
+			userDao.editUser(user);
+			businessFarmSession.cleanCompanySession();
 			identity.logout(true);
 			String format = MessageFormat.format(bundleSecurity
 					.getString("user_message_password_change_successful"), user
