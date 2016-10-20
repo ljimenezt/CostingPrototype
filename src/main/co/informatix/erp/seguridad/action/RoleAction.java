@@ -537,14 +537,14 @@ public class RoleAction implements Serializable {
 			roleMenu.setFechaCreacion(new Date());
 			roleMenuDao.saveRoleMenu(roleMenu);
 		}
-		Menu menuPadre = menuDao.consultMenuFather(menu.getId());
-		if (menuPadre != null) {
+		Menu menuFather = menuDao.consultMenuFather(menu.getId());
+		if (menuFather != null) {
 			for (Menu listMenu : this.listMenus) {
-				if (listMenu.getId() == menuPadre.getId()) {
+				if (listMenu.getId() == menuFather.getId()) {
 					return;
 				}
 			}
-			searchSaveFatherMenu(menuPadre);
+			searchSaveFatherMenu(menuFather);
 		}
 	}
 
