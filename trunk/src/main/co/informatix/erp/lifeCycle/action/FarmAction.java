@@ -51,11 +51,11 @@ public class FarmAction implements Serializable {
 	@EJB
 	private FileUploadBean fileUploadBean;
 	@EJB
-	private PaisDao paisDao;
+	private PaisDao countryDao;
 	@EJB
-	private DepartamentoDao departamentoDao;
+	private DepartamentoDao departmentDao;
 	@EJB
-	private MunicipioDao municipioDao;
+	private MunicipioDao townDao;
 
 	private Farm farm;
 	private Paginador pagination = new Paginador();
@@ -337,7 +337,7 @@ public class FarmAction implements Serializable {
 				if (this.farm.getCountry() != null) {
 					Pais knownCountry;
 
-					knownCountry = paisDao.consultarPais(farm.getCountry()
+					knownCountry = countryDao.consultarPais(farm.getCountry()
 							.getId());
 
 					this.farm.setCountry(knownCountry);
@@ -345,7 +345,7 @@ public class FarmAction implements Serializable {
 					this.farm.setCountry(new Pais());
 				}
 				if (this.farm.getDepartment() != null) {
-					Departamento knownDepartment = departamentoDao
+					Departamento knownDepartment = departmentDao
 							.consultarDepartamentoXId(farm.getDepartment()
 									.getId());
 					this.farm.setDepartment(knownDepartment);
@@ -353,7 +353,7 @@ public class FarmAction implements Serializable {
 					this.farm.setDepartment(new Departamento());
 				}
 				if (this.farm.getTown() != null) {
-					Municipio knownMunicipality = municipioDao
+					Municipio knownMunicipality = townDao
 							.consultarMunicipio(farm.getTown().getId());
 					this.farm.setTown(knownMunicipality);
 				} else {
@@ -490,7 +490,7 @@ public class FarmAction implements Serializable {
 	 */
 	private void loadComboBoxes() throws Exception {
 		countryItems = new ArrayList<SelectItem>();
-		List<Pais> countries = paisDao.consultarPaisesVigentes();
+		List<Pais> countries = countryDao.consultarPaisesVigentes();
 		if (countries != null) {
 			for (Pais country : countries) {
 				countryItems.add(new SelectItem(country.getId(), country
@@ -512,7 +512,7 @@ public class FarmAction implements Serializable {
 			Pais country = farm.getCountry();
 			if (country != null && country.getId() > 0) {
 				short countryId = country.getId();
-				List<Departamento> departments = departamentoDao
+				List<Departamento> departments = departmentDao
 						.consultarDepartamentosPaisVigentes(countryId);
 				if (departments != null) {
 					for (Departamento d : departments) {
@@ -544,7 +544,7 @@ public class FarmAction implements Serializable {
 			if (department != null && department.getId() > 0
 					&& this.departmentItems.size() > 0) {
 				int departmentId = department.getId();
-				List<Municipio> municipalities = municipioDao
+				List<Municipio> municipalities = townDao
 						.consultarMunicipiosVigentes(departmentId);
 				if (municipalities != null) {
 					for (Municipio m : municipalities) {
@@ -589,11 +589,11 @@ public class FarmAction implements Serializable {
 	 */
 	private void loadFarmDetails(Farm farm) throws Exception {
 		int farmId = farm.getIdFarm();
-		Pais country = (Pais) this.farmDao.searchFarmObject("pais", farmId);
+		Pais country = (Pais) this.farmDao.searchFarmObject("country", farmId);
 		Departamento department = (Departamento) this.farmDao.searchFarmObject(
-				"departamento", farmId);
+				"department", farmId);
 		Municipio municipality = (Municipio) this.farmDao.searchFarmObject(
-				"municipio", farmId);
+				"town", farmId);
 		farm.setCountry(country);
 		farm.setDepartment(department);
 		farm.setTown(municipality);
