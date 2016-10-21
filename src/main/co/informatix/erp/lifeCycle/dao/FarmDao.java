@@ -95,18 +95,18 @@ public class FarmDao implements Serializable {
 	 * Returns the number of existing farms in the database (information
 	 * filtered with search values)
 	 * 
-	 * @param query
+	 * @param consult
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : Query parameters.
 	 * @return Long: Amount of crop records found.
 	 * @throws Exception
 	 */
-	public Long amountFarms(StringBuilder query, List<SelectItem> parameters)
+	public Long amountFarms(StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT COUNT(f) FROM Farm f ");
-		queryBuilder.append(query);
+		queryBuilder.append(consult);
 		Query q = em.createQuery(queryBuilder.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
