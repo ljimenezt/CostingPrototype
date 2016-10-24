@@ -7,12 +7,12 @@
 
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesEmpresas</from-outcome>
+			<from-outcome>gesBusiness</from-outcome>
 			<to-view-id>/organizaciones/empresas/gestionarEmpresa.xhtml</to-view-id>
 		</navigation-case>
 
 		<navigation-case>
-			<from-outcome>regEmpresa</from-outcome>
+			<from-outcome>regBusiness</from-outcome>
 			<to-view-id>/organizaciones/empresas/registrarEmpresa.xhtml</to-view-id>
 		</navigation-case>
 

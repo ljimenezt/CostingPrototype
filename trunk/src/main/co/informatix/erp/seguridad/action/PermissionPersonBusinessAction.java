@@ -17,9 +17,9 @@ import javax.transaction.UserTransaction;
 
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
-import co.informatix.erp.organizaciones.action.EmpresaAction;
-import co.informatix.erp.organizaciones.dao.EmpresaDao;
-import co.informatix.erp.organizaciones.entities.Empresa;
+import co.informatix.erp.organizations.action.BusinessAction;
+import co.informatix.erp.organizations.dao.BusinessDao;
+import co.informatix.erp.organizations.entities.Business;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.dao.PermissionPersonBusinessDao;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
@@ -43,7 +43,7 @@ import co.informatix.security.action.IdentityAction;
 public class PermissionPersonBusinessAction implements Serializable {
 
 	@EJB
-	private EmpresaDao businessDao;
+	private BusinessDao businessDao;
 	@EJB
 	private PermissionPersonBusinessDao permissionPersonBusinessDao;
 	@EJB
@@ -57,11 +57,11 @@ public class PermissionPersonBusinessAction implements Serializable {
 	private Paginador pagination = new Paginador();
 	private PermisoPersonaEmpresa permissionPersonBusiness;
 	private Persona person;
-	private Empresa selectedCompany;
+	private Business selectedCompany;
 
 	private List<PermisoPersonaEmpresa> listPermissionPersonBusiness;
 	private List<PermisoPersonaEmpresa> listPermissionPersonBusinessTemp;
-	private List<Empresa> business;
+	private List<Business> business;
 
 	private List<SelectItem> itemsBranchOfficesCompany;
 	private List<SelectItem> itemsFarmsCompany;
@@ -129,7 +129,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 * @return business: Companies that are queried to be associated with the
 	 *         person.
 	 */
-	public List<Empresa> getBusiness() {
+	public List<Business> getBusiness() {
 		return business;
 	}
 
@@ -137,7 +137,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 * @param business
 	 *            : Companies that are queried to be associated with the person.
 	 */
-	public void setBusiness(List<Empresa> business) {
+	public void setBusiness(List<Business> business) {
 		this.business = business;
 	}
 
@@ -332,7 +332,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	/**
 	 * @return selectedCompany: company is selected to associate permissions.
 	 */
-	public Empresa getSelectedCompany() {
+	public Business getSelectedCompany() {
 		return selectedCompany;
 	}
 
@@ -340,7 +340,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 * @param selectedCompany
 	 *            : company is selected to associate permissions.
 	 */
-	public void setSelectedCompany(Empresa selectedCompany) {
+	public void setSelectedCompany(Business selectedCompany) {
 		this.selectedCompany = selectedCompany;
 	}
 
@@ -505,11 +505,11 @@ public class PermissionPersonBusinessAction implements Serializable {
 			for (PermisoPersonaEmpresa permissionPersonBusiness : listPermissionPersonBusinessTemp) {
 				permissionPersonBusiness = permissionPersonBusinessDao
 						.consultDetailsPermissionPersonBusiness(permissionPersonBusiness);
-				EmpresaAction businessAction = ControladorContexto
-						.getContextBean(EmpresaAction.class);
-				Empresa businessPermission = permissionPersonBusiness
+				BusinessAction businessAction = ControladorContexto
+						.getContextBean(BusinessAction.class);
+				Business businessPermission = permissionPersonBusiness
 						.getEmpresa();
-				businessAction.cargarDetallesUnaEmpresa(businessPermission);
+				businessAction.loadDetailsOneBusiness(businessPermission);
 				permissionPersonBusiness.setEmpresa(businessPermission);
 				listPermissionPersonBusiness.add(permissionPersonBusiness);
 			}
@@ -524,7 +524,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 */
 	public String newPermissionPersonCompany() {
 		try {
-			business = new ArrayList<Empresa>();
+			business = new ArrayList<Business>();
 			listPermissionPersonBusinessTemp = new ArrayList<PermisoPersonaEmpresa>();
 			loadCombos();
 		} catch (Exception e) {
@@ -540,17 +540,17 @@ public class PermissionPersonBusinessAction implements Serializable {
 	public void searchCompanies() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			business = businessDao.buscarEmpresaXNombreONit(searchCompany);
+			business = businessDao.searchBusinessForNameOrNit(searchCompany);
 			if (business == null || business.size() <= 0) {
 				ControladorContexto.mensajeInformacion(
 						"frmAsociarPermisos:empresas",
 						bundle.getString("message_no_existen_registros"));
 			} else {
-				EmpresaAction businessAction = ControladorContexto
-						.getContextBean(EmpresaAction.class);
-				businessAction.setListaEmpresas(new ArrayList<Empresa>());
-				businessAction.setListaEmpresas(business);
-				businessAction.cargarDetallesEmpresas();
+				BusinessAction businessAction = ControladorContexto
+						.getContextBean(BusinessAction.class);
+				businessAction.setListBusiness(new ArrayList<Business>());
+				businessAction.setListBusiness(business);
+				businessAction.loadDetailsBusiness();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -584,7 +584,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle.getString(messageChangeValidity)
 								+ ": {0}", this.permissionPersonBusiness
-								.getEmpresa().getNombre()));
+								.getEmpresa().getName()));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -758,11 +758,11 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 *            : Selected finance company.
 	 * @return boolean to true if it is already associated or false otherwise.
 	 */
-	private boolean validateExistsPermissionAssociated(Empresa businessSelect,
+	private boolean validateExistsPermissionAssociated(Business businessSelect,
 			Farm farm) {
 		if (listPermissionPersonBusinessTemp != null) {
 			for (PermisoPersonaEmpresa permPersonaEmp : listPermissionPersonBusinessTemp) {
-				Empresa companyList = permPersonaEmp.getEmpresa();
+				Business companyList = permPersonaEmp.getEmpresa();
 				Farm farmList = permPersonaEmp.getFarm();
 				if (farm != null && farm.getIdFarm() != 0 && farmList != null
 						&& farmList.equals(farm)
@@ -778,7 +778,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 		if (listPermissionPersonBusiness != null) {
 			for (PermisoPersonaEmpresa permisoPerEmp : listPermissionPersonBusiness) {
 				Date endDateValidity = permisoPerEmp.getFechaFinVigencia();
-				Empresa empresaList = permisoPerEmp.getEmpresa();
+				Business empresaList = permisoPerEmp.getEmpresa();
 
 				Farm farmList = permisoPerEmp.getFarm();
 

@@ -1,4 +1,4 @@
-package co.informatix.erp.organizaciones.dao;
+package co.informatix.erp.organizations.dao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import co.informatix.erp.organizaciones.entities.Organizacion;
+import co.informatix.erp.organizations.entities.Organizacion;
 
 /**
  * Class DAO that establishes the connection between business logic and

@@ -1,4 +1,4 @@
-package co.informatix.erp.organizaciones.entities;
+package co.informatix.erp.organizations.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,39 +23,38 @@ import co.informatix.erp.informacionBase.entities.Pais;
  * This class represents the business information system.
  * 
  * @author marisol.calderon
- * 
  */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "empresa", schema = "organizaciones")
-public class Empresa implements Serializable {
+public class Business implements Serializable {
 
 	private int id;
 	private String nit;
-	private String nombre;
+	private String name;
 	private String logo;
-	private String direccion;
-	private String telefono;
-	private String correo;
+	private String address;
+	private String phone;
+	private String email;
 	private String fax;
-	private String movil;
-	private Date fechaCreacion;
-	private Date fechaFinVigencia;
+	private String mobile;
+	private Date dateCreation;
+	private Date dateEndValidity;
 	private String userName;
 
-	private Organizacion organizacion;
-	private Pais pais;
-	private Departamento departamento;
-	private Municipio municipio;
+	private Organizacion organization;
+	private Pais country;
+	private Departamento department;
+	private Municipio town;
 
 	/**
 	 * Empty constructor to initialize the necessary variables.
 	 */
-	public Empresa() {
-		this.organizacion = new Organizacion();
-		this.pais = new Pais();
-		this.departamento = new Departamento();
-		this.municipio = new Municipio();
+	public Business() {
+		this.organization = new Organizacion();
+		this.country = new Pais();
+		this.department = new Departamento();
+		this.town = new Municipio();
 	}
 
 	/**
@@ -93,19 +92,19 @@ public class Empresa implements Serializable {
 	}
 
 	/**
-	 * @return nombre: gets the name of the company.
+	 * @return name: gets the name of the company.
 	 */
 	@Column(name = "nombre", length = 100, nullable = false)
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
 	/**
-	 * @param nombre
+	 * @param name
 	 *            : sets the name of the company.
 	 */
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -125,51 +124,51 @@ public class Empresa implements Serializable {
 	}
 
 	/**
-	 * @return direccion: gets the address of the company.
+	 * @return address: gets the address of the company.
 	 */
 	@Column(name = "direccion", length = 50, nullable = false)
-	public String getDireccion() {
-		return direccion;
+	public String getAddress() {
+		return address;
 	}
 
 	/**
-	 * @param direccion
+	 * @param address
 	 *            : sets the address of the company.
 	 */
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	/**
-	 * @return telefono: gets the phone company.
+	 * @return phone: gets the phone company.
 	 */
 	@Column(name = "telefono", length = 150, nullable = false)
-	public String getTelefono() {
-		return telefono;
+	public String getPhone() {
+		return phone;
 	}
 
 	/**
-	 * @param telefono
+	 * @param phone
 	 *            : sets the phone company.
 	 */
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	/**
-	 * @return correo: gets mail of a company.
+	 * @return email: gets mail of a company.
 	 */
 	@Column(name = "correo", length = 50, nullable = true)
-	public String getCorreo() {
-		return correo;
+	public String getEmail() {
+		return email;
 	}
 
 	/**
-	 * @param correo
+	 * @param email
 	 *            : sets mail of a company.
 	 */
-	public void setCorreo(String correo) {
-		this.correo = correo;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**
@@ -189,53 +188,53 @@ public class Empresa implements Serializable {
 	}
 
 	/**
-	 * @return movil: mobile phone company.
+	 * @return mobile: mobile phone company.
 	 */
 	@Column(name = "movil", length = 20, nullable = true)
-	public String getMovil() {
-		return movil;
+	public String getMobile() {
+		return mobile;
 	}
 
 	/**
 	 * @param movil
 	 *            : mobile phone company.
 	 */
-	public void setMovil(String movil) {
-		this.movil = movil;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
 	/**
-	 * @return fechaCreacion: get creation date of a company.
+	 * @return dateCreation: get creation date of a company.
 	 */
 	@Column(name = "fecha_creacion", nullable = false)
 	@Temporal(TemporalType.DATE)
-	public Date getFechaCreacion() {
-		return fechaCreacion;
+	public Date getDateCreation() {
+		return dateCreation;
 	}
 
 	/**
-	 * @param fechaCreacion
+	 * @param dateCreation
 	 *            : sets the date for registration of a company.
 	 */
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 
 	/**
-	 * @return fechaFinVigencia: gets the end validity date of the company
+	 * @return dateEndValidity: gets the end validity date of the company
 	 */
 	@Column(name = "fecha_fin_vigencia")
 	@Temporal(TemporalType.DATE)
-	public Date getFechaFinVigencia() {
-		return fechaFinVigencia;
+	public Date getDateEndValidity() {
+		return dateEndValidity;
 	}
 
 	/**
-	 * @param fechaVigencia
+	 * @param dateEndValidity
 	 *            : gets the end validity date of the company
 	 */
-	public void setFechaFinVigencia(Date fechaFinVigencia) {
-		this.fechaFinVigencia = fechaFinVigencia;
+	public void setDateEndValidity(Date dateEndValidity) {
+		this.dateEndValidity = dateEndValidity;
 	}
 
 	/**
@@ -255,93 +254,90 @@ public class Empresa implements Serializable {
 	}
 
 	/**
-	 * @return organizacion: organization to which a company belongs.
+	 * @return organization: organization to which a company belongs.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_organizacion", referencedColumnName = "id")
-	public Organizacion getOrganizacion() {
-		return organizacion;
+	public Organizacion getOrganization() {
+		return organization;
 	}
 
 	/**
-	 * @param organizacion
+	 * @param organization
 	 *            : organization to which a company belongs.
 	 */
-	public void setOrganizacion(Organizacion organizacion) {
-		this.organizacion = organizacion;
+	public void setOrganization(Organizacion organization) {
+		this.organization = organization;
 	}
 
 	/**
-	 * @return pais: Country to which the company belongs
+	 * @return country: Country to which the company belongs
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_pais", referencedColumnName = "id", nullable = false)
-	public Pais getPais() {
-		return pais;
+	public Pais getCountry() {
+		return country;
 	}
 
 	/**
-	 * @param pais
+	 * @param country
 	 *            : Country to which the company belongs
 	 */
-	public void setPais(Pais pais) {
-		this.pais = pais;
+	public void setCountry(Pais country) {
+		this.country = country;
 	}
 
 	/**
-	 * @return departamento : Department to which the company belongs
+	 * @return department : Department to which the company belongs
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_departamento", referencedColumnName = "id", nullable = false)
-	public Departamento getDepartamento() {
-		return departamento;
+	public Departamento getDepartment() {
+		return department;
 	}
 
 	/**
-	 * @param departamento
+	 * @param department
 	 *            : Department to which the company belongs
 	 */
-	public void setDepartamento(Departamento departamento) {
-		this.departamento = departamento;
+	public void setDepartment(Departamento department) {
+		this.department = department;
 	}
 
 	/**
-	 * @return municipio: gets the municipalities of a business related.
+	 * @return town: gets the municipalities of a business related.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_municipio", referencedColumnName = "id", nullable = false)
-	public Municipio getMunicipio() {
-		return municipio;
+	public Municipio getTown() {
+		return town;
 	}
 
 	/**
-	 * @param municipio
+	 * @param town
 	 *            : gets the municipalities of a business related.
 	 */
-	public void setMunicipio(Municipio municipio) {
-		this.municipio = municipio;
+	public void setTown(Municipio town) {
+		this.town = town;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((correo == null) ? 0 : correo.hashCode());
-		result = prime * result
-				+ ((direccion == null) ? 0 : direccion.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((fax == null) ? 0 : fax.hashCode());
 		result = prime * result
-				+ ((fechaCreacion == null) ? 0 : fechaCreacion.hashCode());
-		result = prime
-				* result
-				+ ((fechaFinVigencia == null) ? 0 : fechaFinVigencia.hashCode());
+				+ ((dateCreation == null) ? 0 : dateCreation.hashCode());
+		result = prime * result
+				+ ((dateEndValidity == null) ? 0 : dateEndValidity.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((logo == null) ? 0 : logo.hashCode());
-		result = prime * result + ((movil == null) ? 0 : movil.hashCode());
+		result = prime * result + ((mobile == null) ? 0 : mobile.hashCode());
 		result = prime * result + ((nit == null) ? 0 : nit.hashCode());
-		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
-		result = prime * result
-				+ ((telefono == null) ? 0 : telefono.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result
 				+ ((userName == null) ? 0 : userName.hashCode());
 		return result;
@@ -355,31 +351,31 @@ public class Empresa implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Empresa other = (Empresa) obj;
-		if (correo == null) {
-			if (other.correo != null)
+		Business other = (Business) obj;
+		if (email == null) {
+			if (other.email != null)
 				return false;
-		} else if (!correo.equals(other.correo))
+		} else if (!email.equals(other.email))
 			return false;
-		if (direccion == null) {
-			if (other.direccion != null)
+		if (address == null) {
+			if (other.address != null)
 				return false;
-		} else if (!direccion.equals(other.direccion))
+		} else if (!address.equals(other.address))
 			return false;
 		if (fax == null) {
 			if (other.fax != null)
 				return false;
 		} else if (!fax.equals(other.fax))
 			return false;
-		if (fechaCreacion == null) {
-			if (other.fechaCreacion != null)
+		if (dateCreation == null) {
+			if (other.dateCreation != null)
 				return false;
-		} else if (!fechaCreacion.equals(other.fechaCreacion))
+		} else if (!dateCreation.equals(other.dateCreation))
 			return false;
-		if (fechaFinVigencia == null) {
-			if (other.fechaFinVigencia != null)
+		if (dateEndValidity == null) {
+			if (other.dateEndValidity != null)
 				return false;
-		} else if (!fechaFinVigencia.equals(other.fechaFinVigencia))
+		} else if (!dateEndValidity.equals(other.dateEndValidity))
 			return false;
 		if (id != other.id)
 			return false;
@@ -388,25 +384,25 @@ public class Empresa implements Serializable {
 				return false;
 		} else if (!logo.equals(other.logo))
 			return false;
-		if (movil == null) {
-			if (other.movil != null)
+		if (mobile == null) {
+			if (other.mobile != null)
 				return false;
-		} else if (!movil.equals(other.movil))
+		} else if (!mobile.equals(other.mobile))
 			return false;
 		if (nit == null) {
 			if (other.nit != null)
 				return false;
 		} else if (!nit.equals(other.nit))
 			return false;
-		if (nombre == null) {
-			if (other.nombre != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!nombre.equals(other.nombre))
+		} else if (!name.equals(other.name))
 			return false;
-		if (telefono == null) {
-			if (other.telefono != null)
+		if (phone == null) {
+			if (other.phone != null)
 				return false;
-		} else if (!telefono.equals(other.telefono))
+		} else if (!phone.equals(other.phone))
 			return false;
 		if (userName == null) {
 			if (other.userName != null)

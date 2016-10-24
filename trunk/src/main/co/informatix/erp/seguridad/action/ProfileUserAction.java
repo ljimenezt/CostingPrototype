@@ -16,8 +16,8 @@ import javax.transaction.UserTransaction;
 
 import org.richfaces.event.ItemChangeEvent;
 
-import co.informatix.erp.organizaciones.action.EmpresaAction;
-import co.informatix.erp.organizaciones.entities.Empresa;
+import co.informatix.erp.organizations.action.BusinessAction;
+import co.informatix.erp.organizations.entities.Business;
 import co.informatix.erp.recursosHumanos.action.PersonaAction;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.recursosHumanos.entities.Persona;
@@ -206,8 +206,8 @@ public class ProfileUserAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void loadBusinessWithPermissionAcces() throws Exception {
-		EmpresaAction businessAction = ControladorContexto
-				.getContextBean(EmpresaAction.class);
+		BusinessAction businessAction = ControladorContexto
+				.getContextBean(BusinessAction.class);
 		listBusinessWithPermissionAcces = new ArrayList<PermisoPersonaEmpresa>();
 		if (personSesion != null) {
 			/* Companies with access permission of the person */
@@ -219,8 +219,8 @@ public class ProfileUserAction implements Serializable {
 					permissionPersonBusinessDao
 							.consultDetailsPermissionPersonBusiness(permissionPersonBusiness);
 					/* Company details are loaded */
-					Empresa empresaPermiso = permissionPersonBusiness.getEmpresa();
-					businessAction.cargarDetallesUnaEmpresa(empresaPermiso);
+					Business empresaPermiso = permissionPersonBusiness.getEmpresa();
+					businessAction.loadDetailsOneBusiness(empresaPermiso);
 					permissionPersonBusiness.setEmpresa(empresaPermiso);
 				}
 			}
@@ -281,7 +281,7 @@ public class ProfileUserAction implements Serializable {
 						.getString("user_profile_message_modify_default");
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(message, permissionPersonBusiness.getEmpresa()
-								.getNombre()));
+								.getName()));
 			}
 		} catch (Exception e) {
 			try {

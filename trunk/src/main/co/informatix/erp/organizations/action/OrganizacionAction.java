@@ -1,4 +1,4 @@
-package co.informatix.erp.organizaciones.action;
+package co.informatix.erp.organizations.action;
 
 import java.io.File;
 import java.io.Serializable;
@@ -25,8 +25,8 @@ import org.primefaces.event.FileUploadEvent;
 
 import co.informatix.erp.informacionBase.dao.TipoDocumentoDao;
 import co.informatix.erp.informacionBase.entities.TipoDocumento;
-import co.informatix.erp.organizaciones.dao.OrganizacionDao;
-import co.informatix.erp.organizaciones.entities.Organizacion;
+import co.informatix.erp.organizations.dao.OrganizacionDao;
+import co.informatix.erp.organizations.entities.Organizacion;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;

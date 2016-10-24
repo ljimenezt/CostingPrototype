@@ -9,19 +9,19 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="empresaAction.inicializarBusqueda" />
+	<ui:param name="action" value="businessAction.initializeSearch" />
 	<ui:param name="titulo"
 		value="messageOrganizations.company_label_list" />
 	<ui:define name="body">
 		<h:form id="frmGestionarEmpresas">
-			<t:saveState value="#{empresaAction}" />
+			<t:saveState value="#{businessAction}" />
 			<ui:param name="listaVacia"
-				value="#{empresaAction.listaEmpresas eq null or (empty empresaAction.listaEmpresas)}" />
+				value="#{businessAction.listBusiness eq null or (empty businessAction.listBusiness)}" />
 			<rich:panel header="#{messageOrganizations.company_label_list}"
 				id="panelEmpresa" styleClass="anchoUno MinH253P">
 				<rich:tabPanel switchType="ajax"
-					activeItem="#{empresaAction.tabSelect}"
-					itemChangeListener="#{empresaAction.cambioPestana}">
+					activeItem="#{businessAction.tabSelect}"
+					itemChangeListener="#{businessAction.changedTab}">
 					<rich:tab name="n" id="n" render="tablaEmpresasn, mensajes">
 						<f:facet name="header">
 							<h:panelGrid columns="2">
@@ -58,23 +58,23 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_identification}:" />
-						<h:outputText value="#{empresaAction.empresaVigencia.nit}" />
+						<h:outputText value="#{businessAction.businessValidity.nit}" />
 						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{empresaAction.empresaVigencia.nombre}" />
+						<h:outputText value="#{businessAction.businessValidity.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:outputPanel id="vigenciaPopup">
 							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelEmpresa, mensajes"
 								onclick="#{rich:component('popupVigencia')}.hide()"
-								actionListener="#{empresaAction.vigenciaEmpresa('true', empresaAction.tabSelect)}"
-								rendered="#{empresaAction.vigencia eq 'si'}" />
+								actionListener="#{businessAction.validityBusiness('true', businessAction.tabSelect)}"
+								rendered="#{businessAction.vigencia eq 'si'}" />
 
 							<a:commandButton value="#{mensaje.button_accept}"
 								render="panelEmpresa, mensajes"
 								onclick="#{rich:component('popupVigencia')}.hide()"
-								actionListener="#{empresaAction.vigenciaEmpresa('false', empresaAction.tabSelect)}"
-								rendered="#{empresaAction.vigencia eq 'no'}" />
+								actionListener="#{businessAction.validityBusiness('false', businessAction.tabSelect)}"
+								rendered="#{businessAction.vigencia eq 'no'}" />
 						</a:outputPanel>
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
@@ -98,13 +98,13 @@
 					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
-						value="#{empresaAction.nombreBuscar}"
+						value="#{businessAction.nameSearch}"
 						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						action="#{empresaAction.consultarEmpresas('n')}"
+						action="#{businessAction.consultBusiness('n')}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelEmpresa, mensajes, mensajeBusqueda">
 					</a:commandButton>

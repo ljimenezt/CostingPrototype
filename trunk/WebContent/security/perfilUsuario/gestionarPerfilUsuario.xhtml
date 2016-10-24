@@ -19,7 +19,7 @@
 		<h:form id="formPerfilUsuario">
 			<t:saveState value="#{ProfileUserAction}" />
 			<t:saveState value="#{personaAction}" />
-			<t:saveState value="#{empresaAction}" />
+			<t:saveState value="#{businessAction}" />
 			<t:saveState value="#{validacionesAction}" />
 
 			<rich:panel id="pnlPerfilUsuario" styleClass="anchoUno MinH230P"
@@ -68,7 +68,7 @@
 							<rich:column styleClass="colIconoDos">
 								<a:commandLink render="PopupDetalles"
 									oncomplete="#{rich:component('PopupDetalles')}.show()"
-									actionListener="#{empresaAction.setEmpresa(permisoEmpresa.empresa)}">
+									actionListener="#{businessAction.setBusiness(permisoEmpresa.empresa)}">
 									<h:graphicImage value="/img/details_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText
@@ -101,7 +101,7 @@
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{mensaje.label_name}</f:facet>
-								<h:outputText value="#{permisoEmpresa.empresa.nombre}" />
+								<h:outputText value="#{permisoEmpresa.empresa.name}" />
 							</rich:column>
 							<rich:column styleClass="colTextoMediano">
 								<f:facet name="header">#{messageOrganizations.farm_label}</f:facet>
@@ -156,7 +156,7 @@
 					<ui:define name="campos">
 						<h:outputText value="#{messageOrganizations.company_label}: " />
 						<h:outputText id="nombreEmpresa"
-							value="#{ProfileUserAction.permissionPersonBusiness.empresa.nombre}" />
+							value="#{ProfileUserAction.permissionPersonBusiness.empresa.name}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
