@@ -31,28 +31,28 @@
 				<h:outputText value="#{messageOrganizations.organization_label}"
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="" />
-				<h:selectOneMenu value="#{empresaAction.empresa.organizacion.id}"
+				<h:selectOneMenu value="#{businessAction.business.organization.id}"
 					id="organizacion">
 					<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-					<f:selectItems value="#{empresaAction.itemsOrganizaciones}" />
+					<f:selectItems value="#{businessAction.itemsOrganizations}" />
 				</h:selectOneMenu>
 				<rich:message for="organizacion" />
 
 				<h:outputText value="#{mensaje.label_identification}"
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="*" styleClass="required"
-					rendered="#{empresaAction.opcion eq 'nuevo'}" />
+					rendered="#{businessAction.option eq 'nuevo'}" />
 				<h:outputText value=""
-					rendered="#{empresaAction.opcion eq 'editar'}" />
+					rendered="#{businessAction.option eq 'editar'}" />
 				<h:inputText styleClass="colTextoCorto" maxlength="25"
-					validator="#{empresaAction.validarNitEmpresaXSS}"
-					rendered="#{idFormulario eq 'formRegistrarEmpresa' and empresaAction.opcion eq 'nuevo'}"
-					id="nit" value="#{empresaAction.empresa.nit}">
+					validator="#{businessAction.validateNitBusinessXSS}"
+					rendered="#{idFormulario eq 'formRegistrarEmpresa' and businessAction.option eq 'nuevo'}"
+					id="nit" value="#{businessAction.business.nit}">
 					<f:validateLength maximum="25" />
 				</h:inputText>
-				<h:outputText value="#{empresaAction.empresa.nit}"
+				<h:outputText value="#{businessAction.business.nit}"
 					styleClass="etiquetaValor"
-					rendered="#{empresaAction.opcion eq 'editar'}" />
+					rendered="#{businessAction.option eq 'editar'}" />
 				<rich:message for="nit"
 					rendered="#{idFormulario eq 'formRegistrarEmpresa'}" />
 
@@ -61,7 +61,7 @@
 				<h:outputText value="*" styleClass="required" />
 				<h:inputText styleClass="colTextoMediano" maxlength="100"
 					id="nombre" validator="#{encodeFilter.validarScripting}"
-					value="#{empresaAction.empresa.nombre}">
+					value="#{businessAction.business.name}">
 					<f:validateLength maximum="100" />
 				</h:inputText>
 				<rich:message for="nombre" />
@@ -71,7 +71,7 @@
 				<h:outputText value="*" styleClass="required" />
 				<h:inputText styleClass="colTextoMediano" id="direccion"
 					validator="#{encodeFilter.validarScripting}"
-					value="#{empresaAction.empresa.direccion}">
+					value="#{businessAction.business.address}">
 					<f:validateLength maximum="50" />
 				</h:inputText>
 				<rich:message for="direccion" />
@@ -81,7 +81,7 @@
 				<h:outputText value="*" styleClass="required" />
 				<h:inputText styleClass="colTextoCorto" maxlength="20" id="telefono"
 					converterMessage="#{mensaje.message_validacion_decimal}"
-					value="#{empresaAction.empresa.telefono}">
+					value="#{businessAction.business.phone}">
 					<f:validateLength maximum="20" />
 				</h:inputText>
 				<rich:message for="telefono" />
@@ -90,7 +90,7 @@
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="" />
 				<h:inputText styleClass="colTextoMediano" maxlength="50" id="correo"
-					value="#{empresaAction.empresa.correo}"
+					value="#{businessAction.business.email}"
 					validator="#{validacionesAction.validarEmailXSS}">
 					<f:validateLength maximum="50" />
 				</h:inputText>
@@ -100,7 +100,7 @@
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="" />
 				<h:inputText styleClass="colTextoCorto" maxlength="20" id="fax"
-					value="#{empresaAction.empresa.fax}">
+					value="#{businessAction.business.fax}">
 					<f:validateLength maximum="20" />
 				</h:inputText>
 				<rich:message for="fax" />
@@ -109,7 +109,7 @@
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="" />
 				<h:inputText styleClass="colTextoCorto" maxlength="20" id="movil"
-					value="#{empresaAction.empresa.movil}"
+					value="#{businessAction.business.mobile}"
 					converterMessage="#{mensaje.message_validacion_decimal}">
 					<f:validateLength maximum="20" />
 				</h:inputText>
@@ -118,35 +118,35 @@
 				<h:outputText value="#{messageBaseInformation.country_label}"
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="*" styleClass="required" />
-				<h:selectOneMenu value="#{empresaAction.empresa.pais.id}"
+				<h:selectOneMenu value="#{businessAction.business.country.id}"
 					id="comboPaisEmpresa">
 					<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-					<f:selectItems value="#{empresaAction.itemsPaises}" />
+					<f:selectItems value="#{businessAction.itemsCountries}" />
 					<a:ajax event="valueChange"
 						render="comboDepartamentoEmpresa, comboMunicipioEmpresa"
-						execute="@this" listener="#{empresaAction.cargarDepartamentos}" />
+						execute="@this" listener="#{businessAction.loadDepartments}" />
 				</h:selectOneMenu>
 				<rich:message for="comboPaisEmpresa" />
 
 				<h:outputText value="#{messageBaseInformation.department_label}"
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="*" styleClass="required" />
-				<h:selectOneMenu value="#{empresaAction.empresa.departamento.id}"
+				<h:selectOneMenu value="#{businessAction.business.department.id}"
 					id="comboDepartamentoEmpresa">
 					<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-					<f:selectItems value="#{empresaAction.itemDepartamentos}" />
+					<f:selectItems value="#{businessAction.itemDepartments}" />
 					<a:ajax event="change" render="comboMunicipioEmpresa"
-						listener="#{empresaAction.cargarMunicipios}" execute="@this" />
+						listener="#{businessAction.loadMunicipalities}" execute="@this" />
 				</h:selectOneMenu>
 				<rich:message for="comboDepartamentoEmpresa" />
 
 				<h:outputText value="#{messageBaseInformation.municipality_label}"
 					styleClass="etiquetaTitulo" />
 				<h:outputText value="*" styleClass="required" />
-				<h:selectOneMenu value="#{empresaAction.empresa.municipio.id}"
+				<h:selectOneMenu value="#{businessAction.business.town.id}"
 					id="comboMunicipioEmpresa">
 					<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-					<f:selectItems value="#{empresaAction.itemsMunicipios}" />
+					<f:selectItems value="#{businessAction.itemsMunicipalities}" />
 				</h:selectOneMenu>
 				<rich:message for="comboMunicipioEmpresa" />
 			</h:panelGrid>
@@ -156,10 +156,10 @@
 					<legend class="etiquetaTitulo">#{mensaje.label_logo}</legend>
 					<h:panelGrid columns="1" cellpadding="0" id="panelFotoEmpresa">
 						<a:outputPanel
-							rendered="#{empresaAction.nombreFotoLogo != null and !(empty empresaAction.nombreFotoLogo)}">
+							rendered="#{businessAction.namePhotoLogo != null and !(empty businessAction.namePhotoLogo)}">
 							<div class="uploadImg">
 								<div class="closeImg">
-									<a:commandLink action="#{empresaAction.borrarFilename()}"
+									<a:commandLink action="#{businessAction.deleteFilename()}"
 										immediate="true" render=":#{idFormulario}:panelFotoEmpresa">
 										<h:graphicImage value="/img/close_14.png"
 											onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
@@ -168,25 +168,25 @@
 									</a:commandLink>
 								</div>
 								<h:graphicImage
-									value="#{empresaAction.carpetaArchivosTemporal}/#{empresaAction.nombreFotoLogo}"
-									title="#{empresaAction.nombreFotoLogo}"
+									value="#{businessAction.fileFolderTemporal}/#{businessAction.namePhotoLogo}"
+									title="#{businessAction.namePhotoLogo}"
 									styleClass="H200P W290P"
-									rendered="#{empresaAction.cargarFotoTemporal}" />
+									rendered="#{businessAction.loadPhotoTemporal}" />
 								<h:graphicImage
-									value="#{empresaAction.carpetaArchivos}/#{empresaAction.nombreFotoLogo}"
-									title="#{empresaAction.nombreFotoLogo}"
+									value="#{businessAction.fileFolder}/#{businessAction.namePhotoLogo}"
+									title="#{businessAction.namePhotoLogo}"
 									styleClass="H200P W290P"
-									rendered="#{!empresaAction.cargarFotoTemporal}" />
+									rendered="#{!businessAction.loadPhotoTemporal}" />
 							</div>
 						</a:outputPanel>
 						<a:outputPanel>
 							<h:graphicImage value="/img/noImage_240X203.png"
-								rendered="#{empresaAction.nombreFotoLogo eq null or empty empresaAction.nombreFotoLogo}"
+								rendered="#{businessAction.namePhotoLogo eq null or empty businessAction.namePhotoLogo}"
 								styleClass="H200P W290P" />
 							<p:fileUpload id="uploadLogo" dragDropSupport="true"
-								rendered="#{empresaAction.nombreFotoLogo eq null or empty empresaAction.nombreFotoLogo}"
+								rendered="#{businessAction.namePhotoLogo eq null or empty businessAction.namePhotoLogo}"
 								label="#{mensaje.label_select_file}" mode="advanced"
-								auto="true" fileUploadListener="#{empresaAction.submit}"
+								auto="true" fileUploadListener="#{businessAction.submit}"
 								update="panelFotoEmpresa"
 								onstart="#{rich:component('statPane')}.show();"
 								oncomplete="#{rich:component('statPane')}.hide();" />

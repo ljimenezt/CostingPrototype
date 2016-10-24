@@ -1,4 +1,4 @@
-package co.informatix.erp.organizaciones.action;
+package co.informatix.erp.organizations.action;
 
 import java.io.File;
 import java.io.Serializable;
@@ -29,10 +29,10 @@ import co.informatix.erp.informacionBase.dao.PaisDao;
 import co.informatix.erp.informacionBase.entities.Departamento;
 import co.informatix.erp.informacionBase.entities.Municipio;
 import co.informatix.erp.informacionBase.entities.Pais;
-import co.informatix.erp.organizaciones.dao.EmpresaDao;
-import co.informatix.erp.organizaciones.dao.OrganizacionDao;
-import co.informatix.erp.organizaciones.entities.Empresa;
-import co.informatix.erp.organizaciones.entities.Organizacion;
+import co.informatix.erp.organizations.dao.BusinessDao;
+import co.informatix.erp.organizations.dao.OrganizacionDao;
+import co.informatix.erp.organizations.entities.Business;
+import co.informatix.erp.organizations.entities.Organizacion;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
@@ -45,27 +45,25 @@ import co.informatix.security.action.IdentityAction;
  * This class lets you handle the business logic of the companies that exist in
  * the system, which allows you to insert, modify, and query.
  * 
- * 
  * @author Oscar.Amaya
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class EmpresaAction implements Serializable {
+public class BusinessAction implements Serializable {
 
 	@EJB
-	private EmpresaDao empresaDao;
+	private BusinessDao businessDao;
 	@EJB
 	private FileUploadBean fileUploadBean;
 	@EJB
-	private OrganizacionDao organizacionDao;
+	private OrganizacionDao organizationDao;
 	@EJB
-	private PaisDao paisDao;
+	private PaisDao countryDao;
 	@EJB
-	private DepartamentoDao departamentoDao;
+	private DepartamentoDao departmentDao;
 	@EJB
-	private MunicipioDao municipioDao;
+	private MunicipioDao townDao;
 
 	@Inject
 	private IdentityAction identity;
@@ -73,74 +71,74 @@ public class EmpresaAction implements Serializable {
 	private UserTransaction userTransaction;
 
 	private Paginador pagination = new Paginador();
-	private Empresa empresaVigencia;
-	private Empresa empresa;
-	private List<Empresa> listaEmpresas;
-	private List<SelectItem> itemsOrganizaciones;
-	private List<SelectItem> itemsPaises;
-	private List<SelectItem> itemDepartamentos;
-	private List<SelectItem> itemsMunicipios;
+	private Business businessValidity;
+	private Business business;
+	private List<Business> listBusiness;
+	private List<SelectItem> itemsOrganizations;
+	private List<SelectItem> itemsCountries;
+	private List<SelectItem> itemDepartments;
+	private List<SelectItem> itemsMunicipalities;
 	private String vigencia = Constantes.SI;
 	private String tabSelect = Constantes.N_TAB;
-	private String opcion;
-	private String carpetaArchivos;
-	private String carpetaArchivosTemporal;
-	private String nombreFotoLogo;
-	private String labelCrear;
-	private String mensajeMiga;
-	private String nombreBuscar;
-	private boolean cargarFotoTemporal;
+	private String option;
+	private String fileFolder;
+	private String fileFolderTemporal;
+	private String namePhotoLogo;
+	private String labelCreate;
+	private String messageMiga;
+	private String nameSearch;
+	private boolean loadPhotoTemporal;
 
 	/**
-	 * @return Label to show when a company is created
+	 * @return labelCreate: Label to show when a company is created
 	 */
-	public String getLabelCrear() {
-		return labelCrear;
+	public String getLabelCreate() {
+		return labelCreate;
 	}
 
 	/**
-	 * @return nombreFotoLogo: filename of the logo associated with the company
+	 * @return namePhotoLogo: filename of the logo associated with the company
 	 */
-	public String getNombreFotoLogo() {
-		return nombreFotoLogo;
+	public String getNamePhotoLogo() {
+		return namePhotoLogo;
 	}
 
 	/**
-	 * @param nombreFotoLogo
+	 * @param namePhotoLogo
 	 *            : filename of the logo associated with the company
 	 */
-	public void setNombreFotoLogo(String nombreFotoLogo) {
-		this.nombreFotoLogo = nombreFotoLogo;
+	public void setNamePhotoLogo(String namePhotoLogo) {
+		this.namePhotoLogo = namePhotoLogo;
 	}
 
 	/**
-	 * @return itemsOrganizaciones: Items organizations that are uploaded the
+	 * @return itemsOrganizations: Items organizations that are uploaded the
 	 *         combo of the user interface
 	 */
-	public List<SelectItem> getItemsOrganizaciones() {
-		return itemsOrganizaciones;
+	public List<SelectItem> getItemsOrganizations() {
+		return itemsOrganizations;
 	}
 
 	/**
-	 * @return carpetaArchivos: the actual folder path where you load the photos
+	 * @return fileFolder: the actual folder path where you load the photos
 	 *         of company logos
 	 */
-	public String getCarpetaArchivos() {
-		this.carpetaArchivos = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
+	public String getFileFolder() {
+		this.fileFolder = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
 				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_LOGOS_EMPRESAS;
-		return carpetaArchivos;
+		return fileFolder;
 	}
 
 	/**
-	 * @return carpetaArchivosTemporal: temporary folder path where carry the
+	 * @return fileFolderTemporal: temporary folder path where carry the
 	 *         logos of companies
 	 */
-	public String getCarpetaArchivosTemporal() {
-		this.carpetaArchivosTemporal = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
+	public String getFileFolderTemporal() {
+		this.fileFolderTemporal = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
 				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
-		return carpetaArchivosTemporal;
+		return fileFolderTemporal;
 	}
 
 	/**
@@ -176,50 +174,50 @@ public class EmpresaAction implements Serializable {
 	}
 
 	/**
-	 * @return empresaVigencia: company to modify the current
+	 * @return businessValidity: company to modify the current
 	 */
-	public Empresa getEmpresaVigencia() {
-		return empresaVigencia;
+	public Business getBusinessValidity() {
+		return businessValidity;
 	}
 
 	/**
-	 * @param empresaVigencia
+	 * @param businessValidity
 	 *            : company to modify the current
 	 */
-	public void setEmpresaVigencia(Empresa empresaVigencia) {
-		this.empresaVigencia = empresaVigencia;
+	public void setBusinessValidity(Business businessValidity) {
+		this.businessValidity = businessValidity;
 	}
 
 	/**
-	 * @return nombreBuscar: Variable that gets the name of the company that is
+	 * @return nameSearch: Variable that gets the name of the company that is
 	 *         searches the user interface.
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            :Variable that sets the name of the company that is searches
 	 *            the user interface.
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return opcion: allows to add or edit a new company existing
+	 * @return option: allows to add or edit a new company existing
 	 */
-	public String getOpcion() {
-		return opcion;
+	public String getOption() {
+		return option;
 	}
 
 	/**
-	 * @param opcion
+	 * @param option
 	 *            : allows to add or edit a new company existing
 	 */
-	public void setOpcion(String opcion) {
-		this.opcion = opcion;
+	public void setOption(String option) {
+		this.option = option;
 	}
 
 	/**
@@ -255,112 +253,112 @@ public class EmpresaAction implements Serializable {
 	}
 
 	/**
-	 * @return empresa: object of the company to which the record or editing is
+	 * @return business: object of the company to which the record or editing is
 	 *         done.
 	 */
-	public Empresa getEmpresa() {
-		return empresa;
+	public Business getBusiness() {
+		return business;
 	}
 
 	/**
-	 * @param empresa
+	 * @param business
 	 *            : object of the company to which the record or editing is
 	 *            done.
 	 */
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setBusiness(Business business) {
+		this.business = business;
 	}
 
 	/**
-	 * @return itemsPaises: Items of the countries that are displayed in a combo
+	 * @return itemsCountries: Items of the countries that are displayed in a combo
 	 *         in the user interface
 	 */
-	public List<SelectItem> getItemsPaises() {
-		return itemsPaises;
+	public List<SelectItem> getItemsCountries() {
+		return itemsCountries;
 	}
 
 	/**
-	 * @return itemDepartamentos: Items of the countries that are displayed in a
+	 * @return itemDepartments: Items of the countries that are displayed in a
 	 *         combo in the user interface
 	 */
-	public List<SelectItem> getItemDepartamentos() {
-		return itemDepartamentos;
+	public List<SelectItem> getItemDepartments() {
+		return itemDepartments;
 	}
 
 	/**
-	 * @return itemsMunicipios: Items of the municipalities that are displayed
+	 * @return itemsMunicipalities: Items of the municipalities that are displayed
 	 *         in a combo in the user interface
 	 */
-	public List<SelectItem> getItemsMunicipios() {
-		return itemsMunicipios;
+	public List<SelectItem> getItemsMunicipalities() {
+		return itemsMunicipalities;
 	}
 
 	/**
-	 * @return listaEmpresas: list of companies that are loaded into the user
+	 * @return listBusiness: list of companies that are loaded into the user
 	 *         interface.
 	 */
-	public List<Empresa> getListaEmpresas() {
-		return listaEmpresas;
+	public List<Business> getListBusiness() {
+		return listBusiness;
 	}
 
 	/**
-	 * @param listaEmpresas
+	 * @param listBusiness
 	 *            : list of companies that are loaded into the user interface.
 	 */
-	public void setListaEmpresas(List<Empresa> listaEmpresas) {
-		this.listaEmpresas = listaEmpresas;
+	public void setListBusiness(List<Business> listBusiness) {
+		this.listBusiness = listBusiness;
 	}
 
 	/**
 	 * Variable that gets the value of the message to display in the bread
 	 * crumbs, depending on the role from which the company releases
 	 * 
-	 * @return mensajeMiga: message crumb of bread in the template
+	 * @return messageMiga: message crumb of bread in the template
 	 */
-	public String getMensajeMiga() {
-		return mensajeMiga;
+	public String getMessageMiga() {
+		return messageMiga;
 	}
 
 	/**
 	 * Variable that gets the value of the message to display in the bread
 	 * crumbs, depending on the role from which the company releases
 	 * 
-	 * @param mensajeMiga
+	 * @param messageMiga
 	 *            : message crumb of bread in the template
 	 */
-	public void setMensajeMiga(String mensajeMiga) {
-		this.mensajeMiga = mensajeMiga;
+	public void setMessageMiga(String messageMiga) {
+		this.messageMiga = messageMiga;
 	}
 
 	/**
-	 * @return cargarFotoTemporal: Flag indicating whether the picture is loaded
+	 * @return loadPhotoTemporal: Flag indicating whether the picture is loaded
 	 *         from the temporary location or not
 	 */
-	public boolean isCargarFotoTemporal() {
-		return cargarFotoTemporal;
+	public boolean isLoadPhotoTemporal() {
+		return loadPhotoTemporal;
 	}
 
 	/**
-	 * @param cargarFotoTemporal
+	 * @param loadPhotoTemporal
 	 *            : Flag indicating whether the picture is loaded from the
 	 *            temporary location or not
 	 */
-	public void setCargarFotoTemporal(boolean cargarFotoTemporal) {
-		this.cargarFotoTemporal = cargarFotoTemporal;
+	public void setLoadPhotoTemporal(boolean loadPhotoTemporal) {
+		this.loadPhotoTemporal = loadPhotoTemporal;
 	}
 
 	/**
 	 * This method establishes a joint company instance, also validates the
 	 * selection of at least one role and required fields Company
 	 * 
-	 * @param empresa
+	 * @param business
 	 *            : company establish
 	 * @throws Exception
 	 */
-	public void establecerEmpresaValidarRolYRequeridos(Empresa empresa)
+	public void establishBusinessValidateRoleAndRequired(Business business)
 			throws Exception {
-		if (requeridosOk("formRegistrarEmpresa")) {
-			this.empresa = empresa;
+		if (requiredOk("formRegistrarEmpresa")) {
+			this.business = business;
 		}
 	}
 
@@ -371,31 +369,31 @@ public class EmpresaAction implements Serializable {
 	 * @modify 26/01/2012 marisol.calderon
 	 * @modify 16/02/2012 marisol.calderon
 	 * 
-	 * @param rol
+	 * @param role
 	 *            : This role is to create the company, these can be ... Normal
 	 *            (n), customer (c), insurance (s), transportation (t), provider
 	 *            (p)
-	 * @return regEmpresa: View to record the company
+	 * @return regBusiness: View to record the company
 	 */
-	public String nuevaEmpresa(char rol) {
+	public String newBusiness(char role) {
 		ResourceBundle bundleOrg = ControladorContexto
 				.getBundle("messageOrganizations");
-		String pagina = "regEmpresa";
+		String page = "regBusiness";
 		try {
-			this.opcion = Constantes.NUEVO;
-			this.empresa = new Empresa();
-			this.cargarCombos();
-			this.nombreFotoLogo = null;
+			this.option = Constantes.NUEVO;
+			this.business = new Business();
+			this.loadCombos();
+			this.namePhotoLogo = null;
 			this.fileUploadBean = new FileUploadBean();
-			this.cargarFotoTemporal = true;
-			if (Constantes.N_TAB.equals(rol)) {
-				this.labelCrear = bundleOrg.getString("company_label_register");
-				this.mensajeMiga = "messageOrganizations.company_label_create";
+			this.loadPhotoTemporal = true;
+			if (Constantes.N_TAB.equals(role)) {
+				this.labelCreate = bundleOrg.getString("company_label_register");
+				this.messageMiga = "messageOrganizations.company_label_create";
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return pagina;
+		return page;
 	}
 
 	/**
@@ -412,39 +410,39 @@ public class EmpresaAction implements Serializable {
 	 * @param rol
 	 *            : role or type of company that is selected for editing, in the
 	 *            case 'f' the same procedure is performed 'n'
-	 * @return "regEmpresa": returns to the template registrarEmpresa
+	 * @return "regBusiness": returns to the template registrarEmpresa
 	 */
-	public String editarEmpresa(Empresa empresaEditar, char rol) {
+	public String editBusiness(Business businessEdit, char role) {
 		ResourceBundle bundleOrg = ControladorContexto
 				.getBundle("messageOrganizations");
 		try {
-			opcion = Constantes.EDITAR;
-			this.empresa = empresaEditar;
-			this.nombreFotoLogo = this.empresa.getLogo();
-			this.cargarFotoTemporal = false;
-			cargarCombos();
+			option = Constantes.EDITAR;
+			this.business = businessEdit;
+			this.namePhotoLogo = this.business.getLogo();
+			this.loadPhotoTemporal = false;
+			loadCombos();
 			/*
 			 * Message displayed depending on the role in registrarEmpresa
 			 * template.
 			 */
-			if (Constantes.N_TAB.equals(rol)) {
-				this.labelCrear = bundleOrg.getString("company_label_register");
-				mensajeMiga = "messageOrganizations.company_label_modify";
+			if (Constantes.N_TAB.equals(role)) {
+				this.labelCreate = bundleOrg.getString("company_label_register");
+				messageMiga = "messageOrganizations.company_label_modify";
 			}
 
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "regEmpresa";
+		return "regBusiness";
 	}
 
 	/**
 	 * Method for consulting companies from the pager, the method takes no
 	 * parameters for the template used Pager
 	 */
-	public void consultarEmpresas() {
-		String rolEmpresa = ControladorContexto.getParam("param2");
-		consultarEmpresas(rolEmpresa);
+	public void consultBusiness() {
+		String roleBusiness = ControladorContexto.getParam("param2");
+		consultBusiness(roleBusiness);
 	}
 
 	/**
@@ -456,9 +454,9 @@ public class EmpresaAction implements Serializable {
 	 *         system and returns to the management staff with the search
 	 *         results.
 	 */
-	public String inicializarBusqueda() {
-		this.nombreBuscar = "";
-		return consultarEmpresas(Constantes.N_TAB);
+	public String initializeSearch() {
+		this.nameSearch = "";
+		return consultBusiness(Constantes.N_TAB);
 	}
 
 	/**
@@ -470,10 +468,10 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @param rol
 	 *            : establishes the role of business for companies on request.
-	 * @return gesEmpresas: Navigation rule that routes to the template list
+	 * @return gesBusiness: Navigation rule that routes to the template list
 	 *         management companies.
 	 */
-	public String consultarEmpresas(String rol) {
+	public String consultBusiness(String rol) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleOrganizaciones = ControladorContexto
 				.getBundle("messageOrganizations");
@@ -483,48 +481,48 @@ public class EmpresaAction implements Serializable {
 		StringBuilder consulta = new StringBuilder();
 		StringBuilder unionMensajesBusqueda = new StringBuilder();
 		String mensajeBusqueda = "";
-		this.empresa = new Empresa();
+		this.business = new Business();
 		try {
 			String condicionVigencia = Constantes.IS_NULL;
 			if (Constantes.NOT.equals(vigencia)) {
 				condicionVigencia = Constantes.IS_NOT_NULL;
 			}
 			setTabSelect(rol);
-			busquedaAvanzada(consulta, parametros, bundle,
+			advancedSearch(consulta, parametros, bundle,
 					unionMensajesBusqueda);
 			if (Constantes.N_TAB.equals(rol)) {
 				/* All companies are queried */
-				this.pagination.paginar(this.empresaDao.cantidadEmpresas(
+				this.pagination.paginar(this.businessDao.mountBusiness(
 						condicionVigencia, consulta, parametros));
-				this.listaEmpresas = this.empresaDao.consultarEmpresas(
+				this.listBusiness = this.businessDao.consultBusiness(
 						this.pagination.getInicio(),
 						this.pagination.getRango(), condicionVigencia,
 						consulta, parametros);
 			} else if (Constantes.F_TAB.equals(rol)) {
 				/* Businesses are consulted with estates */
-				this.pagination.paginar(this.empresaDao
-						.cantidadEmpresasConHaciendas(condicionVigencia));
-				this.listaEmpresas = this.empresaDao
-						.consultarEmpresasConHaciendas(
+				this.pagination.paginar(this.businessDao
+						.amountBusinessWithEstates(condicionVigencia));
+				this.listBusiness = this.businessDao
+						.consultBusinessWithEstates(
 								this.pagination.getInicio(),
 								this.pagination.getRango(), condicionVigencia);
 			}
-			this.empresaVigencia = new Empresa();
-			cargarDetallesEmpresas();
+			this.businessValidity = new Business();
+			loadDetailsBusiness();
 			/* Search posts are build */
-			if ((this.listaEmpresas == null || this.listaEmpresas.size() <= 0)
-					&& (this.nombreBuscar != null && !""
-							.equals(this.nombreBuscar))) {
+			if ((this.listBusiness == null || this.listBusiness.size() <= 0)
+					&& (this.nameSearch != null && !""
+							.equals(this.nameSearch))) {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionMensajesBusqueda);
-			} else if (this.listaEmpresas == null
-					|| this.listaEmpresas.size() <= 0) {
+			} else if (this.listBusiness == null
+					|| this.listBusiness.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (this.nombreBuscar != null
-					&& !"".equals(this.nombreBuscar)) {
+			} else if (this.nameSearch != null
+					&& !"".equals(this.nameSearch)) {
 				mensajeBusqueda = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
@@ -536,7 +534,7 @@ public class EmpresaAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesEmpresas";
+		return "gesBusiness";
 	}
 
 	/**
@@ -555,16 +553,16 @@ public class EmpresaAction implements Serializable {
 	 * @param unionMessagesSearch
 	 *            : message search
 	 */
-	private void busquedaAvanzada(StringBuilder consult,
+	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
-		if (this.nombreBuscar != null && !"".equals(this.nombreBuscar)) {
-			SelectItem item = new SelectItem("%" + nombreBuscar + "%",
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			SelectItem item = new SelectItem("%" + nameSearch + "%",
 					"keyword");
-			consult.append(" AND UPPER(e.nombre) LIKE UPPER(:keyword) ");
+			consult.append(" AND UPPER(e.name) LIKE UPPER(:keyword) ");
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
-					+ '"' + this.nombreBuscar + '"');
+					+ '"' + this.nameSearch + '"');
 		}
 	}
 
@@ -575,13 +573,13 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void cargarDetallesEmpresas() throws Exception {
-		List<Empresa> empresas = new ArrayList<Empresa>();
-		empresas.addAll(this.listaEmpresas);
-		this.listaEmpresas = new ArrayList<Empresa>();
-		for (Empresa empresa : empresas) {
-			cargarDetallesUnaEmpresa(empresa);
-			this.listaEmpresas.add(empresa);
+	public void loadDetailsBusiness() throws Exception {
+		List<Business> empresas = new ArrayList<Business>();
+		empresas.addAll(this.listBusiness);
+		this.listBusiness = new ArrayList<Business>();
+		for (Business empresa : empresas) {
+			loadDetailsOneBusiness(empresa);
+			this.listBusiness.add(empresa);
 		}
 	}
 
@@ -595,25 +593,25 @@ public class EmpresaAction implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public void cargarDetallesUnaEmpresa(Empresa empresa) throws Exception {
-		int idEmpresa = empresa.getId();
+	public void loadDetailsOneBusiness(Business business) throws Exception {
+		int idEmpresa = business.getId();
 		/* Objects are consulted */
-		Pais pais = (Pais) this.empresaDao.consultarObjetoEmpresa("pais",
+		Pais country = (Pais) this.businessDao.consultObjectBusiness("country",
 				idEmpresa);
-		Departamento departamento = (Departamento) this.empresaDao
-				.consultarObjetoEmpresa("departamento", idEmpresa);
-		Municipio municipio = (Municipio) this.empresaDao
-				.consultarObjetoEmpresa("municipio", idEmpresa);
-		List<Organizacion> organizacion = (List<Organizacion>) this.empresaDao
-				.consultarListaObjetosDeEmpresa("organizacion", idEmpresa);
+		Departamento department = (Departamento) this.businessDao
+				.consultObjectBusiness("department", idEmpresa);
+		Municipio town = (Municipio) this.businessDao
+				.consultObjectBusiness("town", idEmpresa);
+		List<Organizacion> organizacion = (List<Organizacion>) this.businessDao
+				.consultListObjectOfBusiness("organization", idEmpresa);
 		/* They are assigned to the company */
-		empresa.setPais(pais);
-		empresa.setDepartamento(departamento);
-		empresa.setMunicipio(municipio);
+		business.setCountry(country);
+		business.setDepartment(department);
+		business.setTown(town);
 		if (organizacion.size() > 0) {
-			empresa.setOrganizacion(organizacion.get(0));
+			business.setOrganization(organizacion.get(0));
 		} else {
-			empresa.setOrganizacion(new Organizacion());
+			business.setOrganization(new Organizacion());
 		}
 	}
 
@@ -623,53 +621,53 @@ public class EmpresaAction implements Serializable {
 	 * @param event
 	 *            : event that runs when a tab is selected
 	 */
-	public void cambioPestana(ItemChangeEvent event) {
-		String idPestana = event.getNewItemName();
-		if (idPestana != null && !"".equals(idPestana)) {
-			consultarEmpresas(idPestana);
+	public void changedTab(ItemChangeEvent event) {
+		String idTab = event.getNewItemName();
+		if (idTab != null && !"".equals(idTab)) {
+			consultBusiness(idTab);
 		}
 	}
 
 	/**
 	 * This method modifies the current of a business
 	 * 
-	 * @param vigente
+	 * @param validity
 	 *            : boolean that allows to know if the current ends with 'true'
 	 *            or INICA with 'false', the selected record in the user
 	 *            interface.
-	 * @param rol
+	 * @param role
 	 *            : establishes the role of business for companies on request.
 	 * @return consultarEmpresas(): Consulting companies present in the system
 	 *         according to the selected role and returns to the management
 	 *         staff.
 	 */
-	public String vigenciaEmpresa(boolean vigente, String rol) {
+	public String validityBusiness(boolean validity, String role) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String key = "message_fin_vigencia_satisfactorio";
 		try {
-			if (Constantes.N_TAB.equals(rol)) {
-				this.empresaVigencia.setUserName(this.identity.getUserName());
+			if (Constantes.N_TAB.equals(role)) {
+				this.businessValidity.setUserName(this.identity.getUserName());
 				/* The organization is not required field */
-				if (this.empresaVigencia.getOrganizacion() != null
-						&& this.empresaVigencia.getOrganizacion().getId() == 0) {
-					this.empresaVigencia.setOrganizacion(null);
+				if (this.businessValidity.getOrganization() != null
+						&& this.businessValidity.getOrganization().getId() == 0) {
+					this.businessValidity.setOrganization(null);
 				}
-				if (vigente) {
-					this.empresaVigencia.setFechaFinVigencia(new Date());
-					this.empresaDao.modificarEmpresa(this.empresaVigencia);
+				if (validity) {
+					this.businessValidity.setDateEndValidity(new Date());
+					this.businessDao.modifyBusiness(this.businessValidity);
 				} else {
 					key = "message_inicio_vigencia_satisfactorio";
-					this.empresaVigencia.setFechaFinVigencia(null);
-					this.empresaDao.modificarEmpresa(this.empresaVigencia);
+					this.businessValidity.setDateEndValidity(null);
+					this.businessDao.modifyBusiness(this.businessValidity);
 				}
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle.getString(key) + ": {0}",
-								this.empresaVigencia.getNombre()));
+								this.businessValidity.getName()));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarEmpresas(rol);
+		return consultBusiness(role);
 	}
 
 	/**
@@ -686,70 +684,70 @@ public class EmpresaAction implements Serializable {
 	 * @return String: Navigation rule that returns to the template record or
 	 *         check depending on the case company.
 	 */
-	public String agregarEditarEmpresa(String rol) {
+	public String addEditBusiness(String role) {
 		ResourceBundle bundle2 = ControladorContexto
 				.getBundle("messageOrganizations");
-		String mensaje = "";
-		String nombreFotoBorrar = null;
-		String salida = "regEmpresa";
-		boolean edicion = false;
-		boolean seCambioLogo = false;
+		String message = "";
+		String namePhotoDelete = null;
+		String exit = "regBusiness";
+		boolean edition = false;
+		boolean logoChanged = false;
 		boolean error = false;
 		try {
 			this.userTransaction.begin();
 			/* The organization is not required field */
-			if (this.empresa.getOrganizacion().getId() == 0) {
-				this.empresa.setOrganizacion(null);
+			if (this.business.getOrganization().getId() == 0) {
+				this.business.setOrganization(null);
 			}
-			this.empresa.setUserName(this.identity.getUserName());
-			if (this.empresa.getId() != 0) {
-				edicion = true;
-				if (this.empresa.getLogo() != null
-						&& !"".equals(this.empresa.getLogo())
-						&& !this.empresa.getLogo().equals(this.nombreFotoLogo)) {
-					this.borrarArchivoReal(this.empresa.getLogo());
-					seCambioLogo = true;
-				} else if (empresa.getLogo() == null
+			this.business.setUserName(this.identity.getUserName());
+			if (this.business.getId() != 0) {
+				edition = true;
+				if (this.business.getLogo() != null
+						&& !"".equals(this.business.getLogo())
+						&& !this.business.getLogo().equals(this.namePhotoLogo)) {
+					this.deleteFileReal(this.business.getLogo());
+					logoChanged = true;
+				} else if (business.getLogo() == null
 						&& fileUploadBean.getFileName() != null
 						&& !"".equals(fileUploadBean.getFileName())) {
-					seCambioLogo = true;
+					logoChanged = true;
 				}
-				this.empresa.setLogo(this.nombreFotoLogo);
-				if (empresa.getLogo() != null && seCambioLogo) {
-					nombreFotoBorrar = this.nombreFotoLogo;
+				this.business.setLogo(this.namePhotoLogo);
+				if (business.getLogo() != null && logoChanged) {
+					namePhotoDelete = this.namePhotoLogo;
 					/* The image is loaded into the actual location */
-					subirImagenUbicacionReal();
+					uploadImageLocationReal();
 				}
-				this.empresaDao.modificarEmpresa(this.empresa);
+				this.businessDao.modifyBusiness(this.business);
 
-				mensaje = MessageFormat.format(bundle2
+				message = MessageFormat.format(bundle2
 						.getString("company_message_successfully_modified"),
-						this.empresa.getNombre(), this.empresa.getNit());
+						this.business.getName(), this.business.getNit());
 			} else {
-				if (this.nombreFotoLogo != null
-						&& !"".equals(this.nombreFotoLogo.trim())) {
-					nombreFotoBorrar = this.nombreFotoLogo;
-					subirImagenUbicacionReal();
+				if (this.namePhotoLogo != null
+						&& !"".equals(this.namePhotoLogo.trim())) {
+					namePhotoDelete = this.namePhotoLogo;
+					uploadImageLocationReal();
 				}
-				this.empresa.setFechaCreacion(new Date());
-				this.empresa.setLogo(this.nombreFotoLogo);
-				this.empresaDao.crearEmpresa(this.empresa);
-				mensaje = MessageFormat.format(bundle2
+				this.business.setDateCreation(new Date());
+				this.business.setLogo(this.namePhotoLogo);
+				this.businessDao.createBusiness(this.business);
+				message = MessageFormat.format(bundle2
 						.getString("company_message_successfully_created"),
-						empresa.getNombre(), empresa.getNit());
+						business.getName(), business.getNit());
 			}
 			this.userTransaction.commit();
 			/* The temporary file is deleted */
-			if (nombreFotoBorrar != null && !"".equals(nombreFotoBorrar)) {
-				this.borrarArchivo(nombreFotoBorrar);
+			if (namePhotoDelete != null && !"".equals(namePhotoDelete)) {
+				this.deleteFile(namePhotoDelete);
 			}
-			ControladorContexto.mensajeInformacion(null, mensaje);
-			salida = consultarEmpresas(rol);
+			ControladorContexto.mensajeInformacion(null, message);
+			exit = consultBusiness(role);
 		} catch (Exception e) {
 			error = true;
-			if (this.nombreFotoLogo != null && !"".equals(this.nombreFotoLogo)
-					&& !edicion) {
-				this.borrarArchivoReal(this.nombreFotoLogo);
+			if (this.namePhotoLogo != null && !"".equals(this.namePhotoLogo)
+					&& !edition) {
+				this.deleteFileReal(this.namePhotoLogo);
 			}
 			try {
 				this.userTransaction.rollback();
@@ -759,9 +757,9 @@ public class EmpresaAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		if (!error) {
-			this.empresa = new Empresa();
+			this.business = new Business();
 		}
-		return salida;
+		return exit;
 	}
 
 	/**
@@ -774,22 +772,22 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarCombos() throws Exception {
-		itemsPaises = new ArrayList<SelectItem>();
-		List<Pais> paises = paisDao.consultarPaisesVigentes();
-		if (paises != null) {
-			for (Pais pais : paises) {
-				itemsPaises.add(new SelectItem(pais.getId(), pais.getNombre()));
+	private void loadCombos() throws Exception {
+		itemsCountries = new ArrayList<SelectItem>();
+		List<Pais> countries = countryDao.consultarPaisesVigentes();
+		if (countries != null) {
+			for (Pais country : countries) {
+				itemsCountries.add(new SelectItem(country.getId(), country.getNombre()));
 			}
 		}
-		cargarDepartamentos();
-		cargarMunicipios();
-		itemsOrganizaciones = new ArrayList<SelectItem>();
-		List<Organizacion> listaOrganizacionesVigentes = organizacionDao
+		loadDepartments();
+		loadMunicipalities();
+		itemsOrganizations = new ArrayList<SelectItem>();
+		List<Organizacion> listOrganizationsValidity = organizationDao
 				.consultarOrganizacionesVigentes();
-		if (listaOrganizacionesVigentes != null) {
-			for (Organizacion organizacion : listaOrganizacionesVigentes) {
-				itemsOrganizaciones.add(new SelectItem(organizacion.getId(),
+		if (listOrganizationsValidity != null) {
+			for (Organizacion organizacion : listOrganizationsValidity) {
+				itemsOrganizations.add(new SelectItem(organizacion.getId(),
 						organizacion.getRazonSocial()));
 			}
 		}
@@ -801,26 +799,26 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @modify 16/02/2012 marisol.calderon
 	 */
-	public void cargarDepartamentos() {
-		itemDepartamentos = new ArrayList<SelectItem>();
-		itemsMunicipios = new ArrayList<SelectItem>();
+	public void loadDepartments() {
+		itemDepartments = new ArrayList<SelectItem>();
+		itemsMunicipalities = new ArrayList<SelectItem>();
 		try {
-			Pais pais = empresa.getPais();
-			if (pais != null && pais.getId() > 0) {
-				short idPais = pais.getId();
-				List<Departamento> departamentos = departamentoDao
+			Pais country = business.getCountry();
+			if (country != null && country.getId() > 0) {
+				short idPais = country.getId();
+				List<Departamento> departments = departmentDao
 						.consultarDepartamentosPaisVigentes(idPais);
-				if (departamentos != null) {
-					for (Departamento d : departamentos) {
-						itemDepartamentos.add(new SelectItem(d.getId(), d
+				if (departments != null) {
+					for (Departamento d : departments) {
+						itemDepartments.add(new SelectItem(d.getId(), d
 								.getNombre()));
 					}
 				}
-				cargarMunicipios();
+				loadMunicipalities();
 			} else {
-				empresa.setDepartamento(new Departamento());
-				empresa.setMunicipio(new Municipio());
-				empresa.getDepartamento().setId(0);
+				business.setDepartment(new Departamento());
+				business.setTown(new Municipio());
+				business.getDepartment().setId(0);
 			}
 
 		} catch (Exception e) {
@@ -835,25 +833,25 @@ public class EmpresaAction implements Serializable {
 	 * @modify 16/02/2012 marisol.calderon
 	 * @modify 30/03/2012 angelica.amaya
 	 */
-	public void cargarMunicipios() {
-		itemsMunicipios = new ArrayList<SelectItem>();
+	public void loadMunicipalities() {
+		itemsMunicipalities = new ArrayList<SelectItem>();
 		try {
-			Departamento departamento = empresa.getDepartamento();
-			if (departamento != null && departamento.getId() > 0
-					&& this.itemDepartamentos.size() > 0) {
-				int idDepartamento = departamento.getId();
-				List<Municipio> municipios = municipioDao
+			Departamento department = business.getDepartment();
+			if (department != null && department.getId() > 0
+					&& this.itemDepartments.size() > 0) {
+				int idDepartamento = department.getId();
+				List<Municipio> municipalities = townDao
 						.consultarMunicipiosVigentes(idDepartamento);
-				if (municipios != null) {
-					for (Municipio m : municipios) {
-						itemsMunicipios.add(new SelectItem(m.getId(), m
+				if (municipalities != null) {
+					for (Municipio m : municipalities) {
+						itemsMunicipalities.add(new SelectItem(m.getId(), m
 								.getNombre()));
 					}
 				}
 			} else {
-				itemsMunicipios = new ArrayList<SelectItem>();
-				empresa.setDepartamento(new Departamento());
-				empresa.setMunicipio(new Municipio());
+				itemsMunicipalities = new ArrayList<SelectItem>();
+				business.setDepartment(new Departamento());
+				business.setTown(new Municipio());
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -870,7 +868,7 @@ public class EmpresaAction implements Serializable {
 	 * @param value
 	 *            : field value to be valid
 	 */
-	public void validarNitEmpresaXSS(FacesContext context,
+	public void validateNitBusinessXSS(FacesContext context,
 			UIComponent toValidate, Object value) {
 		ResourceBundle bundle2 = ControladorContexto
 				.getBundle("messageOrganizations");
@@ -878,11 +876,11 @@ public class EmpresaAction implements Serializable {
 		String clientId = toValidate.getClientId(context);
 		try {
 			Integer id = 0;
-			if (this.empresa.getId() != 0) {
-				id = this.empresa.getId();
+			if (this.business.getId() != 0) {
+				id = this.business.getId();
 			}
-			boolean validarNit = empresaDao.nitExiste(nit, id);
-			if (validarNit) {
+			boolean validateNit = businessDao.nitExist(nit, id);
+			if (validateNit) {
 				context.addMessage(
 						clientId,
 						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle2
@@ -902,13 +900,13 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @author Luis.Ruiz
 	 */
-	public void borrarFilename() {
-		if (nombreFotoLogo != null && !"".equals(nombreFotoLogo)
-				&& !nombreFotoLogo.equals(empresa.getLogo())
-				&& this.cargarFotoTemporal) {
-			borrarArchivo(nombreFotoLogo);
+	public void deleteFilename() {
+		if (namePhotoLogo != null && !"".equals(namePhotoLogo)
+				&& !namePhotoLogo.equals(business.getLogo())
+				&& this.loadPhotoTemporal) {
+			deleteFile(namePhotoLogo);
 		}
-		nombreFotoLogo = null;
+		namePhotoLogo = null;
 		fileUploadBean.setFileName(null);
 	}
 
@@ -920,10 +918,10 @@ public class EmpresaAction implements Serializable {
 	 * @param fileName
 	 *            : Name of the file to delete.
 	 */
-	public void borrarArchivo(String fileName) {
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
-		fileUploadBean.delete(ubicaciones, fileName);
+	public void deleteFile(String fileName) {
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFileFolderTemporal() };
+		fileUploadBean.delete(locations, fileName);
 	}
 
 	/**
@@ -934,12 +932,12 @@ public class EmpresaAction implements Serializable {
 	 * @param fileName
 	 *            : Name of the file to delete.
 	 */
-	public void borrarArchivoReal(String fileName) {
-		String ubicaciones[] = {
-				Constantes.RUTA_UPLOADFILE_GLASFISH + this.getCarpetaArchivos(),
+	public void deleteFileReal(String fileName) {
+		String locations[] = {
+				Constantes.RUTA_UPLOADFILE_GLASFISH + this.getFileFolder(),
 				Constantes.RUTA_UPLOADFILE_WORKSPACE
-						+ this.getCarpetaArchivos() };
-		fileUploadBean.delete(ubicaciones, fileName);
+						+ this.getFileFolder() };
+		fileUploadBean.delete(locations, fileName);
 	}
 
 	/**
@@ -955,7 +953,7 @@ public class EmpresaAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String extAceptadas[] = Constantes.EXT_IMG.split(", ");
 		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
+				+ getFileFolderTemporal() };
 		fileUploadBean.setUploadedFile(e.getFile());
 		long tamanyoMaxArchivos = Constantes.TAMANYO_MAX_ARCHIVOS;
 		String resultUpload = fileUploadBean.uploadValTamanyo(extAceptadas,
@@ -976,10 +974,10 @@ public class EmpresaAction implements Serializable {
 			ControladorContexto.mensajeError("formRegistrarEmpresa:uploadLogo",
 					bundle.getString(mensaje));
 		}
-		if (empresa.getId() != 0) {
-			cargarFotoTemporal = true;
+		if (business.getId() != 0) {
+			loadPhotoTemporal = true;
 		}
-		nombreFotoLogo = fileUploadBean.getFileName();
+		namePhotoLogo = fileUploadBean.getFileName();
 	}
 
 	/**
@@ -989,13 +987,13 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void subirImagenUbicacionReal() throws Exception {
+	private void uploadImageLocationReal() throws Exception {
 		String origen = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivosTemporal();
+				+ this.getFileFolderTemporal();
 		String destino1 = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivos();
+				+ this.getFileFolder();
 		String destino2 = Constantes.RUTA_UPLOADFILE_WORKSPACE
-				+ this.getCarpetaArchivos();
+				+ this.getFileFolder();
 
 		/* It checks whether the destinations are created there but */
 		FileUploadBean.fileExist(destino1);
@@ -1022,41 +1020,41 @@ public class EmpresaAction implements Serializable {
 	 *         otherwise.
 	 * @throws Exception
 	 */
-	public boolean requeridosOk(String nombreForm) throws Exception {
+	public boolean requiredOk(String nameForm) throws Exception {
 		boolean result = true;
-		if (empresa.getNit() == null || "".equals(empresa.getNit())) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":nit");
+		if (business.getNit() == null || "".equals(business.getNit())) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":nit");
 			result = false;
 		}
-		if (empresa.getNombre() == null || "".equals(empresa.getNombre())) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":nombre");
+		if (business.getName() == null || "".equals(business.getName())) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":name");
 			result = false;
 		}
-		if (empresa.getDireccion() == null || "".equals(empresa.getDireccion())) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":direccion");
+		if (business.getAddress() == null || "".equals(business.getAddress())) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":address");
 			result = false;
 		}
-		if (empresa.getTelefono() == null || "".equals(empresa.getTelefono())) {
-			ControladorContexto.mensajeRequeridos(nombreForm + ":telefono");
+		if (business.getPhone() == null || "".equals(business.getPhone())) {
+			ControladorContexto.mensajeRequeridos(nameForm + ":telefono");
 			result = false;
 		}
-		if (empresa.getPais().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm
+		if (business.getCountry().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm
 					+ ":comboPaisEmpresa");
 			result = false;
 		}
-		if (empresa.getDepartamento().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm
+		if (business.getDepartment().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm
 					+ ":comboDepartamentoEmpresa");
 			result = false;
 		}
-		if (empresa.getMunicipio().getId() == 0) {
-			ControladorContexto.mensajeRequeridos(nombreForm
+		if (business.getTown().getId() == 0) {
+			ControladorContexto.mensajeRequeridos(nameForm
 					+ ":comboMunicipioEmpresa");
 			result = false;
 		}
-		if (!EncodeFilter.validarXSS(nombreFotoLogo,
-				nombreForm + ":uploadLogo", null)) {
+		if (!EncodeFilter.validarXSS(namePhotoLogo,
+				nameForm + ":uploadLogo", null)) {
 			result = false;
 		}
 
@@ -1068,11 +1066,11 @@ public class EmpresaAction implements Serializable {
 	 * 
 	 * @author marisol.calderon
 	 */
-	public void guardarEmpresaDesdeDialogo() {
+	public void saveBusinessFromDialog() {
 		try {
-			if (this.requeridosOk("formRegistrarEmpresa")
+			if (this.requiredOk("formRegistrarEmpresa")
 					&& ControladorContexto.getMaxSeverity() == null) {
-				agregarEditarEmpresa(Constantes.N_TAB);
+				addEditBusiness(Constantes.N_TAB);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

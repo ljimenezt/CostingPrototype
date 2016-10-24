@@ -32,29 +32,29 @@
 								<h:outputText
 									value="#{messageOrganizations.organization_label}:" />
 								<h:outputText
-									value="#{empresaAction.empresa.organizacion.razonSocial}" />
+									value="#{businessAction.business.organization.razonSocial}" />
 
 								<h:outputText value="#{mensaje.label_identification}:" />
-								<h:outputText value="#{empresaAction.empresa.nit}" />
+								<h:outputText value="#{businessAction.business.nit}" />
 
 								<h:outputText value="#{mensaje.label_name}:" />
-								<h:outputText value="#{empresaAction.empresa.nombre}" />
+								<h:outputText value="#{businessAction.business.name}" />
 
 								<h:outputText value="#{mensaje.label_telephone_number}:" />
-								<h:outputText value="#{empresaAction.empresa.telefono}" />
+								<h:outputText value="#{businessAction.business.phone}" />
 
 								<h:outputText value="#{mensaje.label_mobile}:" />
-								<h:outputText value="#{empresaAction.empresa.movil}" />
+								<h:outputText value="#{businessAction.business.mobile}" />
 							</h:panelGrid>
 							<h:panelGrid columns="1">
 								<t:fieldset styleClass="BorderW2P">
 									<legend class="etiquetaTitulo">#{mensaje.label_logo}</legend>
 									<h:graphicImage
-										rendered="#{empresaAction.empresa.logo != null and !empty empresaAction.empresa.logo}"
-										value="#{empresaAction.carpetaArchivos}/#{empresaAction.empresa.logo}"
-										title="#{empresaAction.empresa.logo}" styleClass="H200P W250P" />
+										rendered="#{businessAction.business.logo != null and !empty businessAction.business.logo}"
+										value="#{businessAction.fileFolder}/#{businessAction.business.logo}"
+										title="#{businessAction.business.logo}" styleClass="H200P W250P" />
 									<h:graphicImage
-										rendered="#{empresaAction.empresa.logo eq null or empty empresaAction.empresa.logo}"
+										rendered="#{businessAction.business.logo eq null or empty businessAction.business.logo}"
 										value="/img/noImage_240X203.png" styleClass="H200P W250P" />
 								</t:fieldset>
 							</h:panelGrid>
@@ -65,24 +65,24 @@
 						<h:panelGrid columns="2" cellpadding="5" cellspacing="13"
 							columnClasses="columnaIzquierda, columnaDerecha">
 							<h:outputText value="#{mensaje.label_address}:" />
-							<h:outputText value="#{empresaAction.empresa.direccion}" />
+							<h:outputText value="#{businessAction.business.address}" />
 
 							<h:outputText value="#{mensaje.label_email}:" />
-							<h:outputText value="#{empresaAction.empresa.correo}" />
+							<h:outputText value="#{businessAction.business.email}" />
 
 							<h:outputText value="#{mensaje.label_fax}:" />
-							<h:outputText value="#{empresaAction.empresa.fax}" />
+							<h:outputText value="#{businessAction.business.fax}" />
 
 							<h:outputText value="#{messageBaseInformation.country_label}:" />
-							<h:outputText value="#{empresaAction.empresa.pais.nombre}" />
+							<h:outputText value="#{businessAction.business.country.nombre}" />
 
 							<h:outputText
 								value="#{messageBaseInformation.department_label}:" />
 							<h:outputText
-								value="#{empresaAction.empresa.departamento.nombre}" />
+								value="#{businessAction.business.department.nombre}" />
 
 							<h:outputText value="#{messageBaseInformation.municipality_label}:" />
-							<h:outputText value="#{empresaAction.empresa.municipio.nombre}" />
+							<h:outputText value="#{businessAction.business.town.nombre}" />
 						</h:panelGrid>
 					</rich:accordionItem>
 

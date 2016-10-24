@@ -9,17 +9,17 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="empresaAction.nuevaEmpresa('n')" />
-	<ui:param name="titulo" value="#{empresaAction.mensajeMiga}" />
+	<ui:param name="action" value="businessAction.newBusiness('n')" />
+	<ui:param name="titulo" value="#{businessAction.messageMiga}" />
 	<ui:define name="body">
 		<h:form id="formRegistrarEmpresa">
-			<t:saveState value="#{empresaAction}" />
+			<t:saveState value="#{businessAction}" />
 			<t:saveState value="#{controladorListasDobles}" />
 			<t:saveState value="#{validacionesAction}" />
 			<t:saveState value="#{controladorArchivos}" />
 
 			<rich:panel id="pnlRegistrarEmpresa" styleClass="anchoUno"
-				header="#{empresaAction.labelCrear}">
+				header="#{businessAction.labelCreate}">
 
 				<ui:include src="plantillaRegistrarEmpresa.xhtml">
 					<ui:param name="tabSelect" value="n" />
@@ -30,10 +30,10 @@
 					<a:commandButton value="#{mensaje.button_save}"
 						render="formGenerico, :formConfirmacion:popupConfirmar, mensajes"
 						execute="pnlRegistrarEmpresa"
-						actionListener="#{empresaAction.establecerEmpresaValidarRolYRequeridos(empresaAction.empresa)}"
+						actionListener="#{businessAction.establishBusinessValidateRoleAndRequired(businessAction.business)}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupConfirmar')}.show();}
 									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						rendered="#{(empresaAction.opcion eq 'editar' and identity.autorizado('empresaAction','U')) or identity.autorizado('empresaAction','A') or identity.autorizado('empresaAction','I')}" />
+						rendered="#{(businessAction.option eq 'editar' and identity.autorizado('businessAction','U')) or identity.autorizado('businessAction','A') or identity.autorizado('businessAction','I')}" />
 					<a:commandButton value="#{mensajePuc.tercero_button_return}"
 						render="popupValidarRegresarTercero"
 						oncomplete="#{rich:component('popupValidarRegresarTercero')}.show();"
@@ -66,45 +66,45 @@
 
 						<h:outputText value="#{messageOrganizations.organization_label}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(empresaAction.itemsOrganizaciones,empresaAction.empresa.organizacion.id)}" />
+							value="#{validacionesAction.getLabel(businessAction.itemsOrganizations,businessAction.business.organization.id)}" />
 
 						<h:outputText value="#{mensaje.label_identification}:" />
-						<h:outputText value="#{empresaAction.empresa.nit}" />
+						<h:outputText value="#{businessAction.business.nit}" />
 
 						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{empresaAction.empresa.nombre}" />
+						<h:outputText value="#{businessAction.business.name}" />
 
 						<h:outputText value="#{mensaje.label_address}:" />
-						<h:outputText value="#{empresaAction.empresa.direccion}" />
+						<h:outputText value="#{businessAction.business.address}" />
 
 						<h:outputText value="#{mensaje.label_telephone_number}:" />
-						<h:outputText value="#{empresaAction.empresa.telefono}" />
+						<h:outputText value="#{businessAction.business.phone}" />
 
 						<h:outputText value="#{mensaje.label_email}:" />
-						<h:outputText value="#{empresaAction.empresa.correo}" />
+						<h:outputText value="#{businessAction.business.email}" />
 
 						<h:outputText value="#{mensaje.label_fax}:" />
-						<h:outputText value="#{empresaAction.empresa.fax}" />
+						<h:outputText value="#{businessAction.business.fax}" />
 
 						<h:outputText value="#{mensaje.label_mobile}:" />
-						<h:outputText value="#{empresaAction.empresa.movil}" />
+						<h:outputText value="#{businessAction.business.mobile}" />
 
 						<h:outputText value="#{messageBaseInformation.country_label}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(empresaAction.itemsPaises,empresaAction.empresa.pais.id)}" />
+							value="#{validacionesAction.getLabel(businessAction.itemsCountries,businessAction.business.country.id)}" />
 
 						<h:outputText
 							value="#{messageBaseInformation.department_label}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(empresaAction.itemDepartamentos,empresaAction.empresa.departamento.id)}" />
+							value="#{validacionesAction.getLabel(businessAction.itemDepartments,businessAction.business.department.id)}" />
 
 						<h:outputText value="#{messageBaseInformation.municipality_label}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(empresaAction.itemsMunicipios,empresaAction.empresa.municipio.id)}" />
+							value="#{validacionesAction.getLabel(businessAction.itemsMunicipalities,businessAction.business.town.id)}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{empresaAction.agregarEditarEmpresa(empresaAction.tabSelect)}"
+							action="#{businessAction.addEditBusiness(businessAction.tabSelect)}"
 							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 
 						<a:commandButton value="#{mensaje.button_cancel}"

@@ -9,12 +9,12 @@
 	xmlns:a="http://richfaces.org/a4j">
 	<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 		columnClasses="W50Per,W50Per" styleClass="anchoDos">
-		<h:selectOneRadio value="#{empresaAction.vigencia}"
+		<h:selectOneRadio value="#{businessAction.vigencia}"
 			styleClass="rdVigencia">
 			<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
 			<f:selectItem itemValue="no" itemLabel="#{mensaje.label_not_current}" />
 			<a:ajax event="click"
-				listener="#{empresaAction.consultarEmpresas(valId)}"
+				listener="#{businessAction.consultBusiness(valId)}"
 				render="panelEmpresa, mensajes, vigenciaPopup, mensajeBusqueda" />
 		</h:selectOneRadio>
 		<a:outputPanel>
@@ -22,8 +22,8 @@
 				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 					<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 						onclick="document.getElementById('frmGestionarEmpresas:idButtonNuevo').click()"
-						rendered="#{empresaAction.vigencia eq 'si' and (identity.autorizado('empresaAction','A') or identity.autorizado('empresaAction','I'))}">
-						<h:commandButton action="#{empresaAction.nuevaEmpresa(valId)}"
+						rendered="#{businessAction.vigencia eq 'si' and (identity.autorizado('businessAction','A') or identity.autorizado('businessAction','I'))}">
+						<h:commandButton action="#{businessAction.newBusiness(valId)}"
 							image="/img/new_16.png" id="idButtonNuevo"
 							onclick="#{rich:component('statPane')}.show();" />
 						<h:outputText value="#{mensaje.button_new}" />
@@ -36,7 +36,7 @@
 							render=":buscarForm:popupBuscar, mensajes, mensajeBusqueda"
 							oncomplete="#{rich:component('popupBuscar')}.show(); setFocusPopUp();">
 							<f:setPropertyActionListener value=""
-								target="#{empresaAction.nombreBuscar}" />
+								target="#{businessAction.nameSearch}" />
 						</a:commandButton>
 						<h:outputText value="#{mensaje.button_search}" />
 					</h:panelGrid>
@@ -44,7 +44,7 @@
 						onclick="document.getElementById('frmGestionarEmpresas:idButtonLisTodos').click()">
 						<a:commandButton image="/img/listarTodos_16.png"
 							id="idButtonLisTodos"
-							actionListener="#{empresaAction.inicializarBusqueda}"
+							actionListener="#{businessAction.initializeSearch}"
 							render="panelEmpresa, mensajes, mensajeBusqueda">
 						</a:commandButton>
 						<h:outputText value="#{mensaje.button_list_all}" />
@@ -54,14 +54,14 @@
 		</a:outputPanel>
 	</h:panelGrid>
 	<a:outputPanel id="tablaEmpresas#{valId}">
-		<rich:dataTable value="#{empresaAction.listaEmpresas}" var="empresa"
+		<rich:dataTable value="#{businessAction.listBusiness}" var="empresa"
 			styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
 			rowClasses="odd-row, even-row" footerClass="H130P">
 			<rich:column styleClass="colIconoAjustable"
-				rendered="#{empresaAction.vigencia eq 'si'}">
+				rendered="#{businessAction.vigencia eq 'si'}">
 				<a:commandLink id="details" render="PopupDetalles"
 					oncomplete="#{rich:component('PopupDetalles')}.show()"
-					actionListener="#{empresaAction.setEmpresa(empresa)}">
+					actionListener="#{businessAction.setBusiness(empresa)}">
 					<h:graphicImage value="/img/details_16.png" />
 					<rich:tooltip layout="block">
 						<h:outputText value="#{mensaje.label_details}" />
@@ -69,8 +69,8 @@
 				</a:commandLink>
 				<h:outputText value="&#32;&#32;&#32;" />
 				<a:commandLink render="popupVigencia"
-					rendered="#{empresaAction.vigencia eq 'si' and (identity.autorizado('empresaAction','A') or identity.autorizado('empresaAction','U'))}"
-					actionListener="#{empresaAction.setEmpresaVigencia(empresa)}"
+					rendered="#{businessAction.vigencia eq 'si' and (identity.autorizado('businessAction','A') or identity.autorizado('businessAction','U'))}"
+					actionListener="#{businessAction.setBusinessValidity(empresa)}"
 					oncomplete="#{rich:component('popupVigencia')}.show()">
 					<h:graphicImage value="/img/dateDelete_16.png" />
 					<rich:tooltip layout="block">
@@ -79,9 +79,9 @@
 				</a:commandLink>
 			</rich:column>
 			<rich:column styleClass="colIconoUno"
-				rendered="#{empresaAction.vigencia eq 'no' and (identity.autorizado('empresaAction','A') or identity.autorizado('empresaAction','U'))}">
+				rendered="#{businessAction.vigencia eq 'no' and (identity.autorizado('businessAction','A') or identity.autorizado('businessAction','U'))}">
 				<a:commandLink render="popupVigencia"
-					actionListener="#{empresaAction.setEmpresaVigencia(empresa)}"
+					actionListener="#{businessAction.setBusinessValidity(empresa)}"
 					oncomplete="#{rich:component('popupVigencia')}.show()">
 					<h:graphicImage value="/img/dateAdd_16.png" />
 					<rich:tooltip layout="block">
@@ -93,9 +93,9 @@
 				<f:facet name="header">#{mensaje.label_identification}</f:facet>
 				<c:choose>
 					<c:when
-						test="#{empresaAction.vigencia eq 'si' and (identity.autorizado('empresaAction','A') or identity.autorizado('empresaAction','U'))}">
+						test="#{businessAction.vigencia eq 'si' and (identity.autorizado('businessAction','A') or identity.autorizado('businessAction','U'))}">
 						<h:commandLink value="#{empresa.nit}"
-							action="#{empresaAction.editarEmpresa(empresa, valId)}"
+							action="#{businessAction.editBusiness(empresa, valId)}"
 							onclick="#{rich:component('statPane')}.show();" />
 					</c:when>
 					<c:otherwise>
@@ -105,34 +105,34 @@
 			</rich:column>
 			<rich:column styleClass="colTextoMediano">
 				<f:facet name="header">#{mensaje.label_name}</f:facet>
-				<h:outputText value="#{empresa.nombre}" />
+				<h:outputText value="#{empresa.name}" />
 			</rich:column>
 			<rich:column styleClass="colTextoMediano">
 				<f:facet name="header">#{mensaje.label_address}</f:facet>
-				<h:outputText value="#{empresa.direccion}" />
+				<h:outputText value="#{empresa.address}" />
 			</rich:column>
 			<rich:column styleClass="colNumero">
 				<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
-				<h:outputText value="#{empresa.telefono}" />
+				<h:outputText value="#{empresa.phone}" />
 			</rich:column>
 			<rich:column styleClass="colTextoCorto">
 				<f:facet name="header">#{mensaje.label_email}</f:facet>
-				<h:outputText value="#{empresa.correo}" />
+				<h:outputText value="#{empresa.email}" />
 			</rich:column>
 			<rich:column styleClass="colNumero">
 				<f:facet name="header">#{mensaje.label_mobile}</f:facet>
-				<h:outputText value="#{empresa.movil}" />
+				<h:outputText value="#{empresa.mobile}" />
 			</rich:column>
 			<rich:column styleClass="colFecha">
 				<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
-				<h:outputText value="#{empresa.fechaCreacion}">
+				<h:outputText value="#{empresa.dateCreation}">
 					<f:convertDateTime pattern="MMM dd, yyyy" locale="#{idioma.locale}" />
 				</h:outputText>
 			</rich:column>
 			<rich:column styleClass="colFecha"
-				rendered="#{empresaAction.vigencia eq 'no'}">
+				rendered="#{businessAction.vigencia eq 'no'}">
 				<f:facet name="header">#{mensaje.label_effective_end_date}</f:facet>
-				<h:outputText value="#{empresa.fechaFinVigencia}">
+				<h:outputText value="#{empresa.dateEndValidity}">
 					<f:convertDateTime pattern="MMM dd, yyyy" locale="#{idioma.locale}" />
 				</h:outputText>
 			</rich:column>
@@ -151,8 +151,8 @@
 				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 					<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 						onclick="document.getElementById('frmGestionarEmpresas:idButtonNuevoInf').click()"
-						rendered="#{empresaAction.vigencia eq 'si' and (identity.autorizado('empresaAction','A') or identity.autorizado('empresaAction','I'))}">
-						<h:commandButton action="#{empresaAction.nuevaEmpresa(valId)}"
+						rendered="#{businessAction.vigencia eq 'si' and (identity.autorizado('businessAction','A') or identity.autorizado('businessAction','I'))}">
+						<h:commandButton action="#{businessAction.newBusiness(valId)}"
 							image="/img/new_16.png" id="idButtonNuevoInf"
 							onclick="#{rich:component('statPane')}.show();" />
 						<h:outputText value="#{mensaje.button_new}" />
@@ -165,7 +165,7 @@
 							render=":buscarForm:popupBuscar, mensajes, mensajeBusqueda"
 							oncomplete="#{rich:component('popupBuscar')}.show()">
 							<f:setPropertyActionListener value=""
-								target="#{empresaAction.nombreBuscar}" />
+								target="#{businessAction.nameSearch}" />
 						</a:commandButton>
 						<h:outputText value="#{mensaje.button_search}" />
 					</h:panelGrid>
@@ -173,7 +173,7 @@
 						onclick="document.getElementById('frmGestionarEmpresas:idButtonLisTodosInf').click()">
 						<a:commandButton image="/img/listarTodos_16.png"
 							id="idButtonLisTodosInf"
-							actionListener="#{empresaAction.inicializarBusqueda}"
+							actionListener="#{businessAction.initializeSearch}"
 							render="panelEmpresa, mensajes, mensajeBusqueda">
 						</a:commandButton>
 						<h:outputText value="#{mensaje.button_list_all}" />
@@ -189,8 +189,8 @@
 					<ui:param name="conParam2" value="1" />
 					<ui:param name="valReder"
 						value=":frmGestionarEmpresas:tablaEmpresas#{valId}" />
-					<ui:param name="beanActionParam" value="#{empresaAction}" />
-					<ui:param name="metodoActionParam" value="consultarEmpresas" />
+					<ui:param name="beanActionParam" value="#{businessAction}" />
+					<ui:param name="metodoActionParam" value="consultBusiness" />
 					<ui:param name="valId" value="#{valId}" />
 				</ui:include>
 			</div>

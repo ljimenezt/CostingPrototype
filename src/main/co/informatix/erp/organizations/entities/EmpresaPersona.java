@@ -1,4 +1,4 @@
-package co.informatix.erp.organizaciones.entities;
+package co.informatix.erp.organizations.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -39,7 +39,7 @@ public class EmpresaPersona implements Serializable {
 	private String userName;
 
 	private Persona persona;
-	private Empresa empresa;
+	private Business empresa;
 	private Farm farm;
 	private TipoCargo tipoCargo;
 
@@ -171,7 +171,7 @@ public class EmpresaPersona implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_empresa", referencedColumnName = "id", nullable = false)
-	public Empresa getEmpresa() {
+	public Business getEmpresa() {
 		return empresa;
 	}
 
@@ -179,7 +179,7 @@ public class EmpresaPersona implements Serializable {
 	 * @param empresa
 	 *            : Reference to the company to which the person belongs.
 	 */
-	public void setEmpresa(Empresa empresa) {
+	public void setEmpresa(Business empresa) {
 		this.empresa = empresa;
 	}
 

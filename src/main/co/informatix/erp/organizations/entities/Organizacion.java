@@ -1,4 +1,4 @@
-package co.informatix.erp.organizaciones.entities;
+package co.informatix.erp.organizations.entities;
 
 import java.io.Serializable;
 import java.util.Date;

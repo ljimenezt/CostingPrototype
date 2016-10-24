@@ -1,4 +1,4 @@
-package co.informatix.erp.organizaciones.dao;
+package co.informatix.erp.organizations.dao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,18 +9,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import co.informatix.erp.organizaciones.entities.Empresa;
+import co.informatix.erp.organizations.entities.Business;
 
 /**
  * Class DAO that establishes the connection between business logic and database
  * to manage the Company entity.
  * 
  * @author Oscar.Amaya
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class EmpresaDao implements Serializable {
+public class BusinessDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -32,26 +31,25 @@ public class EmpresaDao implements Serializable {
 	 * @modify: Gerson.Cespedes 23/05/2012
 	 * @modify: Adonay.Mantilla 11/10/2012
 	 * 
-	 * @param condicionVigencia
+	 * @param conditionValidity
 	 *            : condition that allows whether existing or not existing are
 	 *            queried.
-	 * @param consulta
+	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
 	 *            the user.
-	 * @param parametros
+	 * @param parameters
 	 *            : parameters for the query.
 	 * @return Long: number of existing companies in the database.
 	 * @throws Exception
 	 */
-	public Long cantidadEmpresas(String condicionVigencia,
-			StringBuilder consulta, List<SelectItem> parametros)
-			throws Exception {
+	public Long mountBusiness(String conditionValidity, StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(e) FROM Empresa e WHERE e.fechaFinVigencia ");
-		query.append(condicionVigencia);
-		query.append(consulta);
+		query.append("SELECT COUNT(b) FROM Business b WHERE b.dateEndValidity ");
+		query.append(conditionValidity);
+		query.append(consult);
 		Query q = em.createQuery(query.toString());
-		for (SelectItem parametro : parametros) {
+		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
 		}
 		return (Long) q.getSingleResult();
@@ -68,7 +66,7 @@ public class EmpresaDao implements Serializable {
 	 *            : Number of first record where the query begins.
 	 * @param range
 	 *            : Number of the last record in the query.
-	 * @param condicionVigencia
+	 * @param conditionValidity
 	 *            : condition to know whether existing or not existing are
 	 *            queried.
 	 * @param consult
@@ -76,18 +74,18 @@ public class EmpresaDao implements Serializable {
 	 *            the user.
 	 * @param parameters
 	 *            : parameters for the query.
-	 * @return List<Empresa>: Companies found or null if not present.
+	 * @return List<Business>: Companies found or null if not present.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Empresa> consultarEmpresas(int start, int range,
-			String condicionVigencia, StringBuilder consult,
+	public List<Business> consultBusiness(int start, int range,
+			String conditionValidity, StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT e FROM Empresa e WHERE e.fechaFinVigencia ");
-		query.append(condicionVigencia);
+		query.append("SELECT b FROM Business b WHERE b.dateEndValidity ");
+		query.append(conditionValidity);
 		query.append(consult);
-		query.append(" ORDER BY e.nombre");
+		query.append(" ORDER BY b.name");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
@@ -107,9 +105,9 @@ public class EmpresaDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean nitExiste(String nit, int id) throws Exception {
-		List<Empresa> results = em
-				.createQuery("FROM Empresa WHERE nit=:nit AND id <>:id")
+	public boolean nitExist(String nit, int id) throws Exception {
+		List<Business> results = em
+				.createQuery("FROM Business WHERE nit=:nit AND id <>:id")
 				.setParameter("nit", nit).setParameter("id", id)
 				.getResultList();
 		if (results.size() > 0) {
@@ -121,23 +119,23 @@ public class EmpresaDao implements Serializable {
 	/**
 	 * allows you to create a business database
 	 * 
-	 * @param empresa
+	 * @param business
 	 *            : company store
 	 * @throws Exception
 	 */
-	public void crearEmpresa(Empresa empresa) throws Exception {
-		em.persist(empresa);
+	public void createBusiness(Business business) throws Exception {
+		em.persist(business);
 	}
 
 	/**
 	 * Allows a company to modify the database
 	 * 
-	 * @param empresa
+	 * @param business
 	 *            : company to edit the database.
 	 * @throws Exception
 	 */
-	public void modificarEmpresa(Empresa empresa) throws Exception {
-		em.merge(empresa);
+	public void modifyBusiness(Business business) throws Exception {
+		em.merge(business);
 	}
 
 	/**
@@ -154,13 +152,13 @@ public class EmpresaDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Object consultarObjetoEmpresa(String nomObject, int idEmpresa)
+	public Object consultObjectBusiness(String nomObject, int idBusiness)
 			throws Exception {
 		List<Object> results = em
 				.createQuery(
-						"SELECT e." + nomObject
-								+ " FROM Empresa e WHERE e.id=:idEmpresa")
-				.setParameter("idEmpresa", idEmpresa).getResultList();
+						"SELECT b." + nomObject
+								+ " FROM Business b WHERE b.id=:idBusiness")
+				.setParameter("idBusiness", idBusiness).getResultList();
 
 		if (results.size() > 0) {
 			return results.get(0);
@@ -182,48 +180,48 @@ public class EmpresaDao implements Serializable {
 	 * @return List of Objects with information.
 	 * @throws Exception
 	 */
-	public List<?> consultarListaObjetosDeEmpresa(String nomObject,
-			int idEmpresa) throws Exception {
+	public List<?> consultListObjectOfBusiness(String nomObject, int idBusiness)
+			throws Exception {
 		return em
 				.createQuery(
-						"SELECT em." + nomObject
-								+ " FROM Empresa em WHERE em.id=:idEmpresa")
-				.setParameter("idEmpresa", idEmpresa).getResultList();
+						"SELECT b." + nomObject
+								+ " FROM Business b WHERE b.id=:idBusiness")
+				.setParameter("idBusiness", idBusiness).getResultList();
 	}
 
-	/**
-	 * Returns the current list of companies that exist in the database
-	 * 
-	 * @author marisol.calderon
-	 * 
-	 * @return List of existing businesses.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Empresa> consultarEmpresasVigentes() throws Exception {
-		return em.createQuery(
-				"SELECT e FROM Empresa e "
-						+ "WHERE e.fechaFinVigencia IS NULL "
-						+ "ORDER BY e.nombre").getResultList();
-	}
+//	/**
+//	 * Returns the current list of companies that exist in the database
+//	 * 
+//	 * @author marisol.calderon
+//	 * 
+//	 * @return List<Business>: List of existing businesses.
+//	 * @throws Exception
+//	 */
+//	@SuppressWarnings("unchecked")
+//	public List<Business> consultarEmpresasVigentes() throws Exception {
+//		return em.createQuery(
+//				"SELECT b FROM Business b "
+//						+ "WHERE b.dateEndValidity IS NULL "
+//						+ "ORDER BY b.name").getResultList();
+//	}
 
 	/**
 	 * Method that allows check the number of companies that have estates
 	 * 
 	 * @author marisol.calderon
 	 * 
-	 * @param condicionVigencia
+	 * @param conditionValidity
 	 *            : condition to know whether existing or not existing records
 	 *            are queried
 	 * @return: Long with the number of companies with estates.
 	 * @throws Exception
 	 */
-	public Long cantidadEmpresasConHaciendas(String condicionVigencia)
+	public Long amountBusinessWithEstates(String conditionValidity)
 			throws Exception {
 		return (Long) em.createQuery(
-				"SELECT COUNT(DISTINCT em) FROM Empresa em "
-						+ "JOIN em.haciendas WHERE em.fechaFinVigencia "
-						+ condicionVigencia).getSingleResult();
+				"SELECT COUNT(DISTINCT b) FROM Business b "
+						+ "JOIN b.haciendas WHERE b.dateEndValidity "
+						+ conditionValidity).getSingleResult();
 	}
 
 	/**
@@ -243,13 +241,13 @@ public class EmpresaDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Empresa> consultarEmpresasConHaciendas(int start, int range,
+	public List<Business> consultBusinessWithEstates(int start, int range,
 			String validityCondition) throws Exception {
 		return em
 				.createQuery(
-						"SELECT DISTINCT em FROM Empresa em JOIN FETCH em.haciendas "
-								+ "WHERE em.fechaFinVigencia "
-								+ validityCondition + " ORDER BY em.nombre")
+						"SELECT DISTINCT b FROM Business b JOIN FETCH b.haciendas "
+								+ "WHERE b.dateEndValidity "
+								+ validityCondition + " ORDER BY b.name")
 				.setFirstResult(start).setMaxResults(range).getResultList();
 	}
 
@@ -260,23 +258,23 @@ public class EmpresaDao implements Serializable {
 	 * @author Gerson.Cespedes
 	 * @modify 25/03/2012 marisol.calderon
 	 * 
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : The word you want to search the names of the companies or
 	 *            NIT.
-	 * @return List of companies found.
+	 * @return List<Business>: List of companies found.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Empresa> buscarEmpresaXNombreONit(String nombreBuscar)
+	public List<Business> searchBusinessForNameOrNit(String nameSearch)
 			throws Exception {
 		return em
 				.createQuery(
-						"SELECT DISTINCT(e) FROM Empresa e "
-								+ "WHERE UPPER(e.nombre) LIKE UPPER(:keyword) "
-								+ "OR UPPER(e.nit) LIKE UPPER(:keyword) "
-								+ "AND e.fechaFinVigencia IS NULL "
-								+ "ORDER BY e.nombre, e.nit")
-				.setParameter("keyword", "%" + nombreBuscar + "%")
+						"SELECT DISTINCT(b) FROM Business b "
+								+ "WHERE UPPER(b.name) LIKE UPPER(:keyword) "
+								+ "OR UPPER(b.nit) LIKE UPPER(:keyword) "
+								+ "AND b.dateEndValidity IS NULL "
+								+ "ORDER BY b.name, b.nit")
+				.setParameter("keyword", "%" + nameSearch + "%")
 				.getResultList();
 	}
 
@@ -285,16 +283,16 @@ public class EmpresaDao implements Serializable {
 	 * 
 	 * @modify Liseth.Jimenez 02/15/2012
 	 * 
-	 * @param idEmpresa
+	 * @param idBusiness
 	 *            : identifier of the company that wants to consult.
-	 * @return Empresa: purpose of the company whether or null otherwise.
+	 * @return Business: purpose of the company whether or null otherwise.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Empresa obtenerEmpresa(int idEmpresa) throws Exception {
-		List<Empresa> results = em
-				.createQuery("SELECT e FROM Empresa e WHERE e.id=:idEmpresa")
-				.setParameter("idEmpresa", idEmpresa).getResultList();
+	public Business getBusiness(int idBusiness) throws Exception {
+		List<Business> results = em
+				.createQuery("SELECT b FROM Business b WHERE b.id=:idBusiness")
+				.setParameter("idBusiness", idBusiness).getResultList();
 
 		if (results.size() > 0) {
 			return results.get(0);

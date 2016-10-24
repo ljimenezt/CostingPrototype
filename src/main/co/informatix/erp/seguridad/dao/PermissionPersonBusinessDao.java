@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import co.informatix.erp.lifeCycle.entities.Farm;
-import co.informatix.erp.organizaciones.entities.Empresa;
+import co.informatix.erp.organizations.entities.Business;
 import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
 import co.informatix.erp.utils.Constantes;
@@ -126,7 +126,7 @@ public class PermissionPersonBusinessDao implements Serializable {
 	public PermisoPersonaEmpresa consultDetailsPermissionPersonBusiness(
 			PermisoPersonaEmpresa permissionPersonBusiness) throws Exception {
 		Integer id = permissionPersonBusiness.getId();
-		Empresa business = (Empresa) consultObjectPermissionPersonBusiness(
+		Business business = (Business) consultObjectPermissionPersonBusiness(
 				Constantes.EMPRESA, id);
 		Persona person = (Persona) consultObjectPermissionPersonBusiness(
 				Constantes.PERSONA, id);
@@ -190,7 +190,7 @@ public class PermissionPersonBusinessDao implements Serializable {
 		query.append("WHERE ppe.persona.documento=:documentPerson ");
 		query.append("AND (ppe.fechaFinVigencia IS NULL ");
 		query.append("OR ppe.fechaFinVigencia >= :currentDate) ");
-		query.append("ORDER BY ppe.empresa.nombre ");
+		query.append("ORDER BY ppe.empresa.name ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("documentPerson", documentPerson);
 		q.setParameter("currentDate", new Date());
@@ -255,7 +255,7 @@ public class PermissionPersonBusinessDao implements Serializable {
 		q.setParameter("idFarm", idFarm);
 		q.setParameter("idCompany", idCompany);
 		q.setParameter("currentDate", new Date());
-		List<Empresa> business = q.getResultList();
+		List<Business> business = q.getResultList();
 		if (business != null && business.size() > 0) {
 			return true;
 		}

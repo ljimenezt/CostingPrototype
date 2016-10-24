@@ -15,8 +15,8 @@ import javax.inject.Named;
 
 import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
-import co.informatix.erp.organizaciones.dao.EmpresaDao;
-import co.informatix.erp.organizaciones.entities.Empresa;
+import co.informatix.erp.organizations.dao.BusinessDao;
+import co.informatix.erp.organizations.entities.Business;
 import co.informatix.erp.recursosHumanos.dao.PersonaDao;
 import co.informatix.erp.seguridad.dao.PermissionPersonBusinessDao;
 import co.informatix.erp.seguridad.dao.UserDao;
@@ -48,7 +48,7 @@ public class SessionBusinessAction implements Serializable {
 	protected int idPersonSession;
 
 	@EJB
-	protected EmpresaDao businessDao;
+	protected BusinessDao businessDao;
 	@EJB
 	private PersonaDao personDao;
 	@EJB
@@ -222,10 +222,10 @@ public class SessionBusinessAction implements Serializable {
 	public String assignCompanyFarm() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			Empresa empresa = businessDao.obtenerEmpresa(this.id);
+			Business empresa = businessDao.getBusiness(this.id);
 			Farm farm = farmDao.farmXId(this.idFarm);
 			if (empresa != null && farm != null) {
-				this.name = empresa.getNombre();
+				this.name = empresa.getName();
 				this.nameFarm = farm.getName();
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle
