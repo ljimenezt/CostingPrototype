@@ -276,4 +276,7 @@ public class AssistControlAction implements Serializable {
 		}
 		return "gesAssistControl";
 	}
+
+	// This section is to register logic
+
 }
