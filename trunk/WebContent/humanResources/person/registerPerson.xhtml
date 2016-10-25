@@ -6,16 +6,16 @@
 	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="personaAction.registerPerson(null)" />
-	<ui:param name="titulo" value="#{personaAction.messageMiga}" />
+	<ui:param name="action" value="personAction.registerPerson(null)" />
+	<ui:param name="titulo" value="#{personAction.messageMiga}" />
 	<ui:define name="body">
-		<t:saveState value="#{personaAction}" />
+		<t:saveState value="#{personAction}" />
 		<t:saveState value="#{validacionesAction}" />
 		<t:saveState value="#{controladorArchivos}" />
 
 		<h:form id="frmRegistrarPersona">
 			<rich:panel
-				header="#{personaAction.esEdicion eq false ? messageHumanResources.person_label_create : messageHumanResources.person_label_edit}"
+				header="#{personAction.edition eq false ? messageHumanResources.person_label_create : messageHumanResources.person_label_edit}"
 				id="panelPersona" styleClass="anchoUno">
 				<ui:include src="templateCreatePerson.xhtml">
 					<ui:param name="idFormulario" value="frmRegistrarPersona" />
@@ -23,11 +23,11 @@
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
-						actionListener="#{personaAction.requiredOk('frmRegistrarPersona')}"
+						actionListener="#{personAction.requiredOk('frmRegistrarPersona')}"
 						render="formGenerico, confirmacionPopUp"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) { #{rich:component('confirmacionPopUp')}.show() }
 									else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						rendered="#{(identity.autorizado('personaAction','U') or identity.autorizado('personaAction','A') or identity.autorizado('personaAction','I'))}" />
+						rendered="#{(identity.autorizado('personAction','U') or identity.autorizado('personAction','A') or identity.autorizado('personAction','I'))}" />
 				</div>
 			</rich:panel>
 		</h:form>
