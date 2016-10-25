@@ -15,9 +15,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import co.informatix.erp.humanResources.entities.ChargeType;
+import co.informatix.erp.humanResources.entities.Person;
 import co.informatix.erp.lifeCycle.entities.Farm;
-import co.informatix.erp.recursosHumanos.entities.Persona;
-import co.informatix.erp.recursosHumanos.entities.TipoCargo;
 
 /**
  * This class maps the empresa_persona table, which contains the information of
@@ -38,10 +38,10 @@ public class EmpresaPersona implements Serializable {
 	private Date fechaFinVigencia;
 	private String userName;
 
-	private Persona persona;
+	private Person persona;
 	private Business empresa;
 	private Farm farm;
-	private TipoCargo tipoCargo;
+	private ChargeType tipoCargo;
 
 	/**
 	 * @return id: Unique identifier of the table or entity.
@@ -154,7 +154,7 @@ public class EmpresaPersona implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_persona", referencedColumnName = "id", nullable = false)
-	public Persona getPersona() {
+	public Person getPersona() {
 		return persona;
 	}
 
@@ -162,7 +162,7 @@ public class EmpresaPersona implements Serializable {
 	 * @param persona
 	 *            :Reference to the person who is related to the company.
 	 */
-	public void setPersona(Persona persona) {
+	public void setPersona(Person persona) {
 		this.persona = persona;
 	}
 
@@ -210,7 +210,7 @@ public class EmpresaPersona implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_cargo", referencedColumnName = "id", nullable = false)
-	public TipoCargo getTipoCargo() {
+	public ChargeType getTipoCargo() {
 		return tipoCargo;
 	}
 
@@ -219,7 +219,7 @@ public class EmpresaPersona implements Serializable {
 	 *            :Reference to the type of jobs held by the person in the
 	 *            company.
 	 */
-	public void setTipoCargo(TipoCargo tipoCargo) {
+	public void setTipoCargo(ChargeType tipoCargo) {
 		this.tipoCargo = tipoCargo;
 	}
 

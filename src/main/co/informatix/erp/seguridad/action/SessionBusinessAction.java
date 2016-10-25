@@ -17,7 +17,7 @@ import co.informatix.erp.lifeCycle.dao.FarmDao;
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizations.dao.BusinessDao;
 import co.informatix.erp.organizations.entities.Business;
-import co.informatix.erp.recursosHumanos.dao.PersonaDao;
+import co.informatix.erp.humanResources.dao.PersonDao;
 import co.informatix.erp.seguridad.dao.PermissionPersonBusinessDao;
 import co.informatix.erp.seguridad.dao.UserDao;
 import co.informatix.erp.utils.ControladorContexto;
@@ -50,7 +50,7 @@ public class SessionBusinessAction implements Serializable {
 	@EJB
 	protected BusinessDao businessDao;
 	@EJB
-	private PersonaDao personDao;
+	private PersonDao personDao;
 	@EJB
 	private UserDao userDao;
 	@EJB

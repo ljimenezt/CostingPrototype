@@ -20,7 +20,7 @@ import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizations.action.BusinessAction;
 import co.informatix.erp.organizations.dao.BusinessDao;
 import co.informatix.erp.organizations.entities.Business;
-import co.informatix.erp.recursosHumanos.entities.Persona;
+import co.informatix.erp.humanResources.entities.Person;
 import co.informatix.erp.seguridad.dao.PermissionPersonBusinessDao;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
 import co.informatix.erp.utils.Constantes;
@@ -56,7 +56,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 
 	private Paginador pagination = new Paginador();
 	private PermisoPersonaEmpresa permissionPersonBusiness;
-	private Persona person;
+	private Person person;
 	private Business selectedCompany;
 
 	private List<PermisoPersonaEmpresa> listPermissionPersonBusiness;
@@ -182,7 +182,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 * @return person: gets person to whom it is going to assign access
 	 *         permissions businesses.
 	 */
-	public Persona getPerson() {
+	public Person getPerson() {
 		return person;
 	}
 
@@ -192,7 +192,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 *            : sets person to whom it is going to assign access permissions
 	 *            businesses.
 	 */
-	public void setPerson(Persona person) {
+	public void setPerson(Person person) {
 		this.person = person;
 	}
 
@@ -361,8 +361,8 @@ public class PermissionPersonBusinessAction implements Serializable {
 	/**
 	 * Browse companies that have access to the person.
 	 * 
-	 * @return gesPermissionPersonBusiness: navigation rule load the template for
-	 *         managing access permissions per person.
+	 * @return gesPermissionPersonBusiness: navigation rule load the template
+	 *         for managing access permissions per person.
 	 */
 	public String consultPermissionPersonCompany() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -625,15 +625,15 @@ public class PermissionPersonBusinessAction implements Serializable {
 		try {
 			if (listPermissionPersonBusinessTemp != null) {
 				this.userTransaction.begin();
-				String personName = person.getNombres() + " "
-						+ person.getApellidos();
+				String personName = person.getNames() + " "
+						+ person.getSurnames();
 				StringBuilder messageCompaniesFarms = new StringBuilder();
 				String messageFarmCompany = "person_permission_company_message_associate_company_farm";
 				for (PermisoPersonaEmpresa permissionPersonBusinessAdd : listPermissionPersonBusinessTemp) {
 					boolean predetermined = permissionPersonBusinessAdd
 							.isPredeterminado();
 					PermisoPersonaEmpresa predeterminedPermision = permissionPersonBusinessDao
-							.consultExistPredetermined(person.getDocumento());
+							.consultExistPredetermined(person.getDocument());
 					if (predetermined && predeterminedPermision != null) {
 						predeterminedPermision.setPredeterminado(false);
 						permissionPersonBusinessDao

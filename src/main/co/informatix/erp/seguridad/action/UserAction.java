@@ -22,8 +22,8 @@ import javax.inject.Inject;
 import javax.transaction.UserTransaction;
 
 import co.informatix.erp.informacionBase.entities.CivilStatus;
-import co.informatix.erp.recursosHumanos.dao.PersonaDao;
-import co.informatix.erp.recursosHumanos.entities.Persona;
+import co.informatix.erp.humanResources.dao.PersonDao;
+import co.informatix.erp.humanResources.entities.Person;
 import co.informatix.erp.seguridad.dao.RoleDao;
 import co.informatix.erp.seguridad.dao.RolUserDao;
 import co.informatix.erp.seguridad.dao.UserDao;
@@ -64,7 +64,7 @@ public class UserAction implements Serializable {
 	@EJB
 	protected IdentityDao dao;
 	@EJB
-	private PersonaDao personDao;
+	private PersonDao personDao;
 	@Inject
 	private IdentityAction identity;
 	@Inject
@@ -81,7 +81,7 @@ public class UserAction implements Serializable {
 	private Paginador pagination = new Paginador();
 	private RolUsuario userRole;
 	private Usuario user;
-	private Persona person;
+	private Person person;
 	private Rol role;
 	private ChangedPassword changePass;
 
@@ -340,7 +340,7 @@ public class UserAction implements Serializable {
 	/**
 	 * @return person: It obtains the person associated with the user.
 	 */
-	public Persona getPerson() {
+	public Person getPerson() {
 		return person;
 	}
 
@@ -350,10 +350,10 @@ public class UserAction implements Serializable {
 	 * @param person
 	 *            : It obtains the person associated with the user.
 	 */
-	public void setPerson(Persona person) {
+	public void setPerson(Person person) {
 		if (person != null && person.getId() != 0) {
-			this.user.setNombre(person.getNombres());
-			this.user.setApellido(person.getApellidos());
+			this.user.setNombre(person.getNames());
+			this.user.setApellido(person.getSurnames());
 		}
 		this.person = person;
 	}
@@ -531,7 +531,7 @@ public class UserAction implements Serializable {
 		try {
 			person = personDao.consultPersonUser(user);
 			if (person == null) {
-				person = new Persona();
+				person = new Person();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -556,7 +556,7 @@ public class UserAction implements Serializable {
 		newUserRoles = new ArrayList<RolUsuario>();
 		createdUserRoles = new ArrayList<RolUsuario>();
 		userRoles = new ArrayList<RolUsuario>();
-		person = new Persona();
+		person = new Person();
 		role = new Rol();
 		roles = new ArrayList<Rol>();
 		userRoleValidity = Constantes.SI;
@@ -667,14 +667,14 @@ public class UserAction implements Serializable {
 				}
 				user.setUserName(identity.getUserName());
 				userDao.editUser(user);
-				Persona lastPerson = personDao.consultPersonUser(user);
+				Person lastPerson = personDao.consultPersonUser(user);
 				if (!person.equals(lastPerson)) {
 					if (lastPerson != null) {
-						lastPerson.setUsuario(null);
+						lastPerson.setUser(null);
 						lastPerson.setUserName(identity.getUserName());
 						personDao.editPerson(lastPerson);
 					}
-					person.setUsuario(user);
+					person.setUser(user);
 					person.setUserName(identity.getUserName());
 					personDao.editPerson(person);
 				}
@@ -688,7 +688,7 @@ public class UserAction implements Serializable {
 						+ ControladorFechas.formatDate(user.getFechaCreacion(),
 								Constantes.DATE_FORMAT_CREATION)));
 				userDao.saveUser(user);
-				person.setUsuario(user);
+				person.setUser(user);
 				person.setUserName(identity.getUserName());
 				personDao.editPerson(person);
 			}

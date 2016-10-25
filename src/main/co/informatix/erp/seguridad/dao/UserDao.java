@@ -179,7 +179,7 @@ public class UserDao implements Serializable {
 	public Usuario searchPersonUser(int idPerson) throws Exception {
 		List<Usuario> results = em
 				.createQuery(
-						"SELECT p.usuario FROM Persona p "
+						"SELECT p.user FROM Person p "
 								+ "WHERE p.id=:idPerson ")
 				.setParameter("idPerson", idPerson).getResultList();
 		if (results.size() > 0) {

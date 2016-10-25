@@ -23,11 +23,11 @@ import javax.transaction.UserTransaction;
 import org.apache.commons.lang3.text.WordUtils;
 import org.primefaces.event.FileUploadEvent;
 
+import co.informatix.erp.humanResources.entities.Person;
 import co.informatix.erp.informacionBase.dao.TipoDocumentoDao;
 import co.informatix.erp.informacionBase.entities.TipoDocumento;
 import co.informatix.erp.organizations.dao.OrganizacionDao;
 import co.informatix.erp.organizations.entities.Organizacion;
-import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
@@ -66,12 +66,12 @@ public class OrganizacionAction implements Serializable {
 	private FileUploadBean fileUploadBean;
 
 	private List<Organizacion> organizaciones;
-	private List<Persona> personas;
+	private List<Person> personas;
 	private HashMap<String, Short> itemsTiposDocumentos;
 	private Paginador pagination = new Paginador();
 	private Organizacion organizacionAModificarVigencia;
 	private Organizacion organizacion;
-	private Persona persona;
+	private Person persona;
 	private String vigencia = Constantes.SI;
 	private String nombreBuscar;
 	private String carpetaArchivos;
@@ -266,7 +266,7 @@ public class OrganizacionAction implements Serializable {
 	/**
 	 * @return personas: List of persons encountered by name
 	 */
-	public List<Persona> getPersonas() {
+	public List<Person> getPersonas() {
 		return personas;
 	}
 
@@ -274,14 +274,14 @@ public class OrganizacionAction implements Serializable {
 	 * @param personas
 	 *            : List of persons encountered by name
 	 */
-	public void setPersonas(List<Persona> personas) {
+	public void setPersonas(List<Person> personas) {
 		this.personas = personas;
 	}
 
 	/**
 	 * @return persona: get the person associated with the organization.
 	 */
-	public Persona getPersona() {
+	public Person getPersona() {
 		return persona;
 	}
 
@@ -289,7 +289,7 @@ public class OrganizacionAction implements Serializable {
 	 * @param persona
 	 *            : set the person associated with the organization.
 	 */
-	public void setPersona(Persona persona) {
+	public void setPersona(Person persona) {
 		this.persona = persona;
 	}
 
@@ -401,7 +401,7 @@ public class OrganizacionAction implements Serializable {
 	 */
 	public String registrarOrganizacion(Organizacion organizacion) {
 		fileUploadBean = new FileUploadBean();
-		this.personas = new ArrayList<Persona>();
+		this.personas = new ArrayList<Person>();
 		this.nombreBuscar = "";
 		try {
 			cargarCombosTipoCargoTipoDoc();
