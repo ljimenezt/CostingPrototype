@@ -15,7 +15,7 @@
 	<ui:define name="body">
 		<t:saveState value="#{fincaAction}" />
 		<t:saveState value="#{validacionesAction}" />
-		<t:saveState value="#{personaAction}" />
+		<t:saveState value="#{personAction}" />
 		<t:saveState value="#{controladorArchivos}" />
 
 		<h:form id="fincaForm" styleClass="edit">
@@ -85,7 +85,7 @@
 								</a:outputPanel>
 								<a:commandLink execute="@this"
 									render=":formModalBusPersonas:popupPersonas"
-									actionListener="#{personaAction.initializeConsultation()}"
+									actionListener="#{personAction.initializeConsultation()}"
 									oncomplete="#{rich:component('popupPersonas')}.show();">
 									<f:param name="param2" value="si" />
 									<h:graphicImage value="/img/add_22.png"

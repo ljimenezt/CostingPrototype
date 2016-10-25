@@ -19,15 +19,15 @@
 						value="#{messageHumanResources.person_message_consult_name_surname_identification}"
 						styleClass="etiquetaTitulo" />
 					<h:inputText size="30" maxlength="100" id="txtNombreBuscarPersona"
-						value="#{personaAction.searchFilter}"
+						value="#{personAction.searchFilter}"
 						onkeypress="return submitByEnter(event,'formModalBusPersonas:btnSearch')" />
 					<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
-						actionListener="#{personaAction.consultPersons()}"
+						actionListener="#{personAction.consultPersons()}"
 						render="outPutBuscarPersonas, outputPersonas">
 						<f:param name="param2" value="si" />
 						<f:param name="modalId" value="#{idForm}" />
 						<f:setPropertyActionListener value="#{personasSinUser}"
-							target="#{personaAction.personsWithoutUser}" />
+							target="#{personAction.personsWithoutUser}" />
 					</a:commandButton>
 				</h:panelGrid>
 			</t:fieldset>
@@ -40,22 +40,22 @@
 			</a:outputPanel>
 			<br />
 			<ui:param name="listaVacia"
-				value="#{personaAction.persons eq null or (empty personaAction.persons)}" />
+				value="#{personAction.persons eq null or (empty personAction.persons)}" />
 			<div align="right" class="W510P">
 				<a:commandLink render="outPutBuscarPersonas"
 					styleClass="quitarDecoracionLink"
-					actionListener="#{personaAction.initializeConsultation}">
+					actionListener="#{personAction.initializeConsultation}">
 					<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 						<h:graphicImage value="/img/listarTodos_16.png" />
 						<h:outputText value="#{mensaje.button_list_all}" />
 					</h:panelGrid>
 					<f:param name="param2" value="si" />
 					<f:setPropertyActionListener value="#{personasSinUser}"
-						target="#{personaAction.personsWithoutUser}" />
+						target="#{personAction.personsWithoutUser}" />
 				</a:commandLink>
 			</div>
 			<a:outputPanel id="outputPersonas">
-				<rich:dataTable value="#{personaAction.persons}" var="personaList"
+				<rich:dataTable value="#{personAction.persons}" var="personaList"
 					id="tablaPersonas" footerClass="H130P"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W510P"
 					rowClasses="odd-row, even-row">
@@ -86,15 +86,15 @@
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensaje.label_identification}</f:facet>
-						<h:outputText value="#{personaList.documento}" />
+						<h:outputText value="#{personaList.document}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
-						<h:outputText value="#{personaList.nombres}" />
+						<h:outputText value="#{personaList.names}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensaje.label_surname}</f:facet>
-						<h:outputText value="#{personaList.apellidos}" />
+						<h:outputText value="#{personaList.surnames}" />
 					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
@@ -112,7 +112,7 @@
 							<ui:param name="conParam2" value="1" />
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value=":#{idForm}:outputPersonas" />
-							<ui:param name="beanActionParam" value="#{personaAction}" />
+							<ui:param name="beanActionParam" value="#{personAction}" />
 							<ui:param name="metodoActionParam" value="consultPersons" />
 						</ui:include>
 					</div>

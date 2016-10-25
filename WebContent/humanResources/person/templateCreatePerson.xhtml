@@ -14,20 +14,20 @@
 			<h:outputText value="#{mensaje.label_document_type}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:selectOneMenu value="#{personaAction.person.tipoDocumento.id}"
+			<h:selectOneMenu value="#{personAction.person.documentType.id}"
 				id="cmbTipoDocumento">
 				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-				<f:selectItems value="#{personaAction.itemsDocumentsTypes}" />
+				<f:selectItems value="#{personAction.itemsDocumentsTypes}" />
 			</h:selectOneMenu>
 			<rich:message for="cmbTipoDocumento" />
 
 			<h:outputText value="#{mensaje.label_identification_number}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:inputText value="#{personaAction.person.documento}" id="txtId"
+			<h:inputText value="#{personAction.person.document}" id="txtId"
 				styleClass="colTextoMediano" maxlength="15"
-				disabled="#{personaAction.esEdicion}"
-				validator="#{personaAction.validateDocumentXSS}">
+				disabled="#{personAction.edition}"
+				validator="#{personAction.validateDocumentXSS}">
 				<f:validateLength maximum="15" />
 			</h:inputText>
 			<rich:message for="txtId" />
@@ -35,7 +35,7 @@
 			<h:outputText value="#{mensaje.label_name}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:inputText value="#{personaAction.person.nombres}" maxlength="100"
+			<h:inputText value="#{personAction.person.names}" maxlength="100"
 				id="txtNombre" validator="#{encodeFilter.validarScripting}"
 				styleClass="colTextoMediano">
 				<f:validateLength maximum="100" />
@@ -46,8 +46,8 @@
 			<h:outputText value="#{mensaje.label_surname}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
-			<h:inputText value="#{personaAction.person.apellidos}"
-				maxlength="100" id="txtApellido" styleClass="colTextoMediano"
+			<h:inputText value="#{personAction.person.surnames}" maxlength="100"
+				id="txtApellido" styleClass="colTextoMediano"
 				validator="#{encodeFilter.validarScripting}">
 				<f:validateLength maximum="100" />
 				<f:attribute name="nameRegEx" value="locate.regex.letras" />
@@ -57,7 +57,7 @@
 			<h:outputLabel value="#{mensaje.label_gender}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:selectOneRadio value="#{personaAction.person.genero}"
+			<h:selectOneRadio value="#{personAction.person.gender}"
 				id="radGenero">
 				<f:selectItem itemValue="f" itemLabel="#{mensaje.label_f}" />
 				<f:selectItem itemValue="m" itemLabel="#{mensaje.label_m}" />
@@ -68,9 +68,9 @@
 				value="#{messageHumanResources.person_label_date_birth}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
-			<p:calendar value="#{personaAction.person.fechaNacimiento}"
+			<p:calendar value="#{personAction.person.birthDate}"
 				id="calFechaNacimiento" showOn="button" navigator="true"
-				maxdate="#{personaAction.actualDate}" readOnlyInputText="true"
+				maxdate="#{personAction.actualDate}" readOnlyInputText="true"
 				converterMessage="#{mensaje.message_validar_formato_fecha}"
 				yearRange="c-90:c+1" />
 			<rich:message for="calFechaNacimiento" />
@@ -78,13 +78,13 @@
 			<h:outputText value="#{messageBaseInformation.country_label_birth}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:selectOneMenu value="#{personaAction.person.paisNac.id}"
+			<h:selectOneMenu value="#{personAction.person.countryBirth.id}"
 				id="comboPais">
 				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-				<f:selectItems value="#{personaAction.itemsCountries}" />
+				<f:selectItems value="#{personAction.itemsCountries}" />
 				<a:ajax event="valueChange"
 					render="comboDepartamento, comboMunicipio" execute="@this"
-					listener="#{personaAction.loadComboDepartment()}" />
+					listener="#{personAction.loadComboDepartment()}" />
 			</h:selectOneMenu>
 			<rich:message for="comboPais" />
 
@@ -92,12 +92,12 @@
 				value="#{messageBaseInformation.department_label_birth}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:selectOneMenu value="#{personaAction.person.departamentoNac.id}"
+			<h:selectOneMenu value="#{personAction.person.departmentBirth.id}"
 				id="comboDepartamento">
 				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-				<f:selectItems value="#{personaAction.itemDepartments}" />
+				<f:selectItems value="#{personAction.itemDepartments}" />
 				<a:ajax event="change" render="comboMunicipio"
-					listener="#{personaAction.loadComboMunicipality()}" execute="@this" />
+					listener="#{personAction.loadComboMunicipality()}" execute="@this" />
 			</h:selectOneMenu>
 			<rich:message for="comboDepartamento" />
 
@@ -105,20 +105,20 @@
 				value="#{messageBaseInformation.municipality_label_birth}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:selectOneMenu value="#{personaAction.person.municipioNac.id}"
+			<h:selectOneMenu value="#{personAction.person.municipalityBirth.id}"
 				id="comboMunicipio">
 				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-				<f:selectItems value="#{personaAction.itemsMunicipalities}" />
+				<f:selectItems value="#{personAction.itemsMunicipalities}" />
 			</h:selectOneMenu>
 			<rich:message for="comboMunicipio" />
 
 			<h:outputText value="#{messageBaseInformation.civil_status_label}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
-			<h:selectOneMenu value="#{personaAction.person.civilStatus.id}"
+			<h:selectOneMenu value="#{personAction.person.civilStatus.id}"
 				id="comboEstadoCivil">
 				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-				<f:selectItems value="#{personaAction.itemsMaritalStatus}" />
+				<f:selectItems value="#{personAction.itemsMaritalStatus}" />
 			</h:selectOneMenu>
 			<rich:message for="comboEstadoCivil" />
 
@@ -129,7 +129,8 @@
 			<h:inputText id="txtNumHijos"
 				validatorMessage="#{mensaje.message_campo_positivo}"
 				converterMessage="#{mensaje.message_campo_positivo}"
-				value="#{personaAction.person.nroHijos}" styleClass="colTextoMini">
+				value="#{personAction.person.childrenNumber}"
+				styleClass="colTextoMini">
 				<f:validateDoubleRange minimum="0" />
 			</h:inputText>
 			<rich:message for="txtNumHijos" />
@@ -137,7 +138,7 @@
 			<h:outputText value="#{mensaje.label_telephone_number}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:inputText value="#{personaAction.person.telefono}" maxlength="20"
+			<h:inputText value="#{personAction.person.telephone}" maxlength="20"
 				id="txtTelefono" styleClass="colTextoCorto"
 				validator="#{encodeFilter.validarScripting}">
 				<f:attribute name="nameRegEx" value="locate.regex.numeros.guion" />
@@ -147,8 +148,8 @@
 			<h:outputText value="#{mensaje.label_address}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
-			<h:inputText value="#{personaAction.person.direccion}"
-				maxlength="200" id="txtDireccion" styleClass="colTextoMediano"
+			<h:inputText value="#{personAction.person.address}" maxlength="200"
+				id="txtDireccion" styleClass="colTextoMediano"
 				validator="#{encodeFilter.validarScripting}">
 				<f:validateLength maximum="200" />
 				<f:attribute name="nameRegEx"
@@ -159,7 +160,7 @@
 			<h:outputText value="#{mensaje.label_email}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
-			<h:inputText value="#{personaAction.person.correo}" id="txtEmail"
+			<h:inputText value="#{personAction.person.email}" id="txtEmail"
 				styleClass="colTextoMediano" maxlength="150"
 				validator="#{validacionesAction.validarEmailXSS}">
 				<f:validateLength maximum="150" />
@@ -169,7 +170,7 @@
 			<h:outputText value="#{mensaje.label_fax}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
-			<h:inputText value="#{personaAction.person.fax}" id="txtFax"
+			<h:inputText value="#{personAction.person.fax}" id="txtFax"
 				validator="#{encodeFilter.validarScripting}"
 				styleClass="colTextoCorto" maxlength="30">
 				<f:validateLength maximum="30" />
@@ -180,7 +181,7 @@
 			<h:outputText value="#{mensaje.label_mobile}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="" />
-			<h:inputText value="#{personaAction.person.movil}" id="txtMovil"
+			<h:inputText value="#{personAction.person.mobile}" id="txtMovil"
 				maxlength="10" styleClass="colTextoCorto"
 				validator="#{encodeFilter.validarScripting}">
 				<f:attribute name="nameRegEx" value="locate.regex.numeros" />
@@ -190,13 +191,13 @@
 				value="#{messageBaseInformation.country_label_residence}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:selectOneMenu value="#{personaAction.person.paisRes.id}"
+			<h:selectOneMenu value="#{personAction.person.countryHome.id}"
 				id="comboPaisRes">
 				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-				<f:selectItems value="#{personaAction.itemsCountries}" />
+				<f:selectItems value="#{personAction.itemsCountries}" />
 				<a:ajax event="valueChange"
 					render="comboDepartamentoRes, comboMunicipioRes" execute="@this"
-					listener="#{personaAction.loadComboDepartmentRes()}" />
+					listener="#{personAction.loadComboDepartmentRes()}" />
 			</h:selectOneMenu>
 			<rich:message for="comboPaisRes" />
 
@@ -204,12 +205,12 @@
 				value="#{messageBaseInformation.department_label_residence}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:selectOneMenu value="#{personaAction.person.departamentoRes.id}"
+			<h:selectOneMenu value="#{personAction.person.departmentHome.id}"
 				id="comboDepartamentoRes">
 				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-				<f:selectItems value="#{personaAction.itemDepartmentsRes}" />
+				<f:selectItems value="#{personAction.itemDepartmentsHome}" />
 				<a:ajax event="change" render="comboMunicipioRes"
-					listener="#{personaAction.loadComboMunicipalityRes()}"
+					listener="#{personAction.loadComboMunicipalityRes()}"
 					execute="@this" />
 			</h:selectOneMenu>
 			<rich:message for="comboDepartamentoRes" />
@@ -218,10 +219,10 @@
 				value="#{messageBaseInformation.municipality_label_residence}"
 				styleClass="etiquetaTitulo" />
 			<h:outputText value="*" styleClass="required" />
-			<h:selectOneMenu value="#{personaAction.person.municipioRes.id}"
+			<h:selectOneMenu value="#{personAction.person.municipalityHome.id}"
 				id="comboMunicipioRes">
 				<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-				<f:selectItems value="#{personaAction.itemsMunicipalitiesRes}" />
+				<f:selectItems value="#{personAction.itemsMunicipalitiesHome}" />
 			</h:selectOneMenu>
 			<rich:message for="comboMunicipioRes" />
 
@@ -233,10 +234,10 @@
 				<legend class="etiquetaTitulo">#{mensaje.label_photo}</legend>
 				<h:panelGrid columns="1" cellpadding="0" id="panelFoto">
 					<a:outputPanel
-						rendered="#{personaAction.fileUploadBean.fileName != null and !(empty personaAction.fileUploadBean.fileName)}">
+						rendered="#{personAction.fileUploadBean.fileName != null and !(empty personAction.fileUploadBean.fileName)}">
 						<div class="uploadImg">
 							<div class="closeImg">
-								<a:commandLink action="#{personaAction.deleteFilename}"
+								<a:commandLink action="#{personAction.deleteFilename}"
 									render=":#{idFormulario}:panelFoto">
 									<h:graphicImage value="/img/close_14.png" styleClass="cursor"
 										onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
@@ -245,27 +246,26 @@
 								</a:commandLink>
 							</div>
 							<h:graphicImage
-								value="#{personaAction.filesFolderTemporal}/#{personaAction.fileUploadBean.fileName}"
-								title="#{personaAction.fileUploadBean.fileName}"
+								value="#{personAction.filesFolderTemporal}/#{personAction.fileUploadBean.fileName}"
+								title="#{personAction.fileUploadBean.fileName}"
 								styleClass="H200P W290P"
-								rendered="#{personaAction.uploadPhotoTemporal}" />
+								rendered="#{personAction.uploadPhotoTemporal}" />
 							<h:graphicImage
-								value="#{personaAction.filesFolder}/#{personaAction.fileUploadBean.fileName}"
-								title="#{personaAction.fileUploadBean.fileName}"
+								value="#{personAction.filesFolder}/#{personAction.fileUploadBean.fileName}"
+								title="#{personAction.fileUploadBean.fileName}"
 								styleClass="H200P W290P"
-								rendered="#{!personaAction.uploadPhotoTemporal}" />
+								rendered="#{!personAction.uploadPhotoTemporal}" />
 						</div>
 					</a:outputPanel>
 					<a:outputPanel>
 						<ui:param name="idFileMessage" value="#{idFormulario}:uploadFile" />
 						<h:graphicImage value="/img/noImage_240X203.png"
-							rendered="#{personaAction.fileUploadBean.fileName eq null or empty personaAction.fileUploadBean.fileName}"
+							rendered="#{personAction.fileUploadBean.fileName eq null or empty personAction.fileUploadBean.fileName}"
 							styleClass="H200P W290P" />
 						<p:fileUpload id="uploadFile" dragDropSupport="true"
-							rendered="#{personaAction.fileUploadBean.fileName eq null or empty personaAction.fileUploadBean.fileName}"
-							label="#{mensaje.label_select_file}" mode="advanced"
-							auto="true" fileUploadListener="#{personaAction.submit}"
-							update="panelFoto"
+							rendered="#{personAction.fileUploadBean.fileName eq null or empty personAction.fileUploadBean.fileName}"
+							label="#{mensaje.label_select_file}" mode="advanced" auto="true"
+							fileUploadListener="#{personAction.submit}" update="panelFoto"
 							onstart="#{rich:component('statPane')}.show();"
 							oncomplete="#{rich:component('statPane')}.hide();">
 						</p:fileUpload>

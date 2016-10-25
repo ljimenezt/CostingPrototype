@@ -8,23 +8,23 @@
 	xmlns:a="http://richfaces.org/a4j"
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="personaAction.initializeConsultation()" />
+	<ui:param name="action" value="personAction.initializeConsultation()" />
 	<ui:param name="titulo" value="messageHumanResources.person_label_list" />
 	<ui:define name="body">
-		<t:saveState value="#{personaAction}" />
+		<t:saveState value="#{personAction}" />
 		<ui:param name="listaVacia"
-			value="#{personaAction.persons eq null or (empty personaAction.persons)}" />
+			value="#{personAction.persons eq null or (empty personAction.persons)}" />
 		<h:form id="formListarUsario">
 			<rich:panel id="personasPanel" styleClass="anchoUno MinH253P"
 				header="#{messageHumanResources.person_label_list}">
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoDos">
-					<h:selectOneRadio value="#{personaAction.vigencia}"
+					<h:selectOneRadio value="#{personAction.validity}"
 						styleClass="rdVigencia">
 						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
 						<f:selectItem itemValue="no"
 							itemLabel="#{mensaje.label_not_current}" />
-						<a:ajax event="click" listener="#{personaAction.consultPersons()}"
+						<a:ajax event="click" listener="#{personAction.consultPersons()}"
 							render="personasPanel, mensajes, mensajeBusqueda">
 						</a:ajax>
 					</h:selectOneRadio>
@@ -33,8 +33,8 @@
 							<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="document.getElementById('formListarUsario:idButtonNuevo').click()"
-									rendered="#{personaAction.vigencia eq 'si' and (identity.autorizado('personaAction','A') or identity.autorizado('personaAction','I'))}">
-									<h:commandButton action="#{personaAction.registerPerson(null)}"
+									rendered="#{personAction.validity eq 'si' and (identity.autorizado('personAction','A') or identity.autorizado('personAction','I'))}">
+									<h:commandButton action="#{personAction.registerPerson(null)}"
 										image="/img/new_16.png" id="idButtonNuevo"
 										onclick="#{rich:component('statPane')}.show();" />
 									<h:outputText value="#{mensaje.button_new}" />
@@ -46,7 +46,7 @@
 										id="idButtonBuscar" render="buscarForm:popupBuscar, mensajes"
 										oncomplete="#{rich:component('popupBuscar')}.show(); setFocusPopUp();">
 										<f:setPropertyActionListener value=""
-											target="#{personaAction.searchFilter}" />
+											target="#{personAction.searchFilter}" />
 									</a:commandButton>
 									<h:outputText value="#{mensaje.button_search}" />
 								</h:panelGrid>
@@ -54,7 +54,7 @@
 									onclick="document.getElementById('formListarUsario:idButtonLisTodos').click()">
 									<a:commandButton image="/img/listarTodos_16.png"
 										id="idButtonLisTodos"
-										actionListener="#{personaAction.initializeConsultation}"
+										actionListener="#{personAction.initializeConsultation}"
 										render="personasPanel, mensajes, mensajeBusqueda">
 									</a:commandButton>
 									<h:outputText value="#{mensaje.button_list_all}" />
@@ -63,14 +63,14 @@
 						</div>
 					</a:outputPanel>
 				</h:panelGrid>
-				<rich:dataTable value="#{personaAction.persons}" var="persona"
+				<rich:dataTable value="#{personAction.persons}" var="persona"
 					id="tablaPersonas" footerClass="H130P"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
 					rowClasses="odd-row, even-row">
 					<rich:column styleClass="colIconoDos"
-						rendered="#{personaAction.vigencia eq 'si' and (identity.autorizado('personaAction','A') or identity.autorizado('personaAction','U'))}">
+						rendered="#{personAction.validity eq 'si' and (identity.autorizado('personAction','A') or identity.autorizado('personAction','U'))}">
 						<a:commandLink id="details"
-							actionListener="#{personaAction.setPerson(persona)}"
+							actionListener="#{personAction.setPerson(persona)}"
 							render="PopUpDetalles"
 							oncomplete="#{rich:component('PopUpDetalles')}.show()">
 							<h:graphicImage value="/img/details_16.png" />
@@ -80,7 +80,7 @@
 						</a:commandLink>
 						<h:outputText value="&#32;&#32;&#32;" />
 						<a:commandLink render="popupVigencia"
-							actionListener="#{personaAction.setPerson(persona)}"
+							actionListener="#{personAction.setPerson(persona)}"
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateDelete_16.png" />
 							<rich:tooltip layout="block">
@@ -89,9 +89,9 @@
 						</a:commandLink>
 					</rich:column>
 					<rich:column styleClass="colIconoUno"
-						rendered="#{personaAction.vigencia eq 'no' and (identity.autorizado('personaAction','A') or identity.autorizado('personaAction','U'))}">
+						rendered="#{personAction.validity eq 'no' and (identity.autorizado('personAction','A') or identity.autorizado('personAction','U'))}">
 						<a:commandLink render="popupVigencia"
-							actionListener="#{personaAction.setPerson(persona)}"
+							actionListener="#{personAction.setPerson(persona)}"
 							oncomplete="#{rich:component('popupVigencia')}.show()">
 							<h:graphicImage value="/img/dateAdd_16.png" />
 							<rich:tooltip layout="block">
@@ -103,52 +103,52 @@
 						<f:facet name="header">
 							<h:outputText value="#{mensaje.label_identification}" />
 						</f:facet>
-						<h:commandLink value="#{persona.documento}"
+						<h:commandLink value="#{persona.document}"
 							onclick="#{rich:component('statPane')}.show();"
-							action="#{personaAction.registerPerson(persona)}"
-							rendered="#{personaAction.vigencia eq 'si'}" />
-						<h:outputText value="#{persona.documento} "
-							rendered="#{personaAction.vigencia eq 'no'}" />
+							action="#{personAction.registerPerson(persona)}"
+							rendered="#{personAction.validity eq 'si'}" />
+						<h:outputText value="#{persona.document} "
+							rendered="#{personAction.validity eq 'no'}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">
 							<h:outputText value="#{mensaje.label_document_type}" />
 						</f:facet>
-						<h:outputText value="#{persona.tipoDocumento.nombre}" />
+						<h:outputText value="#{persona.documentType.nombre}" />
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">
 							<h:outputText value="#{mensaje.label_name}" />
 						</f:facet>
-						<h:outputText value="#{persona.nombres}" />
+						<h:outputText value="#{persona.names}" />
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">
 							<h:outputText value="#{mensaje.label_surname}" />
 						</f:facet>
-						<h:outputText value="#{persona.apellidos} " />
+						<h:outputText value="#{persona.surnames} " />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">
 							<h:outputText value="#{mensaje.label_telephone_number}" />
 						</f:facet>
-						<h:outputText value="#{persona.telefono} " />
+						<h:outputText value="#{persona.telephone} " />
 					</rich:column>
 					<rich:column styleClass="colFecha">
 						<f:facet name="header">
 							<h:outputText value="#{mensaje.label_creation_date}" />
 						</f:facet>
-						<h:outputText value="#{persona.fechaCreacion}">
+						<h:outputText value="#{persona.birthDate}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colFecha"
-						rendered="#{personaAction.vigencia eq 'no'}">
+						rendered="#{personAction.validity eq 'no'}">
 						<f:facet name="header">
 							<h:outputText value="#{mensaje.label_fecha_fin_vigencia}" />
 						</f:facet>
-						<h:outputText value="#{persona.fechaFinVigencia}">
+						<h:outputText value="#{persona.dateEndValidity}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
 						</h:outputText>
@@ -168,8 +168,8 @@
 						<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 								onclick="document.getElementById('formListarUsario:idButtonNuevoInf').click()"
-								rendered="#{personaAction.vigencia eq 'si' and (identity.autorizado('personaAction','A') or identity.autorizado('personaAction','I'))}">
-								<h:commandButton action="#{personaAction.registerPerson(null)}"
+								rendered="#{personAction.validity eq 'si' and (identity.autorizado('personAction','A') or identity.autorizado('personAction','I'))}">
+								<h:commandButton action="#{personAction.registerPerson(null)}"
 									image="/img/new_16.png" id="idButtonNuevoInf"
 									onclick="#{rich:component('statPane')}.show();" />
 								<h:outputText value="#{mensaje.button_new}" />
@@ -182,7 +182,7 @@
 									render="buscarForm:popupBuscar, mensajes"
 									oncomplete="#{rich:component('popupBuscar')}.show()">
 									<f:setPropertyActionListener value=""
-										target="#{personaAction.searchFilter}" />
+										target="#{personAction.searchFilter}" />
 								</a:commandButton>
 								<h:outputText value="#{mensaje.button_search}" />
 							</h:panelGrid>
@@ -190,7 +190,7 @@
 								onclick="document.getElementById('formListarUsario:idButtonLisTodosInf').click()">
 								<a:commandButton image="/img/listarTodos_16.png"
 									id="idButtonLisTodosInf"
-									actionListener="#{personaAction.initializeConsultation}"
+									actionListener="#{personAction.initializeConsultation}"
 									render="personasPanel, mensajes, mensajeBusqueda">
 								</a:commandButton>
 								<h:outputText value="#{mensaje.button_list_all}" />
@@ -204,7 +204,7 @@
 						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="personasPanel" />
-							<ui:param name="beanActionParam" value="#{personaAction}" />
+							<ui:param name="beanActionParam" value="#{personAction}" />
 							<ui:param name="metodoActionParam" value="consultPersons" />
 						</ui:include>
 					</div>
@@ -233,20 +233,20 @@
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}: " />
 						<h:outputText
-							value="#{personaAction.person.nombres} #{personaAction.person.apellidos}" />
+							value="#{personAction.person.names} #{personAction.person.surnames}" />
 					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
 							render="personasPanel, mensajes, mensajeBusqueda"
 							onclick="#{rich:component('popupVigencia')}.hide()"
-							actionListener="#{personaAction.changeValidityPersons('true')}"
-							rendered="#{personaAction.vigencia eq 'si'}" />
+							actionListener="#{personAction.changeValidityPersons('true')}"
+							rendered="#{personAction.validity eq 'si'}" />
 
 						<a:commandButton value="#{mensaje.button_accept}"
 							render="personasPanel, mensajes, mensajeBusqueda"
 							onclick="#{rich:component('popupVigencia')}.hide()"
-							actionListener="#{personaAction.changeValidityPersons('false')}"
-							rendered="#{personaAction.vigencia eq 'no'}" />
+							actionListener="#{personAction.changeValidityPersons('false')}"
+							rendered="#{personAction.validity eq 'no'}" />
 
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popupVigencia')}.hide()" />
@@ -276,26 +276,26 @@
 									columnClasses="columnaIzquierda, columnaDerecha">
 									<h:outputText value="#{mensaje.label_document_type}:" />
 									<h:outputText
-										value="#{personaAction.person.tipoDocumento.nombre}" />
+										value="#{personAction.person.documentType.nombre}" />
 
 									<h:outputText value="#{mensaje.label_identification_number}:" />
-									<h:outputText value="#{personaAction.person.documento}" />
+									<h:outputText value="#{personAction.person.document}" />
 
 									<h:outputText value="#{mensaje.label_name}:" />
-									<h:outputText value="#{personaAction.person.nombres}" />
+									<h:outputText value="#{personAction.person.names}" />
 
 									<h:outputText value="#{mensaje.label_surname}:" />
-									<h:outputText value="#{personaAction.person.apellidos}" />
+									<h:outputText value="#{personAction.person.surnames}" />
 
 									<h:outputText value="#{mensaje.label_gender}:" />
 									<h:outputText value="#{mensaje.label_f}"
-										rendered="#{personaAction.person.genero eq 'f'}" />
+										rendered="#{personAction.person.gender eq 'f'}" />
 									<h:outputText value="#{mensaje.label_m}"
-										rendered="#{personaAction.person.genero eq 'm'}" />
+										rendered="#{personAction.person.gender eq 'm'}" />
 
 									<h:outputText
 										value="#{messageHumanResources.person_label_date_birth}:" />
-									<h:outputText value="#{personaAction.person.fechaNacimiento}">
+									<h:outputText value="#{personAction.person.birthDate}">
 										<f:convertDateTime pattern="MMM dd, yyyy"
 											locale="#{idioma.locale}" />
 									</h:outputText>
@@ -303,40 +303,41 @@
 									<h:outputText
 										value="#{messageBaseInformation.country_label_birth}:"
 										styleClass="etiquetaTitulo" />
-									<h:outputText value="#{personaAction.person.paisNac.nombre}" />
+									<h:outputText
+										value="#{personAction.person.countryBirth.nombre}" />
 
 									<h:outputText
 										value="#{messageBaseInformation.department_label_birth}:"
 										styleClass="etiquetaTitulo" />
 									<h:outputText
-										value="#{personaAction.person.departamentoNac.nombre}" />
+										value="#{personAction.person.departmentBirth.nombre}" />
 
 									<h:outputText
 										value="#{messageBaseInformation.municipality_label_birth}:"
 										styleClass="etiquetaTitulo" />
 									<h:outputText
-										value="#{personaAction.person.municipioNac.nombre}" />
+										value="#{personAction.person.municipalityBirth.nombre}" />
 
 									<h:outputText
 										value="#{messageBaseInformation.civil_status_label}:"
 										styleClass="etiquetaTitulo" />
-									<h:outputText value="#{personaAction.person.civilStatus.name}" />
+									<h:outputText value="#{personAction.person.civilStatus.name}" />
 
 									<h:outputText
 										value="#{messageHumanResources.person_label_number_children}:"
 										styleClass="etiquetaTitulo" />
-									<h:outputText value="#{personaAction.person.nroHijos}" />
+									<h:outputText value="#{personAction.person.childrenNumber}" />
 
 								</h:panelGrid>
 								<h:panelGrid columns="1">
 									<t:fieldset>
 										<legend class="etiquetaTitulo">#{mensaje.label_photo}</legend>
 										<h:graphicImage
-											rendered="#{personaAction.person.foto != null and !empty personaAction.person.foto}"
-											value="#{personaAction.filesFolder}/#{personaAction.person.foto}"
-											title="#{personaAction.person.foto}" styleClass="H200P W250P" />
+											rendered="#{personAction.person.photo != null and !empty personAction.person.photo}"
+											value="#{personAction.filesFolder}/#{personAction.person.photo}"
+											title="#{personAction.person.photo}" styleClass="H200P W250P" />
 										<h:graphicImage
-											rendered="#{personaAction.person.foto eq null or empty personaAction.person.foto}"
+											rendered="#{personAction.person.photo eq null or empty personAction.person.photo}"
 											value="/img/noImage_240X203.png" styleClass="H200P W250P" />
 									</t:fieldset>
 								</h:panelGrid>
@@ -347,36 +348,36 @@
 							<h:panelGrid columns="2" cellpadding="3" cellspacing="3"
 								columnClasses="columnaIzquierda, columnaDerecha">
 								<h:outputText value="#{mensaje.label_telephone_number}:" />
-								<h:outputText value="#{personaAction.person.telefono}" />
+								<h:outputText value="#{personAction.person.telephone}" />
 
 								<h:outputText value="#{mensaje.label_address}:" />
-								<h:outputText value="#{personaAction.person.direccion}" />
+								<h:outputText value="#{personAction.person.address}" />
 
 								<h:outputText value="#{mensaje.label_email}:" />
-								<h:outputText value="#{personaAction.person.correo}" />
+								<h:outputText value="#{personAction.person.email}" />
 
 								<h:outputText value="#{mensaje.label_fax}:" />
-								<h:outputText value="#{personaAction.person.fax} " />
+								<h:outputText value="#{personAction.person.fax} " />
 
 								<h:outputText value="#{mensaje.label_mobile}:" />
-								<h:outputText value="#{personaAction.person.movil}" />
+								<h:outputText value="#{personAction.person.mobile}" />
 
 								<h:outputText
 									value="#{messageBaseInformation.country_label_residence}:"
 									styleClass="etiquetaTitulo" />
-								<h:outputText value="#{personaAction.person.paisRes.nombre}" />
+								<h:outputText value="#{personAction.person.countryHome.nombre}" />
 
 								<h:outputText
 									value="#{messageBaseInformation.department_label_residence}:"
 									styleClass="etiquetaTitulo" />
 								<h:outputText
-									value="#{personaAction.person.departamentoRes.nombre}" />
+									value="#{personAction.person.departmentHome.nombre}" />
 
 								<h:outputText
 									value="#{messageBaseInformation.municipality_label_residence}:"
 									styleClass="etiquetaTitulo" />
 								<h:outputText
-									value="#{personaAction.person.municipioRes.nombre}" />
+									value="#{personAction.person.municipalityHome.nombre}" />
 
 							</h:panelGrid>
 						</rich:accordionItem>
@@ -407,13 +408,13 @@
 						value="#{messageHumanResources.person_message_consult_name_surname_identification}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
-						value="#{personaAction.searchFilter}"
+						value="#{personAction.searchFilter}"
 						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						actionListener="#{personaAction.consultPersons}"
+						actionListener="#{personAction.consultPersons}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="personasPanel, mensajes, mensajeBusqueda">
 					</a:commandButton>
