@@ -12,7 +12,7 @@ import javax.persistence.Query;
 
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizations.entities.Business;
-import co.informatix.erp.recursosHumanos.entities.Persona;
+import co.informatix.erp.humanResources.entities.Person;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
 import co.informatix.erp.utils.Constantes;
 
@@ -128,7 +128,7 @@ public class PermissionPersonBusinessDao implements Serializable {
 		Integer id = permissionPersonBusiness.getId();
 		Business business = (Business) consultObjectPermissionPersonBusiness(
 				Constantes.EMPRESA, id);
-		Persona person = (Persona) consultObjectPermissionPersonBusiness(
+		Person person = (Person) consultObjectPermissionPersonBusiness(
 				Constantes.PERSONA, id);
 		Farm farm = (Farm) consultObjectPermissionPersonBusiness(
 				Constantes.Farm, id);
@@ -178,8 +178,8 @@ public class PermissionPersonBusinessDao implements Serializable {
 	 * 
 	 * @param documentPerson
 	 *            : person document in session.
-	 * @return List<PermissionPersonBusiness>: List of permits to which the person
-	 *         has access.
+	 * @return List<PermissionPersonBusiness>: List of permits to which the
+	 *         person has access.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -217,7 +217,8 @@ public class PermissionPersonBusinessDao implements Serializable {
 		query.append("AND ppe.persona.documento=:documentPerson ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("documentPerson", documentPerson);
-		List<PermisoPersonaEmpresa> listPermissionPersonBusiness = q.getResultList();
+		List<PermisoPersonaEmpresa> listPermissionPersonBusiness = q
+				.getResultList();
 		if (listPermissionPersonBusiness.size() > 0) {
 			return listPermissionPersonBusiness.get(0);
 		}

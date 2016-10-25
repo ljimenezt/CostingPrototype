@@ -16,11 +16,11 @@ import javax.transaction.UserTransaction;
 
 import org.richfaces.event.ItemChangeEvent;
 
+import co.informatix.erp.humanResources.action.PersonAction;
+import co.informatix.erp.humanResources.dao.PersonDao;
+import co.informatix.erp.humanResources.entities.Person;
 import co.informatix.erp.organizations.action.BusinessAction;
 import co.informatix.erp.organizations.entities.Business;
-import co.informatix.erp.recursosHumanos.action.PersonaAction;
-import co.informatix.erp.recursosHumanos.dao.PersonaDao;
-import co.informatix.erp.recursosHumanos.entities.Persona;
 import co.informatix.erp.seguridad.dao.PermissionPersonBusinessDao;
 import co.informatix.erp.seguridad.dao.UserDao;
 import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
@@ -45,7 +45,7 @@ import co.informatix.security.entities.Usuario;
 public class ProfileUserAction implements Serializable {
 
 	@EJB
-	private PersonaDao personDao;
+	private PersonDao personDao;
 	@EJB
 	private UserDao userDao;
 	@EJB
@@ -60,7 +60,7 @@ public class ProfileUserAction implements Serializable {
 	private List<SelectItem> itemsValues;
 	private Paginador pagination = new Paginador();
 	private PermisoPersonaEmpresa permissionPersonBusiness;
-	private Persona personSesion;
+	private Person personSesion;
 	private String tabSelect = Constantes.N_TAB;
 	private boolean savePersonFromProfile;
 
@@ -141,8 +141,8 @@ public class ProfileUserAction implements Serializable {
 	}
 
 	/**
-	 * @return savePersonFromProfile: variable that shows whether a person
-	 *         is saved from the user profile.
+	 * @return savePersonFromProfile: variable that shows whether a person is
+	 *         saved from the user profile.
 	 */
 	public boolean isSavePersonFromProfile() {
 		return savePersonFromProfile;
@@ -163,15 +163,14 @@ public class ProfileUserAction implements Serializable {
 	 * @param pestana
 	 *            : variable that lets you know which tab is loaded and
 	 *            information being queried.
-	 * @return gesProfileUser: navigation rule that loads the template with user profile
-	 *         information.
+	 * @return gesProfileUser: navigation rule that loads the template with user
+	 *         profile information.
 	 */
 	public String loadProfileOfUser(String pestana) {
 		try {
-			Usuario userSession = userDao.searchUsuario(identity
-					.getUserName());
+			Usuario userSession = userDao.searchUsuario(identity.getUserName());
 			Integer idUsuario = userSession.getId();
-			Persona personaSesionTemp = personDao.consultPerson(idUsuario);
+			Person personaSesionTemp = personDao.consultPerson(idUsuario);
 			personSesion = personaSesionTemp;
 			if (Constantes.N_TAB.equals(pestana)) {
 				loadPersonalData();
@@ -191,8 +190,8 @@ public class ProfileUserAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void loadPersonalData() throws Exception {
-		PersonaAction personAction = ControladorContexto
-				.getContextBean(PersonaAction.class);
+		PersonAction personAction = ControladorContexto
+				.getContextBean(PersonAction.class);
 		if (personSesion != null) {
 			personAction.loadDetailsOnePerson(personSesion);
 			personAction.registerPerson(personSesion);
@@ -213,13 +212,14 @@ public class ProfileUserAction implements Serializable {
 			/* Companies with access permission of the person */
 			listBusinessWithPermissionAcces = permissionPersonBusinessDao
 					.consultPermissionsPersonEBusinessAccessUser(personSesion
-							.getDocumento());
+							.getDocument());
 			if (listBusinessWithPermissionAcces != null) {
 				for (PermisoPersonaEmpresa permissionPersonBusiness : listBusinessWithPermissionAcces) {
 					permissionPersonBusinessDao
 							.consultDetailsPermissionPersonBusiness(permissionPersonBusiness);
 					/* Company details are loaded */
-					Business empresaPermiso = permissionPersonBusiness.getEmpresa();
+					Business empresaPermiso = permissionPersonBusiness
+							.getEmpresa();
 					businessAction.loadDetailsOneBusiness(empresaPermiso);
 					permissionPersonBusiness.setEmpresa(empresaPermiso);
 				}
@@ -265,7 +265,7 @@ public class ProfileUserAction implements Serializable {
 			if (permissionPersonBusiness != null && personSesion != null) {
 				this.userTransaction.begin();
 				PermisoPersonaEmpresa permissionPersonBusinessPre = permissionPersonBusinessDao
-						.consultExistPredetermined(personSesion.getDocumento());
+						.consultExistPredetermined(personSesion.getDocument());
 				if (permissionPersonBusinessPre != null) {
 					permissionPersonBusinessPre.setPredeterminado(false);
 					permissionPersonBusinessDao
@@ -273,7 +273,8 @@ public class ProfileUserAction implements Serializable {
 				}
 				permissionPersonBusiness.setUserName(identity.getUserName());
 				permissionPersonBusiness.setPredeterminado(true);
-				permissionPersonBusinessAction.nullValidate(permissionPersonBusiness);
+				permissionPersonBusinessAction
+						.nullValidate(permissionPersonBusiness);
 				permissionPersonBusinessDao
 						.editPermissionPersonCompany(permissionPersonBusiness);
 				this.userTransaction.commit();

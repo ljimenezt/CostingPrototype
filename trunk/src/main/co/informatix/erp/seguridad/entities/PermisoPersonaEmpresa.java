@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizations.entities.Business;
-import co.informatix.erp.recursosHumanos.entities.Persona;
+import co.informatix.erp.humanResources.entities.Person;
 
 /**
  * This class maps the table permiso_empresa_persona_sucursal_hacienda, which
@@ -40,7 +40,7 @@ public class PermisoPersonaEmpresa implements Serializable {
 	private String userName;
 
 	private Business empresa;
-	private Persona persona;
+	private Person persona;
 	private Farm farm;
 
 	/**
@@ -174,7 +174,7 @@ public class PermisoPersonaEmpresa implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_persona", referencedColumnName = "id", nullable = false)
-	public Persona getPersona() {
+	public Person getPersona() {
 		return persona;
 	}
 
@@ -182,7 +182,7 @@ public class PermisoPersonaEmpresa implements Serializable {
 	 * @param persona
 	 *            : person who is assigned access permissions
 	 */
-	public void setPersona(Persona persona) {
+	public void setPersona(Person persona) {
 		this.persona = persona;
 	}
 
