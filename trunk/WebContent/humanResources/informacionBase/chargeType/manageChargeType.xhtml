@@ -1,0 +1,256 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="chargeTypeAction.initializeSearch()" />
+	<ui:param name="titulo"
+		value="messageHumanResources.tipo_cargo_label_listado" />
+	<ui:define name="body">
+		<h:form id="frmGestionarTipoCargo">
+			<t:saveState value="#{chargeTypeAction}" />
+			<ui:param name="listaVacia"
+				value="#{chargeTypeAction.listChargeType eq null or (empty chargeTypeAction.listChargeType)}" />
+			<rich:panel
+				header="#{messageHumanResources.tipo_cargo_label_listado}"
+				id="panelTipoCargo" styleClass="anchoUno MinH253P">
+				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+					columnClasses="W50Per,W50Per" styleClass="anchoCinco">
+					<h:selectOneRadio value="#{chargeTypeAction.validity}"
+						styleClass="rdVigencia">
+						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
+						<f:selectItem itemValue="no"
+							itemLabel="#{mensaje.label_not_current}" />
+						<a:ajax event="click"
+							listener="#{chargeTypeAction.consultChargeTypes()}"
+							render="panelTipoCargo, mensajes, vigenciaPopup, mensajeBusqueda">
+						</a:ajax>
+					</h:selectOneRadio>
+					<a:outputPanel>
+						<div align="right">
+							<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="document.getElementById('frmGestionarTipoCargo:idButtonNuevo').click()"
+									rendered="#{chargeTypeAction.validity eq 'si' and (identity.autorizado('chargeTypeAction','A') or identity.autorizado('chargeTypeAction','I'))}">
+									<h:commandButton action="#{chargeTypeAction.newChargeType}"
+										image="/img/new_16.png" id="idButtonNuevo"
+										onclick="#{rich:component('statPane')}.show();" />
+									<h:outputText value="#{mensaje.button_new}" />
+								</h:panelGrid>
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarTipoCargo:idButtonBuscar').click();}">
+									<a:commandButton image="/img/consultar_16.png"
+										onmouseover="var1=true" onmouseout="var1=false"
+										id="idButtonBuscar" render="buscarForm:popupBuscar, mensajes"
+										oncomplete="#{rich:component('popupBuscar')}.show()">
+										<f:setPropertyActionListener value=""
+											target="#{chargeTypeAction.nameSearch}" />
+									</a:commandButton>
+									<h:outputText value="#{mensaje.button_search}" />
+								</h:panelGrid>
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+									onclick="document.getElementById('frmGestionarTipoCargo:idButtonLisTodos').click()">
+									<a:commandButton image="/img/listarTodos_16.png"
+										id="idButtonLisTodos"
+										actionListener="#{chargeTypeAction.initializeSearch()}"
+										render="panelTipoCargo, mensajes, mensajeBusqueda">
+									</a:commandButton>
+									<h:outputText value="#{mensaje.button_list_all}" />
+								</h:panelGrid>
+							</h:panelGrid>
+						</div>
+					</a:outputPanel>
+				</h:panelGrid>
+				<rich:dataTable value="#{chargeTypeAction.listChargeType}"
+					var="tipoCargo"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCinco"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoUno"
+						rendered="#{identity.autorizado('chargeTypeAction','A') or identity.autorizado('chargeTypeAction','U')}">
+						<a:commandLink rendered="#{chargeTypeAction.validity eq 'si'}"
+							render="popupVigencia"
+							actionListener="#{chargeTypeAction.setChargeTypeValidity(tipoCargo)}"
+							oncomplete="#{rich:component('popupVigencia')}.show()">
+							<h:graphicImage value="/img/dateDelete_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_finish_force}" />
+							</rich:tooltip>
+						</a:commandLink>
+						<a:commandLink rendered="#{chargeTypeAction.validity eq 'no'}"
+							render="popupVigencia"
+							actionListener="#{chargeTypeAction.setChargeTypeValidity(tipoCargo)}"
+							oncomplete="#{rich:component('popupVigencia')}.show()">
+							<h:graphicImage value="/img/dateAdd_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_start_term}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
+						<c:choose>
+							<c:when
+								test="#{chargeTypeAction.validity eq 'si' and (identity.autorizado('chargeTypeAction','A') or identity.autorizado('chargeTypeAction','U'))}">
+								<h:commandLink value="#{tipoCargo.name}"
+									action="#{chargeTypeAction.editChargeType(tipoCargo)}"
+									onclick="#{rich:component('statPane')}.show();" />
+							</c:when>
+							<c:otherwise>
+								<h:outputText value="#{tipoCargo.name}" />
+							</c:otherwise>
+						</c:choose>
+					</rich:column>
+					<rich:column styleClass="colTextoLargo">
+						<f:facet name="header">#{messageHumanResources.tipo_cargo_label_funciones}</f:facet>
+						<h:outputText value="#{tipoCargo.functions}" />
+					</rich:column>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
+						<h:outputText value="#{tipoCargo.dateCreation}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="colFecha"
+						rendered="#{chargeTypeAction.validity eq 'no'}">
+						<f:facet name="header">#{mensaje.label_effective_end_date}</f:facet>
+						<h:outputText value="#{tipoCargo.dateEndValidity}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="5" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<a:outputPanel
+					rendered="#{propErp['locate.mostrar.botones.inferiores'] eq 'si'}">
+					<div align="right" class="anchoCinco">
+						<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="document.getElementById('frmGestionarTipoCargo:idButtonNuevoInf').click()"
+								rendered="#{chargeTypeAction.validity eq 'si' and (identity.autorizado('chargeTypeAction','A') or identity.autorizado('chargeTypeAction','I'))}">
+								<h:commandButton action="#{chargeTypeAction.newChargeType}"
+									image="/img/new_16.png" id="idButtonNuevoInf"
+									onclick="#{rich:component('statPane')}.show();" />
+								<h:outputText value="#{mensaje.button_new}" />
+							</h:panelGrid>
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarTipoCargo:idButtonBuscarInf').click();}">
+								<a:commandButton image="/img/consultar_16.png"
+									onmouseover="var1=true" onmouseout="var1=false"
+									id="idButtonBuscarInf"
+									render="buscarForm:popupBuscar, mensajes"
+									oncomplete="#{rich:component('popupBuscar')}.show()">
+									<f:setPropertyActionListener value=""
+										target="#{chargeTypeAction.nameSearch}" />
+								</a:commandButton>
+								<h:outputText value="#{mensaje.button_search}" />
+							</h:panelGrid>
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+								onclick="document.getElementById('frmGestionarTipoCargo:idButtonLisTodosInf').click()">
+								<a:commandButton image="/img/listarTodos_16.png"
+									id="idButtonLisTodosInf"
+									actionListener="#{chargeTypeAction.initializeSearch()}"
+									render="panelTipoCargo, mensajes, mensajeBusqueda">
+								</a:commandButton>
+								<h:outputText value="#{mensaje.button_list_all}" />
+							</h:panelGrid>
+						</h:panelGrid>
+					</div>
+				</a:outputPanel>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="anchoCinco center inBlock">
+						<ui:include src="/plantillas/templatePagination.xhtml">
+							<ui:param name="valId" value="1" />
+							<ui:param name="valReder" value="panelTipoCargo" />
+							<ui:param name="beanActionParam" value="#{chargeTypeAction}" />
+							<ui:param name="metodoActionParam" value="consultChargeTypes" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+
+		<h:form>
+			<rich:popupPanel id="popupVigencia" keepVisualState="true"
+				autosized="true" width="500" domElementAttachment="form"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onclick="#{rich:component('popupVigencia')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:" />
+						<h:outputText value="#{chargeTypeAction.chargeTypeValidity.name}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:outputPanel id="vigenciaPopup">
+							<a:commandButton value="#{mensaje.button_accept}"
+								actionListener="#{chargeTypeAction.ChargeTypeValidity('true')}"
+								render="panelTipoCargo, mensajes, mensajeBusqueda"
+								onclick="#{rich:component('popupVigencia')}.hide()"
+								rendered="#{chargeTypeAction.validity eq 'si'}" />
+							<a:commandButton value="#{mensaje.button_accept}"
+								actionListener="#{chargeTypeAction.ChargeTypeValidity('false')}"
+								render="panelTipoCargo, mensajes, mensajeBusqueda"
+								onclick="#{rich:component('popupVigencia')}.hide()"
+								rendered="#{chargeTypeAction.validity eq 'no'}" />
+						</a:outputPanel>
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupVigencia')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="buscarForm">
+			<rich:popupPanel id="popupBuscar" autosized="true"
+				header="#{mensaje.button_search} #{messageHumanResources.tipo_cargo_label_s}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:outputLink value="#"
+						onclick="#{rich:component('popupBuscar')}.hide(); return false;">
+						<img src="#{request.contextPath}/img/close_14.png" />
+					</h:outputLink>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensaje.label_name}:"
+						styleClass="etiquetaTitulo" />
+					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
+						value="#{chargeTypeAction.nameSearch}" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}"
+						action="#{chargeTypeAction.consultChargeTypes()}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelTipoCargo, mensajes, mensajeBusqueda">
+					</a:commandButton>
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
