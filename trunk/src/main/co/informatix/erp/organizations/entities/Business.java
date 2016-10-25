@@ -42,7 +42,7 @@ public class Business implements Serializable {
 	private Date dateEndValidity;
 	private String userName;
 
-	private Organizacion organization;
+	private Organization organization;
 	private Pais country;
 	private Departamento department;
 	private Municipio town;
@@ -51,7 +51,7 @@ public class Business implements Serializable {
 	 * Empty constructor to initialize the necessary variables.
 	 */
 	public Business() {
-		this.organization = new Organizacion();
+		this.organization = new Organization();
 		this.country = new Pais();
 		this.department = new Departamento();
 		this.town = new Municipio();
@@ -258,7 +258,7 @@ public class Business implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_organizacion", referencedColumnName = "id")
-	public Organizacion getOrganization() {
+	public Organization getOrganization() {
 		return organization;
 	}
 
@@ -266,7 +266,7 @@ public class Business implements Serializable {
 	 * @param organization
 	 *            : organization to which a company belongs.
 	 */
-	public void setOrganization(Organizacion organization) {
+	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
 

@@ -26,8 +26,8 @@ import org.primefaces.event.FileUploadEvent;
 import co.informatix.erp.humanResources.entities.Person;
 import co.informatix.erp.informacionBase.dao.TipoDocumentoDao;
 import co.informatix.erp.informacionBase.entities.TipoDocumento;
-import co.informatix.erp.organizations.dao.OrganizacionDao;
-import co.informatix.erp.organizations.entities.Organizacion;
+import co.informatix.erp.organizations.dao.OrganizationDao;
+import co.informatix.erp.organizations.entities.Organization;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
@@ -45,12 +45,11 @@ import co.informatix.security.action.IdentityAction;
  * in the organization.
  * 
  * @author marisol.calderon
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class OrganizacionAction implements Serializable {
+public class OrganizationAction implements Serializable {
 
 	@Inject
 	private IdentityAction identity;
@@ -58,112 +57,113 @@ public class OrganizacionAction implements Serializable {
 	private UserTransaction userTransaction;
 
 	@EJB
-	private OrganizacionDao organizacionDao;
+	private OrganizationDao organizationDao;
 
 	@EJB
-	private TipoDocumentoDao tipoDocumentoDao;
+	private TipoDocumentoDao typeDocumentDao;
 	@EJB
 	private FileUploadBean fileUploadBean;
 
-	private List<Organizacion> organizaciones;
-	private List<Person> personas;
-	private HashMap<String, Short> itemsTiposDocumentos;
+	private List<Organization> organizations;
+	private List<Person> persons;
+	private HashMap<String, Short> itemsTypeDocuments;
 	private Paginador pagination = new Paginador();
-	private Organizacion organizacionAModificarVigencia;
-	private Organizacion organizacion;
-	private Person persona;
+	private Organization organizationModifyValidation;
+	private Organization organization;
+	private Person person;
 	private String vigencia = Constantes.SI;
-	private String nombreBuscar;
-	private String carpetaArchivos;
-	private String carpetaArchivosTemporal;
-	private String filtroBusqueda;
-	private boolean cargarFotoTemporal;
+
+	private String nameSearch;
+	private String fileFolder;
+	private String fileFolderTemporary;
+	private String filterSearch;
+	private boolean loadPhotoTemporary;
 
 	/**
 	 * Gets the object reference where the organization is positioned to be the
 	 * change the current
 	 * 
-	 * @return organizacionAModificarVigencia: object reference to the
+	 * @return organizationModifyValidation: object reference to the
 	 *         organization that you are going to change the current
 	 */
-	public Organizacion getOrganizacionAModificarVigencia() {
-		return organizacionAModificarVigencia;
+	public Organization getOrganizationModifyValidation() {
+		return organizationModifyValidation;
 	}
 
 	/**
 	 * Sets the object reference where the organization is positioned to be the
 	 * change the current
 	 * 
-	 * @param organizacionAModificarVigencia
+	 * @param organizationModifyValidation
 	 *            : object reference to the organization that you are going to
 	 *            change the current
 	 */
-	public void setOrganizacionAModificarVigencia(
-			Organizacion organizacionAModificarVigencia) {
-		this.organizacionAModificarVigencia = organizacionAModificarVigencia;
+	public void setOrganizationModifyValidation(
+			Organization organizationModifyValidation) {
+		this.organizationModifyValidation = organizationModifyValidation;
 	}
 
 	/**
-	 * @return carpetaArchivos: Variable that gets the path to the folder where
-	 *         the logo of the organization are stored
+	 * @return fileFolder: Variable that gets the path to the folder where the
+	 *         logo of the organization are stored
 	 */
-	public String getCarpetaArchivos() {
-		this.carpetaArchivos = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
+	public String getFileFolder() {
+		this.fileFolder = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
 				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_LOGOS_ORGANIZACIONES;
-		return carpetaArchivos;
+		return fileFolder;
 	}
 
 	/**
-	 * @param carpetaArchivos
+	 * @param fileFolder
 	 *            :Variable that gets the path to the folder where the logo of
 	 *            the organization are stored
 	 */
-	public void setCarpetaArchivos(String carpetaArchivos) {
-		this.carpetaArchivos = carpetaArchivos;
+	public void setFileFolder(String fileFolder) {
+		this.fileFolder = fileFolder;
 	}
 
 	/**
-	 * @return carpetaArchivosTemporal: path of the temporary folder where logo
-	 *         or photos of the organization are loaded.
+	 * @return fileFolderTemporary: path of the temporary folder where logo or
+	 *         photos of the organization are loaded.
 	 */
-	public String getCarpetaArchivosTemporal() {
-		this.carpetaArchivosTemporal = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
+	public String getFileFolderTemporary() {
+		this.fileFolderTemporary = Constantes.CARPETA_ARCHIVOS_ORGANIZACIONES
 				+ Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
-		return carpetaArchivosTemporal;
+		return fileFolderTemporary;
 	}
 
 	/**
-	 * @return cargarFotoTemporal: Flag indicating whether the picture is loaded
+	 * @return loadPhotoTemporary: Flag indicating whether the picture is loaded
 	 *         from the temporary location or not
 	 */
-	public boolean isCargarFotoTemporal() {
-		return cargarFotoTemporal;
+	public boolean isLoadPhotoTemporary() {
+		return loadPhotoTemporary;
 	}
 
 	/**
-	 * @param cargarFotoTemporal
+	 * @param loadPhotoTemporary
 	 *            : Flag indicating whether the picture is loaded from the
 	 *            temporary location or not
 	 */
-	public void setCargarFotoTemporal(boolean cargarFotoTemporal) {
-		this.cargarFotoTemporal = cargarFotoTemporal;
+	public void setLoadPhotoTemporary(boolean loadPhotoTemporary) {
+		this.loadPhotoTemporary = loadPhotoTemporary;
 	}
 
 	/**
-	 * @return filtroBusqueda:Filter search of organizations
+	 * @return filterSearch: Filter search of organizations
 	 */
-	public String getFiltroBusqueda() {
-		return filtroBusqueda;
+	public String getFilterSearch() {
+		return filterSearch;
 	}
 
 	/**
-	 * @param filtroBusqueda
-	 *            Filter search of organizations
+	 * @param filterSearch
+	 *            : Filter search of organizations
 	 */
-	public void setFiltroBusqueda(String filtroBusqueda) {
-		this.filtroBusqueda = filtroBusqueda;
+	public void setFilterSearch(String filterSearch) {
+		this.filterSearch = filterSearch;
 	}
 
 	/**
@@ -183,35 +183,35 @@ public class OrganizacionAction implements Serializable {
 	}
 
 	/**
-	 * @return organizacion: Object representing the Organization
+	 * @return organization: Object representing the Organization
 	 */
-	public Organizacion getOrganizacion() {
-		return organizacion;
+	public Organization getOrganization() {
+		return organization;
 	}
 
 	/**
 	 * @param organizacion
 	 *            : Object representing the Organization
 	 */
-	public void setOrganizacion(Organizacion organizacion) {
-		this.organizacion = organizacion;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	/**
-	 * @return organizaciones: Object list of organizations that are loaded into
+	 * @return organizations: Object list of organizations that are loaded into
 	 *         the interface table.
 	 */
-	public List<Organizacion> getOrganizaciones() {
-		return organizaciones;
+	public List<Organization> getOrganizations() {
+		return organizations;
 	}
 
 	/**
-	 * @param organizaciones
+	 * @param organizations
 	 *            : Object list of organizations that are loaded into the
 	 *            interface table.
 	 */
-	public void setOrganizaciones(List<Organizacion> organizaciones) {
-		this.organizaciones = organizaciones;
+	public void setOrganizations(List<Organization> organizations) {
+		this.organizations = organizations;
 	}
 
 	/**
@@ -247,50 +247,50 @@ public class OrganizacionAction implements Serializable {
 	}
 
 	/**
-	 * @return nombreBuscar: Name to search for the person who wants to
+	 * @return nameSearch: Name to search for the person who wants to
 	 *         associate with the organization
 	 */
-	public String getNombreBuscar() {
-		return nombreBuscar;
+	public String getNameSearch() {
+		return nameSearch;
 	}
 
 	/**
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            : Name to search for the person who wants to associate with
 	 *            the organization
 	 */
-	public void setNombreBuscar(String nombreBuscar) {
-		this.nombreBuscar = nombreBuscar;
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
 	}
 
 	/**
-	 * @return personas: List of persons encountered by name
+	 * @return persons: List of persons encountered by name
 	 */
-	public List<Person> getPersonas() {
-		return personas;
+	public List<Person> getPersons() {
+		return persons;
 	}
 
 	/**
-	 * @param personas
+	 * @param persons
 	 *            : List of persons encountered by name
 	 */
-	public void setPersonas(List<Person> personas) {
-		this.personas = personas;
+	public void setPersons(List<Person> persons) {
+		this.persons = persons;
 	}
 
 	/**
-	 * @return persona: get the person associated with the organization.
+	 * @return person: get the person associated with the organization.
 	 */
-	public Person getPersona() {
-		return persona;
+	public Person getPerson() {
+		return person;
 	}
 
 	/**
-	 * @param persona
+	 * @param person
 	 *            : set the person associated with the organization.
 	 */
-	public void setPersona(Person persona) {
-		this.persona = persona;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 	/**
@@ -300,21 +300,21 @@ public class OrganizacionAction implements Serializable {
 	 * @return itemsTiposDocumentos : Items of the types of documents that are
 	 *         displayed in the user interface
 	 */
-	public HashMap<String, Short> getItemsTiposDocumentos() {
-		return itemsTiposDocumentos;
+	public HashMap<String, Short> getItemsTypeDocuments() {
+		return itemsTypeDocuments;
 	}
 
 	/**
 	 * List of items that establishes the types of documents in the combo of the
 	 * user interface
 	 * 
-	 * @param itemsTiposDocumentos
+	 * @param itemsTypeDocuments
 	 *            : Items of the types of documents that are displayed in the
 	 *            user interface
 	 */
-	public void setItemsTiposDocumentos(
-			HashMap<String, Short> itemsTiposDocumentos) {
-		this.itemsTiposDocumentos = itemsTiposDocumentos;
+	public void setItemsTypeDocuments(
+			HashMap<String, Short> itemsTypeDocuments) {
+		this.itemsTypeDocuments = itemsTypeDocuments;
 	}
 
 	/**
@@ -325,9 +325,9 @@ public class OrganizacionAction implements Serializable {
 	 * @return consultarOrganizaciones(): method consulting organizations of the
 	 *         system and returns to the template management.
 	 */
-	public String inicializarBusqueda() {
-		this.filtroBusqueda = "";
-		return this.consultarOrganizaciones();
+	public String searchInitialize() {
+		this.filterSearch = "";
+		return this.consultOrganizations();
 	}
 
 	/**
@@ -336,13 +336,13 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @modify Liseth.Jimenez 11/07/2012
 	 * 
-	 * @return gesOrganizacion: redirects to the Manage organization
+	 * @return gesOrganization: redirects to the Manage organization
 	 */
-	public String consultarOrganizaciones() {
+	public String consultOrganizations() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleOrg = ControladorContexto
 				.getBundle("messageOrganizations");
-		String mensajeBusqueda = "";
+		String messageSearch = "";
 		ValidacionesAction validaciones = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		try {
@@ -352,40 +352,39 @@ public class OrganizacionAction implements Serializable {
 			if (Constantes.NOT.equals(vigencia)) {
 				condicionVigencia = Constantes.IS_NOT_NULL;
 			}
-			Long cantidadOrganizaciones = organizacionDao
-					.cantidadOrganizaciones(condicionVigencia,
-							this.filtroBusqueda);
+			Long cantidadOrganizaciones = organizationDao.amountOrganizations(
+					condicionVigencia, this.filterSearch);
 			if (cantidadOrganizaciones != null) {
 				pagination.paginar(cantidadOrganizaciones);
 			}
-			organizaciones = organizacionDao.consultarOrganizaciones(
+			organizations = organizationDao.consultOrganizations(
 					pagination.getInicio(), pagination.getRango(),
-					condicionVigencia, this.filtroBusqueda);
+					condicionVigencia, this.filterSearch);
 
-			if ((this.organizaciones == null || this.organizaciones.size() <= 0)
-					&& (this.filtroBusqueda != null && !""
-							.equals(this.filtroBusqueda))) {
-				mensajeBusqueda = MessageFormat
+			if ((this.organizations == null || this.organizations.size() <= 0)
+					&& (this.filterSearch != null && !""
+							.equals(this.filterSearch))) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
-								cadena + ": " + '"' + this.filtroBusqueda + '"');
-			} else if (this.organizaciones == null
-					|| this.organizaciones.size() <= 0) {
+								cadena + ": " + '"' + this.filterSearch + '"');
+			} else if (this.organizations == null
+					|| this.organizations.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
-			} else if (this.filtroBusqueda != null
-					&& !"".equals(this.filtroBusqueda)) {
-				mensajeBusqueda = MessageFormat
+			} else if (this.filterSearch != null
+					&& !"".equals(this.filterSearch)) {
+				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleOrg.getString("organization_label_s"),
-								cadena + ": " + '"' + this.filtroBusqueda + '"');
+								cadena + ": " + '"' + this.filterSearch + '"');
 			}
-			validaciones.setMensajeBusqueda(mensajeBusqueda);
+			validaciones.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesOrganizacion";
+		return "gesOrganization";
 	}
 
 	/**
@@ -399,28 +398,28 @@ public class OrganizacionAction implements Serializable {
 	 *         organization, which is loaded into editing or empty to add a new
 	 *         organization.
 	 */
-	public String registrarOrganizacion(Organizacion organizacion) {
+	public String registerOrganization(Organization organization) {
 		fileUploadBean = new FileUploadBean();
-		this.personas = new ArrayList<Person>();
-		this.nombreBuscar = "";
+		this.persons = new ArrayList<Person>();
+		this.nameSearch = "";
 		try {
-			cargarCombosTipoCargoTipoDoc();
-			if (organizacion != null) {
-				organizacion = organizacionDao
-						.consultarOrganizacionConTipoDocumento(organizacion
+			loadCombosTypeChargeTypeDocument();
+			if (organization != null) {
+				organization = organizationDao
+						.consultOrganizationWithTypeDocument(organization
 								.getId());
-				this.organizacion = organizacion;
-				fileUploadBean.setFileName(organizacion.getLogo());
-				this.cargarFotoTemporal = false;
+				this.organization = organization;
+				fileUploadBean.setFileName(organization.getLogo());
+				this.loadPhotoTemporary = false;
 			} else {
-				this.cargarFotoTemporal = true;
-				this.organizacion = new Organizacion();
-				this.organizacion.setTipoDocumento(new TipoDocumento());
+				this.loadPhotoTemporary = true;
+				this.organization = new Organization();
+				this.organization.setDocumentType(new TipoDocumento());
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "regOrganizacion";
+		return "regOrganization";
 	}
 
 	/**
@@ -429,13 +428,13 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void cargarCombosTipoCargoTipoDoc() throws Exception {
-		itemsTiposDocumentos = new HashMap<String, Short>();
-		List<TipoDocumento> tiposDocumentos = tipoDocumentoDao
+	private void loadCombosTypeChargeTypeDocument() throws Exception {
+		itemsTypeDocuments = new HashMap<String, Short>();
+		List<TipoDocumento> typeDocuments = typeDocumentDao
 				.consultarTiposDocumentoVigentes();
-		if (tiposDocumentos != null) {
-			for (TipoDocumento td : tiposDocumentos) {
-				itemsTiposDocumentos.put(td.getNombre(), td.getId());
+		if (typeDocuments != null) {
+			for (TipoDocumento td : typeDocuments) {
+				itemsTypeDocuments.put(td.getNombre(), td.getId());
 			}
 		}
 	}
@@ -444,16 +443,16 @@ public class OrganizacionAction implements Serializable {
 	 * Method that allows you to load detailed organizational information in the
 	 * user interface
 	 * 
-	 * @param organizacion
+	 * @param organization
 	 *            : identification of the organization you want to see the
 	 *            information
 	 */
-	public void verDetallesOrganizacion(Organizacion organizacion) {
-		this.organizacion = new Organizacion();
+	public void seeDetailsOrganization(Organization organization) {
+		this.organization = new Organization();
 		try {
-			organizacion = organizacionDao
-					.consultarOrganizacionConTipoDocumento(organizacion.getId());
-			this.organizacion = organizacion;
+			organization = organizationDao
+					.consultOrganizationWithTypeDocument(organization.getId());
+			this.organization = organization;
 
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -466,61 +465,61 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @return regOrganizacion: page redirects to register the organization.
 	 */
-	public String guardarOrganizacion() {
+	public String saveOrganization() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String nombreFotoBorrar = null;
+		String namePhotoDelete = null;
 		String key = "message_registro_modificar";
-		boolean seCambioFoto = false;
-		boolean esEdicion = false;
+		boolean isChangedPhoto = false;
+		boolean isEdition = false;
 		try {
 			userTransaction.begin();
-			organizacion.setRazonSocial(WordUtils.capitalizeFully(organizacion
-					.getRazonSocial()));
-			organizacion.setNit(organizacion.getNit().toUpperCase());
-			organizacion.setUserName(identity.getUserName());
-			if (organizacion.getId() != 0) {
-				esEdicion = true;
-				if (organizacion.getLogo() != null
-						&& !"".equals(organizacion.getLogo())
-						&& !organizacion.getLogo().equals(
+			organization.setBusinessName(WordUtils.capitalizeFully(organization
+					.getBusinessName()));
+			organization.setNit(organization.getNit().toUpperCase());
+			organization.setUserName(identity.getUserName());
+			if (organization.getId() != 0) {
+				isEdition = true;
+				if (organization.getLogo() != null
+						&& !"".equals(organization.getLogo())
+						&& !organization.getLogo().equals(
 								fileUploadBean.getFileName())) {
-					seCambioFoto = true;
-					this.borrarArchivoReal(organizacion.getLogo());
-				} else if (organizacion.getLogo() == null
+					isChangedPhoto = true;
+					this.deleteFileReal(organization.getLogo());
+				} else if (organization.getLogo() == null
 						&& fileUploadBean.getFileName() != null
 						&& !"".equals(fileUploadBean.getFileName())) {
-					seCambioFoto = true;
+					isChangedPhoto = true;
 				}
-				organizacion.setLogo(fileUploadBean.getFileName());
-				if (organizacion.getLogo() != null && seCambioFoto) {
-					nombreFotoBorrar = fileUploadBean.getFileName();
-					subirImagenUbicacionReal();
+				organization.setLogo(fileUploadBean.getFileName());
+				if (organization.getLogo() != null && isChangedPhoto) {
+					namePhotoDelete = fileUploadBean.getFileName();
+					loadImageLocationReal();
 				}
-				organizacionDao.editarOrganizacion(organizacion);
+				organizationDao.editOrganization(organization);
 
 			} else {
 				key = "message_registro_guardar";
 				if (fileUploadBean.getFileName() != null
 						&& !"".equals(fileUploadBean.getFileName().trim())) {
-					nombreFotoBorrar = fileUploadBean.getFileName();
-					subirImagenUbicacionReal();
+					namePhotoDelete = fileUploadBean.getFileName();
+					loadImageLocationReal();
 				}
-				organizacion.setLogo(fileUploadBean.getFileName());
-				organizacion.setFechaCreacion(new Date());
-				organizacionDao.guardarOrganizacion(organizacion);
+				organization.setLogo(fileUploadBean.getFileName());
+				organization.setCreationDate(new Date());
+				organizationDao.saveOrganization(organization);
 			}
 			userTransaction.commit();
 			ControladorContexto.mensajeInformacion(
 					null,
 					MessageFormat.format(bundle.getString(key),
-							organizacion.getRazonSocial()));
-			if (nombreFotoBorrar != null && !"".equals(nombreFotoBorrar)) {
-				this.borrarArchivo(nombreFotoBorrar);
+							organization.getBusinessName()));
+			if (namePhotoDelete != null && !"".equals(namePhotoDelete)) {
+				this.deleteFile(namePhotoDelete);
 			}
 		} catch (Exception e) {
-			if (!esEdicion && fileUploadBean.getFileName() != null
+			if (!isEdition && fileUploadBean.getFileName() != null
 					&& !"".equals(fileUploadBean.getFileName())) {
-				this.borrarArchivoReal(fileUploadBean.getFileName());
+				this.deleteFileReal(fileUploadBean.getFileName());
 			}
 			try {
 				userTransaction.rollback();
@@ -528,9 +527,9 @@ public class OrganizacionAction implements Serializable {
 				ControladorContexto.mensajeError(e1);
 			}
 			ControladorContexto.mensajeError(e);
-			return "regOrganizacion";
+			return "regOrganization";
 		}
-		return inicializarBusqueda();
+		return searchInitialize();
 	}
 
 	/**
@@ -546,24 +545,24 @@ public class OrganizacionAction implements Serializable {
 	 * @param value
 	 *            : field value to be valid
 	 */
-	public void validarRazonSocialXSS(FacesContext context,
+	public void validateBusinessNameXSS(FacesContext context,
 			UIComponent toValidate, Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String razonSocial = (String) value;
+		String businessName = (String) value;
 		String clientId = toValidate.getClientId(context);
-		int idOrg = organizacion.getId();
-		String razonSocialCapitalize = WordUtils.capitalizeFully(razonSocial);
-		Organizacion organizacionTemp = new Organizacion();
+		int idOrg = organization.getId();
+		String businessNameCapitalize = WordUtils.capitalizeFully(businessName);
+		Organization organizationTemp = new Organization();
 		try {
 			if (idOrg != 0) {
-				organizacionTemp = organizacionDao.consultarExisteActualizar(
-						razonSocialCapitalize, Constantes.RAZON_SOCIAL, idOrg);
+				organizationTemp = organizationDao.consultExistUpdate(
+						businessNameCapitalize, Constantes.RAZON_SOCIAL, idOrg);
 			} else {
-				organizacionTemp = organizacionDao.consultarExiste(
-						razonSocialCapitalize, Constantes.RAZON_SOCIAL);
+				organizationTemp = organizationDao.consultExist(
+						businessNameCapitalize, Constantes.RAZON_SOCIAL);
 			}
-			if (organizacionTemp != null) {
-				if (organizacionTemp.getFechaFinVigencia() == null) {
+			if (organizationTemp != null) {
+				if (organizationTemp.getDateEndValidity() == null) {
 					context.addMessage(
 							clientId,
 							new FacesMessage(
@@ -581,7 +580,7 @@ public class OrganizacionAction implements Serializable {
 					((UIInput) toValidate).setValid(false);
 				}
 			}
-			if (!EncodeFilter.validarXSS(razonSocial, clientId,
+			if (!EncodeFilter.validarXSS(businessName, clientId,
 					"locate.regex.letras.numeros.caracteres")) {
 				((UIInput) toValidate).setValid(false);
 			}
@@ -603,23 +602,23 @@ public class OrganizacionAction implements Serializable {
 	 * @param value
 	 *            : field value to be valid
 	 */
-	public void validarNitXSS(FacesContext context, UIComponent toValidate,
+	public void validateNitXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String nit = (String) value;
 		String clientId = toValidate.getClientId(context);
-		int idOrg = organizacion.getId();
-		Organizacion organizacionTemp = new Organizacion();
+		int idOrg = organization.getId();
+		Organization organizationTemp = new Organization();
 		try {
 			if (idOrg != 0) {
-				organizacionTemp = organizacionDao.consultarExisteActualizar(
+				organizationTemp = organizationDao.consultExistUpdate(
 						nit.toUpperCase(), Constantes.NIT, idOrg);
 			} else {
-				organizacionTemp = organizacionDao.consultarExiste(
+				organizationTemp = organizationDao.consultExist(
 						nit.toUpperCase(), Constantes.NIT);
 			}
-			if (organizacionTemp != null) {
-				if (organizacionTemp.getFechaFinVigencia() == null) {
+			if (organizationTemp != null) {
+				if (organizationTemp.getDateEndValidity() == null) {
 					context.addMessage(
 							clientId,
 							new FacesMessage(
@@ -652,37 +651,37 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @modify Luis.Ruiz
 	 * 
-	 * @param vigente
+	 * @param validity
 	 *            : boolean that allows to know if the term ends with 'true' or
 	 *            INICA with 'false', the selected record in the user interface.
 	 * @return consultarOrganizaciones: page redirects to manage organizations
 	 */
-	public String vigenciaOrganizaciones(boolean vigente) {
+	public String validityOrganizationes(boolean validity) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		StringBuilder regVigentesUsados = new StringBuilder();
 		StringBuilder regExito = new StringBuilder();
-		String mensajeCambioVigencia = "";
+		String messageChangedValidity = "";
 		try {
-			if (vigente) {
-				mensajeCambioVigencia = "message_fin_vigencia_satisfactorio";
+			if (validity) {
+				messageChangedValidity = "message_fin_vigencia_satisfactorio";
 
-				organizacionAModificarVigencia.setFechaFinVigencia(new Date());
-				organizacionAModificarVigencia.setUserName(identity
+				organizationModifyValidation.setDateEndValidity(new Date());
+				organizationModifyValidation.setUserName(identity
 						.getUserName());
-				organizacionDao
-						.editarOrganizacion(organizacionAModificarVigencia);
-				regExito.append(organizacionAModificarVigencia.getRazonSocial()
-						+ ", ");
+				organizationDao
+						.editOrganization(organizationModifyValidation);
+				regExito.append(organizationModifyValidation
+						.getBusinessName() + ", ");
 
 			} else {
-				mensajeCambioVigencia = "message_inicio_vigencia_satisfactorio";
-				organizacionAModificarVigencia.setFechaFinVigencia(null);
-				organizacionAModificarVigencia.setUserName(identity
+				messageChangedValidity = "message_inicio_vigencia_satisfactorio";
+				organizationModifyValidation.setDateEndValidity(null);
+				organizationModifyValidation.setUserName(identity
 						.getUserName());
-				organizacionDao
-						.editarOrganizacion(organizacionAModificarVigencia);
-				regExito.append(organizacionAModificarVigencia.getRazonSocial()
-						+ ", ");
+				organizationDao
+						.editOrganization(organizationModifyValidation);
+				regExito.append(organizationModifyValidation
+						.getBusinessName() + ", ");
 			}
 			if (regVigentesUsados.length() > 0) {
 				String message = bundle
@@ -694,22 +693,22 @@ public class OrganizacionAction implements Serializable {
 			}
 			if (regExito.length() > 0) {
 				ControladorContexto.mensajeInformacion(null,
-						bundle.getString(mensajeCambioVigencia) + ": "
+						bundle.getString(messageChangedValidity) + ": "
 								+ regExito.substring(0, regExito.length() - 2));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultarOrganizaciones();
+		return consultOrganizations();
 	}
 
 	/**
 	 * Method that allows add the person is created in the modal to the list of
 	 * people to be involved in organizing
 	 */
-	public void registrarPersona() {
+	public void registerPerson() {
 		if (ControladorContexto.getMaxSeverity() == null) {
-			this.personas.add(this.persona);
+			this.persons.add(this.person);
 		}
 	}
 
@@ -717,12 +716,12 @@ public class OrganizacionAction implements Serializable {
 	 * Method that allows delete the file name.
 	 * 
 	 */
-	public void borrarFilename() {
+	public void deleteFilename() {
 		if (fileUploadBean.getFileName() != null
 				&& !"".equals(fileUploadBean.getFileName())
-				&& !fileUploadBean.getFileName().equals(organizacion.getLogo())
-				&& this.cargarFotoTemporal) {
-			borrarArchivo(fileUploadBean.getFileName());
+				&& !fileUploadBean.getFileName().equals(organization.getLogo())
+				&& this.loadPhotoTemporary) {
+			deleteFile(fileUploadBean.getFileName());
 		}
 		fileUploadBean.setFileName(null);
 	}
@@ -733,10 +732,10 @@ public class OrganizacionAction implements Serializable {
 	 * @param fileName
 	 *            : Name of the file to delete.
 	 */
-	public void borrarArchivo(String fileName) {
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
-		fileUploadBean.delete(ubicaciones, fileName);
+	public void deleteFile(String fileName) {
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFileFolderTemporary() };
+		fileUploadBean.delete(locations, fileName);
 	}
 
 	/**
@@ -749,31 +748,31 @@ public class OrganizacionAction implements Serializable {
 	 */
 	public void submit(FileUploadEvent e) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String extAceptadas[] = Constantes.EXT_IMG.split(", ");
-		String ubicaciones[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getCarpetaArchivosTemporal() };
+		String extAccepted[] = Constantes.EXT_IMG.split(", ");
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFileFolderTemporary() };
 		fileUploadBean.setUploadedFile(e.getFile());
-		long tamanyoMaxArchivos = Constantes.TAMANYO_MAX_ARCHIVOS;
-		String resultUpload = fileUploadBean.uploadValTamanyo(extAceptadas,
-				ubicaciones, tamanyoMaxArchivos);
-		String mensaje = "";
+		long maximunFileSize = Constantes.TAMANYO_MAX_ARCHIVOS;
+		String resultUpload = fileUploadBean.uploadValTamanyo(extAccepted,
+				locations, maximunFileSize);
+		String message = "";
 		if (Constantes.UPLOAD_EXT_INVALIDA.equals(resultUpload)) {
-			mensaje = "error_ext_invalida";
+			message = "error_ext_invalida";
 		} else if (Constantes.UPLOAD_TAMANO_INVALIDA.equals(resultUpload)) {
 			String format = MessageFormat.format(
 					bundle.getString("error_tamanyo_invalido"),
-					tamanyoMaxArchivos, "MB");
+					maximunFileSize, "MB");
 			ControladorContexto.mensajeError("organizacionForm:uploadFile",
 					format);
 		} else if (Constantes.UPLOAD_NULL.equals(resultUpload)) {
-			mensaje = "error_carga_archivo";
+			message = "error_carga_archivo";
 		}
-		if (!"".equals(mensaje)) {
+		if (!"".equals(message)) {
 			ControladorContexto.mensajeError("organizacionForm:uploadFile",
-					bundle.getString(mensaje));
+					bundle.getString(message));
 		}
-		if (organizacion.getId() != 0) {
-			cargarFotoTemporal = true;
+		if (organization.getId() != 0) {
+			loadPhotoTemporary = true;
 		}
 	}
 
@@ -785,11 +784,11 @@ public class OrganizacionAction implements Serializable {
 	 * @param fileName
 	 *            :Name of the file to delete.
 	 */
-	public void borrarArchivoReal(String fileName) {
+	public void deleteFileReal(String fileName) {
 		String ubicaciones[] = {
-				Constantes.RUTA_UPLOADFILE_GLASFISH + this.getCarpetaArchivos(),
+				Constantes.RUTA_UPLOADFILE_GLASFISH + this.getFileFolder(),
 				Constantes.RUTA_UPLOADFILE_WORKSPACE
-						+ this.getCarpetaArchivos() };
+						+ this.getFileFolder() };
 		fileUploadBean.delete(ubicaciones, fileName);
 	}
 
@@ -800,19 +799,19 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	private void subirImagenUbicacionReal() throws Exception {
-		String origen = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivosTemporal();
-		String destino1 = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getCarpetaArchivos();
-		String destino2 = Constantes.RUTA_UPLOADFILE_WORKSPACE
-				+ this.getCarpetaArchivos();
-		FileUploadBean.fileExist(destino1);
-		FileUploadBean.fileExist(destino2);
+	private void loadImageLocationReal() throws Exception {
+		String origin = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ this.getFileFolderTemporary();
+		String destination1 = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ this.getFileFolder();
+		String destination2 = Constantes.RUTA_UPLOADFILE_WORKSPACE
+				+ this.getFileFolder();
+		FileUploadBean.fileExist(destination1);
+		FileUploadBean.fileExist(destination2);
 
-		File fileOrigen = new File(origen, fileUploadBean.getFileName());
-		File fileDestino1 = new File(destino1, fileUploadBean.getFileName());
-		File fileDestino2 = new File(destino2, fileUploadBean.getFileName());
+		File fileOrigen = new File(origin, fileUploadBean.getFileName());
+		File fileDestino1 = new File(destination1, fileUploadBean.getFileName());
+		File fileDestino2 = new File(destination2, fileUploadBean.getFileName());
 
 		FileUploadBean.copyFile(fileOrigen, fileDestino1);
 		FileUploadBean.copyFile(fileOrigen, fileDestino2);
@@ -824,9 +823,9 @@ public class OrganizacionAction implements Serializable {
 	 * @param organizacion
 	 *            : organization you want to change the effect.
 	 */
-	public void asignarOrganizacionModificar(Organizacion organizacion) {
-		if (organizacion instanceof Organizacion) {
-			this.organizacionAModificarVigencia = organizacion;
+	public void assignOrganizationModify(Organization organization) {
+		if (organization instanceof Organization) {
+			this.organizationModifyValidation = organization;
 		}
 	}
 
@@ -836,20 +835,20 @@ public class OrganizacionAction implements Serializable {
 	 * 
 	 * @author marisol.calderon
 	 */
-	public void requeridosOk() {
+	public void requiredOk() {
 		try {
-			if (organizacion.getTipoDocumento() == null
-					|| organizacion.getTipoDocumento().getId() == 0) {
+			if (organization.getDocumentType() == null
+					|| organization.getDocumentType().getId() == 0) {
 				ControladorContexto
 						.mensajeRequeridos("organizacionForm:cmbtipodocumento");
 			}
-			if (organizacion.getRazonSocial() == null
-					|| "".equals(organizacion.getRazonSocial())) {
+			if (organization.getBusinessName() == null
+					|| "".equals(organization.getBusinessName())) {
 				ControladorContexto
 						.mensajeRequeridos("organizacionForm:txtRazonSocial");
 			}
-			if (organizacion.getNit() == null
-					|| "".equals(organizacion.getNit())) {
+			if (organization.getNit() == null
+					|| "".equals(organization.getNit())) {
 				ControladorContexto
 						.mensajeRequeridos("organizacionForm:txtNit");
 			}

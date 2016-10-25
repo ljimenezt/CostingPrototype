@@ -18,29 +18,27 @@ import javax.persistence.TemporalType;
 import co.informatix.erp.informacionBase.entities.TipoDocumento;
 
 /**
- * 
  * This class maps the organization table
  * 
  * @author Oscar.Amaya
  * @modify Luis.Ruiz
- * 
  */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "organizacion", schema = "organizaciones")
-public class Organizacion implements Serializable, Comparable<Organizacion> {
+public class Organization implements Serializable, Comparable<Organization> {
 
 	private int id;
 	private String nit;
-	private String razonSocial;
-	private String direccion;
-	private String telefono;
+	private String businessName;
+	private String address;
+	private String telephono;
 	private String logo;
-	private Date fechaCreacion;
-	private Date fechaFinVigencia;
+	private Date creationDate;
+	private Date dateEndValidity;
 	private String userName;
 
-	private TipoDocumento tipoDocumento;
+	private TipoDocumento documentType;
 
 	/**
 	 * @return id: ID (primary key) of the table
@@ -77,51 +75,51 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * @return razonSocial: Business name of the organization
+	 * @return businessName: Business name of the organization
 	 */
 	@Column(name = "razon_social", length = 150, nullable = false)
-	public String getRazonSocial() {
-		return razonSocial;
+	public String getBusinessName() {
+		return businessName;
 	}
 
 	/**
-	 * @param razonSocial
+	 * @param businessName
 	 *            : Business name of the organization
 	 */
-	public void setRazonSocial(String razonSocial) {
-		this.razonSocial = razonSocial;
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
 	}
 
 	/**
-	 * @return direccion: direction of the organization
+	 * @return address: direction of the organization
 	 */
 	@Column(name = "direccion", length = 200, nullable = true)
-	public String getDireccion() {
-		return direccion;
+	public String getAddress() {
+		return address;
 	}
 
 	/**
-	 * @param direccion
+	 * @param address
 	 *            : direction of the organizations
 	 */
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	/**
-	 * @return telefono: Organization Phone
+	 * @return telephono: Organization Phone
 	 */
 	@Column(name = "telefono", length = 100, nullable = true)
-	public String getTelefono() {
-		return telefono;
+	public String getTelephono() {
+		return telephono;
 	}
 
 	/**
-	 * @param telefono
+	 * @param telephono
 	 *            : Organization Phone
 	 */
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setTelephono(String telephono) {
+		this.telephono = telephono;
 	}
 
 	/**
@@ -141,37 +139,37 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * @return fechaCreacion: creation date of record
+	 * @return creationDate: creation date of record
 	 */
 	@Column(name = "fecha_creacion", nullable = false)
 	@Temporal(TemporalType.DATE)
-	public Date getFechaCreacion() {
-		return fechaCreacion;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
 	/**
-	 * @param fechaCreacion
+	 * @param creationDate
 	 *            : creation date of record
 	 */
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	/**
-	 * @return fechaFinVigencia: date of currency of the registration order
+	 * @return dateEndValidity: date of currency of the registration order
 	 */
 	@Column(name = "fecha_fin_vigencia", nullable = true)
 	@Temporal(TemporalType.DATE)
-	public Date getFechaFinVigencia() {
-		return fechaFinVigencia;
+	public Date getDateEndValidity() {
+		return dateEndValidity;
 	}
 
 	/**
 	 * @param fechaFinVigencia
 	 *            : date of currency of the registration order
 	 */
-	public void setFechaFinVigencia(Date fechaFinVigencia) {
-		this.fechaFinVigencia = fechaFinVigencia;
+	public void setDateEndValidity(Date dateEndValidity) {
+		this.dateEndValidity = dateEndValidity;
 	}
 
 	/**
@@ -191,24 +189,24 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 	}
 
 	/**
-	 * @return tipoDocumento: gets the type of document of the organization.
+	 * @return documentType: gets the type of document of the organization.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_documento", referencedColumnName = "id", nullable = false)
-	public TipoDocumento getTipoDocumento() {
-		return tipoDocumento;
+	public TipoDocumento getDocumentType() {
+		return documentType;
 	}
 
 	/**
-	 * @param tipoDocumento
+	 * @param documentType
 	 *            : sets the type of document of the organization.
 	 */
-	public void setTipoDocumento(TipoDocumento tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
+	public void setDocumentType(TipoDocumento documentType) {
+		this.documentType = documentType;
 	}
 
-	public int compareTo(Organizacion organizacion) {
-		return razonSocial.compareTo(organizacion.getRazonSocial());
+	public int compareTo(Organization organizacion) {
+		return businessName.compareTo(organizacion.getBusinessName());
 	}
 
 	@Override
@@ -216,19 +214,19 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((direccion == null) ? 0 : direccion.hashCode());
+				+ ((address == null) ? 0 : address.hashCode());
 		result = prime * result
-				+ ((fechaCreacion == null) ? 0 : fechaCreacion.hashCode());
+				+ ((creationDate == null) ? 0 : creationDate.hashCode());
 		result = prime
 				* result
-				+ ((fechaFinVigencia == null) ? 0 : fechaFinVigencia.hashCode());
+				+ ((dateEndValidity == null) ? 0 : dateEndValidity.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((logo == null) ? 0 : logo.hashCode());
 		result = prime * result + ((nit == null) ? 0 : nit.hashCode());
 		result = prime * result
-				+ ((razonSocial == null) ? 0 : razonSocial.hashCode());
+				+ ((businessName == null) ? 0 : businessName.hashCode());
 		result = prime * result
-				+ ((telefono == null) ? 0 : telefono.hashCode());
+				+ ((telephono == null) ? 0 : telephono.hashCode());
 		result = prime * result
 				+ ((userName == null) ? 0 : userName.hashCode());
 		return result;
@@ -242,21 +240,21 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Organizacion other = (Organizacion) obj;
-		if (direccion == null) {
-			if (other.direccion != null)
+		Organization other = (Organization) obj;
+		if (address == null) {
+			if (other.address != null)
 				return false;
-		} else if (!direccion.equals(other.direccion))
+		} else if (!address.equals(other.address))
 			return false;
-		if (fechaCreacion == null) {
-			if (other.fechaCreacion != null)
+		if (creationDate == null) {
+			if (other.creationDate != null)
 				return false;
-		} else if (!fechaCreacion.equals(other.fechaCreacion))
+		} else if (!creationDate.equals(other.creationDate))
 			return false;
-		if (fechaFinVigencia == null) {
-			if (other.fechaFinVigencia != null)
+		if (dateEndValidity == null) {
+			if (other.dateEndValidity != null)
 				return false;
-		} else if (!fechaFinVigencia.equals(other.fechaFinVigencia))
+		} else if (!dateEndValidity.equals(other.dateEndValidity))
 			return false;
 		if (id != other.id)
 			return false;
@@ -270,15 +268,15 @@ public class Organizacion implements Serializable, Comparable<Organizacion> {
 				return false;
 		} else if (!nit.equals(other.nit))
 			return false;
-		if (razonSocial == null) {
-			if (other.razonSocial != null)
+		if (businessName == null) {
+			if (other.businessName != null)
 				return false;
-		} else if (!razonSocial.equals(other.razonSocial))
+		} else if (!businessName.equals(other.businessName))
 			return false;
-		if (telefono == null) {
-			if (other.telefono != null)
+		if (telephono == null) {
+			if (other.telephono != null)
 				return false;
-		} else if (!telefono.equals(other.telefono))
+		} else if (!telephono.equals(other.telephono))
 			return false;
 		if (userName == null) {
 			if (other.userName != null)
