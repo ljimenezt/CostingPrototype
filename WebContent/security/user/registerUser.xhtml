@@ -14,12 +14,12 @@
 	<ui:define name="body">
 		<h:form id="usuarioForm" styleClass="edit">
 			<t:saveState value="#{userAction}" />
-			<t:saveState value="#{personaAction}" />
+			<t:saveState value="#{personAction}" />
 
 			<rich:panel header="#{messageSecurity.user_label}"
 				styleClass="anchoUno">
 				<h:inputHidden styleClass="colTextoMediano" id="txtPersonaHidden"
-					value="#{userAction.person.nombreCompleto}" required="true"
+					value="#{userAction.person.fullName}" required="true"
 					requiredMessage="#{mensaje.message_campo_requerido}"
 					rendered="#{!userAction.edited}" />
 
@@ -36,16 +36,16 @@
 							<a:outputPanel id="txtPersonaHidden2">
 								<h:inputText maxlength="100" styleClass="colTextoMediano"
 									validator="#{encodeFilter.validarScripting}"
-									value="#{userAction.person.nombreCompleto}" readonly="true" />
+									value="#{userAction.person.fullName}" readonly="true" />
 								<rich:tooltip layout="block"
-									rendered="#{userAction.person.nombreCompleto ne null and !(empty userAction.person.nombreCompleto)}">
-									<h:outputText value="#{userAction.person.nombreCompleto}" />
+									rendered="#{userAction.person.fullName ne null and !(empty userAction.person.fullName)}">
+									<h:outputText value="#{userAction.person.fullName}" />
 								</rich:tooltip>
 							</a:outputPanel>
 							<a:commandLink execute="@this"
 								render=":formModalBusPersonas:popupPersonas"
-								actionListener="#{personaAction.setPersonsWithoutUser(true)}"
-								action="#{personaAction.initializeConsultation()}"
+								actionListener="#{personAction.setPersonsWithoutUser(true)}"
+								action="#{personAction.initializeConsultation()}"
 								oncomplete="#{rich:component('popupPersonas')}.show();">
 								<f:param name="param2" value="si" />
 								<h:graphicImage value="/img/add_22.png"
@@ -56,7 +56,7 @@
 								</rich:tooltip>
 							</a:commandLink>
 						</h:panelGrid>
-						<h:outputText value="#{userAction.person.nombreCompleto}"
+						<h:outputText value="#{userAction.person.fullName}"
 							styleClass="etiquetaValor etiquetaTitulo"
 							rendered="#{userAction.edited}" />
 						<rich:message for="txtPersonaHidden" />
@@ -90,8 +90,7 @@
 							<f:validateLength minimum="6" maximum="12" />
 							<f:attribute name="idAsociado" value="txtPasswordConfirmar" />
 						</h:inputSecret>
-						<rich:message for="txtPassword"
-							rendered="#{!userAction.edited}" />
+						<rich:message for="txtPassword" rendered="#{!userAction.edited}" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageSecurity.user_label_confirm_password}"
@@ -135,8 +134,8 @@
 						<a:outputPanel id="outputRoles">
 							<rich:message for="tRoles" />
 							<br />
-							<rich:extendedDataTable value="#{userAction.roles}"
-								var="objRol" id="tRoles" styleClass="H190P anchoCinco">
+							<rich:extendedDataTable value="#{userAction.roles}" var="objRol"
+								id="tRoles" styleClass="H190P anchoCinco">
 								<f:facet name="header">
 									<h:outputText
 										value="#{mensaje.label_listing} #{messageSecurity.role_label_s}" />
@@ -339,7 +338,7 @@
 					<ui:define name="campos">
 						<h:outputText value="#{messageHumanResources.person_label}: " />
 						<h:outputText
-							value="#{userAction.person.nombres} #{userAction.person.apellidos}" />
+							value="#{userAction.person.names} #{userAction.person.surnames}" />
 						<h:outputText value="#{messageSecurity.user_label_name}: " />
 						<h:outputText value="#{userAction.user.nombreUsuario}" />
 					</ui:define>
@@ -364,8 +363,7 @@
 							onclick="#{rich:component('popupPersonas')}.hide()" />
 					</h:panelGroup>
 				</f:facet>
-				<ui:include
-					src="/humanResources/person/templateSearchPerson.xhtml">
+				<ui:include src="/humanResources/person/templateSearchPerson.xhtml">
 					<ui:param name="selectedObject" value="#{userAction.person}" />
 					<ui:param name="valRender"
 						value="usuarioForm:txtPersonaHidden, usuarioForm:txtPersonaHidden2" />

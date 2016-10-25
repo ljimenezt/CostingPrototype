@@ -18,7 +18,7 @@
 			src="#{request.contextPath}/js/validacion.js"></script>
 		<h:form id="formPerfilUsuario">
 			<t:saveState value="#{ProfileUserAction}" />
-			<t:saveState value="#{personaAction}" />
+			<t:saveState value="#{personAction}" />
 			<t:saveState value="#{businessAction}" />
 			<t:saveState value="#{validacionesAction}" />
 
@@ -44,11 +44,11 @@
 						<div class="inBlock W100Per center">
 							<a:commandButton value="#{mensaje.button_save}"
 								actionListener="#{ProfileUserAction.setSavePersonFromProfile('true')}"
-								action="#{personaAction.requiredOk('formPerfilUsuario')}"
+								action="#{personAction.requiredOk('formPerfilUsuario')}"
 								render="formGenerico,confirmacionPopUp"
 								oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 					           	else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-								rendered="#{(identity.autorizado('personaAction','U') or identity.autorizado('personaAction','A') or identity.autorizado('personaAction','I'))}" />
+								rendered="#{(identity.autorizado('personAction','U') or identity.autorizado('personAction','A') or identity.autorizado('personAction','I'))}" />
 						</div>
 					</rich:tab>
 					<rich:tab name="f" id="f"
