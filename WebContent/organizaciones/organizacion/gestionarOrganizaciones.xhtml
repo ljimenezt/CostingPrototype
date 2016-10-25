@@ -10,27 +10,27 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="organizacionAction.inicializarBusqueda()" />
+		value="organizationAction.inicializarBusqueda()" />
 	<ui:param name="titulo"
 		value="mensaje.label_manage,messageOrganizations.organization_label" />
 	<ui:define name="body">
-		<t:saveState value="#{organizacionAction}" />
+		<t:saveState value="#{organizationAction}" />
 		<h:form id="organizacionForm">
 			<ui:param name="listaVacia"
-				value="#{organizacionAction.organizaciones eq null or (empty organizacionAction.organizaciones)}" />
+				value="#{organizationAction.organizations eq null or (empty organizationAction.organizations)}" />
 			<rich:panel
 				header="#{mensaje.label_listing} #{messageOrganizations.organization_label_s}"
 				id="panelOrganizacion" styleClass="anchoUno MinH253P">
 
 				<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
 					columnClasses="W50Per,W50Per" styleClass="anchoTres">
-					<h:selectOneRadio value="#{organizacionAction.vigencia}"
+					<h:selectOneRadio value="#{organizationAction.vigencia}"
 						styleClass="rdVigencia">
 						<f:selectItem itemValue="si" itemLabel="#{mensaje.label_current}" />
 						<f:selectItem itemValue="no"
 							itemLabel="#{mensaje.label_not_current}" />
 						<a:ajax event="click"
-							listener="#{organizacionAction.consultarOrganizaciones()}"
+							listener="#{organizationAction.consultOrganizations()}"
 							render="panelOrganizacion, vigenciaPopup, mensajes, mensajeBusqueda">
 						</a:ajax>
 					</h:selectOneRadio>
@@ -39,9 +39,9 @@
 							<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 									onclick="document.getElementById('organizacionForm:idButtonNuevo').click()"
-									rendered="#{organizacionAction.vigencia eq 'si' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','I'))}">
+									rendered="#{organizationAction.vigencia eq 'si' and (identity.autorizado('organizationAction','A') or identity.autorizado('organizationAction','I'))}">
 									<h:commandButton
-										action="#{organizacionAction.registrarOrganizacion(null)}"
+										action="#{organizationAction.registerOrganization(null)}"
 										image="/img/new_16.png" id="idButtonNuevo"
 										onclick="#{rich:component('statPane')}.show();" />
 									<h:outputText value="#{mensaje.button_new}" />
@@ -53,7 +53,7 @@
 										id="idButtonBuscar" render=":buscarForm:popupBuscar, mensajes"
 										oncomplete="#{rich:component('popupBuscar')}.show(); setFocusPopUp();">
 										<f:setPropertyActionListener value=""
-											target="#{organizacionAction.filtroBusqueda}" />
+											target="#{organizationAction.filterSearch}" />
 									</a:commandButton>
 									<h:outputText value="#{mensaje.button_search}" />
 								</h:panelGrid>
@@ -61,7 +61,7 @@
 									onclick="document.getElementById('organizacionForm:idButtonLisTodos').click()">
 									<a:commandButton image="/img/listarTodos_16.png"
 										id="idButtonLisTodos"
-										actionListener="#{organizacionAction.inicializarBusqueda}"
+										actionListener="#{organizationAction.searchInitialize}"
 										render="panelOrganizacion, mensajes, mensajeBusqueda">
 									</a:commandButton>
 									<h:outputText value="#{mensaje.button_list_all}" />
@@ -70,15 +70,15 @@
 						</div>
 					</a:outputPanel>
 				</h:panelGrid>
-				<rich:dataTable value="#{organizacionAction.organizaciones}"
+				<rich:dataTable value="#{organizationAction.organizations}"
 					var="organizacionList"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoTres"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colIconoAjustable"
-						rendered="#{organizacionAction.vigencia eq 'si' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','U'))}">
+						rendered="#{organizationAction.vigencia eq 'si' and (identity.autorizado('organizationAction','A') or identity.autorizado('organizationAction','U'))}">
 						<a:commandLink id="details" render="popupDetalles"
 							oncomplete="#{rich:component('popupDetalles')}.show();"
-							actionListener="#{organizacionAction.verDetallesOrganizacion(organizacionList)}">
+							actionListener="#{organizationAction.seeDetailsOrganization(organizacionList)}">
 							<h:graphicImage value="/img/details_16.png" />
 							<rich:tooltip layout="block">
 								<h:outputText value="#{mensaje.label_details}" />
@@ -88,7 +88,7 @@
 						<a:commandLink
 							oncomplete="#{rich:component('popupFinalizar')}.show()"
 							render="popupFinalizar"
-							actionListener="#{organizacionAction.asignarOrganizacionModificar(organizacionList)}">
+							actionListener="#{organizationAction.assignOrganizationModify(organizacionList)}">
 							<h:graphicImage value="/img/dateDelete_16.png" />
 							<rich:tooltip layout="block">
 								<h:outputText value="#{mensaje.button_finish_force}" />
@@ -96,11 +96,11 @@
 						</a:commandLink>
 					</rich:column>
 					<rich:column styleClass="colIconoUno"
-						rendered="#{organizacionAction.vigencia eq 'no' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','U'))}">
+						rendered="#{organizationAction.vigencia eq 'no' and (identity.autorizado('organizationAction','A') or identity.autorizado('organizationAction','U'))}">
 						<a:commandLink
 							oncomplete="#{rich:component('popupFinalizar')}.show()"
 							render="popupFinalizar"
-							actionListener="#{organizacionAction.asignarOrganizacionModificar(organizacionList)}">
+							actionListener="#{organizationAction.assignOrganizationModify(organizacionList)}">
 							<h:graphicImage value="/img/dateAdd_16.png" />
 							<rich:tooltip layout="block">
 								<h:outputText value="#{mensaje.button_start_term}" />
@@ -109,12 +109,12 @@
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_razon_social}</f:facet>
-						<h:commandLink value="#{organizacionList.razonSocial}"
+						<h:commandLink value="#{organizacionList.businessName}"
 							onclick="#{rich:component('statPane')}.show();"
-							action="#{organizacionAction.registrarOrganizacion(organizacionList)}"
-							rendered="#{organizacionAction.vigencia eq 'si' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','U'))}" />
-						<h:outputText value="#{organizacionList.razonSocial}"
-							rendered="#{organizacionAction.vigencia eq 'no'}" />
+							action="#{organizationAction.registerOrganization(organizacionList)}"
+							rendered="#{organizationAction.vigencia eq 'si' and (identity.autorizado('organizationAction','A') or identity.autorizado('organizationAction','U'))}" />
+						<h:outputText value="#{organizacionList.businessName}"
+							rendered="#{organizationAction.vigencia eq 'no'}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensaje.label_identification}/#{mensaje.label_document}</f:facet>
@@ -122,23 +122,23 @@
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_address}</f:facet>
-						<h:outputText value="#{organizacionList.direccion}" />
+						<h:outputText value="#{organizacionList.address}" />
 					</rich:column>
 					<rich:column styleClass="colTextoMediano">
 						<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
-						<h:outputText value="#{organizacionList.telefono}" />
+						<h:outputText value="#{organizacionList.telephono}" />
 					</rich:column>
 					<rich:column styleClass="colFecha">
 						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
-						<h:outputText value="#{organizacionList.fechaCreacion}">
+						<h:outputText value="#{organizacionList.creationDate}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
 						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colFecha"
-						rendered="#{organizacionAction.vigencia eq 'no'}">
+						rendered="#{organizationAction.vigencia eq 'no'}">
 						<f:facet name="header">#{mensaje.label_effective_end_date}</f:facet>
-						<h:outputText value="#{organizacionList.fechaFinVigencia}">
+						<h:outputText value="#{organizacionList.dateEndValidity}">
 							<f:convertDateTime pattern="MMM dd, yyyy"
 								locale="#{idioma.locale}" />
 						</h:outputText>
@@ -158,9 +158,9 @@
 						<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2"
 								onclick="document.getElementById('organizacionForm:idButtonNuevoInf').click()"
-								rendered="#{organizacionAction.vigencia eq 'si' and (identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','I'))}">
+								rendered="#{organizationAction.vigencia eq 'si' and (identity.autorizado('organizationAction','A') or identity.autorizado('organizationAction','I'))}">
 								<h:commandButton
-									action="#{organizacionAction.registrarOrganizacion(null)}"
+									action="#{organizationAction.registerOrganization(null)}"
 									image="/img/new_16.png" id="idButtonNuevoInf"
 									onclick="#{rich:component('statPane')}.show();" />
 								<h:outputText value="#{mensaje.button_new}" />
@@ -173,7 +173,7 @@
 									render=":buscarForm:popupBuscar, mensajes"
 									oncomplete="#{rich:component('popupBuscar')}.show()">
 									<f:setPropertyActionListener value=""
-										target="#{organizacionAction.filtroBusqueda}" />
+										target="#{organizationAction.filterSearch}" />
 								</a:commandButton>
 								<h:outputText value="#{mensaje.button_search}" />
 							</h:panelGrid>
@@ -181,7 +181,7 @@
 								onclick="document.getElementById('organizacionForm:idButtonLisTodosInf').click()">
 								<a:commandButton image="/img/listarTodos_16.png"
 									id="idButtonLisTodosInf"
-									actionListener="#{organizacionAction.inicializarBusqueda}"
+									actionListener="#{organizationAction.searchInitialize}"
 									render="panelOrganizacion, mensajes, mensajeBusqueda">
 								</a:commandButton>
 								<h:outputText value="#{mensaje.button_list_all}" />
@@ -195,7 +195,7 @@
 						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valId" value="1" />
 							<ui:param name="valReder" value="panelOrganizacion" />
-							<ui:param name="beanActionParam" value="#{organizacionAction}" />
+							<ui:param name="beanActionParam" value="#{organizationAction}" />
 							<ui:param name="metodoActionParam"
 								value="consultarOrganizaciones" />
 						</ui:include>
@@ -225,30 +225,30 @@
 							cellspacing="5">
 							<h:outputFormat value="#{mensaje.label_razon_social}:" />
 							<h:outputText
-								value="#{organizacionAction.organizacion.razonSocial}" />
+								value="#{organizationAction.organization.businessName}" />
 							<h:outputFormat
 								value="#{messageBaseInformation.tipo_documento_label}: " />
 							<h:outputText
-								value="#{organizacionAction.organizacion.tipoDocumento.nombre}" />
+								value="#{organizationAction.organization.documentType.nombre}" />
 							<h:outputFormat
 								value="#{mensaje.label_identification}/#{mensaje.label_document}: " />
-							<h:outputText value="#{organizacionAction.organizacion.nit}" />
+							<h:outputText value="#{organizationAction.organization.nit}" />
 							<h:outputFormat value="#{mensaje.label_address}: " />
 							<h:outputText
-								value="#{organizacionAction.organizacion.direccion}" />
+								value="#{organizationAction.organization.address}" />
 							<h:outputFormat value="#{mensaje.label_telephone_number}: " />
-							<h:outputText value="#{organizacionAction.organizacion.telefono}" />
+							<h:outputText value="#{organizationAction.organization.telephono}" />
 						</h:panelGrid>
 						<h:panelGrid columns="1">
 							<t:fieldset>
 								<legend class="etiquetaTitulo">#{mensaje.label_logo}</legend>
 								<h:graphicImage
-									rendered="#{organizacionAction.organizacion.logo != null and !empty organizacionAction.organizacion.logo}"
-									value="#{organizacionAction.carpetaArchivos}/#{organizacionAction.organizacion.logo}"
-									title="#{organizacionAction.organizacion.logo}"
+									rendered="#{organizationAction.organization.logo != null and !empty organizationAction.organization.logo}"
+									value="#{organizationAction.fileFolder}/#{organizationAction.organization.logo}"
+									title="#{organizationAction.organization.logo}"
 									styleClass="H200P W250P" />
 								<h:graphicImage
-									rendered="#{organizacionAction.organizacion.logo eq null or empty organizacionAction.organizacion.logo}"
+									rendered="#{organizationAction.organization.logo eq null or empty organizationAction.organization.logo}"
 									value="/img/noImage_240X203.png" styleClass="H200P W250P" />
 							</t:fieldset>
 						</h:panelGrid>
@@ -275,20 +275,20 @@
 					<ui:define name="campos">
 						<h:outputFormat value="#{mensaje.label_razon_social}: " />
 						<h:outputText
-							value="#{organizacionAction.organizacionAModificarVigencia.razonSocial}" />
+							value="#{organizationAction.organizationModifyValidation.businessName}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:panelGroup layout="block">
 							<center>
 								<a:commandButton value="#{mensaje.button_accept}"
-									action="#{organizacionAction.vigenciaOrganizaciones(true)}"
+									action="#{organizationAction.validityOrganizationes(true)}"
 									onclick="#{rich:component('popupFinalizar')}.hide()"
-									rendered="#{organizacionAction.vigencia eq 'si'}"
+									rendered="#{organizationAction.vigencia eq 'si'}"
 									render="panelOrganizacion, mensajes, mensajeBusqueda" />
 								<a:commandButton value="#{mensaje.button_accept}"
-									action="#{organizacionAction.vigenciaOrganizaciones(false)}"
+									action="#{organizationAction.validityOrganizationes(false)}"
 									onclick="#{rich:component('popupFinalizar')}.hide()"
-									rendered="#{organizacionAction.vigencia eq 'no'}"
+									rendered="#{organizationAction.vigencia eq 'no'}"
 									render="panelOrganizacion, mensajes, mensajeBusqueda" />
 								<a:commandButton value="#{mensaje.button_cancel}"
 									onclick="#{rich:component('popupFinalizar')}.hide()"
@@ -317,13 +317,13 @@
 						value="#{mensaje.label_razon_social} / #{mensaje.label_identification}:"
 						styleClass="etiquetaTitulo" />
 					<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
-						value="#{organizacionAction.filtroBusqueda}"
+						value="#{organizationAction.filterSearch}"
 						onkeypress="return submitByEnter(event,'buscarForm:btnBuscar')" />
 				</h:panelGrid>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						action="#{organizacionAction.consultarOrganizaciones()}"
+						action="#{organizationAction.consultOrganizations()}"
 						oncomplete="#{rich:component('popupBuscar')}.hide();"
 						render="panelOrganizacion, mensajes, mensajeBusqueda">
 					</a:commandButton>

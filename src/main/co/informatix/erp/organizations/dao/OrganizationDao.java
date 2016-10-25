@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import co.informatix.erp.organizations.entities.Organizacion;
+import co.informatix.erp.organizations.entities.Organization;
 
 /**
  * Class DAO that establishes the connection between business logic and
@@ -16,11 +16,10 @@ import co.informatix.erp.organizations.entities.Organizacion;
  * individuals in organizations of any use
  * 
  * @author marisol.calderon
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
-public class OrganizacionDao implements Serializable {
+public class OrganizationDao implements Serializable {
 
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -44,15 +43,15 @@ public class OrganizacionDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Organizacion> consultarOrganizaciones(int start, int range,
+	public List<Organization> consultOrganizations(int start, int range,
 			String validityCondition, String nameSearch) throws Exception {
 		return em
 				.createQuery(
 						"SELECT o FROM Organizacion o WHERE "
-								+ "(UPPER(o.razonSocial) LIKE UPPER(:keyword) "
+								+ "(UPPER(o.businessName) LIKE UPPER(:keyword) "
 								+ "OR UPPER(o.nit) LIKE UPPER(:keyword)) "
-								+ "AND o.fechaFinVigencia " + validityCondition
-								+ " ORDER BY o.razonSocial ")
+								+ "AND o.dateEndValidity " + validityCondition
+								+ " ORDER BY o.businessName ")
 				.setParameter("keyword", "%" + nameSearch + "%")
 				.setFirstResult(start).setMaxResults(range).getResultList();
 	}
@@ -65,12 +64,12 @@ public class OrganizacionDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Organizacion> consultarOrganizacionesVigentes()
+	public List<Organization> consultActiveOrganizations()
 			throws Exception {
 		return em.createQuery(
 				"SELECT o FROM Organizacion o "
-						+ "WHERE o.fechaFinVigencia IS NULL "
-						+ "ORDER BY o.razonSocial").getResultList();
+						+ "WHERE o.dateEndValidity IS NULL "
+						+ "ORDER BY o.businessName").getResultList();
 	}
 
 	/**
@@ -78,69 +77,69 @@ public class OrganizacionDao implements Serializable {
 	 * 
 	 * @modify Liseth.Jimenez 11/07/2012
 	 * 
-	 * @param condicionVigencia
+	 * @param conditionValidity
 	 *            : to select existing or not existing records
-	 * @param nombreBuscar
+	 * @param nameSearch
 	 *            Word you want to search in the names of organizations and NIT
 	 * @return Long: number of existing organizations in the database, or null
 	 *         otherwise.
 	 * @throws Exception
 	 */
-	public Long cantidadOrganizaciones(String condicionVigencia,
-			String nombreBuscar) throws Exception {
+	public Long amountOrganizations(String conditionValidity,
+			String nameSearch) throws Exception {
 		return (Long) em
 				.createQuery(
 						"SELECT COUNT(o) FROM Organizacion o WHERE "
-								+ "(UPPER(o.razonSocial) LIKE UPPER(:keyword) "
+								+ "(UPPER(o.businessName) LIKE UPPER(:keyword) "
 								+ "OR UPPER(o.nit) LIKE UPPER(:keyword)) "
-								+ "AND  o.fechaFinVigencia "
-								+ condicionVigencia)
-				.setParameter("keyword", "%" + nombreBuscar + "%")
+								+ "AND  o.dateEndValidity "
+								+ conditionValidity)
+				.setParameter("keyword", "%" + nameSearch + "%")
 				.getSingleResult();
 	}
 
 	/**
 	 * Save an organization in the database.
 	 * 
-	 * @param organizacion
+	 * @param organization
 	 *            : organization to save
 	 * @throws Exception
 	 */
-	public void guardarOrganizacion(Organizacion organizacion) throws Exception {
-		em.persist(organizacion);
+	public void saveOrganization(Organization organization) throws Exception {
+		em.persist(organization);
 	}
 
 	/**
 	 * Modifies an organization in the database.
 	 * 
-	 * @param organizacion
+	 * @param organization
 	 *            : organization to change
 	 * @throws Exception
 	 */
-	public void editarOrganizacion(Organizacion organizacion) throws Exception {
-		em.merge(organizacion);
+	public void editOrganization(Organization organization) throws Exception {
+		em.merge(organization);
 	}
 
 	/**
 	 * Method that allows check if the value sent by parameter exists in the
 	 * list of organizations database
 	 * 
-	 * @param valConsultar
+	 * @param valueConsult
 	 *            : Value to check in the database
-	 * @param cadComparar
+	 * @param wordCompare
 	 *            : string that identifies what you want to consult, example:
-	 *            razonSocial or NIT
-	 * @return: The Organization if that value exists or null otherwise
+	 *            businessName or NIT
+	 * @return Organization: The Organization if that value exists or null otherwise
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Organizacion consultarExiste(String valConsultar, String cadComparar)
+	public Organization consultExist(String valueConsult, String wordCompare)
 			throws Exception {
-		List<Organizacion> results = em
+		List<Organization> results = em
 				.createQuery(
-						"FROM Organizacion o WHERE o." + cadComparar + "=:"
-								+ cadComparar)
-				.setParameter(cadComparar, valConsultar).getResultList();
+						"FROM Organizacion o WHERE o." + wordCompare + "=:"
+								+ wordCompare)
+				.setParameter(wordCompare, valueConsult).getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -151,25 +150,25 @@ public class OrganizacionDao implements Serializable {
 	 * Method that allows check if the value sent by parameter exists in the
 	 * list of organizations database unless the parameter sent by
 	 * 
-	 * @param valConsultar
+	 * @param valueConsult
 	 *            : Value to consult in the database
-	 * @param cadComparar
+	 * @param wordCompare
 	 *            : string that identifies what you want to consult, example:
-	 *            razonSocial or NIT
+	 *            businessName or NIT
 	 * @param id
 	 *            : Organization ID is excluded
 	 * @return: The Organization if that value exists or null otherwise
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public Organizacion consultarExisteActualizar(String valConsultar,
-			String cadComparar, int id) throws Exception {
+	public Organization consultExistUpdate(String valueConsult,
+			String wordCompare, int id) throws Exception {
 		Query query = em
 				.createQuery(
-						"FROM Organizacion o WHERE o." + cadComparar + "=:"
-								+ cadComparar + " AND o.id <>:id")
-				.setParameter(cadComparar, valConsultar).setParameter("id", id);
-		List<Organizacion> results = query.getResultList();
+						"FROM Organizacion o WHERE o." + wordCompare + "=:"
+								+ wordCompare + " AND o.id <>:id")
+				.setParameter(wordCompare, valueConsult).setParameter("id", id);
+		List<Organization> results = query.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
 		}
@@ -182,17 +181,17 @@ public class OrganizacionDao implements Serializable {
 	 * 
 	 * @param idOrganizacion
 	 *            : id of the organization on application
-	 * @return Organizacion: Purpose of the organization of the document or null
+	 * @return Organization: Purpose of the organization of the document or null
 	 *         but there.
 	 * @throws Exception
 	 */
-	public Organizacion consultarOrganizacionConTipoDocumento(int idOrganizacion)
+	public Organization consultOrganizationWithTypeDocument(int idOrganization)
 			throws Exception {
-		return (Organizacion) em
+		return (Organization) em
 				.createQuery(
-						"SELECT o FROM Organizacion o JOIN FETCH o.tipoDocumento "
-								+ "WHERE o.id=:idOrganizacion")
-				.setParameter("idOrganizacion", idOrganizacion)
+						"SELECT o FROM Organizacion o JOIN FETCH o.documentType "
+								+ "WHERE o.id=:idOrganization")
+				.setParameter("idOrganization", idOrganization)
 				.getSingleResult();
 	}
 }

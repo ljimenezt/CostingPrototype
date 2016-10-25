@@ -9,11 +9,11 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action"
-		value="organizacionAction.registrarOrganizacion(null)" />
+		value="organizationAction.registrarOrganizacion(null)" />
 	<ui:param name="titulo"
 		value="mensaje.label_register,messageOrganizations.organization_label" />
 	<ui:define name="body">
-		<t:saveState value="#{organizacionAction}" />
+		<t:saveState value="#{organizationAction}" />
 		<t:saveState value="#{personAction}" />
 		<t:saveState value="#{validacionesAction}" />
 		<t:saveState value="#{controladorArchivos}" />
@@ -41,12 +41,12 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:selectOneMenu
-								value="#{organizacionAction.organizacion.tipoDocumento.id}"
+								value="#{organizationAction.organization.documentType.id}"
 								id="cmbtipodocumento">
 								<f:selectItem itemValue="0"
 									itemLabel="#{mensaje.label_seleccione}" />
 								<f:selectItems
-									value="#{organizacionAction.itemsTiposDocumentos}" />
+									value="#{organizationAction.itemsTypeDocuments}" />
 							</h:selectOneMenu>
 							<rich:message for="cmbtipodocumento" />
 
@@ -55,8 +55,8 @@
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText styleClass="colTextoMediano" id="txtRazonSocial"
 								maxlength="150"
-								validator="#{organizacionAction.validarRazonSocialXSS}"
-								value="#{organizacionAction.organizacion.razonSocial}">
+								validator="#{organizationAction.validateBusinessNameXSS}"
+								value="#{organizationAction.organization.businessName}">
 								<f:validateLength maximum="150" />
 							</h:inputText>
 							<rich:message for="txtRazonSocial" />
@@ -66,8 +66,8 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText styleClass="colTextoMediano" id="txtNit"
-								validator="#{organizacionAction.validarNitXSS}"
-								value="#{organizacionAction.organizacion.nit}" maxlength="100">
+								validator="#{organizationAction.validateNitXSS}"
+								value="#{organizationAction.organization.nit}" maxlength="100">
 								<f:validateLength maximum="100" />
 							</h:inputText>
 							<rich:message for="txtNit" />
@@ -76,7 +76,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="" />
 							<h:inputText styleClass="colTextoMediano" id="txtDireccion"
-								value="#{organizacionAction.organizacion.direccion}"
+								value="#{organizationAction.organization.address}"
 								validator="#{encodeFilter.validarScripting}" maxlength="200">
 								<f:validateLength maximum="200" />
 							</h:inputText>
@@ -86,7 +86,7 @@
 								styleClass="etiquetaTitulo" />
 							<h:outputText value="" />
 							<h:inputText styleClass="colTextoMediano" id="txtTelefono"
-								value="#{organizacionAction.organizacion.telefono}"
+								value="#{organizationAction.organization.telephono}"
 								validator="#{encodeFilter.validarScripting}" maxlength="20">
 								<f:validateLength maximum="22" />
 								<f:attribute name="nameRegEx" value="locate.regex.numeros.guion" />
@@ -100,11 +100,11 @@
 								<legend class="etiquetaTitulo">#{mensaje.label_logo}</legend>
 								<h:panelGrid columns="1" cellpadding="0" id="panelFoto">
 									<a:outputPanel
-										rendered="#{organizacionAction.fileUploadBean.fileName != null and !(empty organizacionAction.fileUploadBean.fileName)}">
+										rendered="#{organizationAction.fileUploadBean.fileName != null and !(empty organizationAction.fileUploadBean.fileName)}">
 										<div class="uploadImg">
 											<div class="closeImg">
 												<a:commandLink
-													action="#{organizacionAction.borrarFilename()}"
+													action="#{organizationAction.deleteFilename()}"
 													immediate="true" render=":organizacionForm:panelFoto">
 													<h:graphicImage value="/img/close_14.png"
 														onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
@@ -113,25 +113,25 @@
 												</a:commandLink>
 											</div>
 											<h:graphicImage
-												value="#{organizacionAction.carpetaArchivosTemporal}/#{organizacionAction.fileUploadBean.fileName}"
-												title="#{organizacionAction.fileUploadBean.fileName}"
+												value="#{organizationAction.fileFolderTemporary}/#{organizationAction.fileUploadBean.fileName}"
+												title="#{organizationAction.fileUploadBean.fileName}"
 												styleClass="H200P W290P"
-												rendered="#{organizacionAction.cargarFotoTemporal}" />
+												rendered="#{organizationAction.loadPhotoTemporary}" />
 											<h:graphicImage
-												value="#{organizacionAction.carpetaArchivos}/#{organizacionAction.fileUploadBean.fileName}"
-												title="#{organizacionAction.fileUploadBean.fileName}"
+												value="#{organizationAction.fileFolder}/#{organizationAction.fileUploadBean.fileName}"
+												title="#{organizationAction.fileUploadBean.fileName}"
 												styleClass="H200P W290P"
-												rendered="#{!organizacionAction.cargarFotoTemporal}" />
+												rendered="#{!organizationAction.loadPhotoTemporary}" />
 										</div>
 									</a:outputPanel>
 									<a:outputPanel>
 										<h:graphicImage value="/img/noImage_240X203.png"
-											rendered="#{organizacionAction.fileUploadBean.fileName eq null or empty organizacionAction.fileUploadBean.fileName}"
+											rendered="#{organizationAction.fileUploadBean.fileName eq null or empty organizationAction.fileUploadBean.fileName}"
 											styleClass="H200P W290P" />
 										<p:fileUpload id="uploadFile" dragDropSupport="true"
-											rendered="#{organizacionAction.fileUploadBean.fileName eq null or empty organizacionAction.fileUploadBean.fileName}"
+											rendered="#{organizationAction.fileUploadBean.fileName eq null or empty organizationAction.fileUploadBean.fileName}"
 											label="#{mensaje.label_select_file}" mode="advanced"
-											auto="true" fileUploadListener="#{organizacionAction.submit}"
+											auto="true" fileUploadListener="#{organizationAction.submit}"
 											update="panelFoto"
 											onstart="#{rich:component('statPane')}.show();"
 											oncomplete="#{rich:component('statPane')}.hide();" />
@@ -153,11 +153,11 @@
 				<br />
 				<div class="anchoDos center inBlock">
 					<a:commandButton value="#{mensaje.button_save}"
-						actionListener="#{organizacionAction.requeridosOk()}"
+						actionListener="#{organizationAction.requiredOk()}"
 						render="formGenerico,:formConfirmacion:confirmacionPopUp"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('confirmacionPopUp')}.show();}
 						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						rendered="#{(organizacionAction.organizacion.id ne 0 and identity.autorizado('organizacionAction','U')) or identity.autorizado('organizacionAction','A') or identity.autorizado('organizacionAction','I')}" />
+						rendered="#{(organizationAction.organization.id ne 0 and identity.autorizado('organizationAction','U')) or identity.autorizado('organizationAction','A') or identity.autorizado('organizationAction','I')}" />
 				</div>
 			</rich:panel>
 		</h:form>
@@ -180,7 +180,7 @@
 					<ui:param name="modal" value="1" />
 					<ui:param name="valReder"
 						value=":organizacionForm:outputPersonas, mensajes" />
-					<ui:param name="beanActionParam" value="#{organizacionAction}" />
+					<ui:param name="beanActionParam" value="#{organizationAction}" />
 					<ui:param name="actionParam" value="registrarPersona" />
 					<ui:param name="idFormulario" value="personaForm" />
 				</ui:include>
@@ -209,25 +209,25 @@
 						<h:outputText
 							value="#{messageBaseInformation.tipo_documento_label}: " />
 						<h:outputText
-							value="#{encodeFilter.getKey(organizacionAction.itemsTiposDocumentos,organizacionAction.organizacion.tipoDocumento.id)}" />
+							value="#{encodeFilter.getKey(organizationAction.itemsTypeDocuments,organizationAction.organization.documentType.id)}" />
 
 						<h:outputText value="#{mensaje.label_razon_social}: " />
 						<h:outputText
-							value="#{organizacionAction.organizacion.razonSocial}" />
+							value="#{organizationAction.organization.businessName}" />
 
 						<h:outputText
 							value="#{mensaje.label_identification}/#{mensaje.label_document}" />
-						<h:outputText value="#{organizacionAction.organizacion.nit}" />
+						<h:outputText value="#{organizationAction.organization.nit}" />
 
 						<h:outputText value="#{mensaje.label_address}" />
-						<h:outputText value="#{organizacionAction.organizacion.direccion}" />
+						<h:outputText value="#{organizationAction.organization.address}" />
 
 						<h:outputText value="#{mensaje.label_telephone_number}" />
-						<h:outputText value="#{organizacionAction.organizacion.telefono}" />
+						<h:outputText value="#{organizationAction.organization.telephono}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{organizacionAction.guardarOrganizacion}"
+							action="#{organizationAction.saveOrganization}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('confirmacionPopUp')}.hide()" />

@@ -30,9 +30,9 @@ import co.informatix.erp.informacionBase.entities.Departamento;
 import co.informatix.erp.informacionBase.entities.Municipio;
 import co.informatix.erp.informacionBase.entities.Pais;
 import co.informatix.erp.organizations.dao.BusinessDao;
-import co.informatix.erp.organizations.dao.OrganizacionDao;
+import co.informatix.erp.organizations.dao.OrganizationDao;
 import co.informatix.erp.organizations.entities.Business;
-import co.informatix.erp.organizations.entities.Organizacion;
+import co.informatix.erp.organizations.entities.Organization;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
@@ -57,7 +57,7 @@ public class BusinessAction implements Serializable {
 	@EJB
 	private FileUploadBean fileUploadBean;
 	@EJB
-	private OrganizacionDao organizationDao;
+	private OrganizationDao organizationDao;
 	@EJB
 	private PaisDao countryDao;
 	@EJB
@@ -602,16 +602,16 @@ public class BusinessAction implements Serializable {
 				.consultObjectBusiness("department", idEmpresa);
 		Municipio town = (Municipio) this.businessDao
 				.consultObjectBusiness("town", idEmpresa);
-		List<Organizacion> organizacion = (List<Organizacion>) this.businessDao
+		List<Organization> organization = (List<Organization>) this.businessDao
 				.consultListObjectOfBusiness("organization", idEmpresa);
 		/* They are assigned to the company */
 		business.setCountry(country);
 		business.setDepartment(department);
 		business.setTown(town);
-		if (organizacion.size() > 0) {
-			business.setOrganization(organizacion.get(0));
+		if (organization.size() > 0) {
+			business.setOrganization(organization.get(0));
 		} else {
-			business.setOrganization(new Organizacion());
+			business.setOrganization(new Organization());
 		}
 	}
 
@@ -783,12 +783,12 @@ public class BusinessAction implements Serializable {
 		loadDepartments();
 		loadMunicipalities();
 		itemsOrganizations = new ArrayList<SelectItem>();
-		List<Organizacion> listOrganizationsValidity = organizationDao
-				.consultarOrganizacionesVigentes();
+		List<Organization> listOrganizationsValidity = organizationDao
+				.consultActiveOrganizations();
 		if (listOrganizationsValidity != null) {
-			for (Organizacion organizacion : listOrganizationsValidity) {
-				itemsOrganizations.add(new SelectItem(organizacion.getId(),
-						organizacion.getRazonSocial()));
+			for (Organization organization : listOrganizationsValidity) {
+				itemsOrganizations.add(new SelectItem(organization.getId(),
+						organization.getBusinessName()));
 			}
 		}
 	}
