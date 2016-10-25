@@ -170,7 +170,7 @@ public class ChargeTypeAction implements Serializable {
 	}
 
 	/**
-	 * Cleans the variable used in the search for types of cargo
+	 * Cleans the variable used in the search for types of charge
 	 * 
 	 * @author Liseth.Jimenez
 	 * 
@@ -183,7 +183,7 @@ public class ChargeTypeAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of types of cargo according to the term submitted
+	 * Consult the list of types of charge according to the term submitted
 	 * 
 	 * @modify Luis.Ruiz
 	 * @modify Liseth.Jimenez 21/03/2012
@@ -243,7 +243,7 @@ public class ChargeTypeAction implements Serializable {
 	 * @param valid
 	 *            : boolean that allows to know if the term ends with 'true' or
 	 *            start with 'false', the selected record in the user interface.
-	 * @return consultChargeTypes: consulting method types of cargo and freight
+	 * @return consultChargeTypes: consulting method types of charge and freight
 	 *         management template.
 	 */
 	public String ChargeTypeValidity(boolean valid) {

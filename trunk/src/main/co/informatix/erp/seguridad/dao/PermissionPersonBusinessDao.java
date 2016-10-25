@@ -127,9 +127,9 @@ public class PermissionPersonBusinessDao implements Serializable {
 			PermisoPersonaEmpresa permissionPersonBusiness) throws Exception {
 		Integer id = permissionPersonBusiness.getId();
 		Business business = (Business) consultObjectPermissionPersonBusiness(
-				Constantes.EMPRESA, id);
+				Constantes.BUSINESS, id);
 		Person person = (Person) consultObjectPermissionPersonBusiness(
-				Constantes.PERSONA, id);
+				Constantes.PERSON, id);
 		Farm farm = (Farm) consultObjectPermissionPersonBusiness(
 				Constantes.Farm, id);
 		permissionPersonBusiness.setEmpresa(business);

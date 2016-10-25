@@ -126,8 +126,8 @@ public class Constantes implements Serializable {
 	public static final String NIT = "nit";
 
 	/* Farm */
-	public static final String EMPRESA = "empresa";
-	public static final String PERSONA = "persona";
+	public static final String BUSINESS = "business";
+	public static final String PERSON = "person";
 	public static final String SUCURSAL = "sucursal";
 	public static final String Farm = "farm";
 
@@ -229,7 +229,6 @@ public class Constantes implements Serializable {
 	public static final String TOP = "T";
 	public static final String BOTTOM = "B";
 	public static final String CENTER = "C";
-
 
 	/* plots and crops */
 	public static final String FLAG_ACTION_SECTION = "SECTION";
