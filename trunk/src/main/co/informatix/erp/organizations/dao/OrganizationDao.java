@@ -12,7 +12,7 @@ import co.informatix.erp.organizations.entities.Organization;
 
 /**
  * Class DAO that establishes the connection between business logic and
- * database. OrganizacionAction used for the management of organizations and
+ * database. OrganizationAction used for the management of organizations and
  * individuals in organizations of any use
  * 
  * @author marisol.calderon
@@ -38,7 +38,7 @@ public class OrganizationDao implements Serializable {
 	 *            queried.
 	 * @param nameSearch
 	 *            : Parameter name by which departments are filtered.
-	 * @return List<Organizacion>: list of existing organizations in the
+	 * @return List<Organization>: list of existing organizations in the
 	 *         database, or null otherwise.
 	 * @throws Exception
 	 */
@@ -47,7 +47,7 @@ public class OrganizationDao implements Serializable {
 			String validityCondition, String nameSearch) throws Exception {
 		return em
 				.createQuery(
-						"SELECT o FROM Organizacion o WHERE "
+						"SELECT o FROM Organization o WHERE "
 								+ "(UPPER(o.businessName) LIKE UPPER(:keyword) "
 								+ "OR UPPER(o.nit) LIKE UPPER(:keyword)) "
 								+ "AND o.dateEndValidity " + validityCondition
@@ -67,7 +67,7 @@ public class OrganizationDao implements Serializable {
 	public List<Organization> consultActiveOrganizations()
 			throws Exception {
 		return em.createQuery(
-				"SELECT o FROM Organizacion o "
+				"SELECT o FROM Organization o "
 						+ "WHERE o.dateEndValidity IS NULL "
 						+ "ORDER BY o.businessName").getResultList();
 	}
@@ -89,7 +89,7 @@ public class OrganizationDao implements Serializable {
 			String nameSearch) throws Exception {
 		return (Long) em
 				.createQuery(
-						"SELECT COUNT(o) FROM Organizacion o WHERE "
+						"SELECT COUNT(o) FROM Organization o WHERE "
 								+ "(UPPER(o.businessName) LIKE UPPER(:keyword) "
 								+ "OR UPPER(o.nit) LIKE UPPER(:keyword)) "
 								+ "AND  o.dateEndValidity "
@@ -137,7 +137,7 @@ public class OrganizationDao implements Serializable {
 			throws Exception {
 		List<Organization> results = em
 				.createQuery(
-						"FROM Organizacion o WHERE o." + wordCompare + "=:"
+						"FROM Organization o WHERE o." + wordCompare + "=:"
 								+ wordCompare)
 				.setParameter(wordCompare, valueConsult).getResultList();
 		if (results.size() > 0) {
@@ -165,7 +165,7 @@ public class OrganizationDao implements Serializable {
 			String wordCompare, int id) throws Exception {
 		Query query = em
 				.createQuery(
-						"FROM Organizacion o WHERE o." + wordCompare + "=:"
+						"FROM Organization o WHERE o." + wordCompare + "=:"
 								+ wordCompare + " AND o.id <>:id")
 				.setParameter(wordCompare, valueConsult).setParameter("id", id);
 		List<Organization> results = query.getResultList();
@@ -179,7 +179,7 @@ public class OrganizationDao implements Serializable {
 	 * Method that allows consulting the organization with the information on
 	 * the document type to be loaded in edition
 	 * 
-	 * @param idOrganizacion
+	 * @param idOrganization
 	 *            : id of the organization on application
 	 * @return Organization: Purpose of the organization of the document or null
 	 *         but there.
@@ -189,7 +189,7 @@ public class OrganizationDao implements Serializable {
 			throws Exception {
 		return (Organization) em
 				.createQuery(
-						"SELECT o FROM Organizacion o JOIN FETCH o.documentType "
+						"SELECT o FROM Organization o JOIN FETCH o.documentType "
 								+ "WHERE o.id=:idOrganization")
 				.setParameter("idOrganization", idOrganization)
 				.getSingleResult();
