@@ -442,16 +442,16 @@ public class PermissionPersonBusinessAction implements Serializable {
 		boolean messageAdd = false;
 		String comaEspacio = ", ";
 
-		consult.append("WHERE ppe.persona.id=:idPerson ");
+		consult.append("WHERE ppe.person.id=:idPerson ");
 		SelectItem itemPer = new SelectItem(person.getId(), "idPerson");
 		parameters.add(itemPer);
 
 		if (Constantes.NOT.equals(vigencia)) {
-			consult.append("AND (ppe.fechaFinVigencia IS NOT NULL ");
-			consult.append("AND ppe.fechaFinVigencia <= :actualDate) ");
+			consult.append("AND (ppe.dateEndValidity IS NOT NULL ");
+			consult.append("AND ppe.dateEndValidity <= :actualDate) ");
 		} else if (Constantes.SI.equals(vigencia)) {
-			consult.append("AND (ppe.fechaFinVigencia IS NULL ");
-			consult.append("OR ppe.fechaFinVigencia > :actualDate) ");
+			consult.append("AND (ppe.dateEndValidity IS NULL ");
+			consult.append("OR ppe.dateEndValidity > :actualDate) ");
 		}
 		SelectItem itemVig = new SelectItem(new Date(), "actualDate");
 		parameters.add(itemVig);
@@ -482,7 +482,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 				&& !"".equals(this.searchCompanyManage)) {
 			SelectItem item = new SelectItem("%" + searchCompanyManage + "%",
 					"keyword");
-			consult.append("AND UPPER(ppe.empresa.nombre) LIKE UPPER(:keyword) ");
+			consult.append("AND UPPER(ppe.business.name) LIKE UPPER(:keyword) ");
 			parameters.add(item);
 			unionMessagesSearch.append((messageAdd ? comaEspacio : "")
 					+ bundle.getString("label_name") + ": " + '"'

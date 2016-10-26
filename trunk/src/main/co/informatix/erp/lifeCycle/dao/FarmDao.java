@@ -224,10 +224,10 @@ public class FarmDao implements Serializable {
 			int idPersonSession) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT DISTINCT ppe.farm FROM PermissionPersonBusiness ppe ");
-		query.append("WHERE ppe.empresa.id=:idCompany ");
-		query.append("AND ppe.persona.id = :idPersonSession ");
-		query.append("AND (ppe.fechaFinVigencia IS NULL ");
-		query.append("OR ppe.fechaFinVigencia >= :actualDate) ");
+		query.append("WHERE ppe.business.id=:idCompany ");
+		query.append("AND ppe.person.id = :idPersonSession ");
+		query.append("AND (ppe.dateEndValidity IS NULL ");
+		query.append("OR ppe.dateEndValidity >= :actualDate) ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idCompany", idCompany);
 		q.setParameter("idPersonSession", idPersonSession);

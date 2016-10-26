@@ -187,10 +187,10 @@ public class PermissionPersonBusinessDao implements Serializable {
 			String documentPerson) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ppe FROM PermissionPersonBusiness ppe ");
-		query.append("WHERE ppe.persona.documento=:documentPerson ");
-		query.append("AND (ppe.fechaFinVigencia IS NULL ");
-		query.append("OR ppe.fechaFinVigencia >= :currentDate) ");
-		query.append("ORDER BY ppe.empresa.name ");
+		query.append("WHERE ppe.person.document=:documentPerson ");
+		query.append("AND (ppe.dateEndValidity IS NULL ");
+		query.append("OR ppe.dateEndValidity >= :currentDate) ");
+		query.append("ORDER BY ppe.business.name ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("documentPerson", documentPerson);
 		q.setParameter("currentDate", new Date());
@@ -213,8 +213,8 @@ public class PermissionPersonBusinessDao implements Serializable {
 			String documentPerson) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ppe FROM PermissionPersonBusiness ppe ");
-		query.append("WHERE ppe.predeterminado = TRUE ");
-		query.append("AND ppe.persona.documento=:documentPerson ");
+		query.append("WHERE ppe.predetermined = TRUE ");
+		query.append("AND ppe.person.document=:documentPerson ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("documentPerson", documentPerson);
 		List<PermissionPersonBusiness> listPermissionPersonBusiness = q
@@ -244,13 +244,13 @@ public class PermissionPersonBusinessDao implements Serializable {
 	public boolean farmPredetermined(int idPerson, int idCompany, int idFarm)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT ppe.empresa FROM PermissionPersonBusiness ppe ");
-		query.append("WHERE ppe.persona.id=:idPerson ");
-		query.append("AND  ppe.empresa.id = :idCompany ");
+		query.append("SELECT ppe.business FROM PermissionPersonBusiness ppe ");
+		query.append("WHERE ppe.person.id=:idPerson ");
+		query.append("AND  ppe.business.id = :idCompany ");
 		query.append("AND  ppe.farm.idFarm = :idFarm ");
-		query.append("AND  ppe.predeterminado IS TRUE ");
-		query.append("AND (ppe.fechaFinVigencia IS NULL ");
-		query.append("OR ppe.fechaFinVigencia >= :currentDate) ");
+		query.append("AND  ppe.predetermined IS TRUE ");
+		query.append("AND (ppe.dateEndValidity IS NULL ");
+		query.append("OR ppe.dateEndValidity >= :currentDate) ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idPerson", idPerson);
 		q.setParameter("idFarm", idFarm);
