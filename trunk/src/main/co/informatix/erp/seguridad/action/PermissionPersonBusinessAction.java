@@ -22,7 +22,7 @@ import co.informatix.erp.organizations.dao.BusinessDao;
 import co.informatix.erp.organizations.entities.Business;
 import co.informatix.erp.humanResources.entities.Person;
 import co.informatix.erp.seguridad.dao.PermissionPersonBusinessDao;
-import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
+import co.informatix.erp.seguridad.entities.PermissionPersonBusiness;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
@@ -55,12 +55,12 @@ public class PermissionPersonBusinessAction implements Serializable {
 	private UserTransaction userTransaction;
 
 	private Paginador pagination = new Paginador();
-	private PermisoPersonaEmpresa permissionPersonBusiness;
+	private PermissionPersonBusiness permissionPersonBusiness;
 	private Person person;
 	private Business selectedCompany;
 
-	private List<PermisoPersonaEmpresa> listPermissionPersonBusiness;
-	private List<PermisoPersonaEmpresa> listPermissionPersonBusinessTemp;
+	private List<PermissionPersonBusiness> listPermissionPersonBusiness;
+	private List<PermissionPersonBusiness> listPermissionPersonBusinessTemp;
 	private List<Business> business;
 
 	private List<SelectItem> itemsBranchOfficesCompany;
@@ -97,7 +97,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 * @return listPermissionPersonBusiness: list of companies to which the
 	 *         person has access.
 	 */
-	public List<PermisoPersonaEmpresa> getListPermissionPersonBusiness() {
+	public List<PermissionPersonBusiness> getListPermissionPersonBusiness() {
 		return listPermissionPersonBusiness;
 	}
 
@@ -106,7 +106,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 *            : list of companies to which the person has access.
 	 */
 	public void setListPermissionPersonBusiness(
-			List<PermisoPersonaEmpresa> listPermissionPersonBusiness) {
+			List<PermissionPersonBusiness> listPermissionPersonBusiness) {
 		this.listPermissionPersonBusiness = listPermissionPersonBusiness;
 	}
 
@@ -146,7 +146,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 *         used to associate companies, branches or farms to which the
 	 *         person has access.
 	 */
-	public PermisoPersonaEmpresa getPermissionPersonBusiness() {
+	public PermissionPersonBusiness getPermissionPersonBusiness() {
 		return permissionPersonBusiness;
 	}
 
@@ -156,7 +156,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 *            companies, branches or farms to which the person has access.
 	 */
 	public void setPermissionPersonBusiness(
-			PermisoPersonaEmpresa permissionPersonBusiness) {
+			PermissionPersonBusiness permissionPersonBusiness) {
 		this.permissionPersonBusiness = permissionPersonBusiness;
 	}
 
@@ -164,7 +164,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 * @return listPermissionPersonBusinessTemp: Temporary list of the selected
 	 *         to give businesses access to a person.
 	 */
-	public List<PermisoPersonaEmpresa> getListPermissionPersonBusinessTemp() {
+	public List<PermissionPersonBusiness> getListPermissionPersonBusinessTemp() {
 		return listPermissionPersonBusinessTemp;
 	}
 
@@ -174,7 +174,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 *            a person.
 	 */
 	public void setLlistPermissionPersonBusinessTemp(
-			List<PermisoPersonaEmpresa> listPermissionPersonBusinessTemp) {
+			List<PermissionPersonBusiness> listPermissionPersonBusinessTemp) {
 		this.listPermissionPersonBusinessTemp = listPermissionPersonBusinessTemp;
 	}
 
@@ -368,7 +368,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
-		listPermissionPersonBusiness = new ArrayList<PermisoPersonaEmpresa>();
+		listPermissionPersonBusiness = new ArrayList<PermissionPersonBusiness>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
@@ -379,18 +379,18 @@ public class PermissionPersonBusinessAction implements Serializable {
 				advanceSearch(consult, parameters, bundle, unionMessagesSearch);
 				pagination.paginar(permissionPersonBusinessDao
 						.amountBusinessAccessPerson(consult, parameters));
-				List<PermisoPersonaEmpresa> listPermisoPersonaEmpresaTemp = permissionPersonBusinessDao
+				List<PermissionPersonBusiness> listPermissionPersonBusinessTemp = permissionPersonBusinessDao
 						.consultBusinessAccessPerson(consult, parameters,
 								pagination.getInicio(), pagination.getRango());
-				if ((listPermisoPersonaEmpresaTemp == null || listPermisoPersonaEmpresaTemp
+				if ((listPermissionPersonBusinessTemp == null || listPermissionPersonBusinessTemp
 						.size() <= 0)
 						&& !"".equals(unionMessagesSearch.toString())) {
 					messageSearch = MessageFormat
 							.format(bundle
 									.getString("message_no_existen_registros_criterio_busqueda"),
 									unionMessagesSearch);
-				} else if (listPermisoPersonaEmpresaTemp == null
-						|| listPermisoPersonaEmpresaTemp.size() <= 0) {
+				} else if (listPermissionPersonBusinessTemp == null
+						|| listPermissionPersonBusinessTemp.size() <= 0) {
 					ControladorContexto.mensajeInformacion(panelId,
 							bundle.getString("message_no_existen_registros"));
 				} else if (!"".equals(unionMessagesSearch.toString())) {
@@ -405,7 +405,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 					ControladorContexto.mensajeInformacion(panelId,
 							messageSearch);
 				}
-				detailsPermissionPersonCompany(listPermisoPersonaEmpresaTemp);
+				detailsPermissionPersonCompany(listPermissionPersonBusinessTemp);
 				loadCombos();
 			} else {
 				ControladorContexto
@@ -494,23 +494,23 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 * This method loads the details of the undertakings to which the person has
 	 * access.
 	 * 
-	 * @param listPermisoPersonaEmpresaTemp
+	 * @param listPermissionPersonBusinessTemp
 	 *            : Listed companies with access to the system of the person.
 	 * @throws Exception
 	 */
 	private void detailsPermissionPersonCompany(
-			List<PermisoPersonaEmpresa> listPermissionPersonBusinessTemp)
+			List<PermissionPersonBusiness> listPermissionPersonBusinessTemp)
 			throws Exception {
 		if (listPermissionPersonBusinessTemp != null) {
-			for (PermisoPersonaEmpresa permissionPersonBusiness : listPermissionPersonBusinessTemp) {
+			for (PermissionPersonBusiness permissionPersonBusiness : listPermissionPersonBusinessTemp) {
 				permissionPersonBusiness = permissionPersonBusinessDao
 						.consultDetailsPermissionPersonBusiness(permissionPersonBusiness);
 				BusinessAction businessAction = ControladorContexto
 						.getContextBean(BusinessAction.class);
 				Business businessPermission = permissionPersonBusiness
-						.getEmpresa();
+						.getBusiness();
 				businessAction.loadDetailsOneBusiness(businessPermission);
-				permissionPersonBusiness.setEmpresa(businessPermission);
+				permissionPersonBusiness.setBusiness(businessPermission);
 				listPermissionPersonBusiness.add(permissionPersonBusiness);
 			}
 		}
@@ -525,7 +525,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 	public String newPermissionPersonCompany() {
 		try {
 			business = new ArrayList<Business>();
-			listPermissionPersonBusinessTemp = new ArrayList<PermisoPersonaEmpresa>();
+			listPermissionPersonBusinessTemp = new ArrayList<PermissionPersonBusiness>();
 			loadCombos();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -573,18 +573,18 @@ public class PermissionPersonBusinessAction implements Serializable {
 				nullValidate(permissionPersonBusiness);
 				permissionPersonBusiness.setUserName(identity.getUserName());
 				if (validity) {
-					permissionPersonBusiness.setPredeterminado(false);
-					permissionPersonBusiness.setFechaFinVigencia(new Date());
+					permissionPersonBusiness.setPredetermined(false);
+					permissionPersonBusiness.setDateEndValidity(new Date());
 				} else {
 					messageChangeValidity = "message_inicio_vigencia_satisfactorio";
-					permissionPersonBusiness.setFechaFinVigencia(null);
+					permissionPersonBusiness.setDateEndValidity(null);
 				}
 				permissionPersonBusinessDao
 						.editPermissionPersonCompany(permissionPersonBusiness);
 				ControladorContexto.mensajeInformacion(null, MessageFormat
 						.format(bundle.getString(messageChangeValidity)
 								+ ": {0}", this.permissionPersonBusiness
-								.getEmpresa().getName()));
+								.getBusiness().getName()));
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -594,14 +594,15 @@ public class PermissionPersonBusinessAction implements Serializable {
 
 	/**
 	 * Allows to validate the records that the object instance is beginning but
-	 * his id is 0 or null, if null if so assigned to permisoPersonaEmpresa.
+	 * his id is 0 or null, if null if so assigned to PermissionPersonBusiness.
 	 * 
 	 * @modify 04/05/2016 Wilhelm.Boada
 	 * 
 	 * @param permissionPersonBusinessVal
 	 *            : null object to validate.
 	 */
-	public void nullValidate(PermisoPersonaEmpresa permissionPersonBusinessVal) {
+	public void nullValidate(
+			PermissionPersonBusiness permissionPersonBusinessVal) {
 		if (permissionPersonBusinessVal != null) {
 			Farm farm = permissionPersonBusinessVal.getFarm();
 			if (farm != null && farm.getIdFarm() == 0) {
@@ -629,18 +630,18 @@ public class PermissionPersonBusinessAction implements Serializable {
 						+ person.getSurnames();
 				StringBuilder messageCompaniesFarms = new StringBuilder();
 				String messageFarmCompany = "person_permission_company_message_associate_company_farm";
-				for (PermisoPersonaEmpresa permissionPersonBusinessAdd : listPermissionPersonBusinessTemp) {
+				for (PermissionPersonBusiness permissionPersonBusinessAdd : listPermissionPersonBusinessTemp) {
 					boolean predetermined = permissionPersonBusinessAdd
-							.isPredeterminado();
-					PermisoPersonaEmpresa predeterminedPermision = permissionPersonBusinessDao
+							.isPredetermined();
+					PermissionPersonBusiness predeterminedPermision = permissionPersonBusinessDao
 							.consultExistPredetermined(person.getDocument());
 					if (predetermined && predeterminedPermision != null) {
-						predeterminedPermision.setPredeterminado(false);
+						predeterminedPermision.setPredetermined(false);
 						permissionPersonBusinessDao
 								.editPermissionPersonCompany(predeterminedPermision);
 					}
 					nullValidate(permissionPersonBusinessAdd);
-					permissionPersonBusinessAdd.setFechaCreacion(new Date());
+					permissionPersonBusinessAdd.setDateCreation(new Date());
 					permissionPersonBusinessAdd.setUserName(identity
 							.getUserName());
 					permissionPersonBusinessDao
@@ -649,7 +650,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 						messageCompaniesFarms.append(", ");
 					}
 					String nitCompany = permissionPersonBusinessAdd
-							.getEmpresa().getNit();
+							.getBusiness().getNit();
 					String nameFarm = permissionPersonBusinessAdd.getFarm()
 							.getName();
 					String msg = MessageFormat.format(
@@ -703,20 +704,20 @@ public class PermissionPersonBusinessAction implements Serializable {
 	 * @param option
 	 *            : Option to know that is made in the list: add, delete, or
 	 *            create a new one.
-	 * @param objPermisoPersonaEmpresa
+	 * @param objPermissionPersonBusiness
 	 *            : Object of company permission person you want to remove from
 	 *            the list.
 	 */
 	public void controllerListPermission(String option,
-			PermisoPersonaEmpresa objPermisoPersonaEmpresa) {
+			PermissionPersonBusiness objPermissionPersonBusiness) {
 		ResourceBundle bundleSecurity = ControladorContexto
 				.getBundle("messageSecurity");
 		try {
 			if (Constantes.NEW_PERMISO.equals(option)) {
-				this.permissionPersonBusiness = new PermisoPersonaEmpresa();
+				this.permissionPersonBusiness = new PermissionPersonBusiness();
 				this.permissionPersonBusiness.setFarm(new Farm());
-				this.permissionPersonBusiness.setPersona(person);
-				this.permissionPersonBusiness.setEmpresa(selectedCompany);
+				this.permissionPersonBusiness.setPerson(person);
+				this.permissionPersonBusiness.setBusiness(selectedCompany);
 				idBranchOffice = 0;
 				idFarm = 0;
 			} else if (Constantes.ADD_PERMISO.equals(option)) {
@@ -738,7 +739,7 @@ public class PermissionPersonBusinessAction implements Serializable {
 				}
 			} else if (Constantes.BORRAR_PERMISO.equals(option)) {
 				listPermissionPersonBusinessTemp
-						.remove(objPermisoPersonaEmpresa);
+						.remove(objPermissionPersonBusiness);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -761,8 +762,8 @@ public class PermissionPersonBusinessAction implements Serializable {
 	private boolean validateExistsPermissionAssociated(Business businessSelect,
 			Farm farm) {
 		if (listPermissionPersonBusinessTemp != null) {
-			for (PermisoPersonaEmpresa permPersonaEmp : listPermissionPersonBusinessTemp) {
-				Business companyList = permPersonaEmp.getEmpresa();
+			for (PermissionPersonBusiness permPersonaEmp : listPermissionPersonBusinessTemp) {
+				Business companyList = permPersonaEmp.getBusiness();
 				Farm farmList = permPersonaEmp.getFarm();
 				if (farm != null && farm.getIdFarm() != 0 && farmList != null
 						&& farmList.equals(farm)
@@ -776,9 +777,9 @@ public class PermissionPersonBusinessAction implements Serializable {
 			}
 		}
 		if (listPermissionPersonBusiness != null) {
-			for (PermisoPersonaEmpresa permisoPerEmp : listPermissionPersonBusiness) {
-				Date endDateValidity = permisoPerEmp.getFechaFinVigencia();
-				Business empresaList = permisoPerEmp.getEmpresa();
+			for (PermissionPersonBusiness permisoPerEmp : listPermissionPersonBusiness) {
+				Date endDateValidity = permisoPerEmp.getDateEndValidity();
+				Business empresaList = permisoPerEmp.getBusiness();
 
 				Farm farmList = permisoPerEmp.getFarm();
 
