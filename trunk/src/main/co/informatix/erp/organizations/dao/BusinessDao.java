@@ -146,9 +146,9 @@ public class BusinessDao implements Serializable {
 	 * 
 	 * @param nomObject
 	 *            : in order to consult the company
-	 * @param idEmpresa
+	 * @param idBusiness
 	 *            : Company ID being queried
-	 * @return Object information associated with the company or null but there.
+	 * @return Object: information associated with the company or null but there.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -175,7 +175,7 @@ public class BusinessDao implements Serializable {
 	 * 
 	 * @param nomObject
 	 *            : name of the object to be found on the company
-	 * @param idEmpresa
+	 * @param idBusiness
 	 *            : id of the company to consult
 	 * @return List of Objects with information.
 	 * @throws Exception
@@ -189,21 +189,21 @@ public class BusinessDao implements Serializable {
 				.setParameter("idBusiness", idBusiness).getResultList();
 	}
 
-//	/**
-//	 * Returns the current list of companies that exist in the database
-//	 * 
-//	 * @author marisol.calderon
-//	 * 
-//	 * @return List<Business>: List of existing businesses.
-//	 * @throws Exception
-//	 */
-//	@SuppressWarnings("unchecked")
-//	public List<Business> consultarEmpresasVigentes() throws Exception {
-//		return em.createQuery(
-//				"SELECT b FROM Business b "
-//						+ "WHERE b.dateEndValidity IS NULL "
-//						+ "ORDER BY b.name").getResultList();
-//	}
+	/**
+	 * Returns the current list of companies that exist in the database
+	 * 
+	 * @author marisol.calderon
+	 * 
+	 * @return List<Business>: List of existing businesses.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Business> consultBusinessActive() throws Exception {
+		return em.createQuery(
+				"SELECT b FROM Business b "
+						+ "WHERE b.dateEndValidity IS NULL "
+						+ "ORDER BY b.name").getResultList();
+	}
 
 	/**
 	 * Method that allows check the number of companies that have estates
@@ -213,7 +213,7 @@ public class BusinessDao implements Serializable {
 	 * @param conditionValidity
 	 *            : condition to know whether existing or not existing records
 	 *            are queried
-	 * @return: Long with the number of companies with estates.
+	 * @return Long: Size the number of companies with estates.
 	 * @throws Exception
 	 */
 	public Long amountBusinessWithEstates(String conditionValidity)
@@ -237,7 +237,7 @@ public class BusinessDao implements Serializable {
 	 * @param validityCondition
 	 *            : condition to know whether existing or not existing are
 	 *            queried.
-	 * @return: list of companies with estates.
+	 * @return List<Business>: list of companies with estates.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

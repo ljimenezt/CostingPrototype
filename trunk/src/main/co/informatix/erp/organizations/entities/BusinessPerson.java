@@ -24,24 +24,23 @@ import co.informatix.erp.lifeCycle.entities.Farm;
  * persons belonging to a company.
  * 
  * @author Luz.Jaimes
- * 
  */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "empresa_persona", schema = "organizaciones")
-public class EmpresaPersona implements Serializable {
+public class BusinessPerson implements Serializable {
 
 	private int id;
-	private boolean contacto;
-	private Date fechaCreacion;
-	private Date fechaInicioVigencia;
-	private Date fechaFinVigencia;
+	private boolean contact;
+	private Date creationDate;
+	private Date dateInitialValidity;
+	private Date dateEndValidity;
 	private String userName;
 
-	private Person persona;
-	private Business empresa;
+	private Person person;
+	private Business business;
 	private Farm farm;
-	private ChargeType tipoCargo;
+	private ChargeType typeCharge;
 
 	/**
 	 * @return id: Unique identifier of the table or entity.
@@ -62,58 +61,58 @@ public class EmpresaPersona implements Serializable {
 	}
 
 	/**
-	 * @return contacto: Attribute that indicates whether the person is business
+	 * @return contact: Attribute that indicates whether the person is business
 	 *         contact
 	 */
 	@Column(name = "contacto", nullable = false)
-	public boolean isContacto() {
-		return contacto;
+	public boolean isContact() {
+		return contact;
 	}
 
 	/**
-	 * @param contacto
+	 * @param contact
 	 *            :Attribute that indicates whether the person is business
 	 *            contact
 	 */
-	public void setContacto(boolean contacto) {
-		this.contacto = contacto;
+	public void setContact(boolean contact) {
+		this.contact = contact;
 	}
 
 	/**
-	 * @return fechaCreacion: Creation date of registration of the person
+	 * @return creationDate: Creation date of registration of the person
 	 *         associated with the company
 	 */
 	@Column(name = "fecha_creacion", nullable = false)
 	@Temporal(TemporalType.DATE)
-	public Date getFechaCreacion() {
-		return fechaCreacion;
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
 	/**
-	 * @param fechaCreacion
+	 * @param creationDate
 	 *            :Creation date of registration of the person associated with
 	 *            the company
 	 */
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	/**
-	 * @return fechaInicioVigencia: Start date of validity of the company for
+	 * @return dateInitialValidity: Start date of validity of the company for
 	 *         the person.
 	 */
 	@Column(name = "fecha_inicio_vigencia", nullable = false)
 	@Temporal(TemporalType.DATE)
-	public Date getFechaInicioVigencia() {
-		return fechaInicioVigencia;
+	public Date getDateInitialValidity() {
+		return dateInitialValidity;
 	}
 
 	/**
-	 * @param fechaInicioVigencia
+	 * @param dateInitialValidity
 	 *            :Start date of validity of the company for the person.
 	 */
-	public void setFechaInicioVigencia(Date fechaInicioVigencia) {
-		this.fechaInicioVigencia = fechaInicioVigencia;
+	public void setDateInitialValidity(Date dateInitialValidity) {
+		this.dateInitialValidity = dateInitialValidity;
 	}
 
 	/**
@@ -121,16 +120,16 @@ public class EmpresaPersona implements Serializable {
 	 */
 	@Column(name = "fecha_fin_vigencia", nullable = true)
 	@Temporal(TemporalType.DATE)
-	public Date getFechaFinVigencia() {
-		return fechaFinVigencia;
+	public Date getDateEndValidity() {
+		return dateEndValidity;
 	}
 
 	/**
 	 * @param fechaFinVigencia
 	 *            : End date validity the company to the person.
 	 */
-	public void setFechaFinVigencia(Date fechaFinVigencia) {
-		this.fechaFinVigencia = fechaFinVigencia;
+	public void setDateEndValidity(Date dateEndValidity) {
+		this.dateEndValidity = dateEndValidity;
 	}
 
 	/**
@@ -150,37 +149,37 @@ public class EmpresaPersona implements Serializable {
 	}
 
 	/**
-	 * @return persona: Reference to the person who is related to the company.
+	 * @return person: Reference to the person who is related to the company.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_persona", referencedColumnName = "id", nullable = false)
-	public Person getPersona() {
-		return persona;
+	public Person getPerson() {
+		return person;
 	}
 
 	/**
-	 * @param persona
+	 * @param person
 	 *            :Reference to the person who is related to the company.
 	 */
-	public void setPersona(Person persona) {
-		this.persona = persona;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 	/**
-	 * @return empresa: Reference to the company to which the person belongs.
+	 * @return business: Reference to the company to which the person belongs.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_empresa", referencedColumnName = "id", nullable = false)
-	public Business getEmpresa() {
-		return empresa;
+	public Business getBusiness() {
+		return business;
 	}
 
 	/**
-	 * @param empresa
+	 * @param business
 	 *            : Reference to the company to which the person belongs.
 	 */
-	public void setEmpresa(Business empresa) {
-		this.empresa = empresa;
+	public void setBusiness(Business business) {
+		this.business = business;
 	}
 
 	/**
@@ -205,37 +204,36 @@ public class EmpresaPersona implements Serializable {
 	}
 
 	/**
-	 * @return tipoCargo: Reference to the type of jobs held by the person in
+	 * @return typeCharge: Reference to the type of jobs held by the person in
 	 *         the company.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_cargo", referencedColumnName = "id", nullable = false)
-	public ChargeType getTipoCargo() {
-		return tipoCargo;
+	public ChargeType getTypeCharge() {
+		return typeCharge;
 	}
 
 	/**
-	 * @param tipoCargo
+	 * @param typeCharge
 	 *            :Reference to the type of jobs held by the person in the
 	 *            company.
 	 */
-	public void setTipoCargo(ChargeType tipoCargo) {
-		this.tipoCargo = tipoCargo;
+	public void setTypeCharge(ChargeType typeCharge) {
+		this.typeCharge = typeCharge;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (contacto ? 1231 : 1237);
+		result = prime * result + (contact ? 1231 : 1237);
 		result = prime * result
-				+ ((fechaCreacion == null) ? 0 : fechaCreacion.hashCode());
+				+ ((creationDate == null) ? 0 : creationDate.hashCode());
+		result = prime * result
+				+ ((dateEndValidity == null) ? 0 : dateEndValidity.hashCode());
 		result = prime
 				* result
-				+ ((fechaFinVigencia == null) ? 0 : fechaFinVigencia.hashCode());
-		result = prime
-				* result
-				+ ((fechaInicioVigencia == null) ? 0 : fechaInicioVigencia
+				+ ((dateInitialValidity == null) ? 0 : dateInitialValidity
 						.hashCode());
 		result = prime * result + id;
 		result = prime * result
@@ -251,23 +249,23 @@ public class EmpresaPersona implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		EmpresaPersona other = (EmpresaPersona) obj;
-		if (contacto != other.contacto)
+		BusinessPerson other = (BusinessPerson) obj;
+		if (contact != other.contact)
 			return false;
-		if (fechaCreacion == null) {
-			if (other.fechaCreacion != null)
+		if (creationDate == null) {
+			if (other.creationDate != null)
 				return false;
-		} else if (!fechaCreacion.equals(other.fechaCreacion))
+		} else if (!creationDate.equals(other.creationDate))
 			return false;
-		if (fechaFinVigencia == null) {
-			if (other.fechaFinVigencia != null)
+		if (dateEndValidity == null) {
+			if (other.dateEndValidity != null)
 				return false;
-		} else if (!fechaFinVigencia.equals(other.fechaFinVigencia))
+		} else if (!dateEndValidity.equals(other.dateEndValidity))
 			return false;
-		if (fechaInicioVigencia == null) {
-			if (other.fechaInicioVigencia != null)
+		if (dateInitialValidity == null) {
+			if (other.dateInitialValidity != null)
 				return false;
-		} else if (!fechaInicioVigencia.equals(other.fechaInicioVigencia))
+		} else if (!dateInitialValidity.equals(other.dateInitialValidity))
 			return false;
 		if (id != other.id)
 			return false;

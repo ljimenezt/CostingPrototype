@@ -190,7 +190,7 @@ public class OrganizationAction implements Serializable {
 	}
 
 	/**
-	 * @param organizacion
+	 * @param organization
 	 *            : Object representing the Organization
 	 */
 	public void setOrganization(Organization organization) {
@@ -297,7 +297,7 @@ public class OrganizationAction implements Serializable {
 	 * List of items that get the document types in the combo of the user
 	 * interface
 	 * 
-	 * @return itemsTiposDocumentos : Items of the types of documents that are
+	 * @return itemsTypeDocuments : Items of the types of documents that are
 	 *         displayed in the user interface
 	 */
 	public HashMap<String, Short> getItemsTypeDocuments() {
@@ -322,7 +322,7 @@ public class OrganizationAction implements Serializable {
 	 * 
 	 * @author Liseth.Jimenez
 	 * 
-	 * @return consultarOrganizaciones(): method consulting organizations of the
+	 * @return consultOrganizations(): method consulting organizations of the
 	 *         system and returns to the template management.
 	 */
 	public String searchInitialize() {
@@ -336,7 +336,7 @@ public class OrganizationAction implements Serializable {
 	 * 
 	 * @modify Liseth.Jimenez 11/07/2012
 	 * 
-	 * @return gesOrganization: redirects to the Manage organization
+	 * @return gesOrganization: Navigation rule that redirects to the Manage organization
 	 */
 	public String consultOrganizations() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -391,10 +391,10 @@ public class OrganizationAction implements Serializable {
 	 * Method that allow load the user interface for editing or registration of
 	 * an organization with its affiliated persons.
 	 * 
-	 * @param organizacion
+	 * @param organization
 	 *            : object of the organization that is loaded into the template
 	 *            if editing.
-	 * @return regOrganizacion: rule navigation that redirects to register the
+	 * @return regOrganization: rule navigation that redirects to register the
 	 *         organization, which is loaded into editing or empty to add a new
 	 *         organization.
 	 */
@@ -463,7 +463,7 @@ public class OrganizationAction implements Serializable {
 	 * Method that allows you to save or edit an organization, validating the
 	 * social reason not repeated in the database.
 	 * 
-	 * @return regOrganizacion: page redirects to register the organization.
+	 * @return regOrganization: Navigation rule that redirects to page register the organization.
 	 */
 	public String saveOrganization() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -654,11 +654,11 @@ public class OrganizationAction implements Serializable {
 	 * @param validity
 	 *            : boolean that allows to know if the term ends with 'true' or
 	 *            INICA with 'false', the selected record in the user interface.
-	 * @return consultarOrganizaciones: page redirects to manage organizations
+	 * @return consultOrganizations: page redirects to manage organizations
 	 */
 	public String validityOrganizationes(boolean validity) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		StringBuilder regVigentesUsados = new StringBuilder();
+		StringBuilder regValidUsed = new StringBuilder();
 		StringBuilder regExito = new StringBuilder();
 		String messageChangedValidity = "";
 		try {
@@ -683,12 +683,12 @@ public class OrganizationAction implements Serializable {
 				regExito.append(organizationModifyValidation
 						.getBusinessName() + ", ");
 			}
-			if (regVigentesUsados.length() > 0) {
+			if (regValidUsed.length() > 0) {
 				String message = bundle
 						.getString("message_registro_vigencia_con_relaciones")
 						+ ": "
-						+ regVigentesUsados.substring(0,
-								regVigentesUsados.length() - 2);
+						+ regValidUsed.substring(0,
+								regValidUsed.length() - 2);
 				ControladorContexto.mensajeError(message);
 			}
 			if (regExito.length() > 0) {
@@ -820,7 +820,7 @@ public class OrganizationAction implements Serializable {
 	/**
 	 * Method that allows assign the organization to change its validity
 	 * 
-	 * @param organizacion
+	 * @param organization
 	 *            : organization you want to change the effect.
 	 */
 	public void assignOrganizationModify(Organization organization) {

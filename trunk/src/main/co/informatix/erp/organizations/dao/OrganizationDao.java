@@ -59,7 +59,7 @@ public class OrganizationDao implements Serializable {
 	/**
 	 * Returns the current list of organizations that exist in the database.
 	 * 
-	 * @return List of existing organizations in the database, or null
+	 * @return List<Organization>: List of existing organizations in the database, or null
 	 *         otherwise.
 	 * @throws Exception
 	 */
@@ -157,7 +157,7 @@ public class OrganizationDao implements Serializable {
 	 *            businessName or NIT
 	 * @param id
 	 *            : Organization ID is excluded
-	 * @return: The Organization if that value exists or null otherwise
+	 * @return Organization: The Organization if that value exists or null otherwise
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
