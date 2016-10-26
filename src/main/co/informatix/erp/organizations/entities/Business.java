@@ -196,7 +196,7 @@ public class Business implements Serializable {
 	}
 
 	/**
-	 * @param movil
+	 * @param mobile
 	 *            : mobile phone company.
 	 */
 	public void setMobile(String mobile) {
