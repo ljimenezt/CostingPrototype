@@ -61,7 +61,6 @@ public class PermissionPersonBusiness implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return dateCreation: Date of creating access permission for the person.
 	 */
 	@Column(name = "fecha_creacion", nullable = false)
@@ -71,7 +70,6 @@ public class PermissionPersonBusiness implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param dateCreation
 	 *            : Date of creating access permission for the person.
 	 */
