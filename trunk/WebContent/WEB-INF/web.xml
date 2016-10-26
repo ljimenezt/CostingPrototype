@@ -68,10 +68,11 @@
 			/security/icons/faces-config-icons.xml,
 			/security/method/faces-config-method.xml,
 			/security/perfilUsuario/faces-config-perfilUsuario.xml,
-			/security/permisoPersonaEmpresa/faces-config-permisoPersonaEmpresa.xml,
+			/security/permissionPersonBusiness/faces-config-permissionPersonBusiness.xml,
 			/security/profileSystem/faces-config-profileSystem.xml,
 			
 			/humanResources/informacionBase/chargeType/faces-config-chargeType.xml,
+			/humanResources/informacionBase/noveltyType/faces-config-noveltyType.xml,
 			/humanResources/person/faces-config-person.xml,
 			/humanResources/hrTypes/faces-config-hrTypes.xml,
 			/humanResources/hr/faces-config-hr.xml,
