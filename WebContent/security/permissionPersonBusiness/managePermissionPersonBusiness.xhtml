@@ -1,0 +1,314 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" xmlns:p="http://primefaces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="permissionPersonBusinessAction.initializeSearch()" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,messageSecurity.person_permission_company_label" />
+	<ui:define name="body">
+		<h:form id="frmGestionarPermisosEmpresa">
+			<ui:param name="listaVacia"
+				value="#{permissionPersonBusinessAction.listPermissionPersonBusiness eq null or (empty permissionPersonBusinessAction.listPermissionPersonBusiness)}" />
+			<t:saveState value="#{permissionPersonBusinessAction}" />
+			<t:saveState value="#{businessAction}" />
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_manage} #{messageSecurity.person_permission_company_label}">
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{messageHumanResources.person_label}</legend>
+					<h:panelGrid columns="2" rowClasses="alignTop"
+						columnClasses="columnaIzquierda, columnaDerecha" cellpadding="5"
+						cellspacing="7">
+						<h:outputText value="#{mensaje.label_identification}: " />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.person.document}" />
+						<h:outputText value="#{mensaje.label_name}: " />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.person.names}" />
+						<h:outputText value="#{mensaje.label_surname}: " />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.person.surnames}" />
+						<h:outputText value="#{mensaje.label_telephone_number}: " />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.person.telephone}" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos MinH253P">
+					<legend class="etiquetaTitulo">#{mensaje.label_listing}
+						#{messageSecurity.person_permission_company_label}</legend>
+					<a:outputPanel id="panelEmpresaPermiso">
+						<rich:message for="panelEmpresaPermiso" />
+						<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+							columnClasses="W50Per,W50Per" styleClass="anchoDos">
+							<h:selectOneRadio styleClass="rdVigencia"
+								value="#{permissionPersonBusinessAction.vigencia}">
+								<f:selectItem itemValue="si"
+									itemLabel="#{mensaje.label_current}" />
+								<f:selectItem itemValue="no"
+									itemLabel="#{mensaje.label_not_current}" />
+								<a:ajax event="click"
+									listener="#{permissionPersonBusinessAction.consultPermissionPersonCompany()}"
+									render="panelEmpresaPermiso, mensajes, vigenciaPopup, mensajeBusqueda">
+								</a:ajax>
+							</h:selectOneRadio>
+							<a:outputPanel>
+								<div align="right">
+									<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+										<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+											onclick="document.getElementById('frmGestionarPermisosEmpresa:idButtonNuevo').click()"
+											rendered="#{permissionPersonBusinessAction.vigencia eq 'si' and (identity.autorizado('permissionPersonBusinessAction','A') or identity.autorizado('permissionPersonBusinessAction','I'))}">
+											<h:commandButton
+												action="#{permissionPersonBusinessAction.newPermissionPersonCompany}"
+												image="/img/new_16.png" id="idButtonNuevo"
+												onclick="#{rich:component('statPane')}.show();" />
+											<h:outputText
+												value="#{messageSecurity.person_permission_company_label_associate}" />
+										</h:panelGrid>
+										<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+											onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarPermisosEmpresa:idButtonBuscar').click();}">
+											<a:commandButton image="/img/consultar_16.png"
+												onmouseover="var1=true" onmouseout="var1=false"
+												id="idButtonBuscar" render=":buscarForm:popupBuscar"
+												oncomplete="#{rich:component('popupBuscar')}.show()">
+											</a:commandButton>
+											<h:outputText value="#{mensaje.button_search}" />
+										</h:panelGrid>
+										<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+											onclick="document.getElementById('frmGestionarPermisosEmpresa:idButtonLisTodos').click()">
+											<a:commandButton image="/img/listarTodos_16.png"
+												id="idButtonLisTodos"
+												actionListener="#{permissionPersonBusinessAction.initializeSearch}"
+												render="panelEmpresaPermiso, mensajes, mensajeBusqueda">
+											</a:commandButton>
+											<h:outputText value="#{mensaje.button_list_all}" />
+										</h:panelGrid>
+									</h:panelGrid>
+								</div>
+							</a:outputPanel>
+						</h:panelGrid>
+						<rich:dataTable
+							value="#{permissionPersonBusinessAction.listPermissionPersonBusiness}"
+							var="permisoEmpresa" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoDos"
+								rendered="#{permissionPersonBusinessAction.vigencia eq 'si'}">
+								<a:commandLink render="PopupDetalles"
+									oncomplete="#{rich:component('PopupDetalles')}.show()"
+									actionListener="#{businessAction.setBusiness(permisoEmpresa.business)}">
+									<h:graphicImage value="/img/details_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText
+											value="#{messageOrganizations.company_label_details}" />
+									</rich:tooltip>
+								</a:commandLink>
+								<h:outputText value="&#32;&#32;&#32;" />
+								<a:commandLink
+									actionListener="#{permissionPersonBusinessAction.setPermissionPersonBusiness(permisoEmpresa)}"
+									onclick="#{rich:component('popupVigencia')}.show()"
+									render="frmVigencia:nombreEmpresaVigencia"
+									rendered="#{identity.autorizado('permissionPersonBusinessAction','A') or identity.autorizado('permissionPersonBusinessAction','U')}">
+									<h:graphicImage value="/img/dateDelete_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.button_finish_force}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colIconoUno"
+								rendered="#{permissionPersonBusinessAction.vigencia eq 'no' and (identity.autorizado('permissionPersonBusinessAction','A') or identity.autorizado('permissionPersonBusinessAction','U'))}">
+								<a:commandLink render="popupVigencia"
+									actionListener="#{permissionPersonBusinessAction.setPermissionPersonBusiness(permisoEmpresa)}"
+									oncomplete="#{rich:component('popupVigencia')}.show()">
+									<h:graphicImage value="/img/dateAdd_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.button_start_term}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoCorto">
+								<f:facet name="header">#{mensaje.label_identification}</f:facet>
+								<h:outputText value="#{permisoEmpresa.business.nit}" />
+							</rich:column>
+							<rich:column styleClass="colTextoCorto">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText value="#{permisoEmpresa.business.name}" />
+							</rich:column>
+							<rich:column styleClass="colTextoCorto">
+								<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
+								<h:outputText value="#{permisoEmpresa.business.phone}" />
+							</rich:column>
+							<rich:column styleClass="colTextoCorto">
+								<f:facet name="header">#{messageOrganizations.farm_label}</f:facet>
+								<h:outputText value="#{permisoEmpresa.farm.name}" />
+							</rich:column>
+							<rich:column styleClass="colFecha">
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
+								<h:outputText value="#{permisoEmpresa.dateStartValidity}">
+									<f:convertDateTime pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colFecha">
+								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
+								<h:outputText value="#{permisoEmpresa.dateEndValidity}">
+									<f:convertDateTime pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="8" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<a:outputPanel
+							rendered="#{propErp['locate.mostrar.botones.inferiores'] eq 'si'}">
+							<div align="right" class="anchoDos">
+								<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+										onclick="document.getElementById('frmGestionarPermisosEmpresa:idButtonNuevoInf').click()"
+										rendered="#{permissionPersonBusinessAction.vigencia eq 'si' and (identity.autorizado('permissionPersonBusinessAction','A') or identity.autorizado('permissionPersonBusinessAction','I'))}">
+										<h:commandButton
+											action="#{permissionPersonBusinessAction.newPermissionPersonCompany}"
+											image="/img/new_16.png" id="idButtonNuevoInf"
+											onclick="#{rich:component('statPane')}.show();" />
+										<h:outputText
+											value="#{messageSecurity.person_permission_company_label_associate}" />
+									</h:panelGrid>
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+										onclick="if(typeof var1 == 'undefined' || !var1){document.getElementById('frmGestionarPermisosEmpresa:idButtonBuscarInf').click();}">
+										<a:commandButton image="/img/consultar_16.png"
+											onmouseover="var1=true" onmouseout="var1=false"
+											id="idButtonBuscarInf" render=":buscarForm:popupBuscar"
+											oncomplete="#{rich:component('popupBuscar')}.show()">
+										</a:commandButton>
+										<h:outputText value="#{mensaje.button_search}" />
+									</h:panelGrid>
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2"
+										onclick="document.getElementById('frmGestionarPermisosEmpresa:idButtonLisTodosInf').click()">
+										<a:commandButton image="/img/listarTodos_16.png"
+											id="idButtonLisTodosInf"
+											actionListener="#{permissionPersonBusinessAction.initializeSearch}"
+											render="panelEmpresaPermiso, mensajes, mensajeBusqueda">
+										</a:commandButton>
+										<h:outputText value="#{mensaje.button_list_all}" />
+									</h:panelGrid>
+								</h:panelGrid>
+							</div>
+						</a:outputPanel>
+						<a:outputPanel rendered="#{!listaVacia}">
+							<div class="anchoDos center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valId" value="1" />
+									<ui:param name="valReder" value="panelEmpresaPermiso" />
+									<ui:param name="beanActionParam"
+										value="#{permissionPersonBusinessAction}" />
+									<ui:param name="metodoActionParam"
+										value="consultPermissionPersonCompany" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+				</t:fieldset>
+			</rich:panel>
+		</h:form>
+		<ui:include
+			src="/organizaciones/empresas/plantillaDetallesEmpresa.xhtml" />
+
+		<h:form id="buscarForm">
+			<rich:popupPanel id="popupBuscar" autosized="true"
+				header="#{mensaje.button_search} #{messageSecurity.person_permission_company_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:outputText value="#{mensaje.label_name}:"
+						styleClass="etiquetaTitulo" />
+					<h:inputText size="40" maxlength="100" id="txtNombreBuscar"
+						value="#{permissionPersonBusinessAction.searchCompanyManage}" />
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{messageOrganizations.farm_label}:" />
+					<h:selectOneMenu
+						value="#{permissionPersonBusinessAction.idFarmSearch}"
+						id="cmbHacienda">
+						<f:selectItem itemLabel="#{mensaje.label_seleccione}"
+							itemValue="0" />
+						<f:selectItems
+							value="#{permissionPersonBusinessAction.itemsFarms}" />
+					</h:selectOneMenu>
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}"
+						actionListener="#{permissionPersonBusinessAction.consultPermissionPersonCompany()}"
+						oncomplete="#{rich:component('popupBuscar')}.hide();"
+						render="panelEmpresaPermiso, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="frmVigencia">
+			<rich:popupPanel id="popupVigencia" keepVisualState="true"
+				autosized="true" width="500" domElementAttachment="form"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupVigencia')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{messageOrganizations.company_label}: " />
+						<h:outputText id="nombreEmpresaVigencia"
+							value="#{permissionPersonBusinessAction.permissionPersonBusiness.business.name}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:outputPanel id="vigenciaPopup">
+							<a:commandButton value="#{mensaje.button_accept}"
+								render="panelEmpresaPermiso, mensajes, mensajeBusqueda"
+								onclick="#{rich:component('popupVigencia')}.hide()"
+								actionListener="#{permissionPersonBusinessAction.changeValidityPermissionCompany('true')}"
+								rendered="#{permissionPersonBusinessAction.vigencia eq 'si'}" />
+							<a:commandButton value="#{mensaje.button_accept}"
+								render="panelEmpresaPermiso, mensajes, mensajeBusqueda"
+								onclick="#{rich:component('popupVigencia')}.hide()"
+								actionListener="#{permissionPersonBusinessAction.changeValidityPermissionCompany('false')}"
+								rendered="#{permissionPersonBusinessAction.vigencia eq 'no'}" />
+						</a:outputPanel>
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupVigencia')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

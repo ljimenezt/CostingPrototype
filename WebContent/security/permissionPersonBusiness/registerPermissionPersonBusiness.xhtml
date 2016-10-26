@@ -1,0 +1,309 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui" xmlns:a="http://richfaces.org/a4j"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="permissionPersonBusinessAction.initializeSearch()" />
+	<ui:param name="titulo"
+		value="messageSecurity.person_permission_company_label_associate" />
+	<ui:define name="body">
+		<h:form id="frmAsociarPermisos">
+			<t:saveState value="#{permissionPersonBusinessAction}" />
+			<t:saveState value="#{validacionesAction}" />
+			<rich:panel styleClass="anchoUno"
+				header="#{messageSecurity.person_permission_company_label_associate}">
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{messageHumanResources.person_label}</legend>
+					<h:panelGrid columns="2" rowClasses="alignTop"
+						columnClasses="columnaIzquierda, columnaDerecha" cellpadding="5"
+						cellspacing="7">
+
+						<h:outputText value="#{mensaje.label_identification}: " />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.person.document}" />
+
+						<h:outputText value="#{mensaje.label_name}: " />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.person.names}" />
+
+						<h:outputText value="#{mensaje.label_surname}: " />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.person.surnames}" />
+
+						<h:outputText value="#{mensaje.label_telephone_number}: " />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.person.telephone}" />
+					</h:panelGrid>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{mensaje.button_search}</legend>
+					<a:outputPanel id="empresas">
+						<rich:message for="empresas" />
+						<h:panelGrid columns="4" id="pnlBuscar">
+							<h:outputText
+								value="#{mensaje.label_identification} / #{mensaje.label_name}: "
+								styleClass="etiquetaTitulo" />
+							<h:inputText id="txtBuscarEmpresa"
+								value="#{permissionPersonBusinessAction.searchCompany}" />
+							<a:commandButton value="#{mensaje.button_search}"
+								execute="empresas" render="empresas, mensajes"
+								actionListener="#{permissionPersonBusinessAction.searchCompanies()}" />
+						</h:panelGrid>
+						<rich:extendedDataTable
+							value="#{permissionPersonBusinessAction.business}" var="empresa"
+							styleClass="H190P W900P">
+							<f:facet name="header">
+								<h:outputText
+									value="#{mensaje.label_listing} #{messageOrganizations.company_label_s}" />
+							</f:facet>
+							<rich:column width="30px" styleClass="center top">
+								<a:commandLink
+									render=":popupForm:popUpPermisosAEmpresa, mensajes"
+									actionListener="#{permissionPersonBusinessAction.setSelectedCompany(empresa)}"
+									action="#{permissionPersonBusinessAction.controllerListPermission('newPermiso', null)}"
+									oncomplete="#{rich:component('popUpPermisosAEmpresa')}.show()">
+									<h:graphicImage value="/img/add_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText
+											value="#{messageSecurity.person_permission_company_label_assign_by_company}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column width="120px">
+								<f:facet name="header">#{mensaje.label_identification}</f:facet>
+								<h:outputText value="#{empresa.nit}" />
+							</rich:column>
+							<rich:column width="250px">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText value="#{empresa.name}" />
+							</rich:column>
+							<rich:column width="250px">
+								<f:facet name="header">#{mensaje.label_telephone_number}</f:facet>
+								<h:outputText value="#{empresa.phone}" />
+							</rich:column>
+							<rich:column width="250px">
+								<f:facet name="header">#{mensaje.label_address}</f:facet>
+								<h:outputText value="#{empresa.address}" />
+							</rich:column>
+						</rich:extendedDataTable>
+					</a:outputPanel>
+				</t:fieldset>
+				<br />
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{messageSecurity.person_permission_company_label_associate}</legend>
+
+					<a:outputPanel id="extDTPermisoPersonaEmpresa">
+						<rich:message for="extDTPermisoPersonaEmpresa" />
+						<rich:extendedDataTable
+							value="#{permissionPersonBusinessAction.listPermissionPersonBusinessTemp}"
+							var="permisoPersonaEmpresa" id="permisoPersonaEmpresaSelect"
+							styleClass="H190P W900P">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messageSecurity.person_permission_company_label}" />
+							</f:facet>
+							<rich:column styleClass="top center" width="30px">
+								<f:facet name="header"></f:facet>
+								<a:commandLink
+									render=":popUpQuitar:popupValidarQuitar, mensajes"
+									execute="@this"
+									actionListener="#{permissionPersonBusinessAction.setPermissionPersonBusiness(permisoPersonaEmpresa)}"
+									oncomplete="#{rich:component('popupValidarQuitar')}.show()">
+									<h:graphicImage value="/img/delete_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_remove}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="top" width="300px">
+								<f:facet name="header">#{messageOrganizations.company_label}</f:facet>
+								<h:outputText value="#{permisoPersonaEmpresa.business.name}" />
+							</rich:column>
+							<rich:column styleClass="top" width="250px">
+								<f:facet name="header">#{messageOrganizations.farm_label}</f:facet>
+								<h:outputText value="#{permisoPersonaEmpresa.farm.name}" />
+							</rich:column>
+							<rich:column styleClass="center top" width="150px">
+								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
+								<h:outputText value="#{permisoPersonaEmpresa.dateStartValidity}">
+									<f:convertDateTime pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="center top" width="150px">
+								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
+								<h:outputText value="#{permisoPersonaEmpresa.dateEndValidity}">
+									<f:convertDateTime pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+						</rich:extendedDataTable>
+					</a:outputPanel>
+				</t:fieldset>
+				<br />
+				<div class="center inBlock W100Per">
+					<a:commandButton value="#{mensaje.button_save}"
+						actionListener="#{permissionPersonBusinessAction.validatePermissionCompaniesSelected()}"
+						render="formGenerico,popupConfirmar"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupConfirmar')}.show();}
+						else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+				</div>
+				<br />
+			</rich:panel>
+		</h:form>
+		<h:form id="popupForm">
+			<rich:popupPanel id="popUpPermisosAEmpresa" autosized="true"
+				domElementAttachment="form">
+				<f:facet name="header">#{messageSecurity.person_permission_company_label_assign_by_company}</f:facet>
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							styleClass="hidelink cursor"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popUpPermisosAEmpresa')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:messages id="mensajesPopup" styleClass="messageBlock" />
+				<br />
+				<h:panelGrid columns="3" cellpadding="5" cellspacing="7"
+					columnClasses="tdAlignTop,tdAlignTop">
+					<h:outputText value="#{messageOrganizations.farm_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:selectOneMenu value="#{permissionPersonBusinessAction.idFarm}"
+						id="cmbHacienda" required="true"
+						label="#{messageOrganizations.farm_label}">
+						<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
+						<f:selectItems
+							value="#{permissionPersonBusinessAction.itemsFarmsCompany}" />
+					</h:selectOneMenu>
+
+					<h:outputText value="#{mensaje.label_start_date}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar readOnlyInputText="true"
+						value="#{permissionPersonBusinessAction.permissionPersonBusiness.dateStartValidity}"
+						id="calFechaInicio" showOn="button" required="true"
+						onSelectUpdate="calFechaFin" label="#{mensaje.label_start_date}" />
+
+					<h:outputText value="#{mensaje.label_end_date}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<p:calendar readOnlyInputText="true"
+						value="#{permissionPersonBusinessAction.permissionPersonBusiness.dateEndValidity}"
+						id="calFechaFin" showOn="button"
+						mindate="#{permissionPersonBusinessAction.permissionPersonBusiness.dateStartValidity}"
+						validator="#{validacionesAction.validarFechasContrato}" />
+
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_accept}"
+						actionListener="#{permissionPersonBusinessAction.controllerListPermission('addPermiso', null)}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpPermisosAEmpresa')}.hide();}"
+						render=":frmAsociarPermisos:empresas, :frmAsociarPermisos:extDTPermisoPersonaEmpresa, mensajes" />
+					<h:commandButton value="#{mensaje.button_cancel}">
+						<rich:componentControl target="popUpPermisosAEmpresa"
+							operation="hide" event="click" />
+					</h:commandButton>
+				</div>
+			</rich:popupPanel>
+		</h:form>
+		<!-- Modal para la confirmacion de quitar una empresa con permisos ya agregada -->
+		<h:form id="popUpQuitar">
+			<rich:popupPanel id="popupValidarQuitar" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupValidarQuitar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{messageOrganizations.company_label}:"
+							styleClass="etiquetaTitulo" />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.permissionPersonBusiness.business.name}" />
+
+						<h:outputText value="#{messageOrganizations.farm_label}:"
+							styleClass="etiquetaTitulo" />
+						<h:outputText
+							value="#{permissionPersonBusinessAction.permissionPersonBusiness.farm.name}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}" execute="@this"
+							actionListener="#{permissionPersonBusinessAction.controllerListPermission('borrar', permissionPersonBusinessAction.permissionPersonBusiness)}"
+							onclick="#{rich:component('popupValidarQuitar')}.hide()"
+							render=":frmAsociarPermisos:empresas, :frmAsociarPermisos:extDTPermisoPersonaEmpresa, mensajes" />
+						<a:commandButton value="#{mensaje.button_cancel}" execute="@this"
+							onclick="#{rich:component('popupValidarQuitar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form>
+			<rich:popupPanel id="popupConfirmar" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupConfirmar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText
+							value="#{messageSecurity.person_permission_company_message_popup_confirmation}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="tabla">
+						<rich:extendedDataTable
+							value="#{permissionPersonBusinessAction.listPermissionPersonBusinessTemp}"
+							var="permisoPersonaEmpTemp" id="tablaConfirm" styleClass="H130P">
+							<rich:column width="300px">
+								<f:facet name="header">
+									<h:outputText value="#{messageOrganizations.company_label}" />
+								</f:facet>
+								<h:outputText value="#{permisoPersonaEmpTemp.business.name}" />
+							</rich:column>
+							<rich:column width="300px">
+								<f:facet name="header">
+									<h:outputText value="#{messageOrganizations.farm_label}" />
+								</f:facet>
+								<h:outputText value="#{permisoPersonaEmpTemp.farm.name}" />
+							</rich:column>
+						</rich:extendedDataTable>
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{permissionPersonBusinessAction.savePermissionPersonCompany}"
+							onclick="#{rich:component('popupConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
