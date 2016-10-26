@@ -223,7 +223,7 @@ public class FarmDao implements Serializable {
 	public List<Farm> consultFarmsWithPermissionAccessCompany(int idCompany,
 			int idPersonSession) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT DISTINCT ppe.farm FROM PermisoPersonaEmpresa ppe ");
+		query.append("SELECT DISTINCT ppe.farm FROM PermissionPersonBusiness ppe ");
 		query.append("WHERE ppe.empresa.id=:idCompany ");
 		query.append("AND ppe.persona.id = :idPersonSession ");
 		query.append("AND (ppe.fechaFinVigencia IS NULL ");

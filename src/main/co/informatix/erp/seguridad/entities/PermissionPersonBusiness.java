@@ -15,9 +15,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import co.informatix.erp.humanResources.entities.Person;
 import co.informatix.erp.lifeCycle.entities.Farm;
 import co.informatix.erp.organizations.entities.Business;
-import co.informatix.erp.humanResources.entities.Person;
 
 /**
  * This class maps the table permiso_empresa_persona_sucursal_hacienda, which
@@ -25,22 +25,21 @@ import co.informatix.erp.humanResources.entities.Person;
  * companies and their subsidiaries and / or farms.
  * 
  * @author marisol.calderon
- * 
  */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "permiso_persona_empresa", schema = "seguridad")
-public class PermisoPersonaEmpresa implements Serializable {
+public class PermissionPersonBusiness implements Serializable {
 
 	private int id;
-	private Date fechaCreacion;
-	private Date fechaInicioVigencia;
-	private Date fechaFinVigencia;
-	private boolean predeterminado;
+	private Date dateCreation;
+	private Date dateStartValidity;
+	private Date dateEndValidity;
+	private boolean predetermined;
 	private String userName;
 
-	private Business empresa;
-	private Person persona;
+	private Business business;
+	private Person person;
 	private Farm farm;
 
 	/**
@@ -63,75 +62,75 @@ public class PermisoPersonaEmpresa implements Serializable {
 
 	/**
 	 * 
-	 * @return fechaCreacion: Date of creating access permission for the person.
+	 * @return dateCreation: Date of creating access permission for the person.
 	 */
 	@Column(name = "fecha_creacion", nullable = false)
 	@Temporal(TemporalType.DATE)
-	public Date getFechaCreacion() {
-		return fechaCreacion;
+	public Date getDateCreation() {
+		return dateCreation;
 	}
 
 	/**
 	 * 
-	 * @param fechaCreacion
+	 * @param dateCreation
 	 *            : Date of creating access permission for the person.
 	 */
-	public void setFechaCreacion(Date fechaCreacion) {
-		this.fechaCreacion = fechaCreacion;
+	public void setDateCreation(Date dateCreation) {
+		this.dateCreation = dateCreation;
 	}
 
 	/**
-	 * @return fechaInicioVigencia: current start date of the permit for access
-	 *         to the person.
+	 * @return dateStartValidity: current start date of the permit for access to
+	 *         the person.
 	 */
 	@Column(name = "fecha_inicio_vigencia", nullable = false)
 	@Temporal(TemporalType.DATE)
-	public Date getFechaInicioVigencia() {
-		return fechaInicioVigencia;
+	public Date getDateStartValidity() {
+		return dateStartValidity;
 	}
 
 	/**
-	 * @param fechaInicioVigencia
+	 * @param dateStartValidity
 	 *            : current start date of the permit for access to the person.
 	 */
-	public void setFechaInicioVigencia(Date fechaInicioVigencia) {
-		this.fechaInicioVigencia = fechaInicioVigencia;
+	public void setDateStartValidity(Date dateStartValidity) {
+		this.dateStartValidity = dateStartValidity;
 	}
 
 	/**
-	 * @return fechaFinVigencia: current ending date of the permit for access to
+	 * @return dateEndValidity: current ending date of the permit for access to
 	 *         the person.
 	 */
 	@Column(name = "fecha_fin_vigencia", nullable = true)
 	@Temporal(TemporalType.DATE)
-	public Date getFechaFinVigencia() {
-		return fechaFinVigencia;
+	public Date getDateEndValidity() {
+		return dateEndValidity;
 	}
 
 	/**
-	 * @param fechaFinVigencia
+	 * @param dateEndValidity
 	 *            : current ending date of the permit for access to the person.
 	 */
-	public void setFechaFinVigencia(Date fechaFinVigencia) {
-		this.fechaFinVigencia = fechaFinVigencia;
+	public void setDateEndValidity(Date dateEndValidity) {
+		this.dateEndValidity = dateEndValidity;
 	}
 
 	/**
-	 * @return predeterminado: Indicates the default company to be charged to
-	 *         log into the system.
+	 * @return predetermined: Indicates the default company to be charged to log
+	 *         into the system.
 	 */
 	@Column(name = "predeterminada")
-	public boolean isPredeterminado() {
-		return predeterminado;
+	public boolean isPredetermined() {
+		return predetermined;
 	}
 
 	/**
-	 * @param predeterminado
+	 * @param predetermined
 	 *            : Indicates the default company to be charged to log into the
 	 *            system.
 	 */
-	public void setPredeterminado(boolean predeterminado) {
-		this.predeterminado = predeterminado;
+	public void setPredetermined(boolean predetermined) {
+		this.predetermined = predetermined;
 	}
 
 	/**
@@ -153,37 +152,37 @@ public class PermisoPersonaEmpresa implements Serializable {
 	}
 
 	/**
-	 * @return empresa: Company which the person has access permissions.
+	 * @return business: Company which the person has access permissions.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_empresa", referencedColumnName = "id", nullable = false)
-	public Business getEmpresa() {
-		return empresa;
+	public Business getBusiness() {
+		return business;
 	}
 
 	/**
-	 * @param empresa
+	 * @param business
 	 *            : Company which the person has access permissions.
 	 */
-	public void setEmpresa(Business empresa) {
-		this.empresa = empresa;
+	public void setBusiness(Business business) {
+		this.business = business;
 	}
 
 	/**
-	 * @return persona: person who is assigned access permissions
+	 * @return person: person who is assigned access permissions
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_persona", referencedColumnName = "id", nullable = false)
-	public Person getPersona() {
-		return persona;
+	public Person getPerson() {
+		return person;
 	}
 
 	/**
-	 * @param persona
+	 * @param person
 	 *            : person who is assigned access permissions
 	 */
-	public void setPersona(Person persona) {
-		this.persona = persona;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 	/**
@@ -210,16 +209,15 @@ public class PermisoPersonaEmpresa implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((fechaCreacion == null) ? 0 : fechaCreacion.hashCode());
+				+ ((dateCreation == null) ? 0 : dateCreation.hashCode());
+		result = prime * result
+				+ ((dateEndValidity == null) ? 0 : dateEndValidity.hashCode());
 		result = prime
 				* result
-				+ ((fechaFinVigencia == null) ? 0 : fechaFinVigencia.hashCode());
-		result = prime
-				* result
-				+ ((fechaInicioVigencia == null) ? 0 : fechaInicioVigencia
+				+ ((dateStartValidity == null) ? 0 : dateStartValidity
 						.hashCode());
 		result = prime * result + id;
-		result = prime * result + (predeterminado ? 1231 : 1237);
+		result = prime * result + (predetermined ? 1231 : 1237);
 		result = prime * result
 				+ ((userName == null) ? 0 : userName.hashCode());
 		return result;
@@ -233,25 +231,25 @@ public class PermisoPersonaEmpresa implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PermisoPersonaEmpresa other = (PermisoPersonaEmpresa) obj;
-		if (fechaCreacion == null) {
-			if (other.fechaCreacion != null)
+		PermissionPersonBusiness other = (PermissionPersonBusiness) obj;
+		if (dateCreation == null) {
+			if (other.dateCreation != null)
 				return false;
-		} else if (!fechaCreacion.equals(other.fechaCreacion))
+		} else if (!dateCreation.equals(other.dateCreation))
 			return false;
-		if (fechaFinVigencia == null) {
-			if (other.fechaFinVigencia != null)
+		if (dateEndValidity == null) {
+			if (other.dateEndValidity != null)
 				return false;
-		} else if (!fechaFinVigencia.equals(other.fechaFinVigencia))
+		} else if (!dateEndValidity.equals(other.dateEndValidity))
 			return false;
-		if (fechaInicioVigencia == null) {
-			if (other.fechaInicioVigencia != null)
+		if (dateStartValidity == null) {
+			if (other.dateStartValidity != null)
 				return false;
-		} else if (!fechaInicioVigencia.equals(other.fechaInicioVigencia))
+		} else if (!dateStartValidity.equals(other.dateStartValidity))
 			return false;
 		if (id != other.id)
 			return false;
-		if (predeterminado != other.predeterminado)
+		if (predetermined != other.predetermined)
 			return false;
 		if (userName == null) {
 			if (other.userName != null)

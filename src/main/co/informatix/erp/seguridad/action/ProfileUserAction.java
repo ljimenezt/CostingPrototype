@@ -23,7 +23,7 @@ import co.informatix.erp.organizations.action.BusinessAction;
 import co.informatix.erp.organizations.entities.Business;
 import co.informatix.erp.seguridad.dao.PermissionPersonBusinessDao;
 import co.informatix.erp.seguridad.dao.UserDao;
-import co.informatix.erp.seguridad.entities.PermisoPersonaEmpresa;
+import co.informatix.erp.seguridad.entities.PermissionPersonBusiness;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
@@ -56,10 +56,10 @@ public class ProfileUserAction implements Serializable {
 	@Resource
 	private UserTransaction userTransaction;
 
-	private List<PermisoPersonaEmpresa> listBusinessWithPermissionAcces;
+	private List<PermissionPersonBusiness> listBusinessWithPermissionAcces;
 	private List<SelectItem> itemsValues;
 	private Paginador pagination = new Paginador();
-	private PermisoPersonaEmpresa permissionPersonBusiness;
+	private PermissionPersonBusiness permissionPersonBusiness;
 	private Person personSesion;
 	private String tabSelect = Constantes.N_TAB;
 	private boolean savePersonFromProfile;
@@ -103,7 +103,7 @@ public class ProfileUserAction implements Serializable {
 	 * @return listBusinessWithPermissionAcces: list of companies to which the
 	 *         user has access.
 	 */
-	public List<PermisoPersonaEmpresa> getListBusinessWithPermissionAcces() {
+	public List<PermissionPersonBusiness> getListBusinessWithPermissionAcces() {
 		return listBusinessWithPermissionAcces;
 	}
 
@@ -112,14 +112,14 @@ public class ProfileUserAction implements Serializable {
 	 *            : list of companies to which the user has access.
 	 */
 	public void setListBusinessWithPermissionAcces(
-			List<PermisoPersonaEmpresa> listBusinessWithPermissionAcces) {
+			List<PermissionPersonBusiness> listBusinessWithPermissionAcces) {
 		this.listBusinessWithPermissionAcces = listBusinessWithPermissionAcces;
 	}
 
 	/**
 	 * @return permissionPersonBusiness: Business person covered by the permit.
 	 */
-	public PermisoPersonaEmpresa getPermissionPersonBusiness() {
+	public PermissionPersonBusiness getPermissionPersonBusiness() {
 		return permissionPersonBusiness;
 	}
 
@@ -128,7 +128,7 @@ public class ProfileUserAction implements Serializable {
 	 *            : Business person covered by the permit.
 	 */
 	public void setPermissionPersonBusiness(
-			PermisoPersonaEmpresa permissionPersonBusiness) {
+			PermissionPersonBusiness permissionPersonBusiness) {
 		this.permissionPersonBusiness = permissionPersonBusiness;
 	}
 
@@ -207,25 +207,24 @@ public class ProfileUserAction implements Serializable {
 	private void loadBusinessWithPermissionAcces() throws Exception {
 		BusinessAction businessAction = ControladorContexto
 				.getContextBean(BusinessAction.class);
-		listBusinessWithPermissionAcces = new ArrayList<PermisoPersonaEmpresa>();
+		listBusinessWithPermissionAcces = new ArrayList<PermissionPersonBusiness>();
 		if (personSesion != null) {
 			/* Companies with access permission of the person */
 			listBusinessWithPermissionAcces = permissionPersonBusinessDao
 					.consultPermissionsPersonEBusinessAccessUser(personSesion
 							.getDocument());
 			if (listBusinessWithPermissionAcces != null) {
-				for (PermisoPersonaEmpresa permissionPersonBusiness : listBusinessWithPermissionAcces) {
+				for (PermissionPersonBusiness permissionPersonBusiness : listBusinessWithPermissionAcces) {
 					permissionPersonBusinessDao
 							.consultDetailsPermissionPersonBusiness(permissionPersonBusiness);
 					/* Company details are loaded */
 					Business empresaPermiso = permissionPersonBusiness
-							.getEmpresa();
+							.getBusiness();
 					businessAction.loadDetailsOneBusiness(empresaPermiso);
-					permissionPersonBusiness.setEmpresa(empresaPermiso);
+					permissionPersonBusiness.setBusiness(empresaPermiso);
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -264,15 +263,15 @@ public class ProfileUserAction implements Serializable {
 		try {
 			if (permissionPersonBusiness != null && personSesion != null) {
 				this.userTransaction.begin();
-				PermisoPersonaEmpresa permissionPersonBusinessPre = permissionPersonBusinessDao
+				PermissionPersonBusiness permissionPersonBusinessPre = permissionPersonBusinessDao
 						.consultExistPredetermined(personSesion.getDocument());
 				if (permissionPersonBusinessPre != null) {
-					permissionPersonBusinessPre.setPredeterminado(false);
+					permissionPersonBusinessPre.setPredetermined(false);
 					permissionPersonBusinessDao
 							.editPermissionPersonCompany(permissionPersonBusinessPre);
 				}
 				permissionPersonBusiness.setUserName(identity.getUserName());
-				permissionPersonBusiness.setPredeterminado(true);
+				permissionPersonBusiness.setPredetermined(true);
 				permissionPersonBusinessAction
 						.nullValidate(permissionPersonBusiness);
 				permissionPersonBusinessDao
@@ -281,7 +280,7 @@ public class ProfileUserAction implements Serializable {
 				String message = bundleSecurity
 						.getString("user_profile_message_modify_default");
 				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(message, permissionPersonBusiness.getEmpresa()
+						.format(message, permissionPersonBusiness.getBusiness()
 								.getName()));
 			}
 		} catch (Exception e) {

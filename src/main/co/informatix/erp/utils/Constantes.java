@@ -126,8 +126,8 @@ public class Constantes implements Serializable {
 	public static final String NIT = "nit";
 
 	/* Farm */
-	public static final String BUSINESS = "empresa";
-	public static final String PERSON = "persona";
+	public static final String BUSINESS = "business";
+	public static final String PERSON = "person";
 	public static final String SUCURSAL = "sucursal";
 	public static final String Farm = "farm";
 
