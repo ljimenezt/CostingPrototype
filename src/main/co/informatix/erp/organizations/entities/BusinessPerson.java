@@ -116,7 +116,7 @@ public class BusinessPerson implements Serializable {
 	}
 
 	/**
-	 * @return fechaFinVigencia: End date validity the company to the person.
+	 * @return dateEndValidity: End date validity the company to the person.
 	 */
 	@Column(name = "fecha_fin_vigencia", nullable = true)
 	@Temporal(TemporalType.DATE)
@@ -125,7 +125,7 @@ public class BusinessPerson implements Serializable {
 	}
 
 	/**
-	 * @param fechaFinVigencia
+	 * @param dateEndValidity
 	 *            : End date validity the company to the person.
 	 */
 	public void setDateEndValidity(Date dateEndValidity) {
