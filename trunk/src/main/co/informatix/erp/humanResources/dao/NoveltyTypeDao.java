@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -57,6 +58,30 @@ public class NoveltyTypeDao implements Serializable {
 	}
 
 	/**
+	 * Returns the number of existingnovelty types in the database filtering
+	 * information search by the values sent.
+	 * 
+	 * @param consult
+	 *            : String containing the query why the filter names types of
+	 *            novelty.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Number of records found types of novelty.
+	 * @throws Exception
+	 */
+	public Long quantityNoveltyType(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(nt) FROM NoveltyType nt ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		return (Long) q.getSingleResult();
+	}
+	
+	/**
 	 * Consult if the name of the novelty type exist in the database when saving
 	 * or editing.
 	 * 
@@ -88,4 +113,42 @@ public class NoveltyTypeDao implements Serializable {
 		}
 		return null;
 	}
+	
+	/**
+	 * This method consultation novelty types with a certain range sent as a
+	 * parameter and filtering the information by the values of sent search.
+	 * 
+	 * @param start
+	 *            : Registry where consultation begins.
+	 * @param range
+	 *            : Range of records.
+	 * @param consult
+	 *            : Consult the logs depending on the parameters selected by the
+	 *            user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<NoveltyType>: List of contract types.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<NoveltyType> consultNoveltyType(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT nt FROM NoveltyType nt ");
+		query.append(consult);
+		query.append("ORDER BY nt.name ");
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		q.setFirstResult(start).setMaxResults(range);
+		List<NoveltyType> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+
 }
