@@ -244,7 +244,7 @@
 							<legend class="etiquetaTitulo">#{messageHumanResources.human_resource_label_payment_information}</legend>
 							<h:panelGrid columns="2"
 								columnClasses="W60Per tdAlignTop,W40Per tdAlignTop center">
-								<h:panelGrid columns="4"
+								<h:panelGrid columns="5"
 									cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 									cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 									columnClasses="tdAlignTop right W82P,,,tdAlignTop">
@@ -254,65 +254,75 @@
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
 									<h:inputText value="#{hrAction.hr.annualWage}"
-										styleClass="colTextoMini" id="annualWage" required="true"
+										styleClass="colTextoXCorto" id="annualWage" required="true"
 										maxlength="25"
 										requiredMessage="#{mensaje.message_campo_requerido}">
 										<f:validateLength maximum="25" />
+										<f:convertNumber maxFractionDigits="2" type="currency"
+											currencySymbol="" locale="#{idioma.locale}" />
 										<a:ajax event="valueChange"
 											listener="#{hrAction.calculateCostPerHour()}"
-											render="hourCost" execute="@this" />
+											render="hourCost, hourCostH" execute="@this" />
 									</h:inputText>
+									<h:outputText value="" />
 									<rich:message for="annualWage" />
 
 									<h:outputText
 										value="#{messageHumanResources.human_resource_label_hours_per_day}"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
-									<h:inputText styleClass="colTextoMini" maxlength="25"
+									<h:inputText styleClass="colTextoXCorto" maxlength="25"
 										id="hoursPerDay" value="#{hrAction.hr.hoursPerDay}"
 										required="true"
 										requiredMessage="#{mensaje.message_campo_requerido}">
 										<f:validateLength maximum="25" />
 										<a:ajax event="valueChange"
 											listener="#{hrAction.calculateCostPerHour()}"
-											render="hourCost" execute="@this" />
+											render="hourCost, hourCostH" execute="@this" />
 									</h:inputText>
+									<h:outputText value="" />
 									<rich:message for="hoursPerDay" />
 
 									<h:outputText
 										value="#{messageHumanResources.human_resource_label_total_days}"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
-									<h:inputText styleClass="colTextoMini" maxlength="25"
+									<h:inputText styleClass="colTextoXCorto" maxlength="25"
 										id="totalNumberDays" value="#{hrAction.hr.totalNumbersDays}"
 										required="true"
 										requiredMessage="#{mensaje.message_campo_requerido}">
 										<f:validateLength maximum="25" />
 										<a:ajax event="valueChange"
 											listener="#{hrAction.calculateCostPerHour()}"
-											render="hourCost" execute="@this" />
+											render="hourCost, hourCostH" execute="@this" />
 									</h:inputText>
+									<h:outputText value="" />
 									<rich:message for="totalNumberDays" />
 
 									<h:outputText
 										value="#{messageHumanResources.human_resource_label_hour_cost}"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="*" styleClass="required" />
-									<h:inputText styleClass="colTextoMini" maxlength="25"
+									<h:inputText styleClass="colTextoXCorto" maxlength="25"
 										id="hourCost" value="#{hrAction.hr.hourCost}" required="true"
 										requiredMessage="#{mensaje.message_campo_requerido}">
 										<f:validateLength maximum="25" />
+										<f:convertNumber maxFractionDigits="2" type="currency"
+											currencySymbol="" locale="#{idioma.locale}" />
+										<a:ajax event="valueChange" render="hourCostH" execute="@this" />
 									</h:inputText>
+									<h:inputHidden id="hourCostH" value="#{hrAction.hr.hourCost}" />
 									<rich:message for="hourCost" />
 
 									<h:outputText
 										value="#{messageHumanResources.human_resource_label_cost_overtime_hour}"
 										styleClass="etiquetaTitulo" />
 									<h:outputText value="" />
-									<h:inputText styleClass="colTextoMini" maxlength="25"
+									<h:inputText styleClass="colTextoXCorto" maxlength="25"
 										id="hourCostOvTim" value="#{hrAction.hr.hourCostOvertime}">
 										<f:validateLength maximum="25" />
 									</h:inputText>
+									<h:outputText value="" />
 									<rich:message for="hourCostOvTim" />
 
 								</h:panelGrid>
