@@ -2,6 +2,8 @@ package co.informatix.erp.humanResources.action;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
@@ -10,11 +12,14 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.dao.NoveltyTypeDao;
 import co.informatix.erp.humanResources.entities.NoveltyType;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
+import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ValidacionesAction;
 
 /**
  * This class implements the logic related to create, update, and delete types
@@ -28,6 +33,11 @@ import co.informatix.erp.utils.EncodeFilter;
 public class NoveltyTypeAction implements Serializable {
 
 	private NoveltyType noveltyType;
+	private Paginador pagination = new Paginador();
+
+	private String nameSearch;
+
+	private List<NoveltyType> listNoveltyType;
 
 	@EJB
 	private NoveltyTypeDao noveltyTypeDao;
@@ -48,6 +58,50 @@ public class NoveltyTypeAction implements Serializable {
 	}
 
 	/**
+	 * @return pagination: Management paginated list of the types of novelty.
+	 */
+	public Paginador getPagination() {
+		return pagination;
+	}
+
+	/**
+	 * @param pagination
+	 *            : Management paginated list of the types of novelty.
+	 */
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
+	}
+
+	/**
+	 * @return nameSearch: Novelty type to search.
+	 */
+	public String getNameSearch() {
+		return nameSearch;
+	}
+
+	/**
+	 * @param nameSearch
+	 *            : Novelty type to search.
+	 */
+	public void setNameSearch(String nameSearch) {
+		this.nameSearch = nameSearch;
+	}
+
+	/**
+	 * @return listNoveltyType: list of novelty type
+	 */
+	public List<NoveltyType> getListNoveltyType() {
+		return listNoveltyType;
+	}
+
+	/**
+	 * @param listNoveltyType
+	 */
+	public void setListNoveltyType(List<NoveltyType> listNoveltyType) {
+		this.listNoveltyType = listNoveltyType;
+	}
+
+	/**
 	 * Method to edit or create a new novelty type.
 	 * 
 	 * @param noveltyType
@@ -62,6 +116,103 @@ public class NoveltyTypeAction implements Serializable {
 			this.noveltyType = new NoveltyType();
 		}
 		return "regNoveltyType";
+	}
+
+	/**
+	 * Method that initialize the parameters of the search and load initial list
+	 * of novelty type.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @return consultNoveltyType: Method containing navigation rule that
+	 *         redirect to manage novelty type.
+	 */
+	public String initializeSearch() {
+		this.nameSearch = "";
+		return consultNoveltyType();
+	}
+
+	/**
+	 * Method that consult the novelty type exist in database.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @return gesNoveltyType: Navigation rule that redirect to manage novelty
+	 *         type
+	 */
+	public String consultNoveltyType() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleNoveltyType = ControladorContexto
+				.getBundle("messageHumanResources");
+		ValidacionesAction validations = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		this.listNoveltyType = new ArrayList<NoveltyType>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
+
+		try {
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = noveltyTypeDao.quantityNoveltyType(query,
+					parameters);
+			if (quantity != null) {
+				pagination.paginar(quantity);
+			}
+			listNoveltyType = noveltyTypeDao.consultNoveltyType(
+					pagination.getInicio(), pagination.getRango(), query,
+					parameters);
+			if ((listNoveltyType == null || listNoveltyType.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
+						.format(bundle
+								.getString("message_no_existen_registros_criterio_busqueda"),
+								unionMessagesSearch);
+			} else if (listNoveltyType == null || listNoveltyType.size() <= 0) {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_existen_registros"));
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				String message = bundle
+						.getString("message_existen_registros_criterio_busqueda");
+				messageSearch = MessageFormat.format(message,
+						bundleNoveltyType.getString("novelty_type_label"),
+						unionMessagesSearch);
+			}
+			validations.setMensajeBusqueda(messageSearch);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+
+		return "gesNoveltyType";
+	}
+
+	/**
+	 * This method constructs the query to the advanced search also allows build
+	 * messages to be displayed depending on the search criteria selected by the
+	 * user.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param consult
+	 *            : Consult concatenate.
+	 * @param parameters
+	 *            : List of search parameters.
+	 * @param bundle
+	 *            : Access language tags.
+	 * @param unionMessagesSearch
+	 *            : Message search.
+	 */
+	private void advancedSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("WHERE UPPER(nt.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
+					"keyword");
+			parameters.add(item);
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
+					+ '"' + this.nameSearch + '"');
+		}
 	}
 
 	/**
@@ -86,16 +237,6 @@ public class NoveltyTypeAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return consultNoveltyType();
-	}
-
-	/**
-	 * Consult the list of the novelty type.
-	 * 
-	 * @return gesContrType: Navigation rule that redirects to manage contract
-	 *         types.
-	 */
-	public String consultNoveltyType() {
-		return "";
 	}
 
 	/**

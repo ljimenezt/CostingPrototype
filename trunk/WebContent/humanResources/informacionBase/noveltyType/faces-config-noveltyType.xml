@@ -9,8 +9,10 @@
 			<from-outcome>regNoveltyType</from-outcome>
 			<to-view-id>/humanResources/informacionBase/noveltyType/registerNoveltyType.xhtml</to-view-id>
 		</navigation-case>
-
-
+		<navigation-case>
+			<from-outcome>gesNoveltyType</from-outcome>
+			<to-view-id>/humanResources/informacionBase/noveltyType/manageNoveltyType.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 </faces-config>
