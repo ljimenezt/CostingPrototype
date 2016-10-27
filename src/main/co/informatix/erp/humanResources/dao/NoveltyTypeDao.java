@@ -58,7 +58,7 @@ public class NoveltyTypeDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of existingnovelty types in the database filtering
+	 * Returns the number of existing novelty types in the database filtering
 	 * information search by the values sent.
 	 * 
 	 * @param consult

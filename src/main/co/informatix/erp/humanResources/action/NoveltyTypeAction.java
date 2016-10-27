@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
@@ -271,4 +272,31 @@ public class NoveltyTypeAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
+	/**
+	 * Method that eliminates the novelty type in database.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @return consultNoveltyType: Method that consults novelty Types; it
+	 *         redirects to the novelty management template.
+	 */
+	public String deleteNoveltyType() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		try {
+			noveltyTypeDao.removeNoveltyType(this.noveltyType);
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString("message_registro_eliminar"),
+					this.noveltyType.getName()));
+		} catch (EJBException e) {
+			String format = MessageFormat.format(
+					bundle.getString("message_existe_relacion_eliminar"),
+					this.noveltyType.getName());
+			ControladorContexto.mensajeError(e, null, format);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return consultNoveltyType();
+	}
+
 }
