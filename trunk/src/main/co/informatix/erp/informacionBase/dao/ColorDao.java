@@ -3,6 +3,7 @@ package co.informatix.erp.informacionBase.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -15,6 +16,7 @@ import co.informatix.erp.informacionBase.entities.Color;
  * @author Claudia.Rey
  */
 @SuppressWarnings("serial")
+@Stateless
 public class ColorDao implements Serializable {
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
@@ -50,6 +52,21 @@ public class ColorDao implements Serializable {
 	 */
 	public void removeColor(Color color) throws Exception {
 		em.remove(em.merge(color));
+	}
+
+	/**
+	 * This method consult the color Object by identifier.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param id
+	 *            : color identifier to consult.
+	 * 
+	 * @return Color: object found with the search parameter identifier.
+	 * @throws Exception
+	 */
+	public Color colorById(int id) throws Exception {
+		return em.find(Color.class, id);
 	}
 
 	/**

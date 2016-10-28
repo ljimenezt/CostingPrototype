@@ -47,6 +47,17 @@
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtName" />
 
+					<h:outputText value="#{messageBaseInformation.color_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:selectOneMenu value="#{noveltyTypeAction.idColor}"
+						styleClass="colTextoMediano" id="comboColor" required="true"
+						validator="#{validacionesAction.validarComboRequerido}">
+						<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
+						<f:selectItems value="#{noveltyTypeAction.listColorItems}" />
+					</h:selectOneMenu>
+					<rich:message for="comboColor" />
+
 					<h:outputText styleClass="etiquetaTitulo"
 						value="#{mensaje.label_description}" />
 					<h:outputText value="" />
@@ -63,6 +74,7 @@
 				<div align="center">
 					<a:commandButton render="formConfirm:popUpConfirm,formGenerico"
 						execute="formNoveltyType"
+						actionListener="#{noveltyTypeAction.validateColor()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirm')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>

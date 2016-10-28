@@ -36,7 +36,7 @@ public class NoveltyTypeDao implements Serializable {
 	}
 
 	/**
-	 * Edit the information for one novelty type. 
+	 * Edit the information for one novelty type.
 	 * 
 	 * @param noveltyType
 	 *            : Novelty to edit.
@@ -80,7 +80,7 @@ public class NoveltyTypeDao implements Serializable {
 		}
 		return (Long) q.getSingleResult();
 	}
-	
+
 	/**
 	 * Consult if the name of the novelty type exist in the database when saving
 	 * or editing.
@@ -113,7 +113,39 @@ public class NoveltyTypeDao implements Serializable {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Consult if the color exist in the database when saving or editing.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param id
+	 *            : id of color to verify.
+	 * @return NoveltyType: Object found with the search parameters.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public NoveltyType colorExists(int idNovelType, int idColor)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT nt FROM NoveltyType nt ");
+		query.append("JOIN FETCH nt.color c ");
+		query.append("WHERE c.id = :idColor ");
+		if (idNovelType != 0) {
+			query.append("AND nt.id <> :idNovelType ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idColor", idColor);
+		if (idNovelType != 0) {
+			q.setParameter("idNovelType", idNovelType);
+		}
+		List<NoveltyType> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
+
 	/**
 	 * This method consultation novelty types with a certain range sent as a
 	 * parameter and filtering the information by the values of sent search.
@@ -150,6 +182,5 @@ public class NoveltyTypeDao implements Serializable {
 		}
 		return null;
 	}
-
 
 }
