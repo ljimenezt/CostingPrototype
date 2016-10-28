@@ -17,6 +17,8 @@ import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.dao.NoveltyTypeDao;
 import co.informatix.erp.humanResources.entities.NoveltyType;
+import co.informatix.erp.informacionBase.dao.ColorDao;
+import co.informatix.erp.informacionBase.entities.Color;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
@@ -39,9 +41,12 @@ public class NoveltyTypeAction implements Serializable {
 	private String nameSearch;
 
 	private List<NoveltyType> listNoveltyType;
+	private List<SelectItem> listColorItems;
 
 	@EJB
 	private NoveltyTypeDao noveltyTypeDao;
+	@EJB
+	private ColorDao colorDao;
 
 	/**
 	 * @return noveltyType: Object of the novelty type.
@@ -97,9 +102,18 @@ public class NoveltyTypeAction implements Serializable {
 
 	/**
 	 * @param listNoveltyType
+	 *            : list of novelty type
 	 */
 	public void setListNoveltyType(List<NoveltyType> listNoveltyType) {
 		this.listNoveltyType = listNoveltyType;
+	}
+
+	/**
+	 * @return listColorItems: color items that are loaded into the combo of the
+	 *         novelty type interface.
+	 */
+	public List<SelectItem> getListColorItems() {
+		return listColorItems;
 	}
 
 	/**
@@ -179,6 +193,7 @@ public class NoveltyTypeAction implements Serializable {
 						bundleNoveltyType.getString("novelty_type_label"),
 						unionMessagesSearch);
 			}
+			loadColorCombo();
 			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -213,6 +228,21 @@ public class NoveltyTypeAction implements Serializable {
 			parameters.add(item);
 			unionMessagesSearch.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
+		}
+	}
+
+	/**
+	 * It allows loading the item select the colors.
+	 * 
+	 * @throws Exception
+	 */
+	private void loadColorCombo() throws Exception {
+		listColorItems = new ArrayList<SelectItem>();
+		List<Color> colors = colorDao.queryColors();
+		if (colors != null) {
+			for (Color c : colors) {
+				listColorItems.add(new SelectItem(c.getId(), c.getName()));
+			}
 		}
 	}
 

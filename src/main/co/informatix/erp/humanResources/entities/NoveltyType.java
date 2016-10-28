@@ -4,10 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import co.informatix.erp.informacionBase.entities.Color;
 
 /**
  * This class maps the novelty_type table, which contains the information of the
@@ -23,6 +28,8 @@ public class NoveltyType implements Serializable {
 	private int id;
 	private String name;
 	private String description;
+
+	private Color color;
 
 	/**
 	 * @return id: Novelty type identifier.
@@ -45,7 +52,7 @@ public class NoveltyType implements Serializable {
 	/**
 	 * @return name: Novelty type name.
 	 */
-	@Column(name = "name", length = 250, nullable = false)
+	@Column(name = "name", length = 250, nullable = false, unique = true)
 	public String getName() {
 		return name;
 	}
@@ -72,6 +79,23 @@ public class NoveltyType implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return color: color identifier for the types of novelty.
+	 */
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_color", referencedColumnName = "id", nullable = false, unique = true)
+	public Color getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color
+	 *            : color identifier for the types of novelty.
+	 */
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	@Override
