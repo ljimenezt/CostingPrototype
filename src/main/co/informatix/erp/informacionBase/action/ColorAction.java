@@ -2,19 +2,23 @@ package co.informatix.erp.informacionBase.action;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import co.informatix.erp.informacionBase.dao.ColorDao;
 import co.informatix.erp.informacionBase.entities.Color;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ValidacionesAction;
 
 /**
  * This class implements the logic related to create, update, and delete Colors
@@ -53,7 +57,7 @@ public class ColorAction implements Serializable {
 	}
 
 	/**
-	 * @return pagination: Management paginated list of the types of novelty.
+	 * @return pagination: Management paginated list of colors.
 	 */
 	public Paginador getPagination() {
 		return pagination;
@@ -61,14 +65,14 @@ public class ColorAction implements Serializable {
 
 	/**
 	 * @param pagination
-	 *            : Management paginated list of the types of novelty.
+	 *            : Management paginated list of colors.
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
 	}
 
 	/**
-	 * @return nameSearch: Novelty type to search.
+	 * @return nameSearch: color type to search.
 	 */
 	public String getNameSearch() {
 		return nameSearch;
@@ -76,7 +80,7 @@ public class ColorAction implements Serializable {
 
 	/**
 	 * @param nameSearch
-	 *            : Novelty type to search.
+	 *            : color type to search.
 	 */
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
@@ -127,88 +131,83 @@ public class ColorAction implements Serializable {
 	}
 
 	/**
-	 * Method that consult the novelty type exist in database.
+	 * Method that consult the color exist in database.
 	 * 
 	 * @author Claudia.Rey
 	 * 
 	 * @return gesColor: Navigation rule that redirect to manage color.
 	 */
 	public String consultColor() {
-		// ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		// ResourceBundle bundleNoveltyType = ControladorContexto
-		// .getBundle("messageHumanResources");
-		// ValidacionesAction validations = ControladorContexto
-		// .getContextBean(ValidacionesAction.class);
-		// this.listNoveltyType = new ArrayList<NoveltyType>();
-		// List<SelectItem> parameters = new ArrayList<SelectItem>();
-		// StringBuilder query = new StringBuilder();
-		// StringBuilder unionMessagesSearch = new StringBuilder();
-		// String messageSearch = "";
-		//
-		// try {
-		// advancedSearch(query, parameters, bundle, unionMessagesSearch);
-		// Long quantity = noveltyTypeDao.quantityNoveltyType(query,
-		// parameters);
-		// if (quantity != null) {
-		// pagination.paginar(quantity);
-		// }
-		// listNoveltyType = noveltyTypeDao.consultNoveltyType(
-		// pagination.getInicio(), pagination.getRango(), query,
-		// parameters);
-		// if ((listNoveltyType == null || listNoveltyType.size() <= 0)
-		// && !"".equals(unionMessagesSearch.toString())) {
-		// messageSearch = MessageFormat
-		// .format(bundle
-		// .getString("message_no_existen_registros_criterio_busqueda"),
-		// unionMessagesSearch);
-		// } else if (listNoveltyType == null || listNoveltyType.size() <= 0) {
-		// ControladorContexto.mensajeInformacion(null,
-		// bundle.getString("message_no_existen_registros"));
-		// } else if (!"".equals(unionMessagesSearch.toString())) {
-		// String message = bundle
-		// .getString("message_existen_registros_criterio_busqueda");
-		// messageSearch = MessageFormat.format(message,
-		// bundleNoveltyType.getString("novelty_type_label"),
-		// unionMessagesSearch);
-		// }
-		// loadColorCombo();
-		// validations.setMensajeBusqueda(messageSearch);
-		// } catch (Exception e) {
-		// ControladorContexto.mensajeError(e);
-		// }
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleColor = ControladorContexto
+				.getBundle("messageBaseInformation");
+		ValidacionesAction validations = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		this.listColors = new ArrayList<Color>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
+
+		try {
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = colorDao.quantityColor(query, parameters);
+			if (quantity != null) {
+				pagination.paginar(quantity);
+			}
+			listColors = colorDao.consultColor(pagination.getInicio(),
+					pagination.getRango(), query, parameters);
+			if ((listColors == null || listColors.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
+						.format(bundle
+								.getString("message_no_existen_registros_criterio_busqueda"),
+								unionMessagesSearch);
+			} else if (listColors == null || listColors.size() <= 0) {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_existen_registros"));
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				String message = bundle
+						.getString("message_existen_registros_criterio_busqueda");
+				messageSearch = MessageFormat.format(message,
+						bundleColor.getString("color_label"),
+						unionMessagesSearch);
+			}
+			validations.setMensajeBusqueda(messageSearch);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 		return "gesColor";
 	}
 
-	// /**
-	// * This method constructs the query to the advanced search also allows
-	// build
-	// * messages to be displayed depending on the search criteria selected by
-	// the
-	// * user.
-	// *
-	// * @author Claudia.Rey
-	// *
-	// * @param consult
-	// * : Consult concatenate.
-	// * @param parameters
-	// * : List of search parameters.
-	// * @param bundle
-	// * : Access language tags.
-	// * @param unionMessagesSearch
-	// * : Message search.
-	// */
-	// private void advancedSearch(StringBuilder consult,
-	// List<SelectItem> parameters, ResourceBundle bundle,
-	// StringBuilder unionMessagesSearch) {
-	// if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-	// consult.append("WHERE UPPER(nt.name) LIKE UPPER(:keyword) ");
-	// SelectItem item = new SelectItem("%" + this.nameSearch + "%",
-	// "keyword");
-	// parameters.add(item);
-	// unionMessagesSearch.append(bundle.getString("label_name") + ": "
-	// + '"' + this.nameSearch + '"');
-	// }
-	// }
+	/**
+	 * This method constructs the query to the advanced search also allows build
+	 * messages to be displayed depending on the search criteria selected by the
+	 * user.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param consult
+	 *            : Consult concatenate.
+	 * @param parameters
+	 *            : List of search parameters.
+	 * @param bundle
+	 *            : Access language tags.
+	 * @param unionMessagesSearch
+	 *            : Message search.
+	 */
+	private void advancedSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
+		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
+			consult.append("WHERE UPPER(c.name) LIKE UPPER(:keyword) ");
+			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
+					"keyword");
+			parameters.add(item);
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
+					+ '"' + this.nameSearch + '"');
+		}
+	}
 
 	/**
 	 * Method used to save or edit the color.
@@ -268,30 +267,30 @@ public class ColorAction implements Serializable {
 		// }
 	}
 
-	// /**
-	// * Method that eliminates the novelty type in database.
-	// *
-	// * @author Claudia.Rey
-	// *
-	// * @return consultNoveltyType: Method that consults novelty Types; it
-	// * redirects to the novelty management template.
-	// */
-	// public String deleteNoveltyType() {
-	// ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-	// try {
-	// noveltyTypeDao.removeNoveltyType(this.noveltyType);
-	// ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-	// bundle.getString("message_registro_eliminar"),
-	// this.noveltyType.getName()));
-	// } catch (EJBException e) {
-	// String format = MessageFormat.format(
-	// bundle.getString("message_existe_relacion_eliminar"),
-	// this.noveltyType.getName());
-	// ControladorContexto.mensajeError(e, null, format);
-	// } catch (Exception e) {
-	// ControladorContexto.mensajeError(e);
-	// }
-	// return consultNoveltyType();
-	// }
+	/**
+	 * Method that eliminates the color in database.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @return consultColor: Method that consults colors; it redirects to the
+	 *         color management template.
+	 */
+	public String deleteColor() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		try {
+			colorDao.removeColor(this.color);
+			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
+					bundle.getString("message_registro_eliminar"),
+					this.color.getName()));
+		} catch (EJBException e) {
+			String format = MessageFormat.format(
+					bundle.getString("message_existe_relacion_eliminar"),
+					this.color.getName());
+			ControladorContexto.mensajeError(e, null, format);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return consultColor();
+	}
 
 }
