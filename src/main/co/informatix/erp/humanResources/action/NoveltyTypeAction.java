@@ -40,6 +40,8 @@ public class NoveltyTypeAction implements Serializable {
 
 	private String nameSearch;
 
+	private int idColor;
+
 	private List<NoveltyType> listNoveltyType;
 	private List<SelectItem> listColorItems;
 
@@ -94,6 +96,21 @@ public class NoveltyTypeAction implements Serializable {
 	}
 
 	/**
+	 * @return idColor: Color identifier.
+	 */
+	public int getIdColor() {
+		return idColor;
+	}
+
+	/**
+	 * @param idColor
+	 *            : Color identifier.
+	 */
+	public void setIdColor(int idColor) {
+		this.idColor = idColor;
+	}
+
+	/**
 	 * @return listNoveltyType: list of novelty type
 	 */
 	public List<NoveltyType> getListNoveltyType() {
@@ -125,10 +142,17 @@ public class NoveltyTypeAction implements Serializable {
 	 *         registerNoveltyType.
 	 */
 	public String addEditNoveltyType(NoveltyType noveltyType) {
-		if (noveltyType != null) {
-			this.noveltyType = noveltyType;
-		} else {
-			this.noveltyType = new NoveltyType();
+		try {
+			if (noveltyType != null) {
+				this.noveltyType = noveltyType;
+				this.idColor = this.noveltyType.getColor().getId();
+			} else {
+				this.noveltyType = new NoveltyType();
+				this.idColor = 0;
+			}
+			loadColorCombo();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 		return "regNoveltyType";
 	}
@@ -144,6 +168,7 @@ public class NoveltyTypeAction implements Serializable {
 	 */
 	public String initializeSearch() {
 		this.nameSearch = "";
+		this.idColor = 0;
 		return consultNoveltyType();
 	}
 
@@ -193,12 +218,10 @@ public class NoveltyTypeAction implements Serializable {
 						bundleNoveltyType.getString("novelty_type_label"),
 						unionMessagesSearch);
 			}
-			loadColorCombo();
 			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-
 		return "gesNoveltyType";
 	}
 
@@ -256,6 +279,7 @@ public class NoveltyTypeAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String messageLog = "message_registro_modificar";
 		try {
+			noveltyType.setColor(colorDao.colorById(idColor));
 			if (noveltyType.getId() != 0) {
 				noveltyTypeDao.editNoveltyType(noveltyType);
 			} else {
@@ -285,8 +309,10 @@ public class NoveltyTypeAction implements Serializable {
 			Object value) {
 		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
+		NoveltyType noveltyTypeAux = new NoveltyType();
+
 		try {
-			NoveltyType noveltyTypeAux = noveltyTypeDao.nameExists(name,
+			noveltyTypeAux = noveltyTypeDao.nameExists(name,
 					noveltyType.getId());
 			if (noveltyTypeAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
@@ -297,6 +323,24 @@ public class NoveltyTypeAction implements Serializable {
 			if (!EncodeFilter.validarXSS(name, clientId,
 					"locate.regex.letras.numeros")) {
 				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * To validate the name of the color, to not repeat in the database.
+	 */
+	public void validateColor() {
+		try {
+			NoveltyType noveltyTypeAux = noveltyTypeDao.colorExists(
+					noveltyType.getId(), idColor);
+			if (noveltyTypeAux != null) {
+				String messageExistence = "message_ya_existe_verifique";
+				ControladorContexto.mensajeErrorEspecifico(
+						"formNoveltyType:comboColor", messageExistence,
+						"mensaje");
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
