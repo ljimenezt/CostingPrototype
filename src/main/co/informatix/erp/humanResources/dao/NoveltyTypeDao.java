@@ -136,6 +136,7 @@ public class NoveltyTypeDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT nt FROM NoveltyType nt ");
+		query.append("JOIN FETCH nt.color c ");
 		query.append(consult);
 		query.append("ORDER BY nt.name ");
 		Query q = em.createQuery(query.toString());
