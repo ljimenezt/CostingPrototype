@@ -14,6 +14,7 @@
 		value="mensaje.label_manage,messageHumanResources.novelty_type_label" />
 	<ui:define name="body">
 		<t:saveState value="#{noveltyTypeAction}" />
+		<t:saveState value="#{colorAction}" />
 		<ui:param name="listaVacia"
 			value="#{noveltyTypeAction.listNoveltyType eq null or (empty noveltyTypeAction.listNoveltyType)}" />
 		<ui:param name="anchoTabla" value="anchoTres" />
@@ -60,6 +61,11 @@
 							onclick="#{rich:component('statPane')}.show();">
 						</h:commandLink>
 					</rich:column>
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{messageBaseInformation.color_label}</f:facet>
+						<h:outputText value="#{novelty.color.name}" />
+					</rich:column>
+					
 					<rich:column styleClass="colTextoExxtraLargo">
 						<f:facet name="header">#{mensaje.label_description}</f:facet>
 						<h:outputText value="#{novelty.description}" />
