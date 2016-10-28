@@ -36,7 +36,7 @@ public class NoveltyTypeDao implements Serializable {
 	}
 
 	/**
-	 * Edit the track information for one type of contract.
+	 * Edit the information for one novelty type. 
 	 * 
 	 * @param noveltyType
 	 *            : Novelty to edit.
@@ -127,7 +127,7 @@ public class NoveltyTypeDao implements Serializable {
 	 *            user.
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return List<NoveltyType>: List of contract types.
+	 * @return List<NoveltyType>: List of novelty types.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
