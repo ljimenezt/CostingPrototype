@@ -56,6 +56,7 @@
 			/baseInformation/unitConversion/faces-config-unit-conversion.xml,
 			/baseInformation/ivaRate/faces-config-ivaRate.xml,
 			/baseInformation/systemProfile/faces-config-systemProfile.xml,
+			/baseInformation/color/faces-config-color.xml,
 			
             /organizaciones/empresas/faces-config-empresas.xml,
             /organizaciones/organizacion/faces-config-organizacion.xml,
