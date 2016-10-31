@@ -86,6 +86,72 @@ public class ColorDao implements Serializable {
 	}
 
 	/**
+	 * Consult if the name of the color exist in the database when saving or
+	 * editing.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param name
+	 *            : Name of the color to verify.
+	 * @param id
+	 *            : id of the color to verify.
+	 * @return Color: Object found with the search parameters.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Color nameExists(String name, int id) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT c FROM Color c ");
+		query.append("WHERE UPPER(c.name)=UPPER(:name) ");
+		if (id != 0) {
+			query.append("AND c.id <> :id ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("name", name);
+		if (id != 0) {
+			q.setParameter("id", id);
+		}
+		List<Color> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
+
+	/**
+	 * Consult if the code of the color exist in the database when saving or
+	 * editing.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param code
+	 *            : Code of the color to verify.
+	 * @param id
+	 *            : id of the color to verify.
+	 * @return Color: Object found with the search parameters.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Color codeExists(String code, int id) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT c FROM Color c ");
+		query.append("WHERE c.code = :code ");
+		if (id != 0) {
+			query.append("AND c.id <> :id ");
+		}
+		Query q = em.createQuery(query.toString());
+		q.setParameter("code", code);
+		if (id != 0) {
+			q.setParameter("id", id);
+		}
+		List<Color> results = q.getResultList();
+		if (results.size() > 0) {
+			return results.get(0);
+		}
+		return null;
+	}
+
+	/**
 	 * Returns the number of existing color in the database filtering
 	 * information search by the values sent.
 	 * 

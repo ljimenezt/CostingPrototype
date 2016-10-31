@@ -11,12 +11,14 @@ import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.informacionBase.dao.ColorDao;
 import co.informatix.erp.informacionBase.entities.Color;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
@@ -247,24 +249,57 @@ public class ColorAction implements Serializable {
 	 */
 	public void validateNameXSS(FacesContext context, UIComponent toValidate,
 			Object value) {
-		// String name = (String) value;
-		// String clientId = toValidate.getClientId(context);
-		// try {
-		// Color colorAux = colorDao.nameExists(name,
-		// color.getId());
-		// if (colorAux != null) {
-		// String messageExistence = "message_ya_existe_verifique";
-		// ControladorContexto.mensajeErrorEspecifico(clientId,
-		// messageExistence, "mensaje");
-		// ((UIInput) toValidate).setValid(false);
-		// }
-		// if (!EncodeFilter.validarXSS(name, clientId,
-		// "locate.regex.letras.numeros")) {
-		// ((UIInput) toValidate).setValid(false);
-		// }
-		// } catch (Exception e) {
-		// ControladorContexto.mensajeError(e);
-		// }
+		String name = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			Color colorAux = colorDao.nameExists(name, color.getId());
+			if (colorAux != null) {
+				String messageExistence = "message_ya_existe_verifique";
+				ControladorContexto.mensajeErrorEspecifico(clientId,
+						messageExistence, "mensaje");
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(name, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * To validate the code of the color, to not repeat in the database and
+	 * validates the character formatting.
+	 * 
+	 * @param context
+	 *            : Application context.
+	 * @param toValidate
+	 *            : Validate component.
+	 * @param value
+	 *            : Field value is validated.
+	 */
+	public void validateCode(FacesContext context, UIComponent toValidate,
+			Object value) {
+		String code = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			if ((code).matches("((^#)([A-Fa-f0-9]+)|\\s)")
+					&& code.length() == 7) {
+				Color colorAux = colorDao.codeExists(code, color.getId());
+				if (colorAux != null) {
+					String messageExistence = "message_ya_existe_verifique";
+					ControladorContexto.mensajeErrorEspecifico(clientId,
+							messageExistence, "mensaje");
+					((UIInput) toValidate).setValid(false);
+				}
+			} else {
+				ControladorContexto.mensajeErrorEspecifico(clientId,
+						"message_validate_format_color", "mensaje");
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 
 	/**
@@ -292,5 +327,4 @@ public class ColorAction implements Serializable {
 		}
 		return consultColor();
 	}
-
 }

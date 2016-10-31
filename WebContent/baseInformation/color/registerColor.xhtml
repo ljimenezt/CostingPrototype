@@ -9,10 +9,9 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="noveltyTypeAction.addEditNoveltyType(null)" />
+	<ui:param name="action" value="colorAction.addEditColor(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_register,messageHumanResources.novelty_type_label" />
+		value="mensaje.label_register,messageBaseInformation.color_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -20,49 +19,46 @@
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){    
-			$('#formNoveltyType\\:txaDescription').maxlength({   
+			$('#formColor\\:txaDescription').maxlength({   
 			events: [],     
 			max: 250,    
 			feedbackText: "#{mensaje.label_characters_left}",  
 			showFeedback: 'active'    
 			}); 
-		});		
+		});	 
 		</script>
-		<t:saveState value="#{noveltyTypeAction}" />
-		<h:form id="formNoveltyType">
+		<t:saveState value="#{colorAction}" />
+		<h:form id="formColor">
 			<rich:panel
-				header="#{mensaje.label_register} #{messageHumanResources.novelty_type_label}"
-				styleClass="anchoUno MinH253P" id="panelNoveltyType">
+				header="#{mensaje.label_register} #{messageBaseInformation.color_label}"
+				styleClass="anchoUno MinH253P" id="panelColor">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 					columnClasses="tdAlignTop,,,">
+					<h:outputText value="#{messageBaseInformation.color_code_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText value="#{colorAction.color.code}"
+						styleClass="colTextoMediano" id="txtCode" required="true"
+						size="41" maxlength="7" validator="#{colorAction.validateCode}"
+						requiredMessage="#{mensaje.message_campo_requerido}" />
+					<rich:message for="txtCode" />
+
 					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
-					<h:inputText value="#{noveltyTypeAction.noveltyType.name}"
+					<h:inputText value="#{colorAction.color.name}"
 						styleClass="colTextoMediano" id="txtName" required="true"
-						size="41" maxlength="250"
-						validator="#{noveltyTypeAction.validateNameXSS}"
+						size="41" maxlength="50"
+						validator="#{colorAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}" />
 					<rich:message for="txtName" />
-
-					<h:outputText value="#{messageBaseInformation.color_label}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:selectOneMenu value="#{noveltyTypeAction.idColor}"
-						styleClass="colTextoMediano" id="comboColor" required="true"
-						validator="#{validacionesAction.validarComboRequerido}">
-						<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-						<f:selectItems value="#{noveltyTypeAction.listColorItems}" />
-					</h:selectOneMenu>
-					<rich:message for="comboColor" />
 
 					<h:outputText styleClass="etiquetaTitulo"
 						value="#{mensaje.label_description}" />
 					<h:outputText value="" />
-					<h:inputTextarea
-						value="#{noveltyTypeAction.noveltyType.description}"
+					<h:inputTextarea value="#{colorAction.color.description}"
 						styleClass="colTextoMedianoTextArea" id="txaDescription"
 						validator="#{encodeFilter.validarScripting}">
 						<f:validateLength maximum="250" />
@@ -73,8 +69,7 @@
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirm:popUpConfirm,formGenerico"
-						execute="formNoveltyType"
-						actionListener="#{noveltyTypeAction.validateColor()}"
+						execute="formColor"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirm')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>
@@ -98,14 +93,16 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
+						<h:outputText value="#{messageBaseInformation.color_code_label}:" />
+						<h:outputText value="#{colorAction.color.code}" />
 						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{noveltyTypeAction.noveltyType.name}" />
+						<h:outputText value="#{colorAction.color.name}" />
 						<h:outputText value="#{mensaje.label_description}:" />
-						<h:outputText value="#{noveltyTypeAction.noveltyType.description}" />
+						<h:outputText value="#{colorAction.color.description}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{noveltyTypeAction.saveNoveltyType()}"
+							action="#{colorAction.saveColor()}"
 							onclick="#{rich:component('popUpConfirm')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirm')}.hide()" />
