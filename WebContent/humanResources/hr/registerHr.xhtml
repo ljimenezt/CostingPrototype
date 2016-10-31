@@ -321,6 +321,8 @@
 									<h:inputText styleClass="colTextoXCorto" maxlength="25"
 										id="hourCostOvTim" value="#{hrAction.hr.hourCostOvertime}">
 										<f:validateLength maximum="25" />
+										<f:convertNumber maxFractionDigits="2" type="currency"
+											currencySymbol="" locale="#{idioma.locale}" />
 									</h:inputText>
 									<h:outputText value="" />
 									<rich:message for="hourCostOvTim" />
