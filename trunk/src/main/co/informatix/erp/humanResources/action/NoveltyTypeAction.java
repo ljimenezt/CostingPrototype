@@ -309,10 +309,8 @@ public class NoveltyTypeAction implements Serializable {
 			Object value) {
 		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
-		NoveltyType noveltyTypeAux = new NoveltyType();
-
 		try {
-			noveltyTypeAux = noveltyTypeDao.nameExists(name,
+			NoveltyType noveltyTypeAux = noveltyTypeDao.nameExists(name,
 					noveltyType.getId());
 			if (noveltyTypeAux != null) {
 				String messageExistence = "message_ya_existe_verifique";

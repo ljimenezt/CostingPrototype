@@ -119,7 +119,9 @@ public class NoveltyTypeDao implements Serializable {
 	 * 
 	 * @author Luna.Granados
 	 * 
-	 * @param id
+	 * @param idNovelType
+	 *            : id of novelty type to verify.
+	 * @param idColor
 	 *            : id of color to verify.
 	 * @return NoveltyType: Object found with the search parameters.
 	 * @throws Exception
