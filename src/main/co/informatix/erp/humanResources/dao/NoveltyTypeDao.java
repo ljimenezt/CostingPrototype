@@ -185,4 +185,18 @@ public class NoveltyTypeDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Method that I see all kinds NoveltyType object and stores it in a list
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @return List<NoveltyType>: NoveltyType List
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<NoveltyType> listNoveltyType() throws Exception {
+		Query q = em
+				.createQuery("SELECT nt FROM NoveltyType nt ORDER BY nt.name ");
+		return q.getResultList();
+	}
 }

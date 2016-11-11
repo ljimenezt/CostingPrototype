@@ -47,6 +47,17 @@ public class NoveltyDao implements Serializable {
 	}
 
 	/**
+	 * Remove the novelty in the database.
+	 * 
+	 * @param novelty
+	 *            : Novelty to edit.
+	 * @throws Exception
+	 */
+	public void removeNovelty(Novelty novelty) throws Exception {
+		em.remove(em.merge(novelty));
+	}
+
+	/**
 	 * This method allows consult the novelty list by current date.
 	 * 
 	 * @param date
