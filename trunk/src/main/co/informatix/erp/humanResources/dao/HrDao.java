@@ -322,4 +322,37 @@ public class HrDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * It makes a query with a certain records and it filters them with search
+	 * values.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param query
+	 *            : Query records depending on the user selected parameter.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List
+	 *         <Hr>
+	 *         : List of human resources.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Hr> queryHr(StringBuilder query, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT h FROM Hr h ");
+		queryBuilder.append(query);
+		queryBuilder.append("ORDER BY h.name ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		List<Hr> resultList = queryResult.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }
