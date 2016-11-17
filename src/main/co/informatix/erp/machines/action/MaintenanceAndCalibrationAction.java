@@ -318,6 +318,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * machine types.
 	 * 
 	 * @modify 13/11/2015 cristhian.pico
+	 * @modify 17/11/2016 Wilhelm.Boada
 	 * 
 	 * @return consultMaintenanceAndCalibration: Method consulting the
 	 *         maintenance and calibration, returns to the template management.
@@ -333,6 +334,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			this.machines = new Machines();
 			this.machines.setMachineTypes(new MachineTypes());
 			this.machineTypes = new MachineTypes();
+			this.nameSearch = "";
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -371,6 +373,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * Consult the list of existing maintenance and calibration.
 	 * 
 	 * @modify 13/11/2015 cristhian.pico
+	 * @modify 16/11/2016 Wilhelm.Boada
 	 * 
 	 * @return gesMaintAndCali: Navigation rule that redirects to manage
 	 *         maintenance and calibration.
@@ -382,37 +385,31 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		listMaintenanceAndCalibrations = new ArrayList<MaintenanceAndCalibration>();
-		List<MaintenanceAndCalibration> maintenanceAndCalibrationsAuxList = new ArrayList<MaintenanceAndCalibration>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder query = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
+		String param2 = ControladorContexto.getParam("param2");
+		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
+				: false;
+		String returns = fromModal ? "" : "gesMaintAndCali";
 		try {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long quantity = maintenanceAndCalibrationDao
 					.quantityMaintenanceAndCalibration(query, parameters);
 			if (quantity != null) {
-				pagination.paginar(quantity);
-			}
-			maintenanceAndCalibrationsAuxList = maintenanceAndCalibrationDao
-					.consultMaintenanceAndCalibration(pagination.getInicio(),
-							pagination.getRango(), query, parameters);
-
-			if (maintenanceAndCalibrationsAuxList != null) {
-				for (MaintenanceAndCalibration maintenanceItemAux : maintenanceAndCalibrationsAuxList) {
-					Machines machineAux = machinesDao
-							.machinesXId(maintenanceItemAux.getMachines()
-									.getIdMachine());
-					MachineTypes machineTypeAux = machineTypesDao
-							.machineTypeXId(machineAux.getMachineTypes()
-									.getIdMachineType());
-					machineAux.setMachineTypes(machineTypeAux);
-					maintenanceItemAux.setMachines(machineAux);
-					listMaintenanceAndCalibrations.add(maintenanceItemAux);
+				if (!fromModal) {
+					pagination.paginar(quantity);
+				} else {
+					pagination.paginarRangoDefinido(quantity, 5);
 				}
 			}
-
-			loadMachinesType();
+			listMaintenanceAndCalibrations = maintenanceAndCalibrationDao
+					.consultMaintenanceAndCalibration(pagination.getInicio(),
+							pagination.getRango(), query, parameters);
+			if (!fromModal) {
+				loadMachinesType();
+			}
 			if ((listMaintenanceAndCalibrations == null || listMaintenanceAndCalibrations
 					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat
@@ -431,11 +428,15 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 										.getString("maintenance_calibration_label"),
 								unionMessagesSearch);
 			}
-			validations.setMensajeBusqueda(messageSearch);
+			if (!fromModal) {
+				validations.setMensajeBusqueda(messageSearch);
+			} else {
+				validations.setMensajeBusquedaPopUp(messageSearch);
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesMaintAndCali";
+		return returns;
 	}
 
 	/**
@@ -444,6 +445,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * 
 	 * @modify 23/09/2015 marisol.calderon
 	 * @modify 13/11/2015 cristhian.pico
+	 * @modify 17/11/2016 Wilhelm.Boada
 	 * 
 	 * @param consult
 	 *            : query to concatenate.
@@ -482,36 +484,32 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 
 		if (this.machineTypes != null
 				&& this.machineTypes.getIdMachineType() > 0) {
-			int idMachineType = this.machineTypes.getIdMachineType();
-			MachineTypes machineTypeSearchMachine = machineTypesDao
-					.machineTypeXId(idMachineType);
 			consult.append(addFilter ? "AND " : "WHERE ");
 			addFilter = true;
-			consult.append("m.machineTypes.idMachineType = :idMachineType ");
-			SelectItem itemMachineType = new SelectItem(idMachineType,
-					"idMachineType");
+			consult.append("mt.idMachineType = :idMachineType ");
+			SelectItem itemMachineType = new SelectItem(
+					this.machineTypes.getIdMachineType(), "idMachineType");
 			parameters.add(itemMachineType);
-			String machineTypeName = bundleMachineType
+			String machineTypeName = (String) ValidacionesAction.getLabel(
+					machinesTypeItems, this.machineTypes.getIdMachineType());
+			unionMessagesSearch.append(bundleMachineType
 					.getString("machines_label_types")
 					+ ": "
 					+ '"'
-					+ machineTypeSearchMachine.getName() + '"' + " ";
-			unionMessagesSearch.append(machineTypeName);
+					+ machineTypeName + '"' + " ");
 		}
 
 		if (this.machines != null && this.machines.getIdMachine() > 0) {
-			int idMachineSearch = this.machines.getIdMachine();
-			Machines modelSearchMachine = machinesDao
-					.machinesXId(idMachineSearch);
 			consult.append(addFilter ? "AND " : "WHERE ");
 			addFilter = true;
 			consult.append("m.idMachine = :idMachineSearch  ");
-			SelectItem itemMachine = new SelectItem(idMachineSearch,
-					"idMachineSearch");
+			SelectItem itemMachine = new SelectItem(
+					this.machines.getIdMachine(), "idMachineSearch");
 			parameters.add(itemMachine);
-			String machineName = bundle.getString("label_model") + ": " + '"'
-					+ modelSearchMachine.getName() + '"' + " ";
-			unionMessagesSearch.append(machineName);
+			String machineName = (String) ValidacionesAction.getLabel(
+					machinesItems, this.machines.getIdMachine());
+			unionMessagesSearch.append(bundle.getString("label_model") + ": "
+					+ '"' + machineName + '"' + " ");
 		}
 
 		if (this.serialNumberSearch != null
@@ -529,10 +527,22 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 					+ this.serialNumberSearch + '"' + " ";
 			unionMessagesSearch.append(serialNumberMessage);
 		}
+
+		if ((this.nameSearch != null && !"".equals(this.nameSearch))) {
+			consult.append(addFilter ? "AND " : "WHERE ");
+			consult.append("UPPER(m.name) LIKE UPPER(:keywordName) ");
+			SelectItem nameItem = new SelectItem("%" + this.nameSearch + "%",
+					"keywordName");
+			parameters.add(nameItem);
+			unionMessagesSearch.append(bundle.getString("label_name") + ": "
+					+ '"' + this.nameSearch + '"' + " ");
+		}
 	}
 
 	/**
 	 * Method to edit or create a new maintenance and calibration.
+	 * 
+	 * @modify 17/11/2016 Wilhelm.Boada
 	 * 
 	 * @param maintenanceAndCalibration
 	 *            :Maintenance and calibration object that you are adding or
@@ -546,15 +556,10 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			loadMachinesType();
 			if (maintenanceAndCalibration != null) {
 				this.maintenanceAndCalibration = maintenanceAndCalibration;
-				Machines machineToEdit = machinesDao
-						.machinesXId(maintenanceAndCalibration.getMachines()
-								.getIdMachine());
-				MachineTypes machineTypeEdit = machineTypesDao
-						.machineTypeXId(machineToEdit.getMachineTypes()
-								.getIdMachineType());
-				this.setMachineTypes(machineTypeEdit);
+				this.setMachineTypes(maintenanceAndCalibration.getMachines()
+						.getMachineTypes());
 				loadMachine();
-				this.setMachines(machineToEdit);
+				this.setMachines(maintenanceAndCalibration.getMachines());
 			} else {
 				this.maintenanceAndCalibration = new MaintenanceAndCalibration();
 				this.maintenanceAndCalibration.setMachines(new Machines());
@@ -679,6 +684,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * Method to edit or create a new line maintenance.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 17/11/2016 Wilhelm.Boada
 	 * 
 	 * @param maintenanceLines
 	 *            :Object maintenance lines are adding or editing.
@@ -688,8 +694,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			this.maintenanceLines = maintenanceLines;
 		} else {
 			this.maintenanceLines = new MaintenanceLines();
-			this.maintenanceLines.setMachines(this.maintenanceAndCalibration
-					.getMachines());
 			this.maintenanceLines
 					.setMaintenanceAndCalibration(this.maintenanceAndCalibration);
 		}

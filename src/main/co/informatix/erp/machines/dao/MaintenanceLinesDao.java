@@ -67,7 +67,7 @@ public class MaintenanceLinesDao implements Serializable {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT COUNT(ml) FROM MaintenanceLines ml ");
 		queryBuilder.append("JOIN ml.maintenanceAndCalibration mc ");
-		queryBuilder.append("JOIN  ml.machines m ");
+		queryBuilder.append("JOIN mc.machines m ");
 		queryBuilder.append(query);
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parameter : parameters) {
@@ -99,8 +99,8 @@ public class MaintenanceLinesDao implements Serializable {
 			StringBuilder query, List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT ml FROM MaintenanceLines ml ");
-		queryBuilder.append("JOIN FETCH ml.machines m ");
 		queryBuilder.append("JOIN FETCH ml.maintenanceAndCalibration mc ");
+		queryBuilder.append("JOIN FETCH mc.machines m ");
 		queryBuilder.append(query);
 		queryBuilder.append("ORDER BY ml.description ");
 		Query q = em.createQuery(queryBuilder.toString());

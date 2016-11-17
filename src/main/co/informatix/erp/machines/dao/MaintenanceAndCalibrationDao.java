@@ -57,6 +57,7 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 	 * database by filtering the information by the values sent search.
 	 * 
 	 * @modify 13/11/2015 cristhian.pico
+	 * @modify 17/11/2016 Wilhelm.Boada
 	 * 
 	 * @param consult
 	 *            : String containing the query for which the properties are
@@ -71,6 +72,7 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(mc) FROM MaintenanceAndCalibration mc ");
 		query.append("LEFT JOIN mc.machines m ");
+		query.append("JOIN m.machineTypes mt ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
@@ -86,6 +88,7 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 	 * 
 	 * @modify 13/11/2015 cristhian.pico
 	 * @modify 04/12/2015 Andres.Gomez
+	 * @modify 17/11/2016 Wilhelm.Boada
 	 * 
 	 * @param start
 	 *            :where he started the consultation record.
@@ -106,6 +109,7 @@ public class MaintenanceAndCalibrationDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT mc FROM MaintenanceAndCalibration mc ");
 		query.append("JOIN FETCH mc.machines m ");
+		query.append("JOIN FETCH m.machineTypes mt ");
 		query.append(consult);
 		query.append("ORDER BY mc.dateTime DESC ");
 		Query q = em.createQuery(query.toString());

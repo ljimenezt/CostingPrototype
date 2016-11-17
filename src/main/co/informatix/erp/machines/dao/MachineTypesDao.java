@@ -185,23 +185,4 @@ public class MachineTypesDao implements Serializable {
 				"idMachine", idMachine);
 		return (MachineTypes) q.getSingleResult();
 	}
-
-	/**
-	 * Method that looks for the machineType that is associated with the
-	 * idMachineType sent as parameter
-	 * 
-	 * @author Cristhian.Pico
-	 * 
-	 * @param idMachineType
-	 *            : the machine type identifier
-	 * @return MachineTypes: machine type associated with the identifier
-	 * @throws Exception
-	 */
-	public MachineTypes machineTypeXId(int idMachineType) throws Exception {
-		Query q = em.createQuery(
-				"SELECT mt FROM MachineTypes mt "
-						+ " WHERE mt.idMachineType=:idMachineType ")
-				.setParameter("idMachineType", idMachineType);
-		return (MachineTypes) q.getSingleResult();
-	}
 }

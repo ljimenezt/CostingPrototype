@@ -28,7 +28,6 @@ public class MaintenanceLines implements Serializable {
 	private String description;
 	private Double costBudget;
 	private Double costActual;
-	private Machines machines;
 	private MaintenanceAndCalibration maintenanceAndCalibration;
 
 	/**
@@ -95,24 +94,6 @@ public class MaintenanceLines implements Serializable {
 	 */
 	public void setCostActual(Double costActual) {
 		this.costActual = costActual;
-	}
-
-	/**
-	 * @return machines: gets the relationship of the machines with maintenance
-	 *         lines
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "idmachine", referencedColumnName = "idmachine", nullable = false)
-	public Machines getMachines() {
-		return machines;
-	}
-
-	/**
-	 * @param machines
-	 *            : sets the relationship of the machines with maintenance lines
-	 */
-	public void setMachines(Machines machines) {
-		this.machines = machines;
 	}
 
 	/**

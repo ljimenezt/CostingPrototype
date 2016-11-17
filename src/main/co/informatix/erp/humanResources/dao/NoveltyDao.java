@@ -66,7 +66,7 @@ public class NoveltyDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Novelty> findNoveltyByDate(String date) {
+	public List<Novelty> findNoveltyByDate(String date) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT n FROM Novelty n ");
 		query.append("JOIN FETCH n.hr ");
