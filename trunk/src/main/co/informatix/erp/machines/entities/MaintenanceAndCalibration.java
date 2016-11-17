@@ -32,6 +32,7 @@ public class MaintenanceAndCalibration implements Serializable {
 	private Double totalCostBudget;
 	private Double totalCostActual;
 	private Boolean machineEquipementInGoodCondition;
+	private String description;
 	private Machines machines;
 
 	/**
@@ -128,6 +129,22 @@ public class MaintenanceAndCalibration implements Serializable {
 	}
 
 	/**
+	 * @return description: This field stored description.
+	 */
+	@Column(name = "description", length = 30)
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description
+	 *            : This field stored description.
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
 	 * @return machines: gets the relationship of the machines with the
 	 *         maintenance and calibration
 	 */
@@ -152,6 +169,8 @@ public class MaintenanceAndCalibration implements Serializable {
 		int result = 1;
 		result = prime * result
 				+ ((dateTime == null) ? 0 : dateTime.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + idMaintenance;
 		result = prime
 				* result
@@ -178,6 +197,11 @@ public class MaintenanceAndCalibration implements Serializable {
 				return false;
 		} else if (!dateTime.equals(other.dateTime))
 			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
 		if (idMaintenance != other.idMaintenance)
 			return false;
 		if (machineEquipementInGoodCondition == null) {
@@ -198,5 +222,4 @@ public class MaintenanceAndCalibration implements Serializable {
 			return false;
 		return true;
 	}
-
 }

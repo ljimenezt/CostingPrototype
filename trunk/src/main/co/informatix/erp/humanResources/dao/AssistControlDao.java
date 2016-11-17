@@ -89,7 +89,8 @@ public class AssistControlDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public AssistControl consultAssistControlByHrAndDate(int idHr, String date) {
+	public AssistControl consultAssistControlByHrAndDate(int idHr, String date)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ac FROM AssistControl ac ");
 		query.append("JOIN FETCH ac.hr h ");

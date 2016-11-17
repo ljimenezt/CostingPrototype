@@ -273,6 +273,8 @@ public class MaintenanceLinesAction implements Serializable {
 	/**
 	 * Method to edit or create a new maintenance line.
 	 * 
+	 * @modify 17/11/2016 Wilhelm.Boada
+	 * 
 	 * @param maintenanceLines
 	 *            : Object of maintenance lines you want to add or edit.
 	 * @return regMaintLin: it redirects to the register a maintenance line
@@ -285,7 +287,6 @@ public class MaintenanceLinesAction implements Serializable {
 				this.maintenanceLines = maintenanceLines;
 			} else {
 				this.maintenanceLines = new MaintenanceLines();
-				this.maintenanceLines.setMachines(new Machines());
 				this.maintenanceLines
 						.setMaintenanceAndCalibration(new MaintenanceAndCalibration());
 			}
@@ -315,6 +316,8 @@ public class MaintenanceLinesAction implements Serializable {
 
 	/**
 	 * Method to load MaintenanceAndCalibration objects in a list.
+	 * 
+	 * @modify 17/11/2016 Wilhelm.Boada
 	 */
 	public void loadMaintenance() {
 		maintenanceOptions = new ArrayList<SelectItem>();
@@ -322,7 +325,8 @@ public class MaintenanceLinesAction implements Serializable {
 		try {
 			List<MaintenanceAndCalibration> maintenanceAndCalibrationList = maintenanceAndCalibrationDao
 					.maintenanceCalibrationXId(this.maintenanceLines
-							.getMachines().getIdMachine());
+							.getMaintenanceAndCalibration().getMachines()
+							.getIdMachine());
 			if (maintenanceAndCalibrationList != null) {
 				for (MaintenanceAndCalibration maintenanceAndCalibration : maintenanceAndCalibrationList) {
 					maintenanceOptions.add(new SelectItem(
@@ -389,6 +393,7 @@ public class MaintenanceLinesAction implements Serializable {
 	 * Method used to save or edit maintenance lines.
 	 * 
 	 * @modify 28/03/2016 Jhair.Leal
+	 * @modify 17/11/2016 Wilhelm.Boada
 	 * 
 	 * @return searchMaintenanceLines: Redirects to manage maintenance lines
 	 *         with the list of names updated.
@@ -401,7 +406,8 @@ public class MaintenanceLinesAction implements Serializable {
 
 		try {
 			Machines machine = machinesDao.machinesXId(maintenanceLines
-					.getMachines().getIdMachine());
+					.getMaintenanceAndCalibration().getMachines()
+					.getIdMachine());
 			StringBuilder details = new StringBuilder();
 			details.append(bundleMachineType.getString("machines_label_names"));
 			details.append(": ");
@@ -418,5 +424,48 @@ public class MaintenanceLinesAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return searchMaintenanceLines();
+	}
+
+	/**
+	 * Method to clean the maintenanceAndCalibration associated with the
+	 * maintenanceLines.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void cleanMaintenanceAndCalibration() {
+		this.maintenanceLines
+				.setMaintenanceAndCalibration(new MaintenanceAndCalibration());
+	}
+
+	/**
+	 * Method to load the selected maintenanceAndCalibration.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param maintenanceAndCalibration
+	 *            : object MaintenanceAndCalibration selected.
+	 */
+	public void loadMaintenanceAndCalibration(
+			MaintenanceAndCalibration maintenanceAndCalibration) {
+		this.maintenanceLines
+				.setMaintenanceAndCalibration(maintenanceAndCalibration);
+	}
+
+	/**
+	 * This method allows validate the fields required.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void validateRequired() {
+		if (this.maintenanceLines.getMaintenanceAndCalibration() == null
+				|| maintenanceLines.getMaintenanceAndCalibration()
+						.getIdMaintenance() == 0) {
+			ControladorContexto
+					.mensajeRequeridos("formMaintenanceLines:txtMaintenanceAndCalibration");
+		}
+		if (this.maintenanceLines.getDescription().equals("")) {
+			ControladorContexto
+					.mensajeRequeridos("formMaintenanceLines:txaDescription");
+		}
 	}
 }

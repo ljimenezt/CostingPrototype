@@ -15,6 +15,21 @@
 	<ui:param name="titulo"
 		value="mensaje.label_register, messageMachine.maintenance_calibration_label" />
 	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+			$g(document).ready(function(){    
+				  $g('#formMaintenanceAndCalibration\\:txaDescripcion').maxlength({   
+				    events: [],     
+				    max: 30,    
+				    feedbackText: "#{mensaje.label_characters_left}",  
+				    showFeedback: 'active'    
+				  }); 
+			});		
+		</script>
 		<t:saveState value="#{maintenanceAndCalibrationAction}" />
 		<t:saveState value="#{machinesAction}" />
 		<h:form id="formMaintenanceAndCalibration">
@@ -99,6 +114,17 @@
 							<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
 						</h:selectOneRadio>
 						<rich:message for="txtMachineEquipementInGoodCondition" />
+
+						<h:outputText value="#{mensaje.label_description}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputTextarea
+							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.description}"
+							styleClass="colTextoPequeTextArea" id="txaDescripcion"
+							validator="#{encodeFilter.validarScripting}">
+							<f:validateLength maximum="30" />
+						</h:inputTextarea>
+						<rich:message for="txaDescripcion" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
@@ -146,6 +172,9 @@
 						<h:outputText
 							rendered="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition eq 'false'}"
 							value="#{mensaje.label_no}" />
+						<h:outputText value="#{mensaje.label_description}:" />
+						<h:outputText
+							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.description}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"

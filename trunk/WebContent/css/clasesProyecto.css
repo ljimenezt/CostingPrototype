@@ -446,6 +446,11 @@ table.radio input[type=radio] {
 /* Estilos para las imagenes de los hierros */
 
 /* Estilos para los campos tipo textArea */
+.colTextoPequeTextArea {
+	height: 50px;
+	width: 150px;
+}
+
 .colTextoMedianoTextArea {
 	height: 80px;
 	width: 225px;
