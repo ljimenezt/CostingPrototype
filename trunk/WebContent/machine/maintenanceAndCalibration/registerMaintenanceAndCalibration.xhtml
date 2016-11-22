@@ -36,97 +36,85 @@
 			<rich:panel
 				header="#{mensaje.label_register} #{messageMachine.maintenance_calibration_label}"
 				styleClass="anchoUno MinH253P" id="panelMaintenanceAndCalibration">
-				<t:fieldset styleClass="anchoDos BorderW2P">
-					<legend class="etiquetaTitulo">#{mensaje.label_machine_information}</legend>
-					<h:panelGrid columns="4"
-						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop W135P,,W235P,">
+				<h:panelGrid columns="4"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop W135P,,W235P,">
 
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{messageMachine.machine_types_label_s}" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu
-							value="#{maintenanceAndCalibrationAction.machineTypes.idMachineType}"
-							id="cmbMachinesTypes" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}"
-							validator="#{validacionesAction.validarComboRequerido}">
-							<f:selectItem itemLabel="#{mensaje.label_seleccione}" />
-							<f:selectItems
-								value="#{maintenanceAndCalibrationAction.machinesTypeItems}" />
-							<f:ajax event="change"
-								listener="#{maintenanceAndCalibrationAction.loadMachine()}"
-								render=":formMaintenanceAndCalibration:maquina" />
-							<f:attribute name="tipo" value="Int" />
-						</h:selectOneMenu>
-						<rich:message for="cmbMachinesTypes" />
 
-						<h:outputText
-							value="#{messageMachine.maintenance_calibration_label_machine}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu id="maquina"
-							value="#{maintenanceAndCalibrationAction.machines.idMachine}"
-							required="true"
-							validator="#{validacionesAction.validarComboRequerido}"
-							requiredMessage="#{mensaje.message_campo_requerido}">
-							<f:selectItem itemLabel="#{mensaje.label_select}" />
-							<f:selectItems
-								value="#{maintenanceAndCalibrationAction.machinesItems}" />
-							<f:ajax event="change"
-								listener="#{maintenanceAndCalibrationAction.machineData(maintenanceAndCalibrationAction.machines.idMachine)}"
-								render=":formMaintenanceAndCalibration:fechMaint" />
-						</h:selectOneMenu>
-						<rich:message for="maquina" />
+					<h:outputText value="#{messageMachine.machines_label_names}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
+						<h:inputText styleClass="colTextoMediano"
+							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machines.name}"
+							id="txtMachine" readonly="true"
+							validator="#{encodeFilter.validarScripting}" />
+						<a:commandLink id="lnkMachine" render=":formMachine:popupMachine"
+							action="#{machinesAction.initializeMachinesInMaintenance()}"
+							actionListener="#{machinesAction.loadMachineTypes()}"
+							execute="@this"
+							oncomplete="#{rich:component('popupMachine')}.show(); setFocus('formMachine:txtSearchMachine');">
+							<h:graphicImage value="/img/add_22.png"
+								styleClass="verticalAlignMiddle" />
+							<f:param name="param2" value="si" />
+							<f:setPropertyActionListener value=""
+								target="#{machinesAction.nameSearch}" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_select}" />
+							</rich:tooltip>
+						</a:commandLink>
+						<h:outputText value="&#32;&#32;&#32;" />
+						<a:commandLink
+							actionListener="#{maintenanceAndCalibrationAction.cleanMachine()}"
+							render=":formMaintenanceAndCalibration:txtMachine"
+							execute="@this">
+							<h:graphicImage value="/img/editRemove_16.png" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.label_remove}" />
+							</rich:tooltip>
+						</a:commandLink>
 					</h:panelGrid>
-				</t:fieldset>
-				<br />
-				<t:fieldset styleClass="BorderW2P anchoDos">
-					<legend class="etiquetaTitulo">#{messageMachine.maintenance_calibration_label}</legend>
-					<h:panelGrid columns="4"
-						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-						columnClasses="tdAlignTop W135P,,W235P,tdAlignTop">
+					<rich:message for="txtMachine" />
 
-						<h:outputText value="#{mensaje.label_date}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<p:calendar readonlyInput="true"
-							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}"
-							id="fechMaint" showOn="button" navigator="true"
-							mindate="#{maintenanceAndCalibrationAction.machines.purchaseDate}"
-							pattern="MM/dd/yyyy" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}"
-							converterMessage="#{mensaje.message_validar_formato_fecha}"
-							validator="#{controladorFechas.validarRangoFecha}">
-							<f:attribute name="validarHora" value="si" />
-						</p:calendar>
-						<rich:message for="fechMaint" />
+					<h:outputText value="#{mensaje.label_date}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar readonlyInput="true"
+						value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}"
+						id="fechMaint" showOn="button" navigator="true"
+						mindate="#{maintenanceAndCalibrationAction.machines.purchaseDate}"
+						pattern="MM/dd/yyyy" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}"
+						converterMessage="#{mensaje.message_validar_formato_fecha}"
+						validator="#{controladorFechas.validarRangoFecha}">
+						<f:attribute name="validarHora" value="si" />
+					</p:calendar>
+					<rich:message for="fechMaint" />
 
-						<h:outputText styleClass="etiquetaTitulo"
-							value="#{messageMachine.maintenance_calibration_label_good_condition_machines}" />
-						<h:outputText value="" />
-						<h:selectOneRadio
-							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
-							tyleClass="colNumeroLargo"
-							id="txtMachineEquipementInGoodCondition">
-							<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
-							<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
-						</h:selectOneRadio>
-						<rich:message for="txtMachineEquipementInGoodCondition" />
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{messageMachine.maintenance_calibration_label_good_condition_machines}" />
+					<h:outputText value="" />
+					<h:selectOneRadio
+						value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
+						tyleClass="colNumeroLargo"
+						id="txtMachineEquipementInGoodCondition">
+						<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
+						<f:selectItem itemLabel="#{mensaje.label_no}" itemValue="false" />
+					</h:selectOneRadio>
+					<rich:message for="txtMachineEquipementInGoodCondition" />
 
-						<h:outputText value="#{mensaje.label_description}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
-						<h:inputTextarea
-							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.description}"
-							styleClass="colTextoPequeTextArea" id="txaDescripcion"
-							validator="#{encodeFilter.validarScripting}">
-							<f:validateLength maximum="30" />
-						</h:inputTextarea>
-						<rich:message for="txaDescripcion" />
-					</h:panelGrid>
-				</t:fieldset>
+					<h:outputText value="#{mensaje.label_description}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="" />
+					<h:inputTextarea
+						value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.description}"
+						styleClass="colTextoPequeTextArea" id="txaDescripcion"
+						validator="#{encodeFilter.validarScripting}">
+						<f:validateLength maximum="30" />
+					</h:inputTextarea>
+					<rich:message for="txaDescripcion" />
+				</h:panelGrid>
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
@@ -155,12 +143,9 @@
 					</ui:define>
 					<ui:define name="campos">
 
-						<h:outputText value="#{mensaje.label_machine_type}:" />
-						<h:outputText
-							value="#{validacionesAction.getLabel(maintenanceAndCalibrationAction.machinesTypeItems, maintenanceAndCalibrationAction.machineTypes.idMachineType)}" />
 						<h:outputText value="#{messageMachine.insurance_label_machine}:" />
 						<h:outputText
-							value="#{validacionesAction.getLabel(maintenanceAndCalibrationAction.machinesItems, maintenanceAndCalibrationAction.machines.idMachine)}" />
+							value="#{validacionesAction.getLabel(maintenanceAndCalibrationAction.machinesItems, maintenanceAndCalibrationAction.maintenanceAndCalibration.machines.idMachine)}" />
 						<h:outputText value="#{mensaje.label_date}:" />
 						<h:outputText
 							value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}" />
@@ -170,7 +155,7 @@
 							rendered="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
 							value="#{mensaje.label_yes}" />
 						<h:outputText
-							rendered="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition eq 'false'}"
+							rendered="#{!maintenanceAndCalibrationAction.maintenanceAndCalibration.machineEquipementInGoodCondition}"
 							value="#{mensaje.label_no}" />
 						<h:outputText value="#{mensaje.label_description}:" />
 						<h:outputText
@@ -184,6 +169,131 @@
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
 					</ui:define>
 				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formMachine">
+			<rich:popupPanel id="popupMachine" autosized="true"
+				domElementAttachment="form" styleClass="H440P fondoAnchoUno W600P"
+				header="#{mensaje.label_listing} #{messageMachine.maintenance_calibration_label}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupMachine')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<a:outputPanel id="outPutSearchMachine">
+					<t:fieldset styleClass="BorderW2P">
+						<legend class="etiquetaTitulo">#{messageMachine.machines_label_names}</legend>
+						<h:panelGrid columns="2" cellpadding="3">
+							<h:outputText value="#{messageMachine.machines_label_types}"
+								styleClass="etiquetaTitulo" />
+							<h:selectOneMenu id="machineType"
+								value="#{machinesAction.nameMachines}" styleClass="W225P"
+								required="true">
+								<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
+								<f:selectItems value="#{machinesAction.itemsMachinesType}" />
+							</h:selectOneMenu>
+
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{mensaje.label_name}" />
+							<h:inputText value="#{machinesAction.nameSearch}"
+								styleClass="colTextoMediano" id="txtSearchMachine"
+								onkeypress="return submitByEnter(event,'formMachines:btnBuscar')">
+							</h:inputText>
+						</h:panelGrid>
+						<br />
+						<div class="W100Per center inBlock">
+							<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+								actionListener="#{machinesAction.consultMachines()}"
+								render="outputBuscar msjSearch">
+								<f:param name="param2" value="si" />
+							</a:commandButton>
+						</div>
+					</t:fieldset>
+					<br />
+					<a:outputPanel id="msjSearch">
+						<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+							<ui:param name="width" value="W580P" />
+							<ui:param name="id" value="popupBuscarMenu" />
+						</ui:include>
+					</a:outputPanel>
+					<a:outputPanel id="outputBuscar">
+						<ui:param name="listaVacia"
+							value="#{machinesAction.listMachines eq null or (empty machinesAction.listMachines)}" />
+						<div class="W580P" align="right">
+							<h:panelGrid id="pnlButtons" columns="2" cellpadding="0"
+								cellspacing="0">
+								<a:outputPanel>
+									<a:commandLink
+										render="outPutSearchMachine, mensajes, mensajeBusqueda"
+										styleClass="quitarDecoracionLink"
+										action="#{machinesAction.initializeMachinesInMaintenance()}">
+										<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+											<h:graphicImage value="/img/listarTodos_16.png" />
+											<h:outputText value="#{mensaje.button_list_all}" />
+										</h:panelGrid>
+										<f:param name="param2" value="si" />
+									</a:commandLink>
+								</a:outputPanel>
+							</h:panelGrid>
+						</div>
+						<rich:dataTable value="#{machinesAction.listMachines}"
+							var="machine" id="machineTable" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W580P"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<f:facet name="header" />
+								<a:commandLink
+									render=":formMaintenanceAndCalibration:txtMachine"
+									actionListener="#{maintenanceAndCalibrationAction.loadMachineInMaintenance(machine)}"
+									oncomplete="#{rich:component('popupMachine')}.hide();">
+									<h:graphicImage value="/img/add_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_select}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText value="#{machine.name}" />
+							</rich:column>
+
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{messageMachine.machine_types_label}</f:facet>
+								<h:outputText value="#{machine.machineTypes.name}" />
+							</rich:column>
+
+							<rich:column styleClass="colTextoMediano">
+								<f:facet name="header">#{messageMachine.machines_label_serial_number}</f:facet>
+								<h:outputText value="#{machine.serialNumber}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="4" styleClass="footTabla">
+										<h:outputText
+											value="#{messageCosts.activities_and_machines_label_not_machines_available}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<a:outputPanel rendered="#{!listaVacia}">
+							<div class="W580P center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="valParam2" value="si" />
+									<ui:param name="pager" value="pagination" />
+									<ui:param name="valReder" value="outPutSearchMachine" />
+									<ui:param name="beanActionParam" value="#{machinesAction}" />
+									<ui:param name="metodoActionParam" value="consultMachines" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+				</a:outputPanel>
 			</rich:popupPanel>
 		</h:form>
 	</ui:define>
