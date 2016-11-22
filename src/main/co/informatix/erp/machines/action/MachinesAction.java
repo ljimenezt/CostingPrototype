@@ -55,6 +55,7 @@ public class MachinesAction implements Serializable {
 
 	private int nameMachines;
 	private boolean state;
+	private boolean stateActiviy;
 
 	private List<Machines> listMachines;
 	private ArrayList<SelectItem> itemsMachinesType;
@@ -232,19 +233,22 @@ public class MachinesAction implements Serializable {
 	/**
 	 * This method load all types of machines from a list.
 	 * 
-	 * @throws Exception
+	 * @modify 15/11/2016 Wilhelm.Boada
 	 */
-	private void loadMachineTypes() throws Exception {
-		itemsMachinesType = new ArrayList<SelectItem>();
-		List<MachineTypes> listMachinetypes;
-		listMachinetypes = machineTypesDao.listMachineType();
-		if (listMachinetypes != null) {
-			for (MachineTypes machineTypes : listMachinetypes) {
-				itemsMachinesType.add(new SelectItem(machineTypes
-						.getIdMachineType(), machineTypes.getName()));
+	public void loadMachineTypes() {
+		try {
+			itemsMachinesType = new ArrayList<SelectItem>();
+			List<MachineTypes> listMachinetypes;
+			listMachinetypes = machineTypesDao.listMachineType();
+			if (listMachinetypes != null) {
+				for (MachineTypes machineTypes : listMachinetypes) {
+					itemsMachinesType.add(new SelectItem(machineTypes
+							.getIdMachineType(), machineTypes.getName()));
+				}
 			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
-
 	}
 
 	/**
@@ -270,11 +274,28 @@ public class MachinesAction implements Serializable {
 	 * logic to check.
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 15/11/2016 Wilhelm.Boada
 	 */
 	public void initializeMachines() {
 		setState(true);
+		stateActiviy = true;
 		this.nameSearch = "";
 		this.pagination.setOpcion('f');
+		consultMachines();
+	}
+
+	/**
+	 * Consult initialized machines considering a state that allows changing the
+	 * logic to check.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 */
+	public void initializeMachinesInMaintenance() {
+		state = true;
+		stateActiviy = false;
+		this.nameMachines = 0;
+		this.nameSearch = "";
 		consultMachines();
 	}
 
@@ -284,6 +305,7 @@ public class MachinesAction implements Serializable {
 	 * @modify 28/05/2015 Mabell.Boada
 	 * @modify 19/08/2015 Andres.Gomez
 	 * @modify 11/11/2015 Gerardo.Herrera
+	 * @modify 15/11/2016 Wilhelm.Boada
 	 * 
 	 * @return "gesMachines": Redirects to the template to manage machines.
 	 */
@@ -341,7 +363,7 @@ public class MachinesAction implements Serializable {
 			if (quantity != 0 && !this.state) {
 				loadDetailsMachines();
 			}
-			if (this.state) {
+			if (this.state && this.stateActiviy) {
 				persistMachines();
 			}
 			validations.setMensajeBusqueda(messageSearch);
@@ -415,6 +437,7 @@ public class MachinesAction implements Serializable {
 	 * depending on the search criteria selected by the user (search by name).
 	 * 
 	 * @author Gerardo.Herrera
+	 * @modify 15/11/2016 Wilhelm.Boada
 	 * 
 	 * @param query
 	 *            : query to concatenate.
@@ -430,13 +453,16 @@ public class MachinesAction implements Serializable {
 			StringBuilder unionMessagesSearch) {
 		Activities selectedActivity = new Activities();
 		boolean seleccion = false;
-		if (ControladorContexto.getFacesContext() != null) {
+		if (ControladorContexto.getFacesContext() != null && this.stateActiviy) {
 			this.activitiesAndMachineAction = ControladorContexto
 					.getContextBean(ActivitiesAndMachineAction.class);
 			selectedActivity = activitiesAndMachineAction.getSelectedActivity();
 		}
 		if (this.nameMachines != 0) {
 			query.append("WHERE mt.idMachineType = :idMachineType ");
+			SelectItem itemMachineType = new SelectItem(this.nameMachines,
+					"idMachineType");
+			parameters.add(itemMachineType);
 			seleccion = true;
 		}
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
@@ -449,23 +475,20 @@ public class MachinesAction implements Serializable {
 					+ '"' + this.nameSearch + '"');
 			seleccion = true;
 		}
-		query.append(seleccion ? "AND " : "WHERE ");
-		query.append("m NOT IN ");
-		query.append("(SELECT ma FROM ActivityMachine am ");
-		query.append("JOIN am.activityMachinePK.machines ma ");
-		query.append("WHERE am.initialDateTime BETWEEN :itemInitialdate AND :itemFinalDate ");
-		query.append("OR am.finalDateTime BETWEEN :itemInitialdate AND :itemFinalDate) ");
-		if (this.nameMachines != 0) {
-			SelectItem itemMachineType = new SelectItem(this.nameMachines,
-					"idMachineType");
-			parameters.add(itemMachineType);
+		if (this.stateActiviy) {
+			query.append(seleccion ? "AND " : "WHERE ");
+			query.append("m NOT IN ");
+			query.append("(SELECT ma FROM ActivityMachine am ");
+			query.append("JOIN am.activityMachinePK.machines ma ");
+			query.append("WHERE am.initialDateTime BETWEEN :itemInitialdate AND :itemFinalDate ");
+			query.append("OR am.finalDateTime BETWEEN :itemInitialdate AND :itemFinalDate) ");
+			SelectItem itemInitialDate = new SelectItem(
+					selectedActivity.getInitialDtBudget(), "itemInitialdate");
+			SelectItem itemFinalDate = new SelectItem(
+					selectedActivity.getFinalDtBudget(), "itemFinalDate");
+			parameters.add(itemInitialDate);
+			parameters.add(itemFinalDate);
 		}
-		SelectItem itemInitialDate = new SelectItem(
-				selectedActivity.getInitialDtBudget(), "itemInitialdate");
-		SelectItem itemFinalDate = new SelectItem(
-				selectedActivity.getFinalDtBudget(), "itemFinalDate");
-		parameters.add(itemInitialDate);
-		parameters.add(itemFinalDate);
 	}
 
 	/**

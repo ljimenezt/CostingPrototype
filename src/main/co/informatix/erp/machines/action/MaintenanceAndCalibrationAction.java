@@ -329,8 +329,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			startDateSearch = null;
 			endDateSearch = null;
 			serialNumberSearch = null;
-			this.maintenanceAndCalibration = new MaintenanceAndCalibration();
-			this.maintenanceAndCalibration.setMachines(new Machines());
 			this.machines = new Machines();
 			this.machines.setMachineTypes(new MachineTypes());
 			this.machineTypes = new MachineTypes();
@@ -407,9 +405,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			listMaintenanceAndCalibrations = maintenanceAndCalibrationDao
 					.consultMaintenanceAndCalibration(pagination.getInicio(),
 							pagination.getRango(), query, parameters);
-			if (!fromModal) {
-				loadMachinesType();
-			}
 			if ((listMaintenanceAndCalibrations == null || listMaintenanceAndCalibrations
 					.size() <= 0) && !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat
@@ -565,7 +560,6 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 				this.maintenanceAndCalibration.setMachines(new Machines());
 				this.machines = new Machines();
 				this.machines.setMachineTypes(new MachineTypes());
-				this.machineTypes = new MachineTypes();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -578,9 +572,10 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * 
 	 * @modify 13/11/2015 cristhian.pico
 	 * @modify 09/12/2015 Andres.Gomez
+	 * @modify 18/11/2016 Wilhelm.Boada
 	 * 
-	 * @return consultMaintenanceAndCalibration: Redirects to manage maintenance
-	 *         and calibration with a list of updated dates.
+	 * @return searchInitialization: Redirects to manage maintenance and
+	 *         calibration with a list of updated dates.
 	 */
 	public String saveMaintenanceAndCalibration() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -589,10 +584,8 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
 
 		try {
-			this.machines = machinesDao.machinesXId(machines.getIdMachine());
-			this.maintenanceAndCalibration.setMachines(machines);
-			this.maintenanceAndCalibration.getMachines().setMachineTypes(
-					machineTypes);
+			this.machines = machinesDao.machinesXId(maintenanceAndCalibration
+					.getMachines().getIdMachine());
 			if (maintenanceAndCalibration.getIdMaintenance() != 0) {
 				maintenanceAndCalibrationDao
 						.editMaintenanceAndCalibration(maintenanceAndCalibration);
@@ -613,14 +606,10 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(messageLog),
 					formats.format(maintenanceAndCalibration.getDateTime())));
-			this.serialNumberSearch = new String();
-			this.machines = new Machines();
-			this.machines.setMachineTypes(new MachineTypes());
-			this.machineTypes = new MachineTypes();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultMaintenanceAndCalibration();
+		return searchInitialization();
 	}
 
 	/**
@@ -646,6 +635,7 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 	 * Method to load the machines on a list.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 18/11/2016 Wilhelm.Boada
 	 **/
 	public void loadMachine() {
 		int idMachine = 0;
@@ -674,7 +664,9 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 					}
 				}
 			}
-
+			if (machineTypes != null && machineTypes.getIdMachineType() != 0) {
+				consultMaintenanceAndCalibration();
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -751,5 +743,27 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * Method to clean the machine associated with the
+	 * maintenanceAndCalibration.
+	 * 
+	 * @author Wilhelm.Boada
+	 */
+	public void cleanMachine() {
+		this.maintenanceAndCalibration.setMachines(new Machines());
+	}
+
+	/**
+	 * Method to load the selected maintenanceAndCalibration.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param machine
+	 *            : object machine selected.
+	 */
+	public void loadMachineInMaintenance(Machines machine) {
+		this.maintenanceAndCalibration.setMachines(machine);
 	}
 }

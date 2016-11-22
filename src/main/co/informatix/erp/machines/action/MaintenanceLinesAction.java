@@ -18,7 +18,9 @@ import co.informatix.erp.machines.dao.MaintenanceLinesDao;
 import co.informatix.erp.machines.entities.Machines;
 import co.informatix.erp.machines.entities.MaintenanceAndCalibration;
 import co.informatix.erp.machines.entities.MaintenanceLines;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
@@ -44,6 +46,7 @@ public class MaintenanceLinesAction implements Serializable {
 
 	private String machineNameSearch;
 	private String descriptionSearch;
+	private String dateDescription;
 
 	private int idMaintenance;
 	private boolean fromModal;
@@ -168,6 +171,23 @@ public class MaintenanceLinesAction implements Serializable {
 	}
 
 	/**
+	 * @return dateDescription: Field that load the date and description of the
+	 *         maintenanceAndCalibration.
+	 */
+	public String getDateDescription() {
+		return dateDescription;
+	}
+
+	/**
+	 * @param dateDescription
+	 *            : Field that load the date and description of the
+	 *            maintenanceAndCalibration.
+	 */
+	public void setDateDescription(String dateDescription) {
+		this.dateDescription = dateDescription;
+	}
+
+	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of maintenance lines.
 	 * 
@@ -285,10 +305,22 @@ public class MaintenanceLinesAction implements Serializable {
 			loadMachineCombos();
 			if (maintenanceLines != null) {
 				this.maintenanceLines = maintenanceLines;
+				this.dateDescription = ControladorFechas.formatDate(
+						this.maintenanceLines.getMaintenanceAndCalibration()
+								.getDateTime(), Constantes.DATE_FORMAT_TABLE);
+				this.dateDescription = !this.maintenanceLines
+						.getMaintenanceAndCalibration().getDescription()
+						.equals("") ? this.dateDescription
+						+ " "
+						+ this.maintenanceLines.getMaintenanceAndCalibration()
+								.getDescription() : this.dateDescription;
 			} else {
 				this.maintenanceLines = new MaintenanceLines();
 				this.maintenanceLines
 						.setMaintenanceAndCalibration(new MaintenanceAndCalibration());
+				this.maintenanceLines.getMaintenanceAndCalibration()
+						.setMachines(new Machines());
+				this.dateDescription = "";
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -447,6 +479,13 @@ public class MaintenanceLinesAction implements Serializable {
 	 */
 	public void loadMaintenanceAndCalibration(
 			MaintenanceAndCalibration maintenanceAndCalibration) {
+		this.dateDescription = ControladorFechas.formatDate(
+				maintenanceAndCalibration.getDateTime(),
+				Constantes.DATE_FORMAT_TABLE);
+		this.dateDescription = !maintenanceAndCalibration.getDescription()
+				.equals("") ? this.dateDescription + " "
+				+ maintenanceAndCalibration.getDescription()
+				: this.dateDescription;
 		this.maintenanceLines
 				.setMaintenanceAndCalibration(maintenanceAndCalibration);
 	}
@@ -462,6 +501,8 @@ public class MaintenanceLinesAction implements Serializable {
 						.getIdMaintenance() == 0) {
 			ControladorContexto
 					.mensajeRequeridos("formMaintenanceLines:txtMaintenanceAndCalibration");
+			ControladorContexto
+					.mensajeRequeridos("formMaintenanceLines:txtMachine");
 		}
 		if (this.maintenanceLines.getDescription().equals("")) {
 			ControladorContexto
