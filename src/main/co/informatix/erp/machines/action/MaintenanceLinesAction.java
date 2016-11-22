@@ -312,6 +312,8 @@ public class MaintenanceLinesAction implements Serializable {
 						.getMaintenanceAndCalibration().getDescription()
 						.equals("") ? this.dateDescription
 						+ " "
+						+ "-"
+						+ " "
 						+ this.maintenanceLines.getMaintenanceAndCalibration()
 								.getDescription() : this.dateDescription;
 			} else {
@@ -483,7 +485,7 @@ public class MaintenanceLinesAction implements Serializable {
 				maintenanceAndCalibration.getDateTime(),
 				Constantes.DATE_FORMAT_TABLE);
 		this.dateDescription = !maintenanceAndCalibration.getDescription()
-				.equals("") ? this.dateDescription + " "
+				.equals("") ? this.dateDescription + " " + "-" + " "
 				+ maintenanceAndCalibration.getDescription()
 				: this.dateDescription;
 		this.maintenanceLines
