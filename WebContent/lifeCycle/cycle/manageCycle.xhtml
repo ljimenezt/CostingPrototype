@@ -512,8 +512,10 @@
 					<br />
 					<div align="center">
 						<a:commandButton value="#{mensaje.button_calculate}"
-							render="formDetalles:panelCycleDetails"
-							actionListener="#{cycleAction.calculateCostActual()}" />
+							render="popupEmptyActualCost, formDetalles:panelCycleDetails"
+							actionListener="#{cycleAction.calculateCostActual()}"
+							execute="pnlEmptyCostAct"
+							oncomplete="if(#{cycleAction.listEmptyCostActivity.size() > 0}) {#{rich:component('popupEmptyActualCost')}.show();}" />
 						<a:commandButton value="#{mensaje.button_accept}"
 							onclick="#{rich:component('PopUpDetails')}.hide()" />
 					</div>
@@ -642,6 +644,57 @@
 					</div>
 
 				</t:fieldset>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formEmptyActualCost">
+			<rich:popupPanel id="popupEmptyActualCost" autosized="true"
+				domElementAttachment="form" styleClass="H340P fondoAnchoUno W560P"
+				header="#{mensaje.label_listing} #{messageCosts.activities_label_s}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popupEmptyActualCost')}.hide();" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{messageLifeCycle.scheduled_activities_label_empty_actual_cost}"
+							styleClass="etiquetaTitulo" />
+						<br />
+						<a:outputPanel id="pnlEmptyCostAct">
+							<rich:dataTable value="#{cycleAction.listEmptyCostActivity}"
+								var="emptyCostAct" footerClass="H130P"
+								styleClass="#{listaVaciaActividades ? 'BCTransparente' : 'dataTable'} anchoSiete"
+								rowClasses="odd-row, even-row">
+								<rich:column styleClass="colTextoMediano">
+									<f:facet name="header">#{messageLifeCycle.activity_names_label}</f:facet>
+									<h:outputText value="#{emptyCostAct.activityName.activityName}" />
+								</rich:column>
+								<rich:column styleClass="colFecha">
+									<f:facet name="header">#{messageCosts.budget_label_start_time}</f:facet>
+									<h:outputText value="#{emptyCostAct.initialDtBudget}" />
+								</rich:column>
+							</rich:dataTable>
+							<div class="anchoSiete center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valId" value="2" />
+									<ui:param name="valReder" value="pnlEmptyCostAct" />
+									<ui:param name="beanActionParam" value="#{cycleAction}" />
+									<ui:param name="metodoActionParam" value="searchActivityCycle" />
+									<ui:param name="pager" value="activitiesEmptyPager" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							oncomplete="#{rich:component('popupEmptyActualCost')}.hide();" />
+					</ui:define>
+				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
 	</ui:define>
