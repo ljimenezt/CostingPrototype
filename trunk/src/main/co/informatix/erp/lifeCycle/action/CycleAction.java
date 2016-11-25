@@ -65,6 +65,7 @@ public class CycleAction implements Serializable {
 
 	private List<Cycle> listCycles;
 	private List<Activities> listActivity;
+	private List<Activities> listEmptyCostActivity;
 
 	private List<SelectItem> optionsCropNames;
 	private List<SelectItem> optionsCrops;
@@ -76,6 +77,7 @@ public class CycleAction implements Serializable {
 
 	private Paginador pagination = new Paginador();
 	private Paginador activitiesPagination = new Paginador();
+	private Paginador activitiesEmptyPager = new Paginador();
 	private Paginador paginationForm = new Paginador();
 
 	private Cycle cycle;
@@ -162,6 +164,14 @@ public class CycleAction implements Serializable {
 	 */
 	public List<Activities> getListActivity() {
 		return listActivity;
+	}
+
+	/**
+	 * @return listEmptyCostActivity: A list with the activities without current
+	 *         cost.
+	 */
+	public List<Activities> getListEmptyCostActivity() {
+		return listEmptyCostActivity;
 	}
 
 	/**
@@ -307,6 +317,23 @@ public class CycleAction implements Serializable {
 	 */
 	public void setActivitiesPagination(Paginador activitiesPagination) {
 		this.activitiesPagination = activitiesPagination;
+	}
+
+	/**
+	 * @return activitiesEmptyPager: Auxiliary pagination for the activities
+	 *         without current cost who are related to a selected cycle.
+	 */
+	public Paginador getActivitiesEmptyPager() {
+		return activitiesEmptyPager;
+	}
+
+	/**
+	 * @param activitiesEmptyPager
+	 *            : Auxiliary pagination for the activities without current cost
+	 *            who are related to a selected cycle.
+	 */
+	public void setActivitiesEmptyPager(Paginador activitiesEmptyPager) {
+		this.activitiesEmptyPager = activitiesEmptyPager;
 	}
 
 	/**
@@ -977,6 +1004,7 @@ public class CycleAction implements Serializable {
 	 * @modify 22/06/2016 Sergio.Gelves
 	 * @modify 23/06/2016 Liseth.Jimenez
 	 * @modify 07/10/2016 Claudia.Rey
+	 * @modify 25/11/2016 Luna.Granados
 	 */
 	public void consultCycles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -1041,6 +1069,7 @@ public class CycleAction implements Serializable {
 				validations.setMensajeBusqueda(messageSearch);
 			}
 			this.listActivity = null;
+			this.listEmptyCostActivity = null;
 			this.selectedCycle = 0;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -1469,14 +1498,17 @@ public class CycleAction implements Serializable {
 	 * @author Sergio.Gelves
 	 * @modify 25/08/2016 Wilhelm.Boada
 	 * @modify 10/10/2016 Claudia.Rey
+	 * @modify 25/11/2016 Luna.Granados
 	 * 
 	 * @param selectedCycle
 	 *            : Cycle id.
 	 */
 	public void showActivitiesCycle(int selectedCycle) {
 		this.listActivity = null;
+		this.listEmptyCostActivity = null;
 		this.selectedCycle = selectedCycle;
 		this.activitiesPagination = new Paginador();
+		this.activitiesEmptyPager = new Paginador();
 		if (this.cycle != null) {
 			validateBudgetCost();
 		}
@@ -1508,19 +1540,38 @@ public class CycleAction implements Serializable {
 	 * filtered according to a pagination.
 	 * 
 	 * @author Sergio.Gelves
+	 * @modify 24/11/2016 Luna.Granados
 	 */
 	public void searchActivityCycle() {
 		try {
-			Long amount = activitiesDao.amountActivitiesCycle(selectedCycle);
+			Long amount = activitiesDao.amountActivitiesCycle(selectedCycle,
+					false);
 			if (amount != null) {
 				activitiesPagination.paginar(amount);
 			}
 			if (amount != null && amount > 0) {
 				this.listActivity = activitiesDao.searchActivitiesCycle(
 						activitiesPagination.getInicio(),
-						activitiesPagination.getRango(), this.selectedCycle);
+						activitiesPagination.getRango(), this.selectedCycle,
+						false);
 			} else {
 				this.listActivity = new ArrayList<Activities>();
+			}
+			// search the Activities without actual cost which are related to a
+			// given cycle
+			Long amountEmpty = activitiesDao.amountActivitiesCycle(
+					selectedCycle, true);
+			if (amountEmpty != null) {
+				activitiesEmptyPager.paginar(amountEmpty);
+			}
+			if (amountEmpty != null && amountEmpty > 0) {
+				this.listEmptyCostActivity = activitiesDao
+						.searchActivitiesCycle(
+								activitiesEmptyPager.getInicio(),
+								activitiesEmptyPager.getRango(),
+								this.selectedCycle, true);
+			} else {
+				this.listEmptyCostActivity = new ArrayList<Activities>();
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
