@@ -417,6 +417,7 @@ public class ActivitiesDao implements Serializable {
 	 * to the newer initial date of budget.
 	 * 
 	 * @author Sergio.Gelves
+	 * @modify 25/112016 Luna.Granados
 	 * 
 	 * @param start
 	 *            : The initial record that is retrieved.
@@ -424,15 +425,21 @@ public class ActivitiesDao implements Serializable {
 	 *            : The range of records to be retrieved.
 	 * @param cycleId
 	 *            : Cycle identifier.
+	 * @param emptyCost
+	 *            : Flag indicating whether to search for activities without
+	 *            current cost.
 	 * @return A list with the activities.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Activities> searchActivitiesCycle(int start, int range,
-			int cycleId) throws Exception {
+			int cycleId, boolean emptyCost) throws Exception {
 		StringBuilder q = new StringBuilder();
 		q.append("SELECT a FROM Activities a JOIN FETCH a.activityName an ");
-		q.append(" WHERE a.cycle.idCycle =:cycleId ");
+		q.append("WHERE a.cycle.idCycle =:cycleId ");
+		if (emptyCost) {
+			q.append("AND a.generalCostActual is null ");
+		}
 		q.append("ORDER BY a.initialDtBudget DESC");
 		Query queryResult = em.createQuery(q.toString());
 		return queryResult.setParameter("cycleId", cycleId)
@@ -444,17 +451,29 @@ public class ActivitiesDao implements Serializable {
 	 * cycle.
 	 * 
 	 * @author Sergio.Gelves
+	 * @modify 25/112016 Luna.Granados
 	 * 
 	 * @param cycleId
 	 *            : The cycle identifier.
+	 * @param emptyCost
+	 *            : Flag indicating whether to search for activities without
+	 *            current cost.
 	 * @return: Amount of cycles.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public long amountActivitiesCycle(int cycleId) throws Exception {
-		Query q = em.createQuery("SELECT COUNT(a) FROM Activities a WHERE "
-				+ " a.cycle.idCycle =:cycleId GROUP BY a.cycle.idCycle ");
-		List<Long> result = q.setParameter("cycleId", cycleId).getResultList();
+	public long amountActivitiesCycle(int cycleId, boolean emptyCost)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(a) FROM Activities a ");
+		query.append("WHERE a.cycle.idCycle =:cycleId ");
+		if (emptyCost) {
+			query.append("AND a.generalCostActual is null ");
+		}
+		query.append("GROUP BY a.cycle.idCycle ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("cycleId", cycleId);
+		List<Long> result = q.getResultList();
 		if (result != null && result.size() > 0) {
 			return result.get(0);
 		}
