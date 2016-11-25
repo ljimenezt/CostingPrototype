@@ -1359,11 +1359,10 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @modify 06/07/2016 Gerardo.Herrera
 	 * @modify 14/07/2016 Andres.Gomez
+	 * @modify 25/11/2016 Claudia.Rey
 	 */
 	public void validateQuantityMaterialsAndDatesAllows() {
 		try {
-			ResourceBundle bundle = ControladorContexto
-					.getBundle("mensajeWarehouse");
 			StringBuilder consult = new StringBuilder();
 			List<SelectItem> parameters = new ArrayList<SelectItem>();
 			String dateStart = ControladorFechas.formatDate(
@@ -1374,31 +1373,6 @@ public class CycleAction implements Serializable {
 					Constantes.DATE_FORMAT_MESSAGE_MMDDYYYY);
 			Date finalDate = ControladorFechas.finDeDia(cycle
 					.getFinalDateTime());
-			if (this.cycle.getMaterialsRequired()) {
-				boolean materialFlag = depositsDao
-						.associatedMaterialsDeposits(idMaterials);
-				String materialName = (String) ValidacionesAction.getLabel(
-						this.itemsMaterials, idMaterials);
-				if (materialFlag) {
-					Double quantityActual = depositsDao.quantityMaterialsById(
-							idMaterials, null);
-					if (this.quantity > quantityActual) {
-						ControladorContexto
-								.mensajeError(
-										"formRegisterCycle:quantity",
-										MessageFormat.format(
-												bundle.getString("deposits_message_not_enough_materials"),
-												materialName));
-					}
-				} else {
-					ControladorContexto
-							.mensajeError(
-									"formRegisterCycle:quantity",
-									MessageFormat.format(
-											bundle.getString("deposits_message_no_materials"),
-											materialName));
-				}
-			}
 
 			if (cycle.getInitialDateTime().before(crops.getInitialDate())
 					|| cycle.getInitialDateTime().after(crops.getFinalDate())) {
@@ -1454,6 +1428,7 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @author Andres.Gomez
 	 * @modify 07/04/2016 Wilhelm.Boada
+	 * @modify 25/11/2016 Claudia.Rey
 	 */
 	public void loadUnits() {
 		try {
@@ -1469,6 +1444,7 @@ public class CycleAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+		validateMaterials();
 	}
 
 	/**
@@ -1609,4 +1585,45 @@ public class CycleAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
+	/**
+	 * This method show a message with the available quantity of the selected material.
+	 * 
+	 * @author Claudia.Rey
+	 */
+	public void validateMaterials() {
+		ResourceBundle bundle = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		try {
+			if (this.cycle.getMaterialsRequired() != null && this.cycle.getMaterialsRequired()) {
+				boolean materialFlag = depositsDao
+						.associatedMaterialsDeposits(idMaterials);
+				String materialName = (String) ValidacionesAction.getLabel(
+						this.itemsMaterials, idMaterials);
+				if (materialFlag) {
+					Double quantityActual = depositsDao.quantityMaterialsById(
+							idMaterials, null);
+					if (quantityActual > 0) {
+						ControladorContexto
+								.mensajeError(
+										"formRegisterCycle:cmbMaterials",
+										MessageFormat.format(
+												bundle.getString("deposits_message_quantity_enough_materials"),
+												quantityActual,materialName));
+					}
+				} else {
+					ControladorContexto
+							.mensajeError(
+									"formRegisterCycle:cmbMaterials",
+									MessageFormat.format(
+											bundle.getString("deposits_message_no_materials"),
+											materialName));
+				}
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+
+	}
+
 }
