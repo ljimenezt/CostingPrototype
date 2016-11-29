@@ -339,7 +339,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void setListActivitiesAndHr(List<ActivitiesAndHr> listActivitiesAndHr) {
 		this.listActivitiesAndHr = listActivitiesAndHr;
-	}      
+	}
 
 	/**
 	 * @return activities: object type activities.
@@ -578,6 +578,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @modify 08/09/2016 Wilhelm.Boada
 	 * @modify 28/11/2016 Claudia.Rey
 	 * 
+	 * @param flag
+	 *            : indicates the view selected.
 	 * @return recordActivitiesActuals: redirected to the management to keep
 	 *         actual activities
 	 */
