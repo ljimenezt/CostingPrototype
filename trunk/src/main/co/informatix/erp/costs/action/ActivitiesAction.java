@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.dao.ActivitiesAndHrDao;
@@ -315,6 +317,7 @@ public class ActivitiesAction implements Serializable {
 	 * 
 	 * @author Gerardo.Herrera
 	 * @modify 20/06/2016 Liseth.Jimenez
+	 * @modify 29/11/2016 Claudia.Rey
 	 * 
 	 * @param activity
 	 *            : activities object.
@@ -324,23 +327,41 @@ public class ActivitiesAction implements Serializable {
 	 *            : Cycle Indetifier.
 	 * @param pagerTemp
 	 *            : Object to saves the temporary pager
+	 * @param flag
+	 *            : Indicates if the message is show in the view.
+	 * @param formName
+	 *            : Name of form to show message.
 	 */
 	public void initializeActivities(Activities activity, int idCrop,
-			int idCycle, Paginador pagerTemp) {
-		this.activities = activity;
-		this.idCrop = idCrop;
-		this.idCycle = idCycle;
-		this.nameSearch = "";
-		if (pagerTemp == null) {
-			this.pager = new Paginador();
-			flagCropActivities = false;
+			int idCycle, Paginador pagerTemp, boolean flag, String formName) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = context.getApplication().getResourceBundle(
+				context, "mensaje");
+		if (idCycle == 0 && !flag) {
+			context.addMessage(
+					formName,
+					new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							MessageFormat.format(
+									bundle.getString("message_campo_requerido"),
+									""), null));
+
 		} else {
-			this.pager = pagerTemp;
+			this.activities = activity;
+			this.idCrop = idCrop;
+			this.idCycle = idCycle;
+			this.nameSearch = "";
+			if (pagerTemp == null) {
+				this.pager = new Paginador();
+				flagCropActivities = false;
+			} else {
+				this.pager = pagerTemp;
+			}
+			if (this.idCycle == 0) {
+				flagCycle = true;
+			}
+			searchActivities();
 		}
-		if (this.idCycle == 0) {
-			flagCycle = true;
-		}
-		searchActivities();
 	}
 
 	/**
