@@ -398,7 +398,7 @@ public class InventoryControlAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		reportAdvanceSearch(query, parameters);
 		try {
-			List<Date> listMonths = new ArrayList<>();
+			List<Date> listMonths = new ArrayList<Date>();
 			if (this.initialDate != null && this.finalDate != null) {
 				listMonths = ControladorFechas.getDatesBetweenTwoDates(
 						this.initialDate, this.finalDate);

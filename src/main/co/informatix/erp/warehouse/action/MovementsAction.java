@@ -816,7 +816,7 @@ public class MovementsAction implements Serializable {
 	 * This method allows load the range for the select list
 	 */
 	public void loadRange() {
-		this.rangeItems = new ArrayList<>();
+		this.rangeItems = new ArrayList<Integer>();
 		rangeItems.add(5);
 		rangeItems.add(10);
 		rangeItems.add(20);
@@ -962,7 +962,7 @@ public class MovementsAction implements Serializable {
 	 * 
 	 */
 	public void setListDepositsExpiredSelected() {
-		this.listDepositsExpiredSelected = new ArrayList<>();
+		this.listDepositsExpiredSelected = new ArrayList<Deposits>();
 		if (selected) {
 			this.listDepositsExpiredSelected = this.listDepositsExpired;
 		} else {
