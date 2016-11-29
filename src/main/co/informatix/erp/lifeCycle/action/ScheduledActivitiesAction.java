@@ -64,6 +64,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	private boolean fromModal;
 	private boolean fromActivity = false;
 	private boolean flagStart;
+	private boolean flagView = false;
 
 	private List<Activities> listActivities;
 	private List<SelectItem> optionsCropNames;
@@ -140,6 +141,13 @@ public class ScheduledActivitiesAction implements Serializable {
 	 */
 	public boolean isFromActivity() {
 		return fromActivity;
+	}
+	
+	/**
+	 * @return flagView: Flag that indicate the view to show.
+	 */
+	public boolean isFlagView() {
+		return flagView;
 	}
 
 	/**
@@ -361,11 +369,13 @@ public class ScheduledActivitiesAction implements Serializable {
 	 * @modify 22/03/2016 Andres.Gomez
 	 * @modify 20/06/2016 Liseth.Jimenez
 	 * @modify 08/09/2016 Wilhelm.Boada
+	 * @modify 28/11/2016 Claudia.Rey
 	 * 
 	 * @return scheduledActivities: Redirects to scheduled activities view.
 	 */
-	public String initializeActivities() {
+	public String initializeActivities(boolean flag) {
 		try {
+			flagView = flag;
 			this.activitiesAction = ControladorContexto
 					.getContextBean(ActivitiesAction.class);
 			eraseActivities();

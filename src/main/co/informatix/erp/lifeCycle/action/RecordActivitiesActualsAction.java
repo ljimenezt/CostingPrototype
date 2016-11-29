@@ -90,6 +90,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private boolean flagStart;
 	private boolean showHrBudget;
 	private boolean showMachineBudget;
+	private boolean flagView;
 	private Double totalCostHr;
 	private Double totalCostMachine;
 	private Double totalCostMaterials;
@@ -201,6 +202,13 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void setShowMachineBudget(boolean showMachineBudget) {
 		this.showMachineBudget = showMachineBudget;
+	}
+
+	/**
+	 * @return flagView: Flag that indicate the view to show.
+	 */
+	public boolean isFlagView() {
+		return flagView;
 	}
 
 	/**
@@ -331,7 +339,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public void setListActivitiesAndHr(List<ActivitiesAndHr> listActivitiesAndHr) {
 		this.listActivitiesAndHr = listActivitiesAndHr;
-	}
+	}      
 
 	/**
 	 * @return activities: object type activities.
@@ -568,12 +576,14 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @modify 22/03/2016 Andres.Gomez
 	 * @modify 20/06/2016 Liseth.Jimenez
 	 * @modify 08/09/2016 Wilhelm.Boada
+	 * @modify 28/11/2016 Claudia.Rey
 	 * 
 	 * @return recordActivitiesActuals: redirected to the management to keep
 	 *         actual activities
 	 */
-	public String initializeRecordActual() {
+	public String initializeRecordActual(boolean flag) {
 		try {
+			flagView = flag;
 			if (ControladorContexto.getFacesContext() != null) {
 				this.activitiesAction = ControladorContexto
 						.getContextBean(ActivitiesAction.class);

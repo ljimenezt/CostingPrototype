@@ -66,12 +66,13 @@
 				styleClass="anchoUno MinH253P" id="panelScheduledActivities">
 				<t:fieldset styleClass="anchoDos BorderW2P">
 					<legend class="etiquetaTitulo">#{messageLifeCycle.crops_label}</legend>
-					<h:panelGrid columns="4"
+					<h:panelGrid columns="5"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop W82P,,">
 						<h:outputText value="#{messageLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
 						<h:selectOneMenu id="cropName"
 							value="#{scheduledActivitiesAction.idCropName}"
 							styleClass="colTextoMediano" required="true"
@@ -88,6 +89,7 @@
 
 						<h:outputText value="#{messageLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
 						<h:selectOneMenu id="crop"
 							value="#{scheduledActivitiesAction.idCrop}"
 							styleClass="colTextoMediano" required="true"
@@ -101,9 +103,11 @@
 
 						<h:outputText value="#{messageLifeCycle.cycle_label}"
 							styleClass="etiquetaTitulo"
-							rendered="#{activitiesAction.flagCycle eq false or activitiesAction.listActivities eq null}" />
+							rendered="#{(activitiesAction.flagCycle eq false or activitiesAction.listActivities eq null) and scheduledActivitiesAction.flagView eq false}" />
+						<h:outputText value="*" styleClass="required"
+							rendered="#{(activitiesAction.flagCycle eq false or activitiesAction.listActivities eq null) and scheduledActivitiesAction.flagView eq false}" />
 						<h:inputText styleClass="colTextoMediano"
-							rendered="#{activitiesAction.flagCycle eq false or activitiesAction.listActivities eq null}"
+							rendered="#{(activitiesAction.flagCycle eq false or activitiesAction.listActivities eq null)and scheduledActivitiesAction.flagView eq false}"
 							value="#{scheduledActivitiesAction.cycle.activiyNames.activityName}"
 							id="txtCycle" readonly="true"
 							validator="#{encodeFilter.validarScripting}"
@@ -113,7 +117,7 @@
 								render=":popupSearchCycle, :outputBuscar, formScheduledActivities:mensajeBusquedaMenu"
 								action="#{cycleAction.initializeSearch()}"
 								actionListener="#{cycleAction.setIdCrops(scheduledActivitiesAction.idCrop)}"
-								rendered="#{activitiesAction.listActivities eq null}"
+								rendered="#{activitiesAction.listActivities eq null and scheduledActivitiesAction.flagView eq false}"
 								oncomplete="if (#{facesContext.maximumSeverity==null})
 								{#{rich:component('popupSearchCycle')}.show();} ">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
@@ -128,7 +132,7 @@
 									value="formScheduledActivities"></f:setPropertyActionListener>
 							</a:commandLink>
 							<a:commandLink
-								rendered="#{activitiesAction.listActivities eq null}"
+								rendered="#{activitiesAction.listActivities eq null and scheduledActivitiesAction.flagView eq false}"
 								actionListener="#{scheduledActivitiesAction.cleanCycle()}"
 								render=":formScheduledActivities:txtCycle , :formScheduledActivities:txtCycles, formScheduledActivities"
 								execute="@this">
@@ -162,9 +166,9 @@
 							rendered="#{emptyList}">
 							<h:outputText value="#{messageLifeCycle.activity_names_label}"
 								styleClass="etiquetaTitulo"
-								rendered="#{scheduledActivitiesAction.idCycle eq 0}" />
+								rendered="#{scheduledActivitiesAction.idCycle eq 0 and scheduledActivitiesAction.flagView eq true}" />
 							<h:selectOneMenu id="activities"
-								rendered="#{scheduledActivitiesAction.idCycle eq 0}"
+								rendered="#{scheduledActivitiesAction.idCycle eq 0 and scheduledActivitiesAction.flagView eq true}"
 								value="#{scheduledActivitiesAction.activities.idActivity}"
 								styleClass="colTextoCorto" required="true">
 								<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
@@ -172,7 +176,7 @@
 									value="#{scheduledActivitiesAction.optionsActivityName}" />
 							</h:selectOneMenu>
 							<rich:message for="activities"
-								rendered="#{scheduledActivitiesAction.idCycle eq 0}" />
+								rendered="#{scheduledActivitiesAction.idCycle eq 0 and scheduledActivitiesAction.flagView eq true}" />
 							<h:outputText value="#{mensaje.label_start_date}"
 								styleClass="etiquetaTitulo" />
 							<p:calendar
@@ -214,7 +218,7 @@
 							<a:commandButton id="lnkActivityStandard" rendered="#{emptyList}"
 								disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
 								render="formScheduledActivities, mensajes, mensajeBusqueda"
-								action="#{activitiesAction.initializeActivities(scheduledActivitiesAction.activities, scheduledActivitiesAction.idCrop, scheduledActivitiesAction.idCycle, null)}"
+								action="#{activitiesAction.initializeActivities(scheduledActivitiesAction.activities, scheduledActivitiesAction.idCrop, scheduledActivitiesAction.idCycle, null, scheduledActivitiesAction.flagView, 'formScheduledActivities:mensajeBusquedaMenu')}"
 								actionListener="#{scheduledActivitiesAction.setFromActivity(true)}"
 								execute="formScheduledActivities"
 								value="#{mensaje.label_show} #{messageCosts.activities_label_s}">
