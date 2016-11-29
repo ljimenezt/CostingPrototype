@@ -142,7 +142,7 @@ public class ScheduledActivitiesAction implements Serializable {
 	public boolean isFromActivity() {
 		return fromActivity;
 	}
-	
+
 	/**
 	 * @return flagView: Flag that indicate the view to show.
 	 */
@@ -371,6 +371,8 @@ public class ScheduledActivitiesAction implements Serializable {
 	 * @modify 08/09/2016 Wilhelm.Boada
 	 * @modify 28/11/2016 Claudia.Rey
 	 * 
+	 * @param flag
+	 *            : indicates the view selected.
 	 * @return scheduledActivities: Redirects to scheduled activities view.
 	 */
 	public String initializeActivities(boolean flag) {
