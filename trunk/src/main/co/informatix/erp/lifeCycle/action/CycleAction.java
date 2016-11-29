@@ -93,6 +93,8 @@ public class CycleAction implements Serializable {
 	private Date initialDateSearch;
 	private Date finalDateSearch;
 
+	private Double totalCost;
+
 	private boolean loadDocumentTemporal;
 	private boolean iconPdf;
 	private boolean flag;
@@ -480,6 +482,21 @@ public class CycleAction implements Serializable {
 	 */
 	public void setFinalDateSearch(Date finalDateSearch) {
 		this.finalDateSearch = finalDateSearch;
+	}
+
+	/**
+	 * @return totalCost: Sum total actual cost of the activities.
+	 */
+	public Double getTotalCost() {
+		return totalCost;
+	}
+
+	/**
+	 * @param totalCost
+	 *            : Sum total actual cost of the activities.
+	 */
+	public void setTotalCost(Double totalCost) {
+		this.totalCost = totalCost;
 	}
 
 	/**
@@ -1541,6 +1558,7 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @author Sergio.Gelves
 	 * @modify 24/11/2016 Luna.Granados
+	 * @modify 29/11/2016 Wilhelm.Boada
 	 */
 	public void searchActivityCycle() {
 		try {
@@ -1554,6 +1572,13 @@ public class CycleAction implements Serializable {
 						activitiesPagination.getInicio(),
 						activitiesPagination.getRango(), this.selectedCycle,
 						false);
+				this.totalCost = 0.0;
+				for (Activities activity : this.listActivity) {
+					if (activity.getGeneralCostActual() != null) {
+						this.totalCost = ControllerAccounting.add(totalCost,
+								activity.getGeneralCostActual());
+					}
+				}
 			} else {
 				this.listActivity = new ArrayList<Activities>();
 			}
@@ -1638,7 +1663,8 @@ public class CycleAction implements Serializable {
 	}
 
 	/**
-	 * This method show a message with the available quantity of the selected material.
+	 * This method show a message with the available quantity of the selected
+	 * material.
 	 * 
 	 * @author Claudia.Rey
 	 */
@@ -1646,7 +1672,8 @@ public class CycleAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto
 				.getBundle("mensajeWarehouse");
 		try {
-			if (this.cycle.getMaterialsRequired() != null && this.cycle.getMaterialsRequired()) {
+			if (this.cycle.getMaterialsRequired() != null
+					&& this.cycle.getMaterialsRequired()) {
 				boolean materialFlag = depositsDao
 						.associatedMaterialsDeposits(idMaterials);
 				String materialName = (String) ValidacionesAction.getLabel(
@@ -1660,7 +1687,7 @@ public class CycleAction implements Serializable {
 										"formRegisterCycle:cmbMaterials",
 										MessageFormat.format(
 												bundle.getString("deposits_message_quantity_enough_materials"),
-												quantityActual,materialName));
+												quantityActual, materialName));
 					}
 				} else {
 					ControladorContexto

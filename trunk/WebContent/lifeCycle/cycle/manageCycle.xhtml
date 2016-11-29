@@ -277,6 +277,16 @@
 								</rich:columnGroup>
 							</f:facet>
 						</rich:dataTable>
+						<h:panelGrid columns="2" cellpadding="2" cellspacing="4"
+							styleClass="rowAdd anchoDos"
+							columnClasses="right W70Per, right W30Per"
+							rendered="#{!listaVaciaActividades}">
+							<h:outputText value="#{mensaje.label_total_cost}:" />
+							<h:outputText value="#{cycleAction.totalCost}">
+								<f:convertNumber maxFractionDigits="1" type="currency"
+									currencySymbol="$" locale="#{idioma.locale}" />
+							</h:outputText>
+						</h:panelGrid>
 						<br />
 						<a:outputPanel rendered="#{!listaVaciaActividades}">
 							<div class="anchoDos center inBlock">
