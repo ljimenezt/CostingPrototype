@@ -663,4 +663,27 @@ public class ActivitiesDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method allows calculate the cost actual all activities that belong
+	 * to a cycle.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param cycleId
+	 *            : Cycle identifier.
+	 * @return Double: Sum of records found.
+	 * @throws Exception
+	 */
+	public Double sumActivitiesGeneralCostActual(int cycleId) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT SUM(a.generalCostActual) FROM Activities a ");
+		query.append("WHERE a.cycle.idCycle =:cycleId ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("cycleId", cycleId);
+		if (q.getSingleResult() != null) {
+			return (Double) q.getSingleResult();
+		}
+		return (0.0);
+	}
 }
