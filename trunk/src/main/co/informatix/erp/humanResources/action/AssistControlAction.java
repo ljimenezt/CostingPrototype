@@ -464,6 +464,8 @@ public class AssistControlAction implements Serializable {
 			if (this.hrList != null) {
 				for (Hr hr : this.hrList) {
 					if (noveltyMap.get(hr.getIdHr()) != null) {
+						hr.setSeleccionado(false);
+					} else {
 						hr.setSeleccionado(true);
 					}
 				}
@@ -550,7 +552,7 @@ public class AssistControlAction implements Serializable {
 				this.novelty.setHr(this.hr);
 			} else if (noveltyMap.get(this.hr.getIdHr()).getId() == 0) {
 				this.noveltyMap.remove(this.hr.getIdHr());
-				this.hr.setSeleccionado(false);
+				this.hr.setSeleccionado(true);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -589,7 +591,7 @@ public class AssistControlAction implements Serializable {
 			noveltyMap.put(hr.getIdHr(), this.novelty);
 			for (Hr hr : this.hrList) {
 				if (this.hr.getIdHr() == hr.getIdHr()) {
-					hr.setSeleccionado(true);
+					hr.setSeleccionado(false);
 					break;
 				}
 			}
@@ -653,7 +655,7 @@ public class AssistControlAction implements Serializable {
 	public void removeNovelty() {
 		for (Hr hr : this.hrList) {
 			if (hr.getIdHr() == this.hr.getIdHr()) {
-				hr.setSeleccionado(false);
+				hr.setSeleccionado(true);
 				if (noveltyMap.get(hr.getIdHr()).getId() != 0) {
 					this.noveltyListRemove.add(noveltyMap.get(hr.getIdHr()));
 				}
@@ -663,5 +665,15 @@ public class AssistControlAction implements Serializable {
 		}
 	}
 
+	/**
+	 * This method allows cancel the novelty.
+	 */
+	public void cancelNovelty() {
+		for (Hr hr : this.hrList) {
+			if (hr.getIdHr() == this.hr.getIdHr()) {
+				hr.setSeleccionado(true);
+			}
+		}
+	}
 	// This section is to register logic
 }
