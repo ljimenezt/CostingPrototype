@@ -92,9 +92,9 @@
 						id="assistControlTable" footerClass="H130P"
 						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCinco"
 						rowClasses="odd-row, even-row">
-						<rich:column styleClass="colIconoUno">
+						<rich:column styleClass="W20P">
 							<a:commandLink render="popupDelete"
-								rendered="#{hr.seleccionado eq true}"
+								rendered="#{hr.seleccionado eq false}"
 								actionListener="#{assistControlAction.setHr(hr)}"
 								oncomplete="#{rich:component('popupDelete')}.show()">
 								<h:graphicImage value="/img/delete_16.png"
@@ -105,25 +105,13 @@
 								</rich:tooltip>
 							</a:commandLink>
 						</rich:column>
-						<rich:column styleClass="colIconoUno">
-							<a:outputPanel>
-								<a:commandLink
-									render="assistControlTable, formNovelty:popupNovelty"
-									rendered="#{hr.seleccionado eq false}"
-									actionListener="#{assistControlAction.createNovelty(hr)}"
-									oncomplete="if (#{hr.seleccionado == false}) {#{rich:component('popupNovelty')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }">
-									<h:graphicImage value="/img/checkboxChecked_16.png"
-										styleClass="verticalAlignMiddle" />
-									<rich:tooltip layout="block">
-										<h:outputText
-											value="#{mensaje.button_add} #{messageHumanResources.attendance_label_novelty}" />
-									</rich:tooltip>
-								</a:commandLink>
-								<a:outputPanel rendered="#{hr.seleccionado eq true}">
-									<h:graphicImage value="/img/checkboxUnchecked_16.png"
-										styleClass="verticalAlignMiddle" />
-								</a:outputPanel>
-							</a:outputPanel>
+						<rich:column>
+							<h:selectBooleanCheckbox value="#{hr.seleccionado}"
+								disabled="#{hr.seleccionado eq false}">
+								<a:ajax event="click" render="formNovelty:popupNovelty"
+									listener="#{assistControlAction.createNovelty(hr)}"
+									oncomplete="if (#{hr.seleccionado == false}) {#{rich:component('popupNovelty')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+							</h:selectBooleanCheckbox>
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
 							<f:facet name="header">#{mensaje.label_name}</f:facet>
@@ -217,11 +205,14 @@
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
-						<h:graphicImage value="/img/close_14.png"
-							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
-							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-							onclick="#{rich:component('popupNovelty')}.hide()"
-							styleClass="cursor" />
+						<a:commandLink onclick="#{rich:component('popupNovelty')}.hide()"
+							actionListener="#{assistControlAction.cancelNovelty()}"
+							render="formAssistControl:assistControlTable">
+							<h:graphicImage value="/img/close_14.png"
+								onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+								onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+								styleClass="cursor" />
+						</a:commandLink>
 					</h:panelGroup>
 				</f:facet>
 				<h:panelGrid id="panelNovelty" columns="4"
@@ -277,6 +268,8 @@
 						render="formAssistControl:assistControlTable" id="btnNoveltyType"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupNovelty')}.hide();}" />
 					<a:commandButton onclick="#{rich:component('popupNovelty')}.hide()"
+						actionListener="#{assistControlAction.cancelNovelty()}"
+						render="formAssistControl:assistControlTable"
 						value="#{mensaje.button_cancel}" />
 				</div>
 			</rich:popupPanel>
