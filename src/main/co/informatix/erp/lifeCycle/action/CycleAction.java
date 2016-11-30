@@ -1521,15 +1521,21 @@ public class CycleAction implements Serializable {
 	 *            : Cycle id.
 	 */
 	public void showActivitiesCycle(int selectedCycle) {
-		this.listActivity = null;
-		this.listEmptyCostActivity = null;
-		this.selectedCycle = selectedCycle;
-		this.activitiesPagination = new Paginador();
-		this.activitiesEmptyPager = new Paginador();
-		if (this.cycle != null) {
-			validateBudgetCost();
+		try {
+			this.listActivity = null;
+			this.listEmptyCostActivity = null;
+			this.selectedCycle = selectedCycle;
+			this.activitiesPagination = new Paginador();
+			this.activitiesEmptyPager = new Paginador();
+			if (this.cycle != null) {
+				validateBudgetCost();
+			}
+			this.totalCost = activitiesDao
+					.sumActivitiesGeneralCostActual(selectedCycle);
+			searchActivityCycle();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
-		searchActivityCycle();
 	}
 
 	/**
@@ -1558,7 +1564,6 @@ public class CycleAction implements Serializable {
 	 * 
 	 * @author Sergio.Gelves
 	 * @modify 24/11/2016 Luna.Granados
-	 * @modify 29/11/2016 Wilhelm.Boada
 	 */
 	public void searchActivityCycle() {
 		try {
@@ -1572,13 +1577,6 @@ public class CycleAction implements Serializable {
 						activitiesPagination.getInicio(),
 						activitiesPagination.getRango(), this.selectedCycle,
 						false);
-				this.totalCost = 0.0;
-				for (Activities activity : this.listActivity) {
-					if (activity.getGeneralCostActual() != null) {
-						this.totalCost = ControllerAccounting.add(totalCost,
-								activity.getGeneralCostActual());
-					}
-				}
 			} else {
 				this.listActivity = new ArrayList<Activities>();
 			}
