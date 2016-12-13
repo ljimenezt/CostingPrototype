@@ -48,7 +48,7 @@
 		</script>
 		<h:form id="formAssistControl">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensajeMenu.attendance_label_register}"
+				header="#{mensajeMenu.attendance_label_register} #{controladorFechas.formatDate(assistControlAction.initialDateSearch, 'MM/dd/yyyy')}"
 				id="panelAssistControl">
 				<a:outputPanel styleClass="anchoCinco">
 					<h:panelGrid columns="3"
@@ -65,8 +65,19 @@
 					</h:panelGrid>
 					<br />
 					<div class="anchoCinco" align="right">
-						<h:panelGrid id="pnlButtons" columns="2" cellpadding="0"
+						<h:panelGrid id="pnlButtons" columns="3" cellpadding="0"
 							cellspacing="0">
+							<a:outputPanel>
+								<a:commandLink render="formDate"
+									styleClass="quitarDecoracionLink"
+									rendered="#{identity.autorizado('assistControlAction','A')}"
+									oncomplete="#{rich:component('popupDate')}.show()">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/calendario_16.png" />
+										<h:outputText value="#{mensaje.label_date}" />
+									</h:panelGrid>
+								</a:commandLink>
+							</a:outputPanel>
 							<a:outputPanel>
 								<a:commandLink
 									render="panelAssistControl, mensajes, mensajeBusqueda"
@@ -320,10 +331,6 @@
 						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
 							styleClass="etiquetaTitulo" />
 					</ui:define>
-					<ui:define name="campos">
-						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{teamAction.team.name}" />
-					</ui:define>
 					<ui:define name="botones">
 						<a:commandButton value="#{mensaje.button_accept}"
 							actionListener="#{assistControlAction.removeNovelty()}"
@@ -333,6 +340,46 @@
 							onclick="#{rich:component('popupDelete')}.hide()" />
 					</ui:define>
 				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formDate">
+			<rich:popupPanel id="popupDate" autosized="true" styleClass="W290P"
+				header="#{messageHumanResources.attendance_label_date_attendance_check}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupDate')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<a:outputPanel>
+					<script type="text/javascript">
+				$g=jQuery.noConflict();
+    			</script>
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_date}" />
+						<p:calendar value="#{assistControlAction.initialDateSearch}"
+							styleClass="W104P" showOn="button" navigator="true"
+							maxdate="#{controladorFechas.fechaActual()}" pattern="MM/dd/yyyy"
+							onkeypress="return submitByEnter(event,'formDate:btnDate')">
+						</p:calendar>
+					</h:panelGrid>
+				</a:outputPanel>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_accept}" id="btnDate"
+						execute="@form"
+						actionListener="#{assistControlAction.addAttendance()}"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupDate')}.hide();}"
+						render="panelAssistControl, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupDate')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
 			</rich:popupPanel>
 		</h:form>
 
