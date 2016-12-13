@@ -355,4 +355,69 @@ public class HrDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * Returns the number of human resources in the database for the respective
+	 * assist control according the filter to search.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param consult
+	 *            : String containing the query with filters.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Amount of HR records found.
+	 * @throws Exception
+	 */
+	public Long hrAssistControlAmount(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(DISTINCT ac.hr) FROM AssistControl ac ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * This method allows consult the human resources relate with the control
+	 * assist table
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param start
+	 *            : Registry where consultation begins.
+	 * @param range
+	 *            : Range of records.
+	 * @param consult
+	 *            : Query records depending on the user selected parameter.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List
+	 *         <Hr>
+	 *         : human resource list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Hr> listHrOfAssistControl(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ac.hr FROM AssistControl ac ");
+		query.append(consult);
+		query.append("GROUP BY 1 ORDER BY 1 ");
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		q.setFirstResult(start).setMaxResults(range);
+		List<Hr> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
 }

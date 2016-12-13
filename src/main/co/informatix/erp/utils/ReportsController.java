@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -32,6 +33,8 @@ import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.RenderOption;
+
+import co.informatix.erp.humanResources.entities.AssistControl;
 
 /**
  * This class allows to process the parameters and contain the methods to
@@ -267,4 +270,35 @@ public class ReportsController implements Serializable {
 		this.reportFormat = Constantes.FORMAT_EXCEL;
 		generateReports(reportName, mapAttribute);
 	}
+
+	/**
+	 * This method allows to generate the report of the control assist according
+	 * the parameters
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param listHrAttendance
+	 *            : List of the human resource to make assist control
+	 * @throws Exception
+	 */
+	public void generateReportAttendance(List<AssistControl> listHrAttendance,
+			Date maxDate) throws Exception {
+		ResourceBundle bundleHr = ControladorContexto
+				.getBundle("messageHumanResources");
+		String reportName = "attendance.rptdesign";
+		HashMap<String, Object> mapAttribute = new HashMap<String, Object>();
+		mapAttribute.put("listHrAttendance", listHrAttendance);
+		mapAttribute.put("maxDate", maxDate);
+		mapAttribute.put("lblFullName",
+				bundleHr.getString("attendance_label_rpt_full_name"));
+		mapAttribute.put("lblAffiliated",
+				bundleHr.getString("attendance_label_rpt_affiliated_staff"));
+		mapAttribute.put("lblTotalDays1",
+				bundleHr.getString("attendance_label_rpt_total_days_p1"));
+		mapAttribute.put("lblTotalDays2",
+				bundleHr.getString("attendance_label_rpt_total_days_p2"));
+		this.reportFormat = Constantes.FORMAT_EXCEL;
+		generateReports(reportName, mapAttribute);
+	}
+
 }

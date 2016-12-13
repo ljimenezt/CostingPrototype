@@ -160,6 +160,7 @@ public class Constantes implements Serializable {
 	public static final String DATE_FORMAT_REPORT = "MMM yy";
 	public static final String DATE_FORMAT_CONSULT = "yyyy-MM-dd";
 	public static final String DATE_FORMAT_TABLE = "MMM dd, yyyy";
+	public static final String DATE_FORMAT_COLUMN_TABLE = "EEE MMM d ''yy";
 
 	/* Sort */
 	public static final String DESCENDING = "DESC";
@@ -215,6 +216,7 @@ public class Constantes implements Serializable {
 
 	/* Value Generic */
 	public static final short VALUE_ZERO = 0;
+	public static final Double VALUE_FORNIGHT = 15d;
 
 	/* Cycle report */
 	public static final String COMPANY = "LANCACAO S.A.";
@@ -234,4 +236,9 @@ public class Constantes implements Serializable {
 	/* plots and crops */
 	public static final String FLAG_ACTION_SECTION = "SECTION";
 	public static final String FLAG_ACTION_CROPS = "CROPS";
+
+	/* Style Manage Assist Control */
+	public static final String STYLE_ASSIST_OK = "assistControlOk";
+	public static final String STYLE_ASSIST_NOT = "assistControlNot";
+
 }
