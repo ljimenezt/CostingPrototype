@@ -385,6 +385,9 @@ public class AssistControlAction implements Serializable {
 		try {
 			this.noveltyMap = null;
 			this.noveltyListRemove = new ArrayList<Novelty>();
+			if (initialDateSearch == null) {
+				initialDateSearch = new Date();
+			}
 			loadNoveltyType();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -404,8 +407,9 @@ public class AssistControlAction implements Serializable {
 			this.nameSearch = "";
 			if (noveltyMap == null || noveltyMap.size() <= 0) {
 				List<Novelty> noveltyList = noveltyDao
-						.findNoveltyByDate(ControladorFechas
-								.getFechaActual(Constantes.DATE_FORMAT_CONSULT));
+						.findNoveltyByDate(ControladorFechas.formatDate(
+								initialDateSearch,
+								Constantes.DATE_FORMAT_CONSULT));
 				noveltyMap = new HashMap<Integer, Novelty>();
 				if (noveltyList != null) {
 					for (Novelty novelty : noveltyList) {
@@ -749,10 +753,10 @@ public class AssistControlAction implements Serializable {
 			if (this.hrList != null) {
 				for (Hr hr : this.hrList) {
 					AssistControl assistControl = assistControlDao
-							.consultAssistControlByHrAndDate(
-									hr.getIdHr(),
-									ControladorFechas
-											.getFechaActual(Constantes.DATE_FORMAT_CONSULT));
+							.consultAssistControlByHrAndDate(hr.getIdHr(),
+									ControladorFechas.formatDate(
+											initialDateSearch,
+											Constantes.DATE_FORMAT_CONSULT));
 					Novelty novelty = noveltyMap.get(hr.getIdHr());
 					if (assistControl == null) {
 						assistControl = new AssistControl();
