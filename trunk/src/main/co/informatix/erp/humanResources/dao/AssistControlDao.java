@@ -1,6 +1,7 @@
 package co.informatix.erp.humanResources.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -105,4 +106,105 @@ public class AssistControlDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method allows get a list of the dates in a interval in the assist
+	 * control table without repeat values
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param consult
+	 *            : Query records depending on the user selected parameter.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<Date>: date assist control list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Date> consultAssistControlDates(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT DISTINCT TO_DATE(TO_CHAR(ac.date,'YYYY-MM-dd'), 'YYYY-MM-dd') ");
+		query.append("FROM AssistControl ac ");
+		query.append(consult);
+		query.append("ORDER BY 1 ");
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		List<Date> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * This method allows consult the human resources relate with the control
+	 * assist table.
+	 * 
+	 * @modify Andres.Gomez 08/11/2016
+	 * 
+	 * @param idHr
+	 *            : identifier to search
+	 * @param consult
+	 *            : Query records depending on the user selected parameter.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<AssistControl>: assist control list
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<AssistControl> listHrOfAssistControl(int idHr,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ac FROM AssistControl ac ");
+		query.append("JOIN FETCH ac.hr h ");
+		query.append(consult);
+		if (idHr != 0) {
+			query.append("AND h.idHr = :idHr ");
+		}
+		Query q = em.createQuery(query.toString());
+		if (idHr != 0) {
+			q.setParameter("idHr", idHr);
+		}
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		List<AssistControl> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * This method allows to consult the highest date according the dates sent
+	 * by user.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param consult
+	 *            : Query records depending on the user selected parameter.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Date: Date found with the parameters sent.
+	 * @throws Exception
+	 */
+	public Date consultMaxDate(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT MAX(ac.date) FROM AssistControl ac ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		if (q.getSingleResult() != null) {
+			return (Date) q.getSingleResult();
+		}
+		return null;
+	}
+
 }

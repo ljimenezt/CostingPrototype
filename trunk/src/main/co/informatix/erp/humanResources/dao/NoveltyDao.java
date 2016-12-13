@@ -1,6 +1,7 @@
 package co.informatix.erp.humanResources.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -81,4 +82,36 @@ public class NoveltyDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method allows consult the novelty object by human resource and date.
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param idHr
+	 *            : identifier of the human resource. .
+	 * @param date
+	 *            : Date of the novelty.
+	 * @return List<Novelty>: List of Novelty.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public Novelty noveltyByHrAndDate(int idHr, Date date) {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT n FROM Novelty n ");
+		query.append("JOIN FETCH n.hr hr ");
+		query.append("JOIN FETCH n.noveltyType nt ");
+		query.append("JOIN FETCH nt.color ");
+		query.append("WHERE n.initialDateTime <= :date ");
+		query.append("AND n.finalDateTime >= :date ");
+		query.append("AND hr.idHr =:idHr ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("date", date).setParameter("idHr", idHr);
+		List<Novelty> result = q.getResultList();
+		if (result.size() > 0) {
+			return result.get(0);
+		}
+		return null;
+	}
+
 }

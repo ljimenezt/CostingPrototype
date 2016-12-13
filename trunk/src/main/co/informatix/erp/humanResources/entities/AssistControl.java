@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * This class maps the assist_control table, which contains the information of
@@ -31,6 +32,7 @@ public class AssistControl implements Serializable {
 	private boolean absent;
 	private String observations;
 	private Hr hr;
+	private Novelty novelty;
 
 	/**
 	 * @return id: Assist control identifier.
@@ -115,6 +117,24 @@ public class AssistControl implements Serializable {
 	 */
 	public void setHr(Hr hr) {
 		this.hr = hr;
+	}
+
+	/**
+	 * @return novelty: if the worker is absent this field have the novelty of
+	 *         the absent.
+	 */
+	@Transient
+	public Novelty getNovelty() {
+		return novelty;
+	}
+
+	/**
+	 * @param novelty
+	 *            :if the worker is absent this field have the novelty of the
+	 *            absent.
+	 */
+	public void setNovelty(Novelty novelty) {
+		this.novelty = novelty;
 	}
 
 	@Override

@@ -1010,3 +1010,18 @@ rect:hover {
 	opacity: 0.8;
 	background-color: black;
 }
+
+/*Styles for assists control*/
+.assistControlOk{
+	background-image: url("../img/assistOk.png");
+	background-size: 16px 16px!important;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.assistControlNot{
+	background-image: url("../img/assistNot.png");
+	background-size: 16px 16px!important;
+	background-repeat: no-repeat;
+	background-position: center;
+}

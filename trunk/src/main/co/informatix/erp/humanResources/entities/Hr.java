@@ -2,6 +2,7 @@ package co.informatix.erp.humanResources.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,6 +56,7 @@ public class Hr implements Serializable {
 	private String movil;
 	private String foto;
 	private String userName;
+	private String fullName;
 	private boolean seleccionado;
 	private boolean certificate;
 
@@ -67,6 +69,9 @@ public class Hr implements Serializable {
 	private Pais paisResidencia;
 	private Departamento departamentoResidencia;
 	private Municipio municipioResidencia;
+
+	private HashMap<Integer, String> assistControl;
+	private HashMap<Integer, String> styleControl;
 
 	/**
 	 * Constructor that initializes the foreign key
@@ -435,6 +440,22 @@ public class Hr implements Serializable {
 	}
 
 	/**
+	 * @return fullName: full name of the human resource
+	 */
+	@Transient
+	public String getFullName() {
+		return fullName;
+	}
+
+	/**
+	 * @param fullName
+	 *            : full name of the human resource
+	 */
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
+	/**
 	 * @return seleccionado: true if the object is selected and 'false' if it is
 	 *         not selected
 	 */
@@ -619,6 +640,40 @@ public class Hr implements Serializable {
 	 */
 	public void setMunicipioResidencia(Municipio municipioResidencia) {
 		this.municipioResidencia = municipioResidencia;
+	}
+
+	/**
+	 * @return assistControl: List of assist control of every human resource
+	 */
+	@Transient
+	public HashMap<Integer, String> getAssistControl() {
+		return assistControl;
+	}
+
+	/**
+	 * @param assistControl
+	 *            :List of assist control of every human resource
+	 */
+	public void setAssistControl(HashMap<Integer, String> assistControl) {
+		this.assistControl = assistControl;
+	}
+
+	/**
+	 * @return styleControl :List of the style according with the state control
+	 *         of every human resource
+	 */
+	@Transient
+	public HashMap<Integer, String> getStyleControl() {
+		return styleControl;
+	}
+
+	/**
+	 * @param styleControl
+	 *            :List of the style according with the state control of every
+	 *            human resource
+	 */
+	public void setStyleControl(HashMap<Integer, String> styleControl) {
+		this.styleControl = styleControl;
 	}
 
 	@Override

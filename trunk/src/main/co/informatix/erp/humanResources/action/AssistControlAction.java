@@ -2,6 +2,7 @@ package co.informatix.erp.humanResources.action;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,23 +10,31 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
+import javax.el.ValueExpression;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlPanelGroup;
 import javax.faces.model.SelectItem;
+
+import org.apache.commons.lang3.text.WordUtils;
+import org.richfaces.component.UIColumn;
+import org.richfaces.component.UIDataTable;
 
 import co.informatix.erp.humanResources.dao.AssistControlDao;
 import co.informatix.erp.humanResources.dao.HrDao;
 import co.informatix.erp.humanResources.dao.NoveltyDao;
 import co.informatix.erp.humanResources.dao.NoveltyTypeDao;
 import co.informatix.erp.humanResources.entities.AssistControl;
-import co.informatix.erp.humanResources.entities.AssistControlPojo;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.humanResources.entities.Novelty;
 import co.informatix.erp.humanResources.entities.NoveltyType;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
+import co.informatix.erp.utils.ControladorGenerico;
 import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ReportsController;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
@@ -34,6 +43,7 @@ import co.informatix.erp.utils.ValidacionesAction;
  * the attendance that may exist.
  * 
  * @author Wilhelm.Boada
+ * @modify Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -43,19 +53,19 @@ public class AssistControlAction implements Serializable {
 
 	private Paginador pagination = new Paginador();
 	private AssistControl assistControl;
-	private AssistControlPojo assistControlPojo;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
 	private Hr hr;
 	private String nameSearch;
 	private Novelty novelty;
-	private List<AssistControl> assistControlList;
-	private List<AssistControlPojo> assistControlPojoList;
-	private List<AssistControlPojo> assistControlPojoSubList;
 	private List<SelectItem> itemsNoveltyType;
 	private List<Hr> hrList;
 	private List<Novelty> noveltyListRemove;
 	private HashMap<Integer, Novelty> noveltyMap;
+
+	private List<Date> listDateTable;
+	private List<Hr> listHrAssistControl;
+	private UIDataTable dataTable;
 
 	@EJB
 	private AssistControlDao assistControlDao;
@@ -94,22 +104,6 @@ public class AssistControlAction implements Serializable {
 	 */
 	public void setAssistControl(AssistControl assistControl) {
 		this.assistControl = assistControl;
-	}
-
-	/**
-	 * @return assistControlPojo: Object having information of attendance taken
-	 *         in a range.
-	 */
-	public AssistControlPojo getAssistControlPojo() {
-		return assistControlPojo;
-	}
-
-	/**
-	 * @param assistControlPojo
-	 *            : Object having information of attendance taken in a range.
-	 */
-	public void setAssistControlPojo(AssistControlPojo assistControlPojo) {
-		this.assistControlPojo = assistControlPojo;
 	}
 
 	/**
@@ -190,54 +184,50 @@ public class AssistControlAction implements Serializable {
 	}
 
 	/**
-	 * @return assistControlList : AssistControl list.
+	 * @return listDateTable: List Date to show the dynamically columns in the
+	 *         view
 	 */
-	public List<AssistControl> getAssistControlList() {
-		return assistControlList;
+	public List<Date> getListDateTable() {
+		return listDateTable;
 	}
 
 	/**
-	 * @param assistControlList
-	 *            : AssistControl list.
+	 * @param listDateTable
+	 *            :List Date to show the dynamically columns in the view
 	 */
-	public void setAssistControlList(List<AssistControl> assistControlList) {
-		this.assistControlList = assistControlList;
+	public void setListDateTable(List<Date> listDateTable) {
+		this.listDateTable = listDateTable;
 	}
 
 	/**
-	 * @return assistControlPojoList : AssistControlPojo list containing dates
-	 *         introduced grouped by weeks.
+	 * @return listHrAssistControl :List HR assist control associate in the
+	 *         table
 	 */
-	public List<AssistControlPojo> getAssistControlPojoList() {
-		return assistControlPojoList;
+	public List<Hr> getListHrAssistControl() {
+		return listHrAssistControl;
 	}
 
 	/**
-	 * @param assistControlPojoList
-	 *            : AssistControlPojo list containing dates introduced grouped
-	 *            by weeks.
+	 * @param listHrAssistControl
+	 *            :List HR assist control associate in the table
 	 */
-	public void setAssistControlPojoList(
-			List<AssistControlPojo> assistControlPojoList) {
-		this.assistControlPojoList = assistControlPojoList;
+	public void setListHrAssistControl(List<Hr> listHrAssistControl) {
+		this.listHrAssistControl = listHrAssistControl;
 	}
 
 	/**
-	 * @return assistControlPojoSubList: AssistControlPojo list containing dates
-	 *         introduced grouped by weeks to show in the view.
+	 * @return dataTable: object builds datatable
 	 */
-	public List<AssistControlPojo> getAssistControlPojoSubList() {
-		return assistControlPojoSubList;
+	public UIDataTable getDataTable() {
+		return dataTable;
 	}
 
 	/**
-	 * @param assistControlPojoSubList
-	 *            : AssistControlPojo list containing dates introduced grouped
-	 *            by weeks to show in the view.
+	 * @param dataTable
+	 *            : object builds datatable
 	 */
-	public void setAssistControlPojoSubList(
-			List<AssistControlPojo> assistControlPojoSubList) {
-		this.assistControlPojoSubList = assistControlPojoSubList;
+	public void setDataTable(UIDataTable dataTable) {
+		this.dataTable = dataTable;
 	}
 
 	/**
@@ -293,12 +283,96 @@ public class AssistControlAction implements Serializable {
 	 *         and load the template with the information found.
 	 */
 	public String initializeAttendance() {
-		assistControlPojoList = new ArrayList<AssistControlPojo>();
 		this.initialDateSearch = null;
 		this.finalDateSearch = null;
 		pagination = new Paginador();
-		assistControlPojo = null;
 		return consultAssistControl();
+	}
+
+	/**
+	 * This Method build dataTable for assist control, Add columns from date of
+	 * assist
+	 * 
+	 */
+	public void buildDataTable() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		dataTable = new UIDataTable();
+		HtmlOutputText headerText1 = new HtmlOutputText();
+		headerText1.setValue(WordUtils.capitalize(bundle
+				.getString("label_name")));
+		UIColumn column1 = (UIColumn) ControladorContexto.getApplication()
+				.createComponent(UIColumn.COMPONENT_TYPE);
+		HtmlOutputText out1 = new HtmlOutputText();
+		column1.setStyleClass("colTextoMediano");
+		String mMergeName = "hr.name";
+		String nMergeFamilyName = "hr.familyName";
+		ValueExpression value1 = ControladorGenerico.getValueExpression(
+				mMergeName, nMergeFamilyName);
+		out1.setValueExpression("value", value1);
+		column1.getChildren().add(out1);
+		column1.setHeader(headerText1);
+		dataTable.getChildren().add(column1);
+
+		if (this.listDateTable != null) {
+			int countId = 0;
+			for (Date date : this.listDateTable) {
+				countId++;
+				HtmlOutputText headerText = new HtmlOutputText();
+				String d = ControladorFechas.formatDate(date,
+						Constantes.DATE_FORMAT_COLUMN_TABLE);
+				Date dateL = ControladorFechas.formatearFecha(date,
+						Constantes.DATE_FORMAT_CONSULT);
+				Integer i = (int) (dateL.getTime() / 1000);
+				headerText.setValue(WordUtils.capitalize(d));
+				UIColumn column = (UIColumn) ControladorContexto
+						.getApplication().createComponent(
+								UIColumn.COMPONENT_TYPE);
+				column.setId("column" + countId);
+				column.setStyleClass("center");
+				HtmlPanelGroup panel = new HtmlPanelGroup();
+				panel.setLayout("block");
+				String valueStyle = "background-color: #{hr.styleControl[(" + i
+						+ ").intValue()]};";
+				ValueExpression valueEStyle = ControladorContexto
+						.getApplication()
+						.getExpressionFactory()
+						.createValueExpression(
+								ControladorContexto.getELContext(), valueStyle,
+								String.class);
+				panel.setValueExpression("style", valueEStyle);
+				HtmlOutputText out = new HtmlOutputText();
+				String mMergeList = "hr.assistControl[(" + i + ").intValue()] ";
+				ValueExpression value = ControladorGenerico.getValueExpression(
+						mMergeList, null);
+				out.setEscape(false);
+				out.setValueExpression("value", value);
+				String image = "hr.styleControl[(" + i + ").intValue()]";
+				ValueExpression valueImage = ControladorGenerico
+						.getValueExpression(image, null);
+				out.setValueExpression("styleClass", valueImage);
+				panel.getChildren().add(out);
+				column.getChildren().add(panel);
+				column.setHeader(headerText);
+				dataTable.getChildren().add(column);
+			}
+		}
+	}
+
+	/**
+	 * This method allows validate the range of the search filter
+	 */
+	public void validateRangeFortNight() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		if (this.initialDateSearch != null && this.finalDateSearch != null
+				&& initialDateSearch != finalDateSearch) {
+			Double valueFornight = ControladorFechas.restarFechas(
+					initialDateSearch, finalDateSearch);
+			Double fornight = valueFornight / 24;
+			if (fornight > Constantes.VALUE_FORNIGHT) {
+				ControladorContexto.mensajeError("formBuscar:message",
+						bundle.getString("message_validar_rango_fecha"));
+			}
+		}
 	}
 
 	/**
@@ -309,7 +383,6 @@ public class AssistControlAction implements Serializable {
 	 */
 	public String addAttendance() {
 		try {
-			assistControlList = null;
 			this.noveltyMap = null;
 			this.noveltyListRemove = new ArrayList<Novelty>();
 			loadNoveltyType();
@@ -356,83 +429,149 @@ public class AssistControlAction implements Serializable {
 	 */
 	public String consultAssistControl() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleLifeCycle = ControladorContexto
-				.getBundle("messageLifeCycle");
+		ResourceBundle bundleHr = ControladorContexto
+				.getBundle("messageHumanResources");
 		ValidacionesAction validate = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		assistControlPojoSubList = new ArrayList<AssistControlPojo>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		this.listHrAssistControl = new ArrayList<Hr>();
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionSearchMessages = new StringBuilder();
 		String searchMessages = "";
+		String whiteSpace = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		try {
-			assistControlList = assistControlDao.consultAssistControl(consult,
+			advanceSearch(consult, parameters, bundle, unionSearchMessages,
+					true);
+			Long quantity = hrDao.hrAssistControlAmount(consult, parameters);
+			if (quantity != null) {
+				pagination.paginar(quantity);
+			}
+			this.listHrAssistControl = hrDao.listHrOfAssistControl(
+					pagination.getInicio(), pagination.getRango(), consult,
 					parameters);
-			assistControlPojoList = new ArrayList<AssistControlPojo>();
-			if (assistControlList != null) {
-				for (AssistControl assistControl : assistControlList) {
-					Date date = assistControl.getDate();
-					if (assistControlPojo == null
-							|| !((date.after(assistControlPojo.getStartWeek()) && date
-									.before(assistControlPojo.getEndWeek())))) {
-						assistControlPojo = new AssistControlPojo();
-						assistControlPojo.setName(assistControl.getHr()
-								.getName()
-								+ " "
-								+ assistControl.getHr().getFamilyName());
-						assistControlPojo.setStartWeek(ControladorFechas
-								.diaInicialSemana(assistControl.getDate()));
-						Date endDate = ControladorFechas
-								.diaFinalSemana(assistControl.getDate());
-						assistControlPojo.setEndWeek(ControladorFechas
-								.diaFinalSemana(ControladorFechas.sumarDias(
-										endDate, 1)));
-						assistControlPojo.setVector(new int[14]);
-						assistControlPojoList.add(assistControlPojo);
-					}
-					int numberDay = ControladorFechas.getNumberDay(date);
-					if (numberDay != 1) {
-						numberDay = numberDay - 1;
-					} else {
-						numberDay = 7;
-					}
-					if (!assistControl.isAbsent()) {
-						assistControlPojo.setVectorPos(numberDay - 1, 1);
+			if (listHrAssistControl != null) {
+				for (Hr hr : listHrAssistControl) {
+					int idHr = hr.getIdHr();
+					List<AssistControl> listAssistControlAux = assistControlDao
+							.listHrOfAssistControl(idHr, consult, parameters);
+					if (listAssistControlAux != null) {
+						HashMap<Integer, String> hasmapAux = new HashMap<Integer, String>();
+						HashMap<Integer, String> hasmapStyle = new HashMap<Integer, String>();
+						for (AssistControl ac : listAssistControlAux) {
+							Date dateAssist = ControladorFechas.formatearFecha(
+									ac.getDate(),
+									Constantes.DATE_FORMAT_CONSULT);
+							Integer i = (int) (dateAssist.getTime() / 1000);
+							String value = "";
+							String styleAssist = "";
+							if (ac.isAbsent()) {
+								Novelty novelty = noveltyDao
+										.noveltyByHrAndDate(idHr, dateAssist);
+								if (novelty != null) {
+									value = novelty.getNoveltyType().getName();
+									styleAssist = novelty.getNoveltyType()
+											.getColor().getCode();
+								} else {
+									value = whiteSpace;
+									styleAssist = Constantes.STYLE_ASSIST_NOT;
+								}
+							} else {
+								value = whiteSpace;
+								styleAssist = Constantes.STYLE_ASSIST_OK;
+							}
+							hasmapAux.put(i, value);
+							hasmapStyle.put(i, styleAssist);
+						}
+						hr.setAssistControl(hasmapAux);
+						hr.setStyleControl(hasmapStyle);
 					}
 				}
 			}
-			long amount = (long) assistControlPojoList.size();
-			pagination.paginar(amount);
-			int totalReg = pagination.getRango();
-			int start = pagination.getInicio();
-			int rank = start + totalReg;
-			if (assistControlPojoList.size() < rank) {
-				rank = assistControlPojoList.size();
-			}
-			this.assistControlPojoSubList = assistControlPojoList.subList(
-					start, rank);
-			if ((assistControlPojoList == null || assistControlPojoList.size() <= 0)
+			this.listDateTable = assistControlDao.consultAssistControlDates(
+					consult, parameters);
+			if ((listHrAssistControl == null || listHrAssistControl.size() <= 0)
 					&& !"".equals(unionSearchMessages.toString())) {
 				searchMessages = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionSearchMessages);
-			} else if (assistControlPojoList == null
-					|| assistControlPojoList.size() <= 0) {
+			} else if (listHrAssistControl == null
+					|| listHrAssistControl.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
 			} else if (!"".equals(unionSearchMessages.toString())) {
 				searchMessages = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleLifeCycle.getString("rain_gauge_label_s"),
+								bundleHr.getString("attendance_label_attendance_s"),
 								unionSearchMessages);
 			}
+			buildDataTable();
 			validate.setMensajeBusqueda(searchMessages);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 		return "gesAssistControl";
+	}
+
+	/**
+	 * This method allows to build the query to the advanced search and allows
+	 * to construct messages displayed depending on the search criteria selected
+	 * by the user.
+	 * 
+	 * @modify 01/03/2016 Gerardo.Herrera
+	 * @modify 14/04/2016 Wilhelm.Boada
+	 * @modify 15/07/2016 Andres.Gomez
+	 * 
+	 * @param consult
+	 *            : query to concatenate
+	 * @param parameters
+	 *            : list of search parameters.
+	 * @param bundle
+	 *            :access language tags
+	 * @param unionMessagesSearch
+	 *            : message search
+	 * @param flag
+	 *            :boolean indicate if the message is to show
+	 */
+	private void advanceSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch, boolean flag) {
+		SimpleDateFormat format = new SimpleDateFormat(
+				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
+		if (this.initialDateSearch != null && this.finalDateSearch != null) {
+			consult.append("WHERE ac.date >= :initialDateSearch AND ac.date <= :finalDateSearch ");
+			SelectItem item = new SelectItem(initialDateSearch,
+					"initialDateSearch");
+			parameters.add(item);
+			Date finalDateSearchAux = ControladorFechas
+					.finDeDia(finalDateSearch);
+			SelectItem item2 = new SelectItem(finalDateSearchAux,
+					"finalDateSearch");
+			parameters.add(item2);
+			if (flag) {
+				String dateFrom = bundle.getString("label_start_date") + ": "
+						+ '"' + format.format(initialDateSearch) + '"' + " ";
+				unionMessagesSearch.append(dateFrom);
+				String dateTo = bundle.getString("label_end_date") + ": " + '"'
+						+ format.format(finalDateSearch) + '"';
+				unionMessagesSearch.append(dateTo);
+			}
+		} else {
+			Date actualDate = new Date();
+			Date initialDateDefault = ControladorFechas
+					.diaInicialSemana(actualDate);
+			Date fianlDateDefault = ControladorFechas
+					.diaFinalSemana(actualDate);
+			consult.append("WHERE ac.date >= :initialDateDefault AND ac.date <= :fianlDateDefault ");
+			SelectItem item = new SelectItem(initialDateDefault,
+					"initialDateDefault");
+			parameters.add(item);
+			fianlDateDefault = ControladorFechas.finDeDia(fianlDateDefault);
+			SelectItem item2 = new SelectItem(fianlDateDefault,
+					"fianlDateDefault");
+			parameters.add(item2);
+		}
 	}
 
 	/**
@@ -607,7 +746,6 @@ public class AssistControlAction implements Serializable {
 	public String saveAssistControl() {
 		try {
 			this.hrList = hrDao.queryHr();
-			this.assistControlList = new ArrayList<AssistControl>();
 			if (this.hrList != null) {
 				for (Hr hr : this.hrList) {
 					AssistControl assistControl = assistControlDao
@@ -675,5 +813,40 @@ public class AssistControlAction implements Serializable {
 			}
 		}
 	}
-	// This section is to register logic
+
+	/**
+	 * This method allow consult the assist control information and generate the
+	 * report
+	 */
+	public void generateReportAssitControl() {
+		ReportsController reportsController = ControladorContexto
+				.getContextBean(ReportsController.class);
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		try {
+			advanceSearch(consult, parameters, null, null, false);
+			List<AssistControl> listAssistControl = assistControlDao
+					.listHrOfAssistControl(0, consult, parameters);
+			for (AssistControl ac : listAssistControl) {
+				String fullName = ac.getHr().getName() + " "
+						+ ac.getHr().getFamilyName();
+				ac.getHr().setFullName(fullName);
+				if (ac.isAbsent()) {
+					int idHr = ac.getHr().getIdHr();
+					Date date = ControladorFechas.formatearFecha(ac.getDate(),
+							Constantes.DATE_FORMAT_CONSULT);
+					Novelty novelty = noveltyDao.noveltyByHrAndDate(idHr, date);
+					ac.setNovelty(novelty);
+				}
+			}
+			Date maxDate = assistControlDao.consultMaxDate(consult, parameters);
+			maxDate = ControladorFechas.formatearFecha(maxDate,
+					Constantes.DATE_FORMAT_CONSULT);
+			reportsController.generateReportAttendance(listAssistControl,
+					maxDate);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
 }
