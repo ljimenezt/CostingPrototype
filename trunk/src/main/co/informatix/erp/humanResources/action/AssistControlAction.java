@@ -523,9 +523,6 @@ public class AssistControlAction implements Serializable {
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
 	 * 
-	 * @modify 01/03/2016 Gerardo.Herrera
-	 * @modify 14/04/2016 Wilhelm.Boada
-	 * @modify 15/07/2016 Andres.Gomez
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -706,38 +703,46 @@ public class AssistControlAction implements Serializable {
 	 * This method allows validate the field and add a new novelty.
 	 */
 	public void addNoveltyAndValidateRequerid() {
-		boolean flag = false;
-		if (this.novelty.getNoveltyType().getId() == 0) {
-			ControladorContexto.mensajeRequeridos("formNovelty:cmbNoveltyType");
-			flag = true;
-		}
-		if (this.novelty.getInitialDateTime() == null
-				|| this.novelty.getFinalDateTime() == null) {
-			if (this.novelty.getInitialDateTime() == null) {
-				ControladorContexto.mensajeRequeridos("formNovelty:startDate");
+		try {
+
+			boolean flag = false;
+			if (this.novelty.getNoveltyType().getId() == 0) {
+				ControladorContexto
+						.mensajeRequeridos("formNovelty:cmbNoveltyType");
+				flag = true;
 			}
-			if (this.novelty.getFinalDateTime() == null) {
-				ControladorContexto.mensajeRequeridos("formNovelty:endDate");
+			if (this.novelty.getInitialDateTime() == null
+					|| this.novelty.getFinalDateTime() == null) {
+				if (this.novelty.getInitialDateTime() == null) {
+					ControladorContexto
+							.mensajeRequeridos("formNovelty:startDate");
+				}
+				if (this.novelty.getFinalDateTime() == null) {
+					ControladorContexto
+							.mensajeRequeridos("formNovelty:endDate");
+				}
+				flag = true;
+			} else if (this.novelty.getFinalDateTime().before(
+					this.novelty.getInitialDateTime())) {
+				ControladorContexto.mensajeErrorEspecifico(
+						"formNovelty:endDate",
+						"attendance_message_end_date_not_earlier_start_date",
+						"messageHumanResources");
+				flag = true;
 			}
-			flag = true;
-		} else if (this.novelty.getFinalDateTime().before(
-				this.novelty.getInitialDateTime())) {
-			ControladorContexto.mensajeErrorEspecifico("formNovelty:endDate",
-					"attendance_message_end_date_not_earlier_start_date",
-					"messageHumanResources");
-			flag = true;
-		}
-		if (!flag) {
-			this.novelty.getNoveltyType().setName(
-					(String) ValidacionesAction.getLabel(itemsNoveltyType,
-							novelty.getNoveltyType().getId()));
-			noveltyMap.put(hr.getIdHr(), this.novelty);
-			for (Hr hr : this.hrList) {
-				if (this.hr.getIdHr() == hr.getIdHr()) {
-					hr.setSeleccionado(false);
-					break;
+			if (!flag) {
+				this.novelty.setNoveltyType(noveltyTypeDao
+						.findNoveltyById(novelty.getNoveltyType().getId()));
+				noveltyMap.put(hr.getIdHr(), this.novelty);
+				for (Hr hr : this.hrList) {
+					if (this.hr.getIdHr() == hr.getIdHr()) {
+						hr.setSeleccionado(false);
+						break;
+					}
 				}
 			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
@@ -761,7 +766,7 @@ public class AssistControlAction implements Serializable {
 					if (assistControl == null) {
 						assistControl = new AssistControl();
 						assistControl.setHr(hr);
-						assistControl.setDate(new Date());
+						assistControl.setDate(initialDateSearch);
 					}
 					if (novelty != null) {
 						assistControl.setAbsent(true);

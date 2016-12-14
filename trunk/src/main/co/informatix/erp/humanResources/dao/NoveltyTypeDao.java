@@ -199,4 +199,20 @@ public class NoveltyTypeDao implements Serializable {
 				.createQuery("SELECT nt FROM NoveltyType nt ORDER BY nt.name ");
 		return q.getResultList();
 	}
+
+	/**
+	 * This method makes consulting a noveltyType considering his identity.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param id
+	 *            : ID of the noveltyType.
+	 * @return noveltyType: noveltyType object found by its id or null but
+	 *         there.
+	 * @throws Exception
+	 */
+	public NoveltyType findNoveltyById(Integer id) throws Exception {
+		NoveltyType noveltyType = em.find(NoveltyType.class, id);
+		return noveltyType;
+	}
 }
