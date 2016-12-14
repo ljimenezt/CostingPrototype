@@ -133,7 +133,8 @@
 							<a:commandLink
 								value="#{assistControlAction.noveltyMap[hr.idHr].noveltyType.name}"
 								render="assistControlTable, formNovelty:popupNovelty"
-								actionListener="#{assistControlAction.setNovelty(assistControlAction.noveltyMap[hr.idHr])}"
+								actionListener="#{assistControlAction.setHr(hr)}"
+								action="#{assistControlAction.setNovelty(assistControlAction.noveltyMap[hr.idHr])}"
 								oncomplete="{#{rich:component('popupNovelty')}.show();}">
 							</a:commandLink>
 						</rich:column>
