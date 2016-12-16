@@ -92,7 +92,7 @@ public class NoveltyDao implements Serializable {
 	 *            : identifier of the human resource. .
 	 * @param date
 	 *            : Date of the novelty.
-	 * @return List<Novelty>: List of Novelty.
+	 * @return Novelty: Object Novelty.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

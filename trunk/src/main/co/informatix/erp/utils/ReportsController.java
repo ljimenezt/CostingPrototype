@@ -297,6 +297,8 @@ public class ReportsController implements Serializable {
 				bundleHr.getString("attendance_label_rpt_total_days_p1"));
 		mapAttribute.put("lblTotalDays2",
 				bundleHr.getString("attendance_label_rpt_total_days_p2"));
+		mapAttribute.put("noveltyName",
+						bundleHr.getString("attendance_label_novelty"));
 		this.reportFormat = Constantes.FORMAT_EXCEL;
 		generateReports(reportName, mapAttribute);
 	}
