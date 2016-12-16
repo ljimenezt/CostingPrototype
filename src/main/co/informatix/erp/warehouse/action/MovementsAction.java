@@ -899,7 +899,7 @@ public class MovementsAction implements Serializable {
 		Integer rangeE = this.rangeExpiration > 0 ? this.rangeExpiration
 				: this.rangeExpirationAux > 0 ? this.rangeExpirationAux : 0;
 		if (rangeE != 0) {
-			expireDate = ControladorFechas.setDay(rangeE, null);
+			expireDate = ControladorFechas.setDay(rangeE, null, true);
 			unionMessagesSearch.append(bundleWarehouse
 					.getString("movements_label_expire_in")
 					+ ": "

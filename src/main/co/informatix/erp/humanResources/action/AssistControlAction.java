@@ -30,6 +30,7 @@ import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.humanResources.entities.Novelty;
 import co.informatix.erp.humanResources.entities.NoveltyType;
 import co.informatix.erp.utils.Constantes;
+import co.informatix.erp.utils.ConstantesErp;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.ControladorGenerico;
@@ -55,16 +56,16 @@ public class AssistControlAction implements Serializable {
 	private AssistControl assistControl;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
+	private Date maxDate;
 	private Hr hr;
 	private String nameSearch;
 	private Novelty novelty;
 	private List<SelectItem> itemsNoveltyType;
 	private List<Hr> hrList;
 	private List<Novelty> noveltyListRemove;
-	private HashMap<Integer, Novelty> noveltyMap;
-
 	private List<Date> listDateTable;
 	private List<Hr> listHrAssistControl;
+	private HashMap<Integer, Novelty> noveltyMap;
 	private UIDataTable dataTable;
 
 	@EJB
@@ -345,7 +346,7 @@ public class AssistControlAction implements Serializable {
 				ValueExpression value = ControladorGenerico.getValueExpression(
 						mMergeList, null);
 				out.setEscape(false);
-				out.setValueExpression("value", value);
+				out.setValueExpression(ConstantesErp.VALUE, value);
 				String image = "hr.styleControl[(" + i + ").intValue()]";
 				ValueExpression valueImage = ControladorGenerico
 						.getValueExpression(image, null);
@@ -442,7 +443,7 @@ public class AssistControlAction implements Serializable {
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionSearchMessages = new StringBuilder();
 		String searchMessages = "";
-		String whiteSpace = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+
 		try {
 			advanceSearch(consult, parameters, bundle, unionSearchMessages,
 					true);
@@ -454,45 +455,11 @@ public class AssistControlAction implements Serializable {
 					pagination.getInicio(), pagination.getRango(), consult,
 					parameters);
 			if (listHrAssistControl != null) {
-				for (Hr hr : listHrAssistControl) {
-					int idHr = hr.getIdHr();
-					List<AssistControl> listAssistControlAux = assistControlDao
-							.listHrOfAssistControl(idHr, consult, parameters);
-					if (listAssistControlAux != null) {
-						HashMap<Integer, String> hasmapAux = new HashMap<Integer, String>();
-						HashMap<Integer, String> hasmapStyle = new HashMap<Integer, String>();
-						for (AssistControl ac : listAssistControlAux) {
-							Date dateAssist = ControladorFechas.formatearFecha(
-									ac.getDate(),
-									Constantes.DATE_FORMAT_CONSULT);
-							Integer i = (int) (dateAssist.getTime() / 1000);
-							String value = "";
-							String styleAssist = "";
-							if (ac.isAbsent()) {
-								Novelty novelty = noveltyDao
-										.noveltyByHrAndDate(idHr, dateAssist);
-								if (novelty != null) {
-									value = novelty.getNoveltyType().getName();
-									styleAssist = novelty.getNoveltyType()
-											.getColor().getCode();
-								} else {
-									value = whiteSpace;
-									styleAssist = Constantes.STYLE_ASSIST_NOT;
-								}
-							} else {
-								value = whiteSpace;
-								styleAssist = Constantes.STYLE_ASSIST_OK;
-							}
-							hasmapAux.put(i, value);
-							hasmapStyle.put(i, styleAssist);
-						}
-						hr.setAssistControl(hasmapAux);
-						hr.setStyleControl(hasmapStyle);
-					}
-				}
+				this.listDateTable = assistControlDao
+						.consultAssistControlDates(consult, parameters);
+				associateNovelty(consult, parameters);
+				buildDataTable();
 			}
-			this.listDateTable = assistControlDao.consultAssistControlDates(
-					consult, parameters);
 			if ((listHrAssistControl == null || listHrAssistControl.size() <= 0)
 					&& !"".equals(unionSearchMessages.toString())) {
 				searchMessages = MessageFormat
@@ -510,7 +477,7 @@ public class AssistControlAction implements Serializable {
 								bundleHr.getString("attendance_label_attendance_s"),
 								unionSearchMessages);
 			}
-			buildDataTable();
+
 			validate.setMensajeBusqueda(searchMessages);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -550,6 +517,7 @@ public class AssistControlAction implements Serializable {
 			SelectItem item2 = new SelectItem(finalDateSearchAux,
 					"finalDateSearch");
 			parameters.add(item2);
+			this.maxDate = finalDateSearch;
 			if (flag) {
 				String dateFrom = bundle.getString("label_start_date") + ": "
 						+ '"' + format.format(initialDateSearch) + '"' + " ";
@@ -572,6 +540,92 @@ public class AssistControlAction implements Serializable {
 			SelectItem item2 = new SelectItem(fianlDateDefault,
 					"fianlDateDefault");
 			parameters.add(item2);
+			this.maxDate = fianlDateDefault;
+		}
+	}
+
+	/**
+	 * This method allows add the novelty of the assist control according with
+	 * the human resource
+	 * 
+	 * @param consult
+	 *            : query to concatenate
+	 * @param parameters
+	 *            : list of search parameters.
+	 * @throws Exception
+	 */
+	private void associateNovelty(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		String whiteSpace = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+
+		for (Hr hr : listHrAssistControl) {
+			int idHr = hr.getIdHr();
+			List<AssistControl> listAssistControlAux = assistControlDao
+					.listHrOfAssistControl(idHr, consult, parameters);
+			if (listAssistControlAux != null) {
+				HashMap<Integer, String> hasmapAux = new HashMap<Integer, String>();
+				HashMap<Integer, String> hasmapStyle = new HashMap<Integer, String>();
+				for (AssistControl ac : listAssistControlAux) {
+					Date dateAssist = ControladorFechas.formatearFecha(
+							ac.getDate(), Constantes.DATE_FORMAT_CONSULT);
+					Integer i = (int) (dateAssist.getTime() / 1000);
+					String value = "";
+					String styleAssist = "";
+					if (ac.isAbsent()) {
+						Novelty novelty = noveltyDao.noveltyByHrAndDate(idHr,
+								dateAssist);
+						if (novelty != null) {
+							value = novelty.getNoveltyType().getName();
+							styleAssist = novelty.getNoveltyType().getColor()
+									.getCode();
+							Date dateAssistFinal = ControladorFechas
+									.formatearFecha(novelty.getFinalDateTime(),
+											Constantes.DATE_FORMAT_CONSULT);
+							if (dateAssist.compareTo(dateAssistFinal) != 0) {
+								List<Date> listDateAux = ControladorFechas
+										.getListConsecutiveTwoDates(dateAssist,
+												maxDate, false);
+								for (Date d : listDateAux) {
+									Integer j = (int) (d.getTime() / 1000);
+									hasmapAux.put(j, value);
+									hasmapStyle.put(j, styleAssist);
+								}
+							}
+						} else {
+							value = whiteSpace;
+							styleAssist = Constantes.STYLE_ASSIST_NOT;
+						}
+					} else {
+						value = whiteSpace;
+						styleAssist = Constantes.STYLE_ASSIST_OK;
+					}
+					hasmapAux.put(i, value);
+					hasmapStyle.put(i, styleAssist);
+				}
+				hr.setAssistControl(hasmapAux);
+				hr.setStyleControl(hasmapStyle);
+			}
+		}
+		recalculatedRangeDateList();
+	}
+
+	/**
+	 * This method allows recalculate the range of the list of date consulted
+	 * previously
+	 */
+	private void recalculatedRangeDateList() {
+		Date date = listDateTable.get(listDateTable.size() - 1);
+		if (date.compareTo(maxDate) < 0) {
+			Date date1 = ControladorFechas.setDay(1, date, false);
+			if (date1.compareTo(maxDate) == 0) {
+				listDateTable.add(date1);
+			} else {
+				List<Date> listDateAux = ControladorFechas
+						.getListConsecutiveTwoDates(date, maxDate, false);
+				for (Date d : listDateAux) {
+					listDateTable.add(d);
+				}
+			}
 		}
 	}
 
