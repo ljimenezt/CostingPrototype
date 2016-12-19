@@ -72,7 +72,7 @@ public class TypeFood implements Serializable {
 	 *            :Type food description.
 	 */
 	public void setDescription(String description) {
-		this.name = description;
+		this.description = description;
 	}
 
 	@Override
