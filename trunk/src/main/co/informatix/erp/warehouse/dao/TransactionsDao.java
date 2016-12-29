@@ -202,4 +202,35 @@ public class TransactionsDao implements Serializable {
 		return (0.0);
 	}
 
+	/**
+	 * This method allows consult the sum of the quantity returned by
+	 * activityMaterial.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param idActivity
+	 *            : activity identifier.
+	 * @param idMaterial
+	 *            : Material identifier.
+	 * @param idTransactionType
+	 *            : TransactionType identifier.
+	 * @return Double: quantity of returns.
+	 * @throws Exception
+	 */
+	public Double consultSumReturnByActivityMaterial(int idActivity,
+			int idMaterial, int idTransactionType) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT SUM(t.quantity) FROM Transactions t ");
+		query.append("WHERE t.activities.idActivity=:idActivity ");
+		query.append("AND t.deposits.materials.idMaterial=:idMaterial ");
+		query.append("AND t.transactionType.idTransactionType=:idTransactionType ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idActivity", idActivity);
+		q.setParameter("idMaterial", idMaterial);
+		q.setParameter("idTransactionType", idTransactionType);
+		if (q.getSingleResult() != null) {
+			return (Double) q.getSingleResult();
+		}
+		return (0.0);
+	}
 }

@@ -138,6 +138,10 @@
 								<f:facet name="header">#{mensajeWarehouse.deposits_label_actual_quantity}</f:facet>
 								<h:outputText value="#{activityMaterial.quantityActual}" />
 							</rich:column>
+							<rich:column styleClass="colNumeroLargo">
+								<f:facet name="header">#{mensajeWarehouse.movements_label_returned}</f:facet>
+								<h:outputText value="#{activityMaterial.sumQuantityReturn}" />
+							</rich:column>
 							<rich:column styleClass="colValorTextoMediano">
 								<f:facet name="header">#{messageCosts.actual_label_cost}</f:facet>
 								<h:outputText value="#{activityMaterial.costActual}">
@@ -147,7 +151,7 @@
 							</rich:column>
 							<f:facet name="footer">
 								<rich:columnGroup rendered="#{listaVacia}">
-									<rich:column colspan="5" styleClass="footTabla">
+									<rich:column colspan="6" styleClass="footTabla">
 										<h:outputText
 											value="#{mensaje.message_no_existen_registros_tabla}" />
 									</rich:column>
