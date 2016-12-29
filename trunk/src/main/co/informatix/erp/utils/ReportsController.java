@@ -279,15 +279,21 @@ public class ReportsController implements Serializable {
 	 * 
 	 * @param listHrAttendance
 	 *            : List of the human resource to make assist control
+	 * @param listNotAssist
+	 *            : List of the human resource that absent
+	 * @param maxDate
+	 *            : Date max of the range
 	 * @throws Exception
 	 */
 	public void generateReportAttendance(List<AssistControl> listHrAttendance,
-			Date maxDate) throws Exception {
+			List<AssistControl> listNotAssist, Date maxDate) throws Exception {
 		ResourceBundle bundleHr = ControladorContexto
 				.getBundle("messageHumanResources");
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String reportName = "attendance.rptdesign";
 		HashMap<String, Object> mapAttribute = new HashMap<String, Object>();
 		mapAttribute.put("listHrAttendance", listHrAttendance);
+		mapAttribute.put("listNotAssist", listNotAssist);
 		mapAttribute.put("maxDate", maxDate);
 		mapAttribute.put("lblFullName",
 				bundleHr.getString("attendance_label_rpt_full_name"));
@@ -298,7 +304,13 @@ public class ReportsController implements Serializable {
 		mapAttribute.put("lblTotalDays2",
 				bundleHr.getString("attendance_label_rpt_total_days_p2"));
 		mapAttribute.put("noveltyName",
-						bundleHr.getString("attendance_label_novelty"));
+				bundleHr.getString("attendance_label_novelty"));
+		mapAttribute.put("lblAbsentDays",
+				bundleHr.getString("attendance_label_rpt_absent_days"));
+		mapAttribute.put("lblDaysNotWorked",
+				bundleHr.getString("attendance_label_rpt_days_not_worked"));
+		mapAttribute.put("lblObservations",
+				bundle.getString("label_observations"));
 		this.reportFormat = Constantes.FORMAT_EXCEL;
 		generateReports(reportName, mapAttribute);
 	}

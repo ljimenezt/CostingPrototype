@@ -25,7 +25,7 @@ import javax.persistence.Transient;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "assist_control", schema = "human_resources")
-public class AssistControl implements Serializable {
+public class AssistControl implements Serializable, Cloneable {
 
 	private int id;
 	private Date date;
@@ -174,4 +174,14 @@ public class AssistControl implements Serializable {
 			return false;
 		return true;
 	}
+
+	public AssistControl clone() {
+		Object clone = null;
+		try {
+			clone = super.clone();
+		} catch (CloneNotSupportedException e) {
+		}
+		return (AssistControl) clone;
+	}
+
 }
