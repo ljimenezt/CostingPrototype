@@ -443,7 +443,6 @@ public class AssistControlAction implements Serializable {
 		StringBuilder consult = new StringBuilder();
 		StringBuilder unionSearchMessages = new StringBuilder();
 		String searchMessages = "";
-
 		try {
 			advanceSearch(consult, parameters, bundle, unionSearchMessages,
 					true);
@@ -477,7 +476,6 @@ public class AssistControlAction implements Serializable {
 								bundleHr.getString("attendance_label_attendance_s"),
 								unionSearchMessages);
 			}
-
 			validate.setMensajeBusqueda(searchMessages);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -886,6 +884,9 @@ public class AssistControlAction implements Serializable {
 				.getContextBean(ReportsController.class);
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
+		HashMap<Integer, AssistControl> assistControlMap = new HashMap<Integer, AssistControl>();
+		List<AssistControl> listNotAssist = new ArrayList<AssistControl>();
+		Date dateAux = new Date();
 		try {
 			advanceSearch(consult, parameters, null, null, false);
 			List<AssistControl> listAssistControl = assistControlDao
@@ -894,19 +895,38 @@ public class AssistControlAction implements Serializable {
 				String fullName = ac.getHr().getName() + " "
 						+ ac.getHr().getFamilyName();
 				ac.getHr().setFullName(fullName);
+				dateAux = ac.getDate();
+				assistControlMap.put(ac.getHr().getIdHr(), ac);
 				if (ac.isAbsent()) {
 					int idHr = ac.getHr().getIdHr();
 					Date date = ControladorFechas.formatearFecha(ac.getDate(),
 							Constantes.DATE_FORMAT_CONSULT);
 					Novelty novelty = noveltyDao.noveltyByHrAndDate(idHr, date);
 					ac.setNovelty(novelty);
+					listNotAssist.add(ac);
 				}
 			}
-			Date maxDate = assistControlDao.consultMaxDate(consult, parameters);
+			if (dateAux.compareTo(maxDate) < 0) {
+				while (dateAux.compareTo(maxDate) != 0) {
+					dateAux = ControladorFechas.setDay(1, dateAux, true);
+					List<AssistControl> listAc = new ArrayList<AssistControl>();
+					for (AssistControl value : assistControlMap.values()) {
+						AssistControl ac = value.clone();
+						String fullName = value.getHr().getName() + " "
+								+ value.getHr().getFamilyName();
+						ac.getHr().setFullName(fullName);
+						ac.setId(0);
+						ac.setDate(dateAux);
+						listAc.add(ac);
+					}
+					listAssistControl.addAll(listAc);
+				}
+			}
+			Date maxDate = this.maxDate;
 			maxDate = ControladorFechas.formatearFecha(maxDate,
 					Constantes.DATE_FORMAT_CONSULT);
 			reportsController.generateReportAttendance(listAssistControl,
-					maxDate);
+					listNotAssist, maxDate);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
