@@ -57,5 +57,7 @@ public class MealControlAction implements Serializable {
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
 	}
+	
+	// Others
 
 }
