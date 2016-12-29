@@ -912,11 +912,10 @@ public class AssistControlAction implements Serializable {
 					List<AssistControl> listAc = new ArrayList<AssistControl>();
 					for (AssistControl value : assistControlMap.values()) {
 						AssistControl ac = value.clone();
-						String fullName = value.getHr().getName() + " "
-								+ value.getHr().getFamilyName();
-						ac.getHr().setFullName(fullName);
-						ac.setId(0);
 						ac.setDate(dateAux);
+						if (!ac.isAbsent()) {
+							ac.setId(0);
+						}
 						listAc.add(ac);
 					}
 					listAssistControl.addAll(listAc);
