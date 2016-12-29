@@ -1073,6 +1073,18 @@ public class MovementsAction implements Serializable {
 				List<ActivityMaterials> listActivityM = activityMaterialsDao
 						.consultActivityMaterialInTrasaction();
 				if (listActivityM != null) {
+					for (ActivityMaterials activityMaterial : listActivityM) {
+						int idActivity = activityMaterial
+								.getActivityMaterialsPK().getActivities()
+								.getIdActivity();
+						int idMaterial = activityMaterial
+								.getActivityMaterialsPK().getMaterials()
+								.getIdMaterial();
+						activityMaterial.setSumQuantityReturn(transactionsDao
+								.consultSumReturnByActivityMaterial(idActivity,
+										idMaterial,
+										Constantes.TRANSACTION_TYPE_RETURN));
+					}
 					setTotalQuantityWithdrawn(listActivityM);
 				}
 			} else {
@@ -1148,8 +1160,10 @@ public class MovementsAction implements Serializable {
 	/**
 	 * This method allows save the material activity returned by the user
 	 * creating a transaction editing the deposit of the material
+	 * 
+	 * @return initializeReturns(): Initialize the values of the consult.
 	 */
-	public void saveReturnMaterialActivity() {
+	public String saveReturnMaterialActivity() {
 		ResourceBundle bundle = ControladorContexto
 				.getBundle("mensajeWarehouse");
 		try {
@@ -1225,6 +1239,7 @@ public class MovementsAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
+		return initializeReturns();
 	}
 
 	/**

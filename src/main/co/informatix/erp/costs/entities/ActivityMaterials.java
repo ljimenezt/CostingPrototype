@@ -30,6 +30,7 @@ public class ActivityMaterials implements Serializable, Cloneable {
 	private Double quantityActual;
 	private Double costActual;
 	private Double quantityWithdrawn;
+	private Double sumQuantityReturn;
 	private Date dateTime;
 	private boolean selected;
 
@@ -167,7 +168,23 @@ public class ActivityMaterials implements Serializable, Cloneable {
 	}
 
 	/**
-	 * @return quantityReturn : Quantity to return material
+	 * @return sumQuantityReturn : Actual quantity of material withdrawn
+	 */
+	@Transient
+	public Double getSumQuantityReturn() {
+		return sumQuantityReturn;
+	}
+
+	/**
+	 * @param sumQuantityReturn
+	 *            : Quantity of material returned
+	 */
+	public void setSumQuantityReturn(Double sumQuantityReturn) {
+		this.sumQuantityReturn = sumQuantityReturn;
+	}
+
+	/**
+	 * @return quantityReturn : Quantity of material returned
 	 */
 	@Transient
 	public double getQuantityReturn() {
