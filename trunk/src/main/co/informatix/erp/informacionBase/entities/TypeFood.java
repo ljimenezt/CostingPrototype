@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * This class maps the type food table, which contains the information of the
@@ -24,6 +25,7 @@ public class TypeFood implements Serializable {
 	private int id;
 	private String name;
 	private String description;
+	private boolean selected;
 
 	/**
 	 * @return id: Type food identifier.
@@ -73,6 +75,24 @@ public class TypeFood implements Serializable {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * @return selected: Flag to see if it is selected typeFood, true is
+	 *         selected and false is not selected.
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : Flag to see if it is selected typeFood, true is selected and
+	 *            false is not selected.
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override

@@ -57,6 +57,7 @@
 			/baseInformation/ivaRate/faces-config-ivaRate.xml,
 			/baseInformation/systemProfile/faces-config-systemProfile.xml,
 			/baseInformation/color/faces-config-color.xml,
+			/baseInformation/typeFood/faces-config-typeFood.xml,
 			
             /organizaciones/empresas/faces-config-empresas.xml,
             /organizaciones/organizacion/faces-config-organizacion.xml,
@@ -86,6 +87,7 @@
 			/humanResources/overtimePaymentRate/faces-config-overtimePayment.xml,
 			/humanResources/team/faces-config-team.xml,
 			/humanResources/assistControl/faces-config-assistControl.xml,
+			/humanResources/mealControl/faces-config-mealControl.xml,
 			
 			/lifeCycle/farm/faces-config-farm.xml,
 			/lifeCycle/plot/faces-config-plot.xml,

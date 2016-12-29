@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * This class maps the day table, which contains the information of the day.
@@ -22,6 +23,7 @@ public class Day implements Serializable {
 
 	private int id;
 	private String name;
+	private boolean selected;
 
 	/**
 	 * @return id: Day identifier.
@@ -55,6 +57,24 @@ public class Day implements Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * @return selected: Flag to see if it is selected day, true is selected and
+	 *         false is not selected.
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : Flag to see if it is selected day, true is selected and
+	 *            false is not selected.
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override
