@@ -1,0 +1,260 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="typeFoodAction.addEditTypeFood(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_register,messageBaseInformation.type_food_label" />
+	<ui:define name="body">
+		<t:saveState value="#{typeFoodAction}" />
+		<t:saveState value="#{dayTypeFoodAction}" />
+		<t:saveState value="#{dayAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+		<h:form id="formRegisterTypeFood">
+			<rich:panel
+				header="#{mensaje.label_register} #{messageBaseInformation.type_food_label}"
+				styleClass="anchoUno MinH253P" id="panelTypeFood">
+				<t:fieldset styleClass="BorderW2P anchoDos">
+					<legend class="etiquetaTitulo">#{messageBaseInformation.type_food_label}</legend>
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="etiquetaTitulo tdAlignTop,tdAlignTop,,tdAlignTop2">
+
+						<h:outputText value="#{mensaje.label_name}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText value="#{typeFoodAction.typeFood.name}"
+							styleClass="colTextoMediano" id="txtName"
+							validator="#{typeFoodAction.validateNameXSS}" />
+						<rich:message for="txtName" />
+
+						<h:outputText value="#{mensaje.label_description}" />
+						<h:outputText value="" />
+						<h:inputTextarea value="#{typeFoodAction.typeFood.description}"
+							styleClass="colTextoMedianoTextArea" id="txtDescription"
+							validator="#{encodeFilter.validarScripting}">
+						</h:inputTextarea>
+						<rich:message for="txtDescription" />
+
+					</h:panelGrid>
+					<br />
+				</t:fieldset>
+				<br />
+				<ui:include src="templateDayTypeFood.xhtml">
+					<ui:param name="typeFoodSelected" value="true" />
+				</ui:include>
+				<br />
+				<div align="center">
+					<a:commandButton
+						render="formConfirmar:popUpConfirmar,formGenerico, formRegisterTypeFood:mensajeBusquedaMenu"
+						actionListener="#{typeFoodAction.validateRequired()}"
+						oncomplete="if (#{facesContext.maximumSeverity==null and !(dayTypeFoodAction.dayTypeFoodList == null or (empty dayTypeFoodAction.dayTypeFoodList))}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_save}" />
+				</div>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:" />
+						<h:outputText value="#{typeFoodAction.typeFood.name}" />
+					</ui:define>
+
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{typeFoodAction.saveUpdateTypeFood}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formDay">
+			<rich:popupPanel id="popupDay" autosized="true" maxWidth="490"
+				domElementAttachment="form" header="#{mensaje.label_days}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="cursor"
+							onclick="#{rich:component('popupDay')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:panel styleClass="H385P fondoAnchoUno W400P">
+					<a:outputPanel id="panelSearch">
+						<t:fieldset styleClass="BorderW2P">
+							<legend class="etiquetaTitulo">#{mensaje.label_search}
+								#{mensaje.label_day}</legend>
+							<h:panelGrid columns="3" cellpadding="7">
+								<h:outputText value="#{mensaje.label_name}"
+									styleClass="etiquetaTitulo" />
+								<h:inputText size="20" maxlength="100" id="txtName"
+									value="#{dayAction.nameSearch}"
+									onkeypress="return submitByEnter(event,'formDay:btnSearch')" />
+								<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
+									actionListener="#{dayAction.setFlagStart(false)}"
+									action="#{dayAction.consultDay()}" render="panelSearch">
+									<f:param name="param2" value="si" />
+								</a:commandButton>
+							</h:panelGrid>
+						</t:fieldset>
+						<br />
+						<a:outputPanel>
+							<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+								<ui:param name="width" value="W370P" />
+								<ui:param name="id" value="popupBuscarMenu" />
+							</ui:include>
+						</a:outputPanel>
+						<br />
+						<a:outputPanel id="panelDay">
+							<div class="W370P">
+								<a:commandLink render="panelSearch"
+									styleClass="quitarDecoracionLink iconsDataTable"
+									action="#{dayAction.initializeDay()}">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/listarTodos_16.png" />
+										<h:outputText value="#{mensaje.button_list_all}" />
+									</h:panelGrid>
+									<f:param name="param2" value="si" />
+								</a:commandLink>
+							</div>
+							<ui:param name="listaVacia"
+								value="#{dayAction.subDayList eq null or (empty dayAction.subDayList)}" />
+
+							<rich:dataTable value="#{dayAction.subDayList}" var="day"
+								id="dayTable" footerClass="H105P"
+								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W370P"
+								rowClasses="odd-row, even-row">
+
+								<rich:column styleClass="colIconoUno">
+									<f:facet name="header" />
+									<rich:column styleClass="colIconoUno">
+										<f:facet name="header" />
+										<a:commandLink rendered="#{day.selected}"
+											action="#{typeFoodAction.selectDay(day)}"
+											render="panelSearch, panelDay"
+											oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+											<h:graphicImage value="/img/okPermiso_16.png"
+												styleClass="verticalAlignMiddle" />
+										</a:commandLink>
+										<a:commandLink rendered="#{!day.selected}"
+											action="#{typeFoodAction.selectDay(day)}"
+											render="panelSearch, panelDay"
+											oncomplete="setFocus(#{rich:element('formGenerico:valFocus')}.value);">
+											<h:graphicImage value="/img/seleccionarRadioOut_16.png"
+												styleClass="verticalAlignMiddle" />
+										</a:commandLink>
+									</rich:column>
+								</rich:column>
+								<rich:column styleClass="colTextoCorto">
+									<f:facet name="header">#{mensaje.label_name}</f:facet>
+									<h:outputText value="#{day.name}" />
+								</rich:column>
+								<f:facet name="footer">
+									<rich:columnGroup rendered="#{listaVacia}">
+										<rich:column colspan="3" styleClass="footTabla">
+											<h:outputText
+												value="#{mensaje.message_no_existen_registros_tabla}" />
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+							</rich:dataTable>
+							<a:outputPanel rendered="#{!listaVacia}">
+								<div class="W370P center inBlock">
+									<ui:include src="/plantillas/templatePagination.xhtml">
+										<ui:param name="valParam2" value="si" />
+										<ui:param name="conParam2" value="1" />
+										<ui:param name="pager" value="pagination" />
+										<ui:param name="valReder" value=":formDay:panelDay" />
+										<ui:param name="beanActionParam" value="#{dayAction}" />
+										<ui:param name="metodoActionParam" value="consultDay" />
+									</ui:include>
+								</div>
+							</a:outputPanel>
+						</a:outputPanel>
+						<br />
+						<br />
+						<div align="center">
+							<a:commandButton value="#{mensaje.button_add}"
+								render="formRegisterTypeFood"
+								actionListener="#{typeFoodAction.addDaysToTypeFood()}"
+								execute="popupDay"
+								oncomplete="#{rich:component('popupDay')}.hide();" />
+							<a:commandButton value="#{mensaje.button_cancel}"
+								onclick="#{rich:component('popupDay')}.hide()" />
+						</div>
+					</a:outputPanel>
+				</rich:panel>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form>
+			<rich:popupPanel id="popupDeleteDayTypeFood" keepVisualState="true"
+				autosized="true" domElementAttachment="form"
+				header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupDeleteDayTypeFood')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_eliminar_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensaje.label_name}:" />
+						<h:outputText value="#{typeFoodAction.dayTypeFood.day.name}" />
+					</ui:define>
+					<ui:define name="botones">
+						<a:commandButton value="#{mensaje.button_accept}"
+							actionListener="#{typeFoodAction.deleteDayTypeFood()}"
+							onclick="#{rich:component('popupDeleteDayTypeFood')}.hide()"
+							render="formRegisterTypeFood" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popupDeleteDayTypeFood')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

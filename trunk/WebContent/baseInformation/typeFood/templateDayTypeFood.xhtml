@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:p="http://primefaDayTypeFoodListces.org/ui"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	<h:body>
+		<t:fieldset styleClass="anchoDos BorderW2P"
+			rendered="#{typeFoodSelected ne null}">
+			<legend class="etiquetaTitulo">#{mensaje.label_days}</legend>
+			<a:outputPanel id="pnlTypeFood">
+				<rich:message for="pnlTypeFood" />
+				<ui:param name="listaVaciaA"
+					value="#{dayTypeFoodAction.subDayTypeFoodList.size() eq 0 or (dayTypeFoodAction.subDayTypeFoodList eq null)}" />
+				<a:outputPanel id="mensajeBusquedaMenu">
+					<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+						<ui:param name="width" value="anchoSiete" />
+						<ui:param name="id" value="popupBuscarMenu" />
+					</ui:include>
+				</a:outputPanel>
+				<rich:message for="mensajeBusquedaMenu" />
+				<div align="right" class="anchoSiete">
+					<h:panelGrid id="pnlButtons" columns="1" cellpadding="0"
+						cellspacing="0">
+						<a:commandLink render="formDay" styleClass="quitarDecoracionLink"
+							actionListener="#{typeFoodAction.initializeDay()}"
+							rendered="#{typeFoodAction.start eq true}"
+							oncomplete="#{rich:component('popupDay')}.show(); setFocus('formDay:txtName');">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/calendario_16.png" />
+								<h:outputText
+									value="#{mensaje.button_add} #{mensaje.label_days}" />
+							</h:panelGrid>
+							<f:param name="param2" value="si" />
+						</a:commandLink>
+					</h:panelGrid>
+				</div>
+				<rich:dataTable value="#{dayTypeFoodAction.subDayTypeFoodList}"
+					id="dayTypeFoodTable" var="dayTypeFood"
+					styleClass="#{listaVaciaA ? 'BCTransparente W100Per' : 'dataTable'} anchoSiete"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoUno"
+						rendered="#{typeFoodAction.start eq true}">
+						<a:commandLink render="popupDeleteDayTypeFood"
+							actionListener="#{typeFoodAction.setDayTypeFood(dayTypeFood)}"
+							oncomplete="#{rich:component('popupDeleteDayTypeFood')}.show()">
+							<h:graphicImage value="/img/delete_16.png"
+								styleClass="verticalAlignMiddle" />
+							<rich:tooltip layout="block">
+								<h:outputText value="#{mensaje.button_remove}" />
+							</rich:tooltip>
+						</a:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoExtraLargo">
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
+						<h:outputText
+							value="#{dayTypeFood.afterHoliday eq true ? messageBaseInformation.type_food_label_after_holiday : dayTypeFood.day.name}" />
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVaciaA}">
+							<rich:column colspan="2" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<a:outputPanel rendered="#{!listaVaciaA}">
+					<br />
+					<div class="anchoSiete center inBlock W100Per">
+						<ui:include src="/plantillas/templatePagination.xhtml">
+							<ui:param name="valId" value="2" />
+							<ui:param name="valReder" value="panelTypeFood" />
+							<ui:param name="beanActionParam" value="#{dayTypeFoodAction}" />
+							<ui:param name="metodoActionParam" value="consultDayTypeFood" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</a:outputPanel>
+		</t:fieldset>
+	</h:body>
+</ui:composition>

@@ -29,7 +29,6 @@ public class DayTypeFood implements Serializable {
 
 	private int id;
 	private boolean afterHoliday;
-	private boolean status;
 
 	private Day day;
 	private TypeFood typeFood;
@@ -68,22 +67,6 @@ public class DayTypeFood implements Serializable {
 	 */
 	public void setAfterHoliday(boolean afterHoliday) {
 		this.afterHoliday = afterHoliday;
-	}
-
-	/**
-	 * @return status: This field identifies whether the worker requests food.
-	 */
-	@Column(name = "status", nullable = false)
-	public boolean isStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status
-	 *            : This field identifies whether the worker requests food.
-	 */
-	public void setStatus(boolean status) {
-		this.status = status;
 	}
 
 	/**
@@ -126,7 +109,6 @@ public class DayTypeFood implements Serializable {
 		int result = 1;
 		result = prime * result + (afterHoliday ? 1231 : 1237);
 		result = prime * result + id;
-		result = prime * result + (status ? 1231 : 1237);
 		return result;
 	}
 
@@ -142,8 +124,6 @@ public class DayTypeFood implements Serializable {
 		if (afterHoliday != other.afterHoliday)
 			return false;
 		if (id != other.id)
-			return false;
-		if (status != other.status)
 			return false;
 		return true;
 	}
