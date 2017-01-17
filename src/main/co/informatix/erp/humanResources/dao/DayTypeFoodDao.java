@@ -94,16 +94,20 @@ public class DayTypeFoodDao implements Serializable {
 	 * 
 	 * @param idTypeFood
 	 *            : identifier typeFood.
+	 * @param flag
+	 *            : flag to the consult.
 	 * @return List<DayTypeFood>: DayTypeFood list
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<DayTypeFood> consultDayTypeFoodByIdTypeFood(int idTypeFood)
-			throws Exception {
+	public List<DayTypeFood> consultDayTypeFoodByIdTypeFood(int idTypeFood,
+			boolean flag) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT d FROM DayTypeFood d ");
 		query.append("JOIN FETCH d.typeFood ");
-		query.append("JOIN FETCH d.day ");
+		if (flag) {
+			query.append("JOIN FETCH d.day ");
+		}
 		query.append("WHERE d.typeFood.id =:idTypeFood ");
 		Query q = em.createQuery(query.toString());
 		q.setParameter("idTypeFood", idTypeFood);
@@ -122,7 +126,7 @@ public class DayTypeFoodDao implements Serializable {
 	 *            :TypeFood identifier to find dayTypeFood.
 	 * @param idDay
 	 *            :Day identifier to find dayTypeFood.
-	 * @return List<DayTypeFood>: DayTypeFood found by typeFood and day.
+	 * @return DayTypeFood: DayTypeFood found by typeFood and day.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")

@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.action.DayTypeFoodAction;
+import co.informatix.erp.humanResources.dao.MealControlDao;
 import co.informatix.erp.humanResources.entities.DayTypeFood;
 import co.informatix.erp.informacionBase.dao.TypeFoodDao;
 import co.informatix.erp.informacionBase.entities.Day;
@@ -52,6 +53,8 @@ public class TypeFoodAction implements Serializable {
 
 	@EJB
 	private TypeFoodDao typeFoodDao;
+	@EJB
+	private MealControlDao mealControlDao;
 
 	/**
 	 * @return pagination: Management paged typeFood list.
@@ -286,26 +289,32 @@ public class TypeFoodAction implements Serializable {
 	/**
 	 * Method to delete a typeFood of the database.
 	 * 
-	 * @return consultTypeFood(): Consult the list of typeFood and returns to
-	 *         manage typeFood.
+	 * @return initializeTypeFood(): Redirects to manage the typeFood list with
+	 *         typeFood updated.
 	 */
 	public String deleteTypeFood() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		try {
-			dayTypeFoodAction.deleteAllDayTypeFood(typeFood);
-			typeFoodDao.removeTypeFood(typeFood);
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString("message_registro_eliminar"),
-					typeFood.getName()));
+			if (!mealControlDao
+					.consultMealControlByIdTypeFood(typeFood.getId())) {
+				dayTypeFoodAction.deleteAllDayTypeFood(typeFood);
+				typeFoodDao.removeTypeFood(typeFood);
+				ControladorContexto.mensajeInfoArg2(
+						"message_registro_eliminar", "mensaje",
+						typeFood.getName());
+			} else {
+				ControladorContexto.mensajeInfoArg2(
+						"type_food_message_can_not_eliminate_type_food",
+						"messageBaseInformation", typeFood.getName());
+			}
+
 		} catch (EJBException e) {
-			String format = MessageFormat.format(
-					bundle.getString("message_existe_relacion_eliminar"),
+			ControladorContexto.mensajeErrorArg2(
+					"message_existe_relacion_eliminar", "mensaje",
 					typeFood.getName());
-			ControladorContexto.mensajeError(e, null, format);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return consultTypeFood();
+		return initializeTypeFood();
 	}
 
 	/**

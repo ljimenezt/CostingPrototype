@@ -75,7 +75,7 @@ public class FoodControl implements Serializable {
 	/**
 	 * @return unitCost: Unit cost of food.
 	 */
-	@Column(name = "unitCost", nullable = false)
+	@Column(name = "unit_cost", nullable = false)
 	public double getUnitCost() {
 		return unitCost;
 	}
