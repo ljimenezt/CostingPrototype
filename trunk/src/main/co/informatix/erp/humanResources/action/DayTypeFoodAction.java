@@ -213,7 +213,7 @@ public class DayTypeFoodAction implements Serializable {
 		List<Integer> currentIds = new ArrayList<Integer>();
 		List<Integer> newsIds = new ArrayList<Integer>();
 		List<DayTypeFood> dayTypeFoodActualList = dayTypeFoodDao
-				.consultDayTypeFoodByIdTypeFood(typeFoodSelected.getId());
+				.consultDayTypeFoodByIdTypeFood(typeFoodSelected.getId(), true);
 		boolean flagHoliday = false;
 		if (this.dayTypeFoodList != null) {
 			if (dayTypeFoodActualList != null) {
@@ -290,7 +290,7 @@ public class DayTypeFoodAction implements Serializable {
 	 */
 	public void deleteAllDayTypeFood(TypeFood typeFood) throws Exception {
 		List<DayTypeFood> dayTypeFoodActualList = dayTypeFoodDao
-				.consultDayTypeFoodByIdTypeFood(typeFood.getId());
+				.consultDayTypeFoodByIdTypeFood(typeFood.getId(), false);
 		if (dayTypeFoodActualList != null) {
 			for (DayTypeFood dayTypeFood : dayTypeFoodActualList) {
 				dayTypeFoodDao.deleteDayTypeFood(dayTypeFood);
