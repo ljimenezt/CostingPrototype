@@ -14,7 +14,7 @@
 			<a:outputPanel id="pnlTypeFood">
 				<rich:message for="pnlTypeFood" />
 				<ui:param name="listaVaciaA"
-					value="#{dayTypeFoodAction.subDayTypeFoodList.size() eq 0 or (dayTypeFoodAction.subDayTypeFoodList eq null)}" />
+					value="#{dayTypeFoodAction.subDayTypeFoodList eq null or (empty dayTypeFoodAction.subDayTypeFoodList)}" />
 				<a:outputPanel id="mensajeBusquedaMenu">
 					<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
 						<ui:param name="width" value="anchoSiete" />
