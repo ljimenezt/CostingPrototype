@@ -236,10 +236,12 @@ public class DayTypeFoodAction implements Serializable {
 				String action = saveData.getAccion();
 				DayTypeFood dayTypeFood = new DayTypeFood();
 				for (DayTypeFood dayTypeFoodSeleted : dayTypeFoodList) {
-					if (dayTypeFoodSeleted.getDay().getId() == saveData
-							.getIdClase()) {
-						dayTypeFood = dayTypeFoodSeleted;
-						break;
+					if (dayTypeFoodSeleted.getDay() != null) {
+						if (dayTypeFoodSeleted.getDay().getId() == saveData
+								.getIdClase()) {
+							dayTypeFood = dayTypeFoodSeleted;
+							break;
+						}
 					}
 				}
 				dayTypeFood.setTypeFood(typeFoodSelected);
