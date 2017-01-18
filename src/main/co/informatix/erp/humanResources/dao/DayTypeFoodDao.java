@@ -1,6 +1,7 @@
 package co.informatix.erp.humanResources.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -82,10 +83,10 @@ public class DayTypeFoodDao implements Serializable {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
 		}
 		List<DayTypeFood> resultList = q.getResultList();
-		if (resultList.size() > 0) {
-			return resultList;
+		if (resultList.size() <= 0) {
+			resultList = new ArrayList<DayTypeFood>();
 		}
-		return null;
+		return resultList;
 	}
 
 	/**
