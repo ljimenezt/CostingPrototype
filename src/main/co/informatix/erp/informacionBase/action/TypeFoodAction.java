@@ -302,7 +302,7 @@ public class TypeFoodAction implements Serializable {
 						"message_registro_eliminar", "mensaje",
 						typeFood.getName());
 			} else {
-				ControladorContexto.mensajeInfoArg2(
+				ControladorContexto.mensajeErrorArg2(
 						"type_food_message_can_not_eliminate_type_food",
 						"messageBaseInformation", typeFood.getName());
 			}
