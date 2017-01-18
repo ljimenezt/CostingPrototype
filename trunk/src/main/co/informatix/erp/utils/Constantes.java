@@ -161,6 +161,7 @@ public class Constantes implements Serializable {
 	public static final String DATE_FORMAT_CONSULT = "yyyy-MM-dd";
 	public static final String DATE_FORMAT_TABLE = "MMM dd, yyyy";
 	public static final String DATE_FORMAT_COLUMN_TABLE = "EEE MMM d ''yy";
+	public static final String DATE_FORMAT_DAY_OF_WEEK = "EEEE";
 
 	/* Sort */
 	public static final String DESCENDING = "DESC";
@@ -240,5 +241,9 @@ public class Constantes implements Serializable {
 	/* Style Manage Assist Control */
 	public static final String STYLE_ASSIST_OK = "assistControlOk";
 	public static final String STYLE_ASSIST_NOT = "assistControlNot";
+
+	/* Source of Control Manage */
+	public static final String SOURCE_ASSIST_CONTROL = "AssistControl";
+	public static final String SOURCE_FOOD_CONTROL = "FoodControl";
 
 }
