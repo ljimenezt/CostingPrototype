@@ -1,6 +1,7 @@
 package co.informatix.erp.humanResources.dao;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -420,4 +421,72 @@ public class HrDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * This method allows consult the human resources relate with the control
+	 * assist table.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param date
+	 *            : Date of the absent.
+	 * @param consult
+	 *            : Query records depending on the user selected parameter.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List
+	 *         <Hr>
+	 *         :Human resource list.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Hr> consultHrListByAssistControl(String date,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT h FROM Hr h ");
+		query.append("WHERE h.idHr IN (SELECT ac.hr.idHr FROM AssistControl ac ");
+		query.append("WHERE TO_CHAR(ac.date,'YYYY-MM-dd')= :date ) ");
+		query.append(consult);
+		query.append("ORDER BY h.name ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("date", date);
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		List<Hr> resultList = q.getResultList();
+		if (resultList.size() <= 0) {
+			resultList = new ArrayList<Hr>();
+			;
+		}
+		return resultList;
+	}
+
+	/**
+	 * This method allows consult the human resources relate with the control
+	 * assist table.
+	 * 
+	 * @author Wilhelm.Boada
+	 * 
+	 * @param date
+	 *            : Date to the consult hr.
+	 * @return List
+	 *         <Hr>
+	 *         :Human resource list.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Hr> consultHrListByAssistControl(String date) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT h FROM Hr h ");
+		query.append("WHERE h.idHr IN (SELECT ac.hr.idHr FROM AssistControl ac ");
+		query.append("WHERE TO_CHAR(ac.date,'YYYY-MM-dd')= :date ) ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("date", date);
+		List<Hr> resultList = q.getResultList();
+		if (resultList.size() <= 0) {
+			resultList = new ArrayList<Hr>();
+			;
+		}
+		return resultList;
+	}
 }

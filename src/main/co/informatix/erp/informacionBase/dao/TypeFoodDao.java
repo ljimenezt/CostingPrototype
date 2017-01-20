@@ -146,4 +146,29 @@ public class TypeFoodDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method consultation typeFood with a certain range sent as a
+	 * parameter and filtering the information by the values of sent search.
+	 * 
+	 * @param consult
+	 *            : Consult the logs depending on the parameters selected by the
+	 *            user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<TypeFood>: TypeFood list.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TypeFood> consultTypeFood() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT t FROM TypeFood t ");
+		query.append("ORDER BY t.name ");
+		Query q = em.createQuery(query.toString());
+		List<TypeFood> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }
