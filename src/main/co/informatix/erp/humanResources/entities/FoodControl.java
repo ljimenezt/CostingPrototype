@@ -31,7 +31,6 @@ public class FoodControl implements Serializable {
 
 	private int id;
 	private int quantity;
-	private double unitCost;
 	private String other;
 	private Date date;
 
@@ -73,22 +72,6 @@ public class FoodControl implements Serializable {
 	}
 
 	/**
-	 * @return unitCost: Unit cost of food.
-	 */
-	@Column(name = "unit_cost", nullable = false)
-	public double getUnitCost() {
-		return unitCost;
-	}
-
-	/**
-	 * @param unitCost
-	 *            : Unit cost of food.
-	 */
-	public void setUnitCost(double unitCost) {
-		this.unitCost = unitCost;
-	}
-
-	/**
 	 * @return date: Date of the food control.
 	 */
 	@Column(name = "date", nullable = false)
@@ -125,7 +108,7 @@ public class FoodControl implements Serializable {
 	 * @return hr: Hr to which the foodControl belong.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_hr", referencedColumnName = "idhr", nullable = false)
+	@JoinColumn(name = "id_hr", referencedColumnName = "idhr")
 	public Hr getHr() {
 		return hr;
 	}
@@ -163,9 +146,6 @@ public class FoodControl implements Serializable {
 		result = prime * result + id;
 		result = prime * result + ((other == null) ? 0 : other.hashCode());
 		result = prime * result + quantity;
-		long temp;
-		temp = Double.doubleToLongBits(unitCost);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -191,9 +171,6 @@ public class FoodControl implements Serializable {
 		} else if (!this.other.equals(other.other))
 			return false;
 		if (quantity != other.quantity)
-			return false;
-		if (Double.doubleToLongBits(unitCost) != Double
-				.doubleToLongBits(other.unitCost))
 			return false;
 		return true;
 	}
