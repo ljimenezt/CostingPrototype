@@ -172,4 +172,29 @@ public class DayTypeFoodDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method consultation day with a certain range sent as a parameter and
+	 * filtering the information by the values of sent search.
+	 * 
+	 * @param day
+	 *            : To consult day in the database.
+	 * @return List<DayTypeFood>: DayTypeFood list.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<DayTypeFood> consultDayTypeFood(String day) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT dt FROM DayTypeFood dt ");
+		query.append("JOIN FETCH dt.typeFood ");
+		query.append("JOIN FETCH dt.day d ");
+		query.append("WHERE UPPER(d.name) LIKE UPPER(:day) ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("day", "%" + day + "%");
+		List<DayTypeFood> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }

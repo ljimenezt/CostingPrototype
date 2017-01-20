@@ -1,0 +1,254 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="mealControlAction.addEditMealControl" />
+	<ui:param name="titulo"
+		value="mensaje.label_register,mensajeMenu.meal_control_label" />
+	<ui:define name="body">
+		<ui:param name="listaVacia"
+			value="#{mealControlAction.subHrList eq null or (empty mealControlAction.subHrList)}" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{mealControlAction}" />
+		<ui:param name="renderLista" value="panelMealControl" />
+		<ui:param name="metodoLista" value="searchHr" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="mealControlAction" />
+		<ui:param name="metodoListarTodos" value="addEditMealControl" />
+		<t:saveState value="#{mealControlAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/validacion.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+		<h:form id="formMealControl">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensajeMenu.meal_control_label_register}"
+				id="panelMealControl">
+				<a:outputPanel styleClass="anchoCuatro">
+					<h:panelGrid columns="3"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,,,tdAlignTop">
+						<h:outputText value="#{mensaje.label_name}"
+							styleClass="etiquetaTitulo" />
+						<h:inputText id="txtName" styleClass="colTextoMediano"
+							value="#{mealControlAction.nameSearch}" />
+						<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
+							actionListener="#{mealControlAction.setFlagStart(false)}"
+							action="#{mealControlAction.searchHr()}"
+							render="panelMealControl mensajes, mensajeBusqueda" />
+					</h:panelGrid>
+					<br />
+					<div class="anchoCuatro" align="right">
+						<h:panelGrid id="pnlButtons" columns="3" cellpadding="0"
+							cellspacing="0">
+							<a:outputPanel>
+								<a:commandLink render="formOther:popupOther"
+									styleClass="quitarDecoracionLink"
+									oncomplete="#{rich:component('popupOther')}.show()">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/workers_16.png" />
+										<h:outputText
+											value="#{mensaje.button_add} #{mensaje.label_others}" />
+									</h:panelGrid>
+								</a:commandLink>
+							</a:outputPanel>
+							<a:outputPanel>
+								<a:commandLink
+									render="panelMealControl, mensajes, mensajeBusqueda"
+									styleClass="quitarDecoracionLink"
+									actionListener="#{mealControlAction.setFlagStart(false)}"
+									action="#{mealControlAction.loadMealControl()}">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/listarTodos_16.png" />
+										<h:outputText value="#{mensaje.button_list_all}" />
+									</h:panelGrid>
+								</a:commandLink>
+							</a:outputPanel>
+							<a:outputPanel>
+								<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+									<ui:param name="tieneVigencia" value="no" />
+									<ui:param name="ocultarBuscar" value="si" />
+									<ui:param name="ocultarNuevo" value="si" />
+									<ui:param name="ocultarListarTodos" value="si" />
+								</ui:include>
+							</a:outputPanel>
+						</h:panelGrid>
+					</div>
+					<rich:dataTable value="#{mealControlAction.subHrList}" var="hr"
+						binding="#{mealControlAction.dataTable}" id="mealControlTable"
+						footerClass="H130P"
+						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCuatro"
+						rowClasses="odd-row, even-row">
+						<f:facet name="footer">
+							<rich:columnGroup rendered="#{listaVacia}">
+								<rich:column colspan="6" styleClass="footTabla">
+									<h:outputText
+										value="#{mensaje.message_no_existen_registros_tabla}" />
+								</rich:column>
+							</rich:columnGroup>
+						</f:facet>
+					</rich:dataTable>
+					<div class="anchoCuatro" align="right">
+						<h:panelGrid id="pnlButtonsDown" columns="2" cellpadding="0"
+							cellspacing="0">
+							<a:outputPanel>
+								<a:commandLink
+									render="panelMealControl, mensajes, mensajeBusqueda"
+									styleClass="quitarDecoracionLink"
+									action="#{mealControlAction.loadMealControl()}">
+									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+										<h:graphicImage value="/img/listarTodos_16.png" />
+										<h:outputText value="#{mensaje.button_list_all}" />
+									</h:panelGrid>
+								</a:commandLink>
+							</a:outputPanel>
+							<a:outputPanel>
+								<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+									<ui:param name="tieneVigencia" value="no" />
+									<ui:param name="ocultarBuscar" value="si" />
+									<ui:param name="ocultarNuevo" value="si" />
+									<ui:param name="botonesAbajo" value="si" />
+									<ui:param name="ocultarListarTodos" value="si" />
+								</ui:include>
+							</a:outputPanel>
+						</h:panelGrid>
+					</div>
+					<a:outputPanel rendered="#{!listaVacia}">
+						<div class="anchoCuatro center inBlock">
+							<ui:include src="/plantillas/templatePagination.xhtml">
+								<ui:param name="valId" value="1" />
+								<ui:param name="valReder" value="panelMealControl" />
+								<ui:param name="beanActionParam" value="#{mealControlAction}" />
+								<ui:param name="metodoActionParam" value="searchHr" />
+								<ui:param name="pager" value="pagination" />
+							</ui:include>
+						</div>
+					</a:outputPanel>
+					<br />
+					<br />
+					<div class="anchoCuatro center">
+						<a:commandButton rendered="#{!listaVacia}"
+							render="formConfirmar:popUpConfirmar,formGenerico"
+							oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+							value="#{mensaje.button_save}" />
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{mealControlAction.saveMealControl()}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+
+		<h:form id="formOther">
+			<rich:popupPanel id="popupOther" autosized="true" styleClass="W500P"
+				header="#{mensaje.button_add} #{mensaje.label_others}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupOther')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<a:outputPanel>
+					<script type="text/javascript">
+				$g=jQuery.noConflict();
+    			</script>
+					<h:panelGrid columns="4"
+						columnClasses="tdAlignTop etiquetaTitulo W58P,tdAlignTop,,tdAlignTop">
+						<h:outputText value="#{mensaje.label_name}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText value="#{mealControlAction.hrOther.name}"
+							required="true" styleClass="colTextoMediano" id="txtName"
+							requiredMessage="#{mensaje.message_campo_requerido}" />
+						<rich:message for="txtName" />
+					</h:panelGrid>
+					<h:panelGrid columns="2">
+						<ui:repeat varStatus="loop"
+							value="#{mealControlAction.typeFoodList}">
+							<h:panelGrid columns="1"
+								columnClasses="tdAlignTop etiquetaTitulo H30P">
+								<h:outputText
+									value="#{mealControlAction.typeFoodList[loop.index].name}" />
+							</h:panelGrid>
+						</ui:repeat>
+
+						<ui:repeat id="repeatInputs"
+							value="#{mealControlAction.otherQuantity}" var="varFields"
+							varStatus="row">
+							<ui:param value="#{row.index}val" name="idInput" />
+							<h:panelGrid columns="3" columnClasses="tdAlignTop, ,tdAlignTop">
+								<h:outputText value="*" styleClass="required" />
+								<h:inputText required="true"
+									value="#{mealControlAction.otherQuantity[row.index]}"
+									id="message" maxlength="25" styleClass="colTextoXCorto"
+									requiredMessage="#{mensaje.message_campo_requerido}"
+									converterMessage="#{mensaje.message_campo_positivo}">
+									<f:validateDoubleRange minimum="0" />
+								</h:inputText>
+								<rich:message for="message" />
+							</h:panelGrid>
+						</ui:repeat>
+					</h:panelGrid>
+				</a:outputPanel>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_accept}" id="btnOther"
+						execute="formOther"
+						render="formGenerico, mensajes, mensajeBusqueda"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupOther')}.hide(); clickButton('#{rich:clientId('executeHide')}'); } else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+					<a:commandButton onclick="#{rich:component('popupOther')}.hide()"
+						value="#{mensaje.button_cancel}" />
+					<h:commandButton styleClass="ocultar" id="executeHide"
+						onclick="#{rich:component('statPane')}.show();"
+						action="#{mealControlAction.createOtherHr()}">
+					</h:commandButton>
+				</div>
+			</rich:popupPanel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
