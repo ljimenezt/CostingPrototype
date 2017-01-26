@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.RenderOption;
 
 import co.informatix.erp.humanResources.entities.AssistControl;
+import co.informatix.erp.humanResources.entities.FoodControl;
 
 /**
  * This class allows to process the parameters and contain the methods to
@@ -312,6 +313,39 @@ public class ReportsController implements Serializable {
 		mapAttribute.put("lblObservations",
 				bundle.getString("label_observations"));
 		this.reportFormat = Constantes.FORMAT_EXCEL;
+		generateReports(reportName, mapAttribute);
+	}
+
+	/**
+	 * This method allows to generate the report of the food control according
+	 * the parameters
+	 * 
+	 * @author Andres.Gomez
+	 * 
+	 * @param listFoodControl
+	 *            :List of the human resource to make food control
+	 * @param countD
+	 *            :number to auto-adjust the width of the header
+	 * @throws Exception
+	 */
+	public void generateReportFoodControl(List<FoodControl> listFoodControl,
+			Long countD) throws Exception {
+		ResourceBundle bundleHr = ControladorContexto
+				.getBundle("messageHumanResources");
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String reportName = "mealControl.rptdesign";
+		HashMap<String, Object> mapAttribute = new HashMap<String, Object>();
+		mapAttribute.put("listFoodControl", listFoodControl);
+		mapAttribute.put("countD", countD);
+		mapAttribute.put("lblWeek", bundle.getString("label_week"));
+		mapAttribute.put("lblFullName",
+				bundleHr.getString("attendance_label_rpt_full_name"));
+		mapAttribute.put("lblBreakfast", Constantes.TYPE_FOOD_BREAKFAST);
+		mapAttribute.put("lblLunch", Constantes.TYPE_FOOD_LUNCH);
+		mapAttribute.put("lblDinner", Constantes.TYPE_FOOD_DINNER);
+		this.reportFormat = Constantes.FORMAT_EXCEL;
+		mapAttribute.put("lblWeeklyFood",
+				bundleHr.getString("meal_control_label_weekly_food_orders"));
 		generateReports(reportName, mapAttribute);
 	}
 

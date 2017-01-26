@@ -59,6 +59,7 @@ public class AssistControlAction implements Serializable {
 	private Date maxDate;
 	private Hr hr;
 	private String nameSearch;
+	private StringBuilder unionSearchMessages;
 	private Novelty novelty;
 	private List<SelectItem> itemsNoveltyType;
 	private List<Hr> hrList;
@@ -67,6 +68,7 @@ public class AssistControlAction implements Serializable {
 	private List<Hr> listHrAssistControl;
 	private HashMap<Integer, Novelty> noveltyMap;
 	private UIDataTable dataTable;
+	private boolean source = true;
 
 	@EJB
 	private AssistControlDao assistControlDao;
@@ -170,6 +172,22 @@ public class AssistControlAction implements Serializable {
 	}
 
 	/**
+	 * @return unionSearchMessages: message search in the advance consult
+	 */
+	public StringBuilder getUnionSearchMessages() {
+		return unionSearchMessages;
+	}
+
+	/**
+	 * @param unionSearchMessages
+	 *            :message search in the advance consult
+	 */
+
+	public void setUnionSearchMessages(StringBuilder unionSearchMessages) {
+		this.unionSearchMessages = unionSearchMessages;
+	}
+
+	/**
 	 * @return novelty: Reason for absence from work.
 	 */
 	public Novelty getNovelty() {
@@ -232,6 +250,21 @@ public class AssistControlAction implements Serializable {
 	}
 
 	/**
+	 * @return source: Indicate the source of the consult of the human resource
+	 */
+	public boolean isSource() {
+		return source;
+	}
+
+	/**
+	 * @param source
+	 *            : Indicate the source of the consult of the human resource
+	 */
+	public void setSource(boolean source) {
+		this.source = source;
+	}
+
+	/**
 	 * @return itemsNoveltyType: Name of the novelty type associated with a
 	 *         novelty.
 	 */
@@ -286,6 +319,7 @@ public class AssistControlAction implements Serializable {
 	public String initializeAttendance() {
 		this.initialDateSearch = null;
 		this.finalDateSearch = null;
+		this.source = true;
 		pagination = new Paginador();
 		return consultAssistControl();
 	}
@@ -429,7 +463,7 @@ public class AssistControlAction implements Serializable {
 	/**
 	 * See the list of attendance control.
 	 * 
-	 * @return gesAssistControl: Navigation rule that redirects to manage the
+	 * @return navigation: Navigation rule that redirects to manage the
 	 *         attendance control.
 	 */
 	public String consultAssistControl() {
@@ -441,23 +475,34 @@ public class AssistControlAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		this.listHrAssistControl = new ArrayList<Hr>();
 		StringBuilder consult = new StringBuilder();
-		StringBuilder unionSearchMessages = new StringBuilder();
+		unionSearchMessages = new StringBuilder();
 		String searchMessages = "";
+		String source = this.source ? Constantes.SOURCE_ASSIST_CONTROL
+				: Constantes.SOURCE_FOOD_CONTROL;
+		String navigation = this.source ? "gesAssistControl" : "";
 		try {
 			advanceSearch(consult, parameters, bundle, unionSearchMessages,
 					true);
-			Long quantity = hrDao.hrAssistControlAmount(consult, parameters);
+			Long quantity = hrDao.hrAssistControlAmount(consult, parameters,
+					source);
 			if (quantity != null) {
 				pagination.paginar(quantity);
 			}
 			this.listHrAssistControl = hrDao.listHrOfAssistControl(
 					pagination.getInicio(), pagination.getRango(), consult,
-					parameters);
+					parameters, source);
 			if (listHrAssistControl != null) {
 				this.listDateTable = assistControlDao
-						.consultAssistControlDates(consult, parameters);
-				associateNovelty(consult, parameters);
-				buildDataTable();
+						.consultAssistControlDates(consult, parameters, source);
+				if (this.source) {
+					associateNovelty(consult, parameters);
+					buildDataTable();
+				} else {
+					MealControlAction mealControlAction = ControladorContexto
+							.getContextBean(MealControlAction.class);
+					mealControlAction.setParameters(parameters);
+					mealControlAction.setConsult(consult);
+				}
 			}
 			if ((listHrAssistControl == null || listHrAssistControl.size() <= 0)
 					&& !"".equals(unionSearchMessages.toString())) {
@@ -480,7 +525,7 @@ public class AssistControlAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesAssistControl";
+		return navigation;
 	}
 
 	/**
@@ -500,13 +545,13 @@ public class AssistControlAction implements Serializable {
 	 * @param flag
 	 *            :boolean indicate if the message is to show
 	 */
-	private void advanceSearch(StringBuilder consult,
+	public void advanceSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch, boolean flag) {
 		SimpleDateFormat format = new SimpleDateFormat(
 				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
 		if (this.initialDateSearch != null && this.finalDateSearch != null) {
-			consult.append("WHERE ac.date >= :initialDateSearch AND ac.date <= :finalDateSearch ");
+			consult.append("WHERE a.date >= :initialDateSearch AND a.date <= :finalDateSearch ");
 			SelectItem item = new SelectItem(initialDateSearch,
 					"initialDateSearch");
 			parameters.add(item);
@@ -530,7 +575,7 @@ public class AssistControlAction implements Serializable {
 					.diaInicialSemana(actualDate);
 			Date fianlDateDefault = ControladorFechas
 					.diaFinalSemana(actualDate);
-			consult.append("WHERE ac.date >= :initialDateDefault AND ac.date <= :fianlDateDefault ");
+			consult.append("WHERE a.date >= :initialDateDefault AND a.date <= :fianlDateDefault ");
 			SelectItem item = new SelectItem(initialDateDefault,
 					"initialDateDefault");
 			parameters.add(item);
@@ -555,7 +600,6 @@ public class AssistControlAction implements Serializable {
 	private void associateNovelty(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		String whiteSpace = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-
 		for (Hr hr : listHrAssistControl) {
 			int idHr = hr.getIdHr();
 			List<AssistControl> listAssistControlAux = assistControlDao

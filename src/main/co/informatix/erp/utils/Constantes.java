@@ -246,4 +246,9 @@ public class Constantes implements Serializable {
 	public static final String SOURCE_ASSIST_CONTROL = "AssistControl";
 	public static final String SOURCE_FOOD_CONTROL = "FoodControl";
 
+	/* Type Food */
+	public static final String TYPE_FOOD_BREAKFAST = "Breakfast";
+	public static final String TYPE_FOOD_LUNCH = "Lunch";
+	public static final String TYPE_FOOD_DINNER = "Dinner";
+
 }

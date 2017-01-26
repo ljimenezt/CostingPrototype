@@ -73,6 +73,7 @@ public class Hr implements Serializable {
 	private HashMap<Integer, String> assistControl;
 	private HashMap<Integer, String> styleControl;
 	private HashMap<Integer, Integer> mealControl;
+	private HashMap<Integer, Integer> assistFoodControl;
 
 	/**
 	 * Constructor that initializes the foreign key
@@ -693,6 +694,22 @@ public class Hr implements Serializable {
 	 */
 	public void setMealControl(HashMap<Integer, Integer> mealControl) {
 		this.mealControl = mealControl;
+	}
+
+	/**
+	 * @return styleControl: List of assist food control of every human resource
+	 */
+	@Transient
+	public HashMap<Integer, Integer> getAssistFoodControl() {
+		return assistFoodControl;
+	}
+
+	/**
+	 * @param assistFoodControl
+	 *            :List of assist food control of every human resource
+	 */
+	public void setAssistFoodControl(HashMap<Integer, Integer> assistFoodControl) {
+		this.assistFoodControl = assistFoodControl;
 	}
 
 	@Override
