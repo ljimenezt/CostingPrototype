@@ -367,13 +367,16 @@ public class HrDao implements Serializable {
 	 *            : String containing the query with filters.
 	 * @param parameters
 	 *            : Query parameters.
+	 * @param source
+	 *            : name of the entity that indicate the source of the human
+	 *            resource.
 	 * @return Long: Amount of HR records found.
 	 * @throws Exception
 	 */
 	public Long hrAssistControlAmount(StringBuilder consult,
-			List<SelectItem> parameters) throws Exception {
+			List<SelectItem> parameters, String source) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT COUNT(DISTINCT ac.hr) FROM AssistControl ac ");
+		query.append("SELECT COUNT(DISTINCT a.hr) FROM " + source + " a ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
@@ -396,6 +399,9 @@ public class HrDao implements Serializable {
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : Query parameters.
+	 * @param source
+	 *            : name of the entity that indicate the source of the human
+	 *            resource.
 	 * @return List
 	 *         <Hr>
 	 *         : human resource list
@@ -403,10 +409,10 @@ public class HrDao implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Hr> listHrOfAssistControl(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
+			StringBuilder consult, List<SelectItem> parameters, String source)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT ac.hr FROM AssistControl ac ");
+		query.append("SELECT a.hr FROM " + source + " a ");
 		query.append(consult);
 		query.append("GROUP BY 1 ORDER BY 1 ");
 		Query q = em.createQuery(query.toString());

@@ -117,15 +117,18 @@ public class AssistControlDao implements Serializable {
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : Query parameters.
+	 * @param source
+	 *            : name of the entity that indicate the source of the human
+	 *            resource.
 	 * @return List<Date>: date assist control list
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Date> consultAssistControlDates(StringBuilder consult,
-			List<SelectItem> parameters) throws Exception {
+			List<SelectItem> parameters, String source) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT DISTINCT TO_DATE(TO_CHAR(ac.date,'YYYY-MM-dd'), 'YYYY-MM-dd') ");
-		query.append("FROM AssistControl ac ");
+		query.append("SELECT DISTINCT TO_DATE(TO_CHAR(a.date,'YYYY-MM-dd'), 'YYYY-MM-dd') ");
+		query.append("FROM " + source + " a ");
 		query.append(consult);
 		query.append("ORDER BY 1 ");
 		Query q = em.createQuery(query.toString());
@@ -159,8 +162,8 @@ public class AssistControlDao implements Serializable {
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT ac FROM AssistControl ac ");
-		query.append("JOIN FETCH ac.hr h ");
+		query.append("SELECT a FROM AssistControl a ");
+		query.append("JOIN FETCH a.hr h ");
 		query.append(consult);
 		if (idHr != 0) {
 			query.append("AND h.idHr = :idHr ");
@@ -195,7 +198,7 @@ public class AssistControlDao implements Serializable {
 	public Date consultMaxDate(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
-		query.append("SELECT MAX(ac.date) FROM AssistControl ac ");
+		query.append("SELECT MAX(a.date) FROM AssistControl a ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {

@@ -21,6 +21,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.richfaces.component.UIColumn;
 import org.richfaces.component.UIDataTable;
 
+import co.informatix.erp.humanResources.dao.AssistControlDao;
 import co.informatix.erp.humanResources.dao.DayTypeFoodDao;
 import co.informatix.erp.humanResources.dao.HrDao;
 import co.informatix.erp.humanResources.dao.MealControlDao;
@@ -36,6 +37,7 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.ControladorGenerico;
 import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ReportsController;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
@@ -44,6 +46,7 @@ import co.informatix.erp.utils.ValidacionesAction;
  * the meal control that may exist.
  * 
  * @author Wilhelm.Boada
+ * @author Andrex.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -55,12 +58,17 @@ public class MealControlAction implements Serializable {
 	private Date initialDateSearch;
 	private Hr hrOther;
 	private String nameSearch;
+	private StringBuilder consult;
 	private UIDataTable dataTable;
 	private List<Hr> hrList;
 	private List<Hr> subHrList;
 	private List<Hr> otherHrList;
 	private List<TypeFood> typeFoodList;
 	private List<Integer> otherQuantity;
+	private List<FoodControl> listFoodControl;
+	private List<Hr> listHrMealControl;
+	private List<Date> listDateTable;
+	private List<SelectItem> parameters;
 	private HashMap<Integer, Integer> mealControlHashmap;
 	boolean flagStart;
 
@@ -74,6 +82,8 @@ public class MealControlAction implements Serializable {
 	private MealControlDao mealControlDao;
 	@EJB
 	private HolidayDao holidayDao;
+	@EJB
+	AssistControlDao assistControlDao;
 
 	/**
 	 * @return pagination: Management paged meal control.
@@ -134,21 +144,6 @@ public class MealControlAction implements Serializable {
 	 */
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
-	}
-
-	/**
-	 * @return dataTable: object builds datatable.
-	 */
-	public UIDataTable getDataTable() {
-		return dataTable;
-	}
-
-	/**
-	 * @param dataTable
-	 *            : object builds datatable.
-	 */
-	public void setDataTable(UIDataTable dataTable) {
-		this.dataTable = dataTable;
 	}
 
 	/**
@@ -525,14 +520,318 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
+	 * @return listFoodControl: List Of Food Control Object
+	 */
+	public List<FoodControl> getListFoodControl() {
+		return listFoodControl;
+	}
+
+	/**
+	 * @param listFoodControl
+	 *            :List Of Food Control Object
+	 */
+	public void setListFoodControl(List<FoodControl> listFoodControl) {
+		this.listFoodControl = listFoodControl;
+	}
+
+	/**
+	 * @return listHrMealControl: List of human resources of meal control
+	 */
+	public List<Hr> getListHrMealControl() {
+		return listHrMealControl;
+	}
+
+	/**
+	 * @param listHrMealControl
+	 */
+	public void setListHrMealControl(List<Hr> listHrMealControl) {
+		this.listHrMealControl = listHrMealControl;
+	}
+
+	/**
+	 * @return dataTable: object builds datatable
+	 */
+	public UIDataTable getDataTable() {
+		return dataTable;
+	}
+
+	/**
+	 * @param dataTable
+	 *            : object builds datatable
+	 */
+	public void setDataTable(UIDataTable dataTable) {
+		this.dataTable = dataTable;
+	}
+
+	/**
+	 * @return listDateTable: List Date to show the dynamically columns in the
+	 *         view
+	 */
+	public List<Date> getListDateTable() {
+		return listDateTable;
+	}
+
+	/**
+	 * @param listDateTable
+	 *            :List Date to show the dynamically columns in the view
+	 */
+	public void setListDateTable(List<Date> listDateTable) {
+		this.listDateTable = listDateTable;
+	}
+
+	/**
+	 * @return consult: query to concatenate
+	 */
+	public StringBuilder getConsult() {
+		return consult;
+	}
+
+	/**
+	 * @param consult
+	 *            : query to concatenate
+	 */
+	public void setConsult(StringBuilder consult) {
+		this.consult = consult;
+	}
+
+	/**
+	 * @return parameters: list of search parameters.
+	 */
+	public List<SelectItem> getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * 
+	 * @param parameters
+	 *            : list of search parameters.
+	 */
+	public void setParameters(List<SelectItem> parameters) {
+		this.parameters = parameters;
+	}
+
+	/**
 	 * Method to initialize the fields in the search.
+	 * 
+	 * @return consultMealControl: Method that consultation meal control list
+	 *         and load the template with the information found.
+	 */
+	public String initializeMealControl() {
+		pagination = new Paginador();
+		return consultMealControl();
+	}
+
+	/**
+	 * Consult the the list meal control to show in the view and return
+	 * navigation rule.
 	 * 
 	 * @return gesMealControl: Navigation rule that redirects to manage the meal
 	 *         control.
 	 */
-	public String initializeMealControl() {
+	public String consultMealControl() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleHr = ControladorContexto
+				.getBundle("messageHumanResources");
+		ValidacionesAction validate = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		AssistControlAction assistControlAction = ControladorContexto
+				.getContextBean(AssistControlAction.class);
+		this.listHrMealControl = new ArrayList<Hr>();
+		String searchMessages = "";
+		StringBuilder unionSearchMessages = new StringBuilder();
+		try {
+			assistControlAction.setSource(false);
+			assistControlAction.consultAssistControl();
+			pagination = assistControlAction.getPagination();
+			unionSearchMessages = assistControlAction.getUnionSearchMessages();
+			this.listHrMealControl = assistControlAction
+					.getListHrAssistControl();
+			if (listHrMealControl != null) {
+				this.listDateTable = assistControlAction.getListDateTable();
+				associateTypeFood(this.consult, this.parameters);
+				buildDataTable();
+			}
+			if ((listHrMealControl == null || listHrMealControl.size() <= 0)
+					&& !"".equals(unionSearchMessages.toString())) {
+				searchMessages = MessageFormat
+						.format(bundle
+								.getString("message_no_existen_registros_criterio_busqueda"),
+								unionSearchMessages);
+			} else if (listHrMealControl == null
+					|| listHrMealControl.size() <= 0) {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_existen_registros"));
+			} else if (!"".equals(unionSearchMessages.toString())) {
+				searchMessages = MessageFormat
+						.format(bundle
+								.getString("message_existen_registros_criterio_busqueda"),
+								bundleHr.getString("meal_control_label_s"),
+								unionSearchMessages);
+			}
+			validate.setMensajeBusqueda(searchMessages);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 		return "gesMealControl";
 	}
-	// Others
 
+	/**
+	 * This method allows add the novelty of the assist control according with
+	 * the human resource
+	 * 
+	 * @param consult
+	 *            : query to concatenate
+	 * @param parameters
+	 *            : list of search parameters.
+	 * @throws Exception
+	 */
+	private void associateTypeFood(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		for (Hr hr : listHrMealControl) {
+			int idHr = hr.getIdHr();
+			List<FoodControl> listMealControlAux = mealControlDao
+					.listHrOfMealControl(idHr, consult, parameters);
+			if (listMealControlAux != null) {
+				HashMap<Integer, Integer> hasmapAux = new HashMap<Integer, Integer>();
+				for (FoodControl fc : listMealControlAux) {
+					Date dateAssist = ControladorFechas.formatearFecha(
+							fc.getDate(), Constantes.DATE_FORMAT_CONSULT);
+					int idFoodType = fc.getTypeFood().getId();
+					Integer i = (int) (dateAssist.getTime() / 1000)
+							+ idFoodType;
+					int val = fc.getQuantity();
+					hasmapAux.put(i, val);
+				}
+				hr.setAssistFoodControl(hasmapAux);
+			}
+		}
+	}
+
+	/**
+	 * This Method build dataTable for assist control, Add columns from date of
+	 * assist
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+	public void buildDataTable() throws Exception {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		dataTable = new UIDataTable();
+		HtmlOutputText headerText1 = new HtmlOutputText();
+		headerText1.setValue(WordUtils.capitalize(bundle
+				.getString("label_name")));
+		UIColumn column1 = (UIColumn) ControladorContexto.getApplication()
+				.createComponent(UIColumn.COMPONENT_TYPE);
+		HtmlOutputText out1 = new HtmlOutputText();
+		column1.setStyleClass("colTextoMediano");
+		String mMergeName = "hr.name";
+		String nMergeFamilyName = "hr.familyName";
+		ValueExpression value1 = ControladorGenerico.getValueExpression(
+				mMergeName, nMergeFamilyName);
+		out1.setValueExpression("value", value1);
+		column1.getChildren().add(out1);
+		column1.setHeader(headerText1);
+		dataTable.getChildren().add(column1);
+
+		if (this.listDateTable != null) {
+			for (Date date : this.listDateTable) {
+				Date dateL = ControladorFechas.formatearFecha(date,
+						Constantes.DATE_FORMAT_CONSULT);
+				Integer d = (int) (dateL.getTime() / 1000);
+				TypeFood typeFoodBreak = typeFoodDao.nameExists(
+						Constantes.TYPE_FOOD_BREAKFAST, 0);
+				int valBreak = d + typeFoodBreak.getId();
+				UIColumn columnBreak = (UIColumn) ControladorContexto
+						.getApplication().createComponent(
+								UIColumn.COMPONENT_TYPE);
+				columnBreak.setStyleClass("center colFecha");
+				HtmlOutputText valueBreak = new HtmlOutputText();
+				valueBreak.setValue(bundle.getString("label_breakfast"));
+				columnBreak.setHeader(valueBreak);
+				HtmlOutputText outBreak = new HtmlOutputText();
+				String mergeBreak = "hr.assistFoodControl[(" + valBreak
+						+ ").intValue()] ";
+				ValueExpression valExpBreak = ControladorGenerico
+						.getValueExpression(mergeBreak, null);
+				outBreak.setEscape(false);
+				outBreak.setValueExpression(ConstantesErp.VALUE, valExpBreak);
+				columnBreak.getChildren().add(outBreak);
+				dataTable.getChildren().add(columnBreak);
+
+				TypeFood typeFoodLunch = typeFoodDao.nameExists(
+						Constantes.TYPE_FOOD_LUNCH, 0);
+				int valLunch = d + typeFoodLunch.getId();
+				UIColumn columnLunch = (UIColumn) ControladorContexto
+						.getApplication().createComponent(
+								UIColumn.COMPONENT_TYPE);
+				columnLunch.setStyleClass("center colFecha");
+				HtmlOutputText valueLunch = new HtmlOutputText();
+				valueLunch.setValue(bundle.getString("label_lunch"));
+				columnLunch.setHeader(valueLunch);
+				HtmlOutputText outLunch = new HtmlOutputText();
+				String mergeLunch = "hr.assistFoodControl[(" + valLunch
+						+ ").intValue()] ";
+				ValueExpression valExpLunch = ControladorGenerico
+						.getValueExpression(mergeLunch, null);
+				outLunch.setEscape(false);
+				outLunch.setValueExpression(ConstantesErp.VALUE, valExpLunch);
+				columnLunch.getChildren().add(outLunch);
+				dataTable.getChildren().add(columnLunch);
+
+				TypeFood typeFoodDinner = typeFoodDao.nameExists(
+						Constantes.TYPE_FOOD_DINNER, 0);
+				int valDinner = d + typeFoodDinner.getId();
+				UIColumn columnDinner = (UIColumn) ControladorContexto
+						.getApplication().createComponent(
+								UIColumn.COMPONENT_TYPE);
+				columnDinner.setStyleClass("center colFecha");
+				HtmlOutputText valueDinner = new HtmlOutputText();
+				valueDinner.setValue(bundle.getString("label_dinner"));
+				columnDinner.setHeader(valueDinner);
+				HtmlOutputText outDinner = new HtmlOutputText();
+				String mergeDinner = "hr.assistFoodControl[(" + valDinner
+						+ ").intValue()] ";
+				ValueExpression valExpDinner = ControladorGenerico
+						.getValueExpression(mergeDinner, null);
+				outDinner.setEscape(false);
+				outDinner.setValueExpression(ConstantesErp.VALUE, valExpDinner);
+				columnDinner.getChildren().add(outDinner);
+				dataTable.getChildren().add(columnDinner);
+			}
+		}
+	}
+
+	/**
+	 * This method allow consult the assist control information and generate the
+	 * report
+	 */
+	public void generateReportAssitControl() {
+		ReportsController reportsController = ControladorContexto
+				.getContextBean(ReportsController.class);
+		AssistControlAction assistControlAction = ControladorContexto
+				.getContextBean(AssistControlAction.class);
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		try {
+			assistControlAction.advanceSearch(consult, parameters, null, null,
+					false);
+			List<FoodControl> listFoodControl = mealControlDao
+					.listHrOfMealControl(0, consult, parameters);
+
+			List<Date> listDate = assistControlDao.consultAssistControlDates(
+					consult, parameters, "FoodControl");
+			Long countD = 0L;
+			for (Date d : listDate) {
+				Date initialD = ControladorFechas.finDeDia(d);
+				Date finalD = ControladorFechas.inicioDeDia(d);
+				Long countW = mealControlDao.countDateMealControl(initialD,
+						finalD);
+				countD += countW;
+			}
+			reportsController
+					.generateReportFoodControl(listFoodControl, countD);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
 }
