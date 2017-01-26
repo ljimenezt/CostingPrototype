@@ -215,6 +215,97 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
+	 * @return listFoodControl: List Of Food Control Object
+	 */
+	public List<FoodControl> getListFoodControl() {
+		return listFoodControl;
+	}
+
+	/**
+	 * @param listFoodControl
+	 *            :List Of Food Control Object
+	 */
+	public void setListFoodControl(List<FoodControl> listFoodControl) {
+		this.listFoodControl = listFoodControl;
+	}
+
+	/**
+	 * @return listHrMealControl: List of human resources of meal control
+	 */
+	public List<Hr> getListHrMealControl() {
+		return listHrMealControl;
+	}
+
+	/**
+	 * @param listHrMealControl
+	 */
+	public void setListHrMealControl(List<Hr> listHrMealControl) {
+		this.listHrMealControl = listHrMealControl;
+	}
+
+	/**
+	 * @return dataTable: object builds datatable
+	 */
+	public UIDataTable getDataTable() {
+		return dataTable;
+	}
+
+	/**
+	 * @param dataTable
+	 *            : object builds datatable
+	 */
+	public void setDataTable(UIDataTable dataTable) {
+		this.dataTable = dataTable;
+	}
+
+	/**
+	 * @return listDateTable: List Date to show the dynamically columns in the
+	 *         view
+	 */
+	public List<Date> getListDateTable() {
+		return listDateTable;
+	}
+
+	/**
+	 * @param listDateTable
+	 *            :List Date to show the dynamically columns in the view
+	 */
+	public void setListDateTable(List<Date> listDateTable) {
+		this.listDateTable = listDateTable;
+	}
+
+	/**
+	 * @return consult: query to concatenate
+	 */
+	public StringBuilder getConsult() {
+		return consult;
+	}
+
+	/**
+	 * @param consult
+	 *            : query to concatenate
+	 */
+	public void setConsult(StringBuilder consult) {
+		this.consult = consult;
+	}
+
+	/**
+	 * @return parameters: list of search parameters.
+	 */
+	public List<SelectItem> getParameters() {
+		return parameters;
+	}
+
+	/**
+	 * 
+	 * @param parameters
+	 *            : list of search parameters.
+	 */
+	public void setParameters(List<SelectItem> parameters) {
+		this.parameters = parameters;
+	}
+
+	/**
 	 * Method to edit or create a new meal control.
 	 * 
 	 * @return loadMealControl(): Method allows load and initializes values.
@@ -387,7 +478,7 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
-	 * This method allow search and add hr in the hr list.
+	 * This method allow search and add HR in the HR list.
 	 */
 	private void loadOtherHr() {
 		for (Hr hr : this.otherHrList) {
@@ -448,7 +539,7 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
-	 * This Method allows create and add other hr to the hr list.
+	 * This Method allows create and add other HR to the HR list.
 	 * 
 	 * @return loadMealControl(): Method allows load and initializes values.
 	 */
@@ -517,97 +608,6 @@ public class MealControlAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return initializeMealControl();
-	}
-
-	/**
-	 * @return listFoodControl: List Of Food Control Object
-	 */
-	public List<FoodControl> getListFoodControl() {
-		return listFoodControl;
-	}
-
-	/**
-	 * @param listFoodControl
-	 *            :List Of Food Control Object
-	 */
-	public void setListFoodControl(List<FoodControl> listFoodControl) {
-		this.listFoodControl = listFoodControl;
-	}
-
-	/**
-	 * @return listHrMealControl: List of human resources of meal control
-	 */
-	public List<Hr> getListHrMealControl() {
-		return listHrMealControl;
-	}
-
-	/**
-	 * @param listHrMealControl
-	 */
-	public void setListHrMealControl(List<Hr> listHrMealControl) {
-		this.listHrMealControl = listHrMealControl;
-	}
-
-	/**
-	 * @return dataTable: object builds datatable
-	 */
-	public UIDataTable getDataTable() {
-		return dataTable;
-	}
-
-	/**
-	 * @param dataTable
-	 *            : object builds datatable
-	 */
-	public void setDataTable(UIDataTable dataTable) {
-		this.dataTable = dataTable;
-	}
-
-	/**
-	 * @return listDateTable: List Date to show the dynamically columns in the
-	 *         view
-	 */
-	public List<Date> getListDateTable() {
-		return listDateTable;
-	}
-
-	/**
-	 * @param listDateTable
-	 *            :List Date to show the dynamically columns in the view
-	 */
-	public void setListDateTable(List<Date> listDateTable) {
-		this.listDateTable = listDateTable;
-	}
-
-	/**
-	 * @return consult: query to concatenate
-	 */
-	public StringBuilder getConsult() {
-		return consult;
-	}
-
-	/**
-	 * @param consult
-	 *            : query to concatenate
-	 */
-	public void setConsult(StringBuilder consult) {
-		this.consult = consult;
-	}
-
-	/**
-	 * @return parameters: list of search parameters.
-	 */
-	public List<SelectItem> getParameters() {
-		return parameters;
-	}
-
-	/**
-	 * 
-	 * @param parameters
-	 *            : list of search parameters.
-	 */
-	public void setParameters(List<SelectItem> parameters) {
-		this.parameters = parameters;
 	}
 
 	/**
