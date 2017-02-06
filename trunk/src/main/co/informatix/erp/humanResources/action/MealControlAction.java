@@ -19,6 +19,7 @@ import javax.faces.model.SelectItem;
 
 import org.apache.commons.lang3.text.WordUtils;
 import org.richfaces.component.UIColumn;
+import org.richfaces.component.UIColumnGroup;
 import org.richfaces.component.UIDataTable;
 
 import co.informatix.erp.humanResources.dao.AssistControlDao;
@@ -46,7 +47,7 @@ import co.informatix.erp.utils.ValidacionesAction;
  * the meal control that may exist.
  * 
  * @author Wilhelm.Boada
- * @author Andrex.Gomez
+ * @modify Andrex.Gomez
  * 
  */
 @SuppressWarnings("serial")
@@ -60,6 +61,7 @@ public class MealControlAction implements Serializable {
 	private String nameSearch;
 	private StringBuilder consult;
 	private UIDataTable dataTable;
+	private UIColumnGroup dataHeader;
 	private List<Hr> hrList;
 	private List<Hr> subHrList;
 	private List<Hr> otherHrList;
@@ -238,6 +240,7 @@ public class MealControlAction implements Serializable {
 
 	/**
 	 * @param listHrMealControl
+	 *            :List of human resources of meal control
 	 */
 	public void setListHrMealControl(List<Hr> listHrMealControl) {
 		this.listHrMealControl = listHrMealControl;
@@ -256,6 +259,21 @@ public class MealControlAction implements Serializable {
 	 */
 	public void setDataTable(UIDataTable dataTable) {
 		this.dataTable = dataTable;
+	}
+
+	/**
+	 * @return dataHeader: object builds header datatable
+	 */
+	public UIColumnGroup getDataHeader() {
+		return dataHeader;
+	}
+
+	/**
+	 * @param dataHeader
+	 *            :object builds header datatable
+	 */
+	public void setDataHeader(UIColumnGroup dataHeader) {
+		this.dataHeader = dataHeader;
 	}
 
 	/**
@@ -426,7 +444,6 @@ public class MealControlAction implements Serializable {
 				this.subHrList = this.hrList.subList(start, end);
 			}
 			buildDataTableRegister();
-
 			if ((hrList == null || hrList.size() <= 0)
 					&& !"".equals(jointSearchMessages.toString())) {
 				searchMessage = MessageFormat
@@ -712,9 +729,8 @@ public class MealControlAction implements Serializable {
 	 * assist
 	 * 
 	 * @throws Exception
-	 * 
 	 */
-	public void buildDataTable() throws Exception {
+	private void buildDataTable() throws Exception {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		dataTable = new UIDataTable();
 		HtmlOutputText headerText1 = new HtmlOutputText();
@@ -731,72 +747,54 @@ public class MealControlAction implements Serializable {
 		out1.setValueExpression("value", value1);
 		column1.getChildren().add(out1);
 		column1.setHeader(headerText1);
+		column1.setRowspan(2);
 		dataTable.getChildren().add(column1);
 
+		dataHeader = new UIColumnGroup();
+		UIColumn columnName = (UIColumn) ControladorContexto.getApplication()
+				.createComponent(UIColumn.COMPONENT_TYPE);
+		dataHeader.getChildren().add(columnName);
 		if (this.listDateTable != null) {
+			List<TypeFood> listTypeFood = typeFoodDao.consultTypeFood();
+			int colspan = listTypeFood.size();
 			for (Date date : this.listDateTable) {
 				Date dateL = ControladorFechas.formatearFecha(date,
 						Constantes.DATE_FORMAT_CONSULT);
 				Integer d = (int) (dateL.getTime() / 1000);
-				TypeFood typeFoodBreak = typeFoodDao.nameExists(
-						Constantes.TYPE_FOOD_BREAKFAST, 0);
-				int valBreak = d + typeFoodBreak.getId();
-				UIColumn columnBreak = (UIColumn) ControladorContexto
-						.getApplication().createComponent(
-								UIColumn.COMPONENT_TYPE);
-				columnBreak.setStyleClass("center colFecha");
-				HtmlOutputText valueBreak = new HtmlOutputText();
-				valueBreak.setValue(bundle.getString("label_breakfast"));
-				columnBreak.setHeader(valueBreak);
-				HtmlOutputText outBreak = new HtmlOutputText();
-				String mergeBreak = "hr.assistFoodControl[(" + valBreak
-						+ ").intValue()] ";
-				ValueExpression valExpBreak = ControladorGenerico
-						.getValueExpression(mergeBreak, null);
-				outBreak.setEscape(false);
-				outBreak.setValueExpression(ConstantesErp.VALUE, valExpBreak);
-				columnBreak.getChildren().add(outBreak);
-				dataTable.getChildren().add(columnBreak);
 
-				TypeFood typeFoodLunch = typeFoodDao.nameExists(
-						Constantes.TYPE_FOOD_LUNCH, 0);
-				int valLunch = d + typeFoodLunch.getId();
-				UIColumn columnLunch = (UIColumn) ControladorContexto
+				String dayOfWeek = ControladorFechas.formatDate(date,
+						Constantes.DATE_FORMAT_DAY_WEEK_DAY);
+				UIColumn columnH = (UIColumn) ControladorContexto
 						.getApplication().createComponent(
 								UIColumn.COMPONENT_TYPE);
-				columnLunch.setStyleClass("center colFecha");
-				HtmlOutputText valueLunch = new HtmlOutputText();
-				valueLunch.setValue(bundle.getString("label_lunch"));
-				columnLunch.setHeader(valueLunch);
-				HtmlOutputText outLunch = new HtmlOutputText();
-				String mergeLunch = "hr.assistFoodControl[(" + valLunch
-						+ ").intValue()] ";
-				ValueExpression valExpLunch = ControladorGenerico
-						.getValueExpression(mergeLunch, null);
-				outLunch.setEscape(false);
-				outLunch.setValueExpression(ConstantesErp.VALUE, valExpLunch);
-				columnLunch.getChildren().add(outLunch);
-				dataTable.getChildren().add(columnLunch);
-
-				TypeFood typeFoodDinner = typeFoodDao.nameExists(
-						Constantes.TYPE_FOOD_DINNER, 0);
-				int valDinner = d + typeFoodDinner.getId();
-				UIColumn columnDinner = (UIColumn) ControladorContexto
-						.getApplication().createComponent(
-								UIColumn.COMPONENT_TYPE);
-				columnDinner.setStyleClass("center colFecha");
-				HtmlOutputText valueDinner = new HtmlOutputText();
-				valueDinner.setValue(bundle.getString("label_dinner"));
-				columnDinner.setHeader(valueDinner);
-				HtmlOutputText outDinner = new HtmlOutputText();
-				String mergeDinner = "hr.assistFoodControl[(" + valDinner
-						+ ").intValue()] ";
-				ValueExpression valExpDinner = ControladorGenerico
-						.getValueExpression(mergeDinner, null);
-				outDinner.setEscape(false);
-				outDinner.setValueExpression(ConstantesErp.VALUE, valExpDinner);
-				columnDinner.getChildren().add(outDinner);
-				dataTable.getChildren().add(columnDinner);
+				columnH.setColspan(colspan);
+				HtmlOutputText headerTextH = new HtmlOutputText();
+				headerTextH.setValue(WordUtils.capitalize(dayOfWeek));
+				columnH.getChildren().add(headerTextH);
+				dataHeader.getChildren().add(columnH);
+				for (TypeFood typeF : listTypeFood) {
+					int val = d + typeF.getId();
+					HtmlOutputText headerText = new HtmlOutputText();
+					String typeFoodName = typeF.getName();
+					headerText.setValue(WordUtils.capitalize(typeFoodName));
+					UIColumn column = (UIColumn) ControladorContexto
+							.getApplication().createComponent(
+									UIColumn.COMPONENT_TYPE);
+					column.setStyleClass("center");
+					HtmlPanelGroup panel = new HtmlPanelGroup();
+					panel.setLayout("block");
+					HtmlOutputText out = new HtmlOutputText();
+					String mMergeList = "hr.assistFoodControl[(" + val
+							+ ").intValue()] ";
+					ValueExpression value = ControladorGenerico
+							.getValueExpression(mMergeList, null);
+					out.setEscape(false);
+					out.setValueExpression(ConstantesErp.VALUE, value);
+					panel.getChildren().add(out);
+					column.getChildren().add(panel);
+					column.setHeader(headerText);
+					dataTable.getChildren().add(column);
+				}
 			}
 		}
 	}
@@ -834,4 +832,5 @@ public class MealControlAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+
 }

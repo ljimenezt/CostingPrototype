@@ -162,6 +162,7 @@ public class Constantes implements Serializable {
 	public static final String DATE_FORMAT_TABLE = "MMM dd, yyyy";
 	public static final String DATE_FORMAT_COLUMN_TABLE = "EEE MMM d ''yy";
 	public static final String DATE_FORMAT_DAY_OF_WEEK = "EEEE";
+	public static final String DATE_FORMAT_DAY_WEEK_DAY = "EEEE dd";
 
 	/* Sort */
 	public static final String DESCENDING = "DESC";

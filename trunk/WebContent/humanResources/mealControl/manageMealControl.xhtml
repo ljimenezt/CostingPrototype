@@ -69,6 +69,10 @@
 					id="tblMealControl" footerClass="H130P"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
 					rowClasses="odd-row, even-row">
+					<f:facet name="header">
+						<rich:columnGroup binding="#{mealControlAction.dataHeader}">
+						</rich:columnGroup>
+					</f:facet>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
 							<rich:column colspan="15" styleClass="footTabla">
