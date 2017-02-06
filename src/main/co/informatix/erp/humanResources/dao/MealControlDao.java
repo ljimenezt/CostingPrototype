@@ -18,7 +18,7 @@ import co.informatix.erp.humanResources.entities.FoodControl;
  * the meal control that may exist.
  * 
  * @author Wilhelm.Boada
- * @author Andres.Gomez
+ * @modify Andres.Gomez
  * 
  */
 @SuppressWarnings("serial")
