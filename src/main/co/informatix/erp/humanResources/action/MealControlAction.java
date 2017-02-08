@@ -747,7 +747,7 @@ public class MealControlAction implements Serializable {
 		out1.setValueExpression("value", value1);
 		column1.getChildren().add(out1);
 		column1.setHeader(headerText1);
-		column1.setRowspan(2);
+		column1.setRowspan(1);
 		dataTable.getChildren().add(column1);
 
 		dataHeader = new UIColumnGroup();
@@ -775,7 +775,7 @@ public class MealControlAction implements Serializable {
 				for (TypeFood typeF : listTypeFood) {
 					int val = d + typeF.getId();
 					HtmlOutputText headerText = new HtmlOutputText();
-					String typeFoodName = typeF.getName();
+					String typeFoodName = typeF.getAbbreviation();
 					headerText.setValue(WordUtils.capitalize(typeFoodName));
 					UIColumn column = (UIColumn) ControladorContexto
 							.getApplication().createComponent(
