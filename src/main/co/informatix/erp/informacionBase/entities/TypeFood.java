@@ -15,7 +15,7 @@ import javax.persistence.Transient;
  * type food.
  * 
  * @author Wilhelm.Boada
- * 
+ * @modify 07/02/2017 Claudia.Rey
  */
 @SuppressWarnings("serial")
 @Entity
@@ -26,6 +26,7 @@ public class TypeFood implements Serializable {
 	private String name;
 	private String description;
 	private boolean selected;
+	private String abbreviation;
 
 	/**
 	 * @return id: Type food identifier.
@@ -95,14 +96,33 @@ public class TypeFood implements Serializable {
 		this.selected = selected;
 	}
 
+	/**
+	 * @return abbreviation: abbreviation of the name
+	 */
+	@Column(name = "abbreviation", length = 3, nullable = false, unique = true)
+	public String getAbbreviation() {
+		return abbreviation;
+	}
+
+	/**
+	 * @param abbreviation
+	 *            : abbreviation of the name
+	 */
+	public void setAbbreviation(String abbreviation) {
+		this.abbreviation = abbreviation;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
+				+ ((abbreviation == null) ? 0 : abbreviation.hashCode());
+		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + (selected ? 1231 : 1237);
 		return result;
 	}
 
@@ -115,6 +135,11 @@ public class TypeFood implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		TypeFood other = (TypeFood) obj;
+		if (abbreviation == null) {
+			if (other.abbreviation != null)
+				return false;
+		} else if (!abbreviation.equals(other.abbreviation))
+			return false;
 		if (description == null) {
 			if (other.description != null)
 				return false;
@@ -127,6 +152,9 @@ public class TypeFood implements Serializable {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
+		if (selected != other.selected)
+			return false;
 		return true;
 	}
+
 }
