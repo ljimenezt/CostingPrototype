@@ -410,15 +410,60 @@ public class TypeFoodAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
+	
+	/**
+	 * To validate the abbreviation of the typeFood, so it is not repeated in the
+	 * database and it validates against XSS.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param context
+	 *            : application context.
+	 * @param toValidate
+	 *            : validate component.
+	 * @param value
+	 *            : field value to be valid.
+	 */
+	public void validateAbbreviationXSS(FacesContext context, UIComponent toValidate,
+			Object value) {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String abbreviation = (String) value;
+		String clientId = toValidate.getClientId(context);
+		try {
+			int id = typeFood.getId();
+			TypeFood typeFoodAux = typeFoodDao.abbreviationExists(abbreviation, id);
+			if (typeFoodAux != null) {
+				String messageExistence = "message_ya_existe_verifique";
+				context.addMessage(
+						clientId,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR, bundle
+								.getString(messageExistence), null));
+				((UIInput) toValidate).setValid(false);
+			}
+			if (!EncodeFilter.validarXSS(abbreviation, clientId,
+					"locate.regex.letras.numeros")) {
+				((UIInput) toValidate).setValid(false);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
 
 	/**
 	 * This method allows validate the required fields.
+	 * 
+	 * @modify 08/02/2017 Claudia.Rey
 	 */
 	public void validateRequired() {
 		ResourceBundle bundle = ControladorContexto
 				.getBundle("messageBaseInformation");
 		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
 				.getContextBean(ValidacionesAction.class);
+		if (this.typeFood.getAbbreviation() == null
+				|| ("").equals(this.typeFood.getAbbreviation())) {
+			ControladorContexto
+					.mensajeRequeridos("formRegisterTypeFood:txtAbbreviation");
+		}
 		if (this.typeFood.getName() == null
 				|| ("").equals(this.typeFood.getName())) {
 			ControladorContexto

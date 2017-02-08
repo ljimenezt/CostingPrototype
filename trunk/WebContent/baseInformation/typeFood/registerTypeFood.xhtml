@@ -34,6 +34,15 @@
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="etiquetaTitulo tdAlignTop,tdAlignTop,,tdAlignTop2">
+						
+						<h:outputText value="#{mensaje.label_abbreviation}" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText value="#{typeFoodAction.typeFood.abbreviation}"
+							styleClass="colNumero" id="txtAbbreviation"
+							validator="#{typeFoodAction.validateAbbreviationXSS}">
+							<f:validateLength maximum="3" />
+						</h:inputText>
+						<rich:message for="txtAbbreviation" />
 
 						<h:outputText value="#{mensaje.label_name}" />
 						<h:outputText value="*" styleClass="required" />
