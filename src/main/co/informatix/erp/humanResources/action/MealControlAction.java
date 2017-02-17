@@ -612,7 +612,10 @@ public class MealControlAction implements Serializable {
 						FoodControl foodControl = new FoodControl();
 						foodControl.setOther(hr.getName());
 						foodControl.setTypeFood(typeFood);
-						foodControl.setQuantity(typeFood.getId());
+						foodControl
+								.setQuantity(Integer.parseInt((String) String
+										.valueOf(hr.getMealControl().get(
+												typeFood.getId()))));
 						foodControl.setDate(initialDateSearch);
 						mealControlDao.saveFoodControl(foodControl);
 					}
