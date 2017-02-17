@@ -577,6 +577,8 @@ public class MealControlAction implements Serializable {
 	/**
 	 * Method used to save the meal control.
 	 * 
+	 * @modify 17/02/2017 Patricia.Patinio
+	 * 
 	 * @return initializeMealControl(): Redirects to manage meal control with
 	 *         meal control updated.
 	 */
