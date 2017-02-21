@@ -16,7 +16,6 @@ import co.informatix.erp.diesel.entities.Zone;
  * database. ZoneAction used for managing zone.
  * 
  * @author Fabian.Diaz
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
