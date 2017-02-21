@@ -123,8 +123,8 @@ public class ZoneAction implements Serializable {
 	 */
 	public String consultZone() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		ResourceBundle bundleRecursosHumanos = ControladorContexto
-				.getBundle("mensajeDiesel");
+		ResourceBundle bundleZones = ControladorContexto
+				.getBundle("messageDiesel");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		zoneList = new ArrayList<Zone>();
@@ -155,8 +155,7 @@ public class ZoneAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleRecursosHumanos
-										.getString("name_zone_label"),
+								bundleZones.getString("name_zone_label"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
