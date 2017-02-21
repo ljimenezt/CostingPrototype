@@ -143,7 +143,7 @@
 		</resource-bundle>
 		<resource-bundle>
 			<base-name>languageDiesel/idioma</base-name>
-			<var>mensajeDiesel</var>
+			<var>messageDiesel</var>
 		</resource-bundle>
 	</application>
 
