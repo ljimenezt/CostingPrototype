@@ -13,7 +13,6 @@ import javax.persistence.Table;
  * This is the entity that is responsible for mapping the zone.
  * 
  * @author Fabian.Diaz
- * 
  */
 @SuppressWarnings("serial")
 @Entity
@@ -44,7 +43,7 @@ public class Zone implements Serializable {
 	/**
 	 * @return name: name of zone
 	 */
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = false, length=100)
 	public String getName() {
 		return name;
 	}

@@ -27,7 +27,6 @@ import co.informatix.erp.utils.ValidacionesAction;
  * This class is all related logic with creating, updating and removal of Zone.
  * 
  * @author Fabian.Diaz
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
