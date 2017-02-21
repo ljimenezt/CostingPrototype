@@ -495,4 +495,35 @@ public class HrDao implements Serializable {
 		}
 		return resultList;
 	}
+
+	/**
+	 * This method allows consult the human resources relate with the control
+	 * assist that are absent in table.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param date
+	 *            : Date to the consult hr.
+	 * @param idHr
+	 *            : Identify of hr.
+	 * @return boolean: true in the case that the hr be absent.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public boolean consultHrAssistControlAsent(String date, int idHr)
+			throws Exception {
+		boolean absent = true;
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT h FROM Hr h ");
+		query.append("WHERE h.idHr = (SELECT ac.hr.idHr FROM AssistControl ac ");
+		query.append("WHERE TO_CHAR(ac.date,'YYYY-MM-dd')= :date AND ac.hr.idHr=:idHr and ac.absent = true ) ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("date", date);
+		q.setParameter("idHr", idHr);
+		List<Hr> resultList = q.getResultList();
+		if (resultList.size() <= 0) {
+			absent = false;
+		}
+		return absent;
+	}
 }

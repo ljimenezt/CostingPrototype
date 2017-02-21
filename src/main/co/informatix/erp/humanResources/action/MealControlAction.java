@@ -406,6 +406,8 @@ public class MealControlAction implements Serializable {
 	/**
 	 * See the list of workers to meal control.
 	 * 
+	 * @modify 14/02/2017 Claudia.Rey
+	 * 
 	 * @return regMealControl: Navigation rule that redirects to register the
 	 *         meal control.
 	 */
@@ -418,6 +420,7 @@ public class MealControlAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder queryBuilder = new StringBuilder();
 		StringBuilder jointSearchMessages = new StringBuilder();
+		HashMap<Integer, Integer> mealControlAsentHashmap = new HashMap<Integer, Integer>();
 		String searchMessage = "";
 		try {
 			if (!flagStart) {
@@ -429,7 +432,17 @@ public class MealControlAction implements Serializable {
 						parameters);
 				if (hrList != null && hrList.size() > 0) {
 					for (Hr hr : hrList) {
-						hr.setMealControl(mealControlHashmap);
+						boolean absent = hrDao.consultHrAssistControlAsent(
+								date, hr.getIdHr());
+						if (absent) {
+							for (TypeFood typeFood : this.typeFoodList) {
+								mealControlAsentHashmap
+										.put(typeFood.getId(), 0);
+							}
+							hr.setMealControl(mealControlAsentHashmap);
+						} else {
+							hr.setMealControl(mealControlHashmap);
+						}
 					}
 				}
 				loadOtherHr();
