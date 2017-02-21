@@ -135,7 +135,9 @@
 			
 			/reports/indexes/generalTrend/faces-config-generalTrend.xml,
 			/reports/indexes/faces-config-beanIndex.xml,
-			/reports/indexes/bySection/faces-config-bySection.xml
+			/reports/indexes/bySection/faces-config-bySection.xml,
+			
+			/diesel/zone/faces-config-zone.xml
 
 	   </param-value>
 	</context-param>
