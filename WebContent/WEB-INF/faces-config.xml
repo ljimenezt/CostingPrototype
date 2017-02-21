@@ -141,6 +141,10 @@
 			<base-name>idiomaJarSecurity/idioma</base-name>
 			<var>mensajeInformacionBase</var>
 		</resource-bundle>
+		<resource-bundle>
+			<base-name>languageDiesel/idioma</base-name>
+			<var>mensajeDiesel</var>
+		</resource-bundle>
 	</application>
 
 </faces-config>
