@@ -138,7 +138,7 @@
 			/reports/indexes/bySection/faces-config-bySection.xml,
 			
 			/diesel/zone/faces-config-zone.xml,
-			/diesel/zone/faces-config-consumable-resources.xml,
+			/diesel/consumableResources/faces-config-consumable-resources.xml,
 			/diesel/zone/faces-config-fuelUsage.xml
 
 	   </param-value>
