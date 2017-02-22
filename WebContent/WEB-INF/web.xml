@@ -137,7 +137,8 @@
 			/reports/indexes/faces-config-beanIndex.xml,
 			/reports/indexes/bySection/faces-config-bySection.xml,
 			
-			/diesel/zone/faces-config-zone.xml
+			/diesel/zone/faces-config-zone.xml,
+			/diesel/zone/faces-config-consumable-resources.xml
 
 	   </param-value>
 	</context-param>
