@@ -223,8 +223,8 @@ public class EngineLog implements Serializable {
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
-			@JoinColumn(name = "id_activity", referencedColumnName = "id_activity", nullable = false),
-			@JoinColumn(name = "id_machine", referencedColumnName = "id_machine", nullable = false) })
+			@JoinColumn(name = "id_activity", referencedColumnName = "id_activity", nullable = true),
+			@JoinColumn(name = "id_machine", referencedColumnName = "id_machine", nullable = true) })
 	public ActivityMachine getActivityMachine() {
 		return activityMachine;
 	}
