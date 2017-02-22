@@ -205,7 +205,7 @@ public class EngineLog implements Serializable {
 	 * @return receivedBy: human resource which receive the engine.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "delivered_by", referencedColumnName = "idhr")
+	@JoinColumn(name = "received_by", referencedColumnName = "idhr")
 	public Hr getReceivedBy() {
 		return receivedBy;
 	}
