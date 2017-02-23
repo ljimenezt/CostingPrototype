@@ -1,0 +1,138 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="consumableResourcesAction.searchInitialization" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,messageDiesel.consumable_label" />
+
+	<ui:define name="body">
+		<t:saveState value="#{consumableResourcesAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		      $g=jQuery.noConflict();
+		</script>
+		<ui:param name="listaVacia"
+			value="#{consumableResourcesAction.consumableResourcesList eq null or (empty consumableResourcesAction.consumableResourcesList)}" />
+		<ui:param name="anchoTabla" value="anchoSiete" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{consumableResourcesAction}" />
+		<ui:param name="renderLista" value="panelConsumable vigenciaPopup" />
+		<ui:param name="metodoLista" value="consultConsumableResources" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="consumableResourcesAction" />
+		<ui:param name="metodoNuevo" value="addEditConsumableResources" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
+
+		<h:form id="formConsumable">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listing} #{mensajeDiesel.consumable_label}"
+				id="panelConsumable">
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<rich:dataTable
+					value="#{consumableResourcesAction.consumableResourcesList}"
+					var="consumableResources"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{mensaje.label_name}</f:facet>
+						<h:commandLink value="#{consumableResources.name}"
+							action="#{consumableResourcesAction.addEditConsumableResources(consumableResources)}"
+							onclick="#{rich:component('statPane')}.show();">
+						</h:commandLink>
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{messageDiesel.label_unit_cost}</f:facet>
+						<h:outputText value="#{consumableResources.unitCost}" />
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{messageDiesel.consumable_label_measurement}</f:facet>
+						<h:outputText value="#{consumableResources.measurementUnits.name}" />
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="2" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="botonesAbajo" value="si" />
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="#{anchoTabla} center inBlock">
+						<ui:include src="/plantillas/templatePagination.xhtml">
+							<ui:param name="valReder" value="panelZone" />
+							<ui:param name="beanActionParam"
+								value="#{consumableResourcesAction}" />
+							<ui:param name="metodoActionParam"
+								value="consultConsumableResources" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formBuscar">
+			<rich:popupPanel id="popupBuscar" autosized="true" width="330"
+				maxWidth="450" height="180"
+				header="#{mensaje.button_search}  #{mensajeDiesel.consumable_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<a:outputPanel>
+					<script type="text/javascript">
+		     			 $g=jQuery.noConflict();
+					</script>
+					<rich:messages id="messagePopUp" styleClass="messageBlock" />
+					<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_name}:" />
+						<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
+							value="#{conusmableResourcesAction.nameSearch}" maxlength="100"
+							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
+					</h:panelGrid>
+				</a:outputPanel>
+				<br />
+				<div class="W350P center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+						actionListener="#{consumableResourcesAction.consultConsumableResources()}"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
+						render="panelConsumable, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>

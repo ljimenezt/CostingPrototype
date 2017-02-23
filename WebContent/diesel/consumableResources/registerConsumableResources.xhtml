@@ -9,50 +9,72 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="zoneAction.addEditZone(null)" />
+	<ui:param name="action"
+		value="consumableResourcesAction.addEditConsumableResources(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_register,messageDiesel.name_label" />
+		value="mensaje.label_register,messageDiesel.consumable_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
-		<t:saveState value="#{zoneAction}" />
+		<t:saveState value="#{consumableResourcesAction}" />
 		<script type="text/javascript">
 			$g=jQuery.noConflict();
-			$g(document).ready(function(){    
-				  $g('#formZone\\:txtName').maxlength({   
-				    events: [],     
-				    max: 100,    
-				    feedbackText: "#{mensaje.label_characters_left}",  
-				    showFeedback: 'active'    
-				  }); 
-			});
 		</script>
-		<h:form id="formZone">
+		<h:form id="formConsumable">
 			<rich:panel
-				header="#{mensaje.label_register} #{mensajeDiesel.name_label}"
-				styleClass="anchoUno MinH253P" id="panelZone">
+				header="#{mensaje.label_register} #{mensajeDiesel.consumable_label}"
+				styleClass="anchoUno MinH253P" id="panelConsumable">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-					columnClasses="tdAlignTop,tdAlignTop,,">
+					columnClasses="tdAlignTop,,,">
 					<h:outputText value="#{mensaje.label_name}"
 						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:inputTextarea value="#{zoneAction.zone.name}"
-						styleClass="colTextoMedianoTextArea" id="txtName"
+					<h:outputText styleClass="required"
+						value="#{consumableResourcesAction.consumableResources.name ne null ? '' : '*'}" />
+					<h:inputText
+						rendered="#{consumableResourcesAction.consumableResources.name eq null}"
+						value="#{consumableResourcesAction.consumableResources.name}"
+						styleClass="colTextoMediano" id="txtName"
 						validator="#{encodeFilter.validarScripting}"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						required="true">
-						<f:validateLength maximum="100" />
-					</h:inputTextarea>
+						<f:validateLength maximum="50" />
+					</h:inputText>
+					<h:outputText
+						value="#{consumableResourcesAction.consumableResources.name}"
+						rendered="#{consumableResourcesAction.consumableResources.name ne null}" />
 					<rich:message for="txtName" />
+					<h:outputText value="#{messageDiesel.label_unit_cost}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText
+						value="#{consumableResourcesAction.consumableResources.unitCost}"
+						styleClass="colTextoMediano" id="txtUnit" required="true"
+						converterMessage="#{mensaje.message_campo_positivo}"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:validateLongRange minimum="1" />
+					</h:inputText>
+					<rich:message for="txtUnit" />
+					<h:outputText value="#{messageDiesel.consumable_label_measurement}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:selectOneMenu
+						value="#{consumableResourcesAction.consumableResources.measurementUnits.idMeasurementUnits}"
+						id="comboMeasurement"
+						validator="#{validacionesAction.validarComboRequerido}">
+						<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
+						<f:selectItems
+							value="#{consumableResourcesAction.measurementUnitsItems}" />
+					</h:selectOneMenu>
+					<rich:message for="comboMeasurement" />
 				</h:panelGrid>
 				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
-						execute="formZone"
+						execute="formConsumable"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>
@@ -77,11 +99,19 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensaje.label_name}:" />
-						<h:outputText value="#{zoneAction.zone.name}" />
+						<h:outputText
+							value="#{consumableResourcesAction.consumableResources.name}" />
+						<h:outputText value="#{messageDiesel.label_unit_cost}:" />
+						<h:outputText
+							value="#{consumableResourcesAction.consumableResources.unitCost}" />
+						<h:outputText
+							value="#{messageDiesel.consumable_label_measurement}:" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(consumableResourcesAction.measurementUnitsItems,consumableResourcesAction.consumableResources.measurementUnits.idMeasurementUnits)}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{zoneAction.saveZone()}"
+							action="#{consumableResourcesAction.saveConsumableResources()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
