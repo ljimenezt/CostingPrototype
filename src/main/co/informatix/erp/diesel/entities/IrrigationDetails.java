@@ -63,7 +63,7 @@ public class IrrigationDetails implements Serializable {
 	 * @return hidrometerOn: ignition of water count for the irrigation.
 	 */
 	@Column(name = "hidrometer_on", nullable = true)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIME)
 	public Date getHidrometerOn() {
 		return hidrometerOn;
 	}
@@ -80,7 +80,7 @@ public class IrrigationDetails implements Serializable {
 	 * @return hidrometerOff: ending of water count for the irrigation.
 	 */
 	@Column(name = "hidrometer_off", nullable = true)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIME)
 	public Date getHidrometerOff() {
 		return hidrometerOff;
 	}
@@ -198,7 +198,7 @@ public class IrrigationDetails implements Serializable {
 	 *         details information.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_engine_log", referencedColumnName = "id_engine_log")
+	@JoinColumn(name = "id_engine_log", referencedColumnName = "id_engine_log", nullable = false)
 	public EngineLog getEngineLog() {
 		return engineLog;
 	}
@@ -236,7 +236,7 @@ public class IrrigationDetails implements Serializable {
 	 *         information.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_zone", referencedColumnName = "id")
+	@JoinColumn(name = "id_zone", referencedColumnName = "id", nullable = false)
 	public Zone getZone() {
 		return zone;
 	}
