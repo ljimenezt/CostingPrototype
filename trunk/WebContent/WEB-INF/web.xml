@@ -139,7 +139,7 @@
 			
 			/diesel/zone/faces-config-zone.xml,
 			/diesel/consumableResources/faces-config-consumable-resources.xml,
-			/diesel/zone/faces-config-fuelUsage.xml
+			/diesel/fuelUsageLog/faces-config-fuelUsage.xml
 
 	   </param-value>
 	</context-param>
