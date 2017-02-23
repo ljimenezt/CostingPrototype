@@ -43,6 +43,17 @@ public class EngineLog implements Serializable {
 	private ActivityMachine activityMachine;
 
 	/**
+	 * Constructor method.
+	 * 
+	 * @author Luna.Granados
+	 */
+	public EngineLog() {
+		this.deliveredBy = new Hr();
+		this.receivedBy = new Hr();
+		this.activityMachine = new ActivityMachine();
+	}
+
+	/**
 	 * @return idEngineLog: engine_log table identifier.
 	 */
 	@Id
