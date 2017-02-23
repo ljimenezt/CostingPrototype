@@ -10,10 +10,9 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="zoneAction.searchInitialization" />
+	<ui:param name="action" value="zoneAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_manage,messageDiesel.name_label" />
+		value="mensaje.label_manage,mensajeMenu.zone_diesel_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{zoneAction}" />
@@ -43,7 +42,7 @@
 
 		<h:form id="formZone">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listing} #{messageDiesel.zone_label}"
+				header="#{mensaje.label_listing} #{mensajeMenu.zone_diesel_label}"
 				id="panelZone">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />

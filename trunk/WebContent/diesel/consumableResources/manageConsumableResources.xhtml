@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="consumableResourcesAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_manage,messageDiesel.consumable_label" />
+		value="mensaje.label_manage,mensajeMenu.consumable_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{consumableResourcesAction}" />
@@ -42,8 +42,8 @@
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formConsumable">
-			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listing} #{messageDiesel.consumable_label}"
+			<rich:panel styleClass="anchoCinco MinH253P"
+				header="#{mensaje.label_listing} #{mensajeMenu.consumable_label}"
 				id="panelConsumable">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -55,17 +55,27 @@
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensaje.label_name}</f:facet>
-						<h:commandLink value="#{consumableResources.name}"
-							action="#{consumableResourcesAction.addEditConsumableResources(consumableResources)}"
-							onclick="#{rich:component('statPane')}.show();">
-						</h:commandLink>
+						<c:choose>
+							<c:when
+								test="#{(identity.autorizado('consumableResourcesAction','A') or identity.autorizado('consumableResourcesAction','U'))}">
+								<h:commandLink value="#{consumableResources.name}"
+									action="#{consumableResourcesAction.addEditConsumableResources(consumableResources)}"
+									onclick="#{rich:component('statPane')}.show();" />
+							</c:when>
+							<c:otherwise>
+								<h:outputText value="#{consumableResources.name}" />
+							</c:otherwise>
+						</c:choose>
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{messageDiesel.label_unit_cost}</f:facet>
-						<h:outputText value="#{consumableResources.unitCost}" />
+						<f:facet name="header">#{mensaje.label_unit_cost}</f:facet>
+						<h:outputText value="#{consumableResources.unitCost}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{messageDiesel.consumable_label_measurement}</f:facet>
+						<f:facet name="header">#{mensajeWarehouse.measurement_units_label}</f:facet>
 						<h:outputText value="#{consumableResources.measurementUnits.name}" />
 					</rich:column>
 					<f:facet name="footer">

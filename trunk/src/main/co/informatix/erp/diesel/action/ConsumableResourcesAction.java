@@ -45,12 +45,11 @@ public class ConsumableResourcesAction implements Serializable {
 
 	private ConsumableResources consumableResources;
 
-	private List<ConsumableResources> consumableResourcesList;
-
 	private String nameSearch;
 
+	private List<ConsumableResources> consumableResourcesList;
 	private List<SelectItem> measurementUnitsItems;
-	
+
 	/**
 	 * @return pagination: The paging controller object.
 	 */
