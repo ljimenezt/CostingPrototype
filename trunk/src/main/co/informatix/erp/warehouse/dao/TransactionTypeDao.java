@@ -163,4 +163,21 @@ public class TransactionTypeDao implements Serializable {
 			throws Exception {
 		return em.find(TransactionType.class, idTransactionType);
 	}
+
+	/**
+	 * Consult the list of TransactionType exists in the database.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @return List<TransactionType>:List of transaction types.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<TransactionType> consultTransactionType() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT t FROM TransactionType t ");
+		query.append("ORDER BY t.transactionType");
+		Query q = em.createQuery(query.toString());
+		return q.getResultList();
+	}
 }
