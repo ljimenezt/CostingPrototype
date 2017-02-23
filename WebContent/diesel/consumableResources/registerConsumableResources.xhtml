@@ -12,7 +12,7 @@
 	<ui:param name="action"
 		value="consumableResourcesAction.addEditConsumableResources(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_register,messageDiesel.consumable_label" />
+		value="mensaje.label_register,mensajeMenu.consumable_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -24,7 +24,7 @@
 		</script>
 		<h:form id="formConsumable">
 			<rich:panel
-				header="#{mensaje.label_register} #{mensajeDiesel.consumable_label}"
+				header="#{mensaje.label_register} #{mensajeMenu.consumable_label}"
 				styleClass="anchoUno MinH253P" id="panelConsumable">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
@@ -38,7 +38,7 @@
 						rendered="#{consumableResourcesAction.consumableResources.name eq null}"
 						value="#{consumableResourcesAction.consumableResources.name}"
 						styleClass="colTextoMediano" id="txtName"
-						validator="#{encodeFilter.validarScripting}"
+						validator="#{consumableResourcesAction.validateNameXSS}"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						required="true">
 						<f:validateLength maximum="50" />
@@ -47,18 +47,7 @@
 						value="#{consumableResourcesAction.consumableResources.name}"
 						rendered="#{consumableResourcesAction.consumableResources.name ne null}" />
 					<rich:message for="txtName" />
-					<h:outputText value="#{messageDiesel.label_unit_cost}"
-						styleClass="etiquetaTitulo" />
-					<h:outputText value="*" styleClass="required" />
-					<h:inputText
-						value="#{consumableResourcesAction.consumableResources.unitCost}"
-						styleClass="colTextoMediano" id="txtUnit" required="true"
-						converterMessage="#{mensaje.message_campo_positivo}"
-						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:validateLongRange minimum="1" />
-					</h:inputText>
-					<rich:message for="txtUnit" />
-					<h:outputText value="#{messageDiesel.consumable_label_measurement}"
+					<h:outputText value="#{mensajeWarehouse.measurement_units_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:selectOneMenu
@@ -70,6 +59,19 @@
 							value="#{consumableResourcesAction.measurementUnitsItems}" />
 					</h:selectOneMenu>
 					<rich:message for="comboMeasurement" />
+					<h:outputText value="#{mensaje.label_unit_cost}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText
+						value="#{consumableResourcesAction.consumableResources.unitCost}"
+						id="txtUnit" required="true"
+						converterMessage="#{mensaje.message_juego_caracter_numeros}"
+						label="#{mensaje.label_unit_cost}" styleClass="colValor"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:validateLongRange minimum="1" />
+						<f:ajax event="blur" execute="@this" render="@this" />
+					</h:inputText>
+					<rich:message for="txtUnit" />
 				</h:panelGrid>
 				<br />
 				<div align="center">
@@ -101,13 +103,12 @@
 						<h:outputText value="#{mensaje.label_name}:" />
 						<h:outputText
 							value="#{consumableResourcesAction.consumableResources.name}" />
-						<h:outputText value="#{messageDiesel.label_unit_cost}:" />
-						<h:outputText
-							value="#{consumableResourcesAction.consumableResources.unitCost}" />
-						<h:outputText
-							value="#{messageDiesel.consumable_label_measurement}:" />
+						<h:outputText value="#{mensajeWarehouse.measurement_units_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(consumableResourcesAction.measurementUnitsItems,consumableResourcesAction.consumableResources.measurementUnits.idMeasurementUnits)}" />
+						<h:outputText value="#{mensaje.label_unit_cost}:" />
+						<h:outputText
+							value="#{consumableResourcesAction.consumableResources.unitCost}" />
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"

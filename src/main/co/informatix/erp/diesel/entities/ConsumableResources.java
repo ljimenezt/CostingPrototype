@@ -32,7 +32,6 @@ public class ConsumableResources implements Serializable {
 
 	/**
 	 * Constructor that initializes the foreign key
-	 * 
 	 */
 	public ConsumableResources() {
 		this.measurementUnits = new MeasurementUnits();
@@ -59,7 +58,7 @@ public class ConsumableResources implements Serializable {
 	/**
 	 * @return name: name of consumableResource
 	 */
-	@Column(name = "name", nullable = false, length = 100)
+	@Column(name = "name", nullable = false, length = 50)
 	public String getName() {
 		return name;
 	}
