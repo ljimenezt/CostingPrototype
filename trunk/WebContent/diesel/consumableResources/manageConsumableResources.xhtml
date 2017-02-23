@@ -115,11 +115,11 @@
 		     			 $g=jQuery.noConflict();
 					</script>
 					<rich:messages id="messagePopUp" styleClass="messageBlock" />
-					<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
+					<h:panelGrid columns="3" cellpadding="5" cellspacing="7">
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_name}:" />
 						<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
-							value="#{conusmableResourcesAction.nameSearch}" maxlength="100"
+							value="#{consumableResourcesAction.nameSearch}" maxlength="100"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')" />
 					</h:panelGrid>
 				</a:outputPanel>
