@@ -1,0 +1,123 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="fuelUsageLogAction.registerFuelUsage(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_register,messageDiesel.fuel_usage_log_label" />
+	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){    
+				  $('#formFuelUsage\\:txaJustify').maxlength({   
+				    events: [],     
+				    max: 250,    
+				    feedbackText: "#{mensaje.label_characters_left}",  
+				    showFeedback: 'active'    
+				  }); 
+			});		
+		</script>
+
+		<t:saveState value="#{fuelUsageLogAction}" />
+		<h:form id="formFuelUsage">
+			<rich:panel
+				header="#{mensaje.label_register} #{messageDiesel.fuel_usage_log_label}"
+				styleClass="anchoUno MinH253P" id="panelFuelUsage">
+				<h:panelGrid columns="4"
+					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+					columnClasses="tdAlignTop,tdAlignTop,,">
+
+					<h:outputText value="#{mensajeWarehouse.transactionType_label}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:selectOneMenu id="cmbTransactionType"
+						value="#{fuelUsageLogAction.transactionType.idTransactionType}"
+						styleClass="colTextoMediano" required="true"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:selectItem itemLabel="#{mensaje.label_select}" />
+						<f:selectItems value="#{fuelUsageLogAction.itemsTransactionTypes}" />
+					</h:selectOneMenu>
+					<rich:message for="cmbTransactionType" />
+
+					<h:outputText value="#{mensaje.label_quantity}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputText value="#{fuelUsageLogAction.fuelUsageLog.deposited}"
+						styleClass="colTextoMediano" id="txtQuantity" required="true"
+						converterMessage="#{mensaje.message_campo_positivo}"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:validateDoubleRange minimum="0" />
+					</h:inputText>
+					<rich:message for="txtQuantity" />
+
+					<h:outputText value="#{mensaje.label_justification}"
+						styleClass="etiquetaTitulo" />
+					<h:outputText value="*" styleClass="required" />
+					<h:inputTextarea value="#{fuelUsageLogAction.fuelUsageLog.note}"
+						styleClass="colTextoMedianoTextArea" id="txaJustify"
+						required="true" validator="#{encodeFilter.validarScripting}"
+						requiredMessage="#{mensaje.message_campo_requerido}">
+						<f:validateLength maximum="250" />
+					</h:inputTextarea>
+					<rich:message for="txaJustify" />
+				</h:panelGrid>
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirm:popUpConfirm,formGenerico"
+						execute="formFuelUsage"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirm')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_save}" />
+				</div>
+			</rich:panel>
+		</h:form>
+		<h:form id="formConfirm">
+			<rich:popupPanel id="popUpConfirm" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirm')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{mensajeWarehouse.transactionType_label}:" />
+						<h:outputText value="#{validacionesAction.getLabel(fuelUsageLogAction.itemsTransactionTypes,fuelUsageLogAction.transactionType.idTransactionType)}" />
+
+						<h:outputText value="#{mensaje.label_quantity}:" />
+						<h:outputText value="#{fuelUsageLogAction.fuelUsageLog.deposited}" />
+
+						<h:outputText value="#{mensaje.label_justification}:" />
+						<h:outputText value="#{fuelUsageLogAction.fuelUsageLog.note}" />
+					</ui:define>
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{fuelUsageLogAction.saveFuelUsage}"
+							onclick="#{rich:component('popUpConfirm')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirm')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
