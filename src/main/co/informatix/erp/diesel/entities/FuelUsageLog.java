@@ -62,7 +62,7 @@ public class FuelUsageLog implements Serializable {
 	}
 
 	/**
-	 * @return consumption
+	 * @return consumption: consumption of fuel usage by engine.
 	 */
 	@Column(name = "consumption")
 	public Double getConsumption() {
@@ -71,13 +71,14 @@ public class FuelUsageLog implements Serializable {
 
 	/**
 	 * @param consumption
+	 *            : consumption of fuel usage by engine.
 	 */
 	public void setConsumption(Double consumption) {
 		this.consumption = consumption;
 	}
 
 	/**
-	 * @return finalLevel
+	 * @return finalLevel: final level of fuel usage.
 	 */
 	@Column(name = "final_level")
 	public Double getFinalLevel() {
@@ -86,13 +87,14 @@ public class FuelUsageLog implements Serializable {
 
 	/**
 	 * @param finalLevel
+	 *            : final level of fuel usage.
 	 */
 	public void setFinalLevel(Double finalLevel) {
 		this.finalLevel = finalLevel;
 	}
 
 	/**
-	 * @return deposited
+	 * @return deposited: initial amount of fuel usage.
 	 */
 	@Column(name = "deposited")
 	public Double getDeposited() {
@@ -101,13 +103,14 @@ public class FuelUsageLog implements Serializable {
 
 	/**
 	 * @param deposited
+	 *            : initial amount of fuel usage.
 	 */
 	public void setDeposited(Double deposited) {
 		this.deposited = deposited;
 	}
 
 	/**
-	 * @return note
+	 * @return note: description of adjustment.
 	 */
 	@Column(name = "note")
 	public String getNote() {
@@ -116,13 +119,14 @@ public class FuelUsageLog implements Serializable {
 
 	/**
 	 * @param note
+	 *            : description of adjustment.
 	 */
 	public void setNote(String note) {
 		this.note = note;
 	}
 
 	/**
-	 * @return engineLog
+	 * @return engineLog: engine related to the fuel usage.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_engine_log", referencedColumnName = "id_engine_log")
@@ -132,13 +136,14 @@ public class FuelUsageLog implements Serializable {
 
 	/**
 	 * @param engineLog
+	 *            : engine related to the fuel usage.
 	 */
 	public void setEngineLog(EngineLog engineLog) {
 		this.engineLog = engineLog;
 	}
 
 	/**
-	 * @return fuelPurchase
+	 * @return fuelPurchase: fuel purchase related to the usage of this.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_fuel_purchase", referencedColumnName = "id_fuel_purchase")
@@ -148,13 +153,14 @@ public class FuelUsageLog implements Serializable {
 
 	/**
 	 * @param fuelPurchase
+	 *            : fuel purchase related to the usage of this.
 	 */
 	public void setFuelPurchase(FuelPurchase fuelPurchase) {
 		this.fuelPurchase = fuelPurchase;
 	}
 
 	/**
-	 * @return transactionType
+	 * @return transactionType: transaction type related to fuel usage.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_transaction_type", referencedColumnName = "idtransactiontype")
@@ -164,6 +170,7 @@ public class FuelUsageLog implements Serializable {
 
 	/**
 	 * @param transactionType
+	 *            : transaction type related to fuel usage.
 	 */
 	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;
