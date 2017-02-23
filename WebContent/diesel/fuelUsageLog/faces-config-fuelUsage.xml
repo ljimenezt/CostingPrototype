@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesFuelUsageLog</from-outcome>
-			<to-view-id>/diesel/fuelUsage/manageFuelUsage.xhtml</to-view-id>
+			<to-view-id>/diesel/fuelUsageLog/manageFuelUsage.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regFuelUsageLog</from-outcome>
-			<to-view-id>/diesel/fuelUsage/registerFuelUsage.xhtml</to-view-id>
+			<to-view-id>/diesel/fuelUsageLog/registerFuelUsage.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
