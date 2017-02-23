@@ -70,7 +70,7 @@
 					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
-							<rich:column colspan="2" styleClass="footTabla">
+							<rich:column colspan="3" styleClass="footTabla">
 								<h:outputText
 									value="#{mensaje.message_no_existen_registros_tabla}" />
 							</rich:column>
@@ -115,7 +115,7 @@
 		     			 $g=jQuery.noConflict();
 					</script>
 					<rich:messages id="messagePopUp" styleClass="messageBlock" />
-					<h:panelGrid columns="3" cellpadding="5" cellspacing="7">
+					<h:panelGrid columns="2" cellpadding="5" cellspacing="7">
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_name}:" />
 						<h:inputText styleClass="colTextoMediano" id="txtNombreBuscar"
