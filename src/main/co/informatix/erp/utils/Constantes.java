@@ -252,4 +252,7 @@ public class Constantes implements Serializable {
 	public static final String TYPE_FOOD_LUNCH = "Lunch";
 	public static final String TYPE_FOOD_DINNER = "Dinner";
 
+	/* Transaction Type */
+	public static final String GAUGE_ADJUSTMENT_DOWN = "Gauge Adjustment Down";
+	public static final String GAUGE_ADJUSTMENT_UP = "Gauge Adjustment Up";
 }
