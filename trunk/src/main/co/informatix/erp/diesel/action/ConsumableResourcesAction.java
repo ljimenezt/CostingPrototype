@@ -125,7 +125,7 @@ public class ConsumableResourcesAction implements Serializable {
 	 * Method to initialize the fields in the search.
 	 * 
 	 * @return consultConsumableResources: consumableResources consulting method
-	 *         and redirects to the template to manage Zone.
+	 *         and redirects to the template to manage consumable resources.
 	 */
 	public String searchInitialization() {
 		this.nameSearch = null;

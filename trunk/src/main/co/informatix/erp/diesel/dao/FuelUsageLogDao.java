@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -80,4 +81,62 @@ public class FuelUsageLogDao implements Serializable {
 		return null;
 	}
 
+	/**
+	 * Consult the list of fuel usage logs that comply with the option of force.
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @param start
+	 *            : Registry where consultation begins.
+	 * @param range
+	 *            : Range of records.
+	 * @param consult
+	 *            : Consultation records depending on the parameters selected by
+	 *            the user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<FuelUsageLog>:List of fuel usage logs that comply with the
+	 *         condition of validity.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<FuelUsageLog> consultFuelUsageLog(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ful FROM FuelUsageLog ful ");
+		query.append("LEFT JOIN FETCH ful.transactionType tp ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		q.setFirstResult(start).setMaxResults(range);
+		return q.getResultList();
+	}
+
+	/**
+	 * Returns the number of rows that exist in the database that are existing
+	 * or not existing.
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @param consult
+	 *            : Query running on SQL.
+	 * @param parameters
+	 *            :Parameters of the query.
+	 * @return Number of records found.
+	 * @throws Exception
+	 */
+	public Long quantityFuelUsageLog(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(ful) FROM FuelUsageLog ful ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		return (Long) q.getSingleResult();
+	}
 }
