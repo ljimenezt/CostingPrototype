@@ -13,7 +13,7 @@
 	<ui:param name="action"
 		value="consumableResourcesAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_manage,mensajeMenu.consumable_label" />
+		value="mensaje.label_manage,messageDiesel.consumable_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{consumableResourcesAction}" />
@@ -26,7 +26,7 @@
 		</script>
 		<ui:param name="listaVacia"
 			value="#{consumableResourcesAction.consumableResourcesList eq null or (empty consumableResourcesAction.consumableResourcesList)}" />
-		<ui:param name="anchoTabla" value="anchoSiete" />
+		<ui:param name="anchoTabla" value="anchoCinco" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{consumableResourcesAction}" />
 		<ui:param name="renderLista" value="panelConsumable vigenciaPopup" />
@@ -42,8 +42,8 @@
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formConsumable">
-			<rich:panel styleClass="anchoCinco MinH253P"
-				header="#{mensaje.label_listing} #{mensajeMenu.consumable_label}"
+			<rich:panel styleClass="anchoDos MinH253P"
+				header="#{mensaje.label_listing} #{messageDiesel.consumable_label}"
 				id="panelConsumable">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -109,7 +109,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" width="330"
 				maxWidth="450" height="180"
-				header="#{mensaje.button_search}  #{mensajeDiesel.consumable_label}"
+				header="#{mensaje.button_search}  #{messageDiesel.consumable_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
