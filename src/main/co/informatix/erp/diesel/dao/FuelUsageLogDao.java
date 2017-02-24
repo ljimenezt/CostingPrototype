@@ -35,22 +35,49 @@ public class FuelUsageLogDao implements Serializable {
 	}
 
 	/**
-	 * Consult the last fuel usage log.
+	 * Consult a Fuel Usage by id.
 	 * 
-	 * @author Claudia.Rey
+	 * @param id
+	 *            : Identifier of Fuel Usage
+	 * @return FuelUsage: Object found
+	 * @throws Exception
+	 */
+	public FuelUsageLog FuelUsageById(int id) throws Exception {
+		return em.find(FuelUsageLog.class, id);
+	}
+
+	/**
+	 * Consult the list of FuelUsage in the database.
 	 * 
-	 * @return FuelUsageLog: object whit the last fuel usage log found
+	 * @return List<FuelUsageLog>: list of all FuelUsage.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public FuelUsageLog consultFuelUsageLogHigh() throws Exception {
-		Query q = em.createQuery("SELECT MAX(fu.id) FROM FuelUsageLog fu ");
-		List<FuelUsageLog> listaFuelUsageLog = q.getResultList();
-		if (listaFuelUsageLog.size() > 0) {
-			return listaFuelUsageLog.get(0);
-		} else {
-			return null;
+	public List<FuelUsageLog> consultFuelUsage() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT fu FROM FuelUsageLog fu ");
+		Query q = em.createQuery(query.toString());
+		return q.getResultList();
+	}
+
+	/**
+	 * Consult the last record of FuelUsage in the database.
+	 * 
+	 * @return FuelUsageLog: object found
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public FuelUsageLog consultLastFuelUsage() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT fu FROM FuelUsageLog fu ");
+		query.append("WHERE fu.idFuelUsage = ");
+		query.append("(SELECT MAX(fu.idFuelUsage) FROM FuelUsageLog fu)");
+		Query q = em.createQuery(query.toString());
+		List<FuelUsageLog> result = q.getResultList();
+		if (result.size() > 0) {
+			return result.get(0);
 		}
+		return null;
 	}
 
 }
