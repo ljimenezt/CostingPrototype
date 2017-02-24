@@ -1,6 +1,7 @@
 package co.informatix.erp.diesel.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import co.informatix.erp.warehouse.entities.TransactionType;
 
@@ -29,6 +32,7 @@ public class FuelUsageLog implements Serializable {
 	private Double finalLevel;
 	private Double deposited;
 	private String note;
+	private Date date;
 
 	private EngineLog engineLog;
 	private FuelPurchase fuelPurchase;
@@ -126,6 +130,23 @@ public class FuelUsageLog implements Serializable {
 	}
 
 	/**
+	 * @return date: date creation of fuel usage.
+	 */
+	@Column(name = "date")
+	@Temporal(TemporalType.TIMESTAMP)
+	public Date getDate() {
+		return date;
+	}
+
+	/**
+	 * @param date
+	 *            : date creation of fuel usage.
+	 */
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	/**
 	 * @return engineLog: engine related to the fuel usage.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -182,6 +203,7 @@ public class FuelUsageLog implements Serializable {
 		int result = 1;
 		result = prime * result
 				+ ((consumption == null) ? 0 : consumption.hashCode());
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result
 				+ ((deposited == null) ? 0 : deposited.hashCode());
 		result = prime * result
@@ -204,6 +226,11 @@ public class FuelUsageLog implements Serializable {
 			if (other.consumption != null)
 				return false;
 		} else if (!consumption.equals(other.consumption))
+			return false;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
 			return false;
 		if (deposited == null) {
 			if (other.deposited != null)
