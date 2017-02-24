@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.warehouse.entities.TransactionType;
 
 /**
@@ -165,17 +166,21 @@ public class TransactionTypeDao implements Serializable {
 	}
 
 	/**
-	 * Consult the list of TransactionType exists in the database.
+	 * Consult the list of TransactionType related to gauge.
 	 * 
 	 * @author Luna.Granados
 	 * 
-	 * @return List<TransactionType>:List of transaction types.
+	 * @return List<TransactionType>:List of transaction types gauges.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<TransactionType> consultTransactionType() throws Exception {
+	public List<TransactionType> consultTransactionTypeGauges()
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT t FROM TransactionType t ");
+		query.append("WHERE t.transactionType in ('"
+				+ Constantes.GAUGE_ADJUSTMENT_DOWN + "', '"
+				+ Constantes.GAUGE_ADJUSTMENT_UP + "') ");
 		query.append("ORDER BY t.transactionType");
 		Query q = em.createQuery(query.toString());
 		return q.getResultList();
