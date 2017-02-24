@@ -10,7 +10,135 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="fuelUsageLogAction.searchInitialization" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,messageDiesel.fuel_usage_log_title_label" />
 
+	<ui:define name="body">
+		<t:saveState value="#{fuelUsageLogAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		      $g=jQuery.noConflict();
+		</script>
+		<ui:param name="listaVacia"
+			value="#{fuelUsageLogAction.fuelUsageLogList eq null or (empty fuelUsageLogAction.fuelUsageLogList)}" />
+		<ui:param name="anchoTabla" value="anchoCinco" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{fuelUsageLogAction}" />
+		<ui:param name="renderLista" value="panelFuel vigenciaPopup" />
+		<ui:param name="metodoLista" value="consultFuelUsageLog" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="fuelUsageLogAction" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
+		<h:form id="formFuel">
+			<rich:panel styleClass="anchoCuatro MinH253P"
+				header="#{mensaje.label_listing} #{messageDiesel.fuel_usage_log_title_label}"
+				id="panelFuel">
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<rich:dataTable value="#{fuelUsageLogAction.fuelUsageLogList}"
+					var="fuelUsageLog"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
+						<h:outputText value="#{fuelUsageLog.date}" />
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{messageDiesel.fuel_usage_log_transactionType_label}</f:facet>
+						<h:outputText
+							value="#{fuelUsageLog.transactionType.transactionType}" />
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{mensaje.label_quantity}</f:facet>
+						<h:outputText value="#{fuelUsageLog.deposited}" />
+					</rich:column>
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{messageDiesel.fuel_usage_log_justify_label}</f:facet>
+						<h:outputText value="#{fuelUsageLog.note}" />
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="4" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="botonesAbajo" value="si" />
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="#{anchoTabla} center inBlock">
+						<ui:include src="/plantillas/templatePagination.xhtml">
+							<ui:param name="valReder" value="panelFuel" />
+							<ui:param name="beanActionParam" value="#{fuelUsageLogAction}" />
+							<ui:param name="metodoActionParam" value="consultFuelUsageLog" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
 
+		<h:form id="formBuscar">
+			<rich:popupPanel id="popupBuscar" width="330" maxWidth="450"
+				height="180"
+				header="#{mensaje.label_listing} #{messageDiesel.fuel_usage_log_title_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:messages id="messagePopUp" styleClass="messageBlock" />
+				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensaje.label_start_date}:" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar value="#{fuelUsageLogAction.startDateSearch}"
+						showOn="button" navigator="true" onSelectUpdate="fechFin"
+						id="fechaInicio" pattern="MM/dd/yyyy" required="true"
+						label="#{mensaje.label_start_date}">
+						<p:ajax event="dateSelect" update="formBuscar:fechFin" />
+					</p:calendar>
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensaje.label_end_date}:" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar value="#{fuelUsageLogAction.endDateSearch}"
+						showOn="button" navigator="true" required="true"
+						mindate="#{fuelUsageLogAction.startDateSearch}" id="fechFin"
+						pattern="MM/dd/yyyy"
+						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
+						label="#{mensaje.label_end_date}" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+						actionListener="#{fuelUsageLogAction.consultFuelUsageLog}"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
+						render="panelFuel, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
 </ui:composition>
