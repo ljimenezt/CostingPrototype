@@ -1,10 +1,12 @@
 package co.informatix.erp.diesel.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import co.informatix.erp.diesel.entities.FuelUsageLog;
 
@@ -30,6 +32,25 @@ public class FuelUsageLogDao implements Serializable {
 	 */
 	public void saveFuelUsage(FuelUsageLog FuelUsage) throws Exception {
 		em.persist(FuelUsage);
+	}
+
+	/**
+	 * Consult the last fuel usage log.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @return FuelUsageLog: object whit the last fuel usage log found
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public FuelUsageLog consultFuelUsageLogHigh() throws Exception {
+		Query q = em.createQuery("SELECT MAX(fu.id) FROM FuelUsageLog fu ");
+		List<FuelUsageLog> listaFuelUsageLog = q.getResultList();
+		if (listaFuelUsageLog.size() > 0) {
+			return listaFuelUsageLog.get(0);
+		} else {
+			return null;
+		}
 	}
 
 }
