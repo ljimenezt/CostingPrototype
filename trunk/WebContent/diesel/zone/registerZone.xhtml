@@ -11,7 +11,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="zoneAction.addEditZone(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_register,mensajeMenu.zone_diesel_label" />
+		value="mensaje.label_register,messageDiesel.zone_label" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -31,7 +31,7 @@
 		</script>
 		<h:form id="formZone">
 			<rich:panel
-				header="#{mensaje.label_register} #{mensajeMenu.zone_diesel_label}"
+				header="#{mensaje.label_register} #{messageDiesel.zone_label}"
 				styleClass="anchoUno MinH253P" id="panelZone">
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
