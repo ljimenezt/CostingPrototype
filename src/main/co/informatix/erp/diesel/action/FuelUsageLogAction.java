@@ -3,6 +3,7 @@ package co.informatix.erp.diesel.action;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -13,7 +14,9 @@ import javax.faces.model.SelectItem;
 
 import co.informatix.erp.diesel.dao.FuelUsageLogDao;
 import co.informatix.erp.diesel.entities.FuelUsageLog;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.TransactionTypeDao;
 import co.informatix.erp.warehouse.entities.TransactionType;
 
@@ -104,13 +107,13 @@ public class FuelUsageLogAction implements Serializable {
 	}
 
 	/**
-	 * Method to load the select item transaction types.
+	 * Method to load the transaction types related to gauge.
 	 * 
 	 * @throws Exception
 	 */
 	private void loadComboTransactionTypes() throws Exception {
 		List<TransactionType> transactionTypesList = transactionTypeDao
-				.consultTransactionType();
+				.consultTransactionTypeGauges();
 		this.itemsTransactionTypes = new ArrayList<SelectItem>();
 		for (TransactionType transactionTypes : transactionTypesList) {
 			this.itemsTransactionTypes.add(new SelectItem(transactionTypes
@@ -127,14 +130,46 @@ public class FuelUsageLogAction implements Serializable {
 	 */
 	public String saveFuelUsage() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		Double finalLevel = 0d;
 		try {
 			this.fuelUsageLog.setEngineLog(null);
 			this.fuelUsageLog.setFuelPurchase(null);
-			fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
+			this.fuelUsageLog.setDate(new Date());
 
-			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString("message_registro_guardar"),
-					this.fuelUsageLog.getIdFuelUsage()));
+			List<FuelUsageLog> fuelUsageList = fuelUsageLogDao
+					.consultFuelUsage();
+
+			if (fuelUsageList.size() > 0) {
+				FuelUsageLog LastfuelUsage = fuelUsageLogDao
+						.consultLastFuelUsage();
+
+				Object transactionType = (String) ValidacionesAction.getLabel(
+						itemsTransactionTypes, this.fuelUsageLog
+								.getTransactionType().getIdTransactionType());
+
+				if (transactionType.equals(Constantes.GAUGE_ADJUSTMENT_DOWN)) {
+					finalLevel = LastfuelUsage.getFinalLevel()
+							- this.fuelUsageLog.getDeposited();
+				} else if (transactionType
+						.equals(Constantes.GAUGE_ADJUSTMENT_UP)) {
+					finalLevel = LastfuelUsage.getFinalLevel()
+							+ this.fuelUsageLog.getDeposited();
+				}
+			} else {
+				finalLevel = this.fuelUsageLog.getDeposited();
+			}
+
+			if (finalLevel >= 0) {
+				this.fuelUsageLog.setFinalLevel(finalLevel);
+				fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
+
+				ControladorContexto.mensajeInformacion(null, MessageFormat
+						.format(bundle.getString("message_registro_guardar"),
+								this.fuelUsageLog.getIdFuelUsage()));
+			} else {
+				ControladorContexto.mensajeErrorEspecifico(
+						"fuel_usage_log_final_level_message", "messageDiesel");
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
