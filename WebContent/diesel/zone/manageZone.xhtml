@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="zoneAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_manage,mensajeMenu.zone_diesel_label" />
+		value="mensaje.label_manage,messageDiesel.zone_label" />
 
 	<ui:define name="body">
 		<t:saveState value="#{zoneAction}" />
@@ -42,7 +42,7 @@
 
 		<h:form id="formZone">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listing} #{mensajeMenu.zone_diesel_label}"
+				header="#{mensaje.label_listing} #{messageDiesel.zone_label}"
 				id="panelZone">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -99,7 +99,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" autosized="true" width="330"
 				maxWidth="450" height="180"
-				header="#{mensaje.button_search}  #{mensajeDiesel.zone_label}"
+				header="#{mensaje.button_search}  #{messageDiesel.zone_label}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
