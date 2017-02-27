@@ -37,8 +37,7 @@
 				<h:panelGrid columns="4"
 					cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 					cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-					columnClasses="tdAlignTop,tdAlignTop,,">
-
+					columnClasses="tdAlignTop,tdAlignTop,tdAlignTop,tdAlignTop">
 					<h:outputText value="#{mensajeWarehouse.transactionType_label}"
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
@@ -55,10 +54,10 @@
 						styleClass="etiquetaTitulo" />
 					<h:outputText value="*" styleClass="required" />
 					<h:inputText value="#{fuelUsageLogAction.fuelUsageLog.deposited}"
-						styleClass="colTextoMediano" id="txtQuantity" required="true"
+						styleClass="colNumero" id="txtQuantity" required="true"
 						converterMessage="#{mensaje.message_campo_positivo}"
 						requiredMessage="#{mensaje.message_campo_requerido}">
-						<f:validateDoubleRange minimum="0" />
+						<f:validateDoubleRange minimum="1" />
 					</h:inputText>
 					<rich:message for="txtQuantity" />
 
@@ -71,7 +70,7 @@
 						requiredMessage="#{mensaje.message_campo_requerido}">
 						<f:validateLength maximum="250" />
 					</h:inputTextarea>
-					<rich:message for="txaJustify" />
+					<rich:message for="txaJustify"/>
 				</h:panelGrid>
 				<br />
 				<div align="center">
@@ -101,7 +100,8 @@
 					</ui:define>
 					<ui:define name="campos">
 						<h:outputText value="#{mensajeWarehouse.transactionType_label}:" />
-						<h:outputText value="#{validacionesAction.getLabel(fuelUsageLogAction.itemsTransactionTypes,fuelUsageLogAction.transactionType.idTransactionType)}" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(fuelUsageLogAction.itemsTransactionTypes,fuelUsageLogAction.transactionType.idTransactionType)}" />
 
 						<h:outputText value="#{mensaje.label_quantity}:" />
 						<h:outputText value="#{fuelUsageLogAction.fuelUsageLog.deposited}" />
