@@ -161,11 +161,9 @@ public class FuelUsageLogAction implements Serializable {
 	/**
 	 * Method to create a new fuel usage.
 	 * 
-	 * @param fuelUsage
-	 *            : fuel usage to adding.
 	 * @return "regFuelUsageLog": redirected to the template record fuel usage.
 	 */
-	public String registerFuelUsage(FuelUsageLog fuelUsageLog) {
+	public String registerFuelUsage() {
 		try {
 			this.fuelUsageLog = new FuelUsageLog();
 			this.transactionType = new TransactionType();
@@ -207,17 +205,16 @@ public class FuelUsageLogAction implements Serializable {
 			this.fuelUsageLog.setFuelPurchase(null);
 			this.fuelUsageLog.setDate(new Date());
 
+			Object transactionType = (String) ValidacionesAction.getLabel(
+					itemsTransactionTypes, this.fuelUsageLog
+							.getTransactionType().getIdTransactionType());
+
 			List<FuelUsageLog> fuelUsageList = fuelUsageLogDao
 					.consultFuelUsage();
 
-			if (fuelUsageList.size() > 0) {
+			if (fuelUsageList != null && fuelUsageList.size() > 0) {
 				FuelUsageLog LastfuelUsage = fuelUsageLogDao
 						.consultLastFuelUsage();
-
-				Object transactionType = (String) ValidacionesAction.getLabel(
-						itemsTransactionTypes, this.fuelUsageLog
-								.getTransactionType().getIdTransactionType());
-
 				if (transactionType.equals(Constantes.GAUGE_ADJUSTMENT_DOWN)) {
 					finalLevel = LastfuelUsage.getFinalLevel()
 							- this.fuelUsageLog.getDeposited();
@@ -234,9 +231,15 @@ public class FuelUsageLogAction implements Serializable {
 				this.fuelUsageLog.setFinalLevel(finalLevel);
 				fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
 
-				ControladorContexto.mensajeInformacion(null, MessageFormat
-						.format(bundle.getString("message_registro_guardar"),
-								this.fuelUsageLog.getIdFuelUsage()));
+				SimpleDateFormat dateFormat = new SimpleDateFormat(
+						Constantes.DATE_FORMAT_TABLE);
+
+				ControladorContexto
+						.mensajeInformacion(
+								null,
+								MessageFormat.format(
+										bundle.getString("message_registro_guardar"),
+										(dateFormat.format(new Date()) + " - " + transactionType)));
 			} else {
 				ControladorContexto.mensajeErrorEspecifico(
 						"fuel_usage_log_final_level_message", "messageDiesel");
