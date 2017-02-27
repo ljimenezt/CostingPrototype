@@ -54,6 +54,10 @@ public class Constantes implements Serializable {
 	/* Farm */
 	public static final String FOLDER_FILES_FARMS = PropertiesManager
 			.getProperty("locate.folder.files.farm");
+	
+	/* Fuel */
+	public static final String FOLDER_FILES_FUEL = PropertiesManager
+			.getProperty("locate.folder.files.fuel");
 
 	/* END FOLDER PATHS */
 
@@ -251,6 +255,10 @@ public class Constantes implements Serializable {
 	public static final String TYPE_FOOD_BREAKFAST = "Breakfast";
 	public static final String TYPE_FOOD_LUNCH = "Lunch";
 	public static final String TYPE_FOOD_DINNER = "Dinner";
+	
+	/* Fuel Purchase */
+	public static final int FUEL_PURCHASE_ID_COSTO= 1;
+	public static final int FUEL_PURCHASE_TYPE_TRANSACTION=10;
 
 	/* Transaction Type */
 	public static final String GAUGE_ADJUSTMENT_DOWN = "Gauge Adjustment Down";
