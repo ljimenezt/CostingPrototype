@@ -29,9 +29,10 @@ import co.informatix.erp.warehouse.entities.Suppliers;
 @Entity
 @Table(name = "fuel_purchase", schema = "diesel")
 public class FuelPurchase implements Serializable {
+	
 	private int idFuelPurchase;
 	private double quantity;
-	private double unitCost=555;
+	private double unitCost;
 	private double subTotal;
 	private double taxes;
 	private double total;
@@ -42,7 +43,16 @@ public class FuelPurchase implements Serializable {
 
 	private Suppliers supplier;
 	private FuelTypes fuelType;
-	private IvaRate iva_rate;
+	private IvaRate ivaRate;
+
+	/**
+	 * Construct of class.
+	 */
+	public FuelPurchase() {
+		this.supplier = new Suppliers();
+		this.fuelType = new FuelTypes();
+		
+	}
 
 	/**
 	 * @return idFuelPurchase: identifier of fuel purchase
@@ -245,17 +255,17 @@ public class FuelPurchase implements Serializable {
 	 * @return iva_rate: iva rate applied to the fuel purchased
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_iva_rate", referencedColumnName = "id_iva", nullable = false)
-	public IvaRate getIva_rate() {
-		return iva_rate;
+	@JoinColumn(name = "id_iva_rate", referencedColumnName = "id_iva")
+	public IvaRate getIvaRate() {
+		return ivaRate;
 	}
 
 	/**
-	 * @param iva_rate
+	 * @param ivaRate
 	 *            : iva rate applied to the fuel purchased
 	 */
-	public void setIva_rate(IvaRate iva_rate) {
-		this.iva_rate = iva_rate;
+	public void setIvaRate(IvaRate ivaRate) {
+		this.ivaRate = ivaRate;
 	}
 
 	@Override

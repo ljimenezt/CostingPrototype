@@ -1,0 +1,287 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="fuelPurchaseAction.addEditFuelPurchase(null)" />
+	<ui:param name="titulo"
+		value="mensaje.label_register,messageDiesel.fuel_purchase_name_label" />
+	<ui:define name="body">
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+		<t:saveState value="#{fuelPurchaseAction}" />
+		<t:saveState value="#{fuelPurchaseAction}" />
+		<h:form id="formFuelPurchase">
+			<rich:panel
+				header="#{mensaje.label_register} #{messageDiesel.fuel_purchase_name_label}"
+				styleClass="anchoUno MinH253P" id="panelFuelPurchase">
+
+				<h:panelGrid columns="2" columnClasses="W80Per,W20Per tdAlignTop">
+					<h:panelGrid columns="4"
+						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
+						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
+						columnClasses="tdAlignTop,,,">
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageDiesel.fuel_purchase_invoice_data}" />
+						<h:outputText value="*" styleClass="required" />
+						<p:calendar value="#{fuelPurchaseAction.fuelPurchase.dateTime}"
+							showOn="button" navigator="true" id="dateInvoice"
+							pattern="MM/dd/yyyy" readonlyInput="true" required="true"
+							converterMessage="#{mensaje.message_validar_formato_fecha}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:attribute name="validarHora" value="si" />
+						</p:calendar>
+						<rich:message for="dateInvoice" />
+
+						<h:outputText value="#{messageDiesel.fuel_purchase_supplier}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="supplier"
+							value="#{fuelPurchaseAction.suppliers.idSupplier}"
+							styleClass="colTextoCorto" required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:selectItem itemLabel="#{mensaje.label_select}" />
+							<f:selectItems value="#{fuelPurchaseAction.itemsSuppliers}" />
+							<f:ajax event="change"
+									listener="#{fuelPurchaseAction.suppliers.setIdSupplier(fuelPurchaseAction.suppliers.idSupplier)}" />
+						</h:selectOneMenu>
+						<rich:message for="supplier" />
+
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_number}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText
+							value="#{fuelPurchaseAction.fuelPurchase.invoiceNumber}"
+							styleClass="W150P" id="txtNumInv" required="true" size="50"
+							maxlength="50" validator="#{fuelPurchaseAction.validateNameXSS}"
+							requiredMessage="#{mensaje.message_campo_requerido}" />
+						<rich:message for="txtNumInv" />
+
+						<h:outputText value="#{messageMachine.fuel_types_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:selectOneMenu id="fuelTypes" styleClass="colTextoCorto"
+							required="true"
+							value="#{fuelPurchaseAction.fuelTypes.idFuelType}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:selectItem itemLabel="#{mensaje.label_select}" />
+							<f:selectItems value="#{fuelPurchaseAction.itemsFuelTypes}" />
+						</h:selectOneMenu>
+						<rich:message for="fuelTypes" />
+
+						<h:outputText value="#{mensaje.label_quantity}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="quantity" required="true" size="50"
+							maxlength="50"
+							value="#{fuelPurchaseAction.fuelPurchase.quantity}"
+							converterMessage="#{mensaje.message_campo_positivo}"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							styleClass="W108P">
+							<f:validateDoubleRange minimum="1" />
+							<a:ajax event="change"
+								listener="#{fuelPurchaseAction.calculateValors()}"
+								execute="@this" render="subtotal iva total" />
+						</h:inputText>
+						<rich:message for="quantity" />
+
+						<h:outputText value="#{mensaje.label_unit_cost}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="costUnit" readonly="true"
+							value="#{fuelPurchaseAction.fuelPurchase.unitCost}"
+							styleClass="W108P">
+						</h:inputText>
+						<rich:message for="costUnit" />
+
+						<h:outputText value="#{mensaje.label_subtotal}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="subtotal"
+							value="#{fuelPurchaseAction.fuelPurchase.subTotal}"
+							styleClass="W108P">
+						</h:inputText>
+						<rich:message for="subtotal" />
+
+						<h:outputText value="#{mensajeMenu.iva_rate_label}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="%" styleClass="required" />
+						<h:selectOneMenu id="ivaRate" styleClass="colTextoCorto"
+							value="#{fuelPurchaseAction.ivaRate.idIva}">
+							<f:selectItem itemLabel="#{mensaje.label_select}" />
+							<f:selectItems value="#{fuelPurchaseAction.itemsIvaRate}" />
+							<f:ajax event="change"
+								listener="#{fuelPurchaseAction.calculateValors()}"
+								render="iva total" />
+						</h:selectOneMenu>
+						<rich:message for="ivaRate" />
+
+						<h:outputText value="#{messageDiesel.fuel_purchase_iva}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="$" styleClass="required" />
+						<h:inputText id="iva" readonly="true"
+							value="#{fuelPurchaseAction.fuelPurchase.taxes}"
+							styleClass="W108P">
+						</h:inputText>
+						<rich:message for="iva" />
+
+						<h:outputText value="#{mensaje.label_total}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="total" readonly="true"
+							value="#{fuelPurchaseAction.fuelPurchase.total}"
+							styleClass="W108P">
+						</h:inputText>
+						<rich:message for="total" />
+
+						<h:outputText value="#{mensaje.label_description}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="" />
+						<h:inputTextarea value="#{fuelPurchaseAction.fuelPurchase.note}"
+							styleClass="colTextoMedianoTextArea" id="txaNote"
+							validator="#{encodeFilter.validarScripting}">
+							<f:validateLength maximum="250" />
+						</h:inputTextarea>
+						<rich:message for="txaNote" />
+
+					</h:panelGrid>
+
+					<t:fieldset>
+						<legend class="etiquetaTitulo">#{mensaje.label_document}</legend>
+						<h:panelGrid columns="1" cellspacing="0" cellpadding="0"
+							id="panelLogoFuel">
+							<a:outputPanel
+								rendered="#{fuelPurchaseAction.imageDocument != null and !(empty fuelPurchaseAction.imageDocument)}">
+								<div class="uploadImg">
+									<div class="closeImg">
+										<a:commandLink action="#{fuelPurchaseAction.deleteFileName()}"
+											immediate="true" render=":formFuelPurchase:panelLogoFuel">
+											<h:graphicImage value="/img/close_14.png"
+												onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+												onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+												styleClass="cursor" title="#{mensaje.label_change_img}" />
+										</a:commandLink>
+									</div>
+									<h:graphicImage
+										value="#{fuelPurchaseAction.temporalFilesFolder}/#{fuelPurchaseAction.imageDocument}"
+										title="#{fuelPurchaseAction.imageDocument}"
+										styleClass="H200P W160P"
+										rendered="#{fuelPurchaseAction.temporalImageDocument}" />
+									<h:graphicImage
+										value="#{fuelPurchaseAction.filesFolder}/#{fuelPurchaseAction.imageDocument}"
+										title="#{fuelPurchaseAction.imageDocument}"
+										styleClass="H200P W160P"
+										rendered="#{!fuelPurchaseAction.temporalImageDocument}" />
+								</div>
+							</a:outputPanel>
+							<a:outputPanel>
+								<h:graphicImage value="/img/noImage_240X203.png"
+									rendered="#{fuelPurchaseAction.imageDocument eq null or empty fuelPurchaseAction.imageDocument}"
+									styleClass="H200P W160P" />
+								<p:fileUpload id="uploadLogo" dragDropSupport="true"
+									rendered="#{fuelPurchaseAction.imageDocument eq null or empty fuelPurchaseAction.imageDocument}"
+									label="#{mensaje.label_select_file}" mode="advanced"
+									auto="true" fileUploadListener="#{fuelPurchaseAction.submit}"
+									update="panelLogoFuel"
+									onstart="#{rich:component('statPane')}.show();"
+									oncomplete="#{rich:component('statPane')}.hide();" />
+								<rich:message for="uploadLogo" styleClass="errors" />
+								<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
+									styleClass="W100Per">
+									<hr />
+									<h:outputText styleClass="etiquetaTitulo"
+										value="#{mensaje.label_allowed_ext}: #{propPrototipoCostos['locate.ext.permitted.img']} " />
+									<hr />
+								</h:panelGrid>
+							</a:outputPanel>
+						</h:panelGrid>
+					</t:fieldset>
+
+				</h:panelGrid>
+			</rich:panel>
+
+			<br />
+			<div align="center">
+				<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+					execute="formFuelPurchase"
+					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+					value="#{mensaje.button_save}" />
+			</div>
+		</h:form>
+
+		<h:form id="formConfirmar">
+			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
+				maxWidth="500" header="#{mensaje.label_confirmation}">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							styleClass="hidelink cursor"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</h:panelGroup>
+				</f:facet>
+				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
+					<ui:define name="mensaje">
+						<h:outputText value="#{mensaje.message_registro_confirmacion}"
+							styleClass="etiquetaTitulo" />
+					</ui:define>
+					<ui:define name="campos">
+						<h:outputText value="#{messageDiesel.fuel_purchase_invoice_data}:" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.dateTime}" />
+						<h:outputText value="#{messageDiesel.fuel_purchase_supplier}:" />
+						<h:outputText value="#{fuelPurchaseAction.suppliers.idSupplier}" />
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_number}:" />
+						<h:outputText
+							value="#{fuelPurchaseAction.fuelPurchase.invoiceNumber}" />
+
+						<h:outputText value="#{messageMachine.fuel_types_label}:" />
+						<h:outputText value="#{fuelPurchaseAction.fuelTypes.idFuelType}" />
+						<h:outputText value="#{mensaje.label_quantity}:" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.quantity}" />
+						<h:outputText value="#{mensaje.label_unit_cost}:" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.unitCost}" />
+
+						<h:outputText value="#{mensaje.label_subtotal}:" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.subTotal}" />
+						<h:outputText value="#{mensajeMenu.iva_rate_label}:" />
+						<h:outputText value="#{fuelPurchaseAction.ivaRate.idIva}" />
+						<h:outputText value="#{messageDiesel.fuel_purchase_iva}:" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.taxes}" />
+						<h:outputText value="#{mensaje.label_total}:" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.total}" />
+						<h:outputText value="#{mensaje.label_description}:" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.note}" />
+						<h:outputText value="#{mensaje.label_logo}:" />
+						<h:outputText value="#{fuelPurchaseAction.imageDocument}" />
+					</ui:define>
+
+
+					<ui:define name="botones">
+						<h:commandButton value="#{mensaje.button_accept}"
+							action="#{fuelPurchaseAction.saveFuelPurchase}"
+							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
+						<a:commandButton value="#{mensaje.button_cancel}"
+							onclick="#{rich:component('popUpConfirmar')}.hide()" />
+					</ui:define>
+				</ui:decorate>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
