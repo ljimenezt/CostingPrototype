@@ -141,7 +141,8 @@
 			/diesel/engineLog/faces-config-engine-log.xml,
 			/diesel/consumableResources/faces-config-consumable-resources.xml,
 			/diesel/fuelUsageLog/faces-config-fuelUsage.xml,
-			/diesel/fuelPurchase/faces-config-fuelPurchase.xml
+			/diesel/fuelPurchase/faces-config-fuelPurchase.xml,
+			/diesel/irrigationDetails/faces-config-irrigationDetails.xml
 
 	   </param-value>
 	</context-param>
