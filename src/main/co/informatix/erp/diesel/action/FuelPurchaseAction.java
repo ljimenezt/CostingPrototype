@@ -188,7 +188,7 @@ public class FuelPurchaseAction implements Serializable {
 	 * @return suppliers: Object supplier
 	 */
 	public Suppliers getSuppliers() {
-    		return suppliers;
+		return suppliers;
 	}
 
 	/**
@@ -246,15 +246,14 @@ public class FuelPurchaseAction implements Serializable {
 
 	/**
 	 * Method that charge the cost unit of the diesel.
+	 * 
+	 * @throws Exception
 	 */
-	private void chargueCostUnit() {
-		try {
-			this.consumableResources = consumableResourcesDao
-					.consumableResourceById(Constantes.FUEL_PURCHASE_ID_COSTO);
-			fuelPurchase.setUnitCost(consumableResources.getUnitCost());
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
+	private void chargueCostUnit() throws Exception {
+		this.consumableResources = consumableResourcesDao
+				.consumableResourceById(Constantes.FUEL_PURCHASE_ID_COSTO);
+		fuelPurchase.setUnitCost(consumableResources.getUnitCost());
+
 	}
 
 	/**
@@ -296,8 +295,6 @@ public class FuelPurchaseAction implements Serializable {
 				this.temporalImageDocument = true;
 			}
 			transactionType = new TransactionType();
-			suppliers = new Suppliers();
-
 			chargueCostUnit();
 			loadComboSuppliers();
 			loadComboFuelTypes();
@@ -403,7 +400,7 @@ public class FuelPurchaseAction implements Serializable {
 	/**
 	 * Method that calculate the subtotal of a fuel purchase
 	 */
-	public void CalculateSubtotal() {
+	public void calculateSubtotal() {
 		this.fuelPurchase.setSubTotal(ControllerAccounting.multiply(
 				this.fuelPurchase.getQuantity(),
 				this.fuelPurchase.getUnitCost()));
@@ -426,14 +423,9 @@ public class FuelPurchaseAction implements Serializable {
 	/**
 	 * method that calculate the total of a fuel purchase.
 	 */
-	public void calculateTotal() {
-		try {
-			this.fuelPurchase.setTotal(ControllerAccounting.add(
-					this.fuelPurchase.getSubTotal(),
-					this.fuelPurchase.getTaxes()));
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
+	private void calculateTotal() {
+		this.fuelPurchase.setTotal(ControllerAccounting.add(
+				this.fuelPurchase.getSubTotal(), this.fuelPurchase.getTaxes()));
 
 	}
 
@@ -446,7 +438,7 @@ public class FuelPurchaseAction implements Serializable {
 			calculateTaxes();
 			calculateTotal();
 		} else {
-			CalculateSubtotal();
+			calculateSubtotal();
 			calculateTotal();
 		}
 
@@ -519,60 +511,54 @@ public class FuelPurchaseAction implements Serializable {
 	 */
 	public void saveFuelPurchase() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String registerMessage = "message_registro_modificar";
 		String deletePicName = null;
 		try {
 			userTransaction.begin();
-			if (fuelPurchase.getIdFuelPurchase() > 0) {
-
-			} else {
-				if (this.imageDocument != null
-						&& !"".equals(this.imageDocument.trim())) {
-					deletePicName = this.imageDocument;
-					uploadPicRealFolder();
-				}
-				this.fuelPurchase.setInvoiceDocumentLink(this.imageDocument);
-
-				fuelPurchase.setFuelType(new FuelTypes());
-				fuelPurchase.setFuelType(this.fuelTypes);
-
-				if (this.ivaRate.getIdIva() > 0) {
-					fuelPurchase.setIvaRate(new IvaRate());
-					fuelPurchase.setIvaRate(this.ivaRate);
-				}
-				fuelPurchase.setSupplier(new Suppliers());
-				fuelPurchase.setSupplier(this.suppliers);
-				registerMessage = "message_registro_guardar";
-				fuelPurchaseDao.createFuelPurchase(fuelPurchase);
-
-				transactionType = transactionTypeDao
-						.transactionTypeById(Constantes.FUEL_PURCHASE_TYPE_TRANSACTION);
-
-				this.fuelUsageLog = new FuelUsageLog();
-				this.fuelUsageLog.setDate(new Date());
-				this.fuelUsageLog.setFuelPurchase(fuelPurchase);
-				this.fuelUsageLog.setEngineLog(null);
-				this.fuelUsageLog.setTransactionType(transactionType);
-				this.fuelUsageLog.setDeposited((Double) fuelPurchase
-						.getQuantity());
-				FuelUsageLog fuelUsageLogAux = fuelUsageLogDao
-						.consultLastFuelUsage();
-				if (fuelUsageLogAux != null) {
-					this.fuelUsageLog.setFinalLevel(ControllerAccounting.add(
-							(Double) fuelUsageLogAux.getFinalLevel(),
-							(Double) fuelPurchase.getQuantity()));
-				} else {
-					this.fuelUsageLog.setFinalLevel((Double) fuelPurchase
-							.getQuantity());
-				}
-
-				fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
+			if (this.imageDocument != null
+					&& !"".equals(this.imageDocument.trim())) {
+				deletePicName = this.imageDocument;
+				uploadPicRealFolder();
 			}
+			this.fuelPurchase.setInvoiceDocumentLink(this.imageDocument);
+
+			fuelPurchase.setFuelType(new FuelTypes());
+			fuelPurchase.setFuelType(this.fuelTypes);
+
+			if (this.ivaRate.getIdIva() > 0) {
+				fuelPurchase.setIvaRate(new IvaRate());
+				fuelPurchase.setIvaRate(this.ivaRate);
+			}
+			fuelPurchase.setSupplier(new Suppliers());
+			fuelPurchase.setSupplier(this.suppliers);
+			fuelPurchaseDao.createFuelPurchase(fuelPurchase);
+
+			transactionType = transactionTypeDao
+					.transactionTypeById(Constantes.FUEL_PURCHASE_TYPE_TRANSACTION);
+
+			this.fuelUsageLog = new FuelUsageLog();
+			this.fuelUsageLog.setDate(new Date());
+			this.fuelUsageLog.setFuelPurchase(fuelPurchase);
+			this.fuelUsageLog.setEngineLog(null);
+			this.fuelUsageLog.setTransactionType(transactionType);
+			this.fuelUsageLog.setDeposited((Double) fuelPurchase.getQuantity());
+			FuelUsageLog fuelUsageLogAux = fuelUsageLogDao
+					.consultLastFuelUsage();
+			if (fuelUsageLogAux != null) {
+				this.fuelUsageLog.setFinalLevel(ControllerAccounting.add(
+						(Double) fuelUsageLogAux.getFinalLevel(),
+						(Double) fuelPurchase.getQuantity()));
+			} else {
+				this.fuelUsageLog.setFinalLevel((Double) fuelPurchase
+						.getQuantity());
+			}
+
+			fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
+
 			if (deletePicName != null && !"".equals(deletePicName)) {
 				this.deleteFile(deletePicName);
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(registerMessage),
+					bundle.getString("message_registro_guardar"),
 					fuelPurchase.getInvoiceNumber()));
 			userTransaction.commit();
 		} catch (Exception e) {
