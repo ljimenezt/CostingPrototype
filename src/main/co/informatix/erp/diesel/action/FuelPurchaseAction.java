@@ -407,7 +407,7 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * method that calculate the taxes of a fuel purchase
+	 * Method that calculate the taxes of a fuel purchase
 	 */
 	public void calculateTaxes() {
 		try {
@@ -421,7 +421,7 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * method that calculate the total of a fuel purchase.
+	 * Method that calculate the total of a fuel purchase.
 	 */
 	private void calculateTotal() {
 		this.fuelPurchase.setTotal(ControllerAccounting.add(

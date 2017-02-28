@@ -33,25 +33,13 @@ public class FuelPurchaseDao implements Serializable {
 	}
 
 	/**
-	 * This method is the one to make the update in the database for a given
-	 * fuel purchase
-	 * 
-	 * @param fuelPurcharse
-	 *            : object to updating.
-	 * @throws Exception
-	 */
-	public void editFuelPurchase(FuelPurchase fuelPurcharse) throws Exception {
-		em.merge(fuelPurcharse);
-	}
-
-	/**
 	 * Consult the list of fuel purchase in the database.
 	 * 
 	 * @return List<FuelPurchase>: list of all Fuel Purchase found.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<FuelPurchase> consultFuelUsage() throws Exception {
+	public List<FuelPurchase> consultFuelPurchase() throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT fp FROM FuelPurchase fp ");
 		Query q = em.createQuery(query.toString());
@@ -63,16 +51,15 @@ public class FuelPurchaseDao implements Serializable {
 	 * 
 	 * @param idFuelPurchase
 	 *            : Identifier of fuel purchase.
-	 * @return idFuelPurchase: Object Fuel Purchase found.
+	 * @return FuelPurchase: Object Fuel Purchase found.
 	 * @throws Exception
 	 */
-	public FuelPurchase FuelUsageById(int idFuelPurchase) throws Exception {
+	public FuelPurchase fuelPurchaseById(int idFuelPurchase) throws Exception {
 		return em.find(FuelPurchase.class, idFuelPurchase);
 	}
 
 	/**
-	 * Consult if the number of the invoice exist in the database when saving or
-	 * editing.
+	 * Consult if the number of the invoice exist in the database when saving.
 	 * 
 	 * @param invoiceNumber
 	 *            : number of the invoice to verify.
