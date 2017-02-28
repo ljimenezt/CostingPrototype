@@ -110,7 +110,7 @@ public class EngineLog implements Serializable {
 	 * @return hourOn: it is a ignition hour for engine log.
 	 */
 	@Column(name = "hour_on", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIME)
 	public Date getHourOn() {
 		return hourOn;
 	}
@@ -127,7 +127,7 @@ public class EngineLog implements Serializable {
 	 * @return hourOff: it is a ending hour for engine log.
 	 */
 	@Column(name = "hour_off", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIME)
 	public Date getHourOff() {
 		return hourOff;
 	}
@@ -145,7 +145,7 @@ public class EngineLog implements Serializable {
 	 *         watched by a engine hour meter.
 	 */
 	@Column(name = "hourmeter_on", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIME)
 	public Date getHourmeterOn() {
 		return hourmeterOn;
 	}
@@ -164,7 +164,7 @@ public class EngineLog implements Serializable {
 	 *         watched by a engine hour meter.
 	 */
 	@Column(name = "hourmeter_off", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIME)
 	public Date getHourmeterOff() {
 		return hourmeterOff;
 	}
@@ -182,7 +182,7 @@ public class EngineLog implements Serializable {
 	 * @return duration: indicate the difference between hourOn and hourOff.
 	 */
 	@Column(name = "duration", nullable = false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIME)
 	public Date getDuration() {
 		return duration;
 	}

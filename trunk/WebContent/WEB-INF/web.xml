@@ -138,6 +138,7 @@
 			/reports/indexes/bySection/faces-config-bySection.xml,
 			
 			/diesel/zone/faces-config-zone.xml,
+			/diesel/engineLog/faces-config-engine-log.xml,
 			/diesel/consumableResources/faces-config-consumable-resources.xml,
 			/diesel/fuelUsageLog/faces-config-fuelUsage.xml,
 			/diesel/fuelPurchase/faces-config-fuelPurchase.xml
