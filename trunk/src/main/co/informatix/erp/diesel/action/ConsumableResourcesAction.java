@@ -237,10 +237,9 @@ public class ConsumableResourcesAction implements Serializable {
 	 * @param ConsumableResources
 	 *            :consumableResource are adding or editing.
 	 * @return "regCon":redirected to the template record consumable resources.
-	 * @throws Exception
 	 */
 	public String addEditConsumableResources(
-			ConsumableResources consumableResources) throws Exception {
+			ConsumableResources consumableResources) {
 		try {
 			if (consumableResources != null) {
 				this.consumableResources = consumableResources;
