@@ -262,10 +262,10 @@ public class ActivitiesAndMachineAction implements Serializable {
 						.consultingActivitiesAndMachine(pagination.getInicio(),
 								pagination.getRango(), queryBuilder, parameters);
 
-				recordActivitiesActualsAction
-						.setTotalCostMachine(activitiesAndMachineDao
-								.calculateTotalCostMachine(this.selectedActivity
-										.getIdActivity()));
+				int idActivity = this.selectedActivity.getIdActivity();
+				double costMachine = activitiesAndMachineDao
+						.calculateTotalCostMachine(idActivity);
+				recordActivitiesActualsAction.setTotalCostMachine(costMachine);
 			}
 			validation.setMensajeBusqueda(SearchMessage);
 		} catch (Exception e) {

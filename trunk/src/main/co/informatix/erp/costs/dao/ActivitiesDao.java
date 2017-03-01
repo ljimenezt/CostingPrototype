@@ -417,7 +417,7 @@ public class ActivitiesDao implements Serializable {
 	 * to the newer initial date of budget.
 	 * 
 	 * @author Sergio.Gelves
-	 * @modify 25/112016 Luna.Granados
+	 * @modify 25/11/2016 Luna.Granados
 	 * 
 	 * @param start
 	 *            : The initial record that is retrieved.
@@ -451,7 +451,7 @@ public class ActivitiesDao implements Serializable {
 	 * cycle.
 	 * 
 	 * @author Sergio.Gelves
-	 * @modify 25/112016 Luna.Granados
+	 * @modify 25/11/2016 Luna.Granados
 	 * 
 	 * @param cycleId
 	 *            : The cycle identifier.

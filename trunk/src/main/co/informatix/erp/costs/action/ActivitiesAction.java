@@ -755,9 +755,9 @@ public class ActivitiesAction implements Serializable {
 	public void currentCost() {
 		boolean materiaRequired;
 		Double totalCosts = 0.0;
-		List<ActivitiesAndHr> ahr;
-		List<ActivityMachine> am;
-		List<ActivityMaterials> amt;
+		List<ActivitiesAndHr> ahr = new ArrayList<ActivitiesAndHr>();
+		List<ActivityMachine> am = new ArrayList<ActivityMachine>();
+		List<ActivityMaterials> amt = new ArrayList<ActivityMaterials>();
 		try {
 			if (this.listActivities != null) {
 				for (Activities a : this.listActivities) {
