@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -82,6 +83,73 @@ public class FuelPurchaseDao implements Serializable {
 		List<FuelPurchase> results = q.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the number of existing FuelPurchase in the database filtering
+	 * information search by the values sent.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param consult
+	 *            : String containing the query why the FuelPurchase filtered.
+	 * @param parameters
+	 *            : query parameters.
+	 * @return Long: number of records found.
+	 * @throws Exception
+	 */
+	public Long quantityFuelPurchase(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(fp) FROM FuelPurchase fp ");
+		query.append("JOIN fp.supplier s ");
+		query.append("JOIN fp.fuelType ft ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * This method of consultation with a range determining FuelPurchase sent as
+	 * a parameter and filtering the information by the values sent search.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param start
+	 *            : Registry where consultation begins.
+	 * @param range
+	 *            : Range of records.
+	 * @param consult
+	 *            : Consultation records depending on the parameters selected by
+	 *            the user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<FuelPurchase>: List of Fuel Purchase.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<FuelPurchase> consultFuelPurchase(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT fp FROM FuelPurchase fp ");
+		query.append("JOIN FETCH fp.supplier s ");
+		query.append("JOIN FETCH fp.fuelType ft ");
+		query.append(consult);
+		query.append("ORDER BY fp.dateTime DESC ");
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		q.setFirstResult(start).setMaxResults(range);
+		List<FuelPurchase> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
 		}
 		return null;
 	}

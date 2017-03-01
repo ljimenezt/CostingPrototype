@@ -3,6 +3,7 @@ package co.informatix.erp.diesel.action;
 import java.io.File;
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,8 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.EncodeFilter;
 import co.informatix.erp.utils.FileUploadBean;
+import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.SuppliersDao;
 import co.informatix.erp.warehouse.dao.TransactionTypeDao;
 import co.informatix.erp.warehouse.entities.Suppliers;
@@ -56,10 +59,15 @@ public class FuelPurchaseAction implements Serializable {
 	private String temporalFilesFolder;
 
 	private boolean temporalImageDocument;
+	private int idSupplier;
+
+	private Date initialDateSearch;
+	private Date finalDateSearch;
 
 	private List<SelectItem> itemsSuppliers;
 	private List<SelectItem> itemsFuelTypes;
 	private List<SelectItem> itemsIvaRate;
+	private List<FuelPurchase> listFuelPurchase;
 
 	private FuelPurchase fuelPurchase;
 	private Suppliers suppliers;
@@ -69,6 +77,7 @@ public class FuelPurchaseAction implements Serializable {
 	private FileUploadBean fileUploadBean;
 	private FuelUsageLog fuelUsageLog;
 	private ConsumableResources consumableResources;
+	private Paginador pagination = new Paginador();
 
 	@EJB
 	private FuelPurchaseDao fuelPurchaseDao;
@@ -140,6 +149,52 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
+	 * @return idSupplier: identifier of supplier selected.
+	 */
+	public int getIdSupplier() {
+		return idSupplier;
+	}
+
+	/**
+	 * @param idSupplier
+	 *            : identifier of supplier selected.
+	 */
+	public void setIdSupplier(int idSupplier) {
+		this.idSupplier = idSupplier;
+	}
+
+	/**
+	 * @return initialDateSearch: gets the initial date of the search in a
+	 *         range.
+	 */
+	public Date getInitialDateSearch() {
+		return initialDateSearch;
+	}
+
+	/**
+	 * @param initialDateSearch
+	 *            :sets the initial date of the search in a range.
+	 */
+	public void setInitialDateSearch(Date initialDateSearch) {
+		this.initialDateSearch = initialDateSearch;
+	}
+
+	/**
+	 * @return finalDateSearch: gets the final date of the search in a range.
+	 */
+	public Date getFinalDateSearch() {
+		return finalDateSearch;
+	}
+
+	/**
+	 * @param finalDateSearch
+	 *            :sets the final date of the search in a range.
+	 */
+	public void setFinalDateSearch(Date finalDateSearch) {
+		this.finalDateSearch = finalDateSearch;
+	}
+
+	/**
 	 * @return itemsSuppliers: List of suppliers associated with fuel purchase.
 	 */
 	public List<SelectItem> getItemsSuppliers() {
@@ -182,6 +237,21 @@ public class FuelPurchaseAction implements Serializable {
 	 */
 	public void setItemsIvaRate(List<SelectItem> itemsIvaRate) {
 		this.itemsIvaRate = itemsIvaRate;
+	}
+
+	/**
+	 * @return listFuelPurchase: list of objects of Fuel Purchase.
+	 */
+	public List<FuelPurchase> getListFuelPurchase() {
+		return listFuelPurchase;
+	}
+
+	/**
+	 * @param listFuelPurchase
+	 *            : list of objects of Fuel Purchase.
+	 */
+	public void setListFuelPurchase(List<FuelPurchase> listFuelPurchase) {
+		this.listFuelPurchase = listFuelPurchase;
 	}
 
 	/**
@@ -257,22 +327,186 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * This method is used to initialize the consultation of the fuel purchase
-	 * registered in the information system.
-	 * 
-	 * @return gesFuelPurchase: Navigation rule that directs the fuelPurchase
-	 *         form.
+	 * @return pagination: Management paged list of fuel purchase.
 	 */
-	public String initialize() {
+	public Paginador getPagination() {
+		return pagination;
+	}
+
+	/**
+	 * @param pagination
+	 *            : Management paged list of fuel purchase.
+	 */
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
+	}
+
+	/**
+	 * Method to initialize the parameters of the search and load the initial
+	 * list of fuel purchase.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @return consultFuelPurchase: method that allows consulting the fuel
+	 *         purchase, it redirects to the manage template.
+	 */
+	public String searchInitialization() {
 		try {
-			chargueCostUnit();
+			this.fuelPurchase = new FuelPurchase();
+			this.idSupplier = 0;
+			this.initialDateSearch = null;
+			this.finalDateSearch = null;
 			loadComboSuppliers();
-			loadComboFuelTypes();
-			loadComboIvaRate();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return consultFuelPurchase();
+	}
+
+	/**
+	 * Consult the list of the fuel purchase.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @return "gesFuelPurchase": It redirects to the template to manage the
+	 *         fuel purchase.
+	 */
+	public String consultFuelPurchase() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleFuelPurchase = ControladorContexto
+				.getBundle("messageDiesel");
+		ValidacionesAction validations = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		listFuelPurchase = new ArrayList<FuelPurchase>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder consult = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
+		try {
+			advancedSearch(consult, parameters, bundle, unionMessagesSearch);
+			Long quantity = fuelPurchaseDao.quantityFuelPurchase(consult,
+					parameters);
+			if (quantity != null) {
+				pagination.paginar(quantity);
+			}
+			listFuelPurchase = fuelPurchaseDao.consultFuelPurchase(
+					pagination.getInicio(), pagination.getRango(), consult,
+					parameters);
+			if ((listFuelPurchase == null || listFuelPurchase.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
+						.format(bundle
+								.getString("message_no_existen_registros_criterio_busqueda"),
+								unionMessagesSearch);
+			} else if (listFuelPurchase == null || listFuelPurchase.size() <= 0) {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_existen_registros"));
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
+						.format(bundle
+								.getString("message_existen_registros_criterio_busqueda"),
+								bundleFuelPurchase
+										.getString("fuel_purchase_name_label"),
+								unionMessagesSearch);
+			}
+			validations.setMensajeBusqueda(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 		return "gesFuelPurchase";
+	}
+
+	/**
+	 * This method allows to build the query to the advanced search and allows
+	 * to construct messages displayed depending on the search criteria selected
+	 * by the user.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param consult
+	 *            : query to concatenate.
+	 * @param parameters
+	 *            : list of search parameters.
+	 * @param bundle
+	 *            :access language tags.
+	 * @param unionMessagesSearch
+	 *            : message search.
+	 */
+	private void advancedSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
+		SimpleDateFormat formato = new SimpleDateFormat(
+				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
+		ResourceBundle bundleFuelPurchase = ControladorContexto
+				.getBundle("messageDiesel");
+		ResourceBundle bundleWarehouse = ControladorContexto
+				.getBundle("mensajeWarehouse");
+		boolean selection = false;
+
+		if (this.fuelPurchase.getInvoiceNumber() != null) {
+			consult.append(selection ? "AND " : "WHERE ");
+			consult.append("UPPER(fp.invoiceNumber)=UPPER(:invoiceNumber) ");
+			SelectItem item = new SelectItem(
+					this.fuelPurchase.getInvoiceNumber(), "invoiceNumber");
+			parameters.add(item);
+			unionMessagesSearch.append(bundleWarehouse
+					.getString("purchase_invoice_label_number")
+					+ ": "
+					+ '"'
+					+ this.fuelPurchase.getInvoiceNumber() + '"' + " ");
+			selection = true;
+		}
+
+		if (this.idSupplier != 0) {
+			consult.append(selection ? "AND " : "WHERE ");
+			consult.append("s.idSupplier = :idSupplier ");
+			SelectItem item = new SelectItem(this.idSupplier, "idSupplier");
+			parameters.add(item);
+			String supplier = (String) ValidacionesAction.getLabel(
+					itemsSuppliers, this.idSupplier);
+			unionMessagesSearch.append(bundleFuelPurchase
+					.getString("fuel_purchase_supplier")
+					+ ": "
+					+ '"'
+					+ supplier + '"' + " ");
+			selection = true;
+		}
+
+		if (this.initialDateSearch != null || this.finalDateSearch != null) {
+			consult.append(selection ? "AND " : "WHERE ");
+
+			if (this.initialDateSearch != null && this.finalDateSearch != null) {
+				consult.append("fp.dateTime BETWEEN :initialDateSearch AND :finalDateSearch ");
+			}
+
+			if (this.initialDateSearch != null && this.finalDateSearch == null) {
+				consult.append("fp.dateTime >= :initialDateSearch ");
+			}
+			if (this.initialDateSearch == null && this.finalDateSearch != null) {
+				consult.append("fp.dateTime <= :finalDateSearch ");
+			}
+
+			if (this.initialDateSearch != null) {
+				SelectItem item = new SelectItem(initialDateSearch,
+						"initialDateSearch");
+				parameters.add(item);
+				String dateFrom = bundle.getString("label_start_date") + ": "
+						+ '"' + formato.format(this.initialDateSearch) + '"'
+						+ " ";
+				unionMessagesSearch.append(dateFrom);
+			}
+
+			if (this.finalDateSearch != null) {
+				SelectItem item2 = new SelectItem(finalDateSearch,
+						"finalDateSearch");
+				parameters.add(item2);
+				String dateTo = bundle.getString("label_end_date") + ": " + '"'
+						+ formato.format(finalDateSearch) + '"' + " ";
+				unionMessagesSearch.append(dateTo);
+			}
+			selection = true;
+		}
+
 	}
 
 	/**
