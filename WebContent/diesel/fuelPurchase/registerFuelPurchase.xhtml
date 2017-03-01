@@ -10,8 +10,7 @@
 	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action"
-		value="fuelPurchaseAction.addEditFuelPurchase(null)" />
+	<ui:param name="action" value="fuelPurchaseAction.addFuelPurchase()" />
 	<ui:param name="titulo"
 		value="mensaje.label_register,messageDiesel.fuel_purchase_name_label" />
 	<ui:define name="body">
@@ -57,7 +56,7 @@
 							<f:selectItem itemLabel="#{mensaje.label_select}" />
 							<f:selectItems value="#{fuelPurchaseAction.itemsSuppliers}" />
 							<f:ajax event="change"
-									listener="#{fuelPurchaseAction.suppliers.setIdSupplier(fuelPurchaseAction.suppliers.idSupplier)}" />
+								listener="#{fuelPurchaseAction.suppliers.setIdSupplier(fuelPurchaseAction.suppliers.idSupplier)}" />
 						</h:selectOneMenu>
 						<rich:message for="supplier" />
 
@@ -213,15 +212,15 @@
 					</t:fieldset>
 
 				</h:panelGrid>
+				<br />
+				<div align="center">
+					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
+						execute="formFuelPurchase"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_save}" />
+				</div>
 			</rich:panel>
 
-			<br />
-			<div align="center">
-				<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
-					execute="formFuelPurchase"
-					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-					value="#{mensaje.button_save}" />
-			</div>
 		</h:form>
 
 		<h:form id="formConfirmar">
@@ -257,7 +256,6 @@
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.quantity}" />
 						<h:outputText value="#{mensaje.label_unit_cost}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.unitCost}" />
-
 						<h:outputText value="#{mensaje.label_subtotal}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.subTotal}" />
 						<h:outputText value="#{mensajeMenu.iva_rate_label}:" />
@@ -266,10 +264,7 @@
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.taxes}" />
 						<h:outputText value="#{mensaje.label_total}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.total}" />
-						<h:outputText value="#{mensaje.label_description}:" />
-						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.note}" />
-						<h:outputText value="#{mensaje.label_logo}:" />
-						<h:outputText value="#{fuelPurchaseAction.imageDocument}" />
+
 					</ui:define>
 
 
