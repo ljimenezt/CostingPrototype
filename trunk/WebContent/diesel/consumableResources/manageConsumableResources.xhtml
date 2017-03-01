@@ -42,7 +42,7 @@
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
 
 		<h:form id="formConsumable">
-			<rich:panel styleClass="anchoDos MinH253P"
+			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listing} #{messageDiesel.consumable_label}"
 				id="panelConsumable">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
@@ -95,7 +95,7 @@
 					<br />
 					<div class="#{anchoTabla} center inBlock">
 						<ui:include src="/plantillas/templatePagination.xhtml">
-							<ui:param name="valReder" value="panelZone" />
+							<ui:param name="valReder" value="panelConsumable" />
 							<ui:param name="beanActionParam"
 								value="#{consumableResourcesAction}" />
 							<ui:param name="metodoActionParam"
