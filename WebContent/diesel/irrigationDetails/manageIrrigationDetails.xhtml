@@ -1,0 +1,166 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action"
+		value="irrigationDetailsAction.searchInitialization" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,messageDiesel.irrigation_details_label" />
+
+	<ui:define name="body">
+		<t:saveState value="#{irrigationDetailsAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+		      $g=jQuery.noConflict();
+		</script>
+		<ui:param name="listaVacia"
+			value="#{irrigationDetailsAction.irrigationDetailsList eq null or (empty firrigationDetailsAction.irrigationDetailsList)}" />
+		<ui:param name="anchoTabla" value="anchoDos" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{irrigationDetailsAction}" />
+		<ui:param name="renderLista" value="panelIrrigation vigenciaPopup" />
+		<ui:param name="metodoLista" value="consultIrrigationDetails" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="irrigationDetailsAction" />
+		<ui:param name="parametroNuevo" value="#{null}" />
+		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
+		<ui:param name="popupBuscar" value="popupBuscar" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
+
+		<h:form id="formIrrigation">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listing} #{messageDiesel.irrigation_details_label}"
+				id="panelIrrigation">
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<rich:dataTable
+					value="#{irrigationDetailsAction.irrigationDetailsList}"
+					var="irrigation"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_date}</f:facet>
+						<h:outputText value="#{irrigation.engineLog.date}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="colTexto">
+						<f:facet name="header">#{messageDiesel.zone_label}</f:facet>
+						<h:outputText value="#{irrigation.zone.name}" />
+					</rich:column>
+					<rich:column styleClass="colTexto">
+						<f:facet name="header">#{messageMachine.machines_label_names}</f:facet>
+						<h:outputText value="#{irrigation.machine.name}" />
+					</rich:column>
+					<rich:column styleClass="colTexto">
+						<f:facet name="header">#{messageDiesel.engine_log_label_hour_on}</f:facet>
+						<h:outputText value="#{irrigation.engineLog.hourOn}" />
+					</rich:column>
+					<rich:column styleClass="colTexto">
+						<f:facet name="header">#{messageDiesel.engine_log_label_hour_off}</f:facet>
+						<h:outputText value="#{irrigation.engineLog.hourOff}" />
+					</rich:column>
+					<rich:column styleClass="colTexto">
+						<f:facet name="header">#{messageDiesel.engine_log_label_hourmeter_off}</f:facet>
+						<h:outputText value="#{irrigation.engineLog.hourmeterOn}" />
+					</rich:column>
+					<rich:column styleClass="colTexto">
+						<f:facet name="header">#{messageDiesel.irrigation_details_label_hidrometer_on}</f:facet>
+						<h:outputText value="#{irrigation.engineLog.hidrometerOn}" />
+					</rich:column>
+					<rich:column styleClass="colTexto">
+						<f:facet name="header">#{messageDiesel.irrigation_details_label_hidrometer_off}</f:facet>
+						<h:outputText value="#{irrigation.engineLog.hidrometerOff}" />
+					</rich:column>
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="7" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="botonesAbajo" value="si" />
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="#{anchoTabla} center inBlock">
+						<ui:include src="/plantillas/templatePagination.xhtml">
+							<ui:param name="valReder" value="panelIrrigation" />
+							<ui:param name="beanActionParam"
+								value="#{irrigationDetailsAction}" />
+							<ui:param name="metodoActionParam"
+								value="consultIrrigationDetails" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formBuscar">
+			<rich:popupPanel id="popupBuscar" width="330" maxWidth="450"
+				height="180"
+				header="#{mensaje.label_listing} #{messageDiesel.irrigation_details_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupBuscar')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:messages id="messagePopUp" styleClass="messageBlock" />
+				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensaje.label_start_date}:" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar value="#{irrigationDetailsAction.startDateSearch}"
+						showOn="button" navigator="true" onSelectUpdate="fechFin"
+						id="fechaInicio" pattern="MM/dd/yyyy" required="true"
+						label="#{mensaje.label_start_date}">
+						<p:ajax event="dateSelect" update="formBuscar:fechFin" />
+					</p:calendar>
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensaje.label_end_date}:" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar value="#{irrigationDetailsAction.endDateSearch}"
+						showOn="button" navigator="true" required="true"
+						mindate="#{irrigationDetailsAction.startDateSearch}" id="fechFin"
+						pattern="MM/dd/yyyy"
+						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
+						label="#{mensaje.label_end_date}" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
+						actionListener="#{irrigationDetailsAction.consultIrrigationDetails}"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
+						render="panelIrrigation, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
