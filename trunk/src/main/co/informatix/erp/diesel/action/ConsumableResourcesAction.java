@@ -241,12 +241,16 @@ public class ConsumableResourcesAction implements Serializable {
 	 */
 	public String addEditConsumableResources(
 			ConsumableResources consumableResources) throws Exception {
-		if (consumableResources != null) {
-			this.consumableResources = consumableResources;
-		} else {
-			this.consumableResources = new ConsumableResources();
+		try {
+			if (consumableResources != null) {
+				this.consumableResources = consumableResources;
+			} else {
+				this.consumableResources = new ConsumableResources();
+			}
+			loadComboMeasurementUnits();
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
-		loadComboMeasurementUnits();
 		return "regCon";
 	}
 
