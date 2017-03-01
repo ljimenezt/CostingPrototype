@@ -61,12 +61,16 @@
 							value="#{fuelUsageLog.transactionType.transactionType}" />
 					</rich:column>
 					<rich:column styleClass="colNumero">
-						<f:facet name="header">#{messageDiesel.fuel_usage_log_final_level}</f:facet>
-						<h:outputText value="#{fuelUsageLog.finalLevel}" />
+						<f:facet name="header">#{messageDiesel.fuel_usage_log_deposited}</f:facet>
+						<h:outputText value="#{fuelUsageLog.deposited}" />
 					</rich:column>
 					<rich:column styleClass="colNumero">
-						<f:facet name="header">#{mensaje.label_quantity}</f:facet>
-						<h:outputText value="#{fuelUsageLog.deposited}" />
+						<f:facet name="header">#{messageDiesel.engine_log_label_consumption}</f:facet>
+						<h:outputText value="#{fuelUsageLog.consumption}" />
+					</rich:column>
+					<rich:column styleClass="colNumero">
+						<f:facet name="header">#{messageDiesel.fuel_usage_log_final_level}</f:facet>
+						<h:outputText value="#{fuelUsageLog.finalLevel}" />
 					</rich:column>
 					<rich:column styleClass="colIconoUno">
 						<f:facet name="header">#{mensaje.label_justification}</f:facet>
@@ -79,7 +83,7 @@
 					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
-							<rich:column colspan="5" styleClass="footTabla">
+							<rich:column colspan="6" styleClass="footTabla">
 								<h:outputText
 									value="#{mensaje.message_no_existen_registros_tabla}" />
 							</rich:column>
