@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.dao.ActivitiesAndHrDao;
@@ -334,18 +332,12 @@ public class ActivitiesAction implements Serializable {
 	 */
 	public void initializeActivities(Activities activity, int idCrop,
 			int idCycle, Paginador pagerTemp, boolean flag, String formName) {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = context.getApplication().getResourceBundle(
-				context, "mensaje");
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		if (idCycle == 0 && !flag) {
-			context.addMessage(
+			ControladorContexto.mensajeError(
 					formName,
-					new FacesMessage(
-							FacesMessage.SEVERITY_ERROR,
-							MessageFormat.format(
-									bundle.getString("message_campo_requerido"),
-									""), null));
-
+					MessageFormat.format(
+							bundle.getString("message_campo_requerido"), ""));
 		} else {
 			this.activities = activity;
 			this.idCrop = idCrop;
