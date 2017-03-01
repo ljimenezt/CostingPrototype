@@ -55,7 +55,7 @@ public class FuelPurchase implements Serializable {
 	}
 
 	/**
-	 * @return idFuelPurchase: identifier of fuel purchase
+	 * @return idFuelPurchase: Identifier of fuel purchase
 	 */
 	@Id
 	@Column(name = "id_fuel_purchase", nullable = false)
@@ -66,14 +66,14 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param idFuelPurchase
-	 *            : identifier of fuel purchase
+	 *            : Identifier of fuel purchase
 	 */
 	public void setIdFuelPurchase(int idFuelPurchase) {
 		this.idFuelPurchase = idFuelPurchase;
 	}
 
 	/**
-	 * @return quantity: quantity of fuel purchased
+	 * @return quantity: Quantity of fuel purchased
 	 */
 	@Column(name = "quantity", nullable = false)
 	public double getQuantity() {
@@ -82,14 +82,14 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param quantity
-	 *            : quantity of fuel purchased
+	 *            : Quantity of fuel purchased
 	 */
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 
 	/**
-	 * @return unitCost: cost unit of fuel purchased
+	 * @return unitCost: Cost unit of fuel purchased
 	 */
 	@Column(name = "unit_cost", nullable = false)
 	public double getUnitCost() {
@@ -98,14 +98,14 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param unitCost
-	 *            : cost unit of fuel purchased
+	 *            : Cost unit of fuel purchased
 	 */
 	public void setUnitCost(double unitCost) {
 		this.unitCost = unitCost;
 	}
 
 	/**
-	 * @return subTotal: subTotal of the fuel purchased
+	 * @return subTotal: SubTotal of the fuel purchased
 	 */
 	@Column(name = "subTotal", nullable = false)
 	public double getSubTotal() {
@@ -114,7 +114,7 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param subTotal
-	 *            : subTotal of the fuel purchased
+	 *            : SubTotal of the fuel purchased
 	 */
 	public void setSubTotal(double subTotal) {
 		this.subTotal = subTotal;
@@ -137,7 +137,7 @@ public class FuelPurchase implements Serializable {
 	}
 
 	/**
-	 * @return total: value total of the fuel purchase
+	 * @return total: Value total of the fuel purchase
 	 */
 	@Column(name = "total", nullable = false)
 	public double getTotal() {
@@ -146,14 +146,14 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param total
-	 *            : value total of the fuel purchase
+	 *            : Value total of the fuel purchase
 	 */
 	public void setTotal(double total) {
 		this.total = total;
 	}
 
 	/**
-	 * @return invoiceNumber: invoice number to relate
+	 * @return invoiceNumber: Invoice number to relate
 	 */
 	@Column(name = "invoice_number", length = 50, nullable = false)
 	public String getInvoiceNumber() {
@@ -162,14 +162,14 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param invoiceNumber
-	 *            : invoice number to relate
+	 *            : Invoice number to relate
 	 */
 	public void setInvoiceNumber(String invoiceNumber) {
 		this.invoiceNumber = invoiceNumber;
 	}
 
 	/**
-	 * @return note: note of the fuel purchase
+	 * @return note: Note of the fuel purchase
 	 */
 	@Column(name = "note")
 	public String getNote() {
@@ -178,7 +178,7 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param note
-	 *            : note of the fuel purchase
+	 *            : Note of the fuel purchase
 	 */
 	public void setNote(String note) {
 		this.note = note;
@@ -201,7 +201,7 @@ public class FuelPurchase implements Serializable {
 	}
 
 	/**
-	 * @return dateTime: date of the register of fuel invoice
+	 * @return dateTime: Date of the register of fuel invoice
 	 */
 	@Column(name = "date_time", nullable = false)
 	@Temporal(TemporalType.DATE)
@@ -211,14 +211,14 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param dateTime
-	 *            : date of the register of fuel invoice
+	 *            : Date of the register of fuel invoice
 	 */
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
 	}
 
 	/**
-	 * @return supplier: supplier of the fuel
+	 * @return supplier: Supplier of the fuel
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_supplier", referencedColumnName = "idsupplier", nullable = false)
@@ -228,14 +228,14 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param supplier
-	 *            : supplier of the fuel
+	 *            : Supplier of the fuel
 	 */
 	public void setSupplier(Suppliers supplier) {
 		this.supplier = supplier;
 	}
 
 	/**
-	 * @return fuelType: type of fuel purchased
+	 * @return fuelType: Type of fuel purchased
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_fuel_type", referencedColumnName = "idfueltype", nullable = false)
@@ -245,14 +245,14 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param fuelType
-	 *            : type of fuel purchased
+	 *            : Type of fuel purchased
 	 */
 	public void setFuelType(FuelTypes fuelType) {
 		this.fuelType = fuelType;
 	}
 
 	/**
-	 * @return iva_rate: iva rate applied to the fuel purchased
+	 * @return iva_rate: Iva rate applied to the fuel purchased
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_iva_rate", referencedColumnName = "id_iva")
@@ -262,7 +262,7 @@ public class FuelPurchase implements Serializable {
 
 	/**
 	 * @param ivaRate
-	 *            : iva rate applied to the fuel purchased
+	 *            : Iva rate applied to the fuel purchased
 	 */
 	public void setIvaRate(IvaRate ivaRate) {
 		this.ivaRate = ivaRate;

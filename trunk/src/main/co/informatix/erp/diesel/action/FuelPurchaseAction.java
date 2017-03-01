@@ -88,7 +88,7 @@ public class FuelPurchaseAction implements Serializable {
 	private ConsumableResourcesDao consumableResourcesDao;
 
 	/**
-	 * @return imageDocument: name of the image Document.
+	 * @return imageDocument: Name of the image Document.
 	 */
 	public String getImageDocument() {
 		return imageDocument;
@@ -96,7 +96,7 @@ public class FuelPurchaseAction implements Serializable {
 
 	/**
 	 * @param imageDocument
-	 *            : name of the image Document.
+	 *            : Name of the image Document.
 	 */
 	public void setImageDocument(String imageDocument) {
 		this.imageDocument = imageDocument;
@@ -113,7 +113,7 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * @return temporalFilesFolder:Path to the temporary folder where the fuel
+	 * @return temporalFilesFolder: Path to the temporary folder where the fuel
 	 *         documents are loaded.
 	 */
 	public String getTemporalFilesFolder() {
@@ -132,7 +132,7 @@ public class FuelPurchaseAction implements Serializable {
 
 	/**
 	 * @param temporalImageDocument
-	 *            :Flag indicating whether the picture is loaded from the
+	 *            : Flag indicating whether the picture is loaded from the
 	 *            temporary location or not.
 	 */
 	public void setTemporalImageDocument(boolean temporalImageDocument) {
@@ -230,7 +230,7 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * @return fuelPurchase: fuelPurchase stored in data base.
+	 * @return fuelPurchase: Object fuelPurchase stored in data base.
 	 */
 	public FuelPurchase getFuelPurchase() {
 		return fuelPurchase;
@@ -238,7 +238,7 @@ public class FuelPurchaseAction implements Serializable {
 
 	/**
 	 * @param fuelPurchase
-	 *            : fuelPurchase stored in data base.
+	 *            : Object fuelPurchase stored in data base.
 	 */
 	public void setFuelPurchase(FuelPurchase fuelPurchase) {
 		this.fuelPurchase = fuelPurchase;
@@ -278,7 +278,7 @@ public class FuelPurchaseAction implements Serializable {
 	/**
 	 * Method to edit or create a new fuel purchase.
 	 * 
-	 * @return regFuelPurchase: redirected to the template record fuel purchase.
+	 * @return regFuelPurchase: Redirected to the template record fuel purchase.
 	 */
 	public String addFuelPurchase() {
 		try {
@@ -312,7 +312,6 @@ public class FuelPurchaseAction implements Serializable {
 						supplier.getName()));
 			}
 		}
-
 	}
 
 	/**
@@ -330,7 +329,6 @@ public class FuelPurchaseAction implements Serializable {
 						fuelType.getName()));
 			}
 		}
-
 	}
 
 	/**
@@ -348,7 +346,6 @@ public class FuelPurchaseAction implements Serializable {
 						.valueOf(ivaRate.getRate())));
 			}
 		}
-
 	}
 
 	/**
@@ -418,7 +415,6 @@ public class FuelPurchaseAction implements Serializable {
 	private void calculateTotal() {
 		this.fuelPurchase.setTotal(ControllerAccounting.add(
 				this.fuelPurchase.getSubTotal(), this.fuelPurchase.getTaxes()));
-
 	}
 
 	/**
@@ -433,7 +429,6 @@ public class FuelPurchaseAction implements Serializable {
 			calculateSubtotal();
 			calculateTotal();
 		}
-
 	}
 
 	/**
@@ -561,7 +556,6 @@ public class FuelPurchaseAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
-
 	}
 
 	/**
@@ -591,5 +585,4 @@ public class FuelPurchaseAction implements Serializable {
 		FileUploadBean.copyFile(sourceFile, firstFolderFile);
 		FileUploadBean.copyFile(sourceFile, secondFolderFile);
 	}
-
 }
