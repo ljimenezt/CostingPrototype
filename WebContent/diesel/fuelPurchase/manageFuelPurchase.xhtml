@@ -1,0 +1,196 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/plantilla.xhtml">
+	<ui:param name="action" value="fuelPurchaseAction.searchInitialization" />
+	<ui:param name="titulo"
+		value="mensaje.label_manage,messageDiesel.fuel_purchase_name_label" />
+
+	<ui:define name="body">
+		<ui:param name="listaVacia"
+			value="#{fuelPurchaseAction.listFuelPurchase eq null or (empty fuelPurchaseAction.listFuelPurchase)}" />
+		<ui:param name="anchoTabla" value="anchoTres" />
+		<!-- parametros para botones y ordenamiento del listado -->
+		<ui:param name="actionLista" value="#{fuelPurchaseAction}" />
+		<ui:param name="renderLista" value="formFuelPurchase" />
+		<ui:param name="metodoLista" value="consultFuelPurchase" />
+		<!-- parametros solo para ordenamiento del listado -->
+		<ui:param name="ocultarOrden" value="#{listaVacia}" />
+		<!-- parametros solo para botones del listado -->
+		<ui:param name="nombreAction" value="fuelPurchaseAction" />
+		<ui:param name="metodoNuevo" value="addFuelPurchase" />
+		<ui:param name="parametroNuevo" value="no" />
+		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
+		<ui:param name="popupBuscar" value="popupSearch" />
+		<ui:param name="metodoListarTodos" value="searchInitialization" />
+
+		<t:saveState value="#{fuelPurchaseAction}" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
+		<script type="text/javascript">
+			$g=jQuery.noConflict();
+		</script>
+
+		<h:form id="formFuelPurchase">
+			<rich:panel styleClass="anchoUno MinH253P"
+				header="#{mensaje.label_listing} #{messageDiesel.fuel_purchase_name_label}"
+				id="panelFuelPurchase">
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<rich:dataTable value="#{fuelPurchaseAction.listFuelPurchase}"
+					var="fuelPurchase"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_number}</f:facet>
+						<h:outputText value="#{fuelPurchase.invoiceNumber}" />
+					</rich:column>
+
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{messageDiesel.fuel_purchase_invoice_data}</f:facet>
+						<h:outputText value="#{fuelPurchase.dateTime}">
+							<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+
+					<rich:column styleClass="colTextoMediano">
+						<f:facet name="header">#{messageDiesel.fuel_purchase_supplier}</f:facet>
+						<h:outputText value="#{fuelPurchase.supplier.name}" />
+					</rich:column>
+
+					<rich:column styleClass="colTextoCorto">
+						<f:facet name="header">#{messageMachine.fuel_types_label}</f:facet>
+						<h:outputText value="#{fuelPurchase.fuelType.name}" />
+					</rich:column>
+
+					<rich:column styleClass="colNumero">
+						<f:facet name="header">#{mensaje.label_quantity}</f:facet>
+						<h:outputText value="#{fuelPurchase.quantity}" />
+					</rich:column>
+
+					<rich:column styleClass="colValor">
+						<f:facet name="header">#{mensaje.label_unit_cost}</f:facet>
+						<h:outputText value="#{fuelPurchase.unitCost}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+
+					<rich:column styleClass="colValor">
+						<f:facet name="header">#{mensaje.label_total}</f:facet>
+						<h:outputText value="#{fuelPurchase.total}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+
+					<f:facet name="footer">
+						<rich:columnGroup rendered="#{listaVacia}">
+							<rich:column colspan="7" styleClass="footTabla">
+								<h:outputText
+									value="#{mensaje.message_no_existen_registros_tabla}" />
+							</rich:column>
+						</rich:columnGroup>
+					</f:facet>
+				</rich:dataTable>
+				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+					<ui:param name="botonesAbajo" value="si" />
+					<ui:param name="tieneVigencia" value="no" />
+				</ui:include>
+				<a:outputPanel rendered="#{!listaVacia}">
+					<br />
+					<div class="#{anchoTabla} center inBlock">
+						<ui:include src="/plantillas/templatePagination.xhtml">
+							<ui:param name="valReder" value="panelFuelPurchase" />
+							<ui:param name="beanActionParam" value="#{fuelPurchaseAction}" />
+							<ui:param name="metodoActionParam" value="consultFuelPurchase" />
+						</ui:include>
+					</div>
+				</a:outputPanel>
+			</rich:panel>
+		</h:form>
+
+		<h:form id="formSearch">
+			<rich:popupPanel id="popupSearch" autosized="true" maxWidth="700"
+				header="#{mensaje.button_search} #{messageDiesel.fuel_purchase_name_label}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupSearch')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+
+				<a:outputPanel id="panelSearch">
+					<script type="text/javascript">
+					$g=jQuery.noConflict();
+    			</script>
+					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+						<h:outputText
+							value="#{mensajeWarehouse.purchase_invoice_label_number}:"
+							styleClass="etiquetaTitulo" />
+						<h:inputText styleClass="colTextoCorto" id="txtInvoiceNumber"
+							value="#{fuelPurchaseAction.fuelPurchase.invoiceNumber}"
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')" />
+
+						<h:outputText value="#{messageDiesel.fuel_purchase_supplier}"
+							styleClass="etiquetaTitulo" />
+						<h:selectOneMenu id="cmbSupplier" styleClass="colTextoCorto"
+							value="#{fuelPurchaseAction.idSupplier}"
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')">
+							<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
+							<f:selectItems value="#{fuelPurchaseAction.itemsSuppliers}" />
+						</h:selectOneMenu>
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_start_date}" />
+						<p:calendar value="#{fuelPurchaseAction.initialDateSearch}"
+							showOn="button" navigator="true"
+							maxdate="#{fuelPurchaseAction.finalDateSearch}"
+							onSelectUpdate="finalDate" id="initialDate" pattern="MM/dd/yyyy"
+							label="#{mensaje.label_start_date}">
+							<p:ajax process="@form" event="dateSelect"
+								update="formSearch:panelSearch" />
+						</p:calendar>
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{mensaje.label_end_date}" />
+						<p:calendar value="#{fuelPurchaseAction.finalDateSearch}"
+							showOn="button" navigator="true"
+							mindate="#{fuelPurchaseAction.initialDateSearch}" id="finalDate"
+							pattern="MM/dd/yyyy"
+							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
+							label="#{mensaje.label_end_date}">
+							<p:ajax process="@form" event="dateSelect"
+								update="formSearch:panelSearch" />
+						</p:calendar>
+					</h:panelGrid>
+				</a:outputPanel>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
+						execute="@form" actionListener="#{fuelPurchaseAction.consultFuelPurchase()}"
+						oncomplete="#{rich:component('popupSearch')}.hide();"
+						render="panelFuelPurchase, mensajes, mensajeBusqueda" />
+					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
+						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
