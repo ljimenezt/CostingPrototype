@@ -278,10 +278,11 @@ public class ActivityMaterialsAction implements Serializable {
 								paginationActivityMaterials.getRango(),
 								consult, parameters);
 
+				int idActivity = this.selectedActivity.getIdActivity();
+				double totalCostMaterials = activityMaterialsDao
+						.calculateTotalCostMaterials(idActivity);
 				recordActivitiesActualsAction
-						.setTotalCostMaterials(activityMaterialsDao
-								.calculateTotalCostMaterials(this.selectedActivity
-										.getIdActivity()));
+						.setTotalCostMaterials(totalCostMaterials);
 			}
 			if (fromModal) {
 				recordActivitiesActualsAction.currentCost();
@@ -400,9 +401,11 @@ public class ActivityMaterialsAction implements Serializable {
 				validateMaterial = true;
 				listActivityMaterials.remove(activityMaterials);
 				material.setSelected(false);
-				material.setTotalMaterialsBudget(ControllerAccounting.subtract(
-						material.getTotalMaterialsBudget(),
-						activityMaterials.getQuantityBudget()));
+				double quantityBudget = activityMaterials.getQuantityBudget();
+				double materialsBudget = material.getTotalMaterialsBudget();
+				double totalMaterialsBudget = ControllerAccounting.subtract(
+						materialsBudget, quantityBudget);
+				material.setTotalMaterialsBudget(totalMaterialsBudget);
 				materialsList.remove(material);
 			}
 		} catch (Exception e) {
@@ -594,8 +597,10 @@ public class ActivityMaterialsAction implements Serializable {
 							"messageCosts");
 		} else {
 			materialSelected.setSelected(true);
-			materialSelected.setTotalMaterialsBudget(ControllerAccounting.add(
-					quantityEdit, materialSelected.getTotalMaterialsBudget()));
+			double materialsBudget = materialSelected.getTotalMaterialsBudget();
+			double totalMaterialsBudget = ControllerAccounting.add(
+					quantityEdit, materialsBudget);
+			materialSelected.setTotalMaterialsBudget(totalMaterialsBudget);
 			activityMaterials.setActivityMaterialsPK(new ActivityMaterialsPK());
 			activityMaterials.getActivityMaterialsPK().setMaterials(
 					materialSelected);

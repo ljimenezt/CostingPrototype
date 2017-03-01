@@ -402,10 +402,12 @@ public class ActivitiesAndMachineAction implements Serializable {
 					if (selectedActivity.getCycle().getCostMachinesEqBudget() != null
 							&& selectedActivity.getCycle()
 									.getCostMachinesEqBudget() > 0) {
+						double costMachineEqBudget = selectedActivity
+								.getCycle().getCostMachinesEqBudget();
+						double costMachine = ControllerAccounting.add(
+								consActualActivity, costMachineEqBudget);
 						selectedActivity.getCycle().setCostMachinesEqBudget(
-								ControllerAccounting.add(consActualActivity,
-										selectedActivity.getCycle()
-												.getCostMachinesEqBudget()));
+								costMachine);
 					} else {
 						selectedActivity.getCycle().setCostMachinesEqBudget(
 								costConsumableMachine);
