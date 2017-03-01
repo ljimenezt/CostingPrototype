@@ -29,7 +29,7 @@ import co.informatix.erp.warehouse.entities.Suppliers;
 @Entity
 @Table(name = "fuel_purchase", schema = "diesel")
 public class FuelPurchase implements Serializable {
-	
+
 	private int idFuelPurchase;
 	private double quantity;
 	private double unitCost;
@@ -51,7 +51,7 @@ public class FuelPurchase implements Serializable {
 	public FuelPurchase() {
 		this.supplier = new Suppliers();
 		this.fuelType = new FuelTypes();
-		
+
 	}
 
 	/**

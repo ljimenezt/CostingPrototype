@@ -278,22 +278,14 @@ public class FuelPurchaseAction implements Serializable {
 	/**
 	 * Method to edit or create a new fuel purchase.
 	 * 
-	 * @param fuelPurchase
-	 *            : Object fuelPurchase for adding or editing.
 	 * @return regFuelPurchase: redirected to the template record fuel purchase.
 	 */
-	public String addEditFuelPurchase(FuelPurchase fuelPurchase) {
+	public String addFuelPurchase() {
 		try {
-			if (fuelPurchase != null) {
-				this.fuelPurchase = fuelPurchase;
-				this.imageDocument = this.fuelPurchase.getInvoiceDocumentLink();
-				this.temporalImageDocument = false;
-			} else {
-				this.fuelPurchase = new FuelPurchase();
-				this.imageDocument = null;
-				this.fileUploadBean = new FileUploadBean();
-				this.temporalImageDocument = true;
-			}
+			this.fuelPurchase = new FuelPurchase();
+			this.imageDocument = null;
+			this.fileUploadBean = new FileUploadBean();
+			this.temporalImageDocument = true;
 			transactionType = new TransactionType();
 			chargueCostUnit();
 			loadComboSuppliers();
