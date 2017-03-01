@@ -25,7 +25,7 @@ public class FuelPurchaseDao implements Serializable {
 	 * This method makes the registration of the fuel purchase in the database.
 	 * 
 	 * @param fuelPurcharse
-	 *            : object recorded in the database.
+	 *            : Object recorded in the database.
 	 * @throws Exception
 	 */
 	public void createFuelPurchase(FuelPurchase fuelPurcharse) throws Exception {
@@ -35,7 +35,7 @@ public class FuelPurchaseDao implements Serializable {
 	/**
 	 * Consult the list of fuel purchase in the database.
 	 * 
-	 * @return List<FuelPurchase>: list of all Fuel Purchase found.
+	 * @return List<FuelPurchase>: List of all Fuel Purchase found.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -62,9 +62,9 @@ public class FuelPurchaseDao implements Serializable {
 	 * Consult if the number of the invoice exist in the database when saving.
 	 * 
 	 * @param invoiceNumber
-	 *            : number of the invoice to verify.
+	 *            : Number of the invoice to verify.
 	 * @param idSupplier
-	 *            :identifier of supplier associated with the fuel purchase
+	 *            : Identifier of supplier associated with the fuel purchase
 	 * @return FuelPurchase: Returns object of the fuel purchase.
 	 * @throws Exception
 	 */
@@ -84,7 +84,5 @@ public class FuelPurchaseDao implements Serializable {
 			return results.get(0);
 		}
 		return null;
-
 	}
-
 }
