@@ -197,7 +197,7 @@ public class IrrigationDetailsAction implements Serializable {
 		if (this.startDateSearch != null && this.endDateSearch != null) {
 			consult.append(addFilter ? "AND " : "WHERE ");
 			addFilter = true;
-			consult.append("id.date BETWEEN :startDateSearch AND :endDateSearch ");
+			consult.append("id.engineLog.date BETWEEN :startDateSearch AND :endDateSearch ");
 			SelectItem item = new SelectItem(startDateSearch, "startDateSearch");
 			parameters.add(item);
 			SelectItem item2 = new SelectItem(endDateSearch, "endDateSearch");
