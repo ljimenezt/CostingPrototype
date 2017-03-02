@@ -1,7 +1,6 @@
 package co.informatix.erp.diesel.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import co.informatix.erp.machines.entities.Machines;
 
@@ -29,8 +26,8 @@ import co.informatix.erp.machines.entities.Machines;
 public class IrrigationDetails implements Serializable {
 
 	private int idIrrigationDetails;
-	private Date hidrometerOn;
-	private Date hidrometerOff;
+	private Double hidrometerOn;
+	private Double hidrometerOff;
 	private Double waterUsage;
 	private Double waterCost;
 	private Double duration;
@@ -63,8 +60,7 @@ public class IrrigationDetails implements Serializable {
 	 * @return hidrometerOn: ignition of water count for the irrigation.
 	 */
 	@Column(name = "hidrometer_on", nullable = true)
-	@Temporal(TemporalType.TIME)
-	public Date getHidrometerOn() {
+	public Double getHidrometerOn() {
 		return hidrometerOn;
 	}
 
@@ -72,7 +68,7 @@ public class IrrigationDetails implements Serializable {
 	 * @param hidrometerOn
 	 *            : ignition of water count for the irrigation.
 	 */
-	public void setHidrometerOn(Date hidrometerOn) {
+	public void setHidrometerOn(Double hidrometerOn) {
 		this.hidrometerOn = hidrometerOn;
 	}
 
@@ -80,8 +76,7 @@ public class IrrigationDetails implements Serializable {
 	 * @return hidrometerOff: ending of water count for the irrigation.
 	 */
 	@Column(name = "hidrometer_off", nullable = true)
-	@Temporal(TemporalType.TIME)
-	public Date getHidrometerOff() {
+	public Double getHidrometerOff() {
 		return hidrometerOff;
 	}
 
@@ -89,7 +84,7 @@ public class IrrigationDetails implements Serializable {
 	 * @param hidrometerOff
 	 *            : ending of water count for the irrigation.
 	 */
-	public void setHidrometerOff(Date hidrometerOff) {
+	public void setHidrometerOff(Double hidrometerOff) {
 		this.hidrometerOff = hidrometerOff;
 	}
 

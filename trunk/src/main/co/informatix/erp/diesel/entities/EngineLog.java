@@ -16,8 +16,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivityMachine;
+import co.informatix.erp.costs.entities.ActivityMachinePK;
 import co.informatix.erp.humanResources.entities.Hr;
+import co.informatix.erp.lifeCycle.entities.ActivityNames;
 
 /**
  * This class maps the engine_log class, which contains the information about
@@ -51,6 +54,11 @@ public class EngineLog implements Serializable {
 		this.deliveredBy = new Hr();
 		this.receivedBy = new Hr();
 		this.activityMachine = new ActivityMachine();
+		this.activityMachine.setActivityMachinePK(new ActivityMachinePK());
+		this.activityMachine.getActivityMachinePK().setActivities(
+				new Activities());
+		this.activityMachine.getActivityMachinePK().getActivities()
+				.setActivityName(new ActivityNames());
 	}
 
 	/**
