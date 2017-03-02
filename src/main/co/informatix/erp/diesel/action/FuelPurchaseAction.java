@@ -315,18 +315,6 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * Method that charge the cost unit of the diesel.
-	 * 
-	 * @throws Exception
-	 */
-	private void chargueCostUnit() throws Exception {
-		this.consumableResources = consumableResourcesDao
-				.consumableResourceById(Constantes.FUEL_PURCHASE_ID_COSTO);
-		fuelPurchase.setUnitCost(consumableResources.getUnitCost());
-
-	}
-
-	/**
 	 * @return pagination: Management paged list of fuel purchase.
 	 */
 	public Paginador getPagination() {
@@ -339,6 +327,17 @@ public class FuelPurchaseAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	/**
+	 * Method that charge the cost unit of the diesel.
+	 * 
+	 * @throws Exception
+	 */
+	private void chargueCostUnit() throws Exception {
+		this.consumableResources = consumableResourcesDao
+				.consumableResourceById(Constantes.FUEL_PURCHASE_ID_COSTO);
+		fuelPurchase.setUnitCost(consumableResources.getUnitCost());
 	}
 
 	/**
@@ -443,7 +442,8 @@ public class FuelPurchaseAction implements Serializable {
 				.getBundle("mensajeWarehouse");
 		boolean selection = false;
 
-		if (this.fuelPurchase.getInvoiceNumber() != null) {
+		if (!"".equals(this.fuelPurchase.getInvoiceNumber())
+				&& this.fuelPurchase.getInvoiceNumber() != null) {
 			consult.append(selection ? "AND " : "WHERE ");
 			consult.append("UPPER(fp.invoiceNumber)=UPPER(:invoiceNumber) ");
 			SelectItem item = new SelectItem(
