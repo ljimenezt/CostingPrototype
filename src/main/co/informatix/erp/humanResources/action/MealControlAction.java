@@ -68,6 +68,7 @@ public class MealControlAction implements Serializable {
 	private List<TypeFood> typeFoodList;
 	private List<Integer> otherQuantity;
 	private List<FoodControl> listFoodControl;
+	private List<DayTypeFood> dayTypeFoodList;
 	private List<Hr> listHrMealControl;
 	private List<Date> listDateTable;
 	private List<SelectItem> parameters;
@@ -245,6 +246,22 @@ public class MealControlAction implements Serializable {
 	public void setListHrMealControl(List<Hr> listHrMealControl) {
 		this.listHrMealControl = listHrMealControl;
 	}
+	
+	/**
+	 * @return dayTypeFoodList: List containing the days associated with the
+	 *         types of food.
+	 */
+	public List<DayTypeFood> getDayTypeFoodList() {
+		return dayTypeFoodList;
+	}
+
+	/**
+	 * @param dayTypeFoodList
+	 *            : List containing the days associated with the types of food
+	 */
+	public void setDayTypeFoodList(List<DayTypeFood> dayTypeFoodList) {
+		this.dayTypeFoodList = dayTypeFoodList;
+	}
 
 	/**
 	 * @return dataTable: object builds datatable
@@ -315,7 +332,6 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @param parameters
 	 *            : list of search parameters.
 	 */
@@ -350,9 +366,8 @@ public class MealControlAction implements Serializable {
 	 */
 	private void loadTypeFoodInHr() throws Exception {
 		typeFoodList = typeFoodDao.consultTypeFood();
-		List<DayTypeFood> dayTypeFoodList = dayTypeFoodDao
-				.consultDayTypeFood(ControladorFechas.formatDate(
-						this.initialDateSearch,
+		dayTypeFoodList = dayTypeFoodDao.consultDayTypeFood(ControladorFechas
+				.formatDate(this.initialDateSearch,
 						Constantes.DATE_FORMAT_DAY_OF_WEEK, Locale.US));
 		mealControlHashmap = new HashMap<Integer, Integer>();
 		if (typeFoodList != null && typeFoodList.size() > 0) {
@@ -591,6 +606,7 @@ public class MealControlAction implements Serializable {
 	 * Method used to save the meal control.
 	 * 
 	 * @modify 17/02/2017 Patricia.Patinio
+	 * @modify 28/02/2017 Claudia.Rey
 	 * 
 	 * @return initializeMealControl(): Redirects to manage meal control with
 	 *         meal control updated.
@@ -611,7 +627,18 @@ public class MealControlAction implements Serializable {
 										typeFood.getId(), hr.getIdHr(), date);
 						foodControl.setHr(hr);
 						foodControl.setTypeFood(typeFood);
-						foodControl.setQuantity(typeFood.getId());
+						boolean flag = false;
+						for (DayTypeFood dayTypeFood : dayTypeFoodList) {
+							if (dayTypeFood.getTypeFood().getId() == typeFood
+									.getId()) {
+								flag = true;
+							}
+						}
+						if (flag) {
+							foodControl.setQuantity(1);
+						} else {
+							foodControl.setQuantity(0);
+						}
 						foodControl.setDate(initialDateSearch);
 						if (foodControl.getId() > 0) {
 							mealControlDao.editFoodControl(foodControl);
