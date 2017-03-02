@@ -726,9 +726,6 @@ public class PlotAction implements Serializable {
 		CropsAction crops = ControladorContexto
 				.getContextBean(CropsAction.class);
 		listPlotDate = new ArrayList<Plot>();
-		String param2 = ControladorContexto.getParam("param2");
-		boolean fromModal = (param2 != null && "si".equals(param2)) ? true
-				: false;
 		try {
 			searchAdvancedPopup(consult, parameters, bundle, unionMessageSearch);
 			Long amount = plotDao.quantityPlotsFiltered(crops
@@ -766,7 +763,7 @@ public class PlotAction implements Serializable {
 			if (listPlotsSelected != null) {
 				maintainPlotsSelected(listPlotDate, listPlotsSelected);
 			}
-			maintainPlotsCrops(fromModal);
+			maintainPlotsCrops();
 			validations.setMensajeBusquedaPopUp(messageSearch);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -897,8 +894,6 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @param plotsList
 	 *            : plotsList consult of the database associated to the section.
-	 * @param flagAction
-	 *            : flag that indicated to which action belongs.
 	 */
 	public void initializePlotsBySection(List<Plot> plotList) {
 		listPlotsSelected = new ArrayList<Plot>();
@@ -910,23 +905,19 @@ public class PlotAction implements Serializable {
 	}
 
 	/**
-	 * new This method maintain the plots selected when there are pagination
+	 * New This method maintain the plots selected when there are pagination
 	 * into the crop plot management.
 	 * 
 	 * @author Claudia.Rey
-	 * 
-	 * @param fromModal
-	 *            : flag for identifier the call.
+	 * @modify 02/03/2017 Claudia.Rey
 	 */
-	private void maintainPlotsCrops(boolean fromModal) {
-		if (fromModal) {
-			CropsAction cropAction = ControladorContexto
-					.getContextBean(CropsAction.class);
-			if (cropAction.getListPlotsAsocciates() != null
-					&& cropAction.getListPlotsAsocciates().size() > 0)
-				cropAction.maintainPlotSelect(listPlotDate,
-						cropAction.getListPlotsAsocciates());
-		}
+	private void maintainPlotsCrops() {
+		CropsAction cropAction = ControladorContexto
+				.getContextBean(CropsAction.class);
+		if (cropAction.getListPlotsAsocciates() != null
+				&& cropAction.getListPlotsAsocciates().size() > 0)
+			cropAction.maintainPlotSelect(listPlotDate,
+					cropAction.getListPlotsAsocciates());
 	}
 
 }
