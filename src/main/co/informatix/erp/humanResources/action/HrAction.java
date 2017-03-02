@@ -45,7 +45,6 @@ import co.informatix.erp.warehouse.action.MovementsAction;
  * maintenance lines in the system.
  * 
  * @author Cristhian.Pico
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
@@ -350,7 +349,6 @@ public class HrAction implements Serializable {
 	}
 
 	/**
-	 * 
 	 * @return fileUploadBean: Variable that gets the object for loading files.
 	 */
 	public FileUploadBean getFileUploadBean() {
@@ -496,7 +494,6 @@ public class HrAction implements Serializable {
 							.queryHr(paginationForm.getInicio(),
 									paginationForm.getRango(), queryBuilder,
 									parameters);
-
 				} else {
 					pagination.paginar(amount);
 					this.hrList = hrDao.queryHr(pagination.getInicio(),
@@ -519,7 +516,6 @@ public class HrAction implements Serializable {
 						bundleHumanResources.getString("human_resource_label"),
 						jointSearchMessages);
 			}
-
 			if (hrList != null && this.flagButton == true) {
 				maintainHrSelected(hrList, hrListSelected);
 			}
@@ -796,7 +792,6 @@ public class HrAction implements Serializable {
 			if (this.hr.getCivilStatus().getId() == 0) {
 				this.hr.setCivilStatus(null);
 			}
-
 			if (hr.getIdHr() != 0) {
 				if (this.hr.getFoto() != null && !"".equals(this.hr.getFoto())
 						&& !this.hr.getFoto().equals(this.hrPicName)) {
@@ -1177,16 +1172,13 @@ public class HrAction implements Serializable {
 				+ this.getFilesFolder();
 		String secondTarget = Constantes.RUTA_UPLOADFILE_WORKSPACE
 				+ this.getFilesFolder();
-
 		FileUploadBean.fileExist(firstTarget);
 		FileUploadBean.fileExist(secondTarget);
-
 		File filePath = new File(origin, fileUploadBean.getFileName());
 		File firstTargetFolder = new File(firstTarget,
 				fileUploadBean.getFileName());
 		File secondTargetFolder = new File(secondTarget,
 				fileUploadBean.getFileName());
-
 		FileUploadBean.copyFile(filePath, firstTargetFolder);
 		FileUploadBean.copyFile(filePath, secondTargetFolder);
 	}
