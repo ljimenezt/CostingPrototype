@@ -1669,6 +1669,9 @@ public class CycleAction implements Serializable {
 	public void validateMaterials() {
 		ResourceBundle bundle = ControladorContexto
 				.getBundle("mensajeWarehouse");
+		String form = "formRegisterCycle:cmbMaterials";
+		String message = "deposits_message_quantity_enough_materials";
+		String format = "";
 		try {
 			if (this.cycle.getMaterialsRequired() != null
 					&& this.cycle.getMaterialsRequired()) {
@@ -1680,21 +1683,16 @@ public class CycleAction implements Serializable {
 					Double quantityActual = depositsDao.quantityMaterialsById(
 							idMaterials, null);
 					if (quantityActual > 0) {
-						ControladorContexto
-								.mensajeError(
-										"formRegisterCycle:cmbMaterials",
-										MessageFormat.format(
-												bundle.getString("deposits_message_quantity_enough_materials"),
-												quantityActual, materialName));
+						format = MessageFormat.format(
+								bundle.getString(message), quantityActual,
+								materialName);
 					}
 				} else {
-					ControladorContexto
-							.mensajeError(
-									"formRegisterCycle:cmbMaterials",
-									MessageFormat.format(
-											bundle.getString("deposits_message_no_materials"),
-											materialName));
+					message = "deposits_message_no_materials";
+					format = MessageFormat.format(bundle.getString(message),
+							materialName);
 				}
+				ControladorContexto.mensajeError(form, format);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

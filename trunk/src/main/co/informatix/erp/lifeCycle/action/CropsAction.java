@@ -15,7 +15,6 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.lifeCycle.dao.CropNamesDao;
@@ -668,15 +667,14 @@ public class CropsAction implements Serializable {
 	 * Method to validate that the start date and end date are selected.
 	 */
 	public void requiredDates() {
-		FacesContext contexto = FacesContext.getCurrentInstance();
-		ResourceBundle bundleCrop = contexto.getApplication()
-				.getResourceBundle(contexto, "messageLifeCycle");
+		ResourceBundle bundleCrop = ControladorContexto
+				.getBundle("messageLifeCycle");
 		try {
 			if ((crops.getInitialDate() == null || "".equals(crops
 					.getInitialDate()))
 					|| (crops.getFinalDate() == null || "".equals(crops
 							.getFinalDate()))) {
-				ControladorContexto.mensajeError(null,
+				ControladorContexto.mensajeError(
 						"formCrops:mensajeBusquedaMenu",
 						bundleCrop.getString("crops_label_date_required"));
 			}
