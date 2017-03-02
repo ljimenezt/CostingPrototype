@@ -8,10 +8,8 @@ import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.dao.ContractDao;
@@ -353,26 +351,24 @@ public class PaymentsAction implements Serializable {
 	 * 
 	 * @author Luna.Granados
 	 */
-	public void validarRequeridos() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = context.getApplication().getResourceBundle(
-				context, "mensaje");
+	public void validateRequired() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String form = "";
+		String message = "message_campo_requerido";
+
 		try {
 			if (this.payments.getHr().getName() == null) {
-				context.addMessage(
-						"formPayments:txtHrs",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"hr"), null));
+				form = "formPayments:txtHrs";
+				String format = MessageFormat.format(bundle.getString(message),
+						"hr");
+				ControladorContexto.mensajeError(form, format);
+
 			}
 			if (this.payments.getContract().getHr().getName() == null) {
-				context.addMessage(
-						"formPayments:txtContratos",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"c"), null));
+				form = "formPayments:txtContratos";
+				String format = MessageFormat.format(bundle.getString(message),
+						"c");
+				ControladorContexto.mensajeError(form, format);
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
