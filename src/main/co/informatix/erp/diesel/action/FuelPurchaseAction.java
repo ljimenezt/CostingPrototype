@@ -19,6 +19,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.transaction.UserTransaction;
 
+import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 
 import co.informatix.erp.diesel.dao.ConsumableResourcesDao;
@@ -54,11 +55,18 @@ import co.informatix.erp.warehouse.entities.TransactionType;
 @RequestScoped
 public class FuelPurchaseAction implements Serializable {
 
-	private String imageDocument;
+	private String nameDocument;
 	private String filesFolder;
 	private String temporalFilesFolder;
 
-	private boolean temporalImageDocument;
+	private String folderFileTemporal;
+	private String locationServer;
+	private String locationLocal;
+	private String pathLocation;
+
+	private boolean loadDocumentTemporal;
+	private boolean iconPdf;
+	private boolean iconImg;
 	private int idSupplier;
 
 	private Date initialDateSearch;
@@ -97,18 +105,11 @@ public class FuelPurchaseAction implements Serializable {
 	private ConsumableResourcesDao consumableResourcesDao;
 
 	/**
-	 * @return imageDocument: Name of the image Document.
+	 * @return nameDocument: File name that has the information associated to
+	 *         the fuel purchase.
 	 */
-	public String getImageDocument() {
-		return imageDocument;
-	}
-
-	/**
-	 * @param imageDocument
-	 *            : Name of the image Document.
-	 */
-	public void setImageDocument(String imageDocument) {
-		this.imageDocument = imageDocument;
+	public String getNameDocument() {
+		return nameDocument;
 	}
 
 	/**
@@ -122,6 +123,16 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
+	 * @return folderFileTemporal: path of the temporary folder where the
+	 *         document of the cycle are loaded.
+	 */
+	public String getFolderFileTemporal() {
+		this.folderFileTemporal = Constantes.CARPETA_ARCHIVOS_SUBIDOS
+				+ Constantes.CARPETA_ARCHIVOS_TEMP;
+		return folderFileTemporal;
+	}
+
+	/**
 	 * @return temporalFilesFolder: Path to the temporary folder where the fuel
 	 *         documents are loaded.
 	 */
@@ -132,20 +143,73 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * @return temporalImageDocument: Flag indicating whether the picture is
-	 *         loaded from the temporary location or not.
+	 * This Method assigned the values to the variables
 	 */
-	public boolean isTemporalImageDocument() {
-		return temporalImageDocument;
+	public void getLocations() {
+		locationServer = Constantes.RUTA_UPLOADFILE_GLASFISH + pathLocation;
+		locationServer = locationServer.replace("\\", "/");
+		locationLocal = Constantes.RUTA_UPLOADFILE_WORKSPACE + pathLocation;
 	}
 
 	/**
-	 * @param temporalImageDocument
-	 *            : Flag indicating whether the picture is loaded from the
-	 *            temporary location or not.
+	 * @return pathLocation actual folder path where to save the file associated
+	 *         with a fuel purchase.
 	 */
-	public void setTemporalImageDocument(boolean temporalImageDocument) {
-		this.temporalImageDocument = temporalImageDocument;
+	public String getPathLocation() {
+		this.filesFolder = Constantes.FOLDER_FILES
+				+ Constantes.FOLDER_FILES_FUEL;
+		return pathLocation;
+	}
+
+	/**
+	 * @return loadDocumentTemporal: Flag indicating whether the picture is
+	 *         loaded from the temporary location or not
+	 */
+	public boolean getLoadDocumentTemporal() {
+		return loadDocumentTemporal;
+	}
+
+	/**
+	 * @param loadDocumentTemporal
+	 *            : Flag indicating whether the picture is loaded from the
+	 *            temporary location or not
+	 */
+	public void setLoadDocumentTemporal(boolean loadDocumentTemporal) {
+		this.loadDocumentTemporal = loadDocumentTemporal;
+	}
+
+	/**
+	 * @return iconPdf: Flag indicating whether the file is loaded from the
+	 *         temporary location or not
+	 */
+	public boolean getIconPdf() {
+		return iconPdf;
+	}
+
+	/**
+	 * @param iconPdf
+	 *            : Flag indicating whether the file is loaded from the
+	 *            temporary location or not
+	 */
+	public void setIconPdf(boolean iconPdf) {
+		this.iconPdf = iconPdf;
+	}
+
+	/**
+	 * @return iconImg: Flag indicating if the file is loaded from the temporary
+	 *         location or not and is a image
+	 */
+	public boolean isIconImg() {
+		return iconImg;
+	}
+
+	/**
+	 * @param iconImg
+	 *            :Flag indicating if the file is loaded from the temporary
+	 *            location or not and is a image
+	 */
+	public void setIconImg(boolean iconImg) {
+		this.iconImg = iconImg;
 	}
 
 	/**
@@ -516,10 +580,10 @@ public class FuelPurchaseAction implements Serializable {
 	 */
 	public String addFuelPurchase() {
 		try {
+			this.nameDocument = null;
 			this.fuelPurchase = new FuelPurchase();
-			this.imageDocument = null;
 			this.fileUploadBean = new FileUploadBean();
-			this.temporalImageDocument = true;
+			this.loadDocumentTemporal = true;
 			transactionType = new TransactionType();
 			chargueCostUnit();
 			loadComboSuppliers();
@@ -669,12 +733,11 @@ public class FuelPurchaseAction implements Serializable {
 	 * Delete the file name.
 	 */
 	public void deleteFileName() {
-		if (imageDocument != null && !"".equals(imageDocument)
-				&& !imageDocument.equals(fuelPurchase.getInvoiceDocumentLink())
-				&& this.temporalImageDocument) {
-			deleteFile(imageDocument);
+		if (this.nameDocument != null && !"".equals(this.nameDocument)
+				&& this.loadDocumentTemporal) {
+			deleteFile(this.nameDocument);
 		}
-		imageDocument = null;
+		this.nameDocument = null;
 		fileUploadBean.setFileName(null);
 	}
 
@@ -691,56 +754,31 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * Method allows you to load the file system.
-	 * 
-	 * @param e
-	 *            : Fileupload event for the file to be uploaded to the server.
-	 */
-	public void submit(FileUploadEvent e) {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String allowedExt[] = Constantes.EXT_IMG.split(", ");
-		String paths[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ getTemporalFilesFolder() };
-		fileUploadBean.setUploadedFile(e.getFile());
-		long maxFileSize = Constantes.TAMANYO_MAX_ARCHIVOS;
-		String resultUpload = fileUploadBean.uploadValTamanyo(allowedExt,
-				paths, maxFileSize);
-		String message = "";
-		if (Constantes.UPLOAD_EXT_INVALIDA.equals(resultUpload)) {
-			message = "error_ext_invalida";
-		} else if (Constantes.UPLOAD_TAMANO_INVALIDA.equals(resultUpload)) {
-			String format = MessageFormat.format(
-					bundle.getString("error_tamanyo_invalido"), maxFileSize,
-					"MB");
-			ControladorContexto.mensajeError("formRegistrarEmpresa:uploadLogo",
-					format);
-		} else if (Constantes.UPLOAD_NULL.equals(resultUpload)) {
-			message = "error_carga_archivo";
-		}
-		if (!"".equals(message)) {
-			ControladorContexto.mensajeError("formRegistrarEmpresa:uploadLogo",
-					bundle.getString(message));
-		}
-		if (fuelPurchase.getIdFuelPurchase() != 0) {
-			temporalImageDocument = true;
-		}
-		imageDocument = fileUploadBean.getFileName();
-	}
-
-	/**
 	 * Method that save a fuel purchase in data base and save the fuel use log
 	 */
-	public void saveFuelPurchase() {
+	public String saveFuelPurchase() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String deletePicName = null;
 		try {
 			userTransaction.begin();
-			if (this.imageDocument != null
-					&& !"".equals(this.imageDocument.trim())) {
-				deletePicName = this.imageDocument;
-				uploadPicRealFolder();
+			getPathLocation();
+			getLocations();
+			getFolderFileTemporal();
+			String nameActualDocument = this.fuelPurchase
+					.getInvoiceDocumentLink();
+			if (!("").equals(nameDocument) && nameDocument != null) {
+				if (!("").equals(nameActualDocument)
+						&& nameActualDocument != null) {
+					if (nameDocument != nameActualDocument) {
+						deleteOldFile(nameActualDocument);
+					}
+				}
+				saveFiles();
+			} else {
+				if (nameActualDocument != null) {
+					deleteOldFile(nameActualDocument);
+				}
 			}
-			this.fuelPurchase.setInvoiceDocumentLink(this.imageDocument);
+			this.fuelPurchase.setInvoiceDocumentLink(this.nameDocument);
 
 			fuelPurchase.setFuelType(new FuelTypes());
 			fuelPurchase.setFuelType(this.fuelTypes);
@@ -757,7 +795,6 @@ public class FuelPurchaseAction implements Serializable {
 					.transactionTypeById(Constantes.FUEL_PURCHASE_TYPE_TRANSACTION);
 
 			this.fuelUsageLog = new FuelUsageLog();
-			this.fuelUsageLog.setDate(new Date());
 			this.fuelUsageLog.setFuelPurchase(fuelPurchase);
 			this.fuelUsageLog.setEngineLog(null);
 			this.fuelUsageLog.setTransactionType(transactionType);
@@ -775,9 +812,6 @@ public class FuelPurchaseAction implements Serializable {
 
 			fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
 
-			if (deletePicName != null && !"".equals(deletePicName)) {
-				this.deleteFile(deletePicName);
-			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString("message_registro_guardar"),
 					fuelPurchase.getInvoiceNumber()));
@@ -790,33 +824,86 @@ public class FuelPurchaseAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
+		return "gesFuelPurchase";
 	}
 
 	/**
-	 * Upload the logo image to the actual folder.
+	 * Method allows you to load the file system.
+	 * 
+	 * @param e
+	 *            : Fileupload event for the file to be uploaded to the server.
+	 */
+	public void submit(FileUploadEvent e) {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String extAccepted[] = Constantes.EXT_PDF_DOC_IMG.split(", ");
+		String locations[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFolderFileTemporal() };
+		fileUploadBean.setUploadedFile(e.getFile());
+		long maximuSizeFile = Constantes.TAMANYO_MAX_ARCHIVOS;
+		String resultUpload = fileUploadBean.uploadValTamanyo(extAccepted,
+				locations, maximuSizeFile);
+		String message = "";
+		if (Constantes.UPLOAD_EXT_INVALIDA.equals(resultUpload)) {
+			message = "error_ext_invalida";
+		} else if (Constantes.UPLOAD_TAMANO_INVALIDA.equals(resultUpload)) {
+			String format = MessageFormat.format(
+					bundle.getString("error_tamanyo_invalido"), maximuSizeFile,
+					"MB");
+			ControladorContexto.mensajeError("formInvoices:uploadDocument",
+					format);
+		} else if (Constantes.UPLOAD_NULL.equals(resultUpload)) {
+			message = "error_carga_archivo";
+		}
+		if (!"".equals(message)) {
+			ControladorContexto.mensajeError("formInvoices:uploadDocument",
+					bundle.getString(message));
+		}
+		this.nameDocument = fileUploadBean.getFileName();
+		if (Constantes.OK.equals(resultUpload)) {
+			String suffix = FilenameUtils.getExtension(this.nameDocument);
+			if (suffix.equals(Constantes.FILE_EXT_PDF)) {
+				iconPdf = true;
+			} else if (suffix.equals(Constantes.FILE_EXT_DOCX)
+					|| suffix.equals(Constantes.FILE_EXT_DOC)) {
+				iconImg = false;
+				iconPdf = false;
+			} else {
+				iconImg = true;
+				iconPdf = false;
+			}
+		}
+	}
+
+	/**
+	 * This method allows delete the old file saving preview to replace with the
+	 * new file
+	 * 
+	 * @param nameActualDocument
+	 *            :name of the actual document that invoice have
+	 */
+	private void deleteOldFile(String nameActualDocument) {
+		String locationTemp[] = { Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ getFolderFileTemporal() };
+		String locServer[] = { locationServer };
+		String locnLocal[] = { locationLocal };
+		fileUploadBean.delete(locationTemp, nameActualDocument);
+		fileUploadBean.delete(locServer, nameActualDocument);
+		fileUploadBean.delete(locnLocal, nameActualDocument);
+	}
+
+	/**
+	 * This method allow save the file in the server and the local path
 	 * 
 	 * @throws Exception
 	 */
-	private void uploadPicRealFolder() throws Exception {
-		String source = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getTemporalFilesFolder();
-		String firstDestFolder = Constantes.RUTA_UPLOADFILE_GLASFISH
-				+ this.getFilesFolder();
-		String secondDestFolder = Constantes.RUTA_UPLOADFILE_WORKSPACE
-				+ this.getFilesFolder();
-
-		/* It checks whether the destinations are created there but */
-		FileUploadBean.fileExist(firstDestFolder);
-		FileUploadBean.fileExist(secondDestFolder);
-
-		File sourceFile = new File(source, fileUploadBean.getFileName());
-		File firstFolderFile = new File(firstDestFolder,
-				fileUploadBean.getFileName());
-		File secondFolderFile = new File(secondDestFolder,
-				fileUploadBean.getFileName());
-
-		/* Copies of temporal at 2 real destinations */
-		FileUploadBean.copyFile(sourceFile, firstFolderFile);
-		FileUploadBean.copyFile(sourceFile, secondFolderFile);
+	private void saveFiles() throws Exception {
+		String location = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ folderFileTemporal + "/" + nameDocument;
+		File fileTemp = new File(location);
+		if (fileTemp.exists()) {
+			FileUploadBean.fileCopyLocationReal(fileTemp, locationServer);
+			FileUploadBean.fileCopyLocationReal(fileTemp, locationLocal);
+		}
 	}
+
 }
