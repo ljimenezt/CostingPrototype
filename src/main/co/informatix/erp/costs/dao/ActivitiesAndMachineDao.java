@@ -93,6 +93,8 @@ public class ActivitiesAndMachineDao implements Serializable {
 	 * sending a certain range as a parameter and filtering information search
 	 * for the values sent.
 	 * 
+	 * @modify 28/02/2017 Patricia.Patinio
+	 * 
 	 * @param start
 	 *            : where it started the consultation record
 	 * @param range
@@ -114,6 +116,7 @@ public class ActivitiesAndMachineDao implements Serializable {
 		query.append("SELECT am FROM ActivityMachine am ");
 		query.append("JOIN FETCH am.activityMachinePK.machines m ");
 		query.append("JOIN FETCH am.activityMachinePK.activities ac ");
+		query.append("JOIN FETCH ac.activityName an ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {

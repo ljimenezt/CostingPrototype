@@ -35,9 +35,9 @@ public class EngineLog implements Serializable {
 	private Date date;
 	private Date hourOn;
 	private Date hourOff;
-	private Date hourmeterOn;
-	private Date hourmeterOff;
-	private Date duration;
+	private Double hourmeterOn;
+	private Double hourmeterOff;
+	private Double duration;
 	private Hr deliveredBy;
 	private Hr receivedBy;
 	private ActivityMachine activityMachine;
@@ -145,8 +145,7 @@ public class EngineLog implements Serializable {
 	 *         watched by a engine hour meter.
 	 */
 	@Column(name = "hourmeter_on", nullable = false)
-	@Temporal(TemporalType.TIME)
-	public Date getHourmeterOn() {
+	public Double getHourmeterOn() {
 		return hourmeterOn;
 	}
 
@@ -155,7 +154,7 @@ public class EngineLog implements Serializable {
 	 *            : it is a ignition hour for engine log, which is watched by a
 	 *            engine hour meter.
 	 */
-	public void setHourmeterOn(Date hourmeterOn) {
+	public void setHourmeterOn(Double hourmeterOn) {
 		this.hourmeterOn = hourmeterOn;
 	}
 
@@ -164,8 +163,7 @@ public class EngineLog implements Serializable {
 	 *         watched by a engine hour meter.
 	 */
 	@Column(name = "hourmeter_off", nullable = false)
-	@Temporal(TemporalType.TIME)
-	public Date getHourmeterOff() {
+	public Double getHourmeterOff() {
 		return hourmeterOff;
 	}
 
@@ -174,7 +172,7 @@ public class EngineLog implements Serializable {
 	 *            : it is a ending hour for engine log, which is watched by a
 	 *            engine hour meter.
 	 */
-	public void setHourmeterOff(Date hourmeterOff) {
+	public void setHourmeterOff(Double hourmeterOff) {
 		this.hourmeterOff = hourmeterOff;
 	}
 
@@ -182,8 +180,7 @@ public class EngineLog implements Serializable {
 	 * @return duration: indicate the difference between hourOn and hourOff.
 	 */
 	@Column(name = "duration", nullable = false)
-	@Temporal(TemporalType.TIME)
-	public Date getDuration() {
+	public Double getDuration() {
 		return duration;
 	}
 
@@ -191,7 +188,7 @@ public class EngineLog implements Serializable {
 	 * @param duration
 	 *            : indicate the difference between hourOn and hourOff.
 	 */
-	public void setDuration(Date duration) {
+	public void setDuration(Double duration) {
 		this.duration = duration;
 	}
 
@@ -230,7 +227,7 @@ public class EngineLog implements Serializable {
 	}
 
 	/**
-	 * @return activityMachine: activity_machine relationed with the engine log.
+	 * @return activityMachine: activity_machine related with the engine log.
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns({
@@ -242,7 +239,7 @@ public class EngineLog implements Serializable {
 
 	/**
 	 * @param activityMachine
-	 *            : activity_machine relationed with the engine log.
+	 *            : activity_machine related with the engine log.
 	 */
 	public void setActivityMachine(ActivityMachine activityMachine) {
 		this.activityMachine = activityMachine;
@@ -311,4 +308,5 @@ public class EngineLog implements Serializable {
 			return false;
 		return true;
 	}
+
 }

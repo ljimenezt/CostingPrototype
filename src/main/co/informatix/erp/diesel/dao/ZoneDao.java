@@ -155,4 +155,18 @@ public class ZoneDao implements Serializable {
 		return em.find(Zone.class, id);
 	}
 
+	/**
+	 * Consult the zones existing.
+	 * 
+	 * @author Patricia.Patinio
+	 * 
+	 * @return List<Zone>: list of zone objects.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Zone> consultZonesList() throws Exception {
+		return em.createQuery("SELECT z FROM Zone z " + "ORDER BY z.name ")
+				.getResultList();
+	}
+
 }

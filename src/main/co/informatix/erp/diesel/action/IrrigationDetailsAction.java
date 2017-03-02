@@ -15,6 +15,8 @@ import javax.faces.model.SelectItem;
 
 import co.informatix.erp.diesel.dao.IrrigationDetailsDao;
 import co.informatix.erp.diesel.entities.IrrigationDetails;
+import co.informatix.erp.machines.dao.MachinesDao;
+import co.informatix.erp.machines.entities.Machines;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
@@ -32,14 +34,19 @@ import co.informatix.erp.utils.ValidacionesAction;
 public class IrrigationDetailsAction implements Serializable {
 
 	private List<IrrigationDetails> irrigationDetailsList;
+	private List<Machines> machineList;
 
+	private String nameMachineSearch;
 	private Date startDateSearch;
 	private Date endDateSearch;
 
 	private Paginador pagination = new Paginador();
+	private Paginador paginationForm = new Paginador();
 
 	@EJB
 	private IrrigationDetailsDao irrigationDetailsDao;
+	@EJB
+	private MachinesDao machinesDao;
 
 	/**
 	 * @return irrigationDetailsList: list of irrigation details stored in data
@@ -56,6 +63,38 @@ public class IrrigationDetailsAction implements Serializable {
 	public void setIrrigationDetailsList(
 			List<IrrigationDetails> irrigationDetailsList) {
 		this.irrigationDetailsList = irrigationDetailsList;
+	}
+
+	/**
+	 * @return machineList: machine list for associated a machine to an
+	 *         irrigation details.
+	 */
+	public List<Machines> getMachineList() {
+		return machineList;
+	}
+
+	/**
+	 * @param machineList
+	 *            : machine list for associated a machine to an irrigation
+	 *            details.
+	 */
+	public void setMachineList(List<Machines> machineList) {
+		this.machineList = machineList;
+	}
+
+	/**
+	 * @return nameMachineSearch: machine name to search.
+	 */
+	public String getNameMachineSearch() {
+		return nameMachineSearch;
+	}
+
+	/**
+	 * @param nameMachineSearch
+	 *            : machine name to search.
+	 */
+	public void setNameMachineSearch(String nameMachineSearch) {
+		this.nameMachineSearch = nameMachineSearch;
 	}
 
 	/**
@@ -105,6 +144,21 @@ public class IrrigationDetailsAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	/**
+	 * @return paginationForm: the paging controller object for machine list.
+	 */
+	public Paginador getPaginationForm() {
+		return paginationForm;
+	}
+
+	/**
+	 * @param paginationForm
+	 *            : the paging controller object for machine list.
+	 */
+	public void setPaginationForm(Paginador paginationForm) {
+		this.paginationForm = paginationForm;
 	}
 
 	/**
@@ -210,4 +264,88 @@ public class IrrigationDetailsAction implements Serializable {
 			unionMessagesSearch.append(dateTo);
 		}
 	}
+
+	/**
+	 * Method for get a machine list for user associate a machine object to
+	 * irrigation details.
+	 * 
+	 * @author Patricia.Patinio
+	 */
+	public void searchMachines() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleMachine = ControladorContexto
+				.getBundle("messageMachines");
+		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		this.setMachineList(new ArrayList<Machines>());
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder queryBuilder = new StringBuilder();
+		StringBuilder joinSearchMessages = new StringBuilder();
+		String searchMessage = "";
+		try {
+			advancedSearchMachine(queryBuilder, parameters, bundle,
+					bundleMachine, joinSearchMessages);
+			Long amount = machinesDao
+					.quantityMachines(queryBuilder, parameters);
+			if (amount != null) {
+				paginationForm.paginarRangoDefinido(amount, 5);
+				this.machineList = machinesDao.consultMachines(
+						paginationForm.getInicio(), paginationForm.getRango(),
+						queryBuilder, parameters);
+			}
+			if ((machineList == null || machineList.size() <= 0)
+					&& !"".equals(joinSearchMessages.toString())) {
+				searchMessage = MessageFormat
+						.format(bundle
+								.getString("message_no_existen_registros_criterio_busqueda"),
+								joinSearchMessages);
+			} else if (machineList == null || machineList.size() <= 0) {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_existen_registros"));
+			} else if (!"".equals(joinSearchMessages.toString())) {
+				String message = bundle
+						.getString("message_existen_registros_criterio_busqueda");
+				searchMessage = MessageFormat.format(message,
+						bundleMachine.getString("machines_label_names"),
+						joinSearchMessages);
+			}
+			validations.setMensajeBusquedaPopUp(searchMessage);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method builds a query with advanced search of machines; it also
+	 * render the messages to be displayed depending on the search criteria
+	 * selected by the user.
+	 * 
+	 * @author Patricia.Patinio
+	 * 
+	 * @param consult
+	 *            : Query to concatenate.
+	 * @param parameters
+	 *            : List of search parameters.
+	 * @param bundle
+	 *            : Access language tags.
+	 * @param bundleMachine
+	 *            : Access machine language tags.
+	 * @param joinSearchMessages
+	 *            : Message search.
+	 */
+	private void advancedSearchMachine(StringBuilder query,
+			List<SelectItem> parameter, ResourceBundle bundle,
+			ResourceBundle bundleMachine, StringBuilder joinSearchMessages) {
+
+		if ((this.nameMachineSearch != null && !""
+				.equals(this.nameMachineSearch))) {
+			query.append(" WHERE UPPER(m.Name) LIKE UPPER(:keywordNombre) ");
+			SelectItem nameItem = new SelectItem("%" + this.nameMachineSearch
+					+ "%", "keywordNombre");
+			parameter.add(nameItem);
+			joinSearchMessages.append(bundle.getString("label_name") + ": "
+					+ '"' + this.nameMachineSearch + '"' + " ");
+		}
+	}
+
 }
