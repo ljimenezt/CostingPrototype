@@ -9,10 +9,8 @@ import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.costs.dao.ActivitiesDao;
@@ -668,26 +666,24 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * @author Luna.Granados
 	 */
 	public void validateRequired() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = context.getApplication().getResourceBundle(
-				context, "mensaje");
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		String form = "";
+		String message = "message_campo_requerido";
+
 		try {
 			if (this.certificationsAndRoles.getIdCertificactionsAndRoles() == 0) {
-				context.addMessage(
-						"formActCert:certificacion",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										""), null));
+				form = "formActCert:certificacion";
+				String format = MessageFormat.format(bundle.getString(message),
+						"");
+				ControladorContexto.mensajeError(form, format);
 			}
 			if (this.activityNames.getActivityName() == null) {
-				context.addMessage(
-						"formActCert:txtActivity",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										""), null));
+				form = "formActCert:txtActivity";
+				String format = MessageFormat.format(bundle.getString(message),
+						"");
+				ControladorContexto.mensajeError(form, format);
 			}
+
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

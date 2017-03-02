@@ -1272,14 +1272,12 @@ public class HrAction implements Serializable {
 	 * 
 	 * @param hr
 	 *            : Hr than will be shown in the view.
-	 * 
 	 */
 	public void loadHr(Hr hr) {
 		if (this.flagAction) {
 			MovementsAction movementsAction = (MovementsAction) ControladorContexto
 					.getContextBean(MovementsAction.class);
 			movementsAction.loadHr(hr);
-
 		} else {
 			PaymentsAction paymentsAction = (PaymentsAction) ControladorContexto
 					.getContextBean(PaymentsAction.class);
