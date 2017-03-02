@@ -327,10 +327,20 @@ public class EngineLogAction implements Serializable {
 				engineLogDao.editEngineLog(engineLog);
 			} else {
 				registerMessage = "message_registro_guardar";
-				engineLogDao.saveEngineLog(engineLog);
 				if (this.engineLog.isIrrigation()) {
-					this.irrigationDetails.setZone(zone);
-					this.irrigationDetails.setMachine(machineIrrigation);
+					this.engineLog.setActivityMachine(null);
+				}
+				if (this.engineLog.getDeliveredBy().getIdHr() == 0) {
+					this.engineLog.setDeliveredBy(null);
+				}
+				if (this.engineLog.getReceivedBy().getIdHr() == 0) {
+					this.engineLog.setReceivedBy(null);
+				}
+				engineLogDao.saveEngineLog(this.engineLog);
+				if (this.engineLog.isIrrigation()) {
+					this.irrigationDetails.setZone(this.zone);
+					this.irrigationDetails.setMachine(this.machineIrrigation);
+					this.irrigationDetails.setEngineLog(engineLog);
 					irrigationDetailsDao
 							.saveIrrigationDetails(irrigationDetails);
 				}

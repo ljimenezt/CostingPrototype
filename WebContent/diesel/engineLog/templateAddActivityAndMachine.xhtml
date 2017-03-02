@@ -1,0 +1,122 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	<h:form id="popupFormActivityMachine">
+		<rich:popupPanel id="popupActivityMachine" autosized="true"
+			domElementAttachment="form"
+			header="#{mensaje.label_listing} #{messageCosts.activities_label} #{messageMachine.machines_label_names}">
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close_14.png"
+						onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+						onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+						styleClass="cursor"
+						onclick="#{rich:component('popupActivityMachine')}.hide()" />
+				</h:panelGroup>
+			</f:facet>
+			<rich:panel styleClass="H373P fondoAnchoUno W580P">
+				<a:outputPanel id="outPutSearchActivityMachine">
+					<t:fieldset styleClass="BorderW2P">
+						<legend class="etiquetaTitulo">#{mensaje.label_search}
+							#{messageCosts.activities_label} </legend>
+						<h:panelGrid columns="3" cellpadding="7">
+							<h:outputText value="#{mensaje.label_name}"
+								styleClass="etiquetaTitulo" />
+							<h:inputText size="40" maxlength="100" id="txtNameSearch"
+								value="#{engineLogAction.nameActivitySearch}"
+								onkeypress="return submitByEnter(event,'popupFormActivityMachine:btnSearch')" />
+							<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
+								actionListener="#{engineLogAction.searchActivitiesAndMachine}"
+								render="outputActivityMachine, outPutSearchActivityMachine">
+							</a:commandButton>
+						</h:panelGrid>
+					</t:fieldset>
+					<br />
+					<br />
+					<a:outputPanel>
+						<ui:include src="/plantillas/plantillaBuscadorPopUp.xhtml">
+							<ui:param name="width" value="W520P" />
+							<ui:param name="id" value="popupBuscarMenu" />
+						</ui:include>
+					</a:outputPanel>
+					<br />
+					<ui:param name="listaVacia"
+						value="#{engineLogAction.activitiesMachineList eq null or (empty engineLogAction.activitiesMachineList)}" />
+					<div align="right" class="W560P">
+						<a:commandLink render="outPutSearchActivityMachine"
+							styleClass="quitarDecoracionLink"
+							action="#{engineLogAction.searchActivitiesAndMachine}"
+							actionListener="#{engineLogAction.setNameActivitySearch(null)}">
+							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+								<h:graphicImage value="/img/listarTodos_16.png" />
+								<h:outputText value="#{mensaje.button_list_all}" />
+							</h:panelGrid>
+						</a:commandLink>
+					</div>
+
+					<a:outputPanel id="outputActivityMachine">
+						<rich:dataTable value="#{engineLogAction.activitiesMachineList}"
+							var="activityMachine" id="txActivityMachine" footerClass="H130P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
+							rowClasses="odd-row, even-row">
+							<f:facet name="header">
+								<h:outputText
+									value="#{messageCosts.activities_label} #{messageMachine.machines_label_names}" />
+							</f:facet>
+							<rich:column styleClass="colIconoUno">
+								<f:facet name="header" />
+								<a:commandLink
+									render=":formEngineLog:txtActivity, :formEngineLog:txtActivities, :formEngineLog:txtEngine, :formEngineLog:txtEngines"
+									actionListener="#{engineLogAction.loadActivityMachine(activityMachine)}"
+									oncomplete="#{rich:component('popupActivityMachine')}.hide();">
+									<h:graphicImage value="/img/add_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_select}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoLargo">
+								<f:facet name="header">#{mensaje.label_name} #{messageCosts.activities_label}</f:facet>
+								<h:outputText
+									value="#{activityMachine.activityMachinePK.activities.activityName.activityName}" />
+							</rich:column>
+							<rich:column width="100px" styleClass="center">
+								<f:facet name="header">#{mensaje.label_name} #{messageMachine.machines_label_names}</f:facet>
+								<h:outputText
+									value="#{activityMachine.activityMachinePK.machines.name}" />
+							</rich:column>
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="5" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<a:outputPanel rendered="#{!listaVacia}">
+							<div class="W560P center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valParam2" value="si" />
+									<ui:param name="conParam2" value="1" />
+									<ui:param name="pager" value="paginationForm" />
+									<ui:param name="valReder"
+										value=":popupFormActivityMachine:outputActivityMachine" />
+									<ui:param name="beanActionParam" value="#{engineLogAction}" />
+									<ui:param name="metodoActionParam"
+										value="searchActivitiesAndMachine" />
+								</ui:include>
+							</div>
+						</a:outputPanel>
+					</a:outputPanel>
+				</a:outputPanel>
+			</rich:panel>
+		</rich:popupPanel>
+	</h:form>
+</ui:composition>
