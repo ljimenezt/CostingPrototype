@@ -165,7 +165,7 @@
 						<h:panelGrid columns="1" cellspacing="0" cellpadding="0"
 							id="panelLogoFuel">
 							<a:outputPanel
-								rendered="#{fuelPurchaseAction.imageDocument != null and !(empty fuelPurchaseAction.imageDocument)}">
+								rendered="#{fuelPurchaseAction.nameDocument != null and !(empty fuelPurchaseAction.nameDocument)}">
 								<div class="uploadImg">
 									<div class="closeImg">
 										<a:commandLink action="#{fuelPurchaseAction.deleteFileName()}"
@@ -177,23 +177,23 @@
 										</a:commandLink>
 									</div>
 									<h:graphicImage
-										value="#{fuelPurchaseAction.temporalFilesFolder}/#{fuelPurchaseAction.imageDocument}"
-										title="#{fuelPurchaseAction.imageDocument}"
+										value="#{fuelPurchaseAction.temporalFilesFolder}/#{fuelPurchaseAction.nameDocument}"
+										title="#{fuelPurchaseAction.nameDocument}"
 										styleClass="H200P W160P"
-										rendered="#{fuelPurchaseAction.temporalImageDocument}" />
+										rendered="#{fuelPurchaseAction.loadDocumentTemporal}" />
 									<h:graphicImage
-										value="#{fuelPurchaseAction.filesFolder}/#{fuelPurchaseAction.imageDocument}"
-										title="#{fuelPurchaseAction.imageDocument}"
+										value="#{fuelPurchaseAction.filesFolder}/#{fuelPurchaseAction.nameDocument}"
+										title="#{fuelPurchaseAction.nameDocument}"
 										styleClass="H200P W160P"
-										rendered="#{!fuelPurchaseAction.temporalImageDocument}" />
+										rendered="#{!fuelPurchaseAction.loadDocumentTemporal}" />
 								</div>
 							</a:outputPanel>
 							<a:outputPanel>
 								<h:graphicImage value="/img/noImage_240X203.png"
-									rendered="#{fuelPurchaseAction.imageDocument eq null or empty fuelPurchaseAction.imageDocument}"
+									rendered="#{fuelPurchaseAction.nameDocument eq null or empty fuelPurchaseAction.nameDocument}"
 									styleClass="H200P W160P" />
 								<p:fileUpload id="uploadLogo" dragDropSupport="true"
-									rendered="#{fuelPurchaseAction.imageDocument eq null or empty fuelPurchaseAction.imageDocument}"
+									rendered="#{fuelPurchaseAction.nameDocument eq null or empty fuelPurchaseAction.nameDocument}"
 									label="#{mensaje.label_select_file}" mode="advanced"
 									auto="true" fileUploadListener="#{fuelPurchaseAction.submit}"
 									update="panelLogoFuel"
