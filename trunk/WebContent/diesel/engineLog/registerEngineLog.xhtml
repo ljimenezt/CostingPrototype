@@ -149,7 +149,7 @@
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateDoubleRange minimum="1" />
 							<a:ajax event="change"
-								listener="#{engineLogAction.calcularDuration()}"
+								listener="#{engineLogAction.calculateDifference()}"
 								render="txtDuration"></a:ajax>
 						</h:inputText>
 						<rich:message for="txtHourmeterOff" />
@@ -183,7 +183,8 @@
 							id="txtIrrigation">
 							<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 							<a:ajax event="change" listener="#{engineLogAction.loadZones()}"
-								render="outputActivityMachine, outputIrrigationDetails" />
+								render="outputActivityMachine, outputIrrigationDetails"
+								execute="@this" />
 						</h:selectBooleanCheckbox>
 					</h:panelGrid>
 
@@ -299,7 +300,11 @@
 							<h:outputText value="" />
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.hidrometerOn}"
-								styleClass="colTextoMediano" id="txtHidrometerOn" />
+								styleClass="colTextoMediano" id="txtHidrometerOn"
+								converterMessage="#{mensaje.message_campo_decimal}">
+								<f:validateDoubleRange minimum="1" />
+								<a:ajax event="change" execute="@this"></a:ajax>
+							</h:inputText>
 							<rich:message for="txtHidrometerOn" />
 
 							<h:outputText
@@ -308,7 +313,13 @@
 							<h:outputText value="" />
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.hidrometerOff}"
-								styleClass="colTextoMediano" id="txtHidrometerOff" />
+								styleClass="colTextoMediano" id="txtHidrometerOff"
+								converterMessage="#{mensaje.message_campo_decimal}">
+								<f:validateDoubleRange minimum="1" />
+								<a:ajax event="change"
+									listener="#{engineLogAction.calculateDifference()}"
+									render="txtWaterUsage"></a:ajax>
+							</h:inputText>
 							<rich:message for="txtHidrometerOff" />
 
 							<h:outputText
@@ -317,7 +328,7 @@
 							<h:outputText value="" />
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.waterUsage}"
-								styleClass="colTextoMediano" id="txtWaterUsage" />
+								styleClass="colTextoMediano" id="txtWaterUsage" readonly="true" />
 							<rich:message for="txtWaterUsage" />
 
 							<h:outputText
@@ -326,7 +337,9 @@
 							<h:outputText value="" />
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.waterCost}"
-								styleClass="colTextoMediano" id="txtWaterCost" />
+								styleClass="colTextoMediano" id="txtWaterCost">
+								<f:validateDoubleRange minimum="0" />
+							</h:inputText>
 							<rich:message for="txtWaterCots" />
 
 							<h:outputText styleClass="etiquetaTitulo"
