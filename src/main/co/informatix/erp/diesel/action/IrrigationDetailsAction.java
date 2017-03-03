@@ -337,9 +337,13 @@ public class IrrigationDetailsAction implements Serializable {
 			List<SelectItem> parameter, ResourceBundle bundle,
 			ResourceBundle bundleMachine, StringBuilder joinSearchMessages) {
 
+		query.append(" WHERE m.fuel = :diesel ");
+		SelectItem dieselItem = new SelectItem(true, "diesel");
+		parameter.add(dieselItem);
+
 		if ((this.nameMachineSearch != null && !""
 				.equals(this.nameMachineSearch))) {
-			query.append(" WHERE UPPER(m.Name) LIKE UPPER(:keywordNombre) ");
+			query.append(" AND UPPER(m.Name) LIKE UPPER(:keywordNombre) ");
 			SelectItem nameItem = new SelectItem("%" + this.nameMachineSearch
 					+ "%", "keywordNombre");
 			parameter.add(nameItem);

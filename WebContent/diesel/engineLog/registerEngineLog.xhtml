@@ -21,7 +21,10 @@
 			<rich:panel
 				header="#{mensaje.label_register} #{mensajeMenu.engine_log_label}"
 				styleClass="anchoUno MinH253P" id="panelRegisterEngineLog">
-				<h:panelGrid columns="2" columnClasses="W50Per,W50Per tdAlignTop">
+
+
+				<t:fieldset styleClass="anchoDos BorderW2P">
+					<legend class="etiquetaTitulo">#{mensajeMenu.engine_log_label}</legend>
 					<h:panelGrid columns="4" columnClasses="tdAlignTop W100P,,W185P,">
 
 						<h:outputText styleClass="etiquetaTitulo"
@@ -117,53 +120,11 @@
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{engineLogAction.engineLog.hourOff}"
 							showOn="button" navigator="true" timeOnly="true" id="txtHourOff"
-							pattern="HH:mm" readonlyInput="true" required="true"
+							pattern="hh:mm a" readonlyInput="true" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
 						<rich:message for="txtHourOff" />
-
-						<h:outputText value="#{messageDiesel.engine_log_label_activity}"
-							styleClass="etiquetaTitulo"
-							rendered="#{engineLogAction.engineLog.irrigation eq false}" />
-						<h:outputText value=""
-							rendered="#{engineLogAction.engineLog.irrigation eq false}" />
-						<h:panelGrid columns="5" cellpadding="0" cellspacing="0"
-							rendered="#{engineLogAction.engineLog.irrigation eq false}">
-							<h:inputText styleClass="colTextoMediano"
-								value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.activities.activityName.activityName}"
-								id="txtActivity" readonly="true" />
-							<h:inputHidden id="txtActivities"
-								value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.activities.activityName.activityName}" />
-							<a:commandLink id="lnkEngine"
-								render=":popupFormActivityMachine:popupActivityMachine"
-								actionListener="#{engineLogAction.searchActivitiesAndMachine()}"
-								execute="@this"
-								oncomplete="#{rich:component('popupActivityMachine')}.show(); setFocus('popupFormActivityMachine:txtNameSearch');">
-								<h:graphicImage value="/img/add_22.png"
-									styleClass="verticalAlignMiddle" />
-								<f:setPropertyActionListener value=""
-									target="#{engineLogAction.nameActivitySearch}" />
-								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_select}" />
-								</rich:tooltip>
-							</a:commandLink>
-							<h:outputText value="&#32;&#32;&#32;" />
-							<a:commandLink
-								actionListener="#{engineLogAction.deleteActivity()}"
-								render=":formEngineLog:txtActivity , :formEngineLog:txtActivities"
-								execute="@this">
-								<h:graphicImage value="/img/editRemove_16.png" />
-								<rich:tooltip layout="block">
-									<h:outputText value="#{mensaje.label_remove}" />
-								</rich:tooltip>
-							</a:commandLink>
-						</h:panelGrid>
-
-					</h:panelGrid>
-
-					<h:panelGrid columns="4" columnClasses="tdAlignTop W100P,,W185P,"
-						styleClass="MarginL5P">
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageDiesel.engine_log_label_hourmeter_on}" />
@@ -171,7 +132,11 @@
 						<h:inputText styleClass="colTextoMediano"
 							value="#{engineLogAction.engineLog.hourmeterOn}"
 							id="txtHourmeterOn" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}" />
+							converterMessage="#{mensaje.message_campo_decimal}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateDoubleRange minimum="1" />
+							<a:ajax execute="@this"></a:ajax>
+						</h:inputText>
 						<rich:message for="txtHourmeterOn" />
 
 						<h:outputText styleClass="etiquetaTitulo"
@@ -180,7 +145,13 @@
 						<h:inputText styleClass="colTextoMediano"
 							value="#{engineLogAction.engineLog.hourmeterOff}"
 							id="txtHourmeterOff" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}" />
+							converterMessage="#{mensaje.message_campo_decimal}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
+							<f:validateDoubleRange minimum="1" />
+							<a:ajax event="change"
+								listener="#{engineLogAction.calcularDuration()}"
+								render="txtDuration"></a:ajax>
+						</h:inputText>
 						<rich:message for="txtHourmeterOff" />
 
 						<h:outputText styleClass="etiquetaTitulo"
@@ -188,7 +159,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText styleClass="colTextoMediano"
 							value="#{engineLogAction.engineLog.duration}" id="txtDuration"
-							required="true"
+							required="true" readonly="true"
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="txtDuration" />
 
@@ -198,8 +169,11 @@
 						<h:outputText value="" />
 						<h:inputText styleClass="colTextoMediano"
 							value="#{engineLogAction.fuelUsageLog.consumption}"
-							id="txtConsumption" />
-						<br />
+							id="txtConsumption"
+							converterMessage="#{mensaje.message_campo_decimal}">
+							<f:validateDoubleRange minimum="1" />
+						</h:inputText>
+						<rich:message for="txtConsumption" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageDiesel.engine_log_label_irrigation}" />
@@ -209,128 +183,161 @@
 							id="txtIrrigation">
 							<f:selectItem itemLabel="#{mensaje.label_yes}" itemValue="true" />
 							<a:ajax event="change" listener="#{engineLogAction.loadZones()}"
-								render="formEngineLog" />
+								render="outputActivityMachine, outputIrrigationDetails" />
 						</h:selectBooleanCheckbox>
-						<br />
-						<h:outputText value="#{messageDiesel.engine_log_label_engine}"
-							styleClass="etiquetaTitulo"
-							rendered="#{engineLogAction.engineLog.irrigation eq false}" />
-						<h:outputText value=""
-							rendered="#{engineLogAction.engineLog.irrigation eq false}" />
-						<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
-							rendered="#{engineLogAction.engineLog.irrigation eq false}">
-							<h:inputText styleClass="colTextoMediano"
-								value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.machines.name}"
-								id="txtEngine" readonly="true" />
-							<h:inputHidden id="txtEngines"
-								value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.machines.name}" />
-						</h:panelGrid>
-
 					</h:panelGrid>
-				</h:panelGrid>
+
+					<a:outputPanel id="outputActivityMachine">
+						<h:panelGrid columns="4" columnClasses="W85P W100P,,W185P,">
+
+							<h:outputText value="#{messageDiesel.engine_log_label_activity}"
+								styleClass="etiquetaTitulo"
+								rendered="#{engineLogAction.engineLog.irrigation eq false}" />
+							<h:outputText value=""
+								rendered="#{engineLogAction.engineLog.irrigation eq false}" />
+							<h:panelGrid columns="5" cellpadding="0" cellspacing="0"
+								rendered="#{engineLogAction.engineLog.irrigation eq false}">
+								<h:inputText styleClass="colTextoMediano"
+									value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.activities.activityName.activityName}"
+									id="txtActivity" readonly="true" />
+								<h:inputHidden id="txtActivities"
+									value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.activities.activityName.activityName}" />
+								<a:commandLink id="lnkEngine"
+									render=":popupFormActivityMachine:popupActivityMachine"
+									actionListener="#{engineLogAction.searchActivitiesAndMachine()}"
+									execute="@this"
+									oncomplete="#{rich:component('popupActivityMachine')}.show(); setFocus('popupFormActivityMachine:txtNameSearch');">
+									<h:graphicImage value="/img/add_22.png"
+										styleClass="verticalAlignMiddle" />
+									<f:setPropertyActionListener value=""
+										target="#{engineLogAction.nameActivitySearch}" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_select}" />
+									</rich:tooltip>
+								</a:commandLink>
+								<h:outputText value="&#32;&#32;&#32;" />
+								<a:commandLink
+									actionListener="#{engineLogAction.deleteActivity()}"
+									render=":formEngineLog:txtActivity , :formEngineLog:txtActivities"
+									execute="@this">
+									<h:graphicImage value="/img/editRemove_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_remove}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</h:panelGrid>
+							<br />
+							<h:outputText value="#{messageDiesel.engine_log_label_engine}"
+								styleClass="etiquetaTitulo"
+								rendered="#{engineLogAction.engineLog.irrigation eq false}" />
+							<h:outputText value=""
+								rendered="#{engineLogAction.engineLog.irrigation eq false}" />
+							<h:panelGrid columns="2" cellpadding="0" cellspacing="0"
+								rendered="#{engineLogAction.engineLog.irrigation eq false}">
+								<h:inputText styleClass="colTextoMediano"
+									value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.machines.name}"
+									id="txtEngine" readonly="true" />
+								<h:inputHidden id="txtEngines"
+									value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.machines.name}" />
+							</h:panelGrid>
+						</h:panelGrid>
+					</a:outputPanel>
+				</t:fieldset>
 				<br />
 				<a:outputPanel id="outputIrrigationDetails">
 					<t:fieldset styleClass="anchoDos BorderW2P"
 						rendered="#{engineLogAction.engineLog.irrigation eq true}">
 						<legend class="etiquetaTitulo">#{messageDiesel.irrigation_details_label}</legend>
+						<h:panelGrid columns="4" columnClasses="tdAlignTop W100P,,W185P,">
 
-						<h:panelGrid columns="2" columnClasses="W50Per,W50Per tdAlignTop">
+							<h:outputText value="#{messageDiesel.zone_label}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:selectOneMenu id="cmbZone" required="true"
+								value="#{engineLogAction.zone.id}"
+								validator="#{validacionesAction.validarComboRequerido}">
+								<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
+								<f:selectItems value="#{engineLogAction.itemsZone}" />
+							</h:selectOneMenu>
+							<rich:message for="cmbZone" />
 
-							<h:panelGrid columns="4" columnClasses="tdAlignTop W100P,,W185P,">
-
-								<h:outputText value="#{messageDiesel.zone_label}"
-									styleClass="etiquetaTitulo" />
-								<h:outputText value="*" styleClass="required" />
-								<h:selectOneMenu id="cmbZone" required="true"
-									value="#{engineLogAction.zone.id}"
-									validator="#{validacionesAction.validarComboRequerido}">
-									<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
-									<f:selectItems value="#{engineLogAction.itemsZone}" />
-								</h:selectOneMenu>
-								<rich:message for="cmbZone" />
-
-								<h:outputText value="#{messageMachine.machines_label_names}"
-									styleClass="etiquetaTitulo" />
-								<h:outputText value="*" styleClass="required" />
-								<h:panelGrid columns="6" cellpadding="0" cellspacing="0">
-									<h:inputText styleClass="colTextoMediano"
-										value="#{engineLogAction.machineIrrigation.name}"
-										id="txtMachine" readonly="true" />
-									<a:commandLink id="lnkMachine"
-										render=":popupFormMachine:popupMachine"
-										actionListener="#{irrigationDetailsAction.searchMachines()}"
-										execute="@this"
-										oncomplete="#{rich:component('popupMachine')}.show(); setFocus('popupFormMachine:txtNameSearch');">
-										<h:graphicImage value="/img/add_22.png"
-											styleClass="verticalAlignMiddle" />
-										<f:setPropertyActionListener value=""
-											target="#{irrigationDetailsAction.nameMachineSearch}" />
-										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_select}" />
-										</rich:tooltip>
-									</a:commandLink>
-									<h:outputText value="&#32;&#32;&#32;" />
-									<a:commandLink
-										actionListener="#{engineLogAction.deleteMachine()}"
-										render=":formEngineLog:txtMachine, :formEngineLog:txtMachines"
-										execute="@this">
-										<h:graphicImage value="/img/editRemove_16.png" />
-										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_remove}" />
-										</rich:tooltip>
-									</a:commandLink>
-								</h:panelGrid>
-								<rich:message for="txtMachine" />
-								<h:outputText
-									value="#{messageDiesel.irrigation_details_label_hidrometer_on}"
-									styleClass="etiquetaTitulo" />
-								<h:outputText value="" />
-								<h:inputText
-									value="#{engineLogAction.irrigationDetails.hidrometerOn}"
-									styleClass="colTextoMediano" id="txtHidrometerOn" />
-								<rich:message for="txtHidrometerOn" />
-
-								<h:outputText
-									value="#{messageDiesel.irrigation_details_label_hidrometer_off}"
-									styleClass="etiquetaTitulo" />
-								<h:outputText value="" />
-								<h:inputText
-									value="#{engineLogAction.irrigationDetails.hidrometerOff}"
-									styleClass="colTextoMediano" id="txtHidrometerOff" />
-								<rich:message for="txtHidrometerOff" />
+							<h:outputText value="#{messageMachine.machines_label_names}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="*" styleClass="required" />
+							<h:panelGrid columns="6" cellpadding="0" cellspacing="0">
+								<h:inputText styleClass="colTextoMediano"
+									value="#{engineLogAction.machineIrrigation.name}"
+									id="txtMachine" readonly="true" />
+								<a:commandLink id="lnkMachine"
+									render=":popupFormMachine:popupMachine"
+									actionListener="#{irrigationDetailsAction.searchMachines()}"
+									execute="@this"
+									oncomplete="#{rich:component('popupMachine')}.show(); setFocus('popupFormMachine:txtNameSearch');">
+									<h:graphicImage value="/img/add_22.png"
+										styleClass="verticalAlignMiddle" />
+									<f:setPropertyActionListener value=""
+										target="#{irrigationDetailsAction.nameMachineSearch}" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_select}" />
+									</rich:tooltip>
+								</a:commandLink>
+								<h:outputText value="&#32;&#32;&#32;" />
+								<a:commandLink
+									actionListener="#{engineLogAction.deleteMachine()}"
+									render=":formEngineLog:txtMachine, :formEngineLog:txtMachines"
+									execute="@this">
+									<h:graphicImage value="/img/editRemove_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_remove}" />
+									</rich:tooltip>
+								</a:commandLink>
 							</h:panelGrid>
+							<rich:message for="txtMachine" />
+							<h:outputText
+								value="#{messageDiesel.irrigation_details_label_hidrometer_on}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<h:inputText
+								value="#{engineLogAction.irrigationDetails.hidrometerOn}"
+								styleClass="colTextoMediano" id="txtHidrometerOn" />
+							<rich:message for="txtHidrometerOn" />
 
-							<h:panelGrid columns="4" columnClasses="tdAlignTop W100P,,W185P,"
-								styleClass="MarginL5P">
-								<h:outputText
-									value="#{messageDiesel.irrigation_details_label_water_usage}"
-									styleClass="etiquetaTitulo" />
-								<h:outputText value="" />
-								<h:inputText
-									value="#{engineLogAction.irrigationDetails.waterUsage}"
-									styleClass="colTextoMediano" id="txtWaterUsage" />
-								<rich:message for="txtWaterUsage" />
+							<h:outputText
+								value="#{messageDiesel.irrigation_details_label_hidrometer_off}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<h:inputText
+								value="#{engineLogAction.irrigationDetails.hidrometerOff}"
+								styleClass="colTextoMediano" id="txtHidrometerOff" />
+							<rich:message for="txtHidrometerOff" />
 
-								<h:outputText
-									value="#{messageDiesel.irrigation_details_label_water_cost}"
-									styleClass="etiquetaTitulo" />
-								<h:outputText value="" />
-								<h:inputText
-									value="#{engineLogAction.irrigationDetails.waterCost}"
-									styleClass="colTextoMediano" id="txtWaterCost" />
-								<rich:message for="txtWaterCots" />
+							<h:outputText
+								value="#{messageDiesel.irrigation_details_label_water_usage}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<h:inputText
+								value="#{engineLogAction.irrigationDetails.waterUsage}"
+								styleClass="colTextoMediano" id="txtWaterUsage" />
+							<rich:message for="txtWaterUsage" />
 
-								<h:outputText styleClass="etiquetaTitulo"
-									value="#{messageDiesel.irrigation_details_label_observations}" />
-								<h:outputText value="" />
-								<h:inputTextarea
-									value="#{engineLogAction.irrigationDetails.observations}"
-									styleClass="colTextoMedianoTextArea" id="txaObservation">
-									<f:validateLength maximum="250" />
-								</h:inputTextarea>
-								<rich:message for="txaObservation" />
+							<h:outputText
+								value="#{messageDiesel.irrigation_details_label_water_cost}"
+								styleClass="etiquetaTitulo" />
+							<h:outputText value="" />
+							<h:inputText
+								value="#{engineLogAction.irrigationDetails.waterCost}"
+								styleClass="colTextoMediano" id="txtWaterCost" />
+							<rich:message for="txtWaterCots" />
 
-							</h:panelGrid>
+							<h:outputText styleClass="etiquetaTitulo"
+								value="#{messageDiesel.irrigation_details_label_observations}" />
+							<h:outputText value="" />
+							<h:inputTextarea
+								value="#{engineLogAction.irrigationDetails.observations}"
+								styleClass="colTextoMedianoTextArea" id="txaObservation">
+								<f:validateLength maximum="250" />
+							</h:inputTextarea>
+							<rich:message for="txaObservation" />
 						</h:panelGrid>
 					</t:fieldset>
 				</a:outputPanel>

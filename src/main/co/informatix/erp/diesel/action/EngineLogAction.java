@@ -20,6 +20,7 @@ import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivityMachine;
 import co.informatix.erp.costs.entities.ActivityMachinePK;
 import co.informatix.erp.diesel.dao.EngineLogDao;
+import co.informatix.erp.diesel.dao.FuelUsageLogDao;
 import co.informatix.erp.diesel.dao.IrrigationDetailsDao;
 import co.informatix.erp.diesel.dao.ZoneDao;
 import co.informatix.erp.diesel.entities.EngineLog;
@@ -58,6 +59,8 @@ public class EngineLogAction implements Serializable {
 
 	@EJB
 	private EngineLogDao engineLogDao;
+	@EJB
+	private FuelUsageLogDao fuelUsageLogDao;
 	@EJB
 	private ZoneDao zoneDao;
 	@EJB
@@ -337,6 +340,13 @@ public class EngineLogAction implements Serializable {
 					this.engineLog.setReceivedBy(null);
 				}
 				engineLogDao.saveEngineLog(this.engineLog);
+				if (this.fuelUsageLog.getConsumption() != null) {
+					FuelUsageLog fuelUsage = this.fuelUsageLogDao
+							.consultLastFuelUsage();
+					fuelUsage
+							.setConsumption(this.fuelUsageLog.getConsumption());
+					this.fuelUsageLogDao.saveFuelUsage(fuelUsage);
+				}
 				if (this.engineLog.isIrrigation()) {
 					this.irrigationDetails.setZone(this.zone);
 					this.irrigationDetails.setMachine(this.machineIrrigation);
@@ -542,4 +552,25 @@ public class EngineLogAction implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 */
+	public void calcularDuration() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = context.getApplication().getResourceBundle(
+				context, "messageDiesel");
+		if (this.engineLog.getHourmeterOn() < this.engineLog.getHourmeterOff()) {
+			Double duration = this.engineLog.getHourmeterOff()
+					- this.engineLog.getHourmeterOn();
+			this.engineLog.setDuration(duration);
+		} else {
+			context.addMessage(
+					"formEngineLog:txtHourmeterOff",
+					new FacesMessage(
+							FacesMessage.SEVERITY_ERROR,
+							MessageFormat.format(
+									bundle.getString("engine_log_message_hourmeter_off_higher"),
+									""), null));
+		}
+	}
 }
