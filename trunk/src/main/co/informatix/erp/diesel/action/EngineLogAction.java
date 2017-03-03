@@ -319,7 +319,6 @@ public class EngineLogAction implements Serializable {
 	 * Method to save or edit engine logs.
 	 * 
 	 * @return addEditEngineLog: Redirects to register engineLog template.
-	 * 
 	 */
 	public String saveEngineLog() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -345,6 +344,7 @@ public class EngineLogAction implements Serializable {
 							.consultLastFuelUsage();
 					fuelUsage
 							.setConsumption(this.fuelUsageLog.getConsumption());
+					fuelUsage.setEngineLog(this.engineLog);
 					this.fuelUsageLogDao.saveFuelUsage(fuelUsage);
 				}
 				if (this.engineLog.isIrrigation()) {
