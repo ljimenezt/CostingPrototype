@@ -755,6 +755,11 @@ public class FuelPurchaseAction implements Serializable {
 
 	/**
 	 * Method that save a fuel purchase in data base and save the fuel use log
+	 * 
+	 * @modify 03/03/2017 Luna.Granados
+	 * 
+	 * @return searchInitialization(): It redirects to the template to manage
+	 *         the fuel purchase.
 	 */
 	public String saveFuelPurchase() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -824,7 +829,7 @@ public class FuelPurchaseAction implements Serializable {
 			}
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesFuelPurchase";
+		return searchInitialization();
 	}
 
 	/**

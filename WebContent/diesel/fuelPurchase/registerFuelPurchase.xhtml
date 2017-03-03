@@ -157,54 +157,98 @@
 							<f:validateLength maximum="250" />
 						</h:inputTextarea>
 						<rich:message for="txaNote" />
-
 					</h:panelGrid>
 
-					<t:fieldset>
+					<t:fieldset styleClass="W166P">
 						<legend class="etiquetaTitulo">#{mensaje.label_document}</legend>
 						<h:panelGrid columns="1" cellspacing="0" cellpadding="0"
 							id="panelLogoFuel">
 							<a:outputPanel
 								rendered="#{fuelPurchaseAction.nameDocument != null and !(empty fuelPurchaseAction.nameDocument)}">
-								<div class="uploadImg">
+								<div class="uploadImg155P">
 									<div class="closeImg">
-										<a:commandLink action="#{fuelPurchaseAction.deleteFileName()}"
+										<a:commandLink
+											action="#{fuelPurchaseAction.deleteFileName()}"
 											immediate="true" render=":formFuelPurchase:panelLogoFuel">
 											<h:graphicImage value="/img/close_14.png"
 												onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
 												onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-												styleClass="cursor" title="#{mensaje.label_change_img}" />
+												styleClass="cursor" title="#{mensaje.label_change_file}" />
 										</a:commandLink>
 									</div>
-									<h:graphicImage
-										value="#{fuelPurchaseAction.temporalFilesFolder}/#{fuelPurchaseAction.nameDocument}"
-										title="#{fuelPurchaseAction.nameDocument}"
-										styleClass="H200P W160P"
-										rendered="#{fuelPurchaseAction.loadDocumentTemporal}" />
-									<h:graphicImage
-										value="#{fuelPurchaseAction.filesFolder}/#{fuelPurchaseAction.nameDocument}"
-										title="#{fuelPurchaseAction.nameDocument}"
-										styleClass="H200P W160P"
-										rendered="#{!fuelPurchaseAction.loadDocumentTemporal}" />
+									<a:outputPanel
+										rendered="#{fuelPurchaseAction.loadDocumentTemporal eq true and fuelPurchaseAction.iconPdf eq true and fuelPurchaseAction.iconImg eq false }">
+										<a:outputPanel
+											rendered="#{fuelPurchaseAction.loadDocumentTemporal}">
+											<a target="_blank"
+												href="#{request.contextPath}#{fuelPurchaseAction.folderFileTemporal}/#{fuelPurchaseAction.nameDocument}"><h:graphicImage
+													title="#{fuelPurchaseAction.nameDocument}"
+													styleClass="H156P" value="/img/bigPdf_128.png" /></a>
+										</a:outputPanel>
+										<a:outputPanel>
+											<h:graphicImage value="/img/bigPdf_128.png"
+												title="#{fuelPurchaseAction.nameDocument}"
+												styleClass="H156P"
+												rendered="#{!fuelPurchaseAction.loadDocumentTemporal}" />
+										</a:outputPanel>
+									</a:outputPanel>
+
+									<a:outputPanel
+										rendered="#{fuelPurchaseAction.loadDocumentTemporal eq true and fuelPurchaseAction.iconPdf eq false and fuelPurchaseAction.iconImg eq false }">
+										<a:outputPanel
+											rendered="#{fuelPurchaseAction.loadDocumentTemporal}">
+											<a target="_blank"
+												href="#{request.contextPath}#{fuelPurchaseAction.folderFileTemporal}/#{fuelPurchaseAction.nameDocument}"><h:graphicImage
+													title="#{fuelPurchaseAction.nameDocument}"
+													styleClass="H156P" value="/img/bigWord_128.png" /></a>
+										</a:outputPanel>
+										<a:outputPanel>
+											<h:graphicImage value="/img/bigWord_128.png"
+												title="#{fuelPurchaseAction.nameDocument}"
+												styleClass="H156P"
+												rendered="#{!fuelPurchaseAction.loadDocumentTemporal}" />
+										</a:outputPanel>
+									</a:outputPanel>
+
+									<a:outputPanel
+										rendered="#{fuelPurchaseAction.loadDocumentTemporal eq true and fuelPurchaseAction.iconImg eq true }">
+										<a:outputPanel
+											rendered="#{fuelPurchaseAction.loadDocumentTemporal}">
+											<a target="_blank"
+												href="#{request.contextPath}#{fuelPurchaseAction.folderFileTemporal}/#{fuelPurchaseAction.nameDocument}"><h:graphicImage
+													title="#{fuelPurchaseAction.nameDocument}"
+													styleClass="H156P"
+													value="/#{fuelPurchaseAction.folderFileTemporal}/#{fuelPurchaseAction.nameDocument}" /></a>
+										</a:outputPanel>
+										<a:outputPanel>
+											<h:graphicImage
+												value="/#{fuelPurchaseAction.folderFileTemporal}/#{fuelPurchaseAction.nameDocument}"
+												title="#{fuelPurchaseAction.nameDocument}"
+												styleClass="H156P"
+												rendered="#{!fuelPurchaseAction.loadDocumentTemporal}" />
+										</a:outputPanel>
+									</a:outputPanel>
 								</div>
 							</a:outputPanel>
 							<a:outputPanel>
-								<h:graphicImage value="/img/noImage_240X203.png"
+								<h:graphicImage value="/img/fileLess_128.png"
 									rendered="#{fuelPurchaseAction.nameDocument eq null or empty fuelPurchaseAction.nameDocument}"
-									styleClass="H200P W160P" />
-								<p:fileUpload id="uploadLogo" dragDropSupport="true"
+									styleClass="H162P" />
+								<p:fileUpload id="uploadDocument" dragDropSupport="true"
+									styleClass="sytleButtonUpload"
 									rendered="#{fuelPurchaseAction.nameDocument eq null or empty fuelPurchaseAction.nameDocument}"
 									label="#{mensaje.label_select_file}" mode="advanced"
-									auto="true" fileUploadListener="#{fuelPurchaseAction.submit}"
+									auto="true"
+									fileUploadListener="#{fuelPurchaseAction.submit}"
 									update="panelLogoFuel"
 									onstart="#{rich:component('statPane')}.show();"
 									oncomplete="#{rich:component('statPane')}.hide();" />
-								<rich:message for="uploadLogo" styleClass="errors" />
+								<rich:message for="uploadDocument" styleClass="errors" />
 								<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
 									styleClass="W100Per">
 									<hr />
 									<h:outputText styleClass="etiquetaTitulo"
-										value="#{mensaje.label_allowed_ext}: #{propPrototipoCostos['locate.ext.permitted.img']} " />
+										value="#{mensaje.label_allowed_ext}: #{propPrototipoCostos['locate.ext.permitted.doc.pdf.img']} " />
 									<hr />
 								</h:panelGrid>
 							</a:outputPanel>
@@ -220,7 +264,6 @@
 						value="#{mensaje.button_save}" />
 				</div>
 			</rich:panel>
-
 		</h:form>
 
 		<h:form id="formConfirmar">
@@ -243,30 +286,51 @@
 					<ui:define name="campos">
 						<h:outputText value="#{messageDiesel.fuel_purchase_invoice_data}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.dateTime}" />
+
 						<h:outputText value="#{messageDiesel.fuel_purchase_supplier}:" />
-						<h:outputText value="#{fuelPurchaseAction.suppliers.idSupplier}" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(fuelPurchaseAction.itemsSuppliers,fuelPurchaseAction.suppliers.idSupplier)}" />
+
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_number}:" />
 						<h:outputText
 							value="#{fuelPurchaseAction.fuelPurchase.invoiceNumber}" />
 
 						<h:outputText value="#{messageMachine.fuel_types_label}:" />
-						<h:outputText value="#{fuelPurchaseAction.fuelTypes.idFuelType}" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(fuelPurchaseAction.itemsFuelTypes,fuelPurchaseAction.fuelTypes.idFuelType)}" />
+
 						<h:outputText value="#{mensaje.label_quantity}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.quantity}" />
+
 						<h:outputText value="#{mensaje.label_unit_cost}:" />
-						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.unitCost}" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.unitCost}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
+
 						<h:outputText value="#{mensaje.label_subtotal}:" />
-						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.subTotal}" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.subTotal}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
+
 						<h:outputText value="#{mensajeMenu.iva_rate_label}:" />
-						<h:outputText value="#{fuelPurchaseAction.ivaRate.idIva}" />
+						<h:outputText
+							value="#{validacionesAction.getLabel(fuelPurchaseAction.itemsIvaRate,fuelPurchaseAction.ivaRate.idIva)}" />
+
 						<h:outputText value="#{messageDiesel.fuel_purchase_iva}:" />
-						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.taxes}" />
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.taxes}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
+
 						<h:outputText value="#{mensaje.label_total}:" />
-						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.total}" />
-
+						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.total}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
 					</ui:define>
-
 
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
