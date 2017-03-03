@@ -96,9 +96,11 @@
 						</h:outputText>
 					</rich:column>
 
-					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensajeMenu.iva_rate_label}</f:facet>
-						<h:outputText value="#{fuelPurchase.ivaRate.name} %" />
+					<rich:column styleClass="colValorMini">
+						<f:facet name="header">#{messageBaseInformation.iva_rate_label}</f:facet>
+						<h:outputText value="#{fuelPurchase.ivaRate.rate}%">
+							<f:convertNumber type="percent" />
+						</h:outputText>
 					</rich:column>
 
 					<rich:column styleClass="colValor">
