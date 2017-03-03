@@ -343,7 +343,7 @@ public class IrrigationDetailsAction implements Serializable {
 
 		if ((this.nameMachineSearch != null && !""
 				.equals(this.nameMachineSearch))) {
-			query.append(" AND UPPER(m.Name) LIKE UPPER(:keywordNombre) ");
+			query.append(" AND UPPER(m.name) LIKE UPPER(:keywordNombre) ");
 			SelectItem nameItem = new SelectItem("%" + this.nameMachineSearch
 					+ "%", "keywordNombre");
 			parameter.add(nameItem);

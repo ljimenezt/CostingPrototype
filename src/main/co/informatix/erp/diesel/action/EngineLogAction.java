@@ -553,9 +553,10 @@ public class EngineLogAction implements Serializable {
 	}
 
 	/**
-	 * 
+	 * This method allows calculate the difference between hourmeterOn and
+	 * hourmeterOff or difference between hidrometerOn and hidrometerOff.
 	 */
-	public void calcularDuration() {
+	public void calculateDifference() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ResourceBundle bundle = context.getApplication().getResourceBundle(
 				context, "messageDiesel");
@@ -571,6 +572,24 @@ public class EngineLogAction implements Serializable {
 							MessageFormat.format(
 									bundle.getString("engine_log_message_hourmeter_off_higher"),
 									""), null));
+		}
+		if (this.engineLog.isIrrigation()
+				&& (this.irrigationDetails.getHidrometerOn() != null && this.irrigationDetails
+						.getHidrometerOff() != null)) {
+			if (this.irrigationDetails.getHidrometerOn() < this.irrigationDetails
+					.getHidrometerOff()) {
+				Double waterUsage = this.irrigationDetails.getHidrometerOff()
+						- this.irrigationDetails.getHidrometerOn();
+				this.irrigationDetails.setWaterUsage(waterUsage);
+			} else {
+				context.addMessage(
+						"formEngineLog:txtHidrometerOff",
+						new FacesMessage(
+								FacesMessage.SEVERITY_ERROR,
+								MessageFormat.format(
+										bundle.getString("engine_log_message_hidrometer_off_higher"),
+										""), null));
+			}
 		}
 	}
 }
