@@ -917,7 +917,7 @@ public class ActivityPlotAction implements Serializable {
 				celda.setCellType(HSSFCell.CELL_TYPE_STRING);
 				celda.setCellValue(new HSSFRichTextString(
 						bundleMessageLifeCycle
-								.getString("activity_plot_label_Accumulative_area")));
+								.getString("activity_plot_label_accumulative_area")));
 
 				fila = cReportPoi.getSheet().getRow(startFile + 3);
 				celda = fila.createCell(31);
