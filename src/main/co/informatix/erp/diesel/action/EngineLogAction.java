@@ -31,6 +31,7 @@ import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.machines.entities.Machines;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
@@ -233,6 +234,8 @@ public class EngineLogAction implements Serializable {
 	public void deleteActivity() {
 		engineLog.getActivityMachine().getActivityMachinePK()
 				.setActivities(new Activities());
+		engineLog.getActivityMachine().getActivityMachinePK()
+				.setMachines(new Machines());
 	}
 
 	/**
@@ -283,6 +286,15 @@ public class EngineLogAction implements Serializable {
 	}
 
 	/**
+	 * Method to initialize the parameters of the search and load initial list
+	 * of ActivityMachines.
+	 */
+	public void initializeSearchActivityMachine() {
+		this.nameActivitySearch = "";
+		searchActivitiesAndMachine();
+	}
+
+	/**
 	 * Method for initializer engineLog register view, set a engineLog if user
 	 * start edit function or load a new object for register.
 	 * 
@@ -318,7 +330,7 @@ public class EngineLogAction implements Serializable {
 	/**
 	 * Method to save or edit engine logs.
 	 * 
-	 * @return addEditEngineLog: Redirects to register engineLog template.
+	 * @return "gesEngineLog": Redirects to management engineLog template.
 	 */
 	public String saveEngineLog() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -362,7 +374,7 @@ public class EngineLogAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return addEditEngineLog(null);
+		return "gesEngineLog";
 	}
 
 	/**
@@ -478,6 +490,8 @@ public class EngineLogAction implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		ResourceBundle bundle = context.getApplication().getResourceBundle(
 				context, "mensaje");
+		ResourceBundle bundleDiesel = context.getApplication()
+				.getResourceBundle(context, "messageDiesel");
 		try {
 			if (this.engineLog.getDate() == null) {
 				context.addMessage(
@@ -486,22 +500,6 @@ public class EngineLogAction implements Serializable {
 								MessageFormat.format(bundle
 										.getString("message_campo_requerido"),
 										"date"), null));
-			}
-			if (this.engineLog.getHourmeterOn() == null) {
-				context.addMessage(
-						"formEngineLog:txtHourmeterOn",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"hourmeterOn"), null));
-			}
-			if (this.engineLog.getHourmeterOff() == null) {
-				context.addMessage(
-						"formEngineLog:txtHourmeterOff",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"hourmeterOff"), null));
 			}
 			if (this.engineLog.getHourOn() == null) {
 				context.addMessage(
@@ -519,6 +517,35 @@ public class EngineLogAction implements Serializable {
 										.getString("message_campo_requerido"),
 										"hourOff"), null));
 			}
+			if ((this.engineLog.getHourOff() != null && this.engineLog
+					.getHourOn() != null)
+					&& this.engineLog.getHourOff().compareTo(
+							this.engineLog.getHourOn()) < 0) {
+				context.addMessage(
+						"formEngineLog:txtHourOff",
+						new FacesMessage(
+								FacesMessage.SEVERITY_ERROR,
+								MessageFormat.format(
+										bundleDiesel
+												.getString("engine_log_message_hour_off_higher"),
+										"hourOff"), null));
+			}
+			if (this.engineLog.getHourmeterOn() == null) {
+				context.addMessage(
+						"formEngineLog:txtHourmeterOn",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								MessageFormat.format(bundle
+										.getString("message_campo_requerido"),
+										"hourmeterOn"), null));
+			}
+			if (this.engineLog.getHourmeterOff() == null) {
+				context.addMessage(
+						"formEngineLog:txtHourmeterOff",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								MessageFormat.format(bundle
+										.getString("message_campo_requerido"),
+										"hourmeterOff"), null));
+			}
 			if (this.engineLog.getDuration() == null) {
 				context.addMessage(
 						"formEngineLog:txtDuration",
@@ -526,6 +553,14 @@ public class EngineLogAction implements Serializable {
 								MessageFormat.format(bundle
 										.getString("message_campo_requerido"),
 										"duration"), null));
+			}
+			if (this.fuelUsageLog.getConsumption() == null) {
+				context.addMessage(
+						"formEngineLog:txtConsumption",
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								MessageFormat.format(bundle
+										.getString("message_campo_requerido"),
+										"consumption"), null));
 			}
 			if (this.engineLog.isIrrigation()) {
 				if (this.zone.getId() == 0) {
@@ -546,6 +581,48 @@ public class EngineLogAction implements Serializable {
 											bundle.getString("message_campo_requerido"),
 											"machine"), null));
 				}
+				if (this.irrigationDetails.getHidrometerOn() == null) {
+					context.addMessage(
+							"formEngineLog:txtHidrometerOn",
+							new FacesMessage(
+									FacesMessage.SEVERITY_ERROR,
+									MessageFormat.format(
+											bundle.getString("message_campo_requerido"),
+											"hidrometerOn"), null));
+				}
+				if (this.irrigationDetails.getHidrometerOff() == null) {
+					context.addMessage(
+							"formEngineLog:txtHidrometerOff",
+							new FacesMessage(
+									FacesMessage.SEVERITY_ERROR,
+									MessageFormat.format(
+											bundle.getString("message_campo_requerido"),
+											"hidrometerOff"), null));
+				}
+				if (this.irrigationDetails.getWaterUsage() == null) {
+					context.addMessage(
+							"formEngineLog:txtWaterUsage",
+							new FacesMessage(
+									FacesMessage.SEVERITY_ERROR,
+									MessageFormat.format(
+											bundle.getString("message_campo_requerido"),
+											"waterUsage"), null));
+				}
+			} else {
+				if (this.engineLog.getActivityMachine().getActivityMachinePK()
+						.getActivities().getIdActivity() == 0
+						|| this.engineLog.getActivityMachine()
+								.getActivityMachinePK().getMachines()
+								.getIdMachine() == 0) {
+					context.addMessage(
+							"formEngineLog:txtActivity",
+							new FacesMessage(
+									FacesMessage.SEVERITY_ERROR,
+									MessageFormat.format(
+											bundleDiesel
+													.getString("engine_log_message_select_activity"),
+											""), null));
+				}
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -558,11 +635,15 @@ public class EngineLogAction implements Serializable {
 	 */
 	public void calculateDifference() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = context.getApplication().getResourceBundle(
-				context, "messageDiesel");
-		if (this.engineLog.getHourmeterOn() < this.engineLog.getHourmeterOff()) {
-			Double duration = this.engineLog.getHourmeterOff()
-					- this.engineLog.getHourmeterOn();
+		ResourceBundle bundleDiesel = context.getApplication()
+				.getResourceBundle(context, "messageDiesel");
+		if ((this.engineLog.getHourmeterOn() != null && this.engineLog
+				.getHourmeterOff() != null)
+				&& this.engineLog.getHourmeterOff() >= this.engineLog
+						.getHourmeterOn()) {
+			Double duration = ControllerAccounting.subtract(
+					this.engineLog.getHourmeterOff(),
+					this.engineLog.getHourmeterOn());
 			this.engineLog.setDuration(duration);
 		} else {
 			context.addMessage(
@@ -570,7 +651,8 @@ public class EngineLogAction implements Serializable {
 					new FacesMessage(
 							FacesMessage.SEVERITY_ERROR,
 							MessageFormat.format(
-									bundle.getString("engine_log_message_hourmeter_off_higher"),
+									bundleDiesel
+											.getString("engine_log_message_hourmeter_off_higher"),
 									""), null));
 		}
 		if (this.engineLog.isIrrigation()
@@ -578,8 +660,9 @@ public class EngineLogAction implements Serializable {
 						.getHidrometerOff() != null)) {
 			if (this.irrigationDetails.getHidrometerOn() < this.irrigationDetails
 					.getHidrometerOff()) {
-				Double waterUsage = this.irrigationDetails.getHidrometerOff()
-						- this.irrigationDetails.getHidrometerOn();
+				Double waterUsage = ControllerAccounting.subtract(
+						this.irrigationDetails.getHidrometerOff(),
+						this.irrigationDetails.getHidrometerOn());
 				this.irrigationDetails.setWaterUsage(waterUsage);
 			} else {
 				context.addMessage(
@@ -587,7 +670,8 @@ public class EngineLogAction implements Serializable {
 						new FacesMessage(
 								FacesMessage.SEVERITY_ERROR,
 								MessageFormat.format(
-										bundle.getString("engine_log_message_hidrometer_off_higher"),
+										bundleDiesel
+												.getString("irrigation_details_message_hidrometer_off_higher"),
 										""), null));
 			}
 		}

@@ -21,8 +21,6 @@
 			<rich:panel
 				header="#{mensaje.label_register} #{mensajeMenu.engine_log_label}"
 				styleClass="anchoUno MinH253P" id="panelRegisterEngineLog">
-
-
 				<t:fieldset styleClass="anchoDos BorderW2P">
 					<legend class="etiquetaTitulo">#{mensajeMenu.engine_log_label}</legend>
 					<h:panelGrid columns="4" columnClasses="tdAlignTop W100P,,W185P,">
@@ -47,7 +45,7 @@
 							<h:inputHidden id="txtDelivereds"
 								value="#{engineLogAction.engineLog.deliveredBy.name}" />
 							<a:commandLink id="lnkDelivered" render=":popupForm1:popupHr1"
-								actionListener="#{hrAction.searchHrs()}" execute="@this"
+								actionListener="#{hrAction.initializeSearch}" execute="@this"
 								oncomplete="#{rich:component('popupHr1')}.show(); setFocus('popupForm1:txtNameSearch');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />
@@ -69,7 +67,8 @@
 								</rich:tooltip>
 							</a:commandLink>
 						</h:panelGrid>
-						<br />
+						<rich:message for="txtDelivered" />
+
 						<h:outputText value="#{messageDiesel.engine_log_label_received}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
@@ -80,7 +79,7 @@
 							<h:inputHidden id="txtReceiveds"
 								value="#{engineLogAction.engineLog.receivedBy.name}" />
 							<a:commandLink id="lnkReceived" render=":popupForm2:popupHr2"
-								actionListener="#{hrAction.searchHrs()}" execute="@this"
+								actionListener="#{hrAction.initializeSearch}" execute="@this"
 								oncomplete="#{rich:component('popupHr2')}.show(); setFocus('popupForm2:txtNameSearch');">
 								<h:graphicImage value="/img/add_22.png"
 									styleClass="verticalAlignMiddle" />
@@ -102,7 +101,7 @@
 								</rich:tooltip>
 							</a:commandLink>
 						</h:panelGrid>
-						<br />
+						<rich:message for="txtReceived" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageDiesel.engine_log_label_hour_on}" />
@@ -129,20 +128,22 @@
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageDiesel.engine_log_label_hourmeter_on}" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText styleClass="colTextoMediano"
+						<h:inputText styleClass="colTextoCorto"
 							value="#{engineLogAction.engineLog.hourmeterOn}"
 							id="txtHourmeterOn" required="true"
 							converterMessage="#{mensaje.message_campo_decimal}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateDoubleRange minimum="1" />
-							<a:ajax execute="@this"></a:ajax>
+							<a:ajax event="change"
+								listener="#{engineLogAction.calculateDifference()}"
+								render="txtDuration"></a:ajax>
 						</h:inputText>
 						<rich:message for="txtHourmeterOn" />
 
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageDiesel.engine_log_label_hourmeter_off}" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText styleClass="colTextoMediano"
+						<h:inputText styleClass="colTextoCorto"
 							value="#{engineLogAction.engineLog.hourmeterOff}"
 							id="txtHourmeterOff" required="true"
 							converterMessage="#{mensaje.message_campo_decimal}"
@@ -157,22 +158,26 @@
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageDiesel.engine_log_label_duration}" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText styleClass="colTextoMediano"
+						<h:inputText styleClass="colTextoCorto"
 							value="#{engineLogAction.engineLog.duration}" id="txtDuration"
-							required="true" readonly="true"
+							readonly="true" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="txtDuration" />
 
 						<h:outputText
 							value="#{messageDiesel.engine_log_label_consumption}"
 							styleClass="etiquetaTitulo" />
-						<h:outputText value="" />
-						<h:inputText styleClass="colTextoMediano"
-							value="#{engineLogAction.fuelUsageLog.consumption}"
-							id="txtConsumption"
-							converterMessage="#{mensaje.message_campo_decimal}">
-							<f:validateDoubleRange minimum="1" />
-						</h:inputText>
+						<h:outputText value="*" styleClass="required" />
+						<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
+							<h:inputText styleClass="colTextoCorto"
+								value="#{engineLogAction.fuelUsageLog.consumption}"
+								id="txtConsumption" required="true"
+								converterMessage="#{mensaje.message_campo_decimal}"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+								<f:validateDoubleRange minimum="1" />
+							</h:inputText>
+							<h:outputText value="Gal" />
+						</h:panelGrid>
 						<rich:message for="txtConsumption" />
 
 						<h:outputText styleClass="etiquetaTitulo"
@@ -205,7 +210,7 @@
 									value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.activities.activityName.activityName}" />
 								<a:commandLink id="lnkEngine"
 									render=":popupFormActivityMachine:popupActivityMachine"
-									actionListener="#{engineLogAction.searchActivitiesAndMachine()}"
+									actionListener="#{engineLogAction.initializeSearchActivityMachine()}"
 									execute="@this"
 									oncomplete="#{rich:component('popupActivityMachine')}.show(); setFocus('popupFormActivityMachine:txtNameSearch');">
 									<h:graphicImage value="/img/add_22.png"
@@ -219,7 +224,7 @@
 								<h:outputText value="&#32;&#32;&#32;" />
 								<a:commandLink
 									actionListener="#{engineLogAction.deleteActivity()}"
-									render=":formEngineLog:txtActivity , :formEngineLog:txtActivities"
+									render=":formEngineLog:txtActivity , :formEngineLog:txtActivities, :formEngineLog:txtEngine, :formEngineLog:txtEngines"
 									execute="@this">
 									<h:graphicImage value="/img/editRemove_16.png" />
 									<rich:tooltip layout="block">
@@ -227,7 +232,8 @@
 									</rich:tooltip>
 								</a:commandLink>
 							</h:panelGrid>
-							<br />
+							<rich:message for="txtActivity" />
+
 							<h:outputText value="#{messageDiesel.engine_log_label_engine}"
 								styleClass="etiquetaTitulo"
 								rendered="#{engineLogAction.engineLog.irrigation eq false}" />
@@ -271,7 +277,7 @@
 									id="txtMachine" readonly="true" />
 								<a:commandLink id="lnkMachine"
 									render=":popupFormMachine:popupMachine"
-									actionListener="#{irrigationDetailsAction.searchMachines()}"
+									actionListener="#{irrigationDetailsAction.initializeSearchMachine()}"
 									execute="@this"
 									oncomplete="#{rich:component('popupMachine')}.show(); setFocus('popupFormMachine:txtNameSearch');">
 									<h:graphicImage value="/img/add_22.png"
@@ -294,27 +300,34 @@
 								</a:commandLink>
 							</h:panelGrid>
 							<rich:message for="txtMachine" />
+
 							<h:outputText
 								value="#{messageDiesel.irrigation_details_label_hidrometer_on}"
 								styleClass="etiquetaTitulo" />
-							<h:outputText value="" />
+							<h:outputText value="*" styleClass="required" />
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.hidrometerOn}"
 								styleClass="colTextoMediano" id="txtHidrometerOn"
-								converterMessage="#{mensaje.message_campo_decimal}">
+								required="true"
+								converterMessage="#{mensaje.message_campo_decimal}"
+								requiredMessage="#{mensaje.message_campo_requerido}">
 								<f:validateDoubleRange minimum="1" />
-								<a:ajax event="change" execute="@this"></a:ajax>
+								<a:ajax event="change"
+									listener="#{engineLogAction.calculateDifference()}"
+									render="txtWaterUsage"></a:ajax>
 							</h:inputText>
 							<rich:message for="txtHidrometerOn" />
 
 							<h:outputText
 								value="#{messageDiesel.irrigation_details_label_hidrometer_off}"
 								styleClass="etiquetaTitulo" />
-							<h:outputText value="" />
+							<h:outputText value="*" styleClass="required" />
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.hidrometerOff}"
-								styleClass="colTextoMediano" id="txtHidrometerOff"
-								converterMessage="#{mensaje.message_campo_decimal}">
+								styleClass="colTextoMediano" required="true"
+								id="txtHidrometerOff"
+								converterMessage="#{mensaje.message_campo_decimal}"
+								requiredMessage="#{mensaje.message_campo_requerido}">
 								<f:validateDoubleRange minimum="1" />
 								<a:ajax event="change"
 									listener="#{engineLogAction.calculateDifference()}"
@@ -325,10 +338,12 @@
 							<h:outputText
 								value="#{messageDiesel.irrigation_details_label_water_usage}"
 								styleClass="etiquetaTitulo" />
-							<h:outputText value="" />
+							<h:outputText value="*" styleClass="required" />
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.waterUsage}"
-								styleClass="colTextoMediano" id="txtWaterUsage" readonly="true" />
+								required="true" styleClass="colTextoMediano" readonly="true"
+								id="txtWaterUsage"
+								requiredMessage="#{mensaje.message_campo_requerido}" />
 							<rich:message for="txtWaterUsage" />
 
 							<h:outputText
@@ -347,8 +362,8 @@
 							<h:outputText value="" />
 							<h:inputTextarea
 								value="#{engineLogAction.irrigationDetails.observations}"
-								styleClass="colTextoMedianoTextArea" id="txaObservation">
-								<f:validateLength maximum="250" />
+								styleClass="colTextoMedianoTextArea" id="txaObservation"
+								validator="#{encodeFilter.validarScripting}">
 							</h:inputTextarea>
 							<rich:message for="txaObservation" />
 						</h:panelGrid>
@@ -390,10 +405,13 @@
 						<h:outputText value="#{messageDiesel.engine_log_label_received}:" />
 						<h:outputText value="#{engineLogAction.engineLog.receivedBy.name}" />
 						<h:outputText value="#{messageDiesel.engine_log_label_hour_on}:" />
-						<h:outputText value="#{engineLogAction.engineLog.hourOn}" />
+						<h:outputText value="#{engineLogAction.engineLog.hourOn}">
+							<f:convertDateTime pattern="hh:mm" />
+						</h:outputText>
 						<h:outputText value="#{messageDiesel.engine_log_label_hour_off}:" />
-						<h:outputText value="#{engineLogAction.engineLog.hourOff}" />
-
+						<h:outputText value="#{engineLogAction.engineLog.hourOff}">
+							<f:convertDateTime pattern="hh:mm" />
+						</h:outputText>
 						<h:outputText
 							value="#{messageDiesel.engine_log_label_hourmeter_on}:" />
 						<h:outputText value="#{engineLogAction.engineLog.hourmeterOn}" />
@@ -408,11 +426,17 @@
 						<h:outputText
 							value="#{messageDiesel.engine_log_label_irrigation}:" />
 						<h:outputText value="#{engineLogAction.engineLog.irrigation}" />
-						<h:outputText value="#{messageDiesel.engine_log_label_activity}:" />
 						<h:outputText
+							rendered="#{engineLogAction.engineLog.irrigation eq false}"
+							value="#{messageDiesel.engine_log_label_activity}:" />
+						<h:outputText
+							rendered="#{engineLogAction.engineLog.irrigation eq false}"
 							value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.activities.activityName.activityName}" />
-						<h:outputText value="#{messageMachine.machines_label_names}:" />
 						<h:outputText
+							rendered="#{engineLogAction.engineLog.irrigation eq false}"
+							value="#{messageMachine.machines_label_names}:" />
+						<h:outputText
+							rendered="#{engineLogAction.engineLog.irrigation eq false}"
 							value="#{engineLogAction.engineLog.activityMachine.activityMachinePK.machines.name}" />
 					</ui:define>
 					<ui:define name="botones">
