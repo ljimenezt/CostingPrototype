@@ -174,6 +174,14 @@ public class IrrigationDetailsAction implements Serializable {
 	}
 
 	/**
+	 * Method to initialize the fields in the search on machine popup.
+	 */
+	public void initializeSearchMachine() {
+		this.nameMachineSearch = "";
+		searchMachines();
+	}
+
+	/**
 	 * Consult the list of fuel usage
 	 * 
 	 * @return gesIrrigationDetails: Navigation rule that redirects to manage

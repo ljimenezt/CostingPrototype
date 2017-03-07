@@ -59,7 +59,7 @@ public class IrrigationDetails implements Serializable {
 	/**
 	 * @return hidrometerOn: ignition of water count for the irrigation.
 	 */
-	@Column(name = "hidrometer_on", nullable = true)
+	@Column(name = "hidrometer_on", nullable = false)
 	public Double getHidrometerOn() {
 		return hidrometerOn;
 	}
@@ -75,7 +75,7 @@ public class IrrigationDetails implements Serializable {
 	/**
 	 * @return hidrometerOff: ending of water count for the irrigation.
 	 */
-	@Column(name = "hidrometer_off", nullable = true)
+	@Column(name = "hidrometer_off", nullable = false)
 	public Double getHidrometerOff() {
 		return hidrometerOff;
 	}
@@ -91,7 +91,7 @@ public class IrrigationDetails implements Serializable {
 	/**
 	 * @return waterUsage: water quantity used in the irrigation.
 	 */
-	@Column(name = "water_usage", nullable = true)
+	@Column(name = "water_usage", nullable = false)
 	public Double getWaterUsage() {
 		return waterUsage;
 	}
@@ -323,5 +323,4 @@ public class IrrigationDetails implements Serializable {
 			return false;
 		return true;
 	}
-
 }
