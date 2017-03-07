@@ -447,13 +447,10 @@ public class EngineLogAction implements Serializable {
 	private void advancedSearchActivities(StringBuilder query,
 			List<SelectItem> parameter, ResourceBundle bundle,
 			ResourceBundle bundleDiesel, StringBuilder joinSearchMessages) {
-
 		query.append(" WHERE ac.initialDtBudget >= current_date() ");
-
 		query.append(" AND m.fuel = :diesel ");
 		SelectItem dieselItem = new SelectItem(true, "diesel");
 		parameter.add(dieselItem);
-
 		if ((this.nameActivitySearch != null && !""
 				.equals(this.nameActivitySearch))) {
 			query.append(" AND UPPER(ac.activityName.activityName) LIKE UPPER(:keywordNombre) ");
