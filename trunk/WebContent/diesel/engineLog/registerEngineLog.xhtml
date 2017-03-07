@@ -108,7 +108,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{engineLogAction.engineLog.hourOn}"
 							showOn="button" navigator="true" timeOnly="true" id="txtHourOn"
-							pattern="hh:mm a" readonlyInput="true" required="true"
+							pattern="hh:mm" readonlyInput="true" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
@@ -119,7 +119,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{engineLogAction.engineLog.hourOff}"
 							showOn="button" navigator="true" timeOnly="true" id="txtHourOff"
-							pattern="hh:mm a" readonlyInput="true" required="true"
+							pattern="hh:mm" readonlyInput="true" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>

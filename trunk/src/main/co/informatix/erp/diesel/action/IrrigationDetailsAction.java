@@ -282,7 +282,7 @@ public class IrrigationDetailsAction implements Serializable {
 	public void searchMachines() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleMachine = ControladorContexto
-				.getBundle("messageMachines");
+				.getBundle("messageMachine");
 		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		this.setMachineList(new ArrayList<Machines>());
