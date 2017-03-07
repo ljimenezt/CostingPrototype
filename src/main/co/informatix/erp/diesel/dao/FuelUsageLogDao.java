@@ -140,4 +140,69 @@ public class FuelUsageLogDao implements Serializable {
 		}
 		return (Long) q.getSingleResult();
 	}
+
+	/**
+	 * Returns the number of fuel usage log that exist in the database that are
+	 * existing or not existing.
+	 * 
+	 * @param consult
+	 *            : Query running on SQL.
+	 * @param parameters
+	 *            :Parameters of the query.
+	 * @return Number of records found.
+	 * @throws Exception
+	 */
+	public Long quantityEngineLog(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(ful) FROM FuelUsageLog ful ");
+		query.append("JOIN ful.engineLog el ");
+		query.append("WHERE el.idEngineLog is not null ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * Consult the list of fuel engine log that comply with the option of force.
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @param start
+	 *            : Registry where consultation begins.
+	 * @param range
+	 *            : Range of records.
+	 * @param consult
+	 *            : Consultation records depending on the parameters selected by
+	 *            the user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<FuelUsageLog>:List of fuel usage log that comply with the
+	 *         condition of validity.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<FuelUsageLog> consultEngineLog(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ful FROM FuelUsageLog ful ");
+		query.append("JOIN FETCH ful.engineLog el ");
+		query.append("LEFT JOIN FETCH el.deliveredBy db ");
+		query.append("LEFT JOIN FETCH el.receivedBy rb ");
+		query.append("LEFT JOIN FETCH el.activityMachine am ");
+		query.append("LEFT JOIN FETCH am.activityMachinePK ampk ");
+		query.append("LEFT JOIN FETCH ampk.machines m ");
+		query.append("LEFT JOIN FETCH ampk.activities a ");
+		query.append("WHERE el.idEngineLog is not null ");
+		query.append(consult);
+		query.append("ORDER BY el.date DESC ");
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		q.setFirstResult(start).setMaxResults(range);
+		return q.getResultList();
+	}
+
 }

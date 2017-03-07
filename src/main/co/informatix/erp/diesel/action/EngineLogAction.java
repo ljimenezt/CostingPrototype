@@ -50,12 +50,15 @@ public class EngineLogAction implements Serializable {
 
 	private List<ActivityMachine> activitiesMachineList;
 	private List<SelectItem> itemsZone;
+	private List<FuelUsageLog> engineLogList;
+	private List<IrrigationDetails> irrigationDetailsList;
 
 	private EngineLog engineLog;
 	private FuelUsageLog fuelUsageLog;
 	private IrrigationDetails irrigationDetails;
 	private Zone zone;
 	private Machines machineIrrigation;
+	private Paginador pagination = new Paginador();
 	private Paginador paginationForm = new Paginador();
 
 	@EJB
@@ -198,6 +201,22 @@ public class EngineLogAction implements Serializable {
 	}
 
 	/**
+	 * @return pagination : management responsible paged list from search engine
+	 *         log.
+	 */
+	public Paginador getPagination() {
+		return pagination;
+	}
+
+	/**
+	 * @param pagination
+	 *            : management responsible paged list from search engine log.
+	 */
+	public void setPagination(Paginador pagination) {
+		this.pagination = pagination;
+	}
+
+	/**
 	 * @return paginationForm : management responsible paged list from search
 	 *         activityMachine.
 	 */
@@ -212,6 +231,38 @@ public class EngineLogAction implements Serializable {
 	 */
 	public void setPaginationForm(Paginador paginationForm) {
 		this.paginationForm = paginationForm;
+	}
+
+	/**
+	 * @return engineLogList: list of engine log stored in data base.
+	 */
+	public List<FuelUsageLog> getEngineLogList() {
+		return engineLogList;
+	}
+
+	/**
+	 * @param engineLogList
+	 *            : list of engine log stored in data base.
+	 */
+	public void setEngineLogList(List<FuelUsageLog> engineLogList) {
+		this.engineLogList = engineLogList;
+	}
+
+	/**
+	 * @return irrigationDetailsList: list of irrigation details stored in data
+	 *         base.
+	 */
+	public List<IrrigationDetails> getIrrigationDetailsList() {
+		return irrigationDetailsList;
+	}
+
+	/**
+	 * @param irrigationDetailsList
+	 *            : list of irrigation details stored in data base.
+	 */
+	public void setIrrigationDetailsList(
+			List<IrrigationDetails> irrigationDetailsList) {
+		this.irrigationDetailsList = irrigationDetailsList;
 	}
 
 	/**
@@ -673,4 +724,96 @@ public class EngineLogAction implements Serializable {
 			}
 		}
 	}
+
+	/**
+	 * Method to initialize the fields in the search.
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @return consultEngineLog: engineLog consulting method and redirects to
+	 *         the template to manage engine log.
+	 */
+	public String searchInitialization() {
+		this.engineLog = new EngineLog();
+		this.fuelUsageLog = new FuelUsageLog();
+		this.irrigationDetails = new IrrigationDetails();
+		return consultEngineLog();
+	}
+
+	/**
+	 * Consult the list of consumable resources
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @return gesEngineLog: Navigation rule that redirects to manage engine log
+	 */
+	public String consultEngineLog() {
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleConsumableResources = ControladorContexto
+				.getBundle("messageDiesel");
+		ValidacionesAction validations = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		engineLogList = new ArrayList<FuelUsageLog>();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		StringBuilder query = new StringBuilder();
+		StringBuilder unionMessagesSearch = new StringBuilder();
+		String messageSearch = "";
+		try {
+			advancedSearch(query, parameters, bundle, unionMessagesSearch);
+			Long quantity = fuelUsageLogDao
+					.quantityEngineLog(query, parameters);
+			if (quantity != null) {
+				pagination.paginar(quantity);
+			}
+			if (quantity != null && quantity > 0) {
+				engineLogList = fuelUsageLogDao.consultEngineLog(
+						pagination.getInicio(), pagination.getRango(), query,
+						parameters);
+			}
+			if ((engineLogList == null || engineLogList.size() <= 0)
+					&& !"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
+						.format(bundle
+								.getString("message_no_existen_registros_criterio_busqueda"),
+								unionMessagesSearch);
+			} else if (engineLogList == null || engineLogList.size() <= 0) {
+				ControladorContexto.mensajeInformacion(null,
+						bundle.getString("message_no_existen_registros"));
+			} else if (!"".equals(unionMessagesSearch.toString())) {
+				messageSearch = MessageFormat
+						.format(bundle
+								.getString("message_existen_registros_criterio_busqueda"),
+								bundleConsumableResources
+										.getString("consumable_label"),
+								unionMessagesSearch);
+			}
+			validations.setMensajeBusqueda(messageSearch);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+		return "gesEngineLog";
+	}
+
+	/**
+	 * This method allows to build the query to the advanced search and allows
+	 * to construct messages displayed depending on the search criteria selected
+	 * by the user.
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @param consult
+	 *            : query to concatenate.
+	 * @param parameters
+	 *            : list of search parameters.
+	 * @param bundle
+	 *            :access language tags.
+	 * @param unionMessagesSearch
+	 *            : message search.
+	 */
+	private void advancedSearch(StringBuilder consult,
+			List<SelectItem> parameters, ResourceBundle bundle,
+			StringBuilder unionMessagesSearch) {
+
+	}
+
 }
