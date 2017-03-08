@@ -330,9 +330,9 @@ public class IrrigationDetailsAction implements Serializable {
 	 * 
 	 * @author Patricia.Patinio
 	 * 
-	 * @param consult
+	 * @param query
 	 *            : Query to concatenate.
-	 * @param parameters
+	 * @param parameter
 	 *            : List of search parameters.
 	 * @param bundle
 	 *            : Access language tags.

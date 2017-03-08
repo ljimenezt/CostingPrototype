@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -484,9 +483,9 @@ public class EngineLogAction implements Serializable {
 	 * also render the messages to be displayed depending on the search criteria
 	 * selected by the user.
 	 * 
-	 * @param consult
+	 * @param query
 	 *            : Query to concatenate.
-	 * @param parameters
+	 * @param parameter
 	 *            : List of search parameters.
 	 * @param bundle
 	 *            : Access language tags.
@@ -534,127 +533,69 @@ public class EngineLogAction implements Serializable {
 	/**
 	 * Validates interface required fields.
 	 */
-	public void validarRequeridos() {
+	public void validateRequired() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = context.getApplication().getResourceBundle(
-				context, "mensaje");
 		ResourceBundle bundleDiesel = context.getApplication()
 				.getResourceBundle(context, "messageDiesel");
 		try {
 			if (this.engineLog.getDate() == null) {
-				context.addMessage(
-						"formEngineLog:txtDate",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"date"), null));
+				ControladorContexto.mensajeRequeridos("formEngineLog:txtDate");
 			}
 			if (this.engineLog.getHourOn() == null) {
-				context.addMessage(
-						"formEngineLog:txtHourOn",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"hourOn"), null));
+				ControladorContexto
+						.mensajeRequeridos("formEngineLog:txtHourOn");
 			}
 			if (this.engineLog.getHourOff() == null) {
-				context.addMessage(
-						"formEngineLog:txtHourOff",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"hourOff"), null));
+				ControladorContexto
+						.mensajeRequeridos("formEngineLog:txtHourOff");
 			}
 			if ((this.engineLog.getHourOff() != null && this.engineLog
 					.getHourOn() != null)
 					&& this.engineLog.getHourOff().compareTo(
 							this.engineLog.getHourOn()) < 0) {
-				context.addMessage(
-						"formEngineLog:txtHourOff",
-						new FacesMessage(
-								FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(
-										bundleDiesel
-												.getString("engine_log_message_hour_off_higher"),
-										"hourOff"), null));
+				ControladorContexto
+						.mensajeError(
+								null,
+								"formEngineLog:txtHourOff",
+								bundleDiesel
+										.getString("engine_log_message_hour_off_higher"));
 			}
 			if (this.engineLog.getHourmeterOn() == null) {
-				context.addMessage(
-						"formEngineLog:txtHourmeterOn",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"hourmeterOn"), null));
+				ControladorContexto
+						.mensajeRequeridos("formEngineLog:txtHourmeterOn");
 			}
 			if (this.engineLog.getHourmeterOff() == null) {
-				context.addMessage(
-						"formEngineLog:txtHourmeterOff",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"hourmeterOff"), null));
+				ControladorContexto
+						.mensajeRequeridos("formEngineLog:txtHourmeterOff");
 			}
 			if (this.engineLog.getDuration() == null) {
-				context.addMessage(
-						"formEngineLog:txtDuration",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"duration"), null));
+				ControladorContexto
+						.mensajeRequeridos("formEngineLog:txtDuration");
 			}
 			if (this.fuelUsageLog.getConsumption() == null) {
-				context.addMessage(
-						"formEngineLog:txtConsumption",
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(bundle
-										.getString("message_campo_requerido"),
-										"consumption"), null));
+				ControladorContexto
+						.mensajeRequeridos("formEngineLog:txtConsumption");
 			}
 			if (this.engineLog.isIrrigation()) {
 				if (this.zone.getId() == 0) {
-					context.addMessage(
-							"formEngineLog:txtZone",
-							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR,
-									MessageFormat.format(
-											bundle.getString("message_campo_requerido"),
-											"zone"), null));
+					ControladorContexto
+							.mensajeRequeridos("formEngineLog:txtZone");
 				}
 				if (this.machineIrrigation.getIdMachine() == 0) {
-					context.addMessage(
-							"formEngineLog:txtMachine",
-							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR,
-									MessageFormat.format(
-											bundle.getString("message_campo_requerido"),
-											"machine"), null));
+					ControladorContexto
+							.mensajeRequeridos("formEngineLog:txtMachine");
 				}
 				if (this.irrigationDetails.getHidrometerOn() == null) {
-					context.addMessage(
-							"formEngineLog:txtHidrometerOn",
-							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR,
-									MessageFormat.format(
-											bundle.getString("message_campo_requerido"),
-											"hidrometerOn"), null));
+					ControladorContexto
+							.mensajeRequeridos("formEngineLog:txtHidrometerOn");
 				}
 				if (this.irrigationDetails.getHidrometerOff() == null) {
-					context.addMessage(
-							"formEngineLog:txtHidrometerOff",
-							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR,
-									MessageFormat.format(
-											bundle.getString("message_campo_requerido"),
-											"hidrometerOff"), null));
+					ControladorContexto
+							.mensajeRequeridos("formEngineLog:txtHidrometerOff");
 				}
 				if (this.irrigationDetails.getWaterUsage() == null) {
-					context.addMessage(
-							"formEngineLog:txtWaterUsage",
-							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR,
-									MessageFormat.format(
-											bundle.getString("message_campo_requerido"),
-											"waterUsage"), null));
+					ControladorContexto
+							.mensajeRequeridos("formEngineLog:txtWaterUsage");
 				}
 			} else {
 				if (this.engineLog.getActivityMachine().getActivityMachinePK()
@@ -662,14 +603,12 @@ public class EngineLogAction implements Serializable {
 						|| this.engineLog.getActivityMachine()
 								.getActivityMachinePK().getMachines()
 								.getIdMachine() == 0) {
-					context.addMessage(
-							"formEngineLog:txtActivity",
-							new FacesMessage(
-									FacesMessage.SEVERITY_ERROR,
-									MessageFormat.format(
-											bundleDiesel
-													.getString("engine_log_message_select_activity"),
-											""), null));
+					ControladorContexto
+							.mensajeError(
+									null,
+									"formEngineLog:txtActivity",
+									bundleDiesel
+											.getString("engine_log_message_select_activity"));
 				}
 			}
 		} catch (Exception e) {
@@ -694,14 +633,12 @@ public class EngineLogAction implements Serializable {
 					this.engineLog.getHourmeterOn());
 			this.engineLog.setDuration(duration);
 		} else {
-			context.addMessage(
-					"formEngineLog:txtHourmeterOff",
-					new FacesMessage(
-							FacesMessage.SEVERITY_ERROR,
-							MessageFormat.format(
-									bundleDiesel
-											.getString("engine_log_message_hourmeter_off_higher"),
-									""), null));
+			ControladorContexto
+					.mensajeError(
+							null,
+							"formEngineLog:txtHourmeterOff",
+							bundleDiesel
+									.getString("engine_log_message_hourmeter_off_higher"));
 		}
 		if (this.engineLog.isIrrigation()
 				&& (this.irrigationDetails.getHidrometerOn() != null && this.irrigationDetails
@@ -713,14 +650,12 @@ public class EngineLogAction implements Serializable {
 						this.irrigationDetails.getHidrometerOn());
 				this.irrigationDetails.setWaterUsage(waterUsage);
 			} else {
-				context.addMessage(
-						"formEngineLog:txtHidrometerOff",
-						new FacesMessage(
-								FacesMessage.SEVERITY_ERROR,
-								MessageFormat.format(
-										bundleDiesel
-												.getString("irrigation_details_message_hidrometer_off_higher"),
-										""), null));
+				ControladorContexto
+						.mensajeError(
+								null,
+								"formEngineLog:txtHidrometerOff",
+								bundleDiesel
+										.getString("irrigation_details_message_hidrometer_off_higher"));
 			}
 		}
 	}
