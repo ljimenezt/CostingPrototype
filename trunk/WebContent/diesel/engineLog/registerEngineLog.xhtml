@@ -107,7 +107,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{engineLogAction.engineLog.hourOn}"
 							showOn="button" navigator="true" timeOnly="true" id="txtHourOn"
-							pattern="hh:mm" readonlyInput="true">
+							pattern="HH:mm" readonlyInput="true">
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
 						<rich:message for="txtHourOn" />
@@ -117,7 +117,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{engineLogAction.engineLog.hourOff}"
 							showOn="button" navigator="true" timeOnly="true" id="txtHourOff"
-							pattern="hh:mm" readonlyInput="true">
+							pattern="HH:mm" readonlyInput="true">
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
 						<rich:message for="txtHourOff" />
@@ -167,7 +167,6 @@
 								value="#{engineLogAction.fuelUsageLog.consumption}"
 								id="txtConsumption"
 								converterMessage="#{mensaje.message_campo_decimal}">
-								<f:validateDoubleRange minimum="1" />
 							</h:inputText>
 							<h:outputText value="Gal" />
 						</h:panelGrid>
@@ -393,11 +392,11 @@
 						<h:outputText value="#{engineLogAction.engineLog.receivedBy.name}" />
 						<h:outputText value="#{messageDiesel.engine_log_label_hour_on}:" />
 						<h:outputText value="#{engineLogAction.engineLog.hourOn}">
-							<f:convertDateTime pattern="hh:mm" />
+							<f:convertDateTime pattern="HH:mm" />
 						</h:outputText>
 						<h:outputText value="#{messageDiesel.engine_log_label_hour_off}:" />
 						<h:outputText value="#{engineLogAction.engineLog.hourOff}">
-							<f:convertDateTime pattern="hh:mm" />
+							<f:convertDateTime pattern="HH:mm" />
 						</h:outputText>
 						<h:outputText
 							value="#{messageDiesel.engine_log_label_hourmeter_on}:" />

@@ -36,6 +36,8 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
+import co.informatix.erp.warehouse.dao.TransactionTypeDao;
+import co.informatix.erp.warehouse.entities.TransactionType;
 
 /**
  * This class is used to create, update, and query of an engine log object in
@@ -75,6 +77,8 @@ public class EngineLogAction implements Serializable {
 	private IrrigationDetailsDao irrigationDetailsDao;
 	@EJB
 	private ActivitiesAndMachineDao activitiesAndMachineDao;
+	@EJB
+	private TransactionTypeDao transactionTypeDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -423,6 +427,9 @@ public class EngineLogAction implements Serializable {
 	public String saveEngineLog() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String registerMessage = "message_registro_modificar";
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				Constantes.DATE_FORMAT_TABLE);
+		String messageSave = dateFormat.format(this.engineLog.getDate());
 		try {
 			userTransaction.begin();
 			if (engineLog.getIdEngineLog() != 0) {
@@ -439,25 +446,44 @@ public class EngineLogAction implements Serializable {
 					this.engineLog.setReceivedBy(null);
 				}
 				engineLogDao.saveEngineLog(this.engineLog);
-				if (this.fuelUsageLog.getConsumption() != null) {
-					FuelUsageLog fuelUsage = this.fuelUsageLogDao
-							.consultLastFuelUsage();
-					fuelUsage
-							.setConsumption(this.fuelUsageLog.getConsumption());
-					fuelUsage.setEngineLog(this.engineLog);
-					this.fuelUsageLogDao.saveFuelUsage(fuelUsage);
-				}
+
+				FuelUsageLog fuelUsage = this.fuelUsageLogDao
+						.consultLastFuelUsage();
+				Double finalLevel = fuelUsage.getFinalLevel();
+				this.fuelUsageLog.setFinalLevel(ControllerAccounting.subtract(
+						finalLevel, this.fuelUsageLog.getConsumption()));
+				this.fuelUsageLog.setEngineLog(this.engineLog);
+				this.fuelUsageLog.setDate(new Date());
+				this.fuelUsageLog.setFuelPurchase(null);
+
+				TransactionType transactionType = transactionTypeDao
+						.transactionTypeById(Constantes.TRANSACTION_TYPE_ADJUSTMENT_DOWN);
+				this.fuelUsageLog.setTransactionType(transactionType);
+				this.fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
+
 				if (this.engineLog.isIrrigation()) {
 					this.irrigationDetails.setZone(this.zone);
 					this.irrigationDetails.setMachine(this.machineIrrigation);
 					this.irrigationDetails.setEngineLog(engineLog);
 					irrigationDetailsDao
 							.saveIrrigationDetails(irrigationDetails);
+					Zone zone = zoneDao.zoneById(this.zone.getId());
+					messageSave = messageSave + " - " + zone.getName() + " - "
+							+ this.irrigationDetails.getMachine().getName();
+				} else {
+					messageSave = messageSave
+							+ " - "
+							+ this.engineLog.getActivityMachine()
+									.getActivityMachinePK().getActivities()
+									.getActivityName().getActivityName()
+							+ " - "
+							+ this.engineLog.getActivityMachine()
+									.getActivityMachinePK().getMachines()
+									.getName();
 				}
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
-					bundle.getString(registerMessage),
-					engineLog.getIdEngineLog()));
+					bundle.getString(registerMessage), messageSave));
 			userTransaction.commit();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -573,6 +599,8 @@ public class EngineLogAction implements Serializable {
 	 */
 	public void validateRequired() {
 		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundle = context.getApplication().getResourceBundle(
+				context, "mensaje");
 		ResourceBundle bundleDiesel = context.getApplication()
 				.getResourceBundle(context, "messageDiesel");
 		try {
@@ -613,6 +641,14 @@ public class EngineLogAction implements Serializable {
 			if (this.fuelUsageLog.getConsumption() == null) {
 				ControladorContexto
 						.mensajeRequeridos("formEngineLog:txtConsumption");
+			}
+			if ((this.engineLog.getDuration() != null && this.fuelUsageLog
+					.getConsumption() != null)
+					&& this.engineLog.getDuration() > 0
+					&& this.fuelUsageLog.getConsumption() == 0) {
+				ControladorContexto.mensajeError(null,
+						"formEngineLog:txtConsumption",
+						bundle.getString("message_campo_mayo_cero"));
 			}
 			if (this.engineLog.isIrrigation()) {
 				if (this.zone.getId() == 0) {
@@ -681,8 +717,8 @@ public class EngineLogAction implements Serializable {
 		if (this.engineLog.isIrrigation()
 				&& (this.irrigationDetails.getHidrometerOn() != null && this.irrigationDetails
 						.getHidrometerOff() != null)) {
-			if (this.irrigationDetails.getHidrometerOn() < this.irrigationDetails
-					.getHidrometerOff()) {
+			if (this.irrigationDetails.getHidrometerOff() >= this.irrigationDetails
+					.getHidrometerOn()) {
 				Double waterUsage = ControllerAccounting.subtract(
 						this.irrigationDetails.getHidrometerOff(),
 						this.irrigationDetails.getHidrometerOn());
