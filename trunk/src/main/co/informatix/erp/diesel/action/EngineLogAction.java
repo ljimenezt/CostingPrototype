@@ -2,7 +2,9 @@ package co.informatix.erp.diesel.action;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,6 +31,7 @@ import co.informatix.erp.diesel.entities.Zone;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.machines.entities.Machines;
+import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
@@ -59,6 +62,8 @@ public class EngineLogAction implements Serializable {
 	private Machines machineIrrigation;
 	private Paginador pagination = new Paginador();
 	private Paginador paginationForm = new Paginador();
+	private Date startDateSearch;
+	private Date endDateSearch;
 
 	@EJB
 	private EngineLogDao engineLogDao;
@@ -230,6 +235,39 @@ public class EngineLogAction implements Serializable {
 	 */
 	public void setPaginationForm(Paginador paginationForm) {
 		this.paginationForm = paginationForm;
+	}
+
+	/**
+	 * @return startDateSearch: gets the initial search range for the fuel usage
+	 *         in the system.
+	 */
+	public Date getStartDateSearch() {
+		return startDateSearch;
+	}
+
+	/**
+	 * @param startDateSearch
+	 *            : sets the initial search range for the fuel usage in the
+	 *            system.
+	 */
+	public void setStartDateSearch(Date startDateSearch) {
+		this.startDateSearch = startDateSearch;
+	}
+
+	/**
+	 * @return endDateSearch: gets the end range to search the fuel usage in the
+	 *         system.
+	 */
+	public Date getEndDateSearch() {
+		return endDateSearch;
+	}
+
+	/**
+	 * @param endDateSearch
+	 *            :sets the end range to search the fuel usage in the system.
+	 */
+	public void setEndDateSearch(Date endDateSearch) {
+		this.endDateSearch = endDateSearch;
 	}
 
 	/**
@@ -671,7 +709,8 @@ public class EngineLogAction implements Serializable {
 	public String searchInitialization() {
 		this.engineLog = new EngineLog();
 		this.fuelUsageLog = new FuelUsageLog();
-		this.irrigationDetails = new IrrigationDetails();
+		this.startDateSearch = null;
+		this.endDateSearch = null;
 		return consultEngineLog();
 	}
 
@@ -719,7 +758,7 @@ public class EngineLogAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleConsumableResources
-										.getString("consumable_label"),
+										.getString("engine_log_label_s"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
@@ -748,7 +787,42 @@ public class EngineLogAction implements Serializable {
 	private void advancedSearch(StringBuilder consult,
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
+		SimpleDateFormat formats = new SimpleDateFormat(
+				Constantes.DATE_FORMAT_MESSAGE_SIMPLE);
+		if (this.startDateSearch != null && this.endDateSearch != null) {
+			consult.append("AND el.date BETWEEN :startDateSearch AND :endDateSearch ");
+			SelectItem item = new SelectItem(startDateSearch, "startDateSearch");
+			parameters.add(item);
+			SelectItem item2 = new SelectItem(endDateSearch, "endDateSearch");
+			parameters.add(item2);
+			String dateFrom = bundle.getString("label_start_date") + ": " + '"'
+					+ formats.format(this.startDateSearch) + '"' + " ";
+			unionMessagesSearch.append(dateFrom);
+			String dateTo = bundle.getString("label_end_date") + ": " + '"'
+					+ formats.format(endDateSearch) + '"' + " ";
+			unionMessagesSearch.append(dateTo);
+		}
+	}
 
+	/**
+	 * This method allows show the information of table irrigation details
+	 * depending of an identificator
+	 * 
+	 * @author Fabian.Diaz
+	 */
+	public void showIrrigationDetails() {
+		try {
+			if (this.fuelUsageLog.getEngineLog().getIdEngineLog() != 0
+					&& this.fuelUsageLog != null
+					&& this.fuelUsageLog.getEngineLog().isIrrigation()) {
+				this.irrigationDetails = new IrrigationDetails();
+				this.irrigationDetails = irrigationDetailsDao
+						.consultIrrigationDetails(this.fuelUsageLog
+								.getEngineLog().getIdEngineLog());
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 
 }

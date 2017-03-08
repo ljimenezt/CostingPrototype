@@ -331,13 +331,9 @@ public class ActivitiesAction implements Serializable {
 	 *            : Name of form to show message.
 	 */
 	public void initializeActivities(Activities activity, int idCrop,
-			int idCycle, Paginador pagerTemp, boolean flag, String formName) {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+			int idCycle, Paginador pagerTemp, boolean flag, String fieldName) {
 		if (idCycle == 0 && !flag) {
-			ControladorContexto.mensajeError(
-					formName,
-					MessageFormat.format(
-							bundle.getString("message_campo_requerido"), ""));
+			ControladorContexto.mensajeRequeridos(fieldName);
 		} else {
 			this.activities = activity;
 			this.idCrop = idCrop;

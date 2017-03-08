@@ -120,4 +120,26 @@ public class IrrigationDetailsDao implements Serializable {
 		q.setFirstResult(start).setMaxResults(range);
 		return q.getResultList();
 	}
+
+	/**
+	 * Consult the list of irrigation details for identificator
+	 * 
+	 * @author Fabian.Diaz
+	 * @param idEngine
+	 *            : identificator that receive for the consult
+	 * @return IrrigationDetails: return an object of type IrrigationDetails
+	 * @throws Exception
+	 */
+	public IrrigationDetails consultIrrigationDetails(int idEngine)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT id FROM IrrigationDetails id ");
+		query.append("LEFT JOIN FETCH id.engineLog el ");
+		query.append("LEFT JOIN FETCH id.machine m ");
+		query.append("LEFT JOIN FETCH id.zone z ");
+		query.append("WHERE id.engineLog.idEngineLog =:idEngine");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idEngine", idEngine);
+		return (IrrigationDetails) q.getSingleResult();
+	}
 }
