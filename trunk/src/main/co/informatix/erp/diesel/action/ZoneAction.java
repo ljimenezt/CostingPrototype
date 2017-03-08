@@ -155,7 +155,7 @@ public class ZoneAction implements Serializable {
 				messageSearch = MessageFormat
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
-								bundleZones.getString("name_zone_label"),
+								bundleZones.getString("zone_label_name"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
