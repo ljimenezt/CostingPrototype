@@ -51,6 +51,7 @@ import co.informatix.erp.warehouse.entities.TransactionType;
 public class EngineLogAction implements Serializable {
 
 	private String nameActivitySearch;
+	private Double finalLevel;
 
 	private List<ActivityMachine> activitiesMachineList;
 	private List<SelectItem> itemsZone;
@@ -96,6 +97,23 @@ public class EngineLogAction implements Serializable {
 	 */
 	public void setNameActivitySearch(String nameActivitySearch) {
 		this.nameActivitySearch = nameActivitySearch;
+	}
+
+	/**
+	 * @return finalLevel: it is the last final level of fuelUsageLog minus the
+	 *         consumption on engineLog.
+	 */
+	public Double getFinalLevel() {
+		return finalLevel;
+	}
+
+	/**
+	 * @param finalLevel
+	 *            : it is the last final level of fuelUsageLog minus the
+	 *            consumption on engineLog.
+	 */
+	public void setFinalLevel(Double finalLevel) {
+		this.finalLevel = finalLevel;
 	}
 
 	/**
@@ -447,14 +465,10 @@ public class EngineLogAction implements Serializable {
 				}
 				engineLogDao.saveEngineLog(this.engineLog);
 
-				FuelUsageLog fuelUsage = this.fuelUsageLogDao
-						.consultLastFuelUsage();
-				Double finalLevel = fuelUsage.getFinalLevel();
-				this.fuelUsageLog.setFinalLevel(ControllerAccounting.subtract(
-						finalLevel, this.fuelUsageLog.getConsumption()));
 				this.fuelUsageLog.setEngineLog(this.engineLog);
 				this.fuelUsageLog.setDate(new Date());
 				this.fuelUsageLog.setFuelPurchase(null);
+				this.fuelUsageLog.setFinalLevel(this.finalLevel);
 
 				TransactionType transactionType = transactionTypeDao
 						.transactionTypeById(Constantes.TRANSACTION_TYPE_ADJUSTMENT_DOWN);
@@ -649,6 +663,16 @@ public class EngineLogAction implements Serializable {
 				ControladorContexto.mensajeError(null,
 						"formEngineLog:txtConsumption",
 						bundle.getString("message_campo_mayo_cero"));
+			}
+			FuelUsageLog fuelUsage = this.fuelUsageLogDao
+					.consultLastFuelUsage();
+			this.finalLevel = ControllerAccounting.subtract(
+					fuelUsage.getFinalLevel(),
+					this.fuelUsageLog.getConsumption());
+			if (this.finalLevel < 0) {
+				ControladorContexto.mensajeError(null,
+						"formEngineLog:txtConsumption",
+						bundleDiesel.getString("engine_log_message_no_diesel"));
 			}
 			if (this.engineLog.isIrrigation()) {
 				if (this.zone.getId() == 0) {
