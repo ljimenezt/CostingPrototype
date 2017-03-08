@@ -178,9 +178,9 @@ public class TransactionTypeDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT t FROM TransactionType t ");
-		query.append("WHERE t.transactionType in ('"
-				+ Constantes.GAUGE_ADJUSTMENT_DOWN + "', '"
-				+ Constantes.GAUGE_ADJUSTMENT_UP + "') ");
+		query.append("WHERE t.idTransactionType in ("
+				+ Constantes.TRANSACTION_TYPE_ADJUSTMENT_DOWN + ", "
+				+ Constantes.TRANSACTION_TYPE_ADJUSTMENT_UP + ") ");
 		query.append("ORDER BY t.transactionType");
 		Query q = em.createQuery(query.toString());
 		return q.getResultList();
