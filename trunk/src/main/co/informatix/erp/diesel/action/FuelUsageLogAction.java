@@ -215,11 +215,12 @@ public class FuelUsageLogAction implements Serializable {
 			if (fuelUsageList != null && fuelUsageList.size() > 0) {
 				FuelUsageLog LastfuelUsage = fuelUsageLogDao
 						.consultLastFuelUsage();
-				if (transactionType.equals(Constantes.GAUGE_ADJUSTMENT_DOWN)) {
+				if (this.fuelUsageLog.getTransactionType()
+						.getIdTransactionType() == Constantes.TRANSACTION_TYPE_ADJUSTMENT_DOWN) {
 					finalLevel = LastfuelUsage.getFinalLevel()
 							- this.fuelUsageLog.getDeposited();
-				} else if (transactionType
-						.equals(Constantes.GAUGE_ADJUSTMENT_UP)) {
+				} else if (this.fuelUsageLog.getTransactionType()
+						.getIdTransactionType() == Constantes.TRANSACTION_TYPE_ADJUSTMENT_UP) {
 					finalLevel = LastfuelUsage.getFinalLevel()
 							+ this.fuelUsageLog.getDeposited();
 				}
