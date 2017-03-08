@@ -327,8 +327,8 @@ public class ActivitiesAction implements Serializable {
 	 *            : Object to saves the temporary pager
 	 * @param flag
 	 *            : Indicates if the message is show in the view.
-	 * @param formName
-	 *            : Name of form to show message.
+	 * @param fieldName
+	 *            : Name of field to show message.
 	 */
 	public void initializeActivities(Activities activity, int idCrop,
 			int idCycle, Paginador pagerTemp, boolean flag, String fieldName) {
