@@ -242,7 +242,7 @@ public class FuelUsageLogAction implements Serializable {
 										(dateFormat.format(new Date()) + " - " + transactionType)));
 			} else {
 				ControladorContexto.mensajeErrorEspecifico(
-						"fuel_usage_log_final_level_message", "messageDiesel");
+						"fuel_usage_log_message_final_level", "messageDiesel");
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
@@ -311,7 +311,7 @@ public class FuelUsageLogAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleFuelUsageLog
-										.getString("fuel_usage_log_title_label"),
+										.getString("fuel_usage_log_label_title"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);

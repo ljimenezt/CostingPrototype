@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="fuelUsageLogAction.searchInitialization" />
 	<ui:param name="titulo"
-		value="mensaje.label_manage,messageDiesel.fuel_usage_log_title_label" />
+		value="mensaje.label_manage,messageDiesel.fuel_usage_log_label_title" />
 
 	<ui:define name="body">
 		<t:saveState value="#{fuelUsageLogAction}" />
@@ -42,7 +42,7 @@
 
 		<h:form id="formFuel">
 			<rich:panel styleClass="anchoUno MinH253P"
-				header="#{mensaje.label_listing} #{messageDiesel.fuel_usage_log_title_label}"
+				header="#{mensaje.label_listing} #{messageDiesel.fuel_usage_log_label_title}"
 				id="panelFuel">
 				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 					<ui:param name="tieneVigencia" value="no" />
@@ -61,7 +61,7 @@
 							value="#{fuelUsageLog.transactionType.transactionType}" />
 					</rich:column>
 					<rich:column styleClass="colNumero">
-						<f:facet name="header">#{messageDiesel.fuel_usage_log_deposited}</f:facet>
+						<f:facet name="header">#{messageDiesel.fuel_usage_log_label_deposited}</f:facet>
 						<h:outputText value="#{fuelUsageLog.deposited}" />
 					</rich:column>
 					<rich:column styleClass="colNumero">
@@ -69,7 +69,7 @@
 						<h:outputText value="#{fuelUsageLog.consumption}" />
 					</rich:column>
 					<rich:column styleClass="colNumero">
-						<f:facet name="header">#{messageDiesel.fuel_usage_log_final_level}</f:facet>
+						<f:facet name="header">#{messageDiesel.fuel_usage_log_label_final_level}</f:facet>
 						<h:outputText value="#{fuelUsageLog.finalLevel}" />
 					</rich:column>
 					<rich:column styleClass="colIconoUno">
@@ -110,7 +110,7 @@
 		<h:form id="formBuscar">
 			<rich:popupPanel id="popupBuscar" width="330" maxWidth="450"
 				height="180"
-				header="#{mensaje.label_listing} #{messageDiesel.fuel_usage_log_title_label}"
+				header="#{mensaje.label_listing} #{messageDiesel.fuel_usage_log_label_title}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
