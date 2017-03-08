@@ -46,102 +46,98 @@
 				header="#{mensaje.label_listing} #{messageDiesel.engine_log_label_s}"
 				id="panelEngine">
 				<a:outputPanel>
-					<t:fieldset styleClass="anchoTres BorderW2P">
-						<legend class="etiquetaTitulo">#{messageDiesel.engine_log_label_s}</legend>
-						<a:outputPanel>
-							<div align="right">
-								<h:panelGrid id="pnlButtons" columns="2" cellpadding="0"
-									cellspacing="0">
-									<a:outputPanel>
-										<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-											<ui:param name="tieneVigencia" value="no" />
-										</ui:include>
-									</a:outputPanel>
-								</h:panelGrid>
-							</div>
-							<rich:dataTable value="#{engineLogAction.engineLogList}"
-								var="engine" id="engineTable" footerClass="H100P"
-								styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoTres"
-								rowClasses="odd-row, even-row">
-								<rich:column styleClass="colIconoUno">
-									<a:commandLink id="details"
-										actionListener="#{engineLogAction.setFuelUsageLog(engine)}"
-										action="#{engineLogAction.showIrrigationDetails()}"
-										render="PopUpDetails"
-										oncomplete="#{rich:component('PopUpDetails')}.show()">
-										<h:graphicImage value="/img/details_16.png" />
-										<rich:tooltip layout="block">
-											<h:outputText value="#{mensaje.label_details}" />
-										</rich:tooltip>
-									</a:commandLink>
-								</rich:column>
-								<rich:column styleClass="colFecha">
-									<f:facet name="header">#{mensaje.label_date}</f:facet>
-									<h:outputText value="#{engine.engineLog.date}">
-										<f:convertDateTime type="date" pattern="MMM dd, yyyy"
-											locale="#{idioma.locale}" />
-									</h:outputText>
-								</rich:column>
-								<rich:column styleClass="colFecha">
-									<f:facet name="header">#{messageDiesel.engine_log_label_hour_on}</f:facet>
-									<h:outputText value="#{engine.engineLog.hourOn}">
-										<f:convertDateTime pattern="hh:mm a" locale="#{idioma.locale}" />
-									</h:outputText>
-								</rich:column>
-								<rich:column styleClass="colFecha">
-									<f:facet name="header">#{messageDiesel.engine_log_label_hour_off}</f:facet>
-									<h:outputText value="#{engine.engineLog.hourOff}">
-										<f:convertDateTime pattern="hh:mm a" locale="#{idioma.locale}" />
-									</h:outputText>
-								</rich:column>
-								<rich:column styleClass="colNumero">
-									<f:facet name="header">#{messageDiesel.engine_log_label_hourmeter_on}</f:facet>
-									<h:outputText value="#{engine.engineLog.hourmeterOn}" />
-								</rich:column>
-								<rich:column styleClass="colNumero">
-									<f:facet name="header">#{messageDiesel.engine_log_label_hourmeter_off}</f:facet>
-									<h:outputText value="#{engine.engineLog.hourmeterOff}" />
-								</rich:column>
-								<rich:column styleClass="colNumero">
-									<f:facet name="header">#{messageDiesel.engine_log_label_consumption}</f:facet>
-									<h:outputText value="#{engine.consumption}" />
-								</rich:column>
-
-								<f:facet name="footer">
-									<rich:columnGroup rendered="#{listaVacia}">
-										<rich:column colspan="12" styleClass="footTabla">
-											<h:outputText
-												value="#{mensaje.message_no_existen_registros_tabla}" />
-										</rich:column>
-									</rich:columnGroup>
-								</f:facet>
-							</rich:dataTable>
-							<div align="right">
-								<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
-									<a:outputPanel>
-										<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-											<ui:param name="botonesAbajo" value="si" />
-											<ui:param name="tieneVigencia" value="no" />
-										</ui:include>
-									</a:outputPanel>
-								</h:panelGrid>
-							</div>
-							<a:outputPanel rendered="#{!listaVacia}">
-								<br />
-								<div class="anchoTres center inBlock">
-									<ui:include src="/plantillas/templatePagination.xhtml">
-										<ui:param name="valReder" value="panelEngine" />
-										<ui:param name="beanActionParam" value="#{engineLogAction}" />
-										<ui:param name="metodoActionParam" value="consultEngineLog" />
+					<a:outputPanel>
+						<div align="right">
+							<h:panelGrid id="pnlButtons" columns="2" cellpadding="0"
+								cellspacing="0">
+								<a:outputPanel>
+									<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+										<ui:param name="tieneVigencia" value="no" />
 									</ui:include>
-								</div>
-							</a:outputPanel>
+								</a:outputPanel>
+							</h:panelGrid>
+						</div>
+						<rich:dataTable value="#{engineLogAction.engineLogList}"
+							var="engine" id="engineTable" footerClass="H100P"
+							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoTres"
+							rowClasses="odd-row, even-row">
+							<rich:column styleClass="colIconoUno">
+								<a:commandLink id="details"
+									actionListener="#{engineLogAction.setFuelUsageLog(engine)}"
+									action="#{engineLogAction.showIrrigationDetails()}"
+									render="PopUpDetails"
+									oncomplete="#{rich:component('PopUpDetails')}.show()">
+									<h:graphicImage value="/img/details_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_details}" />
+									</rich:tooltip>
+								</a:commandLink>
+							</rich:column>
+							<rich:column styleClass="colFecha">
+								<f:facet name="header">#{mensaje.label_date}</f:facet>
+								<h:outputText value="#{engine.engineLog.date}">
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colFecha">
+								<f:facet name="header">#{messageDiesel.engine_log_label_hour_on}</f:facet>
+								<h:outputText value="#{engine.engineLog.hourOn}">
+									<f:convertDateTime pattern="hh:mm a" locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colFecha">
+								<f:facet name="header">#{messageDiesel.engine_log_label_hour_off}</f:facet>
+								<h:outputText value="#{engine.engineLog.hourOff}">
+									<f:convertDateTime pattern="hh:mm a" locale="#{idioma.locale}" />
+								</h:outputText>
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{messageDiesel.engine_log_label_hourmeter_on}</f:facet>
+								<h:outputText value="#{engine.engineLog.hourmeterOn}" />
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{messageDiesel.engine_log_label_hourmeter_off}</f:facet>
+								<h:outputText value="#{engine.engineLog.hourmeterOff}" />
+							</rich:column>
+							<rich:column styleClass="colNumero">
+								<f:facet name="header">#{messageDiesel.engine_log_label_consumption}</f:facet>
+								<h:outputText value="#{engine.consumption}" />
+							</rich:column>
+
+							<f:facet name="footer">
+								<rich:columnGroup rendered="#{listaVacia}">
+									<rich:column colspan="12" styleClass="footTabla">
+										<h:outputText
+											value="#{mensaje.message_no_existen_registros_tabla}" />
+									</rich:column>
+								</rich:columnGroup>
+							</f:facet>
+						</rich:dataTable>
+						<div align="right">
+							<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+								<a:outputPanel>
+									<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+										<ui:param name="botonesAbajo" value="si" />
+										<ui:param name="tieneVigencia" value="no" />
+									</ui:include>
+								</a:outputPanel>
+							</h:panelGrid>
+						</div>
+						<a:outputPanel rendered="#{!listaVacia}">
+							<br />
+							<div class="anchoTres center inBlock">
+								<ui:include src="/plantillas/templatePagination.xhtml">
+									<ui:param name="valReder" value="panelEngine" />
+									<ui:param name="beanActionParam" value="#{engineLogAction}" />
+									<ui:param name="metodoActionParam" value="consultEngineLog" />
+								</ui:include>
+							</div>
 						</a:outputPanel>
-					</t:fieldset>
+					</a:outputPanel>
 				</a:outputPanel>
 			</rich:panel>
 		</h:form>
-
 		<h:form id="formSearch">
 			<rich:popupPanel id="popupSearch" autosized="true" styleClass="W290P"
 				header="#{mensaje.button_search} #{messageDiesel.engine_log_label_s}"
