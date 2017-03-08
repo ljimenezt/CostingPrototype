@@ -54,7 +54,7 @@ public class Constantes implements Serializable {
 	/* Farm */
 	public static final String FOLDER_FILES_FARMS = PropertiesManager
 			.getProperty("locate.folder.files.farm");
-	
+
 	/* Fuel */
 	public static final String FOLDER_FILES_FUEL = PropertiesManager
 			.getProperty("locate.folder.files.fuel");
@@ -201,11 +201,11 @@ public class Constantes implements Serializable {
 	public static final short MAX_HOURS = 12;
 
 	/* Transaction type */
-	public static final short TRANSACTION_TYPE_ID_WITHDRAWAL = 3;
-	public static final short TRANSACTION_TYPE_ID_RETURN = 2;
 	public static final int TRANSACTION_TYPE_RETURN = 2;
 	public static final int TRANSACTION_TYPE_EXPIRED = 4;
 	public static final int TRANSACTION_TYPE_WITHDRAWAL = 3;
+	public static final int TRANSACTION_TYPE_ADJUSTMENT_DOWN = 9;
+	public static final int TRANSACTION_TYPE_ADJUSTMENT_UP = 10;
 
 	/* Files */
 	public static final String EXTENSION_XLSX = ".xlsx";
@@ -255,12 +255,9 @@ public class Constantes implements Serializable {
 	public static final String TYPE_FOOD_BREAKFAST = "Breakfast";
 	public static final String TYPE_FOOD_LUNCH = "Lunch";
 	public static final String TYPE_FOOD_DINNER = "Dinner";
-	
-	/* Fuel Purchase */
-	public static final int FUEL_PURCHASE_ID_COSTO= 1;
-	public static final int FUEL_PURCHASE_TYPE_TRANSACTION=10;
 
-	/* Transaction Type */
-	public static final String GAUGE_ADJUSTMENT_DOWN = "Gauge Adjustment Down";
-	public static final String GAUGE_ADJUSTMENT_UP = "Gauge Adjustment Up";
+	/* Fuel Purchase */
+	public static final int FUEL_PURCHASE_ID_COSTO = 1;
+	public static final int FUEL_PURCHASE_TYPE_TRANSACTION = 10;
+
 }
