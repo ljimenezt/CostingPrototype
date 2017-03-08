@@ -51,8 +51,8 @@
 					var="fuelUsageLog"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
-					<rich:column styleClass="colTextoCorto">
-						<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
+					<rich:column styleClass="colFecha">
+						<f:facet name="header">#{mensaje.label_date}</f:facet>
 						<h:outputText value="#{fuelUsageLog.date}" />
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">

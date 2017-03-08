@@ -142,8 +142,10 @@ public class FuelUsageLogDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number of fuel usage log that exist in the database that are
+	 * Returns the number rows of engine log that exist in the database that are
 	 * existing or not existing.
+	 * 
+	 * @author Fabian.Diaz
 	 * 
 	 * @param consult
 	 *            : Query running on SQL.
@@ -157,14 +159,17 @@ public class FuelUsageLogDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(ful) FROM FuelUsageLog ful ");
 		query.append("JOIN ful.engineLog el ");
-		query.append("WHERE el.idEngineLog is not null ");
+		query.append("WHERE el.idEngineLog IS NOT NULL ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
 		return (Long) q.getSingleResult();
 	}
 
 	/**
-	 * Consult the list of fuel engine log that comply with the option of force.
+	 * Consult the list of engine log that comply with the option of force.
 	 * 
 	 * @author Fabian.Diaz
 	 * 
@@ -177,7 +182,7 @@ public class FuelUsageLogDao implements Serializable {
 	 *            the user.
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return List<FuelUsageLog>:List of fuel usage log that comply with the
+	 * @return List<FuelUsageLog>:List of engine log that comply with the
 	 *         condition of validity.
 	 * @throws Exception
 	 */
@@ -194,7 +199,7 @@ public class FuelUsageLogDao implements Serializable {
 		query.append("LEFT JOIN FETCH am.activityMachinePK ampk ");
 		query.append("LEFT JOIN FETCH ampk.machines m ");
 		query.append("LEFT JOIN FETCH ampk.activities a ");
-		query.append("WHERE el.idEngineLog is not null ");
+		query.append("WHERE el.idEngineLog IS NOT NULL ");
 		query.append(consult);
 		query.append("ORDER BY el.date DESC ");
 		Query q = em.createQuery(query.toString());

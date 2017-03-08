@@ -66,6 +66,7 @@
 								<rich:column styleClass="colIconoUno">
 									<a:commandLink id="details"
 										actionListener="#{engineLogAction.setFuelUsageLog(engine)}"
+										action="#{engineLogAction.showIrrigationDetails()}"
 										render="PopUpDetails"
 										oncomplete="#{rich:component('PopUpDetails')}.show()">
 										<h:graphicImage value="/img/details_16.png" />
@@ -73,36 +74,35 @@
 											<h:outputText value="#{mensaje.label_details}" />
 										</rich:tooltip>
 									</a:commandLink>
-									<h:inputHidden value="#{engine.engineLog.idEngineLog}"></h:inputHidden>
 								</rich:column>
 								<rich:column styleClass="colFecha">
-									<f:facet name="header">#{mensaje.label_creation_date}</f:facet>
+									<f:facet name="header">#{mensaje.label_date}</f:facet>
 									<h:outputText value="#{engine.engineLog.date}">
 										<f:convertDateTime type="date" pattern="MMM dd, yyyy"
 											locale="#{idioma.locale}" />
 									</h:outputText>
 								</rich:column>
-								<rich:column styleClass="colFechaExtraLarga center">
+								<rich:column styleClass="colFecha">
 									<f:facet name="header">#{messageDiesel.engine_log_label_hour_on}</f:facet>
 									<h:outputText value="#{engine.engineLog.hourOn}">
 										<f:convertDateTime pattern="hh:mm a" locale="#{idioma.locale}" />
 									</h:outputText>
 								</rich:column>
-								<rich:column styleClass="colFechaExtraLarga center">
+								<rich:column styleClass="colFecha">
 									<f:facet name="header">#{messageDiesel.engine_log_label_hour_off}</f:facet>
 									<h:outputText value="#{engine.engineLog.hourOff}">
 										<f:convertDateTime pattern="hh:mm a" locale="#{idioma.locale}" />
 									</h:outputText>
 								</rich:column>
-								<rich:column styleClass="colNumeroMini">
+								<rich:column styleClass="colNumero">
 									<f:facet name="header">#{messageDiesel.engine_log_label_hourmeter_on}</f:facet>
 									<h:outputText value="#{engine.engineLog.hourmeterOn}" />
 								</rich:column>
-								<rich:column styleClass="colNumeroMini">
+								<rich:column styleClass="colNumero">
 									<f:facet name="header">#{messageDiesel.engine_log_label_hourmeter_off}</f:facet>
 									<h:outputText value="#{engine.engineLog.hourmeterOff}" />
 								</rich:column>
-								<rich:column styleClass="colTextoCorto">
+								<rich:column styleClass="colNumero">
 									<f:facet name="header">#{messageDiesel.engine_log_label_consumption}</f:facet>
 									<h:outputText value="#{engine.consumption}" />
 								</rich:column>
@@ -144,7 +144,7 @@
 
 		<h:form id="formSearch">
 			<rich:popupPanel id="popupSearch" autosized="true" styleClass="W290P"
-				header="#{mensaje.button_search} #{messageLifeCycle.rain_gauge_label_s}"
+				header="#{mensaje.button_search} #{messageDiesel.engine_log_label_s}"
 				domElementAttachment="form">
 				<f:facet name="controls">
 					<h:panelGroup>
@@ -161,37 +161,34 @@
 					<script type="text/javascript">
 				$g=jQuery.noConflict();
     			</script>
-					<h:panelGrid columns="2" cellpadding="2" cellspacing="2">
+					<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_start_date}" />
-						<p:calendar value="#{pluviometerAction.initialDateSearch}"
-							styleClass="W104P" showOn="button" navigator="true"
-							onSelectUpdate="endDate" id="startDate" pattern="MM/dd/yyyy"
-							label="#{mensaje.label_start_date}"
-							onkeypress="return submitByEnter(event,'formSearch:btnSearch')">
-							<p:ajax process="@form" event="dateSelect"
-								update="formSearch:pnSearch"
-								listener="#{pluviometerAction.calculateRangeDate(pluviometerAction.initialDateSearch, true)}" />
+							value="#{mensaje.label_start_date}:" />
+						<h:outputText value="*" styleClass="required" />
+						<p:calendar value="#{engineLogAction.startDateSearch}"
+							showOn="button" navigator="true" onSelectUpdate="fechFin"
+							id="fechaInicio" pattern="MM/dd/yyyy" required="true"
+							label="#{mensaje.label_start_date}">
+							<p:ajax event="dateSelect" update="formSearch:fechFin" />
 						</p:calendar>
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_end_date}" />
-						<p:calendar value="#{pluviometerAction.finalDateSearch}"
-							styleClass="W104P" showOn="button" navigator="true"
-							mindate="#{pluviometerAction.initialDateSearch}" id="endDate"
-							maxdate="#{pluviometerAction.maxDate}" pattern="MM/dd/yyyy"
+							value="#{mensaje.label_end_date}:" />
+						<h:outputText value="*" styleClass="required" />
+						<p:calendar value="#{engineLogAction.endDateSearch}"
+							showOn="button" navigator="true" required="true"
+							mindate="#{engineLogAction.startDateSearch}" id="fechFin"
+							pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
 							label="#{mensaje.label_end_date}" />
-
 					</h:panelGrid>
 				</a:outputPanel>
 				<br />
 				<div class="W100Per center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
-						execute="@form"
-						actionListener="#{engineLogAction.consultEngineLog()}"
+						actionListener="#{engineLogAction.consultEngineLog}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupSearch')}.hide();}"
-						render="panelPluviometer, mensajes, mensajeBusqueda" />
+						render="panelEngine, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupSearch')}.hide()"
 						value="#{mensaje.button_cancel}" />
 				</div>
@@ -213,15 +210,16 @@
 				</f:facet>
 				<t:fieldset styleClass="BorderW2P">
 					<legend class="etiquetaTitulo">#{messageDiesel.engine_log_label_responsible}</legend>
-					<h:panelGrid columns="3">
+					<h:panelGrid columns="2"
+						columnClasses="columnaDerecha W120P, columnaDerecha">
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{messageDiesel.engine_log_label_delivered}" />
+							value="#{messageDiesel.engine_log_label_delivered}:" />
 						<h:outputText
 							value="#{engineLogAction.fuelUsageLog.engineLog.deliveredBy.name} 
 							#{engineLogAction.fuelUsageLog.engineLog.deliveredBy.familyName}" />
-						<br />
+
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{messageDiesel.engine_log_label_received}" />
+							value="#{messageDiesel.engine_log_label_received}:" />
 						<h:outputText
 							value="#{engineLogAction.fuelUsageLog.engineLog.receivedBy.name} 
 							#{engineLogAction.fuelUsageLog.engineLog.deliveredBy.familyName}" />
@@ -231,14 +229,15 @@
 				<t:fieldset styleClass="BorderW2P"
 					rendered="#{engineLogAction.fuelUsageLog.engineLog.irrigation eq false}">
 					<legend class="etiquetaTitulo">#{messageDiesel.engine_log_label_details}</legend>
-					<h:panelGrid columns="3">
+					<h:panelGrid columns="2"
+						columnClasses="columnaDerecha W120P, columnaDerecha">
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{messageMachine.machines_label_names}" />
+							value="#{messageMachine.machines_label_names}:" />
 						<h:outputText
 							value="#{engineLogAction.fuelUsageLog.engineLog.activityMachine.activityMachinePK.machines.name}" />
-						<br />
+
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_activity}" />
+							value="#{mensaje.label_activity}:" />
 						<h:outputText
 							value="#{engineLogAction.fuelUsageLog.engineLog.activityMachine.activityMachinePK.activities.description}" />
 					</h:panelGrid>
@@ -247,56 +246,40 @@
 				<t:fieldset styleClass="BorderW2P"
 					rendered="#{engineLogAction.fuelUsageLog.engineLog.irrigation eq true}">
 					<legend class="etiquetaTitulo">#{messageDiesel.irrigation_details_label}</legend>
-					<h:panelGrid columns="3">
+					<h:panelGrid columns="2"
+						columnClasses="columnaDerecha W120P, columnaDerecha">
+
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{messageMachine.machines_label_names}" />
+							value="#{messageMachine.machines_label_names}:" />
 						<h:outputText
 							value="#{engineLogAction.irrigationDetails.machine.name}" />
-						<br />
+
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{mensaje.label_activity}" />
+							value="#{messageDiesel.zone_label}:" />
 						<h:outputText
-							value="#{engineLogAction.fuelUsageLog.engineLog.activityMachine.activityMachinePK.activities.description}" />
+							value="#{engineLogAction.irrigationDetails.zone.name}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageDiesel.irrigation_details_label_hidrometer_on}:" />
+						<h:outputText
+							value="#{engineLogAction.irrigationDetails.hidrometerOn}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageDiesel.irrigation_details_label_hidrometer_off}:" />
+						<h:outputText
+							value="#{engineLogAction.irrigationDetails.hidrometerOff}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageDiesel.irrigation_details_label_water_usage}:" />
+						<h:outputText
+							value="#{engineLogAction.irrigationDetails.waterUsage}" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageDiesel.irrigation_details_label_water_cost}:" />
+						<h:outputText
+							value="#{engineLogAction.irrigationDetails.waterCost}" />
 					</h:panelGrid>
 				</t:fieldset>
-				<br />
-				<div align="center">
-					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
-						actionListener="#{pluviometerAction.validateReading()}"
-						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						value="#{mensaje.button_save}" />
-					<a:commandButton value="#{mensaje.button_cancel}"
-						onclick="#{rich:component('PopUpDetails')}.hide()" />
-				</div>
-			</rich:popupPanel>
-		</h:form>
-
-		<h:form id="formConfirmar">
-			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
-				maxWidth="500" header="#{mensaje.label_confirmation}">
-				<f:facet name="controls">
-					<h:panelGroup>
-						<h:graphicImage value="/img/close_14.png"
-							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
-							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-							styleClass="hidelink cursor"
-							onclick="#{rich:component('popUpConfirmar')}.hide()" />
-					</h:panelGroup>
-				</f:facet>
-				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
-					<ui:define name="mensaje">
-						<h:outputText value="#{mensaje.message_registro_confirmacion}"
-							styleClass="etiquetaTitulo" />
-					</ui:define>
-
-					<ui:define name="botones">
-						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{pluviometerAction.saveListPluviometer}"
-							onclick="#{rich:component('popUpConfirmar')}.hide();#{rich:component('PopUpDetails')}.hide(); #{rich:component('statPane')}.show();" />
-						<a:commandButton value="#{mensaje.button_cancel}"
-							onclick="#{rich:component('popUpConfirmar')}.hide()" />
-					</ui:define>
-				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
 	</ui:define>
