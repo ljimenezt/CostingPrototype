@@ -721,14 +721,14 @@ public class ActivityMaterialsAction implements Serializable {
 							.getActivityMaterialsPK().getMaterials()
 							.getIdMaterial(),
 							this.selectedActivity.getIdActivity(),
-							Constantes.TRANSACTION_TYPE_ID_WITHDRAWAL);
+							Constantes.TRANSACTION_TYPE_WITHDRAWAL);
 			while (amount > 0) {
 				Deposits depositsActual = depositsListActual.get(0);
 				Transactions transactionDrawal = transactionsDao
 						.consultTransactionsByDepositsActivityAndTransactionType(
 								depositsActual.getIdDeposit(),
 								this.selectedActivity.getIdActivity(),
-								Constantes.TRANSACTION_TYPE_ID_WITHDRAWAL);
+								Constantes.TRANSACTION_TYPE_WITHDRAWAL);
 				if (amount > transactionDrawal.getQuantity()) {
 					costActual = ControllerAccounting.add(costActual,
 							ControllerAccounting.multiply(
