@@ -648,6 +648,7 @@ public class MaterialsAction implements Serializable {
 	 * whether this materials run the search again.
 	 * 
 	 * @author Wilhelm.Boada
+	 * 
 	 * @throws Exception
 	 */
 	private void persistMaterials() throws Exception {
