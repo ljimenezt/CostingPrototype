@@ -555,7 +555,7 @@ public class MovementsAction implements Serializable {
 				List<Transactions> transactionsList = transactionsDao
 						.consultTransactionsByActivityAndTransactionType(
 								this.activityActualSelected.getIdActivity(),
-								Constantes.TRANSACTION_TYPE_ID_WITHDRAWAL);
+								Constantes.TRANSACTION_TYPE_WITHDRAWAL);
 				humanMaterialMap = new HashMap<Integer, String>();
 				if (transactionsList != null) {
 					for (Transactions transactions : transactionsList) {
@@ -702,7 +702,7 @@ public class MovementsAction implements Serializable {
 										.getActivityMaterialsPK()
 										.getMaterials().getIdMaterial());
 						TransactionType transactionType = transactionTypeDao
-								.transactionTypeById(Constantes.TRANSACTION_TYPE_ID_WITHDRAWAL);
+								.transactionTypeById(Constantes.TRANSACTION_TYPE_WITHDRAWAL);
 						while (amount > 0) {
 							Transactions transactions = new Transactions();
 							Deposits depositsActual = depositsListActual.get(0);
