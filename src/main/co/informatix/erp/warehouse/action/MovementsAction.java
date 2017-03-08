@@ -963,16 +963,16 @@ public class MovementsAction implements Serializable {
 	 */
 	public void setListDepositsExpiredSelected() {
 		this.listDepositsExpiredSelected = new ArrayList<Deposits>();
-		if (selected) {
-			this.listDepositsExpiredSelected = this.listDepositsExpired;
-		} else {
-			for (Deposits d : this.listDepositsExpired) {
-				if (d.isSelected()) {
-					this.listDepositsExpiredSelected.add(d);
+		try {
+			if (selected) {
+				this.listDepositsExpiredSelected = this.listDepositsExpired;
+			} else {
+				for (Deposits d : this.listDepositsExpired) {
+					if (d.isSelected()) {
+						this.listDepositsExpiredSelected.add(d);
+					}
 				}
 			}
-		}
-		try {
 			Long paginationAmount = (long) this.listDepositsExpiredSelected
 					.size();
 			this.paginationExpire.paginarRangoDefinido(paginationAmount, 5);
@@ -1045,7 +1045,7 @@ public class MovementsAction implements Serializable {
 	 * This method allow initialize the parameter of the consult and get the
 	 * navigation rule to manage the returns of the materials
 	 * 
-	 * @return gesExpiration: Navigation rules to redirect a manage of materials
+	 * @return gesReturns: Navigation rules to redirect a manage of materials
 	 *         returns.
 	 */
 	public String initializeReturns() {
