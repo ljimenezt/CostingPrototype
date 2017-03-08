@@ -29,11 +29,10 @@
 							value="#{mensaje.label_date}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{engineLogAction.engineLog.date}"
-							showOn="button" navigator="true" maxdate="today();" id="date"
-							pattern="MM/dd/yyyy" readonlyInput="true" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}">
+							showOn="button" navigator="true" maxdate="today();" id="txtDate"
+							pattern="MM/dd/yyyy" readonlyInput="true">
 						</p:calendar>
-						<rich:message for="date" />
+						<rich:message for="txtDate" />
 
 						<h:outputText value="#{messageDiesel.engine_log_label_delivered}"
 							styleClass="etiquetaTitulo" />
@@ -108,8 +107,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{engineLogAction.engineLog.hourOn}"
 							showOn="button" navigator="true" timeOnly="true" id="txtHourOn"
-							pattern="hh:mm" readonlyInput="true" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}">
+							pattern="hh:mm" readonlyInput="true">
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
 						<rich:message for="txtHourOn" />
@@ -119,8 +117,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{engineLogAction.engineLog.hourOff}"
 							showOn="button" navigator="true" timeOnly="true" id="txtHourOff"
-							pattern="hh:mm" readonlyInput="true" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}">
+							pattern="hh:mm" readonlyInput="true">
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
 						<rich:message for="txtHourOff" />
@@ -130,9 +127,8 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText styleClass="colTextoCorto"
 							value="#{engineLogAction.engineLog.hourmeterOn}"
-							id="txtHourmeterOn" required="true"
-							converterMessage="#{mensaje.message_campo_decimal}"
-							requiredMessage="#{mensaje.message_campo_requerido}">
+							id="txtHourmeterOn"
+							converterMessage="#{mensaje.message_campo_decimal}">
 							<f:validateDoubleRange minimum="1" />
 							<a:ajax event="change"
 								listener="#{engineLogAction.calculateDifference()}"
@@ -145,9 +141,8 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText styleClass="colTextoCorto"
 							value="#{engineLogAction.engineLog.hourmeterOff}"
-							id="txtHourmeterOff" required="true"
-							converterMessage="#{mensaje.message_campo_decimal}"
-							requiredMessage="#{mensaje.message_campo_requerido}">
+							id="txtHourmeterOff"
+							converterMessage="#{mensaje.message_campo_decimal}">
 							<f:validateDoubleRange minimum="1" />
 							<a:ajax event="change"
 								listener="#{engineLogAction.calculateDifference()}"
@@ -160,8 +155,7 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText styleClass="colTextoCorto"
 							value="#{engineLogAction.engineLog.duration}" id="txtDuration"
-							readonly="true" required="true"
-							requiredMessage="#{mensaje.message_campo_requerido}" />
+							readonly="true" />
 						<rich:message for="txtDuration" />
 
 						<h:outputText
@@ -171,9 +165,8 @@
 						<h:panelGrid columns="5" cellpadding="0" cellspacing="0">
 							<h:inputText styleClass="colTextoCorto"
 								value="#{engineLogAction.fuelUsageLog.consumption}"
-								id="txtConsumption" required="true"
-								converterMessage="#{mensaje.message_campo_decimal}"
-								requiredMessage="#{mensaje.message_campo_requerido}">
+								id="txtConsumption"
+								converterMessage="#{mensaje.message_campo_decimal}">
 								<f:validateDoubleRange minimum="1" />
 							</h:inputText>
 							<h:outputText value="Gal" />
@@ -308,9 +301,7 @@
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.hidrometerOn}"
 								styleClass="colTextoMediano" id="txtHidrometerOn"
-								required="true"
-								converterMessage="#{mensaje.message_campo_decimal}"
-								requiredMessage="#{mensaje.message_campo_requerido}">
+								converterMessage="#{mensaje.message_campo_decimal}">
 								<f:validateDoubleRange minimum="1" />
 								<a:ajax event="change"
 									listener="#{engineLogAction.calculateDifference()}"
@@ -324,10 +315,8 @@
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.hidrometerOff}"
-								styleClass="colTextoMediano" required="true"
-								id="txtHidrometerOff"
-								converterMessage="#{mensaje.message_campo_decimal}"
-								requiredMessage="#{mensaje.message_campo_requerido}">
+								styleClass="colTextoMediano" id="txtHidrometerOff"
+								converterMessage="#{mensaje.message_campo_decimal}">
 								<f:validateDoubleRange minimum="1" />
 								<a:ajax event="change"
 									listener="#{engineLogAction.calculateDifference()}"
@@ -341,9 +330,7 @@
 							<h:outputText value="*" styleClass="required" />
 							<h:inputText
 								value="#{engineLogAction.irrigationDetails.waterUsage}"
-								required="true" styleClass="colTextoMediano" readonly="true"
-								id="txtWaterUsage"
-								requiredMessage="#{mensaje.message_campo_requerido}" />
+								styleClass="colTextoMediano" readonly="true" id="txtWaterUsage" />
 							<rich:message for="txtWaterUsage" />
 
 							<h:outputText
@@ -373,7 +360,7 @@
 			<br />
 			<div align="center">
 				<a:commandButton render="formConfirmar:popUpConfirmar, formGenerico"
-					actionListener="#{engineLogAction.validarRequeridos()}"
+					actionListener="#{engineLogAction.validateRequired()}"
 					execute="formEngineLog"
 					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 					value="#{mensaje.button_save}" />
