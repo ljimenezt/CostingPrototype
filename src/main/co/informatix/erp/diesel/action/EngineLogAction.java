@@ -867,7 +867,7 @@ public class EngineLogAction implements Serializable {
 
 	/**
 	 * This method allows show the information of table irrigation details
-	 * depending of an identificator
+	 * depending of an identifier
 	 * 
 	 * @author Fabian.Diaz
 	 */
