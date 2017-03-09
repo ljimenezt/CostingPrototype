@@ -440,7 +440,8 @@ public class EngineLogAction implements Serializable {
 	/**
 	 * Method to save or edit engine logs.
 	 * 
-	 * @return "gesEngineLog": Redirects to management engineLog template.
+	 * @return searchInitialization(): Method that return the navigation rule
+	 *         for redirects to management engineLog template.
 	 */
 	public String saveEngineLog() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -502,7 +503,7 @@ public class EngineLogAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesEngineLog";
+		return searchInitialization();
 	}
 
 	/**
