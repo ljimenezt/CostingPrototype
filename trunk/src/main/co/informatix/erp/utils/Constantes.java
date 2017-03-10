@@ -258,6 +258,5 @@ public class Constantes implements Serializable {
 
 	/* Fuel Purchase */
 	public static final int FUEL_PURCHASE_ID_COSTO = 1;
-	public static final int FUEL_PURCHASE_TYPE_TRANSACTION = 10;
 
 }
