@@ -797,7 +797,7 @@ public class FuelPurchaseAction implements Serializable {
 			fuelPurchaseDao.createFuelPurchase(fuelPurchase);
 
 			transactionType = transactionTypeDao
-					.transactionTypeById(Constantes.FUEL_PURCHASE_TYPE_TRANSACTION);
+					.transactionTypeById(Constantes.TRANSACTION_TYPE_ADJUSTMENT_UP);
 
 			this.fuelUsageLog = new FuelUsageLog();
 			this.fuelUsageLog.setFuelPurchase(fuelPurchase);
