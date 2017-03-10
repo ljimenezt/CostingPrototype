@@ -164,8 +164,8 @@ public class IrrigationDetailsAction implements Serializable {
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
-	 * @return consultFuelUsage: consultFuelUsage consulting method and
-	 *         redirects to the template to manage fuel usage.
+	 * @return consultIrrigationDetails: Consulting a list of irrigarion details
+	 *         and redirects to the template to manage irrigarion details.
 	 */
 	public String searchInitialization() {
 		this.startDateSearch = null;
@@ -185,7 +185,7 @@ public class IrrigationDetailsAction implements Serializable {
 	 * Consult the list of fuel usage
 	 * 
 	 * @return gesIrrigationDetails: Navigation rule that redirects to manage
-	 *         Irrigation Details usage
+	 *         Irrigation Details
 	 */
 	public String consultIrrigationDetails() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
