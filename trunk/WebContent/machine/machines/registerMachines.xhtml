@@ -29,8 +29,7 @@
 				styleClass="anchoUno MinH253P" id="panelRegistrarMachines">
 				<t:fieldset styleClass="BorderW2P anchoDos">
 					<legend class="etiquetaTitulo">#{mensaje.label_basic_data}</legend>
-					<h:panelGrid columns="4"
-						columnClasses="tdAlignTop W150P,,W185P,">
+					<h:panelGrid columns="4" columnClasses="tdAlignTop W150P,,W185P,">
 
 						<h:outputText value="#{mensaje.label_machine_type}"
 							styleClass="etiquetaTitulo" />
@@ -111,6 +110,28 @@
 							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
 						<rich:message for="txtKilowatts" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageMachine.machines_label_hydrometer}" />
+						<h:outputText value="" styleClass="required" />
+						<h:inputText value="#{machinesAction.machines.hydrometer}"
+							styleClass="colNumero" id="txtHydrometer"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							<f:validateDoubleRange minimum="0" />
+						</h:inputText>
+						<rich:message for="txtHydrometer" />
+
+						<h:outputText styleClass="etiquetaTitulo"
+							value="#{messageMachine.machines_label_hourmeter}" />
+						<h:outputText value="" styleClass="required" />
+						<h:inputText value="#{machinesAction.machines.hourmeter}"
+							styleClass="colNumero" id="txtHourmeter"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							<f:validateDoubleRange minimum="0" />
+						</h:inputText>
+						<rich:message for="txtHourmeter" />
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
