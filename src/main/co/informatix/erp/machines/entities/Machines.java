@@ -35,6 +35,8 @@ public class Machines implements Serializable {
 	private double horsepower;
 	private double kilowatts;
 	private double fuelConsumption;
+	private Double hydrometer;
+	private Double hourmeter;
 	private int idMachine;
 
 	private boolean fuel;
@@ -289,6 +291,38 @@ public class Machines implements Serializable {
 	}
 
 	/**
+	 * @return hydrometer: gets the hydrometer of the machine
+	 */
+	@Column(name = "hydrometer")
+	public Double getHydrometer() {
+		return hydrometer;
+	}
+
+	/**
+	 * @param hydrometer
+	 *            :sets the hydrometer of the machine
+	 */
+	public void setHydrometer(Double hydrometer) {
+		this.hydrometer = hydrometer;
+	}
+
+	/**
+	 * @return hourmeter: gets the hourmeter of the machine
+	 */
+	@Column(name = "hourmeter")
+	public Double getHourmeter() {
+		return hourmeter;
+	}
+
+	/**
+	 * @param hourmeter
+	 *            :sets the hourmeter of the machine
+	 */
+	public void setHourmeter(Double hourmeter) {
+		this.hourmeter = hourmeter;
+	}
+
+	/**
 	 * @return lastMaintenance: get the last maintenance
 	 */
 	@Column(name = "last_maintenance")
@@ -334,6 +368,10 @@ public class Machines implements Serializable {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		temp = Double.doubleToLongBits(horsepower);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(hourmeter);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(hydrometer);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + idMachine;
 		temp = Double.doubleToLongBits(investment);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -348,6 +386,7 @@ public class Machines implements Serializable {
 				+ ((purchaseDate == null) ? 0 : purchaseDate.hashCode());
 		temp = Double.doubleToLongBits(residualValue);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + (selection ? 1231 : 1237);
 		result = prime * result
 				+ ((serialNumber == null) ? 0 : serialNumber.hashCode());
 		return result;
@@ -372,6 +411,12 @@ public class Machines implements Serializable {
 			return false;
 		if (Double.doubleToLongBits(horsepower) != Double
 				.doubleToLongBits(other.horsepower))
+			return false;
+		if (Double.doubleToLongBits(hourmeter) != Double
+				.doubleToLongBits(other.hourmeter))
+			return false;
+		if (Double.doubleToLongBits(hydrometer) != Double
+				.doubleToLongBits(other.hydrometer))
 			return false;
 		if (idMachine != other.idMachine)
 			return false;
@@ -401,6 +446,8 @@ public class Machines implements Serializable {
 			return false;
 		if (Double.doubleToLongBits(residualValue) != Double
 				.doubleToLongBits(other.residualValue))
+			return false;
+		if (selection != other.selection)
 			return false;
 		if (serialNumber == null) {
 			if (other.serialNumber != null)
