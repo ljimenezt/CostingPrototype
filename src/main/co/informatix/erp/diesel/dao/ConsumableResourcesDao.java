@@ -49,7 +49,7 @@ public class ConsumableResourcesDao implements Serializable {
 	}
 
 	/**
-	 * Removes the BD Zone.
+	 * Removes the BD Consumable Resources.
 	 * 
 	 * @param consumableResources
 	 *            : consumableResources to be removed.
