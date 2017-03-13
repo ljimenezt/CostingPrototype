@@ -142,8 +142,8 @@ public class FuelUsageLogDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number rows of engine log that exist in the database that are
-	 * existing or not existing.
+	 * Returns the number rows of fuel usage log that exist in the database that
+	 * are existing or not existing.
 	 * 
 	 * @author Fabian.Diaz
 	 * 
@@ -169,7 +169,7 @@ public class FuelUsageLogDao implements Serializable {
 	}
 
 	/**
-	 * Consult the list of engine log that comply with the option of force.
+	 * Consult the list of fuel usage log that comply with the option of force.
 	 * 
 	 * @author Fabian.Diaz
 	 * 
@@ -182,7 +182,7 @@ public class FuelUsageLogDao implements Serializable {
 	 *            the user.
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return List<FuelUsageLog>:List of engine log that comply with the
+	 * @return List<FuelUsageLog>:List of fuel usage log that comply with the
 	 *         condition of validity.
 	 * @throws Exception
 	 */
