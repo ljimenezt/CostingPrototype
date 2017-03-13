@@ -246,7 +246,7 @@ public class MealControlAction implements Serializable {
 	public void setListHrMealControl(List<Hr> listHrMealControl) {
 		this.listHrMealControl = listHrMealControl;
 	}
-	
+
 	/**
 	 * @return dayTypeFoodList: List containing the days associated with the
 	 *         types of food.
@@ -409,12 +409,8 @@ public class MealControlAction implements Serializable {
 	 *         load the template with the information found.
 	 */
 	public String loadMealControl() {
-		try {
-			pagination = new Paginador();
-			this.nameSearch = "";
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
-		}
+		pagination = new Paginador();
+		this.nameSearch = "";
 		return searchHr();
 	}
 
