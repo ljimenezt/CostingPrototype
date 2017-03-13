@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="fuelPurchaseAction.addFuelPurchase()" />
 	<ui:param name="titulo"
-		value="mensaje.label_register,messageDiesel.fuel_purchase_name_label" />
+		value="mensaje.label_register,messageDiesel.fuel_purchase_label_name" />
 	<ui:define name="body">
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
@@ -25,7 +25,7 @@
 		<t:saveState value="#{fuelPurchaseAction}" />
 		<h:form id="formFuelPurchase">
 			<rich:panel
-				header="#{mensaje.label_register} #{messageDiesel.fuel_purchase_name_label}"
+				header="#{mensaje.label_register} #{messageDiesel.fuel_purchase_label_name}"
 				styleClass="anchoUno MinH253P" id="panelFuelPurchase">
 
 				<h:panelGrid columns="2" columnClasses="W80Per,W20Per tdAlignTop">
@@ -35,7 +35,7 @@
 						columnClasses="tdAlignTop,,,">
 
 						<h:outputText styleClass="etiquetaTitulo"
-							value="#{messageDiesel.fuel_purchase_invoice_data}" />
+							value="#{messageDiesel.fuel_purchase_label_invoice_data}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{fuelPurchaseAction.fuelPurchase.dateTime}"
 							showOn="button" navigator="true" id="dateInvoice"
@@ -46,7 +46,7 @@
 						</p:calendar>
 						<rich:message for="dateInvoice" />
 
-						<h:outputText value="#{messageDiesel.fuel_purchase_supplier}"
+						<h:outputText value="#{messageDiesel.fuel_purchase_label_supplier}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu id="supplier"
@@ -130,7 +130,7 @@
 						</h:selectOneMenu>
 						<rich:message for="ivaRate" />
 
-						<h:outputText value="#{messageDiesel.fuel_purchase_iva}"
+						<h:outputText value="#{messageDiesel.fuel_purchase_label_iva}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="$" styleClass="required" />
 						<h:inputText id="iva" readonly="true"
@@ -167,8 +167,7 @@
 								rendered="#{fuelPurchaseAction.nameDocument != null and !(empty fuelPurchaseAction.nameDocument)}">
 								<div class="uploadImg155P">
 									<div class="closeImg">
-										<a:commandLink
-											action="#{fuelPurchaseAction.deleteFileName()}"
+										<a:commandLink action="#{fuelPurchaseAction.deleteFileName()}"
 											immediate="true" render=":formFuelPurchase:panelLogoFuel">
 											<h:graphicImage value="/img/close_14.png"
 												onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
@@ -238,8 +237,7 @@
 									styleClass="sytleButtonUpload"
 									rendered="#{fuelPurchaseAction.nameDocument eq null or empty fuelPurchaseAction.nameDocument}"
 									label="#{mensaje.label_select_file}" mode="advanced"
-									auto="true"
-									fileUploadListener="#{fuelPurchaseAction.submit}"
+									auto="true" fileUploadListener="#{fuelPurchaseAction.submit}"
 									update="panelLogoFuel"
 									onstart="#{rich:component('statPane')}.show();"
 									oncomplete="#{rich:component('statPane')}.hide();" />
@@ -284,10 +282,10 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{messageDiesel.fuel_purchase_invoice_data}:" />
+						<h:outputText value="#{messageDiesel.fuel_purchase_label_invoice_data}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.dateTime}" />
 
-						<h:outputText value="#{messageDiesel.fuel_purchase_supplier}:" />
+						<h:outputText value="#{messageDiesel.fuel_purchase_label_supplier}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(fuelPurchaseAction.itemsSuppliers,fuelPurchaseAction.suppliers.idSupplier)}" />
 
@@ -319,7 +317,7 @@
 						<h:outputText
 							value="#{validacionesAction.getLabel(fuelPurchaseAction.itemsIvaRate,fuelPurchaseAction.ivaRate.idIva)}" />
 
-						<h:outputText value="#{messageDiesel.fuel_purchase_iva}:" />
+						<h:outputText value="#{messageDiesel.fuel_purchase_label_iva}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.taxes}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
