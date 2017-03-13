@@ -426,7 +426,6 @@ public class PersonAction implements Serializable {
 	 * This method allows you to load combos country, department, municipality
 	 * and type of document.
 	 * 
-	 * @author marisol.calderon
 	 * @modify 17/03/2016 Wilhelm.Boada
 	 * 
 	 * @throws Exception
@@ -600,8 +599,6 @@ public class PersonAction implements Serializable {
 
 	/**
 	 * Method allows you to save or edit a person in the database.
-	 * 
-	 * @author marisol.calderon
 	 * 
 	 * @return exit: Navigation rule that addresses the management of people if
 	 *         no validation errors, otherwise it returns to form person.
@@ -853,8 +850,6 @@ public class PersonAction implements Serializable {
 	/**
 	 * Method to load the detail information of the person.
 	 * 
-	 * @author marisol.calderon
-	 * 
 	 * @param personsTemp
 	 *            : initial list of people.
 	 * @throws Exception
@@ -936,8 +931,6 @@ public class PersonAction implements Serializable {
 	/**
 	 * Delete files from the actual location.
 	 * 
-	 * @author marisol.calderon
-	 * 
 	 * @param fileName
 	 *            : Name of the file to delete.
 	 */
@@ -950,8 +943,6 @@ public class PersonAction implements Serializable {
 
 	/**
 	 * Add photo image to the actual folder
-	 * 
-	 * @author marisol.calderon
 	 * 
 	 * @throws Exception
 	 */
@@ -1005,7 +996,6 @@ public class PersonAction implements Serializable {
 	 * Validates fields that are required in the view so that you can load
 	 * regardless picture that are not filled out these fields.
 	 * 
-	 * @author marisol.calderon
 	 * @modify 08/03/2012 Gabriel.Moreno
 	 * 
 	 * @param nameForm
@@ -1070,8 +1060,6 @@ public class PersonAction implements Serializable {
 	/**
 	 * Allows to validate the document of the person, so it is not repeated in
 	 * the database and validates against XSS.
-	 * 
-	 * @author marisol.calderon
 	 * 
 	 * @param context
 	 *            : application context.
