@@ -666,22 +666,14 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * @author Luna.Granados
 	 */
 	public void validateRequired() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String form = "";
-		String message = "message_campo_requerido";
-
 		try {
 			if (this.certificationsAndRoles.getIdCertificactionsAndRoles() == 0) {
-				form = "formActCert:certificacion";
-				String format = MessageFormat.format(bundle.getString(message),
-						"");
-				ControladorContexto.mensajeError(form, format);
+				ControladorContexto
+						.mensajeRequeridos("formActCert:certificacion");
 			}
 			if (this.activityNames.getActivityName() == null) {
-				form = "formActCert:txtActivity";
-				String format = MessageFormat.format(bundle.getString(message),
-						"");
-				ControladorContexto.mensajeError(form, format);
+				ControladorContexto
+						.mensajeRequeridos("formActCert:txtActivity");
 			}
 
 		} catch (Exception e) {
