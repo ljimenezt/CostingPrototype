@@ -182,7 +182,7 @@ public class IrrigationDetailsAction implements Serializable {
 	}
 
 	/**
-	 * Consult the list of fuel usage
+	 * Consult the list of Irrigation Details
 	 * 
 	 * @return gesIrrigationDetails: Navigation rule that redirects to manage
 	 *         Irrigation Details
