@@ -469,7 +469,7 @@ public class FuelPurchaseAction implements Serializable {
 						.format(bundle
 								.getString("message_existen_registros_criterio_busqueda"),
 								bundleFuelPurchase
-										.getString("fuel_purchase_name_label"),
+										.getString("fuel_purchase_label_name"),
 								unionMessagesSearch);
 			}
 			validations.setMensajeBusqueda(messageSearch);
@@ -529,7 +529,7 @@ public class FuelPurchaseAction implements Serializable {
 			String supplier = (String) ValidacionesAction.getLabel(
 					itemsSuppliers, this.idSupplier);
 			unionMessagesSearch.append(bundleFuelPurchase
-					.getString("fuel_purchase_supplier")
+					.getString("fuel_purchase_label_supplier")
 					+ ": "
 					+ '"'
 					+ supplier + '"' + " ");
