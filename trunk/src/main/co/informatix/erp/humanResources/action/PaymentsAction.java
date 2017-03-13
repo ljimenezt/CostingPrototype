@@ -352,23 +352,13 @@ public class PaymentsAction implements Serializable {
 	 * @author Luna.Granados
 	 */
 	public void validateRequired() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
-		String form = "";
-		String message = "message_campo_requerido";
-
 		try {
 			if (this.payments.getHr().getName() == null) {
-				form = "formPayments:txtHrs";
-				String format = MessageFormat.format(bundle.getString(message),
-						"hr");
-				ControladorContexto.mensajeError(form, format);
-
+				ControladorContexto.mensajeRequeridos("formPayments:txtHrs");
 			}
 			if (this.payments.getContract().getHr().getName() == null) {
-				form = "formPayments:txtContratos";
-				String format = MessageFormat.format(bundle.getString(message),
-						"c");
-				ControladorContexto.mensajeError(form, format);
+				ControladorContexto
+						.mensajeRequeridos("formPayments:txtContratos");
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
