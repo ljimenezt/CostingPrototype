@@ -17,6 +17,7 @@ import co.informatix.erp.diesel.dao.FuelUsageLogDao;
 import co.informatix.erp.diesel.entities.FuelUsageLog;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.TransactionTypeDao;
@@ -205,24 +206,24 @@ public class FuelUsageLogAction implements Serializable {
 			this.fuelUsageLog.setFuelPurchase(null);
 			this.fuelUsageLog.setDate(new Date());
 
-			Object transactionType = (String) ValidacionesAction.getLabel(
-					itemsTransactionTypes, this.fuelUsageLog
-							.getTransactionType().getIdTransactionType());
-
 			List<FuelUsageLog> fuelUsageList = fuelUsageLogDao
 					.consultFuelUsage();
 
 			if (fuelUsageList != null && fuelUsageList.size() > 0) {
 				FuelUsageLog LastfuelUsage = fuelUsageLogDao
 						.consultLastFuelUsage();
+
 				if (this.fuelUsageLog.getTransactionType()
 						.getIdTransactionType() == Constantes.TRANSACTION_TYPE_ADJUSTMENT_DOWN) {
-					finalLevel = LastfuelUsage.getFinalLevel()
-							- this.fuelUsageLog.getDeposited();
+					finalLevel = ControllerAccounting.subtract(
+							LastfuelUsage.getFinalLevel(),
+							this.fuelUsageLog.getDeposited());
+
 				} else if (this.fuelUsageLog.getTransactionType()
 						.getIdTransactionType() == Constantes.TRANSACTION_TYPE_ADJUSTMENT_UP) {
-					finalLevel = LastfuelUsage.getFinalLevel()
-							+ this.fuelUsageLog.getDeposited();
+					finalLevel = ControllerAccounting.add(
+							LastfuelUsage.getFinalLevel(),
+							this.fuelUsageLog.getDeposited());
 				}
 			} else {
 				finalLevel = this.fuelUsageLog.getDeposited();
@@ -234,16 +235,20 @@ public class FuelUsageLogAction implements Serializable {
 
 				SimpleDateFormat dateFormat = new SimpleDateFormat(
 						Constantes.DATE_FORMAT_TABLE);
+				Object transactionType = (String) ValidacionesAction.getLabel(
+						itemsTransactionTypes, this.fuelUsageLog
+								.getTransactionType().getIdTransactionType());
 
-				ControladorContexto
-						.mensajeInformacion(
-								null,
-								MessageFormat.format(
-										bundle.getString("message_registro_guardar"),
-										(dateFormat.format(new Date()) + " - " + transactionType)));
+				String messageSave = dateFormat.format(new Date()) + " - "
+						+ transactionType;
+
+				ControladorContexto.mensajeInformacion(MessageFormat.format(
+						bundle.getString("message_registro_guardar"),
+						messageSave));
 			} else {
 				ControladorContexto.mensajeErrorEspecifico(
 						"fuel_usage_log_message_final_level", "messageDiesel");
+				return "";
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
