@@ -56,19 +56,19 @@ public class AssistControlAction implements Serializable {
 	private AssistControl assistControl;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
-	private Date maxDate;
-	private Hr hr;
+	private Date maxDate;	
 	private String nameSearch;
-	private StringBuilder unionSearchMessages;
-	private Novelty novelty;
+	private StringBuilder unionSearchMessages;	
 	private List<SelectItem> itemsNoveltyType;
 	private List<Hr> hrList;
 	private List<Novelty> noveltyListRemove;
 	private List<Date> listDateTable;
 	private List<Hr> listHrAssistControl;
-	private HashMap<Integer, Novelty> noveltyMap;
+	private HashMap<Integer, Novelty> noveltyMap;	
+	private boolean source = true;	
+	private Hr hr;
+	private Novelty novelty;
 	private UIDataTable dataTable;
-	private boolean source = true;
 
 	@EJB
 	private AssistControlDao assistControlDao;
