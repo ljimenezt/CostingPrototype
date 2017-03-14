@@ -17,6 +17,7 @@
 		<t:saveState value="#{engineLogAction}" />
 		<t:saveState value="#{hrAction}" />
 		<t:saveState value="#{irrigationDetailsAction}" />
+		<t:saveState value="#{machinesAction}"></t:saveState>
 		<h:form id="formEngineLog">
 			<rich:panel
 				header="#{mensaje.label_register} #{mensajeMenu.engine_log_label}"
@@ -269,13 +270,13 @@
 									id="txtMachine" readonly="true" />
 								<a:commandLink id="lnkMachine"
 									render=":popupFormMachine:popupMachine"
-									actionListener="#{irrigationDetailsAction.initializeSearchMachine()}"
+									actionListener="#{machinesAction.initializeMachinesDiesel()}"
 									execute="@this"
 									oncomplete="#{rich:component('popupMachine')}.show(); setFocus('popupFormMachine:txtNameSearch');">
 									<h:graphicImage value="/img/add_22.png"
 										styleClass="verticalAlignMiddle" />
 									<f:setPropertyActionListener value=""
-										target="#{irrigationDetailsAction.nameMachineSearch}" />
+										target="#{machinesAction.nameSearch}" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>

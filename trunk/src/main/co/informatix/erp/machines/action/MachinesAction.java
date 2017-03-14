@@ -33,6 +33,7 @@ import co.informatix.erp.utils.ValidacionesAction;
  * 
  * @author Sergio.Ortiz
  * @modify 16/10/2015 Andres.Gomez
+ * @modify 13/03/2017 Patricia.Patinio
  **/
 @SuppressWarnings("serial")
 @ManagedBean
@@ -56,6 +57,7 @@ public class MachinesAction implements Serializable {
 	private int nameMachines;
 	private boolean state;
 	private boolean stateActiviy;
+	private boolean stateDiesel;
 
 	private List<Machines> listMachines;
 	private ArrayList<SelectItem> itemsMachinesType;
@@ -183,6 +185,21 @@ public class MachinesAction implements Serializable {
 	}
 
 	/**
+	 * @return stateDiesel: modifies the logic of the method search avanced.
+	 */
+	public boolean isStateDiesel() {
+		return stateDiesel;
+	}
+
+	/**
+	 * @param stateDiesel
+	 *            :
+	 */
+	public void setStateDiesel(boolean stateDiesel) {
+		this.stateDiesel = stateDiesel;
+	}
+
+	/**
 	 * @return itemsMachinesType: list of the types of machine.
 	 */
 	public ArrayList<SelectItem> getItemsMachinesType() {
@@ -279,6 +296,7 @@ public class MachinesAction implements Serializable {
 	public void initializeMachines() {
 		setState(true);
 		stateActiviy = true;
+		stateDiesel = false;
 		this.nameSearch = "";
 		this.pagination.setOpcion('f');
 		consultMachines();
@@ -289,11 +307,26 @@ public class MachinesAction implements Serializable {
 	 * logic to check.
 	 * 
 	 * @author Wilhelm.Boada
-	 * 
 	 */
 	public void initializeMachinesInMaintenance() {
 		state = true;
 		stateActiviy = false;
+		stateDiesel = false;
+		this.nameMachines = 0;
+		this.nameSearch = "";
+		consultMachines();
+	}
+
+	/**
+	 * Consult initialized machines considering a state that allows changing the
+	 * logic to check.
+	 * 
+	 * @author Patricia.Patinio
+	 */
+	public void initializeMachinesDiesel() {
+		state = true;
+		stateActiviy = false;
+		stateDiesel = true;
 		this.nameMachines = 0;
 		this.nameSearch = "";
 		consultMachines();
@@ -438,6 +471,7 @@ public class MachinesAction implements Serializable {
 	 * 
 	 * @author Gerardo.Herrera
 	 * @modify 15/11/2016 Wilhelm.Boada
+	 * @modify 13/03/2017 Patricia.Patinio
 	 * 
 	 * @param query
 	 *            : query to concatenate.
@@ -488,6 +522,12 @@ public class MachinesAction implements Serializable {
 					selectedActivity.getFinalDtBudget(), "itemFinalDate");
 			parameters.add(itemInitialDate);
 			parameters.add(itemFinalDate);
+		}
+		if (this.stateDiesel) {
+			query.append(seleccion ? "AND " : "WHERE ");
+			query.append(" m.fuel = :diesel ");
+			SelectItem dieselItem = new SelectItem(true, "diesel");
+			parameters.add(dieselItem);
 		}
 	}
 
