@@ -630,16 +630,31 @@ public class EngineLogAction implements Serializable {
 				ControladorContexto
 						.mensajeRequeridos("formEngineLog:txtHourOff");
 			}
-			if ((this.engineLog.getHourOff() != null && this.engineLog
-					.getHourOn() != null)
-					&& this.engineLog.getHourOff().compareTo(
-							this.engineLog.getHourOn()) < 0) {
-				ControladorContexto
-						.mensajeError(
-								null,
-								"formEngineLog:txtHourOff",
-								bundleDiesel
-										.getString("engine_log_message_hour_off_higher"));
+			if (this.engineLog.getHourOff() != null
+					&& this.engineLog.getHourOn() != null) {
+				if (this.engineLog.getHourOff().compareTo(
+						this.engineLog.getHourOn()) < 0) {
+					ControladorContexto
+							.mensajeError(
+									null,
+									"formEngineLog:txtHourOff",
+									bundleDiesel
+											.getString("engine_log_message_hour_off_higher"));
+				}
+				if ((this.engineLog.getHourmeterOn() != null && this.engineLog
+						.getHourmeterOff() != null)
+						&& this.engineLog.getHourOff().compareTo(
+								this.engineLog.getHourOn()) == 0) {
+					if (!this.engineLog.getHourmeterOn().equals(
+							this.engineLog.getHourmeterOff())) {
+						ControladorContexto
+								.mensajeError(
+										null,
+										"formEngineLog:txtHourmeterOff",
+										bundleDiesel
+												.getString("engine_log_message_no_duration"));
+					}
+				}
 			}
 			if (this.engineLog.getHourmeterOn() == null) {
 				ControladorContexto
@@ -657,23 +672,34 @@ public class EngineLogAction implements Serializable {
 				ControladorContexto
 						.mensajeRequeridos("formEngineLog:txtConsumption");
 			}
-			if ((this.engineLog.getDuration() != null && this.fuelUsageLog
-					.getConsumption() != null)
-					&& this.engineLog.getDuration() > 0
-					&& this.fuelUsageLog.getConsumption() == 0) {
-				ControladorContexto.mensajeError(null,
-						"formEngineLog:txtConsumption",
-						bundle.getString("message_campo_mayo_cero"));
-			}
-			FuelUsageLog fuelUsage = this.fuelUsageLogDao
-					.consultLastFuelUsage();
-			this.finalLevel = ControllerAccounting.subtract(
-					fuelUsage.getFinalLevel(),
-					this.fuelUsageLog.getConsumption());
-			if (this.finalLevel < 0) {
-				ControladorContexto.mensajeError(null,
-						"formEngineLog:txtConsumption",
-						bundleDiesel.getString("engine_log_message_no_diesel"));
+			if (this.fuelUsageLog.getConsumption() != null) {
+				if (this.engineLog.getDuration() != null
+						&& (this.engineLog.getDuration() > 0 && this.fuelUsageLog
+								.getConsumption() == 0)) {
+					ControladorContexto.mensajeError(null,
+							"formEngineLog:txtConsumption",
+							bundle.getString("message_campo_mayo_cero"));
+				}
+				if (this.engineLog.getDuration() != null
+						&& (this.engineLog.getDuration() == 0 && this.fuelUsageLog
+								.getConsumption() > 0)) {
+					ControladorContexto
+							.mensajeError(
+									null,
+									"formEngineLog:txtConsumption",
+									bundleDiesel
+											.getString("engine_log_message_no_consumption"));
+				}
+				FuelUsageLog fuelUsage = this.fuelUsageLogDao
+						.consultLastFuelUsage();
+				this.finalLevel = ControllerAccounting.subtract(
+						fuelUsage.getFinalLevel(),
+						this.fuelUsageLog.getConsumption());
+				if (this.finalLevel < 0) {
+					ControladorContexto.mensajeError(null,
+							"formEngineLog:txtConsumption", bundleDiesel
+									.getString("engine_log_message_no_diesel"));
+				}
 			}
 			if (this.engineLog.isIrrigation()) {
 				if (this.zone.getId() == 0) {
@@ -691,6 +717,23 @@ public class EngineLogAction implements Serializable {
 				if (this.irrigationDetails.getHidrometerOff() == null) {
 					ControladorContexto
 							.mensajeRequeridos("formEngineLog:txtHidrometerOff");
+				}
+				if (this.irrigationDetails.getHidrometerOn() != null
+						&& this.irrigationDetails.getHidrometerOff() != null) {
+					if ((this.engineLog.getHourOff() != null && this.engineLog
+							.getHourOn() != null)
+							&& this.engineLog.getHourOff().compareTo(
+									this.engineLog.getHourOn()) == 0
+							&& !this.irrigationDetails.getHidrometerOn()
+									.equals(this.irrigationDetails
+											.getHidrometerOff())) {
+						ControladorContexto
+								.mensajeError(
+										null,
+										"formEngineLog:txtHidrometerOff",
+										bundleDiesel
+												.getString("irrigation_details_message_no_water_usage"));
+					}
 				}
 				if (this.irrigationDetails.getWaterUsage() == null) {
 					ControladorContexto

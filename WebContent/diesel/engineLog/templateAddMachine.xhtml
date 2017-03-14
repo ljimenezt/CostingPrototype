@@ -29,10 +29,10 @@
 							<h:outputText value="#{mensaje.label_name}"
 								styleClass="etiquetaTitulo" />
 							<h:inputText size="40" maxlength="100" id="txtNameSearch"
-								value="#{irrigationDetailsAction.nameMachineSearch}"
+								value="#{machinesAction.nameSearch}"
 								onkeypress="return submitByEnter(event,'popupFormMachine:btnSearch')" />
 							<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
-								actionListener="#{irrigationDetailsAction.searchMachines}"
+								actionListener="#{machinesAction.consultMachines()}"
 								render="outputMachine, outPutSearchMachine">
 							</a:commandButton>
 						</h:panelGrid>
@@ -47,12 +47,12 @@
 					</a:outputPanel>
 					<br />
 					<ui:param name="listaVacia"
-						value="#{irrigationDetailsAction.machineList eq null or (empty irrigationDetailsAction.machineList)}" />
+						value="#{machinesAction.listMachines eq null or (empty machinesAction.listMachines)}" />
 					<div align="right" class="W560P">
 						<a:commandLink render="outPutSearchMachine"
 							styleClass="quitarDecoracionLink"
-							action="#{irrigationDetailsAction.searchMachines}"
-							actionListener="#{irrigationDetailsAction.setNameMachineSearch(null)}">
+							action="#{machinesAction.initializeMachinesDiesel()}"
+							actionListener="#{machinesAction.setNameSearch(null)}">
 							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 								<h:graphicImage value="/img/listarTodos_16.png" />
 								<h:outputText value="#{mensaje.button_list_all}" />
@@ -61,7 +61,7 @@
 					</div>
 
 					<a:outputPanel id="outputMachine">
-						<rich:dataTable value="#{irrigationDetailsAction.machineList}"
+						<rich:dataTable value="#{machinesAction.listMachines}"
 							var="machine" id="txMachine" footerClass="H130P"
 							styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} W560P"
 							rowClasses="odd-row, even-row">
@@ -98,12 +98,11 @@
 								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valParam2" value="si" />
 									<ui:param name="conParam2" value="1" />
-									<ui:param name="pager" value="paginationForm" />
+									<ui:param name="pager" value="pagination" />
 									<ui:param name="valReder"
 										value=":popupFormMachine:outputMachine" />
-									<ui:param name="beanActionParam"
-										value="#{irrigationDetailsAction}" />
-									<ui:param name="metodoActionParam" value="searchMachines" />
+									<ui:param name="beanActionParam" value="#{machinesAction}" />
+									<ui:param name="metodoActionParam" value="consultMachines" />
 								</ui:include>
 							</div>
 						</a:outputPanel>
