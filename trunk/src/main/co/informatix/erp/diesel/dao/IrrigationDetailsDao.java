@@ -125,6 +125,7 @@ public class IrrigationDetailsDao implements Serializable {
 	 * Consult the list of irrigation details for identifier
 	 * 
 	 * @author Fabian.Diaz
+	 * 
 	 * @param idEngine
 	 *            : identifier that receive for the consult
 	 * @return IrrigationDetails: return an object of type IrrigationDetails
