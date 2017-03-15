@@ -27,13 +27,11 @@
 			<rich:panel
 				header="#{mensaje.label_register} #{messageDiesel.fuel_purchase_label_name}"
 				styleClass="anchoUno MinH253P" id="panelFuelPurchase">
-
 				<h:panelGrid columns="2" columnClasses="W80Per,W20Per tdAlignTop">
 					<h:panelGrid columns="4"
 						cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
 						cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
 						columnClasses="tdAlignTop,,,">
-
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{messageDiesel.fuel_purchase_label_invoice_data}" />
 						<h:outputText value="*" styleClass="required" />
@@ -45,8 +43,8 @@
 							<f:attribute name="validarHora" value="si" />
 						</p:calendar>
 						<rich:message for="dateInvoice" />
-
-						<h:outputText value="#{messageDiesel.fuel_purchase_label_supplier}"
+						<h:outputText
+							value="#{messageDiesel.fuel_purchase_label_supplier}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:selectOneMenu id="supplier"
@@ -59,7 +57,6 @@
 								listener="#{fuelPurchaseAction.suppliers.setIdSupplier(fuelPurchaseAction.suppliers.idSupplier)}" />
 						</h:selectOneMenu>
 						<rich:message for="supplier" />
-
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_number}"
 							styleClass="etiquetaTitulo" />
@@ -70,7 +67,6 @@
 							maxlength="50" validator="#{fuelPurchaseAction.validateNameXSS}"
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="txtNumInv" />
-
 						<h:outputText value="#{messageMachine.fuel_types_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
@@ -82,7 +78,6 @@
 							<f:selectItems value="#{fuelPurchaseAction.itemsFuelTypes}" />
 						</h:selectOneMenu>
 						<rich:message for="fuelTypes" />
-
 						<h:outputText value="#{mensaje.label_quantity}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
@@ -98,7 +93,6 @@
 								execute="@this" render="subtotal iva total" />
 						</h:inputText>
 						<rich:message for="quantity" />
-
 						<h:outputText value="#{mensaje.label_unit_cost}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
@@ -107,16 +101,14 @@
 							styleClass="W108P">
 						</h:inputText>
 						<rich:message for="costUnit" />
-
 						<h:outputText value="#{mensaje.label_subtotal}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="subtotal"
+						<h:inputText id="subtotal" readonly="true"
 							value="#{fuelPurchaseAction.fuelPurchase.subTotal}"
 							styleClass="W108P">
 						</h:inputText>
 						<rich:message for="subtotal" />
-
 						<h:outputText value="#{mensajeMenu.iva_rate_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="%" styleClass="required" />
@@ -129,7 +121,6 @@
 								render="iva total" />
 						</h:selectOneMenu>
 						<rich:message for="ivaRate" />
-
 						<h:outputText value="#{messageDiesel.fuel_purchase_label_iva}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="$" styleClass="required" />
@@ -138,7 +129,6 @@
 							styleClass="W108P">
 						</h:inputText>
 						<rich:message for="iva" />
-
 						<h:outputText value="#{mensaje.label_total}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
@@ -147,7 +137,6 @@
 							styleClass="W108P">
 						</h:inputText>
 						<rich:message for="total" />
-
 						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />
@@ -158,7 +147,6 @@
 						</h:inputTextarea>
 						<rich:message for="txaNote" />
 					</h:panelGrid>
-
 					<t:fieldset styleClass="W166P">
 						<legend class="etiquetaTitulo">#{mensaje.label_document}</legend>
 						<h:panelGrid columns="1" cellspacing="0" cellpadding="0"
@@ -191,7 +179,6 @@
 												rendered="#{!fuelPurchaseAction.loadDocumentTemporal}" />
 										</a:outputPanel>
 									</a:outputPanel>
-
 									<a:outputPanel
 										rendered="#{fuelPurchaseAction.loadDocumentTemporal eq true and fuelPurchaseAction.iconPdf eq false and fuelPurchaseAction.iconImg eq false }">
 										<a:outputPanel
@@ -208,7 +195,6 @@
 												rendered="#{!fuelPurchaseAction.loadDocumentTemporal}" />
 										</a:outputPanel>
 									</a:outputPanel>
-
 									<a:outputPanel
 										rendered="#{fuelPurchaseAction.loadDocumentTemporal eq true and fuelPurchaseAction.iconImg eq true }">
 										<a:outputPanel
@@ -252,7 +238,6 @@
 							</a:outputPanel>
 						</h:panelGrid>
 					</t:fieldset>
-
 				</h:panelGrid>
 				<br />
 				<div align="center">
@@ -282,54 +267,46 @@
 							styleClass="etiquetaTitulo" />
 					</ui:define>
 					<ui:define name="campos">
-						<h:outputText value="#{messageDiesel.fuel_purchase_label_invoice_data}:" />
+						<h:outputText
+							value="#{messageDiesel.fuel_purchase_label_invoice_data}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.dateTime}" />
-
-						<h:outputText value="#{messageDiesel.fuel_purchase_label_supplier}:" />
+						<h:outputText
+							value="#{messageDiesel.fuel_purchase_label_supplier}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(fuelPurchaseAction.itemsSuppliers,fuelPurchaseAction.suppliers.idSupplier)}" />
-
 						<h:outputText
 							value="#{mensajeWarehouse.purchase_invoice_label_number}:" />
 						<h:outputText
 							value="#{fuelPurchaseAction.fuelPurchase.invoiceNumber}" />
-
 						<h:outputText value="#{messageMachine.fuel_types_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(fuelPurchaseAction.itemsFuelTypes,fuelPurchaseAction.fuelTypes.idFuelType)}" />
-
 						<h:outputText value="#{mensaje.label_quantity}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.quantity}" />
-
 						<h:outputText value="#{mensaje.label_unit_cost}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.unitCost}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:outputText>
-
 						<h:outputText value="#{mensaje.label_subtotal}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.subTotal}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:outputText>
-
 						<h:outputText value="#{mensajeMenu.iva_rate_label}:" />
 						<h:outputText
 							value="#{validacionesAction.getLabel(fuelPurchaseAction.itemsIvaRate,fuelPurchaseAction.ivaRate.idIva)}" />
-
 						<h:outputText value="#{messageDiesel.fuel_purchase_label_iva}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.taxes}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:outputText>
-
 						<h:outputText value="#{mensaje.label_total}:" />
 						<h:outputText value="#{fuelPurchaseAction.fuelPurchase.total}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:outputText>
 					</ui:define>
-
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
 							action="#{fuelPurchaseAction.saveFuelPurchase}"
