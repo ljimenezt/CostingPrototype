@@ -185,7 +185,8 @@ public class MachinesAction implements Serializable {
 	}
 
 	/**
-	 * @return stateDiesel: modifies the logic of the method search avanced.
+	 * @return stateDiesel: modifies the logic of the method consult machines
+	 *         for consult diesel machines.
 	 */
 	public boolean isStateDiesel() {
 		return stateDiesel;
@@ -193,7 +194,8 @@ public class MachinesAction implements Serializable {
 
 	/**
 	 * @param stateDiesel
-	 *            :
+	 *            : modifies the logic of the method consult machines for
+	 *            consult diesel machines.
 	 */
 	public void setStateDiesel(boolean stateDiesel) {
 		this.stateDiesel = stateDiesel;
