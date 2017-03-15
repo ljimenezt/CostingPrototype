@@ -631,68 +631,21 @@ public class MachinesAction implements Serializable {
 	}
 
 	/**
-	 * This method allows calculate the depreciation of the machine and
-	 * validates required fields are greater than zero.
+	 * This method allows calculate the depreciation of the machine.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify Fabian.Diaz
 	 */
 	public void calculateDepreciation() {
-		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		double yearLife = machines.getLifeYears();
 		double residual = machines.getResidualValue();
 		double investment = machines.getInvestment();
-		validateFields();
-		if (yearLife <= 0) {
-			ControladorContexto.mensajeError(null, "formMachines:txtTiemVida",
-					bundle.getString("message_campo_mayo_cero"));
-		}
-		if (investment <= 0) {
-			ControladorContexto.mensajeError(null, "formMachines:txtinversion",
-					bundle.getString("message_campo_mayo_cero"));
-		}
-		if (investment <= residual && investment > 0) {
-			ControladorContexto.mensajeError(null, "formMachines:txtResVal",
-					bundle.getString("message_field_lower_to") + " "
-							+ investment);
-		}
+
 		if (investment > 0 && yearLife > 0) {
 			double depreciation = ControllerAccounting.divide(
 					ControllerAccounting.subtract(investment, residual),
 					yearLife);
 			machines.setDepreciation(depreciation);
-		}
-	}
-
-	/**
-	 * Validates fields that are required in view of registering a new machine.
-	 */
-	public void validateFields() {
-		if (this.machines.getMachineTypes() == null
-				|| this.machines.getMachineTypes().getIdMachineType() == 0) {
-			ControladorContexto.mensajeRequeridos("formMachines:tipoMaquina");
-		}
-		if (this.machines.getName() == null
-				|| "".equals(this.machines.getName())) {
-			ControladorContexto.mensajeRequeridos("formMachines:txtName");
-		}
-		if (this.machines.getPurchaseDate() == null) {
-			ControladorContexto.mensajeRequeridos("formMachines:fechcompra");
-		}
-		String clientId = "formMachines:txtSerialNumber";
-		if (this.machines.getSerialNumber() == null
-				|| "".equals(this.machines.getSerialNumber())) {
-			ControladorContexto.mensajeRequeridos(clientId);
-		} else {
-			validateNameXSS(clientId, this.machines.getSerialNumber());
-		}
-		if (this.machines.isFuel()) {
-			if (this.machines.getFuelTypes().getIdFuelType() == 0) {
-				ControladorContexto.mensajeRequeridos("formMachines:fuelTypes");
-			}
-			if (this.machines.getFuelConsumption() <= 0) {
-				ControladorContexto
-						.mensajeRequeridos("formMachines:txtFuelConsumption");
-			}
 		}
 	}
 

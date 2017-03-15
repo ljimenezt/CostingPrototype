@@ -34,9 +34,10 @@
 						<h:outputText value="#{mensaje.label_machine_type}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
-						<h:selectOneMenu id="tipoMaquina" styleClass="colTextoCorto"
-							value="#{machinesAction.machines.machineTypes.idMachineType}">
-							<f:selectItem itemLabel="#{mensaje.label_select}" />
+						<h:selectOneMenu id="tipoMaquina"
+							value="#{machinesAction.machines.machineTypes.idMachineType}"
+							validator="#{validacionesAction.validarComboRequerido}">
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{machinesAction.itemsMachinesType}" />
 						</h:selectOneMenu>
 						<rich:message for="tipoMaquina" />
@@ -45,8 +46,9 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.name}"
-							styleClass="colTextoCorto" id="txtName"
-							validator="#{encodeFilter.validarScripting}">
+							styleClass="colTextoCorto" id="txtName" required="true"
+							validator="#{encodeFilter.validarScripting}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateLength maximum="70" />
 						</h:inputText>
 						<rich:message for="txtName" />
@@ -57,7 +59,9 @@
 						<p:calendar value="#{machinesAction.machines.purchaseDate}"
 							maxdate="#{machinesAction.machines.lastMaintenance}"
 							showOn="button" navigator="true" id="fechcompra"
-							readonlyInput="true"
+							readonlyInput="true" required="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							validator="#{controladorFechas.validarRangoFecha}"
 							pattern="MM/dd/yyyy">
 							<p:ajax event="dateSelect" update="fechmantenimiento" />
@@ -69,8 +73,9 @@
 							value="#{mensaje.label_last_maintenance}" />
 						<h:outputText value="" />
 						<p:calendar value="#{machinesAction.machines.lastMaintenance}"
-							validator="#{controladorFechas.validarRangoFecha}"
 							showOn="button" navigator="true" readonlyInput="true"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							mindate="#{machinesAction.machines.purchaseDate}"
 							id="fechmantenimiento" pattern="MM/dd/yyyy">
 							<p:ajax event="dateSelect" update="fechcompra" />
@@ -83,8 +88,9 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.serialNumber}"
-							styleClass="colTextoCorto" id="txtSerialNumber"
-							validator="#{encodeFilter.validarScripting}">
+							styleClass="colTextoCorto" id="txtSerialNumber" required="true"
+							validator="#{encodeFilter.validarScripting}"
+							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:validateLength maximum="20" />
 						</h:inputText>
 						<rich:message for="txtSerialNumber" />
@@ -94,7 +100,6 @@
 						<h:outputText value="" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.horsepower}"
 							styleClass="colNumero" id="txtHorse"
-							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
@@ -105,7 +110,6 @@
 						<h:outputText value="" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.kilowatts}"
 							styleClass="colNumero" id="txtKilowatts"
-							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
@@ -116,7 +120,6 @@
 						<h:outputText value="" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.hydrometer}"
 							styleClass="colNumero" id="txtHydrometer"
-							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
@@ -127,7 +130,6 @@
 						<h:outputText value="" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.hourmeter}"
 							styleClass="colNumero" id="txtHourmeter"
-							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_juego_caracter_numeros}">
 							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
@@ -160,7 +162,8 @@
 								rendered="#{!machinesAction.machines.fuel}" />
 							<h:selectOneMenu id="fuelTypes" styleClass="colTextoCorto"
 								disabled="#{machinesAction.machines.fuel eq false}"
-								value="#{machinesAction.machines.fuelTypes.idFuelType}">
+								value="#{machinesAction.machines.fuelTypes.idFuelType}"
+								validator="#{validacionesAction.validarComboRequerido}">
 								<f:selectItem itemValue="0" itemLabel="#{mensaje.label_select}" />
 								<f:selectItems value="#{machinesAction.itemsFuelTypes}" />
 							</h:selectOneMenu>
@@ -174,9 +177,10 @@
 								rendered="#{!machinesAction.machines.fuel}" />
 							<h:inputText value="#{machinesAction.machines.fuelConsumption}"
 								disabled="#{machinesAction.machines.fuel eq false}"
-								styleClass="colNumero" id="txtFuelConsumption"
-								converterMessage="#{mensaje.message_juego_caracter_numeros}">
-								<f:validateDoubleRange />
+								styleClass="colNumero" id="txtFuelConsumption" required="true"
+								converterMessage="#{mensaje.message_juego_caracter_numeros}"
+								requiredMessage="#{mensaje.message_campo_requerido}">
+								<f:validateDoubleRange minimum="1" />
 							</h:inputText>
 							<rich:message for="txtFuelConsumption" />
 						</h:panelGrid>
@@ -195,7 +199,7 @@
 								required="true" styleClass="colNumero" id="txtTiemVida"
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}">
-								<f:validateDoubleRange />
+								<f:validateDoubleRange minimum="1" />
 								<f:ajax event="change" execute="@form"
 									listener="#{machinesAction.calculateDepreciation()}"
 									render="formMachines" />
@@ -209,7 +213,7 @@
 								styleClass="colNumero" id="txtResVal"
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}">
-								<f:validateDoubleRange />
+								<f:validateDoubleRange minimum="0" />
 								<f:ajax event="change" execute="@form"
 									listener="#{machinesAction.calculateDepreciation()}"
 									render="formMachines" />
@@ -223,20 +227,17 @@
 								required="true" styleClass="colNumero" id="txtinversion"
 								requiredMessage="#{mensaje.message_campo_requerido}"
 								converterMessage="#{mensaje.message_juego_caracter_numeros}">
+								<f:validateDoubleRange minimum="1" />
 								<f:ajax event="change" execute="@form"
 									listener="#{machinesAction.calculateDepreciation()}"
 									render="formMachines" />
 							</h:inputText>
 							<rich:message for="txtinversion" />
-
 							<h:outputText styleClass="etiquetaTitulo"
 								value="#{mensaje.label_depreciation}" />
 							<h:outputText value="" styleClass="required" />
 							<h:inputText value="#{machinesAction.machines.depreciation}"
-								styleClass="colNumero" id="txtDepre"
-								requiredMessage="#{mensaje.message_campo_requerido}"
-								converterMessage="#{mensaje.message_juego_caracter_numeros}"
-								readonly="true">
+								styleClass="colNumero" id="txtDepre" readonly="true">
 								<f:validateDoubleRange />
 							</h:inputText>
 							<rich:message for="txtDepre" />
@@ -246,11 +247,11 @@
 				<br />
 				<div align="center">
 					<a:commandButton
-						render="formConfirmar:popUpConfirmar,formGenerico,outPutCalcDeprecation "
+						render="formConfirmar:popUpConfirmar,formGenerico,outPutCalcDeprecation"
 						execute="formMachines"
-						action="#{machinesAction.calculateDepreciation()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-						value="#{mensaje.button_save}" />
+						value="#{mensaje.button_save}">
+					</a:commandButton>
 				</div>
 			</rich:panel>
 		</h:form>
