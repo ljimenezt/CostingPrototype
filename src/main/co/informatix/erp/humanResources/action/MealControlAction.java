@@ -26,6 +26,7 @@ import co.informatix.erp.humanResources.dao.AssistControlDao;
 import co.informatix.erp.humanResources.dao.DayTypeFoodDao;
 import co.informatix.erp.humanResources.dao.HrDao;
 import co.informatix.erp.humanResources.dao.MealControlDao;
+import co.informatix.erp.humanResources.entities.AssistControl;
 import co.informatix.erp.humanResources.entities.DayTypeFood;
 import co.informatix.erp.humanResources.entities.FoodControl;
 import co.informatix.erp.humanResources.entities.Hr;
@@ -737,6 +738,8 @@ public class MealControlAction implements Serializable {
 	 * This method allows add the novelty of the assist control according with
 	 * the human resource
 	 * 
+	 * @modify 15/03/2017 Claudia.Rey
+	 * 
 	 * @param consult
 	 *            : query to concatenate
 	 * @param parameters
@@ -757,7 +760,15 @@ public class MealControlAction implements Serializable {
 					int idFoodType = fc.getTypeFood().getId();
 					Integer i = (int) (dateAssist.getTime() / 1000)
 							+ idFoodType;
-					int val = fc.getQuantity();
+					String date = fc.getDate().toString();
+					AssistControl assistControlAux = assistControlDao
+							.consultAssistControlByHrAndDate(idHr, date);
+					int val;
+					if (assistControlAux.isAbsent()) {
+						val = 0;
+					} else {
+						val = fc.getQuantity();
+					}
 					hasmapAux.put(i, val);
 				}
 				hr.setAssistFoodControl(hasmapAux);
