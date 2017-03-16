@@ -156,7 +156,7 @@ public class FuelPurchaseAction implements Serializable {
 	 *         with a fuel purchase.
 	 */
 	public String getPathLocation() {
-		this.filesFolder = Constantes.FOLDER_FILES
+		this.pathLocation = Constantes.FOLDER_FILES
 				+ Constantes.FOLDER_FILES_FUEL;
 		return pathLocation;
 	}

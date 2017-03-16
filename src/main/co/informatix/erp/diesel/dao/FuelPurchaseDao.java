@@ -106,7 +106,7 @@ public class FuelPurchaseDao implements Serializable {
 		query.append("SELECT COUNT(fp) FROM FuelPurchase fp ");
 		query.append("JOIN fp.supplier s ");
 		query.append("JOIN fp.fuelType ft ");
-		query.append("JOIN fp.ivaRate ir ");
+		query.append("LEFT JOIN fp.ivaRate ir ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
@@ -141,7 +141,7 @@ public class FuelPurchaseDao implements Serializable {
 		query.append("SELECT fp FROM FuelPurchase fp ");
 		query.append("JOIN FETCH fp.supplier s ");
 		query.append("JOIN FETCH fp.fuelType ft ");
-		query.append("JOIN FETCH fp.ivaRate ir ");
+		query.append("LEFT JOIN FETCH fp.ivaRate ir ");
 		query.append(consult);
 		query.append("ORDER BY fp.dateTime DESC ");
 		Query q = em.createQuery(query.toString());

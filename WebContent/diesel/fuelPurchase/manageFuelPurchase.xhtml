@@ -52,6 +52,19 @@
 					var="fuelPurchase"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
+					<rich:column styleClass="colIconoUno">
+						<a:outputPanel
+							rendered="#{fuelPurchase.invoiceDocumentLink ne null}">
+							<rich:tooltip layout="block"
+								rendered="#{fuelPurchase.invoiceDocumentLink ne null}">
+								<h:outputText value="#{mensaje.label_download}" />
+							</rich:tooltip>
+							<a target="_blank"
+								href="#{request.contextPath}#{fuelPurchaseAction.pathLocation}/#{fuelPurchase.invoiceDocumentLink}"><h:graphicImage
+									value="/img/download_16.png" class="verticalAlignMiddle" /></a>
+						</a:outputPanel>
+					</rich:column>
+
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_number}</f:facet>
 						<h:outputText value="#{fuelPurchase.invoiceNumber}" />
@@ -171,7 +184,8 @@
 							value="#{fuelPurchaseAction.fuelPurchase.invoiceNumber}"
 							onkeypress="return submitByEnter(event,'formSearch:btnSearch')" />
 
-						<h:outputText value="#{messageDiesel.fuel_purchase_label_supplier}"
+						<h:outputText
+							value="#{messageDiesel.fuel_purchase_label_supplier}"
 							styleClass="etiquetaTitulo" />
 						<h:selectOneMenu id="cmbSupplier" styleClass="colTextoCorto"
 							value="#{fuelPurchaseAction.idSupplier}"
