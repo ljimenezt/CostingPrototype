@@ -111,7 +111,8 @@
 
 					<rich:column styleClass="colValorMini">
 						<f:facet name="header">#{messageBaseInformation.iva_rate_label}</f:facet>
-						<h:outputText value="#{fuelPurchase.ivaRate.rate}%">
+						<h:outputText value="#{fuelPurchase.ivaRate.rate}%"
+							rendered="#{fuelPurchase.ivaRate.rate ne null}">
 							<f:convertNumber type="percent" />
 						</h:outputText>
 					</rich:column>
@@ -134,7 +135,7 @@
 
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
-							<rich:column colspan="7" styleClass="footTabla">
+							<rich:column colspan="11" styleClass="footTabla">
 								<h:outputText
 									value="#{mensaje.message_no_existen_registros_tabla}" />
 							</rich:column>
