@@ -39,13 +39,11 @@ import co.informatix.erp.utils.ReportsController;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * 
  * This class is all the logic related to the creation, updating, and deleting
  * the attendance that may exist.
  * 
  * @author Wilhelm.Boada
  * @modify Andres.Gomez
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
@@ -56,16 +54,16 @@ public class AssistControlAction implements Serializable {
 	private AssistControl assistControl;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
-	private Date maxDate;	
+	private Date maxDate;
 	private String nameSearch;
-	private StringBuilder unionSearchMessages;	
+	private StringBuilder unionSearchMessages;
 	private List<SelectItem> itemsNoveltyType;
 	private List<Hr> hrList;
 	private List<Novelty> noveltyListRemove;
 	private List<Date> listDateTable;
 	private List<Hr> listHrAssistControl;
-	private HashMap<Integer, Novelty> noveltyMap;	
-	private boolean source = true;	
+	private HashMap<Integer, Novelty> noveltyMap;
+	private boolean source = true;
 	private Hr hr;
 	private Novelty novelty;
 	private UIDataTable dataTable;
@@ -327,7 +325,6 @@ public class AssistControlAction implements Serializable {
 	/**
 	 * This Method build dataTable for assist control, Add columns from date of
 	 * assist
-	 * 
 	 */
 	public void buildDataTable() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -532,7 +529,6 @@ public class AssistControlAction implements Serializable {
 	 * This method allows to build the query to the advanced search and allows
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
-	 * 
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -853,11 +849,10 @@ public class AssistControlAction implements Serializable {
 			this.hrList = hrDao.queryHr();
 			if (this.hrList != null) {
 				for (Hr hr : this.hrList) {
+					String date = ControladorFechas.formatDate(
+							initialDateSearch, Constantes.DATE_FORMAT_CONSULT);
 					AssistControl assistControl = assistControlDao
-							.consultAssistControlByHrAndDate(hr.getIdHr(),
-									ControladorFechas.formatDate(
-											initialDateSearch,
-											Constantes.DATE_FORMAT_CONSULT));
+							.consultAssistControlByHrAndDate(hr.getIdHr(), date);
 					Novelty novelty = noveltyMap.get(hr.getIdHr());
 					if (assistControl == null) {
 						assistControl = new AssistControl();
@@ -974,5 +969,5 @@ public class AssistControlAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
+	
 }
