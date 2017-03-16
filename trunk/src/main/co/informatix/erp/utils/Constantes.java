@@ -57,7 +57,7 @@ public class Constantes implements Serializable {
 
 	/* Fuel */
 	public static final String FOLDER_FILES_FUEL = PropertiesManager
-			.getProperty("locate.folder.files.fuel");
+			.getProperty("locate.carpeta.archivos.fuel");
 
 	/* END FOLDER PATHS */
 
