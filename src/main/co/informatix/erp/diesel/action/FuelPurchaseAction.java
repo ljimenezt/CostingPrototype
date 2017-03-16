@@ -801,6 +801,7 @@ public class FuelPurchaseAction implements Serializable {
 
 			this.fuelUsageLog = new FuelUsageLog();
 			this.fuelUsageLog.setFuelPurchase(fuelPurchase);
+			this.fuelUsageLog.setDate(fuelPurchase.getDateTime());
 			this.fuelUsageLog.setEngineLog(null);
 			this.fuelUsageLog.setTransactionType(transactionType);
 			this.fuelUsageLog.setDeposited((Double) fuelPurchase.getQuantity());
