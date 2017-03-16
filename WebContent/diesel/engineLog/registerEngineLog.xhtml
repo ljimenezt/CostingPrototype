@@ -356,15 +356,16 @@
 						</h:panelGrid>
 					</t:fieldset>
 				</a:outputPanel>
+				<br />
+				<div align="center">
+					<a:commandButton
+						render="formConfirmar:popUpConfirmar, formGenerico"
+						actionListener="#{engineLogAction.validateRequired()}"
+						execute="formEngineLog"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
+						value="#{mensaje.button_save}" />
+				</div>
 			</rich:panel>
-			<br />
-			<div align="center">
-				<a:commandButton render="formConfirmar:popUpConfirmar, formGenerico"
-					actionListener="#{engineLogAction.validateRequired()}"
-					execute="formEngineLog"
-					oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
-					value="#{mensaje.button_save}" />
-			</div>
 		</h:form>
 		<h:form id="formConfirmar">
 			<rich:popupPanel id="popUpConfirmar" modal="true" autosized="true"
