@@ -52,6 +52,9 @@ public class AssistControlAction implements Serializable {
 
 	private Paginador pagination = new Paginador();
 	private AssistControl assistControl;
+	private Hr hr;
+	private Novelty novelty;
+	private UIDataTable dataTable;
 	private Date initialDateSearch;
 	private Date finalDateSearch;
 	private Date maxDate;
@@ -64,9 +67,6 @@ public class AssistControlAction implements Serializable {
 	private List<Hr> listHrAssistControl;
 	private HashMap<Integer, Novelty> noveltyMap;
 	private boolean source = true;
-	private Hr hr;
-	private Novelty novelty;
-	private UIDataTable dataTable;
 
 	@EJB
 	private AssistControlDao assistControlDao;
