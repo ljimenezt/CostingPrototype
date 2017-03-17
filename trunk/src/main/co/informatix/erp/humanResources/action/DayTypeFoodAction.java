@@ -209,63 +209,56 @@ public class DayTypeFoodAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void saveEditDayTypeFood() {
+	public void saveEditDayTypeFood() throws Exception {
 		List<Integer> currentIds = new ArrayList<Integer>();
 		List<Integer> newsIds = new ArrayList<Integer>();
-		try {
-			List<DayTypeFood> dayTypeFoodActualList = dayTypeFoodDao
-					.consultDayTypeFoodByIdTypeFood(typeFoodSelected.getId(),
-							true);
-			boolean flagHoliday = false;
-			if (this.dayTypeFoodList != null) {
-				if (dayTypeFoodActualList != null) {
-					for (DayTypeFood dayTypeFood : dayTypeFoodActualList) {
-						currentIds.add(dayTypeFood.getDay().getId());
-					}
+		List<DayTypeFood> dayTypeFoodActualList = dayTypeFoodDao
+				.consultDayTypeFoodByIdTypeFood(typeFoodSelected.getId(), true);
+		boolean flagHoliday = false;
+		if (this.dayTypeFoodList != null) {
+			if (dayTypeFoodActualList != null) {
+				for (DayTypeFood dayTypeFood : dayTypeFoodActualList) {
+					currentIds.add(dayTypeFood.getDay().getId());
+				}
+			} else {
+				dayTypeFoodActualList = new ArrayList<DayTypeFood>();
+			}
+			for (DayTypeFood dayTypeFood : dayTypeFoodList) {
+				if (!dayTypeFood.isAfterHoliday()) {
+					newsIds.add(dayTypeFood.getDay().getId());
 				} else {
-					dayTypeFoodActualList = new ArrayList<DayTypeFood>();
+					flagHoliday = true;
 				}
-				for (DayTypeFood dayTypeFood : dayTypeFoodList) {
-					if (!dayTypeFood.isAfterHoliday()) {
-						newsIds.add(dayTypeFood.getDay().getId());
-					} else {
-						flagHoliday = true;
-					}
-				}
-				List<DatosGuardar> dataList = ValidacionesAction.validarListas(
-						currentIds, newsIds);
-				for (DatosGuardar saveData : dataList) {
-					String action = saveData.getAccion();
-					DayTypeFood dayTypeFood = new DayTypeFood();
-					for (DayTypeFood dayTypeFoodSeleted : dayTypeFoodList) {
-						if (dayTypeFoodSeleted.getDay() != null) {
-							if (dayTypeFoodSeleted.getDay().getId() == saveData
-									.getIdClase()) {
-								dayTypeFood = dayTypeFoodSeleted;
-								break;
-							}
+			}
+			List<DatosGuardar> dataList = ValidacionesAction.validarListas(
+					currentIds, newsIds);
+			for (DatosGuardar saveData : dataList) {
+				String action = saveData.getAccion();
+				DayTypeFood dayTypeFood = new DayTypeFood();
+				for (DayTypeFood dayTypeFoodSeleted : dayTypeFoodList) {
+					if (dayTypeFoodSeleted.getDay() != null) {
+						if (dayTypeFoodSeleted.getDay().getId() == saveData
+								.getIdClase()) {
+							dayTypeFood = dayTypeFoodSeleted;
+							break;
 						}
 					}
-					dayTypeFood.setTypeFood(typeFoodSelected);
-					if (Constantes.QUERY_DELETE.equals(action)) {
-						dayTypeFood = dayTypeFoodDao
-								.findDayTypeFoodByIds(typeFoodSelected.getId(),
-										saveData.getIdClase());
-						dayTypeFoodDao.deleteDayTypeFood(dayTypeFood);
-					} else if (Constantes.QUERY_INSERT.equals(action)) {
-						dayTypeFoodDao.saveDayTypeFood(dayTypeFood);
-					} else {
-						dayTypeFoodDao.editDayTypeFood(dayTypeFood);
-					}
 				}
-				DayTypeFood dayTypeFood = dayTypeFoodDao
-						.consultAfterHoliday(typeFoodSelected.getId());
-				saveOrDeleteHoliday(dayTypeFood, flagHoliday);
+				dayTypeFood.setTypeFood(typeFoodSelected);
+				if (Constantes.QUERY_DELETE.equals(action)) {
+					dayTypeFood = dayTypeFoodDao.findDayTypeFoodByIds(
+							typeFoodSelected.getId(), saveData.getIdClase());
+					dayTypeFoodDao.deleteDayTypeFood(dayTypeFood);
+				} else if (Constantes.QUERY_INSERT.equals(action)) {
+					dayTypeFoodDao.saveDayTypeFood(dayTypeFood);
+				} else {
+					dayTypeFoodDao.editDayTypeFood(dayTypeFood);
+				}
 			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
+			DayTypeFood dayTypeFood = dayTypeFoodDao
+					.consultAfterHoliday(typeFoodSelected.getId());
+			saveOrDeleteHoliday(dayTypeFood, flagHoliday);
 		}
-
 	}
 
 	/**
@@ -297,18 +290,13 @@ public class DayTypeFoodAction implements Serializable {
 	 *            : TypeFood to delete all dayTypeFood associates to this.
 	 * @throws Exception
 	 */
-	public void deleteAllDayTypeFood(TypeFood typeFood) {
-		try {
-			List<DayTypeFood> dayTypeFoodActualList = dayTypeFoodDao
-					.consultDayTypeFoodByIdTypeFood(typeFood.getId(), false);
-			if (dayTypeFoodActualList != null) {
-				for (DayTypeFood dayTypeFood : dayTypeFoodActualList) {
-					dayTypeFoodDao.deleteDayTypeFood(dayTypeFood);
-				}
+	public void deleteAllDayTypeFood(TypeFood typeFood) throws Exception {
+		List<DayTypeFood> dayTypeFoodActualList = dayTypeFoodDao
+				.consultDayTypeFoodByIdTypeFood(typeFood.getId(), false);
+		if (dayTypeFoodActualList != null) {
+			for (DayTypeFood dayTypeFood : dayTypeFoodActualList) {
+				dayTypeFoodDao.deleteDayTypeFood(dayTypeFood);
 			}
-		} catch (Exception e) {
-			ControladorContexto.mensajeError(e);
 		}
-
 	}
 }
