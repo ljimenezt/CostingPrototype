@@ -143,4 +143,48 @@ public class IrrigationDetailsDao implements Serializable {
 		q.setParameter("idEngine", idEngine);
 		return (IrrigationDetails) q.getSingleResult();
 	}
+
+	/**
+	 * This method allows consult of the irrigation engine by every zone and
+	 * machine. This native query, because is information of the report.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param consult
+	 *            :Consultation records depending on the parameters selected by
+	 *            the user
+	 * @param parameters
+	 *            :Query parameters
+	 * @return List<Object[]>: list of object with information the zone,
+	 *         machine, engine, fuel usage, and irrigation detail.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object[]> consultIrrigationEngineReport(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT z.name as zone, ");
+		query.append("		 m.name as machine, m.serial_number, ");
+		query.append("		 el.date, el.hour_on, el.hour_off, el.hourmeter_on, el.hourmeter_off, el.duration, ");
+		query.append("		 ful.consumption, ");
+		query.append("		 id.hidrometer_on, id.hidrometer_off, id.water_usage ");
+		query.append("FROM diesel.zone z, ");
+		query.append("	   machines.machines m, ");
+		query.append("	   diesel.engine_log el, ");
+		query.append("	   diesel.fuel_usage_log ful, ");
+		query.append("	   diesel.irrigation_details id ");
+		query.append("WHERE el.irrigation is true ");
+		query.append("AND z.id = id.id_zone ");
+		query.append("AND m.idmachine = id.id_machine ");
+		query.append("AND ful.id_engine_log = el.id_engine_log ");
+		query.append("AND id.id_engine_log = el.id_engine_log ");
+		query.append(consult);
+		query.append("ORDER BY el.date ASC, z.name ASC ");
+		Query q = em.createNativeQuery(query.toString());
+		for (SelectItem parametro : parameters) {
+			q.setParameter(parametro.getLabel(), parametro.getValue());
+		}
+		return q.getResultList();
+	}
+
 }

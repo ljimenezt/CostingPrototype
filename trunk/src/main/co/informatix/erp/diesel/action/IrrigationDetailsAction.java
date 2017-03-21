@@ -19,6 +19,7 @@ import co.informatix.erp.machines.dao.MachinesDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ReportsController;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
@@ -211,6 +212,53 @@ public class IrrigationDetailsAction implements Serializable {
 			String dateTo = bundle.getString("label_end_date") + ": " + '"'
 					+ formats.format(endDateSearch) + '"' + " ";
 			unionMessagesSearch.append(dateTo);
+		}
+	}
+
+	/**
+	 * This method allow consult the irrigation engine information and generate
+	 * the report.
+	 * 
+	 * @author Luna.Granados
+	 */
+	public void generateReportIrrigationEngine() {
+		ReportsController reportsController = ControladorContexto
+				.getContextBean(ReportsController.class);
+		StringBuilder consult = new StringBuilder();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		try {
+			reportAdvanceSearch(consult, parameters);
+
+			List<Object[]> listControl = irrigationDetailsDao
+					.consultIrrigationEngineReport(consult, parameters);
+
+			reportsController.generateReportIrrigationEngine(listControl);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allow build the query by date to consult the information for
+	 * the report.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param consult
+	 *            : query to concatenate.
+	 * @param parameters
+	 *            : list of search parameters.
+	 */
+	private void reportAdvanceSearch(StringBuilder consult,
+			List<SelectItem> parameters) {
+		if (this.startDateSearch != null && this.endDateSearch != null) {
+			consult.append("AND el.date BETWEEN :startDateSearch AND :endDateSearch ");
+
+			SelectItem item = new SelectItem(startDateSearch, "startDateSearch");
+			parameters.add(item);
+
+			SelectItem item2 = new SelectItem(endDateSearch, "endDateSearch");
+			parameters.add(item2);
 		}
 	}
 
