@@ -363,7 +363,7 @@ public class ReportsController implements Serializable {
 			throws Exception {
 		Object[] object = new Object[12];
 		boolean flagColor = true;
-		String reportName = "IrrigationEngineControl.rptdesign";
+		String reportName = "irrigationEngineControl.rptdesign";
 		HashMap<String, Object> mapAttribute = new HashMap<String, Object>();
 		mapAttribute.put("listControl", listControl);
 		mapAttribute.put("object", object);
