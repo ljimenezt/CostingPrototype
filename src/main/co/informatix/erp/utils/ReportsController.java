@@ -349,4 +349,26 @@ public class ReportsController implements Serializable {
 		generateReports(reportName, mapAttribute);
 	}
 
+	/**
+	 * This method allows to compile the report of irrigation engine with the
+	 * parameters received from the action.
+	 * 
+	 * @author Luna.Granados
+	 * 
+	 * @param listControl
+	 *            : Objects list with the values of the report
+	 * @throws Exception
+	 */
+	public void generateReportIrrigationEngine(List<Object[]> listControl)
+			throws Exception {
+		Object[] object = new Object[12];
+		boolean flagColor = true;
+		String reportName = "IrrigationEngineControl.rptdesign";
+		HashMap<String, Object> mapAttribute = new HashMap<String, Object>();
+		mapAttribute.put("listControl", listControl);
+		mapAttribute.put("object", object);
+		mapAttribute.put("flagColor", flagColor);
+		this.reportFormat = Constantes.FORMAT_EXCEL;
+		generateReports(reportName, mapAttribute);
+	}
 }
