@@ -26,7 +26,6 @@
 		</script>
 		<ui:param name="listaVacia"
 			value="#{irrigationDetailsAction.irrigationDetailsList eq null or (empty irrigationDetailsAction.irrigationDetailsList)}" />
-		<ui:param name="anchoTabla" value="anchoDos" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{irrigationDetailsAction}" />
 		<ui:param name="renderLista" value="panelIrrigation vigenciaPopup" />
@@ -44,14 +43,34 @@
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listing} #{messageDiesel.irrigation_details_label}"
 				id="panelIrrigation">
-				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-					<ui:param name="tieneVigencia" value="no" />
-					<ui:param name="ocultarNuevo" value="si" />
-				</ui:include>
+				<div align="right" class="anchoDos">
+					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+						<a:outputPanel>
+							<a:commandLink execute="@this" render="@form"
+								styleClass="quitarDecoracionLink"
+								actionListener="#{irrigationDetailsAction.generateReportIrrigationEngine()}"
+								oncomplete="if (#{facesContext.maximumSeverity==null}) {document.getElementById('hrefDownload').click();}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/excel_16.png" />
+									<h:outputText value="#{mensaje.label_generated_report}" />
+								</h:panelGrid>
+							</a:commandLink>
+							<a id="hrefDownload"
+								href="#{request.contextPath}#{reportsController.fileName}"
+								target="_blank" />
+						</a:outputPanel>
+						<a:outputPanel>
+							<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+								<ui:param name="tieneVigencia" value="no" />
+								<ui:param name="ocultarNuevo" value="si" />
+							</ui:include>
+						</a:outputPanel>
+					</h:panelGrid>
+				</div>
 				<rich:dataTable
 					value="#{irrigationDetailsAction.irrigationDetailsList}"
 					var="irrigation"
-					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
+					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colFecha">
 						<f:facet name="header">#{mensaje.label_date}</f:facet>
@@ -101,14 +120,35 @@
 						</rich:columnGroup>
 					</f:facet>
 				</rich:dataTable>
-				<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-					<ui:param name="botonesAbajo" value="si" />
-					<ui:param name="tieneVigencia" value="no" />
-					<ui:param name="ocultarNuevo" value="si" />
-				</ui:include>
+
+				<div align="right" class="anchoDos">
+					<h:panelGrid columns="2" cellpadding="0" cellspacing="0">
+						<a:outputPanel>
+							<a:commandLink execute="@this" render="@form"
+								styleClass="quitarDecoracionLink"
+								actionListener="#{irrigationDetailsAction.generateReportIrrigationEngine()}"
+								oncomplete="if (#{facesContext.maximumSeverity==null}) {document.getElementById('hrefDownload').click();}">
+								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
+									<h:graphicImage value="/img/excel_16.png" />
+									<h:outputText value="#{mensaje.label_generated_report}" />
+								</h:panelGrid>
+							</a:commandLink>
+							<a id="hrefDownload"
+								href="#{request.contextPath}#{reportsController.fileName}"
+								target="_blank" />
+						</a:outputPanel>
+						<a:outputPanel>
+							<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+								<ui:param name="botonesAbajo" value="si" />
+								<ui:param name="tieneVigencia" value="no" />
+								<ui:param name="ocultarNuevo" value="si" />
+							</ui:include>
+						</a:outputPanel>
+					</h:panelGrid>
+				</div>
 				<a:outputPanel rendered="#{!listaVacia}">
 					<br />
-					<div class="#{anchoTabla} center inBlock">
+					<div class="anchoDos center inBlock">
 						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valReder" value="panelIrrigation" />
 							<ui:param name="beanActionParam"
