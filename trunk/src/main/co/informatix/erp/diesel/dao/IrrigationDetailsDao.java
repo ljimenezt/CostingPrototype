@@ -113,6 +113,7 @@ public class IrrigationDetailsDao implements Serializable {
 		query.append("LEFT JOIN FETCH id.machine m ");
 		query.append("LEFT JOIN FETCH id.zone z ");
 		query.append(consult);
+		query.append(" ORDER BY el.date DESC ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
