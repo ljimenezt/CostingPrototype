@@ -206,6 +206,7 @@ public class Constantes implements Serializable {
 	public static final int TRANSACTION_TYPE_WITHDRAWAL = 3;
 	public static final int TRANSACTION_TYPE_ADJUSTMENT_DOWN = 9;
 	public static final int TRANSACTION_TYPE_ADJUSTMENT_UP = 10;
+	public static final int TRANSACTION_TYPE_FUEL_PURCHASE = 12;
 
 	/* Files */
 	public static final String EXTENSION_XLSX = ".xlsx";

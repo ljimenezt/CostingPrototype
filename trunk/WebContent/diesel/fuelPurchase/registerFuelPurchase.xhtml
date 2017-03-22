@@ -22,7 +22,6 @@
 			$g=jQuery.noConflict();
 		</script>
 		<t:saveState value="#{fuelPurchaseAction}" />
-		<t:saveState value="#{fuelPurchaseAction}" />
 		<h:form id="formFuelPurchase">
 			<rich:panel
 				header="#{mensaje.label_register} #{messageDiesel.fuel_purchase_label_name}"
@@ -88,11 +87,21 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							styleClass="W108P">
 							<f:validateDoubleRange minimum="1" />
-							<a:ajax event="change"
-								listener="#{fuelPurchaseAction.calculateValors()}"
-								execute="@this" render="subtotal iva total" />
+							<a:ajax event="change" execute="@this" />
 						</h:inputText>
 						<rich:message for="quantity" />
+						<h:outputText value="#{mensaje.label_subtotal}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="subtotal" required="true"
+							value="#{fuelPurchaseAction.fuelPurchase.subTotal}"
+							requiredMessage="#{mensaje.message_campo_requerido}"
+							styleClass="W108P">
+							<a:ajax event="change"
+								listener="#{fuelPurchaseAction.calculateValors()}"
+								execute="@this" render="costUnit iva total" />
+						</h:inputText>
+						<rich:message for="subtotal" />
 						<h:outputText value="#{mensaje.label_unit_cost}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
@@ -101,14 +110,6 @@
 							styleClass="W108P">
 						</h:inputText>
 						<rich:message for="costUnit" />
-						<h:outputText value="#{mensaje.label_subtotal}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="subtotal" readonly="true"
-							value="#{fuelPurchaseAction.fuelPurchase.subTotal}"
-							styleClass="W108P">
-						</h:inputText>
-						<rich:message for="subtotal" />
 						<h:outputText value="#{mensajeMenu.iva_rate_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="%" styleClass="required" />
