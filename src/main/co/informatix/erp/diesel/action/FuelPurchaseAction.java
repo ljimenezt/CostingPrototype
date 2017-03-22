@@ -702,17 +702,15 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * Method that call to methods calculateTotal and calculateTaxes or
-	 * CalculateSubtotal for do the twos things at the same time.
+	 * Method that call to methods calculateTotal, calculateTaxes and
+	 * CalculateUnitCost at the same time.
 	 */
 	public void calculateValors() {
+		calculateUnitCost();
 		if (ivaRate.getIdIva() > 0) {
 			calculateTaxes();
-			calculateTotal();
-		} else {
-			calculateUnitCost();
-			calculateTotal();
 		}
+		calculateTotal();
 	}
 
 	/**

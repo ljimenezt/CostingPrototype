@@ -87,7 +87,9 @@
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							styleClass="W108P">
 							<f:validateDoubleRange minimum="1" />
-							<a:ajax event="change" execute="@this" />
+							<a:ajax event="change" execute="@this"
+								listener="#{fuelPurchaseAction.calculateValors()}"
+								render="costUnit iva total" />
 						</h:inputText>
 						<rich:message for="quantity" />
 						<h:outputText value="#{mensaje.label_subtotal}"
@@ -108,6 +110,9 @@
 						<h:inputText id="costUnit" readonly="true"
 							value="#{fuelPurchaseAction.fuelPurchase.unitCost}"
 							styleClass="W108P">
+							<a:ajax event="change"
+								listener="#{fuelPurchaseAction.calculateValors()}"
+								execute="@this" />
 						</h:inputText>
 						<rich:message for="costUnit" />
 						<h:outputText value="#{mensajeMenu.iva_rate_label}"
@@ -119,7 +124,7 @@
 							<f:selectItems value="#{fuelPurchaseAction.itemsIvaRate}" />
 							<f:ajax event="change"
 								listener="#{fuelPurchaseAction.calculateValors()}"
-								render="iva total" />
+								render="iva total costUnit subtotal quantity" />
 						</h:selectOneMenu>
 						<rich:message for="ivaRate" />
 						<h:outputText value="#{messageDiesel.fuel_purchase_label_iva}"
