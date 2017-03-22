@@ -25,7 +25,6 @@ import org.primefaces.event.FileUploadEvent;
 import co.informatix.erp.diesel.dao.ConsumableResourcesDao;
 import co.informatix.erp.diesel.dao.FuelPurchaseDao;
 import co.informatix.erp.diesel.dao.FuelUsageLogDao;
-import co.informatix.erp.diesel.entities.ConsumableResources;
 import co.informatix.erp.diesel.entities.FuelPurchase;
 import co.informatix.erp.diesel.entities.FuelUsageLog;
 import co.informatix.erp.informacionBase.dao.IvaRateDao;
@@ -84,7 +83,6 @@ public class FuelPurchaseAction implements Serializable {
 	private TransactionType transactionType;
 	private FileUploadBean fileUploadBean;
 	private FuelUsageLog fuelUsageLog;
-	private ConsumableResources consumableResources;
 	private Paginador pagination = new Paginador();
 
 	@EJB
@@ -394,17 +392,6 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * Method that charge the cost unit of the diesel.
-	 * 
-	 * @throws Exception
-	 */
-	private void chargueCostUnit() throws Exception {
-		this.consumableResources = consumableResourcesDao
-				.consumableResourceById(Constantes.FUEL_PURCHASE_ID_COSTO);
-		fuelPurchase.setUnitCost(consumableResources.getUnitCost());
-	}
-
-	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of fuel purchase.
 	 * 
@@ -585,7 +572,6 @@ public class FuelPurchaseAction implements Serializable {
 			this.fileUploadBean = new FileUploadBean();
 			this.loadDocumentTemporal = true;
 			transactionType = new TransactionType();
-			chargueCostUnit();
 			loadComboSuppliers();
 			loadComboFuelTypes();
 			loadComboIvaRate();
@@ -685,12 +671,12 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * Method that calculate the subtotal of a fuel purchase
+	 * Method that calculate the unit cost of a fuel purchase
 	 */
-	public void calculateSubtotal() {
-		this.fuelPurchase.setSubTotal(ControllerAccounting.multiply(
-				this.fuelPurchase.getQuantity(),
-				this.fuelPurchase.getUnitCost()));
+	public void calculateUnitCost() {
+		this.fuelPurchase.setUnitCost(ControllerAccounting.divide(
+				this.fuelPurchase.getSubTotal(),
+				this.fuelPurchase.getQuantity()));
 	}
 
 	/**
@@ -724,7 +710,7 @@ public class FuelPurchaseAction implements Serializable {
 			calculateTaxes();
 			calculateTotal();
 		} else {
-			calculateSubtotal();
+			calculateUnitCost();
 			calculateTotal();
 		}
 	}
@@ -797,7 +783,7 @@ public class FuelPurchaseAction implements Serializable {
 			fuelPurchaseDao.createFuelPurchase(fuelPurchase);
 
 			transactionType = transactionTypeDao
-					.transactionTypeById(Constantes.TRANSACTION_TYPE_ADJUSTMENT_UP);
+					.transactionTypeById(Constantes.TRANSACTION_TYPE_FUEL_PURCHASE);
 
 			this.fuelUsageLog = new FuelUsageLog();
 			this.fuelUsageLog.setFuelPurchase(fuelPurchase);
