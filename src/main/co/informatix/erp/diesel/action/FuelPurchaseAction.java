@@ -709,6 +709,8 @@ public class FuelPurchaseAction implements Serializable {
 		calculateUnitCost();
 		if (ivaRate.getIdIva() > 0) {
 			calculateTaxes();
+		}else{
+			this.fuelPurchase.setTaxes(0);
 		}
 		calculateTotal();
 	}

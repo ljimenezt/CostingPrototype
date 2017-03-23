@@ -120,7 +120,7 @@
 						<h:outputText value="%" styleClass="required" />
 						<h:selectOneMenu id="ivaRate" styleClass="colTextoCorto"
 							value="#{fuelPurchaseAction.ivaRate.idIva}">
-							<f:selectItem itemLabel="#{mensaje.label_select}" />
+							<f:selectItem itemLabel="#{mensaje.label_select}" itemValue="0" />
 							<f:selectItems value="#{fuelPurchaseAction.itemsIvaRate}" />
 							<f:ajax event="change"
 								listener="#{fuelPurchaseAction.calculateValors()}"
