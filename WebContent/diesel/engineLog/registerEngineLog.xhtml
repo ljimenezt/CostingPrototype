@@ -204,8 +204,8 @@
 								<a:commandLink id="lnkEngine"
 									render=":popupFormActivityMachine:popupActivityMachine"
 									actionListener="#{engineLogAction.initializeSearchActivityMachine()}"
-									execute="@this"
-									oncomplete="#{rich:component('popupActivityMachine')}.show(); setFocus('popupFormActivityMachine:txtNameSearch');">
+									execute="@this, txtDate"
+									oncomplete="if (#{engineLogAction.engineLog.date != null}) #{rich:component('popupActivityMachine')}.show(); setFocus('popupFormActivityMachine:txtNameSearch');">
 									<h:graphicImage value="/img/add_22.png"
 										styleClass="verticalAlignMiddle" />
 									<f:setPropertyActionListener value=""
