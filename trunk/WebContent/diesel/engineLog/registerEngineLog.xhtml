@@ -32,6 +32,9 @@
 						<p:calendar value="#{engineLogAction.engineLog.date}"
 							showOn="button" navigator="true" maxdate="today();" id="txtDate"
 							pattern="MM/dd/yyyy" readonlyInput="true">
+							<p:ajax event="dateSelect"
+								listener="#{engineLogAction.deleteActivity()}"
+								update="outputActivityMachine" />
 						</p:calendar>
 						<rich:message for="txtDate" />
 
