@@ -260,4 +260,7 @@ public class Constantes implements Serializable {
 	/* Fuel Purchase */
 	public static final int FUEL_PURCHASE_ID_COSTO = 1;
 
+	/* Number of months for generate Report */
+	public static final int NUMBER_MONTHS_REPORT = 3;
+
 }
