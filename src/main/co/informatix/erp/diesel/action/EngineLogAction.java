@@ -36,6 +36,7 @@ import co.informatix.erp.utils.ControladorContexto;
 import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
+import co.informatix.erp.utils.ReportsController;
 import co.informatix.erp.utils.ValidacionesAction;
 import co.informatix.erp.warehouse.dao.TransactionTypeDao;
 import co.informatix.erp.warehouse.entities.TransactionType;
@@ -68,6 +69,9 @@ public class EngineLogAction implements Serializable {
 	private Paginador paginationForm = new Paginador();
 	private Date startDateSearch;
 	private Date endDateSearch;
+	private Date startDateReport;
+	private Date endDateReport;
+	private Date maxDateReport;
 
 	@EJB
 	private EngineLogDao engineLogDao;
@@ -323,6 +327,51 @@ public class EngineLogAction implements Serializable {
 	public void setIrrigationDetailsList(
 			List<IrrigationDetails> irrigationDetailsList) {
 		this.irrigationDetailsList = irrigationDetailsList;
+	}
+
+	/**
+	 * @return startDateReport: start date for generate report.
+	 */
+	public Date getStartDateReport() {
+		return startDateReport;
+	}
+
+	/**
+	 * @param startDateReport
+	 *            : start date for generate report.
+	 */
+	public void setStartDateReport(Date startDateReport) {
+		this.startDateReport = startDateReport;
+	}
+
+	/**
+	 * @return endDateReport: end date for generate report.
+	 */
+	public Date getEndDateReport() {
+		return endDateReport;
+	}
+
+	/**
+	 * @param endDateReport
+	 *            : end date for generate report.
+	 */
+	public void setEndDateReport(Date endDateReport) {
+		this.endDateReport = endDateReport;
+	}
+
+	/**
+	 * @return maxDateReport: max date for generate report.
+	 */
+	public Date getMaxDateReport() {
+		return maxDateReport;
+	}
+
+	/**
+	 * @param maxDateReport
+	 *            : max date for generate report.
+	 */
+	public void setMaxDateReport(Date maxDateReport) {
+		this.maxDateReport = maxDateReport;
 	}
 
 	/**
@@ -945,4 +994,54 @@ public class EngineLogAction implements Serializable {
 		}
 	}
 
+	/**
+	 * This method allow calculate the max date for generate the report.
+	 * 
+	 * @author marisol.calderon
+	 */
+	public void calculateMaxDateForReport() {
+		try {
+			this.maxDateReport = ControladorFechas.sumarMeses(
+					this.startDateReport, Constantes.NUMBER_MONTHS_REPORT);
+			if (this.endDateReport != null
+					&& (this.endDateReport.before(this.startDateReport) || this.endDateReport
+							.after(this.maxDateReport))) {
+				this.endDateReport = null;
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * This method allows generate report for control diesel.
+	 * 
+	 * @author marisol.calderon
+	 */
+	public void generateReportControlDiesel() {
+		ReportsController reportsController = ControladorContexto
+				.getContextBean(ReportsController.class);
+		StringBuilder query = new StringBuilder();
+		List<SelectItem> parameters = new ArrayList<SelectItem>();
+		try {
+			if (this.endDateReport != null) {
+				query.append("WHERE ful.date <= :keyword3 ");
+				SelectItem item = new SelectItem(this.endDateReport, "keyword3");
+				parameters.add(item);
+			}
+
+			List<Date> listMonths = new ArrayList<Date>();
+			if (this.startDateReport != null && this.endDateReport != null) {
+				listMonths = ControladorFechas.getDatesBetweenTwoDates(
+						this.startDateReport, this.endDateReport);
+			}
+			List<Object[]> listControlDiesel = fuelUsageLogDao
+					.consultDieselControlReport(query, parameters);
+
+			reportsController.generateReportDieselControl(listMonths,
+					listControlDiesel);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
 }

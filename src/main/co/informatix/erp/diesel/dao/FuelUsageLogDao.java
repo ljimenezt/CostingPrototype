@@ -210,4 +210,48 @@ public class FuelUsageLogDao implements Serializable {
 		return q.getResultList();
 	}
 
+	/**
+	 * This method consult the information for Diesel control report.
+	 * 
+	 * @author marisol.calderon
+	 * 
+	 * @param consult
+	 *            : Consultation records depending on the parameters selected by
+	 *            the user.
+	 * @param parameters
+	 *            : Query parameters for consult.
+	 * @return List<Object[]>: list object with information the entry, out,
+	 *         stock, date, destined, used, delivered and received for report.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object[]> consultDieselControlReport(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT ful.deposited as entry, ful.consumption as out, ");
+		query.append("		ful.final_level as stock, ful.date as date, ");
+		query.append("		ma.name as machineDestined, act.description as activityUsed, ");
+		query.append("		hr.name || ' ' || hr.family_name as deliveredBy, ");
+		query.append("		hr2.name || ' ' || hr2.family_name as receivedBy ");
+		query.append("FROM diesel.fuel_usage_log ful ");
+		query.append("	LEFT JOIN diesel.engine_log el  ");
+		query.append("		ON (ful.id_engine_log = el.id_engine_log)  ");
+		query.append("	LEFT JOIN costs.activity_machine am  ");
+		query.append("		ON (el.id_machine = am.id_machine AND el.id_activity = am.id_activity )  ");
+		query.append("	LEFT JOIN costs.activities act  ");
+		query.append("		ON (am.id_activity = act.idactivity)  ");
+		query.append("	LEFT JOIN machines.machines ma  ");
+		query.append("		ON (am.id_machine = ma.idmachine)  ");
+		query.append("	LEFT JOIN human_resources.hr hr  ");
+		query.append("		ON (el.delivered_by = hr.idhr)  ");
+		query.append("	LEFT JOIN human_resources.hr hr2  ");
+		query.append("		ON (el.received_by = hr2.idhr)  ");
+		query.append(consult);
+		Query q = em.createNativeQuery(query.toString());
+		for (SelectItem parametro : parameters) {
+			q.setParameter(parametro.getLabel(), parametro.getValue());
+		}
+		return q.getResultList();
+	}
+
 }
