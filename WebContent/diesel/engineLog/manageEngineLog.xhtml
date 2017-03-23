@@ -88,6 +88,22 @@
 										locale="#{idioma.locale}" />
 								</h:outputText>
 							</rich:column>
+							<rich:column styleClass="colTextoCorto center">
+								<f:facet name="header">#{messageMachine.machines_label_names}</f:facet>
+								<h:outputText rendered="#{engine.irrigationDetails ne null}"
+									value="#{engine.irrigationDetails.machine.name}" />
+								<h:outputText rendered="#{engine.irrigationDetails eq null}"
+									value="#{engine.engineLog.activityMachine.activityMachinePK.machines.name}" />
+							</rich:column>
+							<rich:column styleClass="colTextoCorto center">
+								<f:facet name="header">#{messageDiesel.zone_label}</f:facet>
+								<h:outputText value="#{engine.irrigationDetails.zone.name}" />
+							</rich:column>
+							<rich:column styleClass="colTextoCorto center">
+								<f:facet name="header">#{mensaje.label_activity}</f:facet>
+								<h:outputText
+									value="#{engine.engineLog.activityMachine.activityMachinePK.activities.description}" />
+							</rich:column>
 							<rich:column styleClass="colFecha">
 								<f:facet name="header">#{messageDiesel.engine_log_label_hour_on}</f:facet>
 								<h:outputText value="#{engine.engineLog.hourOn}">
