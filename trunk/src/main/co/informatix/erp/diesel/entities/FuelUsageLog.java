@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import co.informatix.erp.warehouse.entities.TransactionType;
 
@@ -21,6 +22,7 @@ import co.informatix.erp.warehouse.entities.TransactionType;
  * This is the entity in charge of mapping the table fuel_usage_log table.
  * 
  * @author Luna.Granados
+ * @modify 23/03/2017 Fabian.Diaz
  */
 @SuppressWarnings("serial")
 @Entity
@@ -37,6 +39,7 @@ public class FuelUsageLog implements Serializable {
 	private EngineLog engineLog;
 	private FuelPurchase fuelPurchase;
 	private TransactionType transactionType;
+	private IrrigationDetails irrigationDetails;
 
 	/**
 	 * Constructor method.
@@ -195,6 +198,22 @@ public class FuelUsageLog implements Serializable {
 	 */
 	public void setTransactionType(TransactionType transactionType) {
 		this.transactionType = transactionType;
+	}
+
+	/**
+	 * @return irrigationDetails: Temporal object for get the machine name
+	 */
+	@Transient
+	public IrrigationDetails getIrrigationDetails() {
+		return irrigationDetails;
+	}
+
+	/**
+	 * @param irrigationDetails
+	 *            : Temporal object for set the machine name
+	 */
+	public void setIrrigationDetails(IrrigationDetails irrigationDetails) {
+		this.irrigationDetails = irrigationDetails;
 	}
 
 	@Override

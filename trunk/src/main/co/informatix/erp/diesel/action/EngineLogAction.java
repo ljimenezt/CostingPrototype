@@ -901,6 +901,8 @@ public class EngineLogAction implements Serializable {
 		StringBuilder query = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
+		int cont = 0;
+		IrrigationDetails irrigationDetails = new IrrigationDetails();
 		try {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long quantity = fuelUsageLogDao
@@ -912,6 +914,18 @@ public class EngineLogAction implements Serializable {
 				engineLogList = fuelUsageLogDao.consultEngineLog(
 						pagination.getInicio(), pagination.getRango(), query,
 						parameters);
+				if (engineLogList != null) {
+					for (FuelUsageLog ful : engineLogList) {
+						if (ful.getEngineLog().isIrrigation()) {
+							irrigationDetails = irrigationDetailsDao
+									.consultIrrigationDetails(ful
+											.getEngineLog().getIdEngineLog());
+							engineLogList.get(cont).setIrrigationDetails(
+									irrigationDetails);
+						}
+						cont++;
+					}
+				}
 			}
 			if ((engineLogList == null || engineLogList.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
