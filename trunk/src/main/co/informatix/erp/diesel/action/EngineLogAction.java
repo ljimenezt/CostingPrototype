@@ -33,6 +33,7 @@ import co.informatix.erp.lifeCycle.entities.ActivityNames;
 import co.informatix.erp.machines.entities.Machines;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.ControllerAccounting;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -400,8 +401,16 @@ public class EngineLogAction implements Serializable {
 	 * of ActivityMachines.
 	 */
 	public void initializeSearchActivityMachine() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		ResourceBundle bundleDiesel = context.getApplication()
+				.getResourceBundle(context, "messageDiesel");
 		this.nameActivitySearch = "";
-		searchActivitiesAndMachine();
+		if (this.engineLog.getDate() != null) {
+			searchActivitiesAndMachine();
+		} else {
+			ControladorContexto.mensajeError(null, "formEngineLog:txtActivity",
+					bundleDiesel.getString("engine_log_message_select_date"));
+		}
 	}
 
 	/**
@@ -472,7 +481,7 @@ public class EngineLogAction implements Serializable {
 				this.fuelUsageLog.setFinalLevel(this.finalLevel);
 
 				TransactionType transactionType = transactionTypeDao
-						.transactionTypeById(Constantes.TRANSACTION_TYPE_ADJUSTMENT_DOWN);
+						.transactionTypeById(Constantes.TRANSACTION_TYPE_WITHDRAWAL);
 				this.fuelUsageLog.setTransactionType(transactionType);
 				this.fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
 
@@ -576,9 +585,16 @@ public class EngineLogAction implements Serializable {
 	private void advancedSearchActivities(StringBuilder query,
 			List<SelectItem> parameter, ResourceBundle bundle,
 			ResourceBundle bundleDiesel, StringBuilder joinSearchMessages) {
-		query.append(" WHERE ac.initialDtBudget >= current_date() ");
+		query.append(" WHERE am.initialDateTime BETWEEN :initialDate AND :finalDate ");
+		SelectItem dieselItem = new SelectItem(
+				ControladorFechas.inicioDeDia(this.engineLog.getDate()),
+				"initialDate");
+		parameter.add(dieselItem);
+		dieselItem = new SelectItem(ControladorFechas.finDeDia(this.engineLog
+				.getDate()), "finalDate");
+		parameter.add(dieselItem);
 		query.append(" AND m.fuel = :diesel ");
-		SelectItem dieselItem = new SelectItem(true, "diesel");
+		dieselItem = new SelectItem(true, "diesel");
 		parameter.add(dieselItem);
 		if ((this.nameActivitySearch != null && !""
 				.equals(this.nameActivitySearch))) {
