@@ -18,6 +18,7 @@ import co.informatix.erp.diesel.entities.IrrigationDetails;
 import co.informatix.erp.machines.dao.MachinesDao;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
+import co.informatix.erp.utils.ControladorFechas;
 import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ReportsController;
 import co.informatix.erp.utils.ValidacionesAction;
@@ -37,6 +38,9 @@ public class IrrigationDetailsAction implements Serializable {
 
 	private Date startDateSearch;
 	private Date endDateSearch;
+	private Date startDateReport;
+	private Date endDateReport;
+	private Date maxDateReport;
 
 	private Paginador pagination = new Paginador();
 
@@ -97,6 +101,51 @@ public class IrrigationDetailsAction implements Serializable {
 	}
 
 	/**
+	 * @return startDateReport: start date for generate report.
+	 */
+	public Date getStartDateReport() {
+		return startDateReport;
+	}
+
+	/**
+	 * @param startDateReport
+	 *            : start date for generate report.
+	 */
+	public void setStartDateReport(Date startDateReport) {
+		this.startDateReport = startDateReport;
+	}
+
+	/**
+	 * @return endDateReport: end date for generate report.
+	 */
+	public Date getEndDateReport() {
+		return endDateReport;
+	}
+
+	/**
+	 * @param endDateReport
+	 *            : end date for generate report.
+	 */
+	public void setEndDateReport(Date endDateReport) {
+		this.endDateReport = endDateReport;
+	}
+
+	/**
+	 * @return maxDateReport: max date for generate report.
+	 */
+	public Date getMaxDateReport() {
+		return maxDateReport;
+	}
+
+	/**
+	 * @param maxDateReport
+	 *            : max date for generate report.
+	 */
+	public void setMaxDateReport(Date maxDateReport) {
+		this.maxDateReport = maxDateReport;
+	}
+
+	/**
 	 * @return pagination: the paging controller object.
 	 */
 	public Paginador getPagination() {
@@ -126,6 +175,8 @@ public class IrrigationDetailsAction implements Serializable {
 	/**
 	 * Consult the list of Irrigation Details
 	 * 
+	 * @modify 24/03/2017 Luna.Granados
+	 * 
 	 * @return gesIrrigationDetails: Navigation rule that redirects to manage
 	 *         Irrigation Details
 	 */
@@ -140,6 +191,13 @@ public class IrrigationDetailsAction implements Serializable {
 		StringBuilder unionMessagesSearch = new StringBuilder();
 		String messageSearch = "";
 		try {
+			if (this.startDateSearch != null) {
+				this.startDateReport = this.startDateSearch;
+			}
+			if (this.endDateSearch != null) {
+				this.endDateReport = this.endDateSearch;
+			}
+
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long amount = irrigationDetailsDao.quantityIrrigationDetails(query,
 					parameters);
@@ -216,6 +274,25 @@ public class IrrigationDetailsAction implements Serializable {
 	}
 
 	/**
+	 * This method allow calculate the max date for generate the report.
+	 * 
+	 * @author Luna.Granados
+	 */
+	public void calculateMaxDateForReport() {
+		try {
+			this.maxDateReport = ControladorFechas.sumarMeses(
+					this.startDateReport, Constantes.NUMBER_MONTHS_REPORT);
+			if (this.endDateReport != null
+					&& (this.endDateReport.before(this.startDateReport) || this.endDateReport
+							.after(this.maxDateReport))) {
+				this.endDateReport = null;
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
 	 * This method allow consult the irrigation engine information and generate
 	 * the report.
 	 * 
@@ -251,13 +328,13 @@ public class IrrigationDetailsAction implements Serializable {
 	 */
 	private void reportAdvanceSearch(StringBuilder consult,
 			List<SelectItem> parameters) {
-		if (this.startDateSearch != null && this.endDateSearch != null) {
-			consult.append("AND el.date BETWEEN :startDateSearch AND :endDateSearch ");
+		if (this.startDateReport != null && this.endDateReport != null) {
+			consult.append("AND el.date BETWEEN :startDateReport AND :endDateReport ");
 
-			SelectItem item = new SelectItem(startDateSearch, "startDateSearch");
+			SelectItem item = new SelectItem(startDateReport, "startDateReport");
 			parameters.add(item);
 
-			SelectItem item2 = new SelectItem(endDateSearch, "endDateSearch");
+			SelectItem item2 = new SelectItem(endDateReport, "endDateReport");
 			parameters.add(item2);
 		}
 	}
