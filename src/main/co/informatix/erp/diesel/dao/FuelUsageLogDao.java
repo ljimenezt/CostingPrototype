@@ -247,6 +247,7 @@ public class FuelUsageLogDao implements Serializable {
 		query.append("	LEFT JOIN human_resources.hr hr2  ");
 		query.append("		ON (el.received_by = hr2.idhr)  ");
 		query.append(consult);
+		query.append("ORDER BY ful.date");
 		Query q = em.createNativeQuery(query.toString());
 		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
