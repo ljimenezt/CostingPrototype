@@ -889,6 +889,8 @@ public class MealControlAction implements Serializable {
 	 * 
 	 * @modify 28/03/2017 Fabian.Diaz
 	 * 
+	 * @param param3move
+	 *            : get a string that proceed of the view manage meal control
 	 * @throws Exception
 	 */
 	private void buildDataTable(String param3move) throws Exception {
