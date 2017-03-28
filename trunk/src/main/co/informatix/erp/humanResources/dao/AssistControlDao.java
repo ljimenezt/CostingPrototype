@@ -13,12 +13,10 @@ import javax.persistence.Query;
 import co.informatix.erp.humanResources.entities.AssistControl;
 
 /**
- * 
  * This class is all the logic related to the creation, updating, and deleting
  * the assist control that may exist.
  * 
  * @author Wilhelm.Boada
- * 
  */
 @SuppressWarnings("serial")
 @Stateless

@@ -23,6 +23,7 @@ import org.richfaces.component.UIDataTable;
 
 import co.informatix.erp.humanResources.dao.AssistControlDao;
 import co.informatix.erp.humanResources.dao.HrDao;
+import co.informatix.erp.humanResources.dao.MealControlDao;
 import co.informatix.erp.humanResources.dao.NoveltyDao;
 import co.informatix.erp.humanResources.dao.NoveltyTypeDao;
 import co.informatix.erp.humanResources.entities.AssistControl;
@@ -76,6 +77,8 @@ public class AssistControlAction implements Serializable {
 	private NoveltyTypeDao noveltyTypeDao;
 	@EJB
 	private NoveltyDao noveltyDao;
+	@EJB
+	private MealControlDao mealControlDao;
 
 	/**
 	 * @return pagination: Management paged list of attendance.
@@ -460,6 +463,8 @@ public class AssistControlAction implements Serializable {
 	/**
 	 * See the list of attendance control.
 	 * 
+	 * @modify 27/03/2017 Claudia.Rey
+	 * 
 	 * @return navigation: Navigation rule that redirects to manage the
 	 *         attendance control.
 	 */
@@ -480,14 +485,55 @@ public class AssistControlAction implements Serializable {
 		try {
 			advanceSearch(consult, parameters, bundle, unionSearchMessages,
 					true);
-			Long quantity = hrDao.hrAssistControlAmount(consult, parameters,
-					source);
+			Long quantity;
+			if (source.equals(Constantes.SOURCE_FOOD_CONTROL)) {
+				quantity = mealControlDao.hrFoodControlAmount(consult,
+						parameters);
+				Long quantityOther = mealControlDao.otherFoodControlAmount(
+						consult, parameters);
+				quantity = quantity + quantityOther;
+			} else {
+				quantity = hrDao.hrAssistControlAmount(consult, parameters,
+						source);
+			}
+
 			if (quantity != null) {
 				pagination.paginar(quantity);
 			}
-			this.listHrAssistControl = hrDao.listHrOfAssistControl(
-					pagination.getInicio(), pagination.getRango(), consult,
-					parameters, source);
+
+			if (source.equals(Constantes.SOURCE_FOOD_CONTROL)) {
+				List<Object[]> listNameIdFoodControl = mealControlDao
+						.listHrOtherOfFoodControl(pagination.getInicio(),
+								pagination.getRango(), consult, parameters);
+				if (listNameIdFoodControl != null) {
+					Hr hrAux;
+					for (Object[] obj : listNameIdFoodControl) {
+						if (obj[0] != null) {
+							int id = Integer.parseInt(obj[0].toString());
+							hrAux = hrDao.hrById(id);
+
+						} else {
+							hrAux = new Hr();
+							String name = obj[1].toString();
+							hrAux.setFullName(name);
+							String delimiter = " ";
+							String[] temp = name.split(delimiter);
+							hrAux.setName(temp[0]);
+							if (temp.length >= 2) {
+								hrAux.setFamilyName(temp[1]);
+							} else {
+								hrAux.setName("");
+							}
+						}
+						listHrAssistControl.add(hrAux);
+					}
+				}
+			} else {
+				this.listHrAssistControl = hrDao.listHrOfAssistControl(
+						pagination.getInicio(), pagination.getRango(), consult,
+						parameters, source);
+			}
+
 			if (listHrAssistControl != null) {
 				this.listDateTable = assistControlDao
 						.consultAssistControlDates(consult, parameters, source);
