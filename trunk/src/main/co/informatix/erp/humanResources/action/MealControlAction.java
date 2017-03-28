@@ -73,6 +73,8 @@ public class MealControlAction implements Serializable {
 	private List<SelectItem> parameters;
 	private HashMap<Integer, Integer> mealControlHashmap;
 	boolean flagStart;
+	private int contNextColumn;
+	private int columnsCont;
 
 	@EJB
 	private HrDao hrDao;
@@ -336,6 +338,38 @@ public class MealControlAction implements Serializable {
 	 */
 	public void setParameters(List<SelectItem> parameters) {
 		this.parameters = parameters;
+	}
+
+	/**
+	 * @return contNextColumn: variable to know the next column
+	 */
+	public int getContNextColumn() {
+		return contNextColumn;
+	}
+
+	/**
+	 * @param contNextColumn
+	 *            : variable to know the next column
+	 */
+	public void setContNextColumn(int contNextColumn) {
+		this.contNextColumn = contNextColumn;
+	}
+
+	/**
+	 * @return columnsCont: variable to get the quantity of columns and it can
+	 *         use in the view
+	 */
+	public int getColumnsCont() {
+		return columnsCont;
+	}
+
+	/**
+	 * @param contLogs
+	 *            : variable to get the quantity of columns and it can use in
+	 *            the view
+	 */
+	public void setColumnsCont(int columnsCont) {
+		this.columnsCont = columnsCont;
 	}
 
 	/**
@@ -678,6 +712,7 @@ public class MealControlAction implements Serializable {
 	 */
 	public String initializeMealControl() {
 		pagination = new Paginador();
+		contNextColumn = 6;
 		return consultMealControl();
 	}
 
@@ -709,7 +744,12 @@ public class MealControlAction implements Serializable {
 			if (listHrMealControl != null) {
 				this.listDateTable = assistControlAction.getListDateTable();
 				associateTypeFood(this.consult, this.parameters);
-				buildDataTable();
+				String param3move = ControladorContexto.getParam("param3move");
+				if (param3move == null) {
+					param3move = "";
+				}
+
+				buildDataTable(param3move);
 			}
 			if ((listHrMealControl == null || listHrMealControl.size() <= 0)
 					&& !"".equals(unionSearchMessages.toString())) {
@@ -741,6 +781,7 @@ public class MealControlAction implements Serializable {
 	 * 
 	 * @modify 15/03/2017 Claudia.Rey
 	 * @modify 24/03/2017 Claudia.Rey
+	 * @modify 28/03/2017 Fabian.Diaz
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -775,7 +816,8 @@ public class MealControlAction implements Serializable {
 					if (idHr > 0) {
 						AssistControl assistControlAux = assistControlDao
 								.consultAssistControlByHrAndDate(idHr, date);
-						if (assistControlAux.isAbsent()) {
+						if (assistControlAux != null
+								&& assistControlAux.isAbsent()) {
 							val = 0;
 						} else {
 							val = fc.getQuantity();
@@ -791,12 +833,65 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
+	 * This method allow show a maximum of only six columns
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @param columns
+	 *            : total quantity of columns
+	 * @param column
+	 *            : get an object of type column to render the columns
+	 */
+	private void maxColumns(int columns, UIColumn column) {
+		if (columns <= 6) {
+			column.setRendered(true);
+		} else {
+			column.setRendered(false);
+		}
+	}
+
+	/**
+	 * This method allow to go forward to next column
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @param columns
+	 *            : get total quantity of columns
+	 * @param nextColumn
+	 *            : get next column to show
+	 * @param column
+	 *            : get an object of type column to render the columns
+	 * @param param
+	 *            : get a string to know if it should show the next or the
+	 *            previous column
+	 */
+	private void nextColumns(int columns, int nextColumn, UIColumn column,
+			String param) {
+		if ((param.equals("next") || param.equals(""))
+				|| (param.equals("back") || param.equals(""))
+				&& contNextColumn > 6) {
+			for (int i = 7; i <= 15; i++) {
+				if (columns <= i && nextColumn == i) {
+					int initialColumn = i - 6;
+					if (columns > initialColumn && columns <= i) {
+						column.setRendered(true);
+					} else {
+						column.setRendered(false);
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * This Method build dataTable for assist control, Add columns from date of
 	 * assist
 	 * 
+	 * @modify 28/03/2017 Fabian.Diaz
+	 * 
 	 * @throws Exception
 	 */
-	private void buildDataTable() throws Exception {
+	private void buildDataTable(String param3move) throws Exception {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		dataTable = new UIDataTable();
 		HtmlOutputText headerText1 = new HtmlOutputText();
@@ -820,10 +915,20 @@ public class MealControlAction implements Serializable {
 		UIColumn columnName = (UIColumn) ControladorContexto.getApplication()
 				.createComponent(UIColumn.COMPONENT_TYPE);
 		dataHeader.getChildren().add(columnName);
+
+		if (param3move.equals("next")) {
+			contNextColumn += 1;
+		}
+		if (param3move.equals("back")) {
+			contNextColumn -= 1;
+		}
+		int contColumns = 0;
+
 		if (this.listDateTable != null) {
 			List<TypeFood> listTypeFood = typeFoodDao.consultTypeFood();
 			int colspan = listTypeFood.size();
 			for (Date date : this.listDateTable) {
+				contColumns++;
 				Date dateL = ControladorFechas.formatearFecha(date,
 						Constantes.DATE_FORMAT_CONSULT);
 				Integer d = (int) (dateL.getTime() / 1000);
@@ -836,6 +941,10 @@ public class MealControlAction implements Serializable {
 				columnH.setColspan(colspan);
 				HtmlOutputText headerTextH = new HtmlOutputText();
 				headerTextH.setValue(WordUtils.capitalize(dayOfWeek));
+
+				maxColumns(contColumns, columnH);
+				nextColumns(contColumns, contNextColumn, columnH, param3move);
+
 				columnH.getChildren().add(headerTextH);
 				dataHeader.getChildren().add(columnH);
 				for (TypeFood typeF : listTypeFood) {
@@ -856,12 +965,17 @@ public class MealControlAction implements Serializable {
 							.getValueExpression(mMergeList, null);
 					out.setEscape(false);
 					out.setValueExpression(ConstantesErp.VALUE, value);
+
+					maxColumns(contColumns, column);
+					nextColumns(contColumns, contNextColumn, column, param3move);
+
 					panel.getChildren().add(out);
 					column.getChildren().add(panel);
 					column.setHeader(headerText);
 					dataTable.getChildren().add(column);
 				}
 			}
+			columnsCont = contColumns;
 		}
 	}
 

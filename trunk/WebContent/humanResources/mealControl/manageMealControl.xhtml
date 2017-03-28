@@ -64,6 +64,27 @@
 						</h:panelGrid>
 					</div>
 				</a:outputPanel>
+				<div style="margin: 0px 25px 5px 0px;">
+					<div class="W40Per" align="left" style="display: inline-block;">
+						<a:outputPanel rendered="#{mealControlAction.contNextColumn gt 6}">
+							<a:commandButton value="&lt;" style="margin: 0px;"
+								action="#{mealControlAction.consultMealControl}">
+								<f:param name="param3move" value="back" />
+								<a:ajax render="@form" />
+							</a:commandButton>
+						</a:outputPanel>
+					</div>
+					<div align="right" style="display: inline-block; width: 59%;">
+						<a:outputPanel
+							rendered="#{mealControlAction.contNextColumn ge 6 and mealControlAction.contNextColumn lt mealControlAction.columnsCont}">
+							<a:commandButton value="&gt;" style="margin: 0px;"
+								action="#{mealControlAction.consultMealControl}">
+								<f:param name="param3move" value="next" />
+								<a:ajax render="@form" />
+							</a:commandButton>
+						</a:outputPanel>
+					</div>
+				</div>
 				<rich:dataTable value="#{mealControlAction.listHrMealControl}"
 					var="hr" binding="#{mealControlAction.dataTable}"
 					id="tblMealControl" footerClass="H130P"
@@ -162,7 +183,8 @@
 						value="#{mensaje.button_cancel}" />
 					<h:commandButton styleClass="ocultar" id="executeSearch"
 						onclick="#{rich:component('statPane')}.show();"
-						action="#{mealControlAction.consultMealControl()}">
+						action="#{mealControlAction.consultMealControl}">
+						<f:param name="param2" value="si" />
 					</h:commandButton>
 				</div>
 			</rich:popupPanel>
