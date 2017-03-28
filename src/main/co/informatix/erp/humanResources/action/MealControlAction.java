@@ -43,13 +43,11 @@ import co.informatix.erp.utils.ReportsController;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * 
  * This class is all the logic related to the creation, updating, and deleting
  * the meal control that may exist.
  * 
  * @author Wilhelm.Boada
  * @modify Andrex.Gomez
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
@@ -615,23 +613,26 @@ public class MealControlAction implements Serializable {
 							Constantes.DATE_FORMAT_CONSULT));
 			if (hrList != null && hrList.size() > 0) {
 				for (Hr hr : hrList) {
+					String date = ControladorFechas.formatDate(
+							initialDateSearch, Constantes.DATE_FORMAT_CONSULT);
+					AssistControl assistControlAux = assistControlDao
+							.consultAssistControlByHrAndDate(hr.getIdHr(), date);
+					boolean flagAbsent = assistControlAux.isAbsent();
 					for (TypeFood typeFood : typeFoodList) {
-						String date = ControladorFechas.formatDate(
-								initialDateSearch,
-								Constantes.DATE_FORMAT_CONSULT);
 						FoodControl foodControl = mealControlDao
 								.consultMealControlByIdTypeIdHrAndDate(
 										typeFood.getId(), hr.getIdHr(), date);
 						foodControl.setHr(hr);
 						foodControl.setTypeFood(typeFood);
 						boolean flag = false;
+
 						for (DayTypeFood dayTypeFood : dayTypeFoodList) {
 							if (dayTypeFood.getTypeFood().getId() == typeFood
 									.getId()) {
 								flag = true;
 							}
 						}
-						if (flag) {
+						if (flag && !flagAbsent) {
 							foodControl.setQuantity(1);
 						} else {
 							foodControl.setQuantity(0);
@@ -739,6 +740,7 @@ public class MealControlAction implements Serializable {
 	 * the human resource
 	 * 
 	 * @modify 15/03/2017 Claudia.Rey
+	 * @modify 24/03/2017 Claudia.Rey
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -749,9 +751,17 @@ public class MealControlAction implements Serializable {
 	private void associateTypeFood(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		for (Hr hr : listHrMealControl) {
-			int idHr = hr.getIdHr();
-			List<FoodControl> listMealControlAux = mealControlDao
-					.listHrOfMealControl(idHr, consult, parameters);
+			int idHr = 0;
+			List<FoodControl> listMealControlAux;
+			if (hr.getIdHr() > 0) {
+				idHr = hr.getIdHr();
+				listMealControlAux = mealControlDao.listHrOfFoodControl(idHr,
+						consult, parameters);
+			} else {
+				String name = hr.getFullName();
+				listMealControlAux = mealControlDao.listHrOfMealControlXOther(
+						name, consult, parameters);
+			}
 			if (listMealControlAux != null) {
 				HashMap<Integer, Integer> hasmapAux = new HashMap<Integer, Integer>();
 				for (FoodControl fc : listMealControlAux) {
@@ -761,11 +771,15 @@ public class MealControlAction implements Serializable {
 					Integer i = (int) (dateAssist.getTime() / 1000)
 							+ idFoodType;
 					String date = fc.getDate().toString();
-					AssistControl assistControlAux = assistControlDao
-							.consultAssistControlByHrAndDate(idHr, date);
 					int val;
-					if (assistControlAux.isAbsent()) {
-						val = 0;
+					if (idHr > 0) {
+						AssistControl assistControlAux = assistControlDao
+								.consultAssistControlByHrAndDate(idHr, date);
+						if (assistControlAux.isAbsent()) {
+							val = 0;
+						} else {
+							val = fc.getQuantity();
+						}
 					} else {
 						val = fc.getQuantity();
 					}
@@ -852,8 +866,10 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
-	 * This method allow consult the assist control information and generate the
+	 * This method allow consult the food control information and generate the
 	 * report
+	 * 
+	 * @modify 27/03/2017 Claudia.Rey
 	 */
 	public void generateReportAssitControl() {
 		ReportsController reportsController = ControladorContexto
@@ -867,7 +883,24 @@ public class MealControlAction implements Serializable {
 					false);
 			List<FoodControl> listFoodControl = mealControlDao
 					.listHrOfMealControl(0, consult, parameters);
-
+			if (listFoodControl != null && listFoodControl.size() > 0) {
+				for (FoodControl food : listFoodControl) {
+					if (food.getHr() == null) {
+						Hr hr = new Hr();
+						String name = food.getOther();
+						hr.setFullName(name);
+						String delimiter = " ";
+						String[] temp = name.split(delimiter);
+						hr.setName(temp[0]);
+						if (temp.length >= 2) {
+							hr.setFamilyName(temp[1]);
+						} else {
+							hr.setName("");
+						}
+						food.setHr(hr);
+					}
+				}
+			}
 			List<Date> listDate = assistControlDao.consultAssistControlDates(
 					consult, parameters, "FoodControl");
 			Long countD = 0L;
@@ -884,5 +917,4 @@ public class MealControlAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-
 }

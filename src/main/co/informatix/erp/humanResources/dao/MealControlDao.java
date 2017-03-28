@@ -13,13 +13,11 @@ import javax.persistence.Query;
 import co.informatix.erp.humanResources.entities.FoodControl;
 
 /**
- * 
  * This class is all the logic related to the creation, updating, and deleting
  * the meal control that may exist.
  * 
  * @author Wilhelm.Boada
  * @modify Andres.Gomez
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
@@ -168,7 +166,7 @@ public class MealControlDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT a FROM FoodControl a ");
-		query.append("JOIN FETCH a.hr h ");
+		query.append("LEFT JOIN FETCH  a.hr h ");
 		query.append("JOIN FETCH a.typeFood ");
 		query.append(consult);
 		if (idHr != 0) {
@@ -209,4 +207,172 @@ public class MealControlDao implements Serializable {
 		return (Long) q.getSingleResult();
 	}
 
+	/**
+	 * This method consult the number of assistants HR since the table food
+	 * control.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param consult
+	 *            : Query records depend of the dates initial and final of week.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Quantity of register found.
+	 * @throws Exception
+	 */
+	public Long hrFoodControlAmount(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(DISTINCT a.hr) FROM  FoodControl a ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * This method consult the number of assistants Other since the table food
+	 * control.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param consult
+	 *            : Query records depend of the dates initial and final of week.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: Quantity of register found.
+	 * @throws Exception
+	 */
+	public Long otherFoodControlAmount(StringBuilder consult,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT COUNT(DISTINCT a.other) FROM  FoodControl a ");
+		query.append(consult);
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		return (Long) q.getSingleResult();
+	}
+
+	/**
+	 * This method consult the assistants Hr and Other of food control
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param start
+	 *            : First record of the query result that is retrieved.
+	 * @param range
+	 *            : Range of records.
+	 * @param consult
+	 *            : Query records depend of the dates initial and final of week.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<Object[]>: List of records found.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Object[]> listHrOtherOfFoodControl(int start, int range,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT DISTINCT(a.hr.idHr), a.other, hr.name FROM FoodControl a ");
+		query.append("LEFT JOIN a.hr hr ");
+		query.append(consult);
+		query.append("ORDER BY hr.name, a.other ASC ");
+		Query q = em.createQuery(query.toString());
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		q.setFirstResult(start).setMaxResults(range);
+		List<Object[]> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * This method consult the food control that have a human recurs associated.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param idHr
+	 *            : Identifier human resource associated to food control.
+	 * @param consult
+	 *            : Query records depend of the dates initial and final of week.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<FoodControl>: List of food control found.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<FoodControl> listHrOfFoodControl(int idHr,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT a FROM FoodControl a ");
+		query.append("LEFT JOIN FETCH a.hr h ");
+		query.append("JOIN FETCH a.typeFood tf ");
+		query.append(consult);
+		if (idHr != 0) {
+			query.append("AND h.idHr = :idHr ");
+		}
+		Query q = em.createQuery(query.toString());
+		if (idHr != 0) {
+			q.setParameter("idHr", idHr);
+		}
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		List<FoodControl> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * This method consult the food control that have other associated.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param other
+	 *            : Name of other associated.
+	 * @param consult
+	 *            : Query records depend of the dates initial and final of week.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<FoodControl>: List of food control found.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<FoodControl> listHrOfMealControlXOther(String other,
+			StringBuilder consult, List<SelectItem> parameters)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT a FROM FoodControl a ");
+		query.append("LEFT JOIN a.hr ");
+		query.append("JOIN FETCH a.typeFood ");
+		query.append(consult);
+		if (other != null) {
+			query.append("AND a.other = :other ");
+		} else {
+			query.append(" AND a.other !='' ");
+		}
+		Query q = em.createQuery(query.toString());
+		if (other != null) {
+			q.setParameter("other", other);
+		}
+		for (SelectItem parameter : parameters) {
+			q.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		List<FoodControl> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }
