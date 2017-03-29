@@ -68,9 +68,10 @@
 					<div class="W40Per" align="left" style="display: inline-block;">
 						<a:outputPanel rendered="#{mealControlAction.contNextColumn gt 6}">
 							<a:commandButton value="&lt;" style="margin: 0px;"
-								action="#{mealControlAction.consultMealControl}">
+								id="buttonBack" action="#{mealControlAction.consultMealControl}">
 								<f:param name="param3move" value="back" />
 								<a:ajax render="@form" />
+								<rich:tooltip for="buttonBack" value="Previous" />
 							</a:commandButton>
 						</a:outputPanel>
 					</div>
@@ -78,9 +79,10 @@
 						<a:outputPanel
 							rendered="#{mealControlAction.contNextColumn ge 6 and mealControlAction.contNextColumn lt mealControlAction.columnsCont}">
 							<a:commandButton value="&gt;" style="margin: 0px;"
-								action="#{mealControlAction.consultMealControl}">
+								id="buttonNext" action="#{mealControlAction.consultMealControl}">
 								<f:param name="param3move" value="next" />
 								<a:ajax render="@form" />
+								<rich:tooltip for="buttonNext" value="Following" />
 							</a:commandButton>
 						</a:outputPanel>
 					</div>
