@@ -142,8 +142,7 @@ public class FuelUsageLogDao implements Serializable {
 	}
 
 	/**
-	 * Returns the number rows of fuel usage log that exist in the database that
-	 * are existing or not existing.
+	 * Returns the number rows of fuel usage log that exist in the database.
 	 * 
 	 * @author Fabian.Diaz
 	 * 
