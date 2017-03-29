@@ -893,8 +893,8 @@ public class EngineLogAction implements Serializable {
 		IrrigationDetails irrigationDetails = new IrrigationDetails();
 		try {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
-			Long quantity = fuelUsageLogDao
-					.quantityFuelUsageLogByEngineLog(query, parameters);
+			Long quantity = fuelUsageLogDao.quantityFuelUsageLogByEngineLog(
+					query, parameters);
 			if (quantity != null) {
 				pagination.paginar(quantity);
 			}
