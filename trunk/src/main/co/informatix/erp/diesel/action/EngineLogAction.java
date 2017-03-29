@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.transaction.UserTransaction;
 
@@ -450,14 +449,13 @@ public class EngineLogAction implements Serializable {
 	 * of ActivityMachines.
 	 */
 	public void initializeSearchActivityMachine() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ResourceBundle bundleDiesel = context.getApplication()
-				.getResourceBundle(context, "messageDiesel");
+		ResourceBundle bundleDiesel = ControladorContexto
+				.getBundle("messageDiesel");
 		this.nameActivitySearch = "";
 		if (this.engineLog.getDate() != null) {
 			searchActivitiesAndMachine();
 		} else {
-			ControladorContexto.mensajeError(null, "formEngineLog:txtActivity",
+			ControladorContexto.mensajeError("formEngineLog:txtActivity",
 					bundleDiesel.getString("engine_log_message_select_date"));
 		}
 	}
@@ -678,11 +676,9 @@ public class EngineLogAction implements Serializable {
 	 * Validates interface required fields.
 	 */
 	public void validateRequired() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ResourceBundle bundle = context.getApplication().getResourceBundle(
-				context, "mensaje");
-		ResourceBundle bundleDiesel = context.getApplication()
-				.getResourceBundle(context, "messageDiesel");
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleDiesel = ControladorContexto
+				.getBundle("messageDiesel");
 		try {
 			if (this.engineLog.getDate() == null) {
 				ControladorContexto.mensajeRequeridos("formEngineLog:txtDate");
@@ -701,7 +697,6 @@ public class EngineLogAction implements Serializable {
 						this.engineLog.getHourOn()) < 0) {
 					ControladorContexto
 							.mensajeError(
-									null,
 									"formEngineLog:txtHourOff",
 									bundleDiesel
 											.getString("engine_log_message_hour_off_higher"));
@@ -714,7 +709,6 @@ public class EngineLogAction implements Serializable {
 							this.engineLog.getHourmeterOff())) {
 						ControladorContexto
 								.mensajeError(
-										null,
 										"formEngineLog:txtHourmeterOff",
 										bundleDiesel
 												.getString("engine_log_message_no_duration"));
@@ -741,7 +735,7 @@ public class EngineLogAction implements Serializable {
 				if (this.engineLog.getDuration() != null
 						&& (this.engineLog.getDuration() > 0 && this.fuelUsageLog
 								.getConsumption() == 0)) {
-					ControladorContexto.mensajeError(null,
+					ControladorContexto.mensajeError(
 							"formEngineLog:txtConsumption",
 							bundle.getString("message_campo_mayo_cero"));
 				}
@@ -750,7 +744,6 @@ public class EngineLogAction implements Serializable {
 								.getConsumption() > 0)) {
 					ControladorContexto
 							.mensajeError(
-									null,
 									"formEngineLog:txtConsumption",
 									bundleDiesel
 											.getString("engine_log_message_no_consumption"));
@@ -761,7 +754,7 @@ public class EngineLogAction implements Serializable {
 						fuelUsage.getFinalLevel(),
 						this.fuelUsageLog.getConsumption());
 				if (this.finalLevel < 0) {
-					ControladorContexto.mensajeError(null,
+					ControladorContexto.mensajeError(
 							"formEngineLog:txtConsumption", bundleDiesel
 									.getString("engine_log_message_no_diesel"));
 				}
@@ -794,7 +787,6 @@ public class EngineLogAction implements Serializable {
 											.getHidrometerOff())) {
 						ControladorContexto
 								.mensajeError(
-										null,
 										"formEngineLog:txtHidrometerOff",
 										bundleDiesel
 												.getString("irrigation_details_message_no_water_usage"));
@@ -812,7 +804,6 @@ public class EngineLogAction implements Serializable {
 								.getIdMachine() == 0) {
 					ControladorContexto
 							.mensajeError(
-									null,
 									"formEngineLog:txtActivity",
 									bundleDiesel
 											.getString("engine_log_message_select_activity"));
@@ -828,9 +819,8 @@ public class EngineLogAction implements Serializable {
 	 * hourmeterOff or difference between hidrometerOn and hidrometerOff.
 	 */
 	public void calculateDifference() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		ResourceBundle bundleDiesel = context.getApplication()
-				.getResourceBundle(context, "messageDiesel");
+		ResourceBundle bundleDiesel = ControladorContexto
+				.getBundle("messageDiesel");
 		if ((this.engineLog.getHourmeterOn() != null && this.engineLog
 				.getHourmeterOff() != null)
 				&& this.engineLog.getHourmeterOff() >= this.engineLog
@@ -842,7 +832,6 @@ public class EngineLogAction implements Serializable {
 		} else {
 			ControladorContexto
 					.mensajeError(
-							null,
 							"formEngineLog:txtHourmeterOff",
 							bundleDiesel
 									.getString("engine_log_message_hourmeter_off_higher"));
@@ -859,7 +848,6 @@ public class EngineLogAction implements Serializable {
 			} else {
 				ControladorContexto
 						.mensajeError(
-								null,
 								"formEngineLog:txtHidrometerOff",
 								bundleDiesel
 										.getString("irrigation_details_message_hidrometer_off_higher"));
