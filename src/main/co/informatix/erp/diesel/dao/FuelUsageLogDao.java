@@ -187,8 +187,8 @@ public class FuelUsageLogDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<FuelUsageLog> consultFuelUsageLogByEngineLog(int start, int range,
-			StringBuilder consult, List<SelectItem> parameters)
+	public List<FuelUsageLog> consultFuelUsageLogByEngineLog(int start,
+			int range, StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ful FROM FuelUsageLog ful ");
