@@ -87,8 +87,6 @@ public class PersonDao implements Serializable {
 	 * This method makes the registration of the person in the database
 	 * information system.
 	 * 
-	 * @author Angelica.Amaya
-	 * 
 	 * @param person
 	 *            : object recorded in the database.
 	 * @throws Exception
@@ -100,8 +98,6 @@ public class PersonDao implements Serializable {
 	/**
 	 * This method is the one to make the update in the database for a given
 	 * user.
-	 * 
-	 * @author Angelica.Amaya.
 	 * 
 	 * @param person
 	 *            : subject to updating.
