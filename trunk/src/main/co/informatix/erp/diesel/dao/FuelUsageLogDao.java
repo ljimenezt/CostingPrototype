@@ -154,7 +154,7 @@ public class FuelUsageLogDao implements Serializable {
 	 * @return Number of records found.
 	 * @throws Exception
 	 */
-	public Long quantityEngineLog(StringBuilder consult,
+	public Long quantityFuelUsageLogByEngineLog(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(ful) FROM FuelUsageLog ful ");
@@ -187,7 +187,7 @@ public class FuelUsageLogDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<FuelUsageLog> consultEngineLog(int start, int range,
+	public List<FuelUsageLog> consultFuelUsageLogByEngineLog(int start, int range,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
