@@ -109,9 +109,7 @@ public class HrDao implements Serializable {
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return List
-	 *         <Hr>
-	 *         : List of human resources.
+	 * @return List of human resources.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -203,9 +201,7 @@ public class HrDao implements Serializable {
 	 * 
 	 * @author Mabell.Boada
 	 * 
-	 * @return List
-	 *         <Hr>
-	 *         : List of all human resources.
+	 * @return List of all human resources.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -333,9 +329,7 @@ public class HrDao implements Serializable {
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return List
-	 *         <Hr>
-	 *         : List of human resources.
+	 * @return List of human resources.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -402,9 +396,7 @@ public class HrDao implements Serializable {
 	 * @param source
 	 *            : name of the entity that indicate the source of the human
 	 *            resource.
-	 * @return List
-	 *         <Hr>
-	 *         : human resource list
+	 * @return Human resource list
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -439,9 +431,7 @@ public class HrDao implements Serializable {
 	 *            : Query records depending on the user selected parameter.
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return List
-	 *         <Hr>
-	 *         :Human resource list.
+	 * @return Human resource list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
@@ -475,9 +465,7 @@ public class HrDao implements Serializable {
 	 * 
 	 * @param date
 	 *            : Date to the consult hr.
-	 * @return List
-	 *         <Hr>
-	 *         :Human resource list.
+	 * @return Human resource list.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
