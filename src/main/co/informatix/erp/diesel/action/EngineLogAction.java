@@ -894,12 +894,12 @@ public class EngineLogAction implements Serializable {
 		try {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch);
 			Long quantity = fuelUsageLogDao
-					.quantityEngineLog(query, parameters);
+					.quantityFuelUsageLogByEngineLog(query, parameters);
 			if (quantity != null) {
 				pagination.paginar(quantity);
 			}
 			if (quantity != null && quantity > 0) {
-				engineLogList = fuelUsageLogDao.consultEngineLog(
+				engineLogList = fuelUsageLogDao.consultFuelUsageLogByEngineLog(
 						pagination.getInicio(), pagination.getRango(), query,
 						parameters);
 				if (engineLogList != null) {
