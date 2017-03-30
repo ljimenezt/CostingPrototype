@@ -523,7 +523,7 @@ public class EngineLogAction implements Serializable {
 				engineLogDao.saveEngineLog(this.engineLog);
 
 				this.fuelUsageLog.setEngineLog(this.engineLog);
-				this.fuelUsageLog.setDate(new Date());
+				this.fuelUsageLog.setDate(engineLog.getDate());
 				this.fuelUsageLog.setFuelPurchase(null);
 				this.fuelUsageLog.setFinalLevel(this.finalLevel);
 
