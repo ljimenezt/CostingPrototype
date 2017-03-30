@@ -1019,6 +1019,7 @@ public class EngineLogAction implements Serializable {
 	 * This method allows generate report for control diesel.
 	 * 
 	 * @author marisol.calderon
+	 * @modify 24/03/2017 Luna.Granados
 	 */
 	public void generateReportControlDiesel() {
 		ReportsController reportsController = ControladorContexto
@@ -1026,22 +1027,20 @@ public class EngineLogAction implements Serializable {
 		StringBuilder query = new StringBuilder();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		try {
-			if (this.endDateReport != null) {
-				query.append("WHERE ful.date <= :keyword3 ");
-				SelectItem item = new SelectItem(this.endDateReport, "keyword3");
-				parameters.add(item);
-			}
-
-			List<Date> listMonths = new ArrayList<Date>();
 			if (this.startDateReport != null && this.endDateReport != null) {
-				listMonths = ControladorFechas.getDatesBetweenTwoDates(
-						this.startDateReport, this.endDateReport);
+				query.append("WHERE ful.date BETWEEN :startDateReport AND :endDateReport ");
+
+				SelectItem item = new SelectItem(startDateReport, "startDateReport");
+				parameters.add(item);
+
+				SelectItem item2 = new SelectItem(endDateReport, "endDateReport");
+				parameters.add(item2);
 			}
+			
 			List<Object[]> listControlDiesel = fuelUsageLogDao
 					.consultDieselControlReport(query, parameters);
 
-			reportsController.generateReportDieselControl(listMonths,
-					listControlDiesel);
+			reportsController.generateReportDieselControl(listControlDiesel);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
