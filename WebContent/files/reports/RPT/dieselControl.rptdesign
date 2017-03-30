@@ -10,45 +10,6 @@
         <script-data-source name="Data Source" id="28"/>
     </data-sources>
     <data-sets>
-        <script-data-set name="DataSetMonths" id="29">
-            <list-property name="resultSetHints">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">month</property>
-                    <property name="dataType">date</property>
-                </structure>
-            </list-property>
-            <list-property name="columnHints">
-                <structure>
-                    <property name="columnName">month</property>
-                </structure>
-            </list-property>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">month</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                </list-property>
-            </structure>
-            <property name="dataSource">Data Source</property>
-            <method name="open"><![CDATA[count = 0;
-
-listMonths= reportContext.getParameterValue("listMonths");
-
-stock = listMonths;]]></method>
-            <method name="fetch"><![CDATA[if (stock.size() > 0){																		 
-	if(count < stock.size()){	
-	
-		row["month"] = stock.get(count);
-	 
-  	 	count++;																				  
-       return true;																			  
-	}																						  
- }																							  
-return false;]]></method>
-        </script-data-set>
         <script-data-set name="DataSetList" id="41">
             <list-property name="resultSetHints">
                 <structure>
@@ -187,6 +148,45 @@ stock = listControlDiesel;
 return false;]]></method>
         </script-data-set>
     </data-sets>
+    <cubes>
+        <tabular-cube name="DataCube" id="469">
+            <property name="dimensions">
+                <tabular-dimension name="month" id="473">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="474">
+                            <property name="levels">
+                                <tabular-level name="Year" id="475">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">year</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">date</property>
+                                </tabular-level>
+                                <tabular-level name="Month" id="476">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">date</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="dataSet">DataSetList</property>
+        </tabular-cube>
+    </cubes>
     <styles>
         <style name="report" id="4">
             <property name="fontFamily">sans-serif</property>
@@ -237,25 +237,30 @@ return false;]]></method>
     <body>
         <list id="465">
             <property name="display">inline</property>
-            <property name="dataSet">DataSetMonths</property>
+            <property name="dataSet">DataSetList</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">month</property>
                     <text-property name="displayName">month</text-property>
-                    <expression name="expression" type="javascript">dataSetRow["month"]</expression>
+                    <expression name="expression" type="javascript">dataSetRow["date"]</expression>
+                    <property name="dataType">date</property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">date</property>
+                    <expression name="expression" type="javascript">dataSetRow["date"]</expression>
                     <property name="dataType">date</property>
                     <property name="allowExport">true</property>
                 </structure>
             </list-property>
             <structure name="toc"/>
-            <group id="466">
-                <property name="groupName">NewListGroup1</property>
-                <property name="sortDirection">asc</property>
-                <expression name="keyExpr" type="javascript">row["month"]</expression>
+            <group id="468">
+                <property name="groupName">NewListGroup2</property>
+                <expression name="keyExpr" type="javascript">Formatter.format(row["date"], 'YYYY MMMM')</expression>
                 <structure name="toc">
-                    <expression name="expressionValue" type="javascript">row["month"]</expression>
+                    <expression name="expressionValue" type="javascript">row["date"]</expression>
                 </structure>
-                <property name="hideDetail">true</property>
+                <property name="hideDetail">false</property>
                 <property name="pageBreakAfter">always</property>
                 <property name="pageBreakBefore">avoid</property>
                 <property name="pageBreakInside">avoid</property>
@@ -273,6 +278,12 @@ return false;]]></method>
                         </structure>
                         <property name="textAlign">left</property>
                         <property name="display">inline</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr" type="javascript">true</expression>
+                            </structure>
+                        </list-property>
                         <structure name="toc">
                             <expression name="expressionValue" type="javascript">reportContext.setPageVariable("pageLabel",BirtStr.toUpper(Formatter.format(row["month"], 'MMMM YYYY')));</expression>
                         </structure>
@@ -280,7 +291,7 @@ return false;]]></method>
                     </data>
                     <grid id="7">
                         <property name="height">1.15625in</property>
-                        <property name="dataSet">DataSetMonths</property>
+                        <property name="dataSet">DataSetList</property>
                         <list-property name="boundDataColumns">
                             <structure>
                                 <property name="name">month</property>
@@ -326,9 +337,7 @@ return false;]]></method>
                                     <property name="fontSize">14pt</property>
                                     <property name="fontWeight">bold</property>
                                     <property name="textAlign">center</property>
-                                    <expression name="valueExpr">if (row._outer["month"] != null) {&#13;
-	BirtStr.toUpper(Formatter.format(row._outer["month"], 'YYYY'))&#13;
-}</expression>
+                                    <expression name="valueExpr">Formatter.format(row["date"], 'YYYY')</expression>
                                     <property name="contentType">html</property>
                                 </text-data>
                             </cell>
@@ -395,6 +404,21 @@ return false;]]></method>
                                 <text-property name="displayName">receivedBy</text-property>
                                 <expression name="expression" type="javascript">dataSetRow["receivedBy"]</expression>
                                 <property name="dataType">string</property>
+                            </structure>
+                            <structure>
+                                <property name="name">Aggregation</property>
+                                <property name="dataType">float</property>
+                                <simple-property-list name="aggregateOn">
+                                    <value>groupDate</value>
+                                </simple-property-list>
+                                <property name="aggregateFunction">FIRST</property>
+                                <list-property name="arguments">
+                                    <structure>
+                                        <property name="name">Expression</property>
+                                        <expression name="value" type="javascript">dataSetRow["stock"]</expression>
+                                    </structure>
+                                </list-property>
+                                <property name="allowExport">true</property>
                             </structure>
                         </list-property>
                         <structure name="toc"/>

@@ -354,19 +354,17 @@ public class ReportsController implements Serializable {
 	 * parameters received from the action.
 	 * 
 	 * @author marisol.calderon
+	 * @modify 24/03/2017 Luna.Granados
 	 * 
-	 * @param listMonths
-	 *            : Date list with the value of the month selected by user.
 	 * @param listControlDiesel
 	 *            : list with values of consult by report.
 	 * @throws Exception
 	 */
-	public void generateReportDieselControl(List<Date> listMonths,
-			List<Object[]> listControlDiesel) throws Exception {
+	public void generateReportDieselControl(List<Object[]> listControlDiesel)
+			throws Exception {
 		Object[] object = new Object[4];
 		String reportName = "dieselControl.rptdesign";
 		HashMap<String, Object> mapAttribute = new HashMap<String, Object>();
-		mapAttribute.put("listMonths", listMonths);
 		mapAttribute.put("listControlDiesel", listControlDiesel);
 		mapAttribute.put("object", object);
 		this.reportFormat = Constantes.FORMAT_EXCEL;
