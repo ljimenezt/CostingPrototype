@@ -25,7 +25,7 @@ import org.richfaces.component.UIDataTable;
 import co.informatix.erp.humanResources.dao.AssistControlDao;
 import co.informatix.erp.humanResources.dao.DayTypeFoodDao;
 import co.informatix.erp.humanResources.dao.HrDao;
-import co.informatix.erp.humanResources.dao.MealControlDao;
+import co.informatix.erp.humanResources.dao.FoodControlDao;
 import co.informatix.erp.humanResources.entities.AssistControl;
 import co.informatix.erp.humanResources.entities.DayTypeFood;
 import co.informatix.erp.humanResources.entities.FoodControl;
@@ -44,7 +44,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 
 /**
  * This class is all the logic related to the creation, updating, and deleting
- * the meal control that may exist.
+ * the food control that may exist.
  * 
  * @author Wilhelm.Boada
  * @modify Andrex.Gomez
@@ -52,7 +52,7 @@ import co.informatix.erp.utils.ValidacionesAction;
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
-public class MealControlAction implements Serializable {
+public class FoodControlAction implements Serializable {
 
 	private Paginador pagination = new Paginador();
 	private Date initialDateSearch;
@@ -66,12 +66,11 @@ public class MealControlAction implements Serializable {
 	private List<Hr> otherHrList;
 	private List<TypeFood> typeFoodList;
 	private List<Integer> otherQuantity;
-	private List<FoodControl> listFoodControl;
 	private List<DayTypeFood> dayTypeFoodList;
-	private List<Hr> listHrMealControl;
+	private List<Hr> listHrFoodControl;
 	private List<Date> listDateTable;
 	private List<SelectItem> parameters;
-	private HashMap<Integer, Integer> mealControlHashmap;
+	private HashMap<Integer, Integer> foodControlHashmap;
 	boolean flagStart;
 	private int contNextColumn;
 	private int columnsCont;
@@ -83,14 +82,14 @@ public class MealControlAction implements Serializable {
 	@EJB
 	private DayTypeFoodDao dayTypeFoodDao;
 	@EJB
-	private MealControlDao mealControlDao;
+	private FoodControlDao foodControlDao;
 	@EJB
 	private HolidayDao holidayDao;
 	@EJB
 	AssistControlDao assistControlDao;
 
 	/**
-	 * @return pagination: Management paged meal control.
+	 * @return pagination: Management paged food control.
 	 */
 	public Paginador getPagination() {
 		return pagination;
@@ -98,14 +97,14 @@ public class MealControlAction implements Serializable {
 
 	/**
 	 * @param pagination
-	 *            : Management paged meal control.
+	 *            : Management paged food control.
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
 	}
 
 	/**
-	 * @return initialDateSearch: gets the date of the meal control to search in
+	 * @return initialDateSearch: gets the date of the food control to search in
 	 *         a range.
 	 */
 	public Date getInitialDateSearch() {
@@ -114,14 +113,14 @@ public class MealControlAction implements Serializable {
 
 	/**
 	 * @param initialDateSearch
-	 *            : gets the date of the meal control to search in a range.
+	 *            : gets the date of the food control to search in a range.
 	 */
 	public void setInitialDateSearch(Date initialDateSearch) {
 		this.initialDateSearch = initialDateSearch;
 	}
 
 	/**
-	 * @return hrOther: Human Resource for the meal control.
+	 * @return hrOther: Human Resource for the food control.
 	 */
 	public Hr getHrOther() {
 		return hrOther;
@@ -129,7 +128,7 @@ public class MealControlAction implements Serializable {
 
 	/**
 	 * @param hrOther
-	 *            : Human Resource for the meal control.
+	 *            : Human Resource for the food control.
 	 */
 	public void setHrOther(Hr hrOther) {
 		this.hrOther = hrOther;
@@ -219,33 +218,18 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
-	 * @return listFoodControl: List Of Food Control Object
+	 * @return listHrFoodControl: List of human resources of food control
 	 */
-	public List<FoodControl> getListFoodControl() {
-		return listFoodControl;
+	public List<Hr> getListHrFoodControl() {
+		return listHrFoodControl;
 	}
 
 	/**
-	 * @param listFoodControl
-	 *            :List Of Food Control Object
+	 * @param listHrFoodControl
+	 *            :List of human resources of food control
 	 */
-	public void setListFoodControl(List<FoodControl> listFoodControl) {
-		this.listFoodControl = listFoodControl;
-	}
-
-	/**
-	 * @return listHrMealControl: List of human resources of meal control
-	 */
-	public List<Hr> getListHrMealControl() {
-		return listHrMealControl;
-	}
-
-	/**
-	 * @param listHrMealControl
-	 *            :List of human resources of meal control
-	 */
-	public void setListHrMealControl(List<Hr> listHrMealControl) {
-		this.listHrMealControl = listHrMealControl;
+	public void setListHrFoodControl(List<Hr> listHrFoodControl) {
+		this.listHrFoodControl = listHrFoodControl;
 	}
 
 	/**
@@ -373,11 +357,11 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
-	 * Method to edit or create a new meal control.
+	 * Method to edit or create a new food control.
 	 * 
-	 * @return loadMealControl(): Method allows load and initializes values.
+	 * @return loadFoodControl(): Method allows load and initializes values.
 	 */
-	public String addEditMealControl() {
+	public String addEditFoodControl() {
 		try {
 			if (initialDateSearch == null) {
 				initialDateSearch = new Date();
@@ -390,7 +374,7 @@ public class MealControlAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return loadMealControl();
+		return loadFoodControl();
 	}
 
 	/**
@@ -402,7 +386,7 @@ public class MealControlAction implements Serializable {
 		dayTypeFoodList = dayTypeFoodDao.consultDayTypeFood(ControladorFechas
 				.formatDate(this.initialDateSearch,
 						Constantes.DATE_FORMAT_DAY_OF_WEEK, Locale.US));
-		mealControlHashmap = new HashMap<Integer, Integer>();
+		foodControlHashmap = new HashMap<Integer, Integer>();
 		if (typeFoodList != null && typeFoodList.size() > 0) {
 			if (dayTypeFoodList != null && dayTypeFoodList.size() > 0) {
 				for (TypeFood typeFood : typeFoodList) {
@@ -420,14 +404,14 @@ public class MealControlAction implements Serializable {
 													Constantes.DATE_FORMAT_CONSULT));
 							if (!afterHoliday
 									|| (afterHoliday && dayTypeFoodHoliday != null)) {
-								mealControlHashmap.put(typeFood.getId(), 1);
+								foodControlHashmap.put(typeFood.getId(), 1);
 								otherQuantity.add(1);
 								break;
 							}
 						}
 					}
-					if (!mealControlHashmap.containsKey(typeFood.getId())) {
-						mealControlHashmap.put(typeFood.getId(), 0);
+					if (!foodControlHashmap.containsKey(typeFood.getId())) {
+						foodControlHashmap.put(typeFood.getId(), 0);
 						otherQuantity.add(0);
 					}
 				}
@@ -441,19 +425,19 @@ public class MealControlAction implements Serializable {
 	 * @return searchHr(): Method that consultation human resources list and
 	 *         load the template with the information found.
 	 */
-	public String loadMealControl() {
+	public String loadFoodControl() {
 		pagination = new Paginador();
 		this.nameSearch = "";
 		return searchHr();
 	}
 
 	/**
-	 * See the list of workers to meal control.
+	 * See the list of workers to food control.
 	 * 
 	 * @modify 14/02/2017 Claudia.Rey
 	 * 
-	 * @return regMealControl: Navigation rule that redirects to register the
-	 *         meal control.
+	 * @return regFoodControl: Navigation rule that redirects to register the
+	 *         food control.
 	 */
 	public String searchHr() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -464,7 +448,7 @@ public class MealControlAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder queryBuilder = new StringBuilder();
 		StringBuilder jointSearchMessages = new StringBuilder();
-		HashMap<Integer, Integer> mealControlAsentHashmap = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> foodControlAsentHashmap = new HashMap<Integer, Integer>();
 		String searchMessage = "";
 		try {
 			if (!flagStart) {
@@ -480,12 +464,12 @@ public class MealControlAction implements Serializable {
 								date, hr.getIdHr());
 						if (absent) {
 							for (TypeFood typeFood : this.typeFoodList) {
-								mealControlAsentHashmap
+								foodControlAsentHashmap
 										.put(typeFood.getId(), 0);
 							}
-							hr.setMealControl(mealControlAsentHashmap);
+							hr.setMealControl(foodControlAsentHashmap);
 						} else {
-							hr.setMealControl(mealControlHashmap);
+							hr.setMealControl(foodControlHashmap);
 						}
 					}
 				}
@@ -521,7 +505,7 @@ public class MealControlAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "regMealControl";
+		return "regFoodControl";
 	}
 
 	/**
@@ -563,7 +547,7 @@ public class MealControlAction implements Serializable {
 	}
 
 	/**
-	 * This Method build dataTable for meal control, add food type columns.
+	 * This Method build dataTable for food control, add food type columns.
 	 */
 	public void buildDataTableRegister() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -615,7 +599,7 @@ public class MealControlAction implements Serializable {
 	/**
 	 * This Method allows create and add other HR to the HR list.
 	 * 
-	 * @return loadMealControl(): Method allows load and initializes values.
+	 * @return loadFoodControl(): Method allows load and initializes values.
 	 */
 	public String createOtherHr() {
 		HashMap<Integer, Integer> otherHashmap = new HashMap<Integer, Integer>();
@@ -628,19 +612,19 @@ public class MealControlAction implements Serializable {
 		otherHrList.add(hrOther);
 		hrList.add(hrOther);
 		hrOther = new Hr();
-		return loadMealControl();
+		return loadFoodControl();
 	}
 
 	/**
-	 * Method used to save the meal control.
+	 * Method used to save the food control.
 	 * 
 	 * @modify 17/02/2017 Patricia.Patinio
 	 * @modify 28/02/2017 Claudia.Rey
 	 * 
-	 * @return initializeMealControl(): Redirects to manage meal control with
-	 *         meal control updated.
+	 * @return initializeFoodControl(): Redirects to manage food control with
+	 *         food control updated.
 	 */
-	public String saveMealControl() {
+	public String saveFoodControl() {
 		try {
 			hrList = hrDao.consultHrListByAssistControl(ControladorFechas
 					.formatDate(initialDateSearch,
@@ -653,8 +637,8 @@ public class MealControlAction implements Serializable {
 							.consultAssistControlByHrAndDate(hr.getIdHr(), date);
 					boolean flagAbsent = assistControlAux.isAbsent();
 					for (TypeFood typeFood : typeFoodList) {
-						FoodControl foodControl = mealControlDao
-								.consultMealControlByIdTypeIdHrAndDate(
+						FoodControl foodControl = foodControlDao
+								.consultFoodControlByIdTypeIdHrAndDate(
 										typeFood.getId(), hr.getIdHr(), date);
 						foodControl.setHr(hr);
 						foodControl.setTypeFood(typeFood);
@@ -673,9 +657,9 @@ public class MealControlAction implements Serializable {
 						}
 						foodControl.setDate(initialDateSearch);
 						if (foodControl.getId() > 0) {
-							mealControlDao.editFoodControl(foodControl);
+							foodControlDao.editFoodControl(foodControl);
 						} else {
-							mealControlDao.saveFoodControl(foodControl);
+							foodControlDao.saveFoodControl(foodControl);
 						}
 					}
 				}
@@ -691,7 +675,7 @@ public class MealControlAction implements Serializable {
 										.valueOf(hr.getMealControl().get(
 												typeFood.getId()))));
 						foodControl.setDate(initialDateSearch);
-						mealControlDao.saveFoodControl(foodControl);
+						foodControlDao.saveFoodControl(foodControl);
 					}
 				}
 			}
@@ -701,29 +685,29 @@ public class MealControlAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return initializeMealControl();
+		return initializeFoodControl();
 	}
 
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
-	 * @return consultMealControl: Method that consultation meal control list
+	 * @return consultFoodControl: Method that consultation food control list
 	 *         and load the template with the information found.
 	 */
-	public String initializeMealControl() {
+	public String initializeFoodControl() {
 		pagination = new Paginador();
 		contNextColumn = 6;
-		return consultMealControl();
+		return consultFoodControl();
 	}
 
 	/**
-	 * Consult the the list meal control to show in the view and return
+	 * Consult the the list food control to show in the view and return
 	 * navigation rule.
 	 * 
-	 * @return gesMealControl: Navigation rule that redirects to manage the meal
+	 * @return gesFoodControl: Navigation rule that redirects to manage the food
 	 *         control.
 	 */
-	public String consultMealControl() {
+	public String consultFoodControl() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleHr = ControladorContexto
 				.getBundle("messageHumanResources");
@@ -731,7 +715,7 @@ public class MealControlAction implements Serializable {
 				.getContextBean(ValidacionesAction.class);
 		AssistControlAction assistControlAction = ControladorContexto
 				.getContextBean(AssistControlAction.class);
-		this.listHrMealControl = new ArrayList<Hr>();
+		this.listHrFoodControl = new ArrayList<Hr>();
 		String searchMessages = "";
 		StringBuilder unionSearchMessages = new StringBuilder();
 		try {
@@ -739,9 +723,9 @@ public class MealControlAction implements Serializable {
 			assistControlAction.consultAssistControl();
 			pagination = assistControlAction.getPagination();
 			unionSearchMessages = assistControlAction.getUnionSearchMessages();
-			this.listHrMealControl = assistControlAction
+			this.listHrFoodControl = assistControlAction
 					.getListHrAssistControl();
-			if (listHrMealControl != null) {
+			if (listHrFoodControl != null) {
 				this.listDateTable = assistControlAction.getListDateTable();
 				associateTypeFood(this.consult, this.parameters);
 				String param3move = ControladorContexto.getParam("param3move");
@@ -751,14 +735,14 @@ public class MealControlAction implements Serializable {
 
 				buildDataTable(param3move);
 			}
-			if ((listHrMealControl == null || listHrMealControl.size() <= 0)
+			if ((listHrFoodControl == null || listHrFoodControl.size() <= 0)
 					&& !"".equals(unionSearchMessages.toString())) {
 				searchMessages = MessageFormat
 						.format(bundle
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								unionSearchMessages);
-			} else if (listHrMealControl == null
-					|| listHrMealControl.size() <= 0) {
+			} else if (listHrFoodControl == null
+					|| listHrFoodControl.size() <= 0) {
 				ControladorContexto.mensajeInformacion(null,
 						bundle.getString("message_no_existen_registros"));
 			} else if (!"".equals(unionSearchMessages.toString())) {
@@ -772,7 +756,7 @@ public class MealControlAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesMealControl";
+		return "gesFoodControl";
 	}
 
 	/**
@@ -791,21 +775,27 @@ public class MealControlAction implements Serializable {
 	 */
 	private void associateTypeFood(StringBuilder consult,
 			List<SelectItem> parameters) throws Exception {
-		for (Hr hr : listHrMealControl) {
+		boolean flagOther = false;
+		String nameOther = "";
+		List<Date> listDate = assistControlDao.consultAssistControlDates(
+				consult, parameters, "FoodControl");
+		for (Hr hr : listHrFoodControl) {
 			int idHr = 0;
-			List<FoodControl> listMealControlAux;
+			List<FoodControl> listFoodControlAux = new ArrayList<FoodControl>();
 			if (hr.getIdHr() > 0) {
 				idHr = hr.getIdHr();
-				listMealControlAux = mealControlDao.listHrOfFoodControl(idHr,
+				listFoodControlAux = foodControlDao.listHrOfFoodControl(idHr,
 						consult, parameters);
 			} else {
 				String name = hr.getFullName();
-				listMealControlAux = mealControlDao.listHrOfMealControlXOther(
+				listFoodControlAux = foodControlDao.listHrOfFoodControlXOther(
 						name, consult, parameters);
 			}
-			if (listMealControlAux != null) {
+			if (listFoodControlAux != null) {
 				HashMap<Integer, Integer> hasmapAux = new HashMap<Integer, Integer>();
-				for (FoodControl fc : listMealControlAux) {
+
+				for (FoodControl fc : listFoodControlAux) {
+
 					Date dateAssist = ControladorFechas.formatearFecha(
 							fc.getDate(), Constantes.DATE_FORMAT_CONSULT);
 					int idFoodType = fc.getTypeFood().getId();
@@ -823,10 +813,33 @@ public class MealControlAction implements Serializable {
 							val = fc.getQuantity();
 						}
 					} else {
+						flagOther = true;
+						nameOther = fc.getOther();
 						val = fc.getQuantity();
 					}
 					hasmapAux.put(i, val);
 				}
+				if (flagOther) {
+					for (Date date : listDate) {
+
+						FoodControl foodControlAux = foodControlDao
+								.consultFoodControlXDate(nameOther,
+										date.toString());
+						if (foodControlAux.getTypeFood() == null) {
+							Date dateAssist = ControladorFechas.formatearFecha(
+									date, Constantes.DATE_FORMAT_CONSULT);
+							typeFoodList = typeFoodDao.consultTypeFood();
+							for (TypeFood tf : typeFoodList) {
+
+								Integer i = (int) (dateAssist.getTime() / 1000)
+										+ tf.getId();
+								hasmapAux.put(i, 0);
+							}
+						}
+					}
+					flagOther = false;
+				}
+
 				hr.setAssistFoodControl(hasmapAux);
 			}
 		}
@@ -997,8 +1010,8 @@ public class MealControlAction implements Serializable {
 		try {
 			assistControlAction.advanceSearch(consult, parameters, null, null,
 					false);
-			List<FoodControl> listFoodControl = mealControlDao
-					.listHrOfMealControl(0, consult, parameters);
+			List<FoodControl> listFoodControl = foodControlDao
+					.listHrOfFoodControl(0, consult, parameters);
 			if (listFoodControl != null && listFoodControl.size() > 0) {
 				for (FoodControl food : listFoodControl) {
 					if (food.getHr() == null) {
@@ -1023,7 +1036,7 @@ public class MealControlAction implements Serializable {
 			for (Date d : listDate) {
 				Date initialD = ControladorFechas.finDeDia(d);
 				Date finalD = ControladorFechas.inicioDeDia(d);
-				Long countW = mealControlDao.countDateMealControl(initialD,
+				Long countW = foodControlDao.countDateFoodControl(initialD,
 						finalD);
 				countD += countW;
 			}

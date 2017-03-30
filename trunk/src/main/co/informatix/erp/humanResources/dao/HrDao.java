@@ -406,7 +406,7 @@ public class HrDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT a.hr FROM " + source + " a ");
 		query.append(consult);
-		query.append("GROUP BY 1 ORDER BY 1 ");
+		query.append("GROUP BY 1 ORDER BY 24 ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());

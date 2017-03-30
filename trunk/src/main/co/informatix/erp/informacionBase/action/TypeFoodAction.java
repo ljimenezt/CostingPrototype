@@ -17,7 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import co.informatix.erp.humanResources.action.DayTypeFoodAction;
-import co.informatix.erp.humanResources.dao.MealControlDao;
+import co.informatix.erp.humanResources.dao.FoodControlDao;
 import co.informatix.erp.humanResources.entities.DayTypeFood;
 import co.informatix.erp.informacionBase.dao.TypeFoodDao;
 import co.informatix.erp.informacionBase.entities.Day;
@@ -54,7 +54,7 @@ public class TypeFoodAction implements Serializable {
 	@EJB
 	private TypeFoodDao typeFoodDao;
 	@EJB
-	private MealControlDao mealControlDao;
+	private FoodControlDao foodControlDao;
 
 	/**
 	 * @return pagination: Management paged typeFood list.
@@ -294,8 +294,8 @@ public class TypeFoodAction implements Serializable {
 	 */
 	public String deleteTypeFood() {
 		try {
-			if (!mealControlDao
-					.consultMealControlByIdTypeFood(typeFood.getId())) {
+			if (!foodControlDao
+					.consultFoodControlByIdTypeFood(typeFood.getId())) {
 				dayTypeFoodAction.deleteAllDayTypeFood(typeFood);
 				typeFoodDao.removeTypeFood(typeFood);
 				ControladorContexto.mensajeInfoArg2(

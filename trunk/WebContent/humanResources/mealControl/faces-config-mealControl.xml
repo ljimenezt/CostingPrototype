@@ -7,16 +7,16 @@
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>gesMealControl</from-outcome>
-			<to-view-id>/humanResources/mealControl/manageMealControl.xhtml</to-view-id>
+			<from-outcome>gesFoodControl</from-outcome>
+			<to-view-id>/humanResources/mealControl/manageFoodControl.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
 		<from-view-id>*</from-view-id>
 		<navigation-case>
-			<from-outcome>regMealControl</from-outcome>
-			<to-view-id>/humanResources/mealControl/registerMealControl.xhtml</to-view-id>
+			<from-outcome>regFoodControl</from-outcome>
+			<to-view-id>/humanResources/mealControl/registerFoodControl.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 </faces-config>
