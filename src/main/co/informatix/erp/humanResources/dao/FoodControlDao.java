@@ -21,7 +21,7 @@ import co.informatix.erp.humanResources.entities.FoodControl;
  */
 @SuppressWarnings("serial")
 @Stateless
-public class MealControlDao implements Serializable {
+public class FoodControlDao implements Serializable {
 	@PersistenceContext(unitName = "ERPImp")
 	private EntityManager em;
 
@@ -69,7 +69,7 @@ public class MealControlDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean consultMealControlByIdTypeFood(int idTypeFood)
+	public boolean consultFoodControlByIdTypeFood(int idTypeFood)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT f FROM FoodControl f ");
@@ -97,7 +97,7 @@ public class MealControlDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public FoodControl consultMealControlByIdTypeIdHrAndDate(int idTypeFood,
+	public FoodControl consultFoodControlByIdTypeIdHrAndDate(int idTypeFood,
 			int idHr, String date) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT f FROM FoodControl f ");
@@ -116,36 +116,6 @@ public class MealControlDao implements Serializable {
 	}
 
 	/**
-	 * This method allows get a list of the dates in a interval in the meal
-	 * control table without repeat values
-	 * 
-	 * @param consult
-	 *            : Query records depending on the user selected parameter.
-	 * @param parameters
-	 *            : Query parameters.
-	 * @return List<Date>: date assist control list
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<Date> consultMealControlDates(StringBuilder consult,
-			List<SelectItem> parameters) throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT DISTINCT TO_DATE(TO_CHAR(fc.date,'YYYY-MM-dd'), 'YYYY-MM-dd') ");
-		query.append("FROM FoodControl fc ");
-		query.append(consult);
-		query.append("ORDER BY 1 ");
-		Query q = em.createQuery(query.toString());
-		for (SelectItem parameter : parameters) {
-			q.setParameter(parameter.getLabel(), parameter.getValue());
-		}
-		List<Date> resultList = q.getResultList();
-		if (resultList.size() > 0) {
-			return resultList;
-		}
-		return null;
-	}
-
-	/**
 	 * This method allows consult the human resources relate with the control
 	 * assist table.
 	 * 
@@ -161,7 +131,7 @@ public class MealControlDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<FoodControl> listHrOfMealControl(int idHr,
+	public List<FoodControl> listHrOfFoodControl(int idHr,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -196,7 +166,7 @@ public class MealControlDao implements Serializable {
 	 *            : final date to filter
 	 * @return Long : count of the number the type food according a date
 	 */
-	public Long countDateMealControl(Date startDate, Date endDate) {
+	public Long countDateFoodControl(Date startDate, Date endDate) {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(DISTINCT tf) FROM FoodControl a ");
 		query.append("JOIN a.hr h ");
@@ -295,46 +265,6 @@ public class MealControlDao implements Serializable {
 	}
 
 	/**
-	 * This method consult the food control that have a human recurs associated.
-	 * 
-	 * @author Claudia.Rey
-	 * 
-	 * @param idHr
-	 *            : Identifier human resource associated to food control.
-	 * @param consult
-	 *            : Query records depend of the dates initial and final of week.
-	 * @param parameters
-	 *            : Query parameters.
-	 * @return List<FoodControl>: List of food control found.
-	 * @throws Exception
-	 */
-	@SuppressWarnings("unchecked")
-	public List<FoodControl> listHrOfFoodControl(int idHr,
-			StringBuilder consult, List<SelectItem> parameters)
-			throws Exception {
-		StringBuilder query = new StringBuilder();
-		query.append("SELECT a FROM FoodControl a ");
-		query.append("LEFT JOIN FETCH a.hr h ");
-		query.append("JOIN FETCH a.typeFood tf ");
-		query.append(consult);
-		if (idHr != 0) {
-			query.append("AND h.idHr = :idHr ");
-		}
-		Query q = em.createQuery(query.toString());
-		if (idHr != 0) {
-			q.setParameter("idHr", idHr);
-		}
-		for (SelectItem parameter : parameters) {
-			q.setParameter(parameter.getLabel(), parameter.getValue());
-		}
-		List<FoodControl> resultList = q.getResultList();
-		if (resultList.size() > 0) {
-			return resultList;
-		}
-		return null;
-	}
-
-	/**
 	 * This method consult the food control that have other associated.
 	 * 
 	 * @author Claudia.Rey
@@ -349,7 +279,7 @@ public class MealControlDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<FoodControl> listHrOfMealControlXOther(String other,
+	public List<FoodControl> listHrOfFoodControlXOther(String other,
 			StringBuilder consult, List<SelectItem> parameters)
 			throws Exception {
 		StringBuilder query = new StringBuilder();
@@ -375,4 +305,35 @@ public class MealControlDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * This method consult foodControl filtering the information by date of sent
+	 * search.
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param other
+	 *            : Name of other.
+	 * @param date
+	 *            : Date to the consult food control.
+	 * @return FoodControl: Object found with the search parameters
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public FoodControl consultFoodControlXDate(String other, String date)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT f FROM FoodControl f ");
+		query.append("WHERE f.other =:other ");
+		query.append("AND TO_CHAR(f.date,'YYYY-MM-dd')= :date ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("other", other);
+		q.setParameter("date", date);
+		List<FoodControl> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList.get(0);
+		}
+		return new FoodControl();
+	}
+
 }

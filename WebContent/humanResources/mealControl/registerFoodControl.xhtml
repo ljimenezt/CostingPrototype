@@ -10,22 +10,22 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="mealControlAction.addEditMealControl" />
+	<ui:param name="action" value="foodControlAction.addEditFoodControl" />
 	<ui:param name="titulo"
 		value="mensaje.label_register,mensajeMenu.meal_control_label" />
 	<ui:define name="body">
 		<ui:param name="listaVacia"
-			value="#{mealControlAction.subHrList eq null or (empty mealControlAction.subHrList)}" />
+			value="#{foodControlAction.subHrList eq null or (empty foodControlAction.subHrList)}" />
 		<!-- parametros para botones y ordenamiento del listado -->
-		<ui:param name="actionLista" value="#{mealControlAction}" />
+		<ui:param name="actionLista" value="#{foodControlAction}" />
 		<ui:param name="renderLista" value="panelMealControl" />
 		<ui:param name="metodoLista" value="searchHr" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
-		<ui:param name="nombreAction" value="mealControlAction" />
-		<ui:param name="metodoListarTodos" value="addEditMealControl" />
-		<t:saveState value="#{mealControlAction}" />
+		<ui:param name="nombreAction" value="foodControlAction" />
+		<ui:param name="metodoListarTodos" value="addEditFoodControl" />
+		<t:saveState value="#{foodControlAction}" />
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
@@ -47,10 +47,10 @@
 						<h:outputText value="#{mensaje.label_name}"
 							styleClass="etiquetaTitulo" />
 						<h:inputText id="txtName" styleClass="colTextoMediano"
-							value="#{mealControlAction.nameSearch}" />
+							value="#{foodControlAction.nameSearch}" />
 						<a:commandButton value="#{mensaje.button_search}" id="btnSearch"
-							actionListener="#{mealControlAction.setFlagStart(false)}"
-							action="#{mealControlAction.searchHr()}"
+							actionListener="#{foodControlAction.setFlagStart(false)}"
+							action="#{foodControlAction.searchHr()}"
 							render="panelMealControl mensajes, mensajeBusqueda" />
 					</h:panelGrid>
 					<br />
@@ -72,8 +72,8 @@
 								<a:commandLink
 									render="panelMealControl, mensajes, mensajeBusqueda"
 									styleClass="quitarDecoracionLink"
-									actionListener="#{mealControlAction.setFlagStart(false)}"
-									action="#{mealControlAction.loadMealControl()}">
+									actionListener="#{foodControlAction.setFlagStart(false)}"
+									action="#{foodControlAction.loadFoodControl()}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/listarTodos_16.png" />
 										<h:outputText value="#{mensaje.button_list_all}" />
@@ -90,8 +90,8 @@
 							</a:outputPanel>
 						</h:panelGrid>
 					</div>
-					<rich:dataTable value="#{mealControlAction.subHrList}" var="hr"
-						binding="#{mealControlAction.dataTable}" id="mealControlTable"
+					<rich:dataTable value="#{foodControlAction.subHrList}" var="hr"
+						binding="#{foodControlAction.dataTable}" id="mealControlTable"
 						footerClass="H130P"
 						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoCuatro"
 						rowClasses="odd-row, even-row">
@@ -111,7 +111,7 @@
 								<a:commandLink
 									render="panelMealControl, mensajes, mensajeBusqueda"
 									styleClass="quitarDecoracionLink"
-									action="#{mealControlAction.loadMealControl()}">
+									action="#{foodControlAction.loadFoodControl()}">
 									<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 										<h:graphicImage value="/img/listarTodos_16.png" />
 										<h:outputText value="#{mensaje.button_list_all}" />
@@ -134,7 +134,7 @@
 							<ui:include src="/plantillas/templatePagination.xhtml">
 								<ui:param name="valId" value="1" />
 								<ui:param name="valReder" value="panelMealControl" />
-								<ui:param name="beanActionParam" value="#{mealControlAction}" />
+								<ui:param name="beanActionParam" value="#{foodControlAction}" />
 								<ui:param name="metodoActionParam" value="searchHr" />
 								<ui:param name="pager" value="pagination" />
 							</ui:include>
@@ -171,7 +171,7 @@
 					</ui:define>
 					<ui:define name="botones">
 						<h:commandButton value="#{mensaje.button_accept}"
-							action="#{mealControlAction.saveMealControl()}"
+							action="#{foodControlAction.saveFoodControl()}"
 							onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('statPane')}.show();" />
 						<a:commandButton value="#{mensaje.button_cancel}"
 							onclick="#{rich:component('popUpConfirmar')}.hide()" />
@@ -201,29 +201,29 @@
 						columnClasses="tdAlignTop etiquetaTitulo W58P,tdAlignTop,,tdAlignTop">
 						<h:outputText value="#{mensaje.label_name}" />
 						<h:outputText value="*" styleClass="required" />
-						<h:inputText value="#{mealControlAction.hrOther.name}"
+						<h:inputText value="#{foodControlAction.hrOther.name}"
 							required="true" styleClass="colTextoMediano" id="txtName"
 							requiredMessage="#{mensaje.message_campo_requerido}" />
 						<rich:message for="txtName" />
 					</h:panelGrid>
 					<h:panelGrid columns="2">
 						<ui:repeat varStatus="loop"
-							value="#{mealControlAction.typeFoodList}">
+							value="#{foodControlAction.typeFoodList}">
 							<h:panelGrid columns="1"
 								columnClasses="tdAlignTop etiquetaTitulo H30P">
 								<h:outputText
-									value="#{mealControlAction.typeFoodList[loop.index].name}" />
+									value="#{foodControlAction.typeFoodList[loop.index].name}" />
 							</h:panelGrid>
 						</ui:repeat>
 
 						<ui:repeat id="repeatInputs"
-							value="#{mealControlAction.otherQuantity}" var="varFields"
+							value="#{foodControlAction.otherQuantity}" var="varFields"
 							varStatus="row">
 							<ui:param value="#{row.index}val" name="idInput" />
 							<h:panelGrid columns="3" columnClasses="tdAlignTop, ,tdAlignTop">
 								<h:outputText value="*" styleClass="required" />
 								<h:inputText required="true"
-									value="#{mealControlAction.otherQuantity[row.index]}"
+									value="#{foodControlAction.otherQuantity[row.index]}"
 									id="message" maxlength="25" styleClass="colTextoXCorto"
 									requiredMessage="#{mensaje.message_campo_requerido}"
 									converterMessage="#{mensaje.message_campo_positivo}">
@@ -244,7 +244,7 @@
 						value="#{mensaje.button_cancel}" />
 					<h:commandButton styleClass="ocultar" id="executeHide"
 						onclick="#{rich:component('statPane')}.show();"
-						action="#{mealControlAction.createOtherHr()}">
+						action="#{foodControlAction.createOtherHr()}">
 					</h:commandButton>
 				</div>
 			</rich:popupPanel>

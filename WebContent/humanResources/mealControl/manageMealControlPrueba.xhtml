@@ -9,16 +9,16 @@
 	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:p="http://primefaces.org/ui"
 	template="/plantillas/plantilla.xhtml">
-	<ui:param name="action" value="mealControlAction.initializeMealControl" />
+	<ui:param name="action" value="mealControlAction.initializeMealControlPrueba" />
 	<ui:param name="titulo"
 		value="mensaje.label_manage,messageHumanResources.meal_control_label" />
 	<ui:define name="body">
 		<ui:param name="listaVacia"
-			value="#{mealControlAction.listHrMealControl eq null or (empty mealControlAction.listHrMealControl)}" />
+			value="#{mealControlAction.listHrMealControlPrueba eq null or (empty mealControlAction.listHrMealControlPrueba)}" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista" value="#{mealControlAction}" />
 		<ui:param name="renderLista" value="panelMealControl" />
-		<ui:param name="metodoLista" value="consultMealControl" />
+		<ui:param name="metodoLista" value="consultMealControlPrueba" />
 		<!-- parametros solo para ordenamiento del listado -->
 		<ui:param name="ocultarOrden" value="#{listaVacia}" />
 		<!-- parametros solo para botones del listado -->
@@ -26,7 +26,7 @@
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="initializeMealControl" />
+		<ui:param name="metodoListarTodos" value="initializeMealControlPrueba" />
 		<t:saveState value="#{mealControlAction}" />
 		<t:saveState value="#{assistControlAction}" />
 		<script type="text/javascript"
@@ -47,7 +47,7 @@
 							cellpadding="0" cellspacing="0">
 							<a:commandLink execute="@this" render="pnlReport"
 								styleClass="quitarDecoracionLink"
-								actionListener="#{mealControlAction.generateReportAssitControl()}"
+								actionListener="#{mealControlAction.generateReportFoodControl()}"
 								oncomplete="if (#{facesContext.maximumSeverity==null}) {document.getElementById('hrefDownload1').click();}">
 								<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 									<h:graphicImage value="/img/excel_16.png" />
@@ -64,30 +64,7 @@
 						</h:panelGrid>
 					</div>
 				</a:outputPanel>
-				<div style="margin: 0px 25px 5px 0px;">
-					<div class="W40Per" align="left" style="display: inline-block;">
-						<a:outputPanel rendered="#{mealControlAction.contNextColumn gt 6}">
-							<a:commandButton value="&lt;" style="margin: 0px;"
-								id="buttonBack" action="#{mealControlAction.consultMealControl}">
-								<f:param name="param3move" value="back" />
-								<a:ajax render="@form" />
-								<rich:tooltip for="buttonBack" value="Previous" />
-							</a:commandButton>
-						</a:outputPanel>
-					</div>
-					<div align="right" style="display: inline-block; width: 59%;">
-						<a:outputPanel
-							rendered="#{mealControlAction.contNextColumn ge 6 and mealControlAction.contNextColumn lt mealControlAction.columnsCont}">
-							<a:commandButton value="&gt;" style="margin: 0px;"
-								id="buttonNext" action="#{mealControlAction.consultMealControl}">
-								<f:param name="param3move" value="next" />
-								<a:ajax render="@form" />
-								<rich:tooltip for="buttonNext" value="Following" />
-							</a:commandButton>
-						</a:outputPanel>
-					</div>
-				</div>
-				<rich:dataTable value="#{mealControlAction.listHrMealControl}"
+				<rich:dataTable value="#{mealControlAction.listHrMealControlPrueba}"
 					var="hr" binding="#{mealControlAction.dataTable}"
 					id="tblMealControl" footerClass="H130P"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} anchoDos"
@@ -117,7 +94,7 @@
 						<ui:include src="/plantillas/templatePagination.xhtml">
 							<ui:param name="valReder" value="panelMealControl" />
 							<ui:param name="beanActionParam" value="#{mealControlAction}" />
-							<ui:param name="metodoActionParam" value="consultMealControl" />
+							<ui:param name="metodoActionParam" value="consultMealControlPrueba" />
 						</ui:include>
 					</div>
 				</a:outputPanel>
@@ -185,8 +162,7 @@
 						value="#{mensaje.button_cancel}" />
 					<h:commandButton styleClass="ocultar" id="executeSearch"
 						onclick="#{rich:component('statPane')}.show();"
-						action="#{mealControlAction.consultMealControl}">
-						<f:param name="param2" value="si" />
+						action="#{mealControlAction.consultMealControl()}">
 					</h:commandButton>
 				</div>
 			</rich:popupPanel>

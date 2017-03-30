@@ -23,7 +23,7 @@ import org.richfaces.component.UIDataTable;
 
 import co.informatix.erp.humanResources.dao.AssistControlDao;
 import co.informatix.erp.humanResources.dao.HrDao;
-import co.informatix.erp.humanResources.dao.MealControlDao;
+import co.informatix.erp.humanResources.dao.FoodControlDao;
 import co.informatix.erp.humanResources.dao.NoveltyDao;
 import co.informatix.erp.humanResources.dao.NoveltyTypeDao;
 import co.informatix.erp.humanResources.entities.AssistControl;
@@ -78,7 +78,7 @@ public class AssistControlAction implements Serializable {
 	@EJB
 	private NoveltyDao noveltyDao;
 	@EJB
-	private MealControlDao mealControlDao;
+	private FoodControlDao foodControlDao;
 
 	/**
 	 * @return pagination: Management paged list of attendance.
@@ -487,9 +487,9 @@ public class AssistControlAction implements Serializable {
 					true);
 			Long quantity;
 			if (source.equals(Constantes.SOURCE_FOOD_CONTROL)) {
-				quantity = mealControlDao.hrFoodControlAmount(consult,
+				quantity = foodControlDao.hrFoodControlAmount(consult,
 						parameters);
-				Long quantityOther = mealControlDao.otherFoodControlAmount(
+				Long quantityOther = foodControlDao.otherFoodControlAmount(
 						consult, parameters);
 				quantity = quantity + quantityOther;
 			} else {
@@ -502,7 +502,7 @@ public class AssistControlAction implements Serializable {
 			}
 
 			if (source.equals(Constantes.SOURCE_FOOD_CONTROL)) {
-				List<Object[]> listNameIdFoodControl = mealControlDao
+				List<Object[]> listNameIdFoodControl = foodControlDao
 						.listHrOtherOfFoodControl(pagination.getInicio(),
 								pagination.getRango(), consult, parameters);
 				if (listNameIdFoodControl != null) {
@@ -541,8 +541,8 @@ public class AssistControlAction implements Serializable {
 					associateNovelty(consult, parameters);
 					buildDataTable();
 				} else {
-					MealControlAction mealControlAction = ControladorContexto
-							.getContextBean(MealControlAction.class);
+					FoodControlAction mealControlAction = ControladorContexto
+							.getContextBean(FoodControlAction.class);
 					mealControlAction.setParameters(parameters);
 					mealControlAction.setConsult(consult);
 				}
