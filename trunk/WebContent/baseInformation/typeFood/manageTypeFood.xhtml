@@ -86,12 +86,16 @@
 									</a:commandLink>
 								</a:outputPanel>
 							</rich:column>
-							<rich:column styleClass="colTextoExtraLargo">
-								<f:facet name="header">#{mensaje.label_name}</f:facet>
-								<h:commandLink value="#{typeFood.name}"
+							<rich:column styleClass="colTextoMini">
+								<f:facet name="header">#{mensaje.label_abbreviation}</f:facet>
+								<h:commandLink value="#{typeFood.abbreviation}"
 									action="#{typeFoodAction.addEditTypeFood(typeFood)}"
 									onclick="#{rich:component('statPane')}.show();">
 								</h:commandLink>
+							</rich:column>
+							<rich:column styleClass="colTextoExtraLargo">
+								<f:facet name="header">#{mensaje.label_name}</f:facet>
+								<h:outputText value="#{typeFood.name}" />
 							</rich:column>
 							<rich:column styleClass="colIconoUno">
 								<f:facet name="header">#{mensaje.label_description}</f:facet>
