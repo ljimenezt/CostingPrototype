@@ -8,7 +8,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>gesFoodControl</from-outcome>
-			<to-view-id>/humanResources/FoodControl/manageFoodControl.xhtml</to-view-id>
+			<to-view-id>/humanResources/foodControl/manageFoodControl.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 
@@ -16,7 +16,7 @@
 		<from-view-id>*</from-view-id>
 		<navigation-case>
 			<from-outcome>regFoodControl</from-outcome>
-			<to-view-id>/humanResources/FoodControl/registerFoodControl.xhtml</to-view-id>
+			<to-view-id>/humanResources/foodControl/registerFoodControl.xhtml</to-view-id>
 		</navigation-case>
 	</navigation-rule>
 </faces-config>
