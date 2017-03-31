@@ -674,6 +674,8 @@ public class EngineLogAction implements Serializable {
 
 	/**
 	 * Validates interface required fields.
+	 * 
+	 * @modify 30/03/2017 Luna.Granados
 	 */
 	public void validateRequired() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -750,9 +752,13 @@ public class EngineLogAction implements Serializable {
 				}
 				FuelUsageLog fuelUsage = this.fuelUsageLogDao
 						.consultLastFuelUsage();
-				this.finalLevel = ControllerAccounting.subtract(
-						fuelUsage.getFinalLevel(),
-						this.fuelUsageLog.getConsumption());
+				if (fuelUsage != null) {
+					this.finalLevel = ControllerAccounting.subtract(
+							fuelUsage.getFinalLevel(),
+							this.fuelUsageLog.getConsumption());
+				} else {
+					this.finalLevel = -1d;
+				}
 				if (this.finalLevel < 0) {
 					ControladorContexto.mensajeError(
 							"formEngineLog:txtConsumption", bundleDiesel
@@ -1030,13 +1036,15 @@ public class EngineLogAction implements Serializable {
 			if (this.startDateReport != null && this.endDateReport != null) {
 				query.append("WHERE ful.date BETWEEN :startDateReport AND :endDateReport ");
 
-				SelectItem item = new SelectItem(startDateReport, "startDateReport");
+				SelectItem item = new SelectItem(startDateReport,
+						"startDateReport");
 				parameters.add(item);
 
-				SelectItem item2 = new SelectItem(endDateReport, "endDateReport");
+				SelectItem item2 = new SelectItem(endDateReport,
+						"endDateReport");
 				parameters.add(item2);
 			}
-			
+
 			List<Object[]> listControlDiesel = fuelUsageLogDao
 					.consultDieselControlReport(query, parameters);
 
