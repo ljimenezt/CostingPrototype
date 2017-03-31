@@ -45,6 +45,8 @@ public class FuelUsageLogAction implements Serializable {
 
 	private Paginador pagination = new Paginador();
 
+	private Double motion;
+
 	@EJB
 	private FuelUsageLogDao fuelUsageLogDao;
 	@EJB
@@ -127,6 +129,21 @@ public class FuelUsageLogAction implements Serializable {
 	}
 
 	/**
+	 * @return motion: Indicates if diesel input or output was performed.
+	 */
+	public Double getMotion() {
+		return motion;
+	}
+
+	/**
+	 * @param motion
+	 *            : Indicates if diesel input or output was performed.
+	 */
+	public void setMotion(Double motion) {
+		this.motion = motion;
+	}
+
+	/**
 	 * @return startDateSearch: gets the initial search range for the fuel usage
 	 *         in the system.
 	 */
@@ -166,6 +183,7 @@ public class FuelUsageLogAction implements Serializable {
 	 */
 	public String registerFuelUsage() {
 		try {
+			this.motion = 0d;
 			this.fuelUsageLog = new FuelUsageLog();
 			this.transactionType = new TransactionType();
 			this.fuelUsageLog.setTransactionType(this.transactionType);
@@ -216,17 +234,23 @@ public class FuelUsageLogAction implements Serializable {
 				if (this.fuelUsageLog.getTransactionType()
 						.getIdTransactionType() == Constantes.TRANSACTION_TYPE_ADJUSTMENT_DOWN) {
 					finalLevel = ControllerAccounting.subtract(
-							LastfuelUsage.getFinalLevel(),
-							this.fuelUsageLog.getDeposited());
+							LastfuelUsage.getFinalLevel(), this.motion);
+					this.fuelUsageLog.setConsumption(this.motion);
 
 				} else if (this.fuelUsageLog.getTransactionType()
 						.getIdTransactionType() == Constantes.TRANSACTION_TYPE_ADJUSTMENT_UP) {
 					finalLevel = ControllerAccounting.add(
-							LastfuelUsage.getFinalLevel(),
-							this.fuelUsageLog.getDeposited());
+							LastfuelUsage.getFinalLevel(), this.motion);
+					this.fuelUsageLog.setDeposited(this.motion);
 				}
 			} else {
-				finalLevel = this.fuelUsageLog.getDeposited();
+				if (this.fuelUsageLog.getTransactionType()
+						.getIdTransactionType() == Constantes.TRANSACTION_TYPE_ADJUSTMENT_DOWN) {
+					finalLevel = -1d;
+				} else if (this.fuelUsageLog.getTransactionType()
+						.getIdTransactionType() == Constantes.TRANSACTION_TYPE_ADJUSTMENT_UP) {
+					this.fuelUsageLog.setDeposited(this.motion);
+				}
 			}
 
 			if (finalLevel >= 0) {
