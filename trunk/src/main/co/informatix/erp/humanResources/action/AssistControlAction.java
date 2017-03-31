@@ -716,6 +716,8 @@ public class AssistControlAction implements Serializable {
 	/**
 	 * See the list of workers to attendance control.
 	 * 
+	 * @modify 31/03/2017 Claudia.Rey
+	 * 
 	 * @return regAssistControl: Navigation rule that redirects to register the
 	 *         attendance control.
 	 */
@@ -725,20 +727,15 @@ public class AssistControlAction implements Serializable {
 				.getBundle("messageHumanResources");
 		ValidacionesAction validations = (ValidacionesAction) ControladorContexto
 				.getContextBean(ValidacionesAction.class);
+		HrAction hrAction = ControladorContexto.getContextBean(HrAction.class);
 		this.hrList = new ArrayList<Hr>();
-		List<SelectItem> parameters = new ArrayList<SelectItem>();
-		StringBuilder queryBuilder = new StringBuilder();
 		StringBuilder jointSearchMessages = new StringBuilder();
 		String searchMessage = "";
 		try {
-			advancedSearch(queryBuilder, parameters, bundle,
-					jointSearchMessages);
-			Long amount = hrDao.hrAmount(queryBuilder, parameters);
-			if (amount != null) {
-				pagination.paginar(amount);
-				this.hrList = hrDao.queryHr(pagination.getInicio(),
-						pagination.getRango(), queryBuilder, parameters);
-			}
+			hrAction.setFlagAction(true);
+			hrAction.searchHrs();
+			this.hrList = hrAction.getHrList();
+			pagination = hrAction.getPagination();
 			if (this.hrList != null) {
 				for (Hr hr : this.hrList) {
 					if (noveltyMap.get(hr.getIdHr()) != null) {
@@ -769,33 +766,6 @@ public class AssistControlAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 		return "regAssistControl";
-	}
-
-	/**
-	 * This method builds a query with advanced search; it also render the
-	 * messages to be displayed depending on the search criteria selected by the
-	 * user.
-	 * 
-	 * @param queryBuilder
-	 *            : Query to concatenate.
-	 * @param parameters
-	 *            : List of search parameters.
-	 * @param bundle
-	 *            : Access language tags.
-	 * @param jointSearchMessages
-	 *            : Message search.
-	 */
-	private void advancedSearch(StringBuilder queryBuilder,
-			List<SelectItem> parameters, ResourceBundle bundle,
-			StringBuilder jointSearchMessages) {
-		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			queryBuilder.append("WHERE UPPER(h.name) LIKE UPPER(:keyword) ");
-			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
-					"keyword");
-			parameters.add(item);
-			jointSearchMessages.append(bundle.getString("label_name") + ": "
-					+ '"' + this.nameSearch + '"');
-		}
 	}
 
 	/**

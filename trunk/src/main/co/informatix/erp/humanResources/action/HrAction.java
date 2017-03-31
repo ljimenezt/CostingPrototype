@@ -95,6 +95,7 @@ public class HrAction implements Serializable {
 	private boolean temporalPicLoaded;
 	private boolean flagButton;
 	private boolean flagAction;
+	private boolean flagAssist;
 
 	/**
 	 * @return hrList: gets the list of human resources.
@@ -413,6 +414,22 @@ public class HrAction implements Serializable {
 	}
 
 	/**
+	 * @return flagAssist: Flag that indicate if a method is call of other
+	 *         action.
+	 */
+	public boolean isFlagAssist() {
+		return flagAssist;
+	}
+
+	/**
+	 * @param flagAssist
+	 *            : Flag that indicate if a method is call of other action.
+	 */
+	public void setFlagAssist(boolean flagAssist) {
+		this.flagAssist = flagAssist;
+	}
+
+	/**
 	 * @return currentDate: variable that gets the current system date.
 	 */
 	public Date getCurrentDate() {
@@ -445,6 +462,7 @@ public class HrAction implements Serializable {
 	 * of types of human resources.
 	 * 
 	 * @modify 15/07/2015 Gerardo.Herrera
+	 * @modify 31/03/2017 Claudia.Rey
 	 * 
 	 * @return searchHrs: method to query the types of human resources, returns
 	 *         to the template management.
@@ -454,6 +472,7 @@ public class HrAction implements Serializable {
 		nameSearch = "";
 		lastNameSearch = "";
 		paymentTypeSearch = 0;
+		flagAssist = false;
 		return searchHrs();
 	}
 
@@ -464,6 +483,7 @@ public class HrAction implements Serializable {
 	 * @modify 14/07/2015 Gerardo.Herrera
 	 * @modify 08/03/2016 Mabell.Boada
 	 * @modify 23/06/2016 Wilhelm.Boada
+	 * @modify 31/03/2017 Claudia.Rey
 	 * 
 	 * @return returns: Navigation rule that redirects to manage Human Resources
 	 *         According condition.
@@ -498,6 +518,12 @@ public class HrAction implements Serializable {
 					pagination.paginar(amount);
 					this.hrList = hrDao.queryHr(pagination.getInicio(),
 							pagination.getRango(), queryBuilder, parameters);
+					if (this.flagAssist) {
+						AssistControlAction assistControlAction = ControladorContexto
+								.getContextBean(AssistControlAction.class);
+						assistControlAction
+								.setUnionSearchMessages(jointSearchMessages);
+					}
 				}
 			}
 			if ((hrList == null || hrList.size() <= 0)
@@ -541,6 +567,7 @@ public class HrAction implements Serializable {
 	 * the user.
 	 * 
 	 * @modify 14/07/2015 Gerardo.Herrera
+	 * @modify 31/03/2016 Claudia.Rey
 	 * 
 	 * @param query
 	 *            : query to concatenate.
@@ -559,7 +586,7 @@ public class HrAction implements Serializable {
 		boolean addFilter = false;
 		String hrType = "";
 		String paymentType = "";
-		if ((this.nameSearch != null && !"".equals(this.nameSearch))) {
+		if ((this.nameSearch != null && !"".equals(this.nameSearch) && !addFilter)) {
 			query.append(addFilter ? "AND " : "WHERE ");
 			query.append(" UPPER(h.name) LIKE UPPER(:keywordNombre) ");
 			SelectItem nameItem = new SelectItem("%" + this.nameSearch + "%",
@@ -569,7 +596,8 @@ public class HrAction implements Serializable {
 					+ '"' + this.nameSearch + '"' + " ");
 			addFilter = true;
 		}
-		if (this.lastNameSearch != null && !"".equals(this.lastNameSearch)) {
+		if (this.lastNameSearch != null && !"".equals(this.lastNameSearch)
+				&& !flagAssist) {
 			query.append(addFilter ? "AND " : "WHERE ");
 			query.append(" UPPER(h.familyName) LIKE UPPER(:keywordApellido) ");
 			SelectItem lastNameItem = new SelectItem("%" + this.lastNameSearch
@@ -579,7 +607,7 @@ public class HrAction implements Serializable {
 					+ '"' + this.lastNameSearch + '"' + " ");
 			addFilter = true;
 		}
-		if (this.hrTypeSearch > 0) {
+		if (this.hrTypeSearch > 0 && !flagAssist) {
 			query.append(addFilter ? "AND " : "WHERE ");
 			query.append(" h.hrTypes.idHrType = :keywordHrType ");
 			SelectItem hrTypeItem = new SelectItem(this.hrTypeSearch,
@@ -593,7 +621,7 @@ public class HrAction implements Serializable {
 					+ hrType + '"' + " ");
 			addFilter = true;
 		}
-		if (this.paymentTypeSearch > 0) {
+		if (this.paymentTypeSearch > 0 && !flagAssist) {
 			query.append(addFilter ? "AND " : "WHERE ");
 			query.append(" h.paymentMethods.idPaymentMethod = :keywordPaymentType ");
 			SelectItem paymentTypeItem = new SelectItem(this.paymentTypeSearch,
