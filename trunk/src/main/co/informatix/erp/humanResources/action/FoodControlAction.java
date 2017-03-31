@@ -380,6 +380,8 @@ public class FoodControlAction implements Serializable {
 	/**
 	 * This method allows load in the map the type food consulted in the
 	 * database.
+	 * 
+	 * @throws Exception
 	 */
 	private void loadTypeFoodInHr() throws Exception {
 		typeFoodList = typeFoodDao.consultTypeFood();
