@@ -87,7 +87,7 @@
 			/humanResources/overtimePaymentRate/faces-config-overtimePayment.xml,
 			/humanResources/team/faces-config-team.xml,
 			/humanResources/assistControl/faces-config-assistControl.xml,
-			/humanResources/mealControl/faces-config-mealControl.xml,
+			/humanResources/FoodControl/faces-config-mealControl.xml,
 			
 			/lifeCycle/farm/faces-config-farm.xml,
 			/lifeCycle/plot/faces-config-plot.xml,
