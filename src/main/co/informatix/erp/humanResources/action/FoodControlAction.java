@@ -693,12 +693,18 @@ public class FoodControlAction implements Serializable {
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
+	 * @modify 05/04/2017 Luna.Granados
+	 * 
 	 * @return consultFoodControl: Method that consultation food control list
 	 *         and load the template with the information found.
 	 */
 	public String initializeFoodControl() {
 		pagination = new Paginador();
 		contNextColumn = 6;
+		AssistControlAction assistControlAction = ControladorContexto
+				.getContextBean(AssistControlAction.class);
+		assistControlAction.setInitialDateSearch(null);
+		assistControlAction.setFinalDateSearch(null);
 		return consultFoodControl();
 	}
 
