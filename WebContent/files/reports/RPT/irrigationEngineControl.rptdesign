@@ -459,7 +459,7 @@ return false;]]></method>
                     <list-property name="arguments">
                         <structure>
                             <property name="name">Expression</property>
-                            <expression name="value" type="javascript">row["duration"]</expression>
+                            <expression name="value" type="javascript">BirtMath.round(row["duration"], 2)</expression>
                         </structure>
                     </list-property>
                     <property name="allowExport">true</property>
@@ -474,7 +474,7 @@ return false;]]></method>
                     <list-property name="arguments">
                         <structure>
                             <property name="name">Expression</property>
-                            <expression name="value" type="javascript">row["consumption"]</expression>
+                            <expression name="value" type="javascript">BirtMath.round(row["consumption"], 2)</expression>
                         </structure>
                     </list-property>
                     <property name="allowExport">true</property>
@@ -489,7 +489,7 @@ return false;]]></method>
                     <list-property name="arguments">
                         <structure>
                             <property name="name">Expression</property>
-                            <expression name="value" type="javascript">row["water_usage"]</expression>
+                            <expression name="value" type="javascript">BirtMath.round(row["water_usage"], 2)</expression>
                         </structure>
                     </list-property>
                     <property name="allowExport">true</property>
@@ -504,7 +504,7 @@ return false;]]></method>
                     <list-property name="arguments">
                         <structure>
                             <property name="name">Expression</property>
-                            <expression name="value" type="javascript">row["duration"]</expression>
+                            <expression name="value" type="javascript">BirtMath.round(row["duration"], 2)</expression>
                         </structure>
                     </list-property>
                     <property name="allowExport">true</property>
@@ -519,7 +519,7 @@ return false;]]></method>
                     <list-property name="arguments">
                         <structure>
                             <property name="name">Expression</property>
-                            <expression name="value" type="javascript">row["consumption"]</expression>
+                            <expression name="value" type="javascript">BirtMath.round(row["consumption"], 2)</expression>
                         </structure>
                     </list-property>
                     <property name="allowExport">true</property>
@@ -534,7 +534,7 @@ return false;]]></method>
                     <list-property name="arguments">
                         <structure>
                             <property name="name">Expression</property>
-                            <expression name="value" type="javascript">row["water_usage"]</expression>
+                            <expression name="value" type="javascript">BirtMath.round(row["water_usage"], 2)</expression>
                         </structure>
                     </list-property>
                     <property name="allowExport">true</property>
@@ -775,7 +775,7 @@ true;</expression>
                                 <text-data id="1595">
                                     <property name="textAlign">center</property>
                                     <expression name="valueExpr">BirtMath.round((row["totalHoras"] / row["promDia"] / 5), 2)</expression>
-                                    <property name="contentType">html</property>
+                                    <property name="contentType">plain</property>
                                 </text-data>
                             </cell>
                             <cell id="1480">
@@ -783,10 +783,11 @@ true;</expression>
                                 <property name="borderLeftWidth">medium</property>
                                 <property name="borderRightStyle">solid</property>
                                 <property name="borderRightWidth">medium</property>
-                                <label id="1593">
+                                <text-data id="1622">
                                     <property name="textAlign">center</property>
-                                    <text-property name="text">0</text-property>
-                                </label>
+                                    <expression name="valueExpr">0</expression>
+                                    <property name="contentType">plain</property>
+                                </text-data>
                             </cell>
                             <cell id="1517"/>
                             <cell id="1531"/>
@@ -821,7 +822,7 @@ true;</expression>
                                 <text-data id="1613">
                                     <property name="textAlign">center</property>
                                     <expression name="valueExpr">BirtMath.round((row["totalDiesel"] / row["promDia"] / 5), 2)</expression>
-                                    <property name="contentType">html</property>
+                                    <property name="contentType">plain</property>
                                 </text-data>
                             </cell>
                             <cell id="1485">
@@ -832,7 +833,7 @@ true;</expression>
                                 <text-data id="1616">
                                     <property name="textAlign">center</property>
                                     <expression name="valueExpr">BirtMath.round((row["totalDiesel"] / row["totalHoras"]), 2)</expression>
-                                    <property name="contentType">html</property>
+                                    <property name="contentType">plain</property>
                                 </text-data>
                             </cell>
                             <cell id="1518"/>
@@ -868,7 +869,7 @@ true;</expression>
                                 <text-data id="1614">
                                     <property name="textAlign">center</property>
                                     <expression name="valueExpr">BirtMath.round((row["totalWater"] / row["promDia"] / 5), 2)</expression>
-                                    <property name="contentType">html</property>
+                                    <property name="contentType">plain</property>
                                 </text-data>
                             </cell>
                             <cell id="1490">
@@ -879,7 +880,7 @@ true;</expression>
                                 <text-data id="1617">
                                     <property name="textAlign">center</property>
                                     <expression name="valueExpr">BirtMath.round((row["totalWater"] / row["totalHoras"]), 2)</expression>
-                                    <property name="contentType">html</property>
+                                    <property name="contentType">plain</property>
                                 </text-data>
                             </cell>
                             <cell id="1519"/>
@@ -2073,8 +2074,8 @@ Formatter.format(row["date"], 'YYYY')&#13;
                                     <property name="borderLeftWidth">thin</property>
                                     <text-data id="504">
                                         <property name="textAlign">center</property>
-                                        <expression name="valueExpr">row["hourmeter_on"]</expression>
-                                        <property name="contentType">html</property>
+                                        <expression name="valueExpr">BirtMath.round(row["hourmeter_on"], 2)</expression>
+                                        <property name="contentType">plain</property>
                                     </text-data>
                                 </cell>
                                 <cell id="1166">
@@ -2084,8 +2085,8 @@ Formatter.format(row["date"], 'YYYY')&#13;
                                     <property name="borderLeftWidth">thin</property>
                                     <text-data id="506">
                                         <property name="textAlign">center</property>
-                                        <expression name="valueExpr">row["hourmeter_off"]</expression>
-                                        <property name="contentType">html</property>
+                                        <expression name="valueExpr">BirtMath.round(row["hourmeter_off"], 2)</expression>
+                                        <property name="contentType">plain</property>
                                     </text-data>
                                 </cell>
                                 <cell id="1167">
@@ -2095,8 +2096,8 @@ Formatter.format(row["date"], 'YYYY')&#13;
                                     <property name="borderLeftWidth">thin</property>
                                     <text-data id="508">
                                         <property name="textAlign">center</property>
-                                        <expression name="valueExpr">row["duration"]</expression>
-                                        <property name="contentType">html</property>
+                                        <expression name="valueExpr">BirtMath.round(row["duration"], 2)</expression>
+                                        <property name="contentType">plain</property>
                                     </text-data>
                                 </cell>
                                 <cell id="1168">
@@ -2106,8 +2107,8 @@ Formatter.format(row["date"], 'YYYY')&#13;
                                     <property name="borderLeftWidth">thin</property>
                                     <text-data id="510">
                                         <property name="textAlign">center</property>
-                                        <expression name="valueExpr">row["consumption"]</expression>
-                                        <property name="contentType">html</property>
+                                        <expression name="valueExpr">BirtMath.round(row["consumption"], 2)</expression>
+                                        <property name="contentType">plain</property>
                                     </text-data>
                                 </cell>
                                 <cell id="1169">
@@ -2117,8 +2118,8 @@ Formatter.format(row["date"], 'YYYY')&#13;
                                     <property name="borderLeftWidth">thin</property>
                                     <text-data id="512">
                                         <property name="textAlign">center</property>
-                                        <expression name="valueExpr">row["hidrometer_on"]</expression>
-                                        <property name="contentType">html</property>
+                                        <expression name="valueExpr">BirtMath.round(row["hidrometer_on"], 2)</expression>
+                                        <property name="contentType">plain</property>
                                     </text-data>
                                 </cell>
                                 <cell id="1170">
@@ -2128,8 +2129,8 @@ Formatter.format(row["date"], 'YYYY')&#13;
                                     <property name="borderLeftWidth">thin</property>
                                     <text-data id="514">
                                         <property name="textAlign">center</property>
-                                        <expression name="valueExpr">row["hourmeter_off"]</expression>
-                                        <property name="contentType">html</property>
+                                        <expression name="valueExpr">BirtMath.round(row["hidrometer_off"], 2)</expression>
+                                        <property name="contentType">plain</property>
                                     </text-data>
                                 </cell>
                                 <cell id="1171">
@@ -2139,8 +2140,8 @@ Formatter.format(row["date"], 'YYYY')&#13;
                                     <property name="borderLeftWidth">thin</property>
                                     <text-data id="516">
                                         <property name="textAlign">center</property>
-                                        <expression name="valueExpr">row["water_usage"]</expression>
-                                        <property name="contentType">html</property>
+                                        <expression name="valueExpr">BirtMath.round(row["water_usage"], 2)</expression>
+                                        <property name="contentType">plain</property>
                                     </text-data>
                                 </cell>
                             </row>
