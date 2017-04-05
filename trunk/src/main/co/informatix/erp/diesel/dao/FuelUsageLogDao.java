@@ -213,7 +213,7 @@ public class FuelUsageLogDao implements Serializable {
 	 * This method consult the information for Diesel control report.
 	 * 
 	 * @author marisol.calderon
-	 * @modify Luna.Granados
+	 * @modify 05/04/2017 Luna.Granados
 	 * 
 	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
