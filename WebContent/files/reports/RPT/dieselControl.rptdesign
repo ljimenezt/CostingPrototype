@@ -1167,7 +1167,7 @@ return false;]]></method>
                                         <property name="fontWeight">bold</property>
                                         <property name="color">red</property>
                                         <expression name="valueExpr">BirtMath.round((row["first_stock"] + row["out"] - row["entry"]),2)</expression>
-                                        <property name="contentType">html</property>
+                                        <property name="contentType">plain</property>
                                     </text-data>
                                 </cell>
                                 <cell id="482">
