@@ -213,6 +213,7 @@ public class FuelUsageLogDao implements Serializable {
 	 * This method consult the information for Diesel control report.
 	 * 
 	 * @author marisol.calderon
+	 * @modify Luna.Granados
 	 * 
 	 * @param consult
 	 *            : Consultation records depending on the parameters selected by
@@ -246,7 +247,7 @@ public class FuelUsageLogDao implements Serializable {
 		query.append("	LEFT JOIN human_resources.hr hr2  ");
 		query.append("		ON (el.received_by = hr2.idhr)  ");
 		query.append(consult);
-		query.append("ORDER BY ful.date");
+		query.append("ORDER BY ful.id_fuel_usage");
 		Query q = em.createNativeQuery(query.toString());
 		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
