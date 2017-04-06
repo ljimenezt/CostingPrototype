@@ -94,14 +94,6 @@
 					</rich:column>
 
 					<rich:column styleClass="colValor">
-						<f:facet name="header">#{mensaje.label_unit_cost}</f:facet>
-						<h:outputText value="#{fuelPurchase.unitCost}">
-							<f:convertNumber maxFractionDigits="2" type="currency"
-								currencySymbol="$" locale="#{idioma.locale}" />
-						</h:outputText>
-					</rich:column>
-
-					<rich:column styleClass="colValor">
 						<f:facet name="header">#{mensaje.label_subtotal}</f:facet>
 						<h:outputText value="#{fuelPurchase.subTotal}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
@@ -128,6 +120,14 @@
 					<rich:column styleClass="colValor">
 						<f:facet name="header">#{mensaje.label_total}</f:facet>
 						<h:outputText value="#{fuelPurchase.total}">
+							<f:convertNumber maxFractionDigits="2" type="currency"
+								currencySymbol="$" locale="#{idioma.locale}" />
+						</h:outputText>
+					</rich:column>
+
+					<rich:column styleClass="colValor">
+						<f:facet name="header">#{mensaje.label_unit_cost}</f:facet>
+						<h:outputText value="#{fuelPurchase.unitCost}">
 							<f:convertNumber maxFractionDigits="2" type="currency"
 								currencySymbol="$" locale="#{idioma.locale}" />
 						</h:outputText>

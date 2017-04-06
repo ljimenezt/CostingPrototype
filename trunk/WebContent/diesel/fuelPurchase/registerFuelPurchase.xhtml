@@ -35,7 +35,7 @@
 							value="#{messageDiesel.fuel_purchase_label_invoice_data}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{fuelPurchaseAction.fuelPurchase.dateTime}"
-							showOn="button" navigator="true" id="dateInvoice"
+							showOn="button" navigator="true" id="dateInvoice" maxdate="today()"
 							pattern="MM/dd/yyyy" readonlyInput="true" required="true"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							requiredMessage="#{mensaje.message_campo_requerido}">
@@ -104,17 +104,7 @@
 								execute="@this" render="costUnit iva total" />
 						</h:inputText>
 						<rich:message for="subtotal" />
-						<h:outputText value="#{mensaje.label_unit_cost}"
-							styleClass="etiquetaTitulo" />
-						<h:outputText value="*" styleClass="required" />
-						<h:inputText id="costUnit" readonly="true"
-							value="#{fuelPurchaseAction.fuelPurchase.unitCost}"
-							styleClass="W108P">
-							<a:ajax event="change"
-								listener="#{fuelPurchaseAction.calculateValors()}"
-								execute="@this" />
-						</h:inputText>
-						<rich:message for="costUnit" />
+
 						<h:outputText value="#{mensajeMenu.iva_rate_label}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="%" styleClass="required" />
@@ -143,6 +133,19 @@
 							styleClass="W108P">
 						</h:inputText>
 						<rich:message for="total" />
+
+						<h:outputText value="#{mensaje.label_unit_cost}"
+							styleClass="etiquetaTitulo" />
+						<h:outputText value="*" styleClass="required" />
+						<h:inputText id="costUnit" readonly="true"
+							value="#{fuelPurchaseAction.fuelPurchase.unitCost}"
+							styleClass="W108P">
+							<a:ajax event="change"
+								listener="#{fuelPurchaseAction.calculateValors()}"
+								execute="@this" />
+						</h:inputText>
+						<rich:message for="costUnit" />
+
 						<h:outputText value="#{mensaje.label_description}"
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="" />

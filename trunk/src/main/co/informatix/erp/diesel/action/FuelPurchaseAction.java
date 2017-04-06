@@ -674,9 +674,16 @@ public class FuelPurchaseAction implements Serializable {
 	 * Method that calculate the unit cost of a fuel purchase
 	 */
 	public void calculateUnitCost() {
-		this.fuelPurchase.setUnitCost(ControllerAccounting.divide(
-				this.fuelPurchase.getSubTotal(),
-				this.fuelPurchase.getQuantity()));
+		if (ivaRate.getIdIva() > 0) {
+			this.fuelPurchase.setUnitCost(ControllerAccounting.divide(
+					this.fuelPurchase.getTotal(),
+					this.fuelPurchase.getQuantity()));
+		} else {
+			this.fuelPurchase.setUnitCost(ControllerAccounting.divide(
+					this.fuelPurchase.getSubTotal(),
+					this.fuelPurchase.getQuantity()));
+		}
+
 	}
 
 	/**
@@ -706,13 +713,14 @@ public class FuelPurchaseAction implements Serializable {
 	 * CalculateUnitCost at the same time.
 	 */
 	public void calculateValors() {
-		calculateUnitCost();
+
 		if (ivaRate.getIdIva() > 0) {
 			calculateTaxes();
-		}else{
+		} else {
 			this.fuelPurchase.setTaxes(0);
 		}
 		calculateTotal();
+		calculateUnitCost();
 	}
 
 	/**
