@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  * This is the entity that is responsible for mapping the activity_machine
@@ -38,6 +39,7 @@ public class ActivityMachine implements Serializable, Cloneable {
 	private Double consumablesCostActual;
 	private Double insuranceCostActual;
 	private Double insuranceCostBudget;
+	private boolean selected;
 
 	/**
 	 * Constructor that initializes the primary key
@@ -256,6 +258,22 @@ public class ActivityMachine implements Serializable, Cloneable {
 	 */
 	public void setInsuranceCostBudget(Double insuranceCostBudget) {
 		this.insuranceCostBudget = insuranceCostBudget;
+	}
+
+	/**
+	 * @return selected: object selected from a list of activityMachine.
+	 */
+	@Transient
+	public boolean isSelected() {
+		return selected;
+	}
+
+	/**
+	 * @param selected
+	 *            : object selected from a list of activityMachine.
+	 */
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	public ActivityMachine clone() {

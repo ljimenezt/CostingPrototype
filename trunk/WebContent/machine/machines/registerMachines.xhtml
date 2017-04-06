@@ -120,7 +120,8 @@
 						<h:outputText value="" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.hydrometer}"
 							styleClass="colNumero" id="txtHydrometer"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
+							readonly="#{not(empty machinesAction.machines.hydrometer) and machinesAction.machines.idMachine ne 0}">
 							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
 						<rich:message for="txtHydrometer" />
@@ -130,7 +131,8 @@
 						<h:outputText value="" styleClass="required" />
 						<h:inputText value="#{machinesAction.machines.hourmeter}"
 							styleClass="colNumero" id="txtHourmeter"
-							converterMessage="#{mensaje.message_juego_caracter_numeros}">
+							converterMessage="#{mensaje.message_juego_caracter_numeros}"
+							readonly="#{not(empty machinesAction.machines.hourmeter) and machinesAction.machines.idMachine ne 0}">
 							<f:validateDoubleRange minimum="0" />
 						</h:inputText>
 						<rich:message for="txtHourmeter" />

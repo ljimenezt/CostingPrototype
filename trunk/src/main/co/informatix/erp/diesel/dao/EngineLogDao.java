@@ -1,10 +1,12 @@
 package co.informatix.erp.diesel.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import co.informatix.erp.diesel.entities.EngineLog;
 
@@ -53,4 +55,23 @@ public class EngineLogDao implements Serializable {
 		em.remove(em.merge(engineLog));
 	}
 
+	/**
+	 * Consult all engineLog objects on database.
+	 * 
+	 * @return List<EngineLog>: return a engineLog list.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<EngineLog> allEngineLog() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT e FROM EngineLog e ");
+		query.append("JOIN FETCH e.activityMachine.activityMachinePK.activities a ");
+		query.append("JOIN FETCH e.activityMachine.activityMachinePK.machines m ");
+		Query q = em.createQuery(query.toString());
+		List<EngineLog> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
+		}
+		return null;
+	}
 }

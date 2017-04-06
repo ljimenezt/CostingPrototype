@@ -30,10 +30,10 @@
 							value="#{mensaje.label_date}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{engineLogAction.engineLog.date}"
-							showOn="button" navigator="true" maxdate="today();" id="txtDate"
+							showOn="button" navigator="true" maxdate="today();" id="txtDate" 
 							pattern="MM/dd/yyyy" readonlyInput="true">
 							<p:ajax event="dateSelect"
-								listener="#{engineLogAction.deleteActivity()}"
+								listener="#{engineLogAction.deleteActivity()}" 
 								update="outputActivityMachine" />
 						</p:calendar>
 						<rich:message for="txtDate" />

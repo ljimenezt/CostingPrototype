@@ -72,10 +72,21 @@
 							<rich:column styleClass="colIconoUno">
 								<f:facet name="header" />
 								<a:commandLink
+									rendered="#{engineLogAction.activityMachineMap[activityMachine.activityMachinePK.activities.idActivity]==null}"
 									render=":formEngineLog:txtActivity, :formEngineLog:txtActivities, :formEngineLog:txtEngine, :formEngineLog:txtEngines"
 									actionListener="#{engineLogAction.loadActivityMachine(activityMachine)}"
 									oncomplete="#{rich:component('popupActivityMachine')}.hide();">
 									<h:graphicImage value="/img/add_16.png" />
+									<rich:tooltip layout="block">
+										<h:outputText value="#{mensaje.label_select}" />
+									</rich:tooltip>
+								</a:commandLink>
+								<a:commandLink
+									rendered="#{engineLogAction.activityMachineMap[activityMachine.activityMachinePK.activities.idActivity]!=null}"
+									render=":formEngineLog:txtActivity, :formEngineLog:txtActivities, :formEngineLog:txtEngine, :formEngineLog:txtEngines"
+									actionListener="#{engineLogAction.loadActivityMachine(activityMachine)}"
+									oncomplete="#{rich:component('popupActivityMachine')}.hide();">
+									<h:graphicImage value="/img/okPermiso_16.png" />
 									<rich:tooltip layout="block">
 										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
