@@ -254,4 +254,36 @@ public class ActivitiesAndMachineDao implements Serializable {
 		}
 		return null;
 	}
+
+	/**
+	 * Consult the relation between activities and machines.
+	 * 
+	 * @author Patricia.Patinio
+	 * 
+	 * @param idMachine
+	 *            : Identifier of machine.
+	 * @param idActivity
+	 *            : Identifier of activity.
+	 * @return ActivityMachine: object of relation between activities and
+	 *         machines.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public ActivityMachine consultActivityMachine(int idActivity, int idMachine)
+			throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT am FROM ActivityMachine am ");
+		query.append("JOIN FETCH am.activityMachinePK.machines m ");
+		query.append("JOIN FETCH am.activityMachinePK.activities ac ");
+		query.append("WHERE ac.idActivity = :idActivity ");
+		query.append("AND m.idMachine = :idMachine ");
+		Query q = em.createQuery(query.toString());
+		q.setParameter("idActivity", idActivity);
+		q.setParameter("idMachine", idMachine);
+		List<ActivityMachine> resultList = q.getResultList();
+		if (resultList.size() > 0) {
+			return resultList.get(0);
+		}
+		return null;
+	}
 }

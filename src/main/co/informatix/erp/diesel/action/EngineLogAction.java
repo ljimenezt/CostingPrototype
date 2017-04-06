@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -29,6 +30,7 @@ import co.informatix.erp.diesel.entities.IrrigationDetails;
 import co.informatix.erp.diesel.entities.Zone;
 import co.informatix.erp.humanResources.entities.Hr;
 import co.informatix.erp.lifeCycle.entities.ActivityNames;
+import co.informatix.erp.machines.dao.MachinesDao;
 import co.informatix.erp.machines.entities.Machines;
 import co.informatix.erp.utils.Constantes;
 import co.informatix.erp.utils.ControladorContexto;
@@ -58,6 +60,7 @@ public class EngineLogAction implements Serializable {
 	private List<SelectItem> itemsZone;
 	private List<FuelUsageLog> engineLogList;
 	private List<IrrigationDetails> irrigationDetailsList;
+	private HashMap<ActivityMachine, Integer> activityMachineMap;
 
 	private EngineLog engineLog;
 	private FuelUsageLog fuelUsageLog;
@@ -82,6 +85,8 @@ public class EngineLogAction implements Serializable {
 	private IrrigationDetailsDao irrigationDetailsDao;
 	@EJB
 	private ActivitiesAndMachineDao activitiesAndMachineDao;
+	@EJB
+	private MachinesDao machineDao;
 	@EJB
 	private TransactionTypeDao transactionTypeDao;
 	@Resource
@@ -329,6 +334,24 @@ public class EngineLogAction implements Serializable {
 	}
 
 	/**
+	 * @return humanMaterialMap: return selected activitiesMachine objects map
+	 *         previously for a engineLog.
+	 */
+	public HashMap<ActivityMachine, Integer> getActivityMachineMap() {
+		return activityMachineMap;
+	}
+
+	/**
+	 * @param humanMaterialMap
+	 *            : return selected activitiesMachine objects map previously for
+	 *            a engineLog.
+	 */
+	public void setActivityMachineMap(
+			HashMap<ActivityMachine, Integer> humanMaterialMap) {
+		this.activityMachineMap = humanMaterialMap;
+	}
+
+	/**
 	 * @return startDateReport: start date for generate report.
 	 */
 	public Date getStartDateReport() {
@@ -453,7 +476,9 @@ public class EngineLogAction implements Serializable {
 				.getBundle("messageDiesel");
 		this.nameActivitySearch = "";
 		if (this.engineLog.getDate() != null) {
+			this.activityMachineMap = new HashMap<ActivityMachine, Integer>();
 			searchActivitiesAndMachine();
+			searchActivitiesAndMachineSelected();
 		} else {
 			ControladorContexto.mensajeError("formEngineLog:txtActivity",
 					bundleDiesel.getString("engine_log_message_select_date"));
@@ -469,27 +494,23 @@ public class EngineLogAction implements Serializable {
 	 * @return "regEngineLog": return the string for redirect to register view.
 	 */
 	public String addEditEngineLog(EngineLog engineLog) {
-		if (engineLog != null) {
-			this.engineLog = engineLog;
-		} else {
-			this.zone = new Zone();
-			this.machineIrrigation = new Machines();
-			this.engineLog = new EngineLog();
-			this.irrigationDetails = new IrrigationDetails();
-			this.fuelUsageLog = new FuelUsageLog();
-			this.engineLog.setReceivedBy(new Hr());
-			this.engineLog.setDeliveredBy(new Hr());
-			this.engineLog.setIrrigation(false);
-			this.engineLog.setActivityMachine(new ActivityMachine());
-			this.engineLog.getActivityMachine().setActivityMachinePK(
-					new ActivityMachinePK());
-			this.engineLog.getActivityMachine().getActivityMachinePK()
-					.setActivities(new Activities());
-			this.engineLog.getActivityMachine().getActivityMachinePK()
-					.getActivities().setActivityName(new ActivityNames());
-			this.engineLog.getActivityMachine().getActivityMachinePK()
-					.setMachines(new Machines());
-		}
+		this.zone = new Zone();
+		this.machineIrrigation = new Machines();
+		this.engineLog = new EngineLog();
+		this.irrigationDetails = new IrrigationDetails();
+		this.fuelUsageLog = new FuelUsageLog();
+		this.engineLog.setReceivedBy(new Hr());
+		this.engineLog.setDeliveredBy(new Hr());
+		this.engineLog.setIrrigation(false);
+		this.engineLog.setActivityMachine(new ActivityMachine());
+		this.engineLog.getActivityMachine().setActivityMachinePK(
+				new ActivityMachinePK());
+		this.engineLog.getActivityMachine().getActivityMachinePK()
+				.setActivities(new Activities());
+		this.engineLog.getActivityMachine().getActivityMachinePK()
+				.getActivities().setActivityName(new ActivityNames());
+		this.engineLog.getActivityMachine().getActivityMachinePK()
+				.setMachines(new Machines());
 		return "regEngineLog";
 	}
 
@@ -507,51 +528,54 @@ public class EngineLogAction implements Serializable {
 		String messageSave = dateFormat.format(this.engineLog.getDate());
 		try {
 			userTransaction.begin();
-			if (engineLog.getIdEngineLog() != 0) {
-				engineLogDao.editEngineLog(engineLog);
+			registerMessage = "message_registro_guardar";
+			Machines machine = new Machines();
+			if (this.engineLog.isIrrigation()) {
+				this.engineLog.setActivityMachine(null);
+				machine = this.machineIrrigation;
+				machine.setHourmeter(this.engineLog.getHourmeterOff());
+				machine.setHydrometer(this.irrigationDetails.getHidrometerOff());
 			} else {
-				registerMessage = "message_registro_guardar";
-				if (this.engineLog.isIrrigation()) {
-					this.engineLog.setActivityMachine(null);
-				}
-				if (this.engineLog.getDeliveredBy().getIdHr() == 0) {
-					this.engineLog.setDeliveredBy(null);
-				}
-				if (this.engineLog.getReceivedBy().getIdHr() == 0) {
-					this.engineLog.setReceivedBy(null);
-				}
-				engineLogDao.saveEngineLog(this.engineLog);
+				machine = this.engineLog.getActivityMachine()
+						.getActivityMachinePK().getMachines();
+				machine.setHourmeter(this.engineLog.getHourmeterOff());
+			}
+			machineDao.editMachines(machine);
+			if (this.engineLog.getDeliveredBy().getIdHr() == 0) {
+				this.engineLog.setDeliveredBy(null);
+			}
+			if (this.engineLog.getReceivedBy().getIdHr() == 0) {
+				this.engineLog.setReceivedBy(null);
+			}
+			engineLogDao.saveEngineLog(this.engineLog);
 
-				this.fuelUsageLog.setEngineLog(this.engineLog);
-				this.fuelUsageLog.setDate(engineLog.getDate());
-				this.fuelUsageLog.setFuelPurchase(null);
-				this.fuelUsageLog.setFinalLevel(this.finalLevel);
+			this.fuelUsageLog.setEngineLog(this.engineLog);
+			this.fuelUsageLog.setDate(engineLog.getDate());
+			this.fuelUsageLog.setFuelPurchase(null);
+			this.fuelUsageLog.setFinalLevel(this.finalLevel);
 
-				TransactionType transactionType = transactionTypeDao
-						.transactionTypeById(Constantes.TRANSACTION_TYPE_WITHDRAWAL);
-				this.fuelUsageLog.setTransactionType(transactionType);
-				this.fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
+			TransactionType transactionType = transactionTypeDao
+					.transactionTypeById(Constantes.TRANSACTION_TYPE_WITHDRAWAL);
+			this.fuelUsageLog.setTransactionType(transactionType);
+			this.fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
 
-				if (this.engineLog.isIrrigation()) {
-					this.irrigationDetails.setZone(this.zone);
-					this.irrigationDetails.setMachine(this.machineIrrigation);
-					this.irrigationDetails.setEngineLog(engineLog);
-					irrigationDetailsDao
-							.saveIrrigationDetails(irrigationDetails);
-					Zone zone = zoneDao.zoneById(this.zone.getId());
-					messageSave = messageSave + " - " + zone.getName() + " - "
-							+ this.irrigationDetails.getMachine().getName();
-				} else {
-					messageSave = messageSave
-							+ " - "
-							+ this.engineLog.getActivityMachine()
-									.getActivityMachinePK().getActivities()
-									.getActivityName().getActivityName()
-							+ " - "
-							+ this.engineLog.getActivityMachine()
-									.getActivityMachinePK().getMachines()
-									.getName();
-				}
+			if (this.engineLog.isIrrigation()) {
+				this.irrigationDetails.setZone(this.zone);
+				this.irrigationDetails.setMachine(this.machineIrrigation);
+				this.irrigationDetails.setEngineLog(engineLog);
+				irrigationDetailsDao.saveIrrigationDetails(irrigationDetails);
+				Zone zone = zoneDao.zoneById(this.zone.getId());
+				messageSave = messageSave + " - " + zone.getName() + " - "
+						+ this.irrigationDetails.getMachine().getName();
+			} else {
+				messageSave = messageSave
+						+ " - "
+						+ this.engineLog.getActivityMachine()
+								.getActivityMachinePK().getActivities()
+								.getActivityName().getActivityName()
+						+ " - "
+						+ this.engineLog.getActivityMachine()
+								.getActivityMachinePK().getMachines().getName();
 			}
 			ControladorContexto.mensajeInformacion(null, MessageFormat.format(
 					bundle.getString(registerMessage), messageSave));
@@ -608,6 +632,27 @@ public class EngineLogAction implements Serializable {
 						joinSearchMessages);
 			}
 			validations.setMensajeBusquedaPopUp(searchMessage);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
+
+	/**
+	 * Method get a selected ActivityMachine objects list previously by user.
+	 */
+	public void searchActivitiesAndMachineSelected() {
+		try {
+			List<EngineLog> engineLogList = engineLogDao.allEngineLog();
+			for (EngineLog engine : engineLogList) {
+				ActivityMachine activityMachine = activitiesAndMachineDao
+						.consultActivityMachine(engine.getActivityMachine()
+								.getActivityMachinePK().getActivities()
+								.getIdActivity(), engine.getActivityMachine()
+								.getActivityMachinePK().getMachines()
+								.getIdMachine());
+				this.activityMachineMap.put(activityMachine,
+						engine.getIdEngineLog());
+			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
