@@ -107,6 +107,10 @@
 						<f:facet name="header">#{messageDiesel.irrigation_details_label_hidrometer_off}</f:facet>
 						<h:outputText value="#{irrigation.hidrometerOff}" />
 					</rich:column>
+					<rich:column styleClass="colTexto">
+						<f:facet name="header">#{messageDiesel.irrigation_details_label_water_usage}</f:facet>
+						<h:outputText value="#{irrigation.waterUsage}" />
+					</rich:column>
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
 							<rich:column colspan="8" styleClass="footTabla">
