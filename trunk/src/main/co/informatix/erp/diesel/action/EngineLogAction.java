@@ -334,7 +334,7 @@ public class EngineLogAction implements Serializable {
 	}
 
 	/**
-	 * @return humanMaterialMap: return selected activitiesMachine objects map
+	 * @return activityMachineMap: return selected activitiesMachine objects map
 	 *         previously for a engineLog.
 	 */
 	public HashMap<ActivityMachine, Integer> getActivityMachineMap() {
@@ -342,7 +342,7 @@ public class EngineLogAction implements Serializable {
 	}
 
 	/**
-	 * @param humanMaterialMap
+	 * @param activityMachineMap
 	 *            : return selected activitiesMachine objects map previously for
 	 *            a engineLog.
 	 */
@@ -639,19 +639,23 @@ public class EngineLogAction implements Serializable {
 
 	/**
 	 * Method get a selected ActivityMachine objects list previously by user.
+	 * 
+	 * @modify 06/04/2017 Claudia.Rey
 	 */
 	public void searchActivitiesAndMachineSelected() {
 		try {
 			List<EngineLog> engineLogList = engineLogDao.allEngineLog();
 			for (EngineLog engine : engineLogList) {
+				int idActivity = engine.getActivityMachine()
+						.getActivityMachinePK().getActivities().getIdActivity();
+				int idMachine = engine.getActivityMachine()
+						.getActivityMachinePK().getMachines().getIdMachine();
 				ActivityMachine activityMachine = activitiesAndMachineDao
-						.consultActivityMachine(engine.getActivityMachine()
-								.getActivityMachinePK().getActivities()
-								.getIdActivity(), engine.getActivityMachine()
-								.getActivityMachinePK().getMachines()
-								.getIdMachine());
-				this.activityMachineMap.put(activityMachine,
-						engine.getIdEngineLog());
+						.consultActivityMachine(idActivity, idMachine);
+				if (activityMachine != null) {
+					this.activityMachineMap.put(activityMachine,
+							engine.getIdEngineLog());
+				}
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);

@@ -260,10 +260,10 @@ public class ActivitiesAndMachineDao implements Serializable {
 	 * 
 	 * @author Patricia.Patinio
 	 * 
-	 * @param idMachine
-	 *            : Identifier of machine.
 	 * @param idActivity
 	 *            : Identifier of activity.
+	 * @param idMachine
+	 *            : Identifier of machine.
 	 * @return ActivityMachine: object of relation between activities and
 	 *         machines.
 	 * @throws Exception
