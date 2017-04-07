@@ -264,6 +264,13 @@ return false;]]></method>
                 <property name="pageBreakAfter">always</property>
                 <property name="pageBreakBefore">avoid</property>
                 <property name="pageBreakInside">avoid</property>
+                <list-property name="sort">
+                    <structure>
+                        <expression name="key" type="javascript">row["date"]</expression>
+                        <property name="direction">asc</property>
+                        <property name="strength">-1</property>
+                    </structure>
+                </list-property>
                 <header>
                     <data id="467">
                         <property name="backgroundColor">#E4DFEC</property>

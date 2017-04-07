@@ -180,7 +180,7 @@ public class IrrigationDetailsDao implements Serializable {
 		query.append("AND ful.id_engine_log = el.id_engine_log ");
 		query.append("AND id.id_engine_log = el.id_engine_log ");
 		query.append(consult);
-		query.append("ORDER BY el.date ASC, z.name ASC ");
+		query.append("ORDER BY el.date ASC");
 		Query q = em.createNativeQuery(query.toString());
 		for (SelectItem parametro : parameters) {
 			q.setParameter(parametro.getLabel(), parametro.getValue());
