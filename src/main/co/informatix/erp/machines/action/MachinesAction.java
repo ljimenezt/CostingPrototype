@@ -636,7 +636,7 @@ public class MachinesAction implements Serializable {
 	 * This method allows calculate the depreciation of the machine.
 	 * 
 	 * @author Andres.Gomez
-	 * @modify Fabian.Diaz
+	 * @modify 15/03/2017 Fabian.Diaz
 	 */
 	public void calculateDepreciation() {
 		double yearLife = machines.getLifeYears();
