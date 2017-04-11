@@ -41,9 +41,8 @@
 		<ui:param name="popupBuscar" value="popupBuscar" />
 		<ui:param name="metodoListarTodos" value="initializeAttendance" />
 
-
 		<h:form id="formAssistControl">
-			<rich:panel styleClass="anchoExtend MinH253P"
+			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{mensaje.label_listing} #{messageHumanResources.attendance_label_attendance_s}"
 				id="panelAssistControl">
 				<a:outputPanel id="pnlReport">
@@ -76,8 +75,8 @@
 					rowClasses="odd-row, even-row">
 					<f:facet name="footer">
 						<rich:columnGroup rendered="#{listaVacia}">
-							<rich:column colspan="1" styleClass="footTabla">
-								<h:outputText 
+							<rich:column colspan="7" styleClass="footTabla">
+								<h:outputText
 									value="#{mensaje.message_no_existen_registros_tabla}" />
 							</rich:column>
 						</rich:columnGroup>
@@ -154,15 +153,12 @@
 				<br />
 				<div class="W350P center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						execute="fechas" render="formGenerico, mensajes, mensajeBusqueda"
-						actionListener="#{assistControlAction.validateRangeFortNight()}"
-						oncomplete="if (#{facesContext.maximumSeverity==null}) { clickButton('#{rich:clientId('executeSearch')}'); } else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }" />
+						execute="fechas"
+						render="panelAssistControl, mensajes, mensajeBusqueda"
+						action="#{assistControlAction.consultAssistControl()}"
+						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
 						value="#{mensaje.button_cancel}" />
-					<h:commandButton styleClass="ocultar" id="executeSearch"
-						onclick="#{rich:component('statPane')}.show();"
-						action="#{assistControlAction.consultAssistControl()}">
-					</h:commandButton>
 				</div>
 			</rich:popupPanel>
 		</h:form>

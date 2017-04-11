@@ -395,9 +395,15 @@ public class AssistControlAction implements Serializable {
 
 	/**
 	 * This method allows validate the range of the search filter
+	 * 
+	 * @modify 07/04/2017 Claudia.Rey
+	 * 
+	 * @return flagValidationDates: Indicate if the dates are in the allowed
+	 *         range.
 	 */
-	public void validateRangeFortNight() {
+	public boolean validateRangeFortNight() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		boolean flagValidationDates = true;
 		if (this.initialDateSearch != null && this.finalDateSearch != null
 				&& initialDateSearch != finalDateSearch) {
 			Double valueFornight = ControladorFechas.restarFechas(
@@ -406,8 +412,10 @@ public class AssistControlAction implements Serializable {
 			if (fornight > Constantes.VALUE_FORNIGHT) {
 				ControladorContexto.mensajeError("formBuscar:message",
 						bundle.getString("message_validar_rango_fecha"));
+				flagValidationDates = false;
 			}
 		}
+		return flagValidationDates;
 	}
 
 	/**
@@ -475,7 +483,6 @@ public class AssistControlAction implements Serializable {
 		ValidacionesAction validate = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
-		this.listHrAssistControl = new ArrayList<Hr>();
 		StringBuilder consult = new StringBuilder();
 		unionSearchMessages = new StringBuilder();
 		String searchMessages = "";
@@ -485,84 +492,92 @@ public class AssistControlAction implements Serializable {
 		try {
 			advanceSearch(consult, parameters, bundle, unionSearchMessages,
 					true);
-			Long quantity;
-			if (source.equals(Constantes.SOURCE_FOOD_CONTROL)) {
-				quantity = foodControlDao.hrFoodControlAmount(consult,
-						parameters);
-				Long quantityOther = foodControlDao.otherFoodControlAmount(
-						consult, parameters);
-				quantity = quantity + quantityOther;
-			} else {
-				quantity = hrDao.hrAssistControlAmount(consult, parameters,
-						source);
+			boolean flagValidationDates = true;
+			if (getInitialDateSearch() != null && getFinalDateSearch() != null) {
+				flagValidationDates = validateRangeFortNight();
 			}
+			if (flagValidationDates) {
+				this.listHrAssistControl = new ArrayList<Hr>();
+				Long quantity;
+				if (source.equals(Constantes.SOURCE_FOOD_CONTROL)) {
+					quantity = foodControlDao.hrFoodControlAmount(consult,
+							parameters);
+					Long quantityOther = foodControlDao.otherFoodControlAmount(
+							consult, parameters);
+					quantity = quantity + quantityOther;
+				} else {
+					quantity = hrDao.hrAssistControlAmount(consult, parameters,
+							source);
+				}
 
-			if (quantity != null) {
-				pagination.paginar(quantity);
-			}
+				if (quantity != null) {
+					pagination.paginar(quantity);
+				}
 
-			if (source.equals(Constantes.SOURCE_FOOD_CONTROL)) {
-				List<Object[]> listNameIdFoodControl = foodControlDao
-						.listHrOtherOfFoodControl(pagination.getInicio(),
-								pagination.getRango(), consult, parameters);
-				if (listNameIdFoodControl != null) {
-					Hr hrAux;
-					for (Object[] obj : listNameIdFoodControl) {
-						if (obj[0] != null) {
-							int id = Integer.parseInt(obj[0].toString());
-							hrAux = hrDao.hrById(id);
+				if (source.equals(Constantes.SOURCE_FOOD_CONTROL)) {
+					List<Object[]> listNameIdFoodControl = foodControlDao
+							.listHrOtherOfFoodControl(pagination.getInicio(),
+									pagination.getRango(), consult, parameters);
+					if (listNameIdFoodControl != null) {
+						Hr hrAux;
+						for (Object[] obj : listNameIdFoodControl) {
+							if (obj[0] != null) {
+								int id = Integer.parseInt(obj[0].toString());
+								hrAux = hrDao.hrById(id);
 
-						} else {
-							hrAux = new Hr();
-							String name = obj[1].toString();
-							hrAux.setFullName(name);
-							String delimiter = " ";
-							String[] temp = name.split(delimiter);
-							hrAux.setName(temp[0]);
-							if (temp.length >= 2) {
-								hrAux.setFamilyName(temp[1]);
 							} else {
-								hrAux.setName("");
+								hrAux = new Hr();
+								String name = obj[1].toString();
+								hrAux.setFullName(name);
+								String delimiter = " ";
+								String[] temp = name.split(delimiter);
+								hrAux.setName(temp[0]);
+								if (temp.length >= 2) {
+									hrAux.setFamilyName(temp[1]);
+								} else {
+									hrAux.setName("");
+								}
 							}
+							listHrAssistControl.add(hrAux);
 						}
-						listHrAssistControl.add(hrAux);
+					}
+				} else {
+					this.listHrAssistControl = hrDao.listHrOfAssistControl(
+							pagination.getInicio(), pagination.getRango(),
+							consult, parameters, source);
+				}
+
+				if (listHrAssistControl != null) {
+					this.listDateTable = assistControlDao
+							.consultAssistControlDates(consult, parameters,
+									source);
+					if (this.source) {
+						associateNovelty(consult, parameters);
+						buildDataTable();
+					} else {
+						FoodControlAction mealControlAction = ControladorContexto
+								.getContextBean(FoodControlAction.class);
+						mealControlAction.setParameters(parameters);
+						mealControlAction.setConsult(consult);
 					}
 				}
-			} else {
-				this.listHrAssistControl = hrDao.listHrOfAssistControl(
-						pagination.getInicio(), pagination.getRango(), consult,
-						parameters, source);
-			}
-
-			if (listHrAssistControl != null) {
-				this.listDateTable = assistControlDao
-						.consultAssistControlDates(consult, parameters, source);
-				if (this.source) {
-					associateNovelty(consult, parameters);
-					buildDataTable();
-				} else {
-					FoodControlAction mealControlAction = ControladorContexto
-							.getContextBean(FoodControlAction.class);
-					mealControlAction.setParameters(parameters);
-					mealControlAction.setConsult(consult);
+				if ((listHrAssistControl == null || listHrAssistControl.size() <= 0)
+						&& !"".equals(unionSearchMessages.toString())) {
+					searchMessages = MessageFormat
+							.format(bundle
+									.getString("message_no_existen_registros_criterio_busqueda"),
+									unionSearchMessages);
+				} else if (listHrAssistControl == null
+						|| listHrAssistControl.size() <= 0) {
+					ControladorContexto.mensajeInformacion(null,
+							bundle.getString("message_no_existen_registros"));
+				} else if (!"".equals(unionSearchMessages.toString())) {
+					searchMessages = MessageFormat
+							.format(bundle
+									.getString("message_existen_registros_criterio_busqueda"),
+									bundleHr.getString("attendance_label_attendance_s"),
+									unionSearchMessages);
 				}
-			}
-			if ((listHrAssistControl == null || listHrAssistControl.size() <= 0)
-					&& !"".equals(unionSearchMessages.toString())) {
-				searchMessages = MessageFormat
-						.format(bundle
-								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionSearchMessages);
-			} else if (listHrAssistControl == null
-					|| listHrAssistControl.size() <= 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionSearchMessages.toString())) {
-				searchMessages = MessageFormat
-						.format(bundle
-								.getString("message_existen_registros_criterio_busqueda"),
-								bundleHr.getString("attendance_label_attendance_s"),
-								unionSearchMessages);
 			}
 			validate.setMensajeBusqueda(searchMessages);
 		} catch (Exception e) {

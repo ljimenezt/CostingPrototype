@@ -712,6 +712,8 @@ public class FoodControlAction implements Serializable {
 	 * Consult the the list food control to show in the view and return
 	 * navigation rule.
 	 * 
+	 * @modify 07/04/2017 Claudia.Rey
+	 * 
 	 * @return gesFoodControl: Navigation rule that redirects to manage the food
 	 *         control.
 	 */
@@ -723,44 +725,56 @@ public class FoodControlAction implements Serializable {
 				.getContextBean(ValidacionesAction.class);
 		AssistControlAction assistControlAction = ControladorContexto
 				.getContextBean(AssistControlAction.class);
-		this.listHrFoodControl = new ArrayList<Hr>();
 		String searchMessages = "";
 		StringBuilder unionSearchMessages = new StringBuilder();
 		try {
-			assistControlAction.setSource(false);
-			assistControlAction.consultAssistControl();
-			pagination = assistControlAction.getPagination();
-			unionSearchMessages = assistControlAction.getUnionSearchMessages();
-			this.listHrFoodControl = assistControlAction
-					.getListHrAssistControl();
-			if (listHrFoodControl != null) {
-				this.listDateTable = assistControlAction.getListDateTable();
-				associateTypeFood(this.consult, this.parameters);
-				String param3move = ControladorContexto.getParam("param3move");
-				if (param3move == null) {
-					param3move = "";
+			boolean flagValidationDates = true;
+			if (assistControlAction.getInitialDateSearch() != null
+					&& assistControlAction.getFinalDateSearch() != null) {
+				flagValidationDates = assistControlAction
+						.validateRangeFortNight();
+			}
+			if (flagValidationDates) {
+				this.listHrFoodControl = new ArrayList<Hr>();
+				assistControlAction.setSource(false);
+				assistControlAction.consultAssistControl();
+				pagination = assistControlAction.getPagination();
+				unionSearchMessages = assistControlAction
+						.getUnionSearchMessages();
+				this.listHrFoodControl = assistControlAction
+						.getListHrAssistControl();
+				if (listHrFoodControl != null && listHrFoodControl.size() > 0) {
+					this.listDateTable = assistControlAction.getListDateTable();
+					associateTypeFood(this.consult, this.parameters);
+					String param3move = ControladorContexto
+							.getParam("param3move");
+					if (param3move == null) {
+						param3move = "";
+					}
+					buildDataTable(param3move);
+				} else {
+					columnsCont = 0;
+					contNextColumn = 6;
 				}
-
-				buildDataTable(param3move);
+				if ((listHrFoodControl == null || listHrFoodControl.size() <= 0)
+						&& !"".equals(unionSearchMessages.toString())) {
+					searchMessages = MessageFormat
+							.format(bundle
+									.getString("message_no_existen_registros_criterio_busqueda"),
+									unionSearchMessages);
+				} else if (listHrFoodControl == null
+						|| listHrFoodControl.size() <= 0) {
+					ControladorContexto.mensajeInformacion(null,
+							bundle.getString("message_no_existen_registros"));
+				} else if (!"".equals(unionSearchMessages.toString())) {
+					searchMessages = MessageFormat
+							.format(bundle
+									.getString("message_existen_registros_criterio_busqueda"),
+									bundleHr.getString("meal_control_label_s"),
+									unionSearchMessages);
+				}
+				validate.setMensajeBusqueda(searchMessages);
 			}
-			if ((listHrFoodControl == null || listHrFoodControl.size() <= 0)
-					&& !"".equals(unionSearchMessages.toString())) {
-				searchMessages = MessageFormat
-						.format(bundle
-								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionSearchMessages);
-			} else if (listHrFoodControl == null
-					|| listHrFoodControl.size() <= 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionSearchMessages.toString())) {
-				searchMessages = MessageFormat
-						.format(bundle
-								.getString("message_existen_registros_criterio_busqueda"),
-								bundleHr.getString("meal_control_label_s"),
-								unionSearchMessages);
-			}
-			validate.setMensajeBusqueda(searchMessages);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -801,9 +815,7 @@ public class FoodControlAction implements Serializable {
 			}
 			if (listFoodControlAux != null) {
 				HashMap<Integer, Integer> hasmapAux = new HashMap<Integer, Integer>();
-
 				for (FoodControl fc : listFoodControlAux) {
-
 					Date dateAssist = ControladorFechas.formatearFecha(
 							fc.getDate(), Constantes.DATE_FORMAT_CONSULT);
 					int idFoodType = fc.getTypeFood().getId();
@@ -829,7 +841,6 @@ public class FoodControlAction implements Serializable {
 				}
 				if (flagOther) {
 					for (Date date : listDate) {
-
 						FoodControl foodControlAux = foodControlDao
 								.consultFoodControlXDate(nameOther,
 										date.toString());
@@ -838,7 +849,6 @@ public class FoodControlAction implements Serializable {
 									date, Constantes.DATE_FORMAT_CONSULT);
 							typeFoodList = typeFoodDao.consultTypeFood();
 							for (TypeFood tf : typeFoodList) {
-
 								Integer i = (int) (dateAssist.getTime() / 1000)
 										+ tf.getId();
 								hasmapAux.put(i, 0);
@@ -847,7 +857,6 @@ public class FoodControlAction implements Serializable {
 					}
 					flagOther = false;
 				}
-
 				hr.setAssistFoodControl(hasmapAux);
 			}
 		}
