@@ -145,7 +145,6 @@ public class ColorAction implements Serializable {
 				.getBundle("messageBaseInformation");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		this.listColors = new ArrayList<Color>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder query = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
