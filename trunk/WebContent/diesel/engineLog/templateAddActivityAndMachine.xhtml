@@ -72,7 +72,7 @@
 							<rich:column styleClass="colIconoUno">
 								<f:facet name="header" />
 								<a:commandLink
-									rendered="#{engineLogAction.activityMachineMap[activityMachine.activityMachinePK.activities.idActivity]==null}"
+									rendered="#{engineLogAction.activityMachineMap[activityMachine]==null}"
 									render=":formEngineLog:txtActivity, :formEngineLog:txtActivities, :formEngineLog:txtEngine, :formEngineLog:txtEngines"
 									actionListener="#{engineLogAction.loadActivityMachine(activityMachine)}"
 									oncomplete="#{rich:component('popupActivityMachine')}.hide();">
@@ -81,16 +81,13 @@
 										<h:outputText value="#{mensaje.label_select}" />
 									</rich:tooltip>
 								</a:commandLink>
-								<a:commandLink
-									rendered="#{engineLogAction.activityMachineMap[activityMachine.activityMachinePK.activities.idActivity]!=null}"
-									render=":formEngineLog:txtActivity, :formEngineLog:txtActivities, :formEngineLog:txtEngine, :formEngineLog:txtEngines"
-									actionListener="#{engineLogAction.loadActivityMachine(activityMachine)}"
-									oncomplete="#{rich:component('popupActivityMachine')}.hide();">
+								<a:outputPanel
+									rendered="#{engineLogAction.activityMachineMap[activityMachine]!=null}">
 									<h:graphicImage value="/img/okPermiso_16.png" />
 									<rich:tooltip layout="block">
-										<h:outputText value="#{mensaje.label_select}" />
+										<h:outputText value="#{mensaje.label_actividad_no_disponible}" />
 									</rich:tooltip>
-								</a:commandLink>
+								</a:outputPanel>
 							</rich:column>
 							<rich:column styleClass="colTextoLargo">
 								<f:facet name="header">#{mensaje.label_name} #{messageCosts.activities_label}</f:facet>
