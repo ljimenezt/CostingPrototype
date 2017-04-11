@@ -146,10 +146,10 @@ public class TypeFoodDao implements Serializable {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * Consult if the abbreviation of the typeFood exist in the database when saving or
-	 * editing.
+	 * Consult if the abbreviation of the typeFood exist in the database when
+	 * saving or editing.
 	 * 
 	 * @author Claudia.Rey
 	 * 
@@ -161,7 +161,8 @@ public class TypeFoodDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public TypeFood abbreviationExists(String abbreviation, int id) throws Exception {
+	public TypeFood abbreviationExists(String abbreviation, int id)
+			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT t FROM TypeFood t ");
 		query.append("WHERE UPPER(t.abbreviation)=UPPER(:abbreviation) ");
@@ -179,19 +180,12 @@ public class TypeFoodDao implements Serializable {
 		}
 		return null;
 	}
-	
-	
 
 	/**
 	 * This method consultation typeFood with a certain range sent as a
 	 * parameter and filtering the information by the values of sent search.
 	 * 
-	 * @param consult
-	 *            : Consult the logs depending on the parameters selected by the
-	 *            user.
-	 * @param parameters
-	 *            : Query parameters.
-	 * @return List<TypeFood>: TypeFood list.
+	 * @return List<TypeFood>: TypeFood list found.
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
