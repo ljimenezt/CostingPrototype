@@ -1083,7 +1083,7 @@ public class EngineLogAction implements Serializable {
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		try {
 			if (this.startDateReport != null && this.endDateReport != null) {
-				query.append("WHERE ful.date BETWEEN :startDateReport AND :endDateReport ");
+				query.append("WHERE ful.date >= :startDateReport AND ful.date <= :endDateReport ");
 
 				SelectItem item = new SelectItem(startDateReport,
 						"startDateReport");

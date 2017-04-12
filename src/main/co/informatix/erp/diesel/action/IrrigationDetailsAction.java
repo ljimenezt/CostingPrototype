@@ -304,7 +304,17 @@ public class IrrigationDetailsAction implements Serializable {
 		StringBuilder consult = new StringBuilder();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		try {
-			reportAdvanceSearch(consult, parameters);
+			if (this.startDateReport != null && this.endDateReport != null) {
+				consult.append("AND el.date >= :startDateReport AND el.date <= :endDateReport ");
+
+				SelectItem item = new SelectItem(startDateReport,
+						"startDateReport");
+				parameters.add(item);
+
+				SelectItem item2 = new SelectItem(endDateReport,
+						"endDateReport");
+				parameters.add(item2);
+			}
 
 			List<Object[]> listControl = irrigationDetailsDao
 					.consultIrrigationEngineReport(consult, parameters);
@@ -312,30 +322,6 @@ public class IrrigationDetailsAction implements Serializable {
 			reportsController.generateReportIrrigationEngine(listControl);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
-		}
-	}
-
-	/**
-	 * This method allow build the query by date to consult the information for
-	 * the report.
-	 * 
-	 * @author Luna.Granados
-	 * 
-	 * @param consult
-	 *            : query to concatenate.
-	 * @param parameters
-	 *            : list of search parameters.
-	 */
-	private void reportAdvanceSearch(StringBuilder consult,
-			List<SelectItem> parameters) {
-		if (this.startDateReport != null && this.endDateReport != null) {
-			consult.append("AND el.date BETWEEN :startDateReport AND :endDateReport ");
-
-			SelectItem item = new SelectItem(startDateReport, "startDateReport");
-			parameters.add(item);
-
-			SelectItem item2 = new SelectItem(endDateReport, "endDateReport");
-			parameters.add(item2);
 		}
 	}
 

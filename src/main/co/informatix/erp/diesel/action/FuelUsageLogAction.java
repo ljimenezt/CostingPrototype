@@ -220,9 +220,14 @@ public class FuelUsageLogAction implements Serializable {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		Double finalLevel = 0d;
 		try {
+			SimpleDateFormat dateFormat = new SimpleDateFormat(
+					Constantes.DATE_FORMAT_TABLE);
+			String strFecha = dateFormat.format(new Date());
+			Date date = dateFormat.parse(strFecha);
+
 			this.fuelUsageLog.setEngineLog(null);
 			this.fuelUsageLog.setFuelPurchase(null);
-			this.fuelUsageLog.setDate(new Date());
+			this.fuelUsageLog.setDate(date);
 
 			List<FuelUsageLog> fuelUsageList = fuelUsageLogDao
 					.consultFuelUsage();
@@ -257,8 +262,6 @@ public class FuelUsageLogAction implements Serializable {
 				this.fuelUsageLog.setFinalLevel(finalLevel);
 				fuelUsageLogDao.saveFuelUsage(this.fuelUsageLog);
 
-				SimpleDateFormat dateFormat = new SimpleDateFormat(
-						Constantes.DATE_FORMAT_TABLE);
 				Object transactionType = (String) ValidacionesAction.getLabel(
 						itemsTransactionTypes, this.fuelUsageLog
 								.getTransactionType().getIdTransactionType());
