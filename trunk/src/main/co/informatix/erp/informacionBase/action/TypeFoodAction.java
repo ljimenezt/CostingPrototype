@@ -28,12 +28,10 @@ import co.informatix.erp.utils.Paginador;
 import co.informatix.erp.utils.ValidacionesAction;
 
 /**
- * 
  * This class is all the logic related to the creation, updating, and deleting
  * the typeFood that may exist.
  * 
  * @author Wilhelm.Boada
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
@@ -288,13 +286,16 @@ public class TypeFoodAction implements Serializable {
 	/**
 	 * Method to delete a typeFood of the database.
 	 * 
+	 * @modify 12/04/2017 Luna.Granados
+	 * 
 	 * @return initializeTypeFood(): Redirects to manage the typeFood list with
 	 *         typeFood updated.
 	 */
 	public String deleteTypeFood() {
 		try {
-			if (!foodControlDao
-					.consultFoodControlByIdTypeFood(typeFood.getId())) {
+			boolean existsfoodControl = foodControlDao
+					.consultFoodControlByIdTypeFood(typeFood.getId());
+			if (!existsfoodControl) {
 				dayTypeFoodAction.deleteAllDayTypeFood(typeFood);
 				typeFoodDao.removeTypeFood(typeFood);
 				ControladorContexto.mensajeInfoArg2(
@@ -409,10 +410,10 @@ public class TypeFoodAction implements Serializable {
 			ControladorContexto.mensajeError(e);
 		}
 	}
-	
+
 	/**
-	 * To validate the abbreviation of the typeFood, so it is not repeated in the
-	 * database and it validates against XSS.
+	 * To validate the abbreviation of the typeFood, so it is not repeated in
+	 * the database and it validates against XSS.
 	 * 
 	 * @author Claudia.Rey
 	 * 
@@ -423,14 +424,15 @@ public class TypeFoodAction implements Serializable {
 	 * @param value
 	 *            : field value to be valid.
 	 */
-	public void validateAbbreviationXSS(FacesContext context, UIComponent toValidate,
-			Object value) {
+	public void validateAbbreviationXSS(FacesContext context,
+			UIComponent toValidate, Object value) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		String abbreviation = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
 			int id = typeFood.getId();
-			TypeFood typeFoodAux = typeFoodDao.abbreviationExists(abbreviation, id);
+			TypeFood typeFoodAux = typeFoodDao.abbreviationExists(abbreviation,
+					id);
 			if (typeFoodAux != null) {
 				String messageExistence = "message_ya_existe_verifique";
 				context.addMessage(
