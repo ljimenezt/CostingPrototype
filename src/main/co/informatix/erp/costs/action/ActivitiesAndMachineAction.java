@@ -23,6 +23,8 @@ import co.informatix.erp.costs.dao.ActivitiesDao;
 import co.informatix.erp.costs.entities.Activities;
 import co.informatix.erp.costs.entities.ActivityMachine;
 import co.informatix.erp.costs.entities.ActivityMachinePK;
+import co.informatix.erp.diesel.dao.FuelPurchaseDao;
+import co.informatix.erp.diesel.entities.FuelPurchase;
 import co.informatix.erp.lifeCycle.action.RecordActivitiesActualsAction;
 import co.informatix.erp.lifeCycle.dao.CycleDao;
 import co.informatix.erp.machines.dao.MachineTypesDao;
@@ -55,6 +57,8 @@ public class ActivitiesAndMachineAction implements Serializable {
 	private ActivitiesDao activitiesDao;
 	@EJB
 	private CycleDao cycleDao;
+	@EJB
+	private FuelPurchaseDao fuelPurchaseDao;
 	@Resource
 	private UserTransaction userTransaction;
 
@@ -65,6 +69,7 @@ public class ActivitiesAndMachineAction implements Serializable {
 	private Activities selectedActivity;
 	private Machines machine;
 	private ActivityMachine activityMachine;
+	private FuelPurchase fuelPurchase;
 
 	private List<ActivityMachine> listActivityMachineTemp;
 	private List<ActivityMachine> listActivityMachine;
@@ -331,8 +336,10 @@ public class ActivitiesAndMachineAction implements Serializable {
 
 	/**
 	 * Add machines and create activityMachine List.
+	 * 
+	 * @throws Exception
 	 */
-	public void addMachines() {
+	public void addMachines() throws Exception {
 		ActivityMachinePK activityMachinePK = new ActivityMachinePK();
 		this.machine.setSelection(true);
 		this.activityMachine.setInitialDateTime(selectedActivity
@@ -349,15 +356,21 @@ public class ActivitiesAndMachineAction implements Serializable {
 	/**
 	 * Calculate the cost of consumption of the machine.
 	 * 
+	 * @modify 12/04/2017 Fabian.Diaz
+	 * 
 	 * @param activityMachine
 	 *            : ActivityMachine object.
+	 * @throws Exception
 	 */
-	public void calculateConsumableCost(ActivityMachine activityMachine) {
+	public void calculateConsumableCost(ActivityMachine activityMachine)
+			throws Exception {
+		fuelPurchase = fuelPurchaseDao.consultLastFuelPurchase();
 		Double fuelConsumption = activityMachine.getActivityMachinePK()
 				.getMachines().getFuelConsumption();
 		if (fuelConsumption > 0) {
 			Double consumableCostBudget = ControllerAccounting.multiply(
-					activityMachine.getDurationBudget(), fuelConsumption);
+					activityMachine.getDurationBudget(), fuelConsumption)
+					* fuelPurchase.getUnitCost();
 			this.activityMachine.setConsumablesCostBudget(consumableCostBudget);
 		} else {
 			this.activityMachine.setConsumablesCostBudget(0.0d);
@@ -596,8 +609,10 @@ public class ActivitiesAndMachineAction implements Serializable {
 	/**
 	 * It will calculate the length considering the different two dates for an
 	 * activity machine.
+	 * 
+	 * @throws Exception
 	 */
-	public void calculateDuration() {
+	public void calculateDuration() throws Exception {
 		Double durationBudget = ControladorFechas.restarFechas(
 				activityMachine.getInitialDateTime(),
 				activityMachine.getFinalDateTime());

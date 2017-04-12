@@ -120,6 +120,7 @@ public class FuelPurchaseDao implements Serializable {
 	 * a parameter and filtering the information by the values sent search.
 	 * 
 	 * @author Luna.Granados
+	 * @modify 12/04/2017 Fabian.Diaz
 	 * 
 	 * @param start
 	 *            : Registry where consultation begins.
@@ -143,7 +144,7 @@ public class FuelPurchaseDao implements Serializable {
 		query.append("JOIN FETCH fp.fuelType ft ");
 		query.append("LEFT JOIN FETCH fp.ivaRate ir ");
 		query.append(consult);
-		query.append("ORDER BY fp.dateTime DESC ");
+		query.append("ORDER BY fp.idFuelPurchase DESC ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
@@ -152,6 +153,28 @@ public class FuelPurchaseDao implements Serializable {
 		List<FuelPurchase> resultList = q.getResultList();
 		if (resultList.size() > 0) {
 			return resultList;
+		}
+		return null;
+	}
+
+	/**
+	 * Consult the last record of FuelPurchase in the database.
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @return FuelPurchase: object found
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public FuelPurchase consultLastFuelPurchase() throws Exception {
+		StringBuilder query = new StringBuilder();
+		query.append("SELECT fp FROM FuelPurchase fp ");
+		query.append("WHERE fp.idFuelPurchase = ");
+		query.append("(SELECT MAX(fp.idFuelPurchase) FROM FuelPurchase fp)");
+		Query q = em.createQuery(query.toString());
+		List<FuelPurchase> result = q.getResultList();
+		if (result.size() > 0) {
+			return result.get(0);
 		}
 		return null;
 	}
