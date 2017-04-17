@@ -66,6 +66,7 @@ public class FuelPurchaseAction implements Serializable {
 	private boolean loadDocumentTemporal;
 	private boolean iconPdf;
 	private boolean iconImg;
+	private boolean edition;
 	private int idSupplier;
 
 	private Date initialDateSearch;
@@ -81,7 +82,6 @@ public class FuelPurchaseAction implements Serializable {
 	private FuelTypes fuelTypes;
 	private IvaRate ivaRate;
 	private TransactionType transactionType;
-	private FileUploadBean fileUploadBean;
 	private FuelUsageLog fuelUsageLog;
 	private Paginador pagination = new Paginador();
 
@@ -101,6 +101,8 @@ public class FuelPurchaseAction implements Serializable {
 	private UserTransaction userTransaction;
 	@EJB
 	private ConsumableResourcesDao consumableResourcesDao;
+	@EJB
+	private FileUploadBean fileUploadBean;
 
 	/**
 	 * @return nameDocument: File name that has the information associated to
@@ -108,6 +110,15 @@ public class FuelPurchaseAction implements Serializable {
 	 */
 	public String getNameDocument() {
 		return nameDocument;
+	}
+
+	/**
+	 * @param nameDocument
+	 *            : File name that has the information associated to the fuel
+	 *            purchase.
+	 */
+	public void setNameDocument(String nameDocument) {
+		this.nameDocument = nameDocument;
 	}
 
 	/**
@@ -135,7 +146,7 @@ public class FuelPurchaseAction implements Serializable {
 	 *         documents are loaded.
 	 */
 	public String getTemporalFilesFolder() {
-		this.temporalFilesFolder = Constantes.FOLDER_FILES
+		this.temporalFilesFolder = Constantes.CARPETA_ARCHIVOS_SUBIDOS
 				+ Constantes.CARPETA_ARCHIVOS_TEMP;
 		return temporalFilesFolder;
 	}
@@ -208,6 +219,22 @@ public class FuelPurchaseAction implements Serializable {
 	 */
 	public void setIconImg(boolean iconImg) {
 		this.iconImg = iconImg;
+	}
+
+	/**
+	 * @return edition: Flag that indicate if the object fuelPurchase is in
+	 *         edition.
+	 */
+	public boolean isEdition() {
+		return edition;
+	}
+
+	/**
+	 * @param edition
+	 *            : Flag that indicate if the object fuelPurchase is in edition.
+	 */
+	public void setEdition(boolean edition) {
+		this.edition = edition;
 	}
 
 	/**
@@ -392,6 +419,22 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
+	 * @return fileUploadBean: Variable that gets the object for uploading
+	 *         files.
+	 */
+	public FileUploadBean getFileUploadBean() {
+		return fileUploadBean;
+	}
+
+	/**
+	 * @param fileUploadBean
+	 *            : field that gets the object for uploading files.
+	 */
+	public void setFileUploadBean(FileUploadBean fileUploadBean) {
+		this.fileUploadBean = fileUploadBean;
+	}
+
+	/**
 	 * Method to initialize the parameters of the search and load the initial
 	 * list of fuel purchase.
 	 * 
@@ -565,16 +608,30 @@ public class FuelPurchaseAction implements Serializable {
 	 * 
 	 * @return regFuelPurchase: Redirected to the template record fuel purchase.
 	 */
-	public String addFuelPurchase() {
+	public String addFuelPurchase(FuelPurchase fuelPurchase) {
 		try {
-			this.nameDocument = null;
-			this.fuelPurchase = new FuelPurchase();
-			this.fileUploadBean = new FileUploadBean();
-			this.loadDocumentTemporal = true;
-			transactionType = new TransactionType();
+
+			if (fuelPurchase != null) {
+				this.fuelPurchase = fuelPurchase;
+				this.edition = true;
+				this.nameDocument = fuelPurchase.getInvoiceDocumentLink();
+				if (!("").equals(nameDocument) && nameDocument != null) {
+					relocateFileTemp();
+				}
+			} else {
+				this.edition = false;
+				this.nameDocument = null;
+				this.fuelPurchase = new FuelPurchase();
+				this.fuelPurchase.setSupplier(new Suppliers());
+				this.fuelPurchase.setFuelType(new FuelTypes());
+				this.fuelPurchase.setIvaRate(new IvaRate());
+				this.loadDocumentTemporal = true;
+				transactionType = new TransactionType();
+			}
 			loadComboSuppliers();
 			loadComboFuelTypes();
 			loadComboIvaRate();
+			this.loadDocumentTemporal = true;
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -587,7 +644,6 @@ public class FuelPurchaseAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void loadComboSuppliers() throws Exception {
-		suppliers = new Suppliers();
 		itemsSuppliers = new ArrayList<SelectItem>();
 		List<Suppliers> listSuppliers = suppliersDao.querySuppliers();
 		if (listSuppliers != null) {
@@ -604,7 +660,6 @@ public class FuelPurchaseAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void loadComboFuelTypes() throws Exception {
-		fuelTypes = new FuelTypes();
 		itemsFuelTypes = new ArrayList<SelectItem>();
 		List<FuelTypes> listFuelTypes = fuelTypesDao.listFuelType();
 		if (listFuelTypes != null) {
@@ -621,7 +676,6 @@ public class FuelPurchaseAction implements Serializable {
 	 * @throws Exception
 	 */
 	private void loadComboIvaRate() throws Exception {
-		ivaRate = new IvaRate();
 		itemsIvaRate = new ArrayList<SelectItem>();
 		List<IvaRate> listIvaRate = ivaRateDao.consultIvaRate();
 		if (listIvaRate != null) {
@@ -648,7 +702,7 @@ public class FuelPurchaseAction implements Serializable {
 		String name = (String) value;
 		String clientId = toValidate.getClientId(context);
 		try {
-			int idSupplier = this.suppliers.getIdSupplier();
+			int idSupplier = this.fuelPurchase.getSupplier().getIdSupplier();
 			FuelPurchase auxFuelPurchase = fuelPurchaseDao.numberExists(name,
 					idSupplier);
 			if (auxFuelPurchase != null) {
@@ -674,9 +728,9 @@ public class FuelPurchaseAction implements Serializable {
 	 * Method that calculate the unit cost of a fuel purchase
 	 */
 	public void calculateUnitCost() {
-			this.fuelPurchase.setUnitCost(ControllerAccounting.divide(
-					this.fuelPurchase.getTotal(),
-					this.fuelPurchase.getQuantity()));
+		Double unitCost = ControllerAccounting.divide(
+				this.fuelPurchase.getTotal(), this.fuelPurchase.getQuantity());
+		this.fuelPurchase.setUnitCost(unitCost);
 	}
 
 	/**
@@ -684,10 +738,12 @@ public class FuelPurchaseAction implements Serializable {
 	 */
 	public void calculateTaxes() {
 		try {
-			IvaRate ivaRateAux = ivaRateDao.ivaRateXId(this.ivaRate.getIdIva());
-			this.fuelPurchase.setTaxes(ControllerAccounting.divide(
-					ControllerAccounting.multiply(fuelPurchase.getSubTotal(),
-							ivaRateAux.getRate()), 100.0));
+			IvaRate ivaRateAux = ivaRateDao.ivaRateXId(this.fuelPurchase
+					.getIvaRate().getIdIva());
+			Double taxes = ControllerAccounting.multiply(
+					fuelPurchase.getSubTotal(), ivaRateAux.getRate());
+			this.fuelPurchase.setTaxes(ControllerAccounting
+					.divide(taxes, 100.0));
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -697,8 +753,9 @@ public class FuelPurchaseAction implements Serializable {
 	 * Method that calculate the total of a fuel purchase.
 	 */
 	private void calculateTotal() {
-		this.fuelPurchase.setTotal(ControllerAccounting.add(
-				this.fuelPurchase.getSubTotal(), this.fuelPurchase.getTaxes()));
+		Double total = ControllerAccounting.add(
+				this.fuelPurchase.getSubTotal(), this.fuelPurchase.getTaxes());
+		this.fuelPurchase.setTotal(total);
 	}
 
 	/**
@@ -706,8 +763,7 @@ public class FuelPurchaseAction implements Serializable {
 	 * CalculateUnitCost at the same time.
 	 */
 	public void calculateValors() {
-
-		if (ivaRate.getIdIva() > 0) {
+		if (fuelPurchase.getIvaRate().getIdIva() > 0) {
 			calculateTaxes();
 		} else {
 			this.fuelPurchase.setTaxes(0);
@@ -772,16 +828,11 @@ public class FuelPurchaseAction implements Serializable {
 			}
 			this.fuelPurchase.setInvoiceDocumentLink(this.nameDocument);
 
-			fuelPurchase.setFuelType(new FuelTypes());
-			fuelPurchase.setFuelType(this.fuelTypes);
-
-			if (this.ivaRate.getIdIva() > 0) {
-				fuelPurchase.setIvaRate(new IvaRate());
-				fuelPurchase.setIvaRate(this.ivaRate);
+			if (this.fuelPurchase.getIdFuelPurchase() != 0) {
+				fuelPurchaseDao.editFuelPurchase(this.fuelPurchase);
+			} else {
+				fuelPurchaseDao.createFuelPurchase(fuelPurchase);
 			}
-			fuelPurchase.setSupplier(new Suppliers());
-			fuelPurchase.setSupplier(this.suppliers);
-			fuelPurchaseDao.createFuelPurchase(fuelPurchase);
 
 			transactionType = transactionTypeDao
 					.transactionTypeById(Constantes.TRANSACTION_TYPE_FUEL_PURCHASE);
@@ -896,6 +947,35 @@ public class FuelPurchaseAction implements Serializable {
 		if (fileTemp.exists()) {
 			FileUploadBean.fileCopyLocationReal(fileTemp, locationServer);
 			FileUploadBean.fileCopyLocationReal(fileTemp, locationLocal);
+		}
+	}
+
+	/**
+	 * This method allows relocate file saving in the server to copy in the
+	 * temporal folder when the fuel purchase have a document
+	 * 
+	 * @throws Exception
+	 */
+	private void relocateFileTemp() throws Exception {
+		getPathLocation();
+		getFolderFileTemporal();
+		getLocations();
+		String suffix = FilenameUtils.getExtension(nameDocument);
+		if (suffix.equals(Constantes.FILE_EXT_PDF)) {
+			iconPdf = true;
+		} else if (suffix.equals(Constantes.FILE_EXT_DOCX)
+				|| suffix.equals(Constantes.FILE_EXT_DOC)) {
+			iconImg = false;
+			iconPdf = false;
+		} else {
+			iconImg = true;
+			iconPdf = false;
+		}
+		String location = Constantes.RUTA_UPLOADFILE_GLASFISH
+				+ folderFileTemporal;
+		File fileTemp = new File(locationServer + "/" + nameDocument);
+		if (fileTemp.exists()) {
+			FileUploadBean.fileCopyLocationReal(fileTemp, location);
 		}
 	}
 

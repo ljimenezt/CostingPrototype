@@ -32,6 +32,17 @@ public class FuelPurchaseDao implements Serializable {
 	public void createFuelPurchase(FuelPurchase fuelPurcharse) throws Exception {
 		em.persist(fuelPurcharse);
 	}
+	
+	/**
+	 * Modify a Fuel Purchase in the database.
+	 * 
+	 * @param fuelPurcharse
+	 *            : FuelPurcharse to edit.
+	 * @throws Exception
+	 */
+	public void editFuelPurchase(FuelPurchase fuelPurchase) throws Exception {
+		em.merge(fuelPurchase);
+	}
 
 	/**
 	 * Consult the list of fuel purchase in the database.
