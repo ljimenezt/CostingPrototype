@@ -27,7 +27,7 @@
 		<!-- parametros solo para botones del listado -->
 		<ui:param name="nombreAction" value="fuelPurchaseAction" />
 		<ui:param name="metodoNuevo" value="addFuelPurchase" />
-		<ui:param name="parametroNuevo" value="no" />
+		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formSearch:popupSearch" />
 		<ui:param name="popupBuscar" value="popupSearch" />
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
@@ -67,7 +67,10 @@
 
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensajeWarehouse.purchase_invoice_label_number}</f:facet>
-						<h:outputText value="#{fuelPurchase.invoiceNumber}" />
+						<h:commandLink value="#{fuelPurchase.invoiceNumber}"
+							action="#{fuelPurchaseAction.addFuelPurchase(fuelPurchase)}"
+							onclick="#{rich:component('statPane')}.show();">
+						</h:commandLink>
 					</rich:column>
 
 					<rich:column styleClass="colFechaExtraLarga">
