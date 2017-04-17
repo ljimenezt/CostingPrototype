@@ -339,18 +339,23 @@ public class ActivitiesAndMachineAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void addMachines() throws Exception {
-		ActivityMachinePK activityMachinePK = new ActivityMachinePK();
-		this.machine.setSelection(true);
-		this.activityMachine.setInitialDateTime(selectedActivity
-				.getInitialDtBudget());
-		this.activityMachine.setFinalDateTime(selectedActivity
-				.getFinalDtBudget());
-		activityMachinePK.setActivities(selectedActivity);
-		activityMachinePK.setMachines(this.machine);
-		this.activityMachine.setActivityMachinePK(activityMachinePK);
-		calculateConsumableCost(this.activityMachine);
-		this.listActivityMachineTemp.add(this.activityMachine);
+	public void addMachines() {
+		try {
+			ActivityMachinePK activityMachinePK = new ActivityMachinePK();
+			this.machine.setSelection(true);
+			this.activityMachine.setInitialDateTime(selectedActivity
+					.getInitialDtBudget());
+			this.activityMachine.setFinalDateTime(selectedActivity
+					.getFinalDtBudget());
+			activityMachinePK.setActivities(selectedActivity);
+			activityMachinePK.setMachines(this.machine);
+			this.activityMachine.setActivityMachinePK(activityMachinePK);
+			calculateConsumableCost(this.activityMachine);
+			this.listActivityMachineTemp.add(this.activityMachine);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+
 	}
 
 	/**
@@ -362,19 +367,24 @@ public class ActivitiesAndMachineAction implements Serializable {
 	 *            : ActivityMachine object.
 	 * @throws Exception
 	 */
-	public void calculateConsumableCost(ActivityMachine activityMachine)
-			throws Exception {
-		fuelPurchase = fuelPurchaseDao.consultLastFuelPurchase();
-		Double fuelConsumption = activityMachine.getActivityMachinePK()
-				.getMachines().getFuelConsumption();
-		if (fuelConsumption > 0) {
-			Double consumableCostBudget = ControllerAccounting.multiply(
-					activityMachine.getDurationBudget(), fuelConsumption)
-					* fuelPurchase.getUnitCost();
-			this.activityMachine.setConsumablesCostBudget(consumableCostBudget);
-		} else {
-			this.activityMachine.setConsumablesCostBudget(0.0d);
+	public void calculateConsumableCost(ActivityMachine activityMachine) {
+		try {
+			fuelPurchase = fuelPurchaseDao.consultLastFuelPurchase();
+			Double fuelConsumption = activityMachine.getActivityMachinePK()
+					.getMachines().getFuelConsumption();
+			if (fuelConsumption > 0) {
+				Double consumableCostBudget = ControllerAccounting.multiply(
+						activityMachine.getDurationBudget(), fuelConsumption)
+						* fuelPurchase.getUnitCost();
+				this.activityMachine
+						.setConsumablesCostBudget(consumableCostBudget);
+			} else {
+				this.activityMachine.setConsumablesCostBudget(0.0d);
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
+
 	}
 
 	/**
@@ -612,11 +622,15 @@ public class ActivitiesAndMachineAction implements Serializable {
 	 * 
 	 * @throws Exception
 	 */
-	public void calculateDuration() throws Exception {
-		Double durationBudget = ControladorFechas.restarFechas(
-				activityMachine.getInitialDateTime(),
-				activityMachine.getFinalDateTime());
-		activityMachine.setDurationBudget(durationBudget);
-		calculateConsumableCost(this.activityMachine);
+	public void calculateDuration() {
+		try {
+			Double durationBudget = ControladorFechas.restarFechas(
+					activityMachine.getInitialDateTime(),
+					activityMachine.getFinalDateTime());
+			activityMachine.setDurationBudget(durationBudget);
+			calculateConsumableCost(this.activityMachine);
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
 	}
 }
