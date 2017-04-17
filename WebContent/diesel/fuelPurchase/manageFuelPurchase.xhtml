@@ -201,8 +201,7 @@
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_start_date}" />
 						<p:calendar value="#{fuelPurchaseAction.initialDateSearch}"
-							showOn="button" navigator="true"
-							maxdate="#{fuelPurchaseAction.finalDateSearch}"
+							showOn="button" navigator="true" maxdate="Today();"
 							onSelectUpdate="finalDate" id="initialDate" pattern="MM/dd/yyyy"
 							label="#{mensaje.label_start_date}">
 							<p:ajax process="@form" event="dateSelect"
@@ -214,7 +213,7 @@
 						<p:calendar value="#{fuelPurchaseAction.finalDateSearch}"
 							showOn="button" navigator="true"
 							mindate="#{fuelPurchaseAction.initialDateSearch}" id="finalDate"
-							pattern="MM/dd/yyyy"
+							maxdate="Today();" pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
 							label="#{mensaje.label_end_date}">
 							<p:ajax process="@form" event="dateSelect"

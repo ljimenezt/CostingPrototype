@@ -108,8 +108,7 @@
 		</h:form>
 
 		<h:form id="formBuscar">
-			<rich:popupPanel id="popupBuscar" width="330" maxWidth="450"
-				height="180"
+			<rich:popupPanel id="popupBuscar" autosized="true" styleClass="W290P"
 				header="#{mensaje.label_listing} #{messageDiesel.fuel_usage_log_label_title}"
 				domElementAttachment="form">
 				<f:facet name="controls">
@@ -128,8 +127,8 @@
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar value="#{fuelUsageLogAction.startDateSearch}"
 						showOn="button" navigator="true" onSelectUpdate="fechFin"
-						id="fechaInicio" pattern="MM/dd/yyyy" required="true"
-						label="#{mensaje.label_start_date}">
+						maxdate="Today();" id="fechaInicio" pattern="MM/dd/yyyy"
+						required="true" label="#{mensaje.label_start_date}">
 						<p:ajax event="dateSelect" update="formBuscar:fechFin" />
 					</p:calendar>
 
@@ -139,7 +138,7 @@
 					<p:calendar value="#{fuelUsageLogAction.endDateSearch}"
 						showOn="button" navigator="true" required="true"
 						mindate="#{fuelUsageLogAction.startDateSearch}" id="fechFin"
-						pattern="MM/dd/yyyy"
+						pattern="MM/dd/yyyy" maxdate="Today();"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
 						label="#{mensaje.label_end_date}" />
 				</h:panelGrid>
