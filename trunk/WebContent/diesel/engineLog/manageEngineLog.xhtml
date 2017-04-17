@@ -206,7 +206,7 @@
 						<p:calendar value="#{engineLogAction.endDateSearch}"
 							showOn="button" navigator="true" required="true"
 							mindate="#{engineLogAction.startDateSearch}" id="fechFin"
-							pattern="MM/dd/yyyy"
+							maxdate="today();" pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
 							label="#{mensaje.label_end_date}" />
 					</h:panelGrid>
