@@ -32,7 +32,7 @@ public class FuelPurchaseDao implements Serializable {
 	public void createFuelPurchase(FuelPurchase fuelPurcharse) throws Exception {
 		em.persist(fuelPurcharse);
 	}
-	
+
 	/**
 	 * Modify a Fuel Purchase in the database.
 	 * 
@@ -169,7 +169,8 @@ public class FuelPurchaseDao implements Serializable {
 	}
 
 	/**
-	 * Consult the last record of FuelPurchase in the database.
+	 * Consult a record of table FuelPurchase in accordance with the identifier
+	 * maximum of this table.
 	 * 
 	 * @author Fabian.Diaz
 	 * 
