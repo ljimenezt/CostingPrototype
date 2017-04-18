@@ -606,6 +606,8 @@ public class FuelPurchaseAction implements Serializable {
 	/**
 	 * Method to edit or create a new fuel purchase.
 	 * 
+	 * @param fuelPurchase
+	 *            : Receive an object of type fuelPurchase.
 	 * @return regFuelPurchase: Redirected to the template record fuel purchase.
 	 */
 	public String addFuelPurchase(FuelPurchase fuelPurchase) {

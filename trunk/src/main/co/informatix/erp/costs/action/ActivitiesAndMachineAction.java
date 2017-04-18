@@ -337,7 +337,7 @@ public class ActivitiesAndMachineAction implements Serializable {
 	/**
 	 * Add machines and create activityMachine List.
 	 * 
-	 * @throws Exception
+	 * @modify 18/04/2017 Fabian.Diaz
 	 */
 	public void addMachines() {
 		try {
@@ -361,11 +361,10 @@ public class ActivitiesAndMachineAction implements Serializable {
 	/**
 	 * Calculate the cost of consumption of the machine.
 	 * 
-	 * @modify 12/04/2017 Fabian.Diaz
+	 * @modify 18/04/2017 Fabian.Diaz
 	 * 
 	 * @param activityMachine
 	 *            : ActivityMachine object.
-	 * @throws Exception
 	 */
 	public void calculateConsumableCost(ActivityMachine activityMachine) {
 		try {
@@ -374,10 +373,12 @@ public class ActivitiesAndMachineAction implements Serializable {
 					.getMachines().getFuelConsumption();
 			if (fuelConsumption > 0) {
 				Double consumableCostBudget = ControllerAccounting.multiply(
-						activityMachine.getDurationBudget(), fuelConsumption)
-						* fuelPurchase.getUnitCost();
+						activityMachine.getDurationBudget(), fuelConsumption);
+				Double consumableCostBudgetFinal = ControllerAccounting
+						.multiply(consumableCostBudget,
+								fuelPurchase.getUnitCost());
 				this.activityMachine
-						.setConsumablesCostBudget(consumableCostBudget);
+						.setConsumablesCostBudget(consumableCostBudgetFinal);
 			} else {
 				this.activityMachine.setConsumablesCostBudget(0.0d);
 			}
@@ -620,7 +621,7 @@ public class ActivitiesAndMachineAction implements Serializable {
 	 * It will calculate the length considering the different two dates for an
 	 * activity machine.
 	 * 
-	 * @throws Exception
+	 * @modify 18/04/2017 Fabian.Diaz
 	 */
 	public void calculateDuration() {
 		try {
