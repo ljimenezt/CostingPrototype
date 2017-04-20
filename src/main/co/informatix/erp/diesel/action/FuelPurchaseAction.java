@@ -623,6 +623,7 @@ public class FuelPurchaseAction implements Serializable {
 			} else {
 				this.edition = false;
 				this.nameDocument = null;
+				this.fileUploadBean = new FileUploadBean();
 				this.fuelPurchase = new FuelPurchase();
 				this.fuelPurchase.setSupplier(new Suppliers());
 				this.fuelPurchase.setFuelType(new FuelTypes());
@@ -833,6 +834,9 @@ public class FuelPurchaseAction implements Serializable {
 			if (this.fuelPurchase.getIdFuelPurchase() != 0) {
 				fuelPurchaseDao.editFuelPurchase(this.fuelPurchase);
 			} else {
+				if (fuelPurchase.getIvaRate().getIdIva() == 0) {
+					this.fuelPurchase.setIvaRate(null);
+				}
 				fuelPurchaseDao.createFuelPurchase(fuelPurchase);
 			}
 

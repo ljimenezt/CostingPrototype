@@ -105,12 +105,14 @@
 						<h:outputText value="*" styleClass="required" />
 						<h:inputText id="subtotal" required="true"
 							value="#{fuelPurchaseAction.fuelPurchase.subTotal}"
+							converterMessage="#{mensaje.message_comma_not_allowed}"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							styleClass="W108P" readonly="#{fuelPurchaseAction.edition}"
 							disabled="#{fuelPurchaseAction.edition eq true}">
-							<a:ajax event="change"
+							<f:validateDoubleRange minimum="1" />
+							<a:ajax event="change" execute="@this"
 								listener="#{fuelPurchaseAction.calculateValors()}"
-								execute="@this" render="costUnit iva total" />
+								 render="costUnit iva total" />
 						</h:inputText>
 						<rich:message for="subtotal" />
 
