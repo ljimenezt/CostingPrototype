@@ -42,7 +42,6 @@ import co.informatix.erp.utils.ValidacionesAction;
  * @modify 21/07/2015 Andres.Gomez
  * @modify 19/05/2015 Sergio.Ortiz
  * @modify 25/06/2015 Gerardo.Herrera
- * 
  */
 @SuppressWarnings("serial")
 @ManagedBean
@@ -909,7 +908,6 @@ public class PlotAction implements Serializable {
 	 * into the crop plot management.
 	 * 
 	 * @author Claudia.Rey
-	 * @modify 02/03/2017 Claudia.Rey
 	 */
 	private void maintainPlotsCrops() {
 		CropsAction cropAction = ControladorContexto
