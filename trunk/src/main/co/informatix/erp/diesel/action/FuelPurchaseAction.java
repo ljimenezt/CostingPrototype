@@ -22,7 +22,6 @@ import javax.transaction.UserTransaction;
 import org.apache.commons.io.FilenameUtils;
 import org.primefaces.event.FileUploadEvent;
 
-import co.informatix.erp.diesel.dao.ConsumableResourcesDao;
 import co.informatix.erp.diesel.dao.FuelPurchaseDao;
 import co.informatix.erp.diesel.dao.FuelUsageLogDao;
 import co.informatix.erp.diesel.entities.FuelPurchase;
@@ -48,6 +47,10 @@ import co.informatix.erp.warehouse.entities.TransactionType;
  * information system.
  * 
  * @author Claudia.Rey
+ */
+/**
+ * @author Claudia.Rey
+ *
  */
 @SuppressWarnings("serial")
 @ManagedBean
@@ -78,9 +81,6 @@ public class FuelPurchaseAction implements Serializable {
 	private List<FuelPurchase> listFuelPurchase;
 
 	private FuelPurchase fuelPurchase;
-	private Suppliers suppliers;
-	private FuelTypes fuelTypes;
-	private IvaRate ivaRate;
 	private TransactionType transactionType;
 	private FuelUsageLog fuelUsageLog;
 	private Paginador pagination = new Paginador();
@@ -99,8 +99,6 @@ public class FuelPurchaseAction implements Serializable {
 	private FuelUsageLogDao fuelUsageLogDao;
 	@Resource
 	private UserTransaction userTransaction;
-	@EJB
-	private ConsumableResourcesDao consumableResourcesDao;
 	@EJB
 	private FileUploadBean fileUploadBean;
 
@@ -161,8 +159,8 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * @return pathLocation actual folder path where to save the file associated
-	 *         with a fuel purchase.
+	 * @return pathLocation: Actual folder path where to save the file
+	 *         associated with a fuel purchase.
 	 */
 	public String getPathLocation() {
 		this.pathLocation = Constantes.FOLDER_FILES
@@ -171,7 +169,7 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * @return loadDocumentTemporal: Flag indicating whether the picture is
+	 * @return loadDocumentTemporal: Flag indicating whether the document is
 	 *         loaded from the temporary location or not
 	 */
 	public boolean getLoadDocumentTemporal() {
@@ -180,7 +178,7 @@ public class FuelPurchaseAction implements Serializable {
 
 	/**
 	 * @param loadDocumentTemporal
-	 *            : Flag indicating whether the picture is loaded from the
+	 *            : Flag indicating whether the document is loaded from the
 	 *            temporary location or not
 	 */
 	public void setLoadDocumentTemporal(boolean loadDocumentTemporal) {
@@ -344,51 +342,6 @@ public class FuelPurchaseAction implements Serializable {
 	}
 
 	/**
-	 * @return suppliers: Object supplier
-	 */
-	public Suppliers getSuppliers() {
-		return suppliers;
-	}
-
-	/**
-	 * @param suppliers
-	 *            : Object supplier
-	 */
-	public void setSuppliers(Suppliers suppliers) {
-		this.suppliers = suppliers;
-	}
-
-	/**
-	 * @return fuelTypes: Object fuel type
-	 */
-	public FuelTypes getFuelTypes() {
-		return fuelTypes;
-	}
-
-	/**
-	 * @param fuelTypes
-	 *            : Object fuel type
-	 */
-	public void setFuelTypes(FuelTypes fuelTypes) {
-		this.fuelTypes = fuelTypes;
-	}
-
-	/**
-	 * @return ivaRate: Object iva rate
-	 */
-	public IvaRate getIvaRate() {
-		return ivaRate;
-	}
-
-	/**
-	 * @param ivaRate
-	 *            : Object iva rate
-	 */
-	public void setIvaRate(IvaRate ivaRate) {
-		this.ivaRate = ivaRate;
-	}
-
-	/**
 	 * @return fuelPurchase: Object fuelPurchase stored in data base.
 	 */
 	public FuelPurchase getFuelPurchase() {
@@ -461,7 +414,7 @@ public class FuelPurchaseAction implements Serializable {
 	 * 
 	 * @author Luna.Granados
 	 * 
-	 * @return "gesFuelPurchase": It redirects to the template to manage the
+	 * @return gesFuelPurchase: It redirects to the template to manage the
 	 *         fuel purchase.
 	 */
 	public String consultFuelPurchase() {
@@ -899,13 +852,13 @@ public class FuelPurchaseAction implements Serializable {
 			String format = MessageFormat.format(
 					bundle.getString("error_tamanyo_invalido"), maximuSizeFile,
 					"MB");
-			ControladorContexto.mensajeError("formInvoices:uploadDocument",
+			ControladorContexto.mensajeError("formFuelPurchase:uploadDocument",
 					format);
 		} else if (Constantes.UPLOAD_NULL.equals(resultUpload)) {
 			message = "error_carga_archivo";
 		}
 		if (!"".equals(message)) {
-			ControladorContexto.mensajeError("formInvoices:uploadDocument",
+			ControladorContexto.mensajeError("formFuelPurchase:uploadDocument",
 					bundle.getString(message));
 		}
 		this.nameDocument = fileUploadBean.getFileName();
