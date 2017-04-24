@@ -297,8 +297,9 @@
 								value="#{mensaje.label_start_date}" />
 							<p:calendar value="#{purchaseInvoicesAction.initialDateSearch}"
 								styleClass="W104P" readonlyInput="true" showOn="button"
-								navigator="true" onSelectUpdate="endDate" id="startDate"
-								pattern="MM/dd/yyyy" label="#{mensaje.label_start_date}">
+								maxdate="Today();" navigator="true" onSelectUpdate="endDate"
+								id="startDate" pattern="MM/dd/yyyy"
+								label="#{mensaje.label_start_date}">
 								<p:ajax process="@form" event="dateSelect"
 									update="popupForm:outPutSearchInvoice" />
 							</p:calendar>
@@ -307,7 +308,7 @@
 								value="#{mensaje.label_end_date}" />
 							<p:calendar value="#{purchaseInvoicesAction.finalDateSearch}"
 								styleClass="W104P" readonlyInput="true" showOn="button"
-								navigator="true"
+								navigator="true" maxdate="Today();"
 								mindate="#{purchaseInvoicesAction.initialDateSearch}"
 								id="endDate" pattern="MM/dd/yyyy"
 								onkeypress="return submitByEnter(event,'popupForm:btnBuscar')"

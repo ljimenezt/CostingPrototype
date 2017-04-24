@@ -53,7 +53,7 @@
 								requiredMessage="#{mensaje.message_campo_requerido}">
 								<f:selectItem itemLabel="#{mensaje.label_select}" />
 								<f:selectItems value="#{cropsAction.options}" />
-								
+
 								<f:attribute name="tipo" value="Int" />
 							</h:selectOneMenu>
 							<h:outputText value="#{cropsAction.crops.cropNames.cropName}"
@@ -64,9 +64,9 @@
 							value="#{messageLifeCycle.plot_inicial_date}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{cropsAction.crops.initialDate}"
-							showOn="button" navigator="true"
-							maxdate="#{cropsAction.crops.finalDate}" onSelectUpdate="fechFin"
-							id="fechaInicio" pattern="MM/dd/yyyy" readonlyInput="true"
+							showOn="button" navigator="true" maxdate="Today();"
+							onSelectUpdate="fechFin" id="fechaInicio" pattern="MM/dd/yyyy"
+							readonlyInput="true"
 							converterMessage="#{mensaje.message_validar_formato_fecha}">
 							<f:attribute name="validarHora" value="si" />
 							<p:ajax event="dateSelect" update="fechFin" />
@@ -78,6 +78,7 @@
 						<p:calendar value="#{cropsAction.crops.finalDate}" showOn="button"
 							navigator="true" mindate="#{cropsAction.crops.initialDate}"
 							id="fechFin" pattern="MM/dd/yyyy" readonlyInput="true"
+							maxdate="Today();"
 							requiredMessage="#{mensaje.message_campo_requerido}">
 							<f:attribute name="validarHora" value="si" />
 							<p:ajax event="dateSelect" update="fechaInicio" />

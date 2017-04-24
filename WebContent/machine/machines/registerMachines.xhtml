@@ -12,7 +12,7 @@
 	template="/plantillas/plantilla.xhtml">
 	<ui:param name="action" value="machinesAction.addEditMachines(null)" />
 	<ui:param name="titulo"
-		value="mensaje.label_register,messageMachines.machines_label_types" />
+		value="mensaje.label_register,messageMachine.machines_label_names" />
 	<ui:define name="body">
 
 		<script type="text/javascript"
@@ -57,9 +57,8 @@
 							value="#{mensaje.label_purchase_date}" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{machinesAction.machines.purchaseDate}"
-							maxdate="#{machinesAction.machines.lastMaintenance}"
-							showOn="button" navigator="true" id="fechcompra"
-							readonlyInput="true" required="true"
+							maxdate="Today();" showOn="button" navigator="true"
+							id="fechcompra" readonlyInput="true" required="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							validator="#{controladorFechas.validarRangoFecha}"
@@ -76,6 +75,7 @@
 							showOn="button" navigator="true" readonlyInput="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
+							maxdate="Today();"
 							mindate="#{machinesAction.machines.purchaseDate}"
 							id="fechmantenimiento" pattern="MM/dd/yyyy">
 							<p:ajax event="dateSelect" update="fechcompra" />

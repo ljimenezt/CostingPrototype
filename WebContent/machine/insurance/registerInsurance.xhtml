@@ -96,7 +96,7 @@
 							styleClass="etiquetaTitulo" />
 						<h:outputText value="*" styleClass="required" />
 						<p:calendar value="#{insuranceAction.insurance.dateTime}"
-							required="true"
+							required="true" maxdate="Today();"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							showOn="button" navigator="true" id="fechMaint"
 							pattern="MM/dd/yyyy"

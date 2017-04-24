@@ -238,7 +238,7 @@
 						value="#{maintenanceAndCalibrationAction.startDateSearch}"
 						showOn="button" navigator="true" onSelectUpdate="fechFin"
 						id="fechaInicio" pattern="MM/dd/yyyy" required="true"
-						label="#{mensaje.label_start_date}">
+						label="#{mensaje.label_start_date}" maxdate="Today();">
 						<p:ajax event="dateSelect" update="formBuscar:fechFin" />
 					</p:calendar>
 
@@ -249,7 +249,7 @@
 						value="#{maintenanceAndCalibrationAction.endDateSearch}"
 						showOn="button" navigator="true" required="true"
 						mindate="#{maintenanceAndCalibrationAction.startDateSearch}"
-						id="fechFin" pattern="MM/dd/yyyy"
+						id="fechFin" pattern="MM/dd/yyyy" maxdate="Today();"
 						onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
 						label="#{mensaje.label_end_date}" />
 				</h:panelGrid>

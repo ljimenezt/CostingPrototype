@@ -94,6 +94,8 @@ public class RecordActivitiesActualsAction implements Serializable {
 	private Double totalCostHr;
 	private Double totalCostMachine;
 	private Double totalCostMaterials;
+	private Date today;
+	private Date dateMin;
 
 	private List<SelectItem> listCropNames;
 	private List<SelectItem> listCrops;
@@ -558,6 +560,28 @@ public class RecordActivitiesActualsAction implements Serializable {
 	}
 
 	/**
+	 * @return today: Currently date
+	 */
+	public Date getToday() {
+		return today;
+	}
+
+	/**
+	 * @return dateMin: Minimum date to calendar
+	 */
+	public Date getDateMin() {
+		return dateMin;
+	}
+
+	/**
+	 * @param dateMin
+	 *            : Minimum date to calendar
+	 */
+	public void setDateMin(Date dateMin) {
+		this.dateMin = dateMin;
+	}
+
+	/**
 	 * Method to clean the object Cycle
 	 * 
 	 * @author Liseth.Jimenez
@@ -577,6 +601,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 * @modify 20/06/2016 Liseth.Jimenez
 	 * @modify 08/09/2016 Wilhelm.Boada
 	 * @modify 28/11/2016 Claudia.Rey
+	 * @modify 21/04/2017 Fabian.Diaz
 	 * 
 	 * @param flag
 	 *            : indicates the view selected.
@@ -585,6 +610,7 @@ public class RecordActivitiesActualsAction implements Serializable {
 	 */
 	public String initializeRecordActual(boolean flag) {
 		try {
+			this.today = new Date();
 			flagView = flag;
 			if (ControladorContexto.getFacesContext() != null) {
 				this.activitiesAction = ControladorContexto
@@ -1426,5 +1452,4 @@ public class RecordActivitiesActualsAction implements Serializable {
 			}
 		}
 	}
-
 }

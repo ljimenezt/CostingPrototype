@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -65,6 +66,8 @@ public class ActivitiesAction implements Serializable {
 	private boolean sort;
 	private boolean flagCropActivities = false;
 	private boolean flagCycle = false;
+	private Date today;
+	private Date dateMin;
 
 	private ActivitiesAndCertifications activitiesAndCertifications;
 	private Activities activities;
@@ -308,6 +311,28 @@ public class ActivitiesAction implements Serializable {
 	 */
 	public void setListActivities(List<Activities> listActivities) {
 		this.listActivities = listActivities;
+	}
+
+	/**
+	 * @return today: Currently date
+	 */
+	public Date getToday() {
+		return today;
+	}
+
+	/**
+	 * @return dateMin: Minimum date to calendar
+	 */
+	public Date getDateMin() {
+		return dateMin;
+	}
+
+	/**
+	 * @param dateMin
+	 *            : Minimum date to calendar
+	 */
+	public void setDateMin(Date dateMin) {
+		this.dateMin = dateMin;
 	}
 
 	/**
@@ -654,12 +679,15 @@ public class ActivitiesAction implements Serializable {
 	/**
 	 * Method to add or edit activities.
 	 * 
+	 * @modify 21/04/2017 Fabian.Diaz
+	 * 
 	 * @param activities
 	 *            : activity to add or edit.
 	 * @return "regActivities": register activities template.
 	 */
 	public String addEditActivities(Activities activities) {
 		try {
+			today = new Date();
 			if (activities != null) {
 				this.activities = activities;
 			} else {

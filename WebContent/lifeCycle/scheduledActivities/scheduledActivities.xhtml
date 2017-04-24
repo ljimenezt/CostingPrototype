@@ -72,7 +72,7 @@
 						columnClasses="tdAlignTop W82P,,">
 						<h:outputText value="#{messageLifeCycle.crop_names_label}"
 							styleClass="etiquetaTitulo" />
-							<h:outputText value="" />
+						<h:outputText value="" />
 						<h:selectOneMenu id="cropName"
 							value="#{scheduledActivitiesAction.idCropName}"
 							styleClass="colTextoMediano" required="true"
@@ -89,7 +89,7 @@
 
 						<h:outputText value="#{messageLifeCycle.crops_label}"
 							styleClass="etiquetaTitulo" />
-							<h:outputText value="" />
+						<h:outputText value="" />
 						<h:selectOneMenu id="crop"
 							value="#{scheduledActivitiesAction.idCrop}"
 							styleClass="colTextoMediano" required="true"
@@ -184,8 +184,7 @@
 								pattern="MM/dd/yyyy"
 								disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
 								styleClass="W104P" id="fechaInicio" showOn="button"
-								maxdate="#{scheduledActivitiesAction.activities.finalDtBudget}"
-								navigator="true"
+								maxdate="Today();" navigator="true"
 								converterMessage="#{mensaje.message_validar_formato_fecha}">
 								<p:ajax event="dateSelect" update="fechaFinal" />
 							</p:calendar>
@@ -195,7 +194,7 @@
 							<p:calendar
 								value="#{scheduledActivitiesAction.activities.finalDtBudget}"
 								pattern="MM/dd/yyyy" styleClass="W104P" id="fechaFinal"
-								showOn="button"
+								showOn="button" maxdate="Today();"
 								mindate="#{scheduledActivitiesAction.activities.initialDtBudget}"
 								disabled="#{scheduledActivitiesAction.idCropName eq 0 or scheduledActivitiesAction.idCrop eq 0}"
 								navigator="true"

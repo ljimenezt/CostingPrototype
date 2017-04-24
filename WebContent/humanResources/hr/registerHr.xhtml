@@ -153,9 +153,8 @@
 										styleClass="etiquetaTitulo" />
 									<p:calendar
 										value="#{hrAction.hr.centralFacilitiesAccessStartDate}"
-										styleClass="W60P" id="calFechaInicio" showOn="button"
-										navigator="true"
-										maxdate="#{hrAction.hr.centralFacilitiesAccessEndDate}"
+										styleClass="W75P" id="calFechaInicio" showOn="button"
+										navigator="true" maxdate="Today();" pattern="MM/dd/yyyy"
 										converterMessage="#{mensaje.message_validar_formato_fecha}">
 										<p:ajax event="dateSelect" update="calFechaFin" />
 									</p:calendar>
@@ -178,7 +177,7 @@
 									<p:calendar
 										value="#{hrAction.hr.centralFacilitiesAccessEndDate}"
 										id="calFechaFin" showOn="button" navigator="true"
-										styleClass="W60P"
+										styleClass="W75P" maxdate="Today();" pattern="MM/dd/yyyy"
 										mindate="#{hrAction.hr.centralFacilitiesAccessStartDate}"
 										converterMessage="#{mensaje.message_validar_formato_fecha}">
 										<p:ajax event="dateSelect" update="calFechaInicio" />

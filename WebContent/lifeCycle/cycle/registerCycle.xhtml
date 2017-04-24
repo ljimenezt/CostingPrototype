@@ -96,9 +96,8 @@
 							styleClass="required" />
 						<p:calendar value="#{cycleAction.cycle.initialDateTime}"
 							rendered="#{cycleAction.flagDate eq false}" pattern="MM/dd/yyyy"
-							maxdate="#{cycleAction.cycle.finalDateTime}" id="fechaInicio"
-							required="true" readonlyInput="true" showOn="button"
-							navigator="true"
+							maxdate="Today();" id="fechaInicio" required="true"
+							readonlyInput="true" showOn="button" navigator="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							validator="#{controladorFechas.validarRangoFecha}">
@@ -116,7 +115,7 @@
 							rendered="#{cycleAction.flagDate eq false}" pattern="MM/dd/yyyy"
 							id="fechaFinal" readonlyInput="true" required="true"
 							showOn="button" mindate="#{cycleAction.cycle.initialDateTime}"
-							navigator="true"
+							navigator="true" maxdate="Today();"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							validator="#{controladorFechas.validarRangoFecha}">

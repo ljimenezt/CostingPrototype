@@ -86,7 +86,7 @@
 						value="#{hrCertificationsAndRolesAction.hrCertificationsAndRoles.releaseDate}"
 						showOn="button" navigator="true"
 						converterMessage="#{mensaje.message_validar_formato_fecha}"
-						id="fechaInicio" pattern="MM/dd/yyyy"
+						id="fechaInicio" pattern="MM/dd/yyyy" maxdate="Today();"
 						validator="#{controladorFechas.validarRangoFecha}">
 						<p:ajax event="dateSelect" update="fechaFin" />
 						<f:attribute name="validarHora" value="si" />
@@ -100,7 +100,7 @@
 						value="#{hrCertificationsAndRolesAction.hrCertificationsAndRoles.endDate}"
 						showOn="button" navigator="true"
 						converterMessage="#{mensaje.message_validar_formato_fecha}"
-						id="fechaFin" pattern="MM/dd/yyyy"
+						id="fechaFin" pattern="MM/dd/yyyy" maxdate="Today();"
 						mindate="#{hrCertificationsAndRolesAction.hrCertificationsAndRoles.releaseDate}"
 						validator="#{controladorFechas.validarRangoFecha}">
 						<p:ajax event="dateSelect" update="fechaInicio" />
