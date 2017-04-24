@@ -36,10 +36,10 @@
 			src="#{request.contextPath}/js/jquery.js"></script>
 		<script type="text/javascript"
 			src="#{request.contextPath}/js/jquery.maxlength-min.js"></script>
-		<script type="text/javascript">
-			$g=jQuery.noConflict();
-		</script>
 		<h:form id="formCycle">
+			<script type="text/javascript">
+				$g=jQuery.noConflict();
+			</script>
 			<rich:panel header="#{messageLifeCycle.cycle_label_list}"
 				styleClass="anchoUno MinH253P" id="panelAssignCycles">
 				<t:fieldset styleClass="anchoDos BorderW2P">
@@ -389,9 +389,8 @@
 						<h:outputText styleClass="etiquetaTitulo"
 							value="#{mensaje.label_start_date}" />
 						<p:calendar value="#{cycleAction.initialDateSearch}"
-							showOn="button" navigator="true"
-							maxdate="#{cycleAction.finalDateSearch}" onSelectUpdate="fechFin"
-							id="fechaInicio" pattern="MM/dd/yyyy"
+							showOn="button" navigator="true" maxdate="Today();"
+							onSelectUpdate="fechFin" id="fechaInicio" pattern="MM/dd/yyyy"
 							label="#{mensaje.label_start_date}">
 							<p:ajax process="@form" event="dateSelect"
 								update="formSearch:pnSearch" />
@@ -401,7 +400,7 @@
 							value="#{mensaje.label_end_date}" />
 						<p:calendar value="#{cycleAction.finalDateSearch}" showOn="button"
 							navigator="true" mindate="#{cycleAction.initialDateSearch}"
-							id="fechFin" pattern="MM/dd/yyyy"
+							id="fechFin" pattern="MM/dd/yyyy" maxdate="Today();"
 							onkeypress="return submitByEnter(event,'formSearch:btnBuscar')"
 							label="#{mensaje.label_end_date}">
 							<p:ajax process="@form" event="dateSelect"
@@ -672,7 +671,8 @@
 				</f:facet>
 				<ui:decorate template="/plantillas/mensajeConfirmar.xhtml">
 					<ui:define name="mensaje">
-						<h:outputText value="#{messageLifeCycle.scheduled_activities_label_empty_actual_cost}"
+						<h:outputText
+							value="#{messageLifeCycle.scheduled_activities_label_empty_actual_cost}"
 							styleClass="etiquetaTitulo" />
 						<br />
 						<a:outputPanel id="pnlEmptyCostAct">

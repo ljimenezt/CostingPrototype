@@ -120,7 +120,10 @@
 								converterMessage="#{mensaje.message_validar_formato_fecha}"
 								onSelectUpdate="fechFin" id="fechaInicio"
 								pattern="MM/dd/yyyy HH:mm:ss"
+								maxdate="#{activitiesAction.today}"
 								validator="#{controladorFechas.validarRangoFecha}">
+								<a:ajax event="dateSelect" render="fechaFin" execute="@this"
+									listener="#{activitiesAction.setDateMin(activitiesAction.activities.initialDtBudget)}" />
 								<f:attribute name="validarHora" value="si" />
 							</p:calendar>
 							<rich:message for="fechaInicio" />
@@ -138,6 +141,8 @@
 								showOn="button" navigator="true"
 								converterMessage="#{mensaje.message_validar_formato_fecha}"
 								id="fechaFin" pattern="MM/dd/yyyy HH:mm:ss"
+								maxdate="#{activitiesAction.today}"
+								mindate="#{activitiesAction.dateMin}"
 								validator="#{controladorFechas.validarRangoFecha}">
 								<f:attribute name="validarHora" value="si" />
 							</p:calendar>

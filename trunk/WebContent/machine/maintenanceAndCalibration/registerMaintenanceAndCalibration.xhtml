@@ -84,7 +84,7 @@
 						value="#{maintenanceAndCalibrationAction.maintenanceAndCalibration.dateTime}"
 						id="fechMaint" showOn="button" navigator="true"
 						mindate="#{maintenanceAndCalibrationAction.machines.purchaseDate}"
-						pattern="MM/dd/yyyy" required="true"
+						pattern="MM/dd/yyyy" required="true" maxdate="Today();"
 						requiredMessage="#{mensaje.message_campo_requerido}"
 						converterMessage="#{mensaje.message_validar_formato_fecha}"
 						validator="#{controladorFechas.validarRangoFecha}">

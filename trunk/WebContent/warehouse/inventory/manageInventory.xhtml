@@ -277,7 +277,7 @@
 						<h:outputText value="" styleClass="required" />
 						<p:calendar value="#{inventoryControlAction.initialDate}"
 							showOn="button" navigator="true" onSelectUpdate="fechFin"
-							id="fechaInicio" pattern="MM/dd/yyyy"
+							id="fechaInicio" pattern="MM/dd/yyyy" maxdate="Today();"
 							label="#{mensaje.label_start_date}">
 							<p:ajax process="@form" event="dateSelect"
 								update="formBuscar:pnlSearch" />
@@ -293,7 +293,7 @@
 							disabled="#{inventoryControlAction.initialDate eq null}"
 							showOn="button" navigator="true" required="true"
 							mindate="#{inventoryControlAction.initialDate}" id="fechFin"
-							pattern="MM/dd/yyyy"
+							pattern="MM/dd/yyyy" maxdate="Today();"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
 							label="#{mensaje.label_end_date}" />
 					</h:panelGrid>

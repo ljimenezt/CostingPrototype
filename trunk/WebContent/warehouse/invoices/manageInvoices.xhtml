@@ -229,7 +229,7 @@
 							readonlyInput="true" showOn="button" navigator="true"
 							onSelectUpdate="endDate" id="startDate" pattern="MM/dd/yyyy"
 							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
-							label="#{mensaje.label_start_date}">
+							label="#{mensaje.label_start_date}" maxdate="Today();">
 							<p:ajax process="@form" event="dateSelect"
 								update="formSearch:outPutSearch" />
 						</p:calendar>
@@ -239,7 +239,7 @@
 						<p:calendar value="#{purchaseInvoicesAction.finalDateSearch}"
 							readonlyInput="true" showOn="button" navigator="true"
 							mindate="#{purchaseInvoicesAction.initialDateSearch}"
-							id="endDate" pattern="MM/dd/yyyy"
+							id="endDate" pattern="MM/dd/yyyy" maxdate="Today();"
 							onkeypress="return submitByEnter(event,'formSearch:btnSearch')"
 							label="#{mensaje.label_end_date}" />
 					</h:panelGrid>

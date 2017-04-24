@@ -171,10 +171,10 @@
 							pattern="MM/dd/yyyy HH:mm"
 							disabled="#{recordActivitiesActualsAction.idCrop eq 0 or recordActivitiesActualsAction.idCropName eq 0}"
 							styleClass="W104P" id="fechaInicio" showOn="button"
-							maxdate="#{recordActivitiesActualsAction.activities.finalDtBudget}"
-							navigator="true"
+							maxdate="#{recordActivitiesActualsAction.today}" navigator="true"
 							converterMessage="#{mensaje.message_validar_formato_fecha}">
-							<p:ajax event="dateSelect" update="fechaFinal" />
+							<p:ajax event="dateSelect" update="fechaFinal" execute="@this"
+								listener="#{recordActivitiesActualsAction.setDateMin(recordActivitiesActualsAction.activities.initialDtBudget)}" />
 						</p:calendar>
 						<rich:message for="fechaInicio" />
 
@@ -184,12 +184,11 @@
 						<p:calendar
 							value="#{recordActivitiesActualsAction.activities.finalDtBudget}"
 							pattern="MM/dd/yyyy HH:mm" styleClass="W104P" id="fechaFinal"
-							showOn="button"
-							mindate="#{recordActivitiesActualsAction.activities.initialDtBudget}"
+							showOn="button" maxdate="#{recordActivitiesActualsAction.today}"
+							mindate="#{recordActivitiesActualsAction.dateMin}"
 							disabled="#{recordActivitiesActualsAction.idCrop eq 0 or recordActivitiesActualsAction.idCropName eq 0}"
 							navigator="true"
 							converterMessage="#{mensaje.message_validar_formato_fecha}">
-							<p:ajax event="dateSelect" update="fechaInicio" />
 						</p:calendar>
 						<rich:message for="fechaFinal" />
 
