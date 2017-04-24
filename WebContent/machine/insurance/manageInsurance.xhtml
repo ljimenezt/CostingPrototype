@@ -38,7 +38,7 @@
 		<ui:param name="parametroNuevo" value="#{null}" />
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
-		<ui:param name="metodoListarTodos" value="initializeSearch" />
+		<ui:param name="metodoListarTodos" value="prueba" />
 
 		<h:form id="formInsurance">
 			<rich:panel styleClass="anchoUno MinH253P"
@@ -73,7 +73,7 @@
 						<f:selectItem itemLabel="#{mensaje.label_select}" />
 						<f:selectItems value="#{insuranceAction.machinesList}" />
 						<f:ajax event="change"
-							listener="#{insuranceAction.searchInsurances()}"
+							listener="#{insuranceAction.searchInsurances(false)}"
 							render="panelInsurance" />
 					</h:selectOneMenu>
 					<rich:message for="maquina" />
@@ -81,7 +81,9 @@
 				<br />
 				<a:outputPanel id="insuranceList"
 					rendered="#{insuranceAction.machines.idMachine ne 0}">
-
+					<script type="text/javascript">
+		     			 $g=jQuery.noConflict();
+					</script>
 					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
 						<ui:param name="tieneVigencia" value="no" />
 					</ui:include>
@@ -203,7 +205,7 @@
 				<br />
 				<div class="W350P center inBlock">
 					<a:commandButton value="#{mensaje.button_search}" id="btnBuscar"
-						actionListener="#{insuranceAction.searchInsurances}"
+						actionListener="#{insuranceAction.searchInsurances(false)}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}"
 						render="panelInsurance, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"

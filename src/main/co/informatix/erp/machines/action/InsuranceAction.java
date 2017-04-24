@@ -218,6 +218,8 @@ public class InsuranceAction implements Serializable {
 	 * Method to initialize the search parameters and load the initial list of
 	 * insurances.
 	 * 
+	 * @modify 24/04/2017 Fabian.Diaz
+	 * 
 	 * @return gesInsurance: Navigation rule that redirects to manage insurance
 	 *         template.
 	 */
@@ -232,6 +234,7 @@ public class InsuranceAction implements Serializable {
 			this.machines = new Machines();
 			this.machines.setMachineTypes(new MachineTypes());
 			this.machineTypes = new MachineTypes();
+			searchInsurances(true);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -241,8 +244,12 @@ public class InsuranceAction implements Serializable {
 	/**
 	 * Fills the insurancesList with the existing insurances.
 	 * 
+	 * @modify 24/04/2017 Fabian.Diaz
+	 * 
+	 * @param flagListAll
+	 *            : Indicate that is call for the button list all.
 	 */
-	public void searchInsurances() {
+	public void searchInsurances(boolean flagListAll) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle insuranceBundle = ControladorContexto
 				.getBundle("messageMachine");
@@ -254,6 +261,12 @@ public class InsuranceAction implements Serializable {
 		StringBuilder jointSearchMessages = new StringBuilder();
 		String searchMessage = "";
 		try {
+			if (flagListAll) {
+				loadMachineTypeCombos();
+				initDaySearch = null;
+				lastDaySearch = null;
+			}
+
 			advancedSearch(queryBuilder, parameters, bundle,
 					jointSearchMessages);
 			Long amount = insuranceDao.insurancesAmount(queryBuilder,
@@ -271,8 +284,10 @@ public class InsuranceAction implements Serializable {
 								.getString("message_no_existen_registros_criterio_busqueda"),
 								jointSearchMessages);
 			} else if (insurancesList == null || insurancesList.size() <= 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString("message_no_existen_registros"));
+				if (!flagListAll) {
+					ControladorContexto.mensajeInformacion(null,
+							bundle.getString("message_no_existen_registros"));
+				}
 			} else if (!"".equals(jointSearchMessages.toString())) {
 				searchMessage = MessageFormat
 						.format(bundle
