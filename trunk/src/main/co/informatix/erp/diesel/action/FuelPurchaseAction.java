@@ -48,10 +48,6 @@ import co.informatix.erp.warehouse.entities.TransactionType;
  * 
  * @author Claudia.Rey
  */
-/**
- * @author Claudia.Rey
- *
- */
 @SuppressWarnings("serial")
 @ManagedBean
 @RequestScoped
@@ -414,8 +410,8 @@ public class FuelPurchaseAction implements Serializable {
 	 * 
 	 * @author Luna.Granados
 	 * 
-	 * @return gesFuelPurchase: It redirects to the template to manage the
-	 *         fuel purchase.
+	 * @return gesFuelPurchase: It redirects to the template to manage the fuel
+	 *         purchase.
 	 */
 	public String consultFuelPurchase() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
