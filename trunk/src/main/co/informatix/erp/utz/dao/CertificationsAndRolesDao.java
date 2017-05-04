@@ -94,6 +94,7 @@ public class CertificationsAndRolesDao implements Serializable {
 	 * 
 	 * @author Sergio.Ortiz
 	 * @modify 05/08/2015 Mabell.Boada
+	 * @modify 03/05/2017 Luna.Granados
 	 * 
 	 * @param start
 	 *            : records where start the consult.
@@ -115,7 +116,7 @@ public class CertificationsAndRolesDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT ct FROM  CertificationsAndRoles ct ");
 		query.append(consult);
-		query.append("ORDER BY ct.idCertificactionsAndRoles ");
+		query.append("ORDER BY ct.name ASC ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
