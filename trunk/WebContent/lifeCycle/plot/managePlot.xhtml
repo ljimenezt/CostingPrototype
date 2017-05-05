@@ -30,7 +30,7 @@
 		<ui:param name="renderBuscar" value="formBuscar:popupBuscar" />
 		<ui:param name="popupBuscar" value="popupBuscar" />
 		<ui:param name="metodoListarTodos" value="searchInitialization" />
-		
+
 		<h:form id="formPlot">
 			<rich:panel styleClass="anchoUno MinH253P"
 				header="#{messageLifeCycle.plot_label_add}" id="panelPlot">
@@ -58,24 +58,10 @@
 				</h:panelGrid>
 				<rich:message for="tablaPlot" styleClass="messageInfSpanMsg" />
 				<div align="right" class="#{anchoT}">
-					<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
-						<a:commandLink styleClass="quitarDecoracionLink" execute="@this"
-							render="mapPlots:popupMapPlantation"
-							actionListener="#{cropsAction.loadMapPlantation()}"
-							oncomplete="#{rich:component('mapPlots:popupMapPlantation')}.show(), paint() "
-							rendered="#{!activitiesAction.flagCycle}">
-							<h:panelGrid styleClass="tablaIconoTexto" columns="2">
-								<h:graphicImage value="/img/mapPlantation_16.png" />
-								<h:outputText
-									value="#{messageLifeCycle.activity_plot_label_map_plantation}" />
-							</h:panelGrid>
-						</a:commandLink>
-						<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
-							<ui:param name="tieneVigencia" value="no" />
-						</ui:include>
-					</h:panelGrid>
+					<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
+						<ui:param name="tieneVigencia" value="no" />
+					</ui:include>
 				</div>
-
 				<rich:dataTable value="#{plotAction.listPlots}" var="plot"
 					styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoT}"
 					rowClasses="odd-row, even-row" footerClass="H130P">
@@ -209,6 +195,5 @@
 				</ui:decorate>
 			</rich:popupPanel>
 		</h:form>
-		<ui:include src="templateMapPlantation.xhtml" />
 	</ui:define>
 </ui:composition>
