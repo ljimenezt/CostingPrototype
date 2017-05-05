@@ -33,7 +33,7 @@ import co.informatix.security.entities.Usuario;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "persona", schema = "recursos_humanos")
+@Table(name = "persona", schema = "seguridad")
 public class Person implements Serializable {
 
 	private int id;
