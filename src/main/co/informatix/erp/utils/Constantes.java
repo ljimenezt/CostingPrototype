@@ -98,7 +98,7 @@ public class Constantes implements Serializable {
 					.getProperty("locate.tamanyo.maximo.archivos"));
 
 	/* Activities and human resources */
-	public static final int ID_CROP_DEFAULT = 2;
+	public static final int ID_CROP_DEFAULT = 1;
 	public static final int EDAD_MINIMA_ACTIVIDAD_PELIGROSA = 18;
 	public static final String STATE_CERTIFIED = PropertiesManager
 			.getProperty("locate.activitiesandhr.certified");
@@ -201,12 +201,12 @@ public class Constantes implements Serializable {
 	public static final short MAX_HOURS = 12;
 
 	/* Transaction type */
-	public static final int TRANSACTION_TYPE_RETURN = 2;
+	public static final int TRANSACTION_TYPE_RETURN = 1;
 	public static final int TRANSACTION_TYPE_EXPIRED = 4;
-	public static final int TRANSACTION_TYPE_WITHDRAWAL = 3;
-	public static final int TRANSACTION_TYPE_ADJUSTMENT_DOWN = 9;
-	public static final int TRANSACTION_TYPE_ADJUSTMENT_UP = 10;
-	public static final int TRANSACTION_TYPE_FUEL_PURCHASE = 12;
+	public static final int TRANSACTION_TYPE_WITHDRAWAL = 2;
+	public static final int TRANSACTION_TYPE_ADJUSTMENT_DOWN = 5;
+	public static final int TRANSACTION_TYPE_ADJUSTMENT_UP = 6;
+	public static final int TRANSACTION_TYPE_FUEL_PURCHASE = 8;
 
 	/* Files */
 	public static final String EXTENSION_XLSX = ".xlsx";
@@ -256,9 +256,6 @@ public class Constantes implements Serializable {
 	public static final String TYPE_FOOD_BREAKFAST = "Breakfast";
 	public static final String TYPE_FOOD_LUNCH = "Lunch";
 	public static final String TYPE_FOOD_DINNER = "Dinner";
-
-	/* Fuel Purchase */
-	public static final int FUEL_PURCHASE_ID_COSTO = 1;
 
 	/* Number of months for generate Report */
 	public static final int NUMBER_MONTHS_REPORT = 3;
