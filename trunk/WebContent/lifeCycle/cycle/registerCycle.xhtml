@@ -96,7 +96,7 @@
 							styleClass="required" />
 						<p:calendar value="#{cycleAction.cycle.initialDateTime}"
 							rendered="#{cycleAction.flagDate eq false}" pattern="MM/dd/yyyy"
-							maxdate="Today();" id="fechaInicio" required="true"
+							id="fechaInicio" required="true"
 							readonlyInput="true" showOn="button" navigator="true"
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
@@ -115,7 +115,7 @@
 							rendered="#{cycleAction.flagDate eq false}" pattern="MM/dd/yyyy"
 							id="fechaFinal" readonlyInput="true" required="true"
 							showOn="button" mindate="#{cycleAction.cycle.initialDateTime}"
-							navigator="true" maxdate="Today();"
+							navigator="true" 
 							requiredMessage="#{mensaje.message_campo_requerido}"
 							converterMessage="#{mensaje.message_validar_formato_fecha}"
 							validator="#{controladorFechas.validarRangoFecha}">
@@ -147,9 +147,6 @@
 						<h:selectBooleanCheckbox
 							value="#{cycleAction.cycle.materialsRequired}" id="txtMaterials"
 							styleClass="marginCheckbox">
-							<a:ajax event="click"
-								listener="#{cycleAction.loadMaterialsType()}"
-								render="materialsPanel" />
 						</h:selectBooleanCheckbox>
 						<h:outputText value="" />
 
@@ -165,8 +162,6 @@
 						<h:selectBooleanCheckbox
 							value="#{cycleAction.cycle.machineRequired}" id="txtMachine"
 							styleClass="marginCheckbox">
-							<a:ajax event="click" listener="#{cycleAction.loadMachines()}"
-								render="machinesPanel" />
 						</h:selectBooleanCheckbox>
 						<h:outputText value="" />
 
@@ -175,8 +170,6 @@
 						<h:selectBooleanCheckbox
 							value="#{cycleAction.cycle.serviceRequired}" id="txtService"
 							styleClass="marginCheckbox">
-							<f:ajax event="click" listener="#{cycleAction.loadServices()}"
-								render="servicesPanel" />
 						</h:selectBooleanCheckbox>
 						<h:outputText value="" />
 
@@ -190,204 +183,6 @@
 					</h:panelGrid>
 				</t:fieldset>
 				<br />
-				<a:outputPanel id="materialsPanel">
-					<t:fieldset styleClass="anchoDos BorderW2P"
-						rendered="#{cycleAction.cycle.materialsRequired eq true and cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}">
-						<legend class="etiquetaTitulo">#{mensajeWarehouse.materials_label_s}</legend>
-						<h:panelGrid columns="4"
-							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-							columnClasses=" W130P etiquetaTitulo tdAlignTop,,W180P,">
-
-							<h:outputText value="#{mensajeWarehouse.materials_type_label}" />
-							<h:outputText value="*" styleClass="required" />
-							<h:selectOneMenu id="cmbMaterialsType"
-								value="#{cycleAction.idMaterialsType}"
-								styleClass="colTextoCorto" required="true"
-								validator="#{validacionesAction.validarComboRequerido}">
-								<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
-								<f:selectItems value="#{cycleAction.itemsMaterialsType}" />
-								<f:ajax event="change" listener="#{cycleAction.loadMaterials()}"
-									render="cmbMaterials" />
-							</h:selectOneMenu>
-							<rich:message for="cmbMaterialsType" />
-
-							<h:outputText value="#{mensajeWarehouse.materials_label}" />
-							<h:outputText value="*" styleClass="required" />
-							<h:selectOneMenu id="cmbMaterials"
-								value="#{cycleAction.idMaterials}" styleClass="colTextoCorto"
-								required="true"
-								validator="#{validacionesAction.validarComboRequerido}">
-								<f:selectItem itemLabel="#{mensaje.label_all}" itemValue="0" />
-								<f:selectItems value="#{cycleAction.itemsMaterials}" />
-								<f:ajax event="change" listener="#{cycleAction.loadUnits()}"
-									render="units cmbMaterialsType cmbMaterials" />
-							</h:selectOneMenu>
-							<rich:message for="cmbMaterials" />
-
-							<h:outputText value="#{mensaje.label_quantity}" />
-							<h:outputText value="*" styleClass="required" />
-							<h:inputText id="quantity" maxlength="5" rendered="true"
-								value="#{cycleAction.quantity}" required="true"
-								styleClass="W75P"
-								converterMessage="#{mensaje.message_campo_positivo}"
-								requiredMessage="#{mensaje.message_campo_requerido}">
-								<f:validateDoubleRange minimum="1" />
-								<f:validateLength maximum="5" />
-							</h:inputText>
-							<rich:message for="quantity" />
-
-							<h:outputText value="#{mensaje.label_units}" />
-							<h:outputText value="*" styleClass="required" />
-							<h:inputText value="#{cycleAction.units}" id="units"
-								required="true" readonly="true"
-								requiredMessage="#{mensaje.message_campo_requerido}"
-								validator="#{encodeFilter.validarScripting}" />
-							<rich:message for="units" />
-
-						</h:panelGrid>
-					</t:fieldset>
-				</a:outputPanel>
-				<br />
-
-				<a:outputPanel id="machinesPanel">
-					<t:fieldset
-						rendered="#{cycleAction.cycle.machineRequired eq true and cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}"
-						styleClass="anchoDos BorderW2P">
-						<legend class="etiquetaTitulo">#{messageMachine.machines_label_names_s}</legend>
-						<h:panelGrid columns="4"
-							cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-							cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-							columnClasses=" W130P etiquetaTitulo tdAlignTop,,W180P,">
-
-							<h:outputText value="#{mensaje.label_machine_type}" />
-							<h:outputText value="*" styleClass="required" />
-							<h:selectOneMenu id="cmbMachinesType"
-								value="#{cycleAction.idMachinesType}" styleClass="colTextoCorto"
-								required="true"
-								validator="#{validacionesAction.validarComboRequerido}">
-								<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-									itemValue="0" />
-								<f:selectItems value="#{cycleAction.itemsMachinesType}" />
-							</h:selectOneMenu>
-							<rich:message for="cmbMachinesType" />
-
-						</h:panelGrid>
-					</t:fieldset>
-				</a:outputPanel>
-				<br />
-				<a:outputPanel id="servicesPanel">
-					<t:fieldset styleClass="anchoDos BorderW2P"
-						rendered="#{cycleAction.cycle.serviceRequired eq true and cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}">
-						<legend class="etiquetaTitulo">#{messageServices.service_label_s}</legend>
-						<h:panelGrid columns="2" columnClasses="W550P tdAlignTop,">
-
-							<h:panelGrid columns="4"
-								cellpadding="#{propPrototipoCostos['locate.fields.cellpadding']}"
-								cellspacing="#{propPrototipoCostos['locate.fields.cellspacing']}"
-								columnClasses=" W130P etiquetaTitulo tdAlignTop,,W180P,">
-
-								<h:outputText value="#{messageServices.service_type_label}" />
-								<h:outputText value="*" styleClass="required" />
-								<h:selectOneMenu id="cmbServicesType"
-									value="#{cycleAction.idServicesType}"
-									styleClass="colTextoCorto" required="true"
-									validator="#{validacionesAction.validarComboRequerido}">
-									<f:selectItem itemLabel="#{mensaje.label_seleccione}"
-										itemValue="0" />
-									<f:selectItems value="#{cycleAction.itemsServicesType}" />
-								</h:selectOneMenu>
-								<rich:message for="cmbServicesType" />
-
-								<h:outputText value="#{mensaje.label_quote}" />
-								<h:outputText value="*" styleClass="required" />
-								<h:inputText id="quote" maxlength="5" rendered="true"
-									value="#{cycleAction.quote}" required="true"
-									styleClass="colValor"
-									converterMessage="#{mensaje.message_campo_positivo}"
-									requiredMessage="#{mensaje.message_campo_requerido}">
-									<f:validateDoubleRange minimum="1" />
-									<f:validateLength maximum="5" />
-								</h:inputText>
-								<rich:message for="quote" />
-							</h:panelGrid>
-
-							<t:fieldset styleClass="W166P">
-								<legend class="etiquetaTitulo">#{mensaje.label_document}</legend>
-								<h:panelGrid columns="1" cellspacing="0" cellpadding="0"
-									id="panelDocumentCycle">
-									<a:outputPanel
-										rendered="#{cycleAction.nameDocument != null and !(empty cycleAction.nameDocument)}">
-										<div class="uploadImg155P">
-											<div class="closeImg">
-												<a:commandLink action="#{cycleAction.deleteFilename()}"
-													immediate="true"
-													render=":formRegisterCycle:panelDocumentCycle">
-													<h:graphicImage value="/img/close_14.png"
-														onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
-														onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
-														styleClass="cursor" title="#{mensaje.label_change_file}" />
-												</a:commandLink>
-											</div>
-											<a:outputPanel
-												rendered="#{cycleAction.loadDocumentTemporal eq true and cycleAction.iconPdf eq true }">
-												<a:outputPanel
-													rendered="#{cycleAction.loadDocumentTemporal}">
-													<a target="_blank"
-														href="#{request.contextPath}#{cycleAction.folderFileTemporal}/#{cycleAction.nameDocument}"><h:graphicImage
-															title="#{cycleAction.nameDocument}" styleClass="H156P"
-															value="/img/bigPdf_128.png" /></a>
-												</a:outputPanel>
-												<a:outputPanel>
-													<h:graphicImage value="/img/bigPdf_128.png"
-														title="#{cycleAction.nameDocument}" styleClass="H156P"
-														rendered="#{!cycleAction.loadDocumentTemporal}" />
-												</a:outputPanel>
-											</a:outputPanel>
-											<a:outputPanel
-												rendered="#{cycleAction.loadDocumentTemporal eq true and cycleAction.iconPdf eq false }">
-												<a:outputPanel
-													rendered="#{cycleAction.loadDocumentTemporal}">
-													<a target="_blank"
-														href="#{request.contextPath}#{cycleAction.folderFileTemporal}/#{cycleAction.nameDocument}"><h:graphicImage
-															title="#{cycleAction.nameDocument}" styleClass="H156P"
-															value="/img/bigWord_128.png" /></a>
-												</a:outputPanel>
-												<a:outputPanel>
-													<h:graphicImage value="/img/bigWord_128.png"
-														title="#{cycleAction.nameDocument}" styleClass="H156P"
-														rendered="#{!cycleAction.loadDocumentTemporal}" />
-												</a:outputPanel>
-											</a:outputPanel>
-										</div>
-									</a:outputPanel>
-									<a:outputPanel>
-										<h:graphicImage value="/img/fileLess_128.png"
-											rendered="#{cycleAction.nameDocument eq null or empty cycleAction.nameDocument}"
-											styleClass="H162P" />
-										<p:fileUpload id="uploadDocument" dragDropSupport="true"
-											styleClass="sytleButtonUpload"
-											rendered="#{cycleAction.nameDocument eq null or empty cycleAction.nameDocument}"
-											label="#{mensaje.label_select_file}" mode="advanced"
-											auto="true" fileUploadListener="#{cycleAction.submit}"
-											update="panelDocumentCycle"
-											onstart="#{rich:component('statPane')}.show();"
-											oncomplete="#{rich:component('statPane')}.hide();" />
-										<rich:message for="uploadDocument" styleClass="errors" />
-										<h:panelGrid columns="1" cellpadding="0" cellspacing="0"
-											styleClass="W100Per">
-											<hr />
-											<h:outputText styleClass="etiquetaTitulo"
-												value="#{mensaje.label_allowed_ext}: #{propPrototipoCostos['locate.ext.permitted.doc.docx.pdf']} " />
-											<hr />
-										</h:panelGrid>
-									</a:outputPanel>
-								</h:panelGrid>
-							</t:fieldset>
-						</h:panelGrid>
-					</t:fieldset>
-				</a:outputPanel>
-				<br />
 				<div align="center">
 					<a:commandButton render="formConfirmar:popUpConfirmar,formGenerico"
 						rendered="#{cycleAction.idCrops gt 0 and cycleAction.idCropsName gt 0}"
@@ -395,7 +190,6 @@
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popUpConfirmar')}.show();} else { setFocus(#{rich:element('formGenerico:valFocus')}.value); }"
 						value="#{mensaje.button_save}" />
 				</div>
-
 			</rich:panel>
 		</h:form>
 
