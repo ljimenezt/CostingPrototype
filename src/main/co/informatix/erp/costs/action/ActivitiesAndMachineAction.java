@@ -362,21 +362,25 @@ public class ActivitiesAndMachineAction implements Serializable {
 	 * Calculate the cost of consumption of the machine.
 	 * 
 	 * @modify 18/04/2017 Fabian.Diaz
+	 * @modify 08/05/2017 Liseth.Jimenez
 	 * 
 	 * @param activityMachine
 	 *            : ActivityMachine object.
 	 */
 	public void calculateConsumableCost(ActivityMachine activityMachine) {
 		try {
+			double unitCost = 0;
 			fuelPurchase = fuelPurchaseDao.consultLastFuelPurchase();
+			if (fuelPurchase != null) {
+				unitCost = fuelPurchase.getUnitCost();
+			}
 			Double fuelConsumption = activityMachine.getActivityMachinePK()
 					.getMachines().getFuelConsumption();
 			if (fuelConsumption > 0) {
 				Double consumableCostBudget = ControllerAccounting.multiply(
 						activityMachine.getDurationBudget(), fuelConsumption);
 				Double consumableCostBudgetFinal = ControllerAccounting
-						.multiply(consumableCostBudget,
-								fuelPurchase.getUnitCost());
+						.multiply(consumableCostBudget, unitCost);
 				this.activityMachine
 						.setConsumablesCostBudget(consumableCostBudgetFinal);
 			} else {
