@@ -587,6 +587,7 @@ public class ActivityMaterialsAction implements Serializable {
 	 * This method allows to add a material to the materials list to assign to
 	 * the activity.
 	 * 
+	 * @modify 08/05/2017 Liseth.Jimenez
 	 */
 	public void addMaterials() {
 		if (costActualEdit <= 0) {
@@ -597,7 +598,10 @@ public class ActivityMaterialsAction implements Serializable {
 							"messageCosts");
 		} else {
 			materialSelected.setSelected(true);
-			double materialsBudget = materialSelected.getTotalMaterialsBudget();
+			double materialsBudget = 0d;
+			if (materialSelected.getTotalMaterialsBudget() != null) {
+				materialsBudget = materialSelected.getTotalMaterialsBudget();
+			}
 			double totalMaterialsBudget = ControllerAccounting.add(
 					quantityEdit, materialsBudget);
 			materialSelected.setTotalMaterialsBudget(totalMaterialsBudget);
