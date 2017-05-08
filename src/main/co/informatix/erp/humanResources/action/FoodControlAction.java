@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.ejb.EJB;
@@ -24,8 +23,8 @@ import org.richfaces.component.UIDataTable;
 
 import co.informatix.erp.humanResources.dao.AssistControlDao;
 import co.informatix.erp.humanResources.dao.DayTypeFoodDao;
-import co.informatix.erp.humanResources.dao.HrDao;
 import co.informatix.erp.humanResources.dao.FoodControlDao;
+import co.informatix.erp.humanResources.dao.HrDao;
 import co.informatix.erp.humanResources.entities.AssistControl;
 import co.informatix.erp.humanResources.entities.DayTypeFood;
 import co.informatix.erp.humanResources.entities.FoodControl;
@@ -387,7 +386,7 @@ public class FoodControlAction implements Serializable {
 		typeFoodList = typeFoodDao.consultTypeFood();
 		dayTypeFoodList = dayTypeFoodDao.consultDayTypeFood(ControladorFechas
 				.formatDate(this.initialDateSearch,
-						Constantes.DATE_FORMAT_DAY_OF_WEEK, Locale.US));
+						Constantes.DATE_FORMAT_DAY_OF_WEEK));
 		foodControlHashmap = new HashMap<Integer, Integer>();
 		if (typeFoodList != null && typeFoodList.size() > 0) {
 			if (dayTypeFoodList != null && dayTypeFoodList.size() > 0) {
