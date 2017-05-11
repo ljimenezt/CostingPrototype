@@ -13,7 +13,6 @@ import javax.persistence.Table;
  * This table maps the class certifications_and_roles
  * 
  * @author Johnatan.Naranjo
- * 
  */
 @SuppressWarnings("serial")
 @Entity
@@ -27,7 +26,7 @@ public class CertificationsAndRoles implements Serializable {
 	private Boolean dangerous;
 
 	/**
-	 * @return idCertificactionsAndRoles: id certificate and role
+	 * @return idCertificactionsAndRoles: id certificate and role.
 	 */
 	@Id
 	@Column(name = "idcertificactionsandroles", nullable = false)
@@ -38,14 +37,14 @@ public class CertificationsAndRoles implements Serializable {
 
 	/**
 	 * @param idCertificactionsAndRoles
-	 *            :id certificate and role
+	 *            : id certificate and role.
 	 */
 	public void setIdCertificactionsAndRoles(int idCertificactionsAndRoles) {
 		this.idCertificactionsAndRoles = idCertificactionsAndRoles;
 	}
 
 	/**
-	 * @return name:certificate name and role
+	 * @return name: certificate name and role.
 	 */
 	@Column(name = "name")
 	public String getName() {
@@ -54,7 +53,7 @@ public class CertificationsAndRoles implements Serializable {
 
 	/**
 	 * @param name
-	 *            :certificate name and role
+	 *            : certificate name and role.
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -70,14 +69,15 @@ public class CertificationsAndRoles implements Serializable {
 
 	/**
 	 * @param description
-	 *            :Description that has the certificate and role.
+	 *            : Description that has the certificate and role.
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
 	/**
-	 * @return certifications: boolean certification certificate and role
+	 * @return certifications: boolean that indicates whether the certification
+	 *         is valid.
 	 */
 	@Column(name = "certifications")
 	public Boolean getCertifications() {
@@ -86,7 +86,7 @@ public class CertificationsAndRoles implements Serializable {
 
 	/**
 	 * @param certifications
-	 *            :boolean certification certificate and role
+	 *            : boolean that indicates whether the certification is valid.
 	 * 
 	 */
 	public void setCertifications(Boolean certifications) {
@@ -94,7 +94,8 @@ public class CertificationsAndRoles implements Serializable {
 	}
 
 	/**
-	 * @return role: Boolean role in certification and role
+	 * @return role: Boolean that indicates whether the certificate is assigned
+	 *         a human resource.
 	 */
 	@Column(name = "role")
 	public Boolean getRole() {
@@ -103,14 +104,16 @@ public class CertificationsAndRoles implements Serializable {
 
 	/**
 	 * @param role
-	 *            : Boolean role in certification and role
+	 *            : Boolean that indicates whether the certificate is assigned a
+	 *            human resource.
 	 */
 	public void setRole(Boolean role) {
 		this.role = role;
 	}
 
 	/**
-	 * @return dangerous: Boolean dangerous role in certification and
+	 * @return dangerous: Boolean that indicates whether certification requires
+	 *         precautionary measures.
 	 */
 	@Column(name = "dangerous")
 	public Boolean getDangerous() {
@@ -119,7 +122,8 @@ public class CertificationsAndRoles implements Serializable {
 
 	/**
 	 * @param dangerous
-	 *            :Boolean dangerous role in certification and
+	 *            : Boolean that indicates whether certification requires
+	 *            precautionary measures.
 	 */
 	public void setDangerous(Boolean dangerous) {
 		this.dangerous = dangerous;
