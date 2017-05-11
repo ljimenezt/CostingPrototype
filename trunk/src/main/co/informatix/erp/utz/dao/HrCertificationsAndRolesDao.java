@@ -91,7 +91,7 @@ public class HrCertificationsAndRolesDao implements Serializable {
 		query.append("JOIN FETCH hcr.hrCertificationsAndRolesPK.hr hr ");
 		query.append("JOIN FETCH hcr.hrCertificationsAndRolesPK.certificationsAndRoles cr ");
 		query.append(consult);
-		query.append("ORDER BY hr.idHr ");
+		query.append("ORDER BY hr.name, hr.familyName ASC ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());

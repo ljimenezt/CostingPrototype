@@ -106,7 +106,7 @@ public class OvertimePaymentRateDao implements Serializable {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT op FROM OvertimePaymentRate op ");
 		query.append(consult);
-		query.append("ORDER BY op.overtimepaymentid ");
+		query.append("ORDER BY op.overtimeRateType ASC ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
