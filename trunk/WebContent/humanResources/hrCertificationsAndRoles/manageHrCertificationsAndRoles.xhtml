@@ -97,12 +97,18 @@
 
 							<rich:column styleClass="colFechaLarga">
 								<f:facet name="header">#{mensaje.label_start_date}</f:facet>
-								<h:outputText value="#{hrCertRol.releaseDate}" />
+								<h:outputText value="#{hrCertRol.releaseDate}">
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
 
 							<rich:column styleClass="colFechaLarga">
 								<f:facet name="header">#{mensaje.label_end_date}</f:facet>
-								<h:outputText value="#{hrCertRol.endDate}" />
+								<h:outputText value="#{hrCertRol.endDate}">
+									<f:convertDateTime type="date" pattern="MMM dd, yyyy"
+										locale="#{idioma.locale}" />
+								</h:outputText>
 							</rich:column>
 
 							<rich:column styleClass="colTextoLargo">
