@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='contractTypeAction.searchInitialization()'
+WHERE id=399;
+
+UPDATE seguridad.menu
+SET url='contractTypeAction.searchInitialization()'
+WHERE id=400;
+
+UPDATE seguridad.menu
+SET url='contractTypeAction.addEditContractType(null)'
+WHERE id=401;

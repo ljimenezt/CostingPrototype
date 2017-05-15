@@ -1,0 +1,11 @@
+/** CacaoSoft - Sprint 11
+
+   	TransactionType
+   	1- Add register into table
+   
+	Author: Claudia.Rey
+	Date:	2017-03-22
+*/
+
+INSERT INTO warehouse.transaction_type (transactiontype)
+ VALUES ('Fuel Purchase');

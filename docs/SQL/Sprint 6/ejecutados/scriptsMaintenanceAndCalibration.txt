@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='maintenanceAndCalibrationAction.searchInitialization()'
+WHERE id=352;
+
+UPDATE seguridad.menu
+SET url='maintenanceAndCalibrationAction.searchInitialization()'
+WHERE id=353;
+
+UPDATE seguridad.menu
+SET url='maintenanceAndCalibrationAction.addEditMaintenanceAndCalibration(null)'
+WHERE id=354;

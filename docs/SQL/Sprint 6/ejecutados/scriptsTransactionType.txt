@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='transactionTypeAction.searchInitialization()'
+WHERE id=488;
+
+UPDATE seguridad.menu
+SET url='transactionTypeAction.searchInitialization()'
+WHERE id=489;
+
+UPDATE seguridad.menu
+SET url='transactionTypeAction.addEditTransactionType(null)'
+WHERE id=490;

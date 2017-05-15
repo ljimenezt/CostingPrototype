@@ -1,0 +1,7 @@
+UPDATE seguridad.menu
+SET url='cropActivitiesAction.addEditCropActivities(null)'
+WHERE id=411;
+
+UPDATE seguridad.menu
+SET url='cropActivitiesAction.addEditCropActivities(null)'
+WHERE id=412;

@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='personaAction.initializeConsultation()'
+WHERE id=18;
+
+UPDATE seguridad.menu
+SET url='personaAction.initializeConsultation()'
+WHERE id=54;
+
+UPDATE seguridad.menu
+SET url='personaAction.registerPerson(null)'
+WHERE id=55;

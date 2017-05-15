@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='iconoAction.searchInitialization'
+WHERE id=5;
+
+UPDATE seguridad.menu
+SET url='iconoAction.searchInitialization'
+WHERE id=16;
+
+UPDATE seguridad.menu
+SET url='iconoAction.registerIcon(null)'
+WHERE id=17;

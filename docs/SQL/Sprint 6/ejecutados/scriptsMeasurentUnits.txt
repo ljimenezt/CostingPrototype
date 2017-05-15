@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='measurementUnitsAction.searchInitialization()'
+WHERE id=390;
+
+UPDATE seguridad.menu
+SET url='measurementUnitsAction.searchInitialization()'
+WHERE id=391;
+
+UPDATE seguridad.menu
+SET url='measurementUnitsAction.addEditMeasurementUnits(null)'
+WHERE id=392;

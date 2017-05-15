@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='diseasesAction.searchInitialization()'
+WHERE id=384;
+
+UPDATE seguridad.menu
+SET url='diseasesAction.searchInitialization()'
+WHERE id=385;
+
+UPDATE seguridad.menu
+SET url='diseasesAction.addEditDiseases(null)'
+WHERE id=386;

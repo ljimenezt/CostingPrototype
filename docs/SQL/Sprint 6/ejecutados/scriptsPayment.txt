@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='paymentsAction.searchInitialization()'
+WHERE id=451;
+
+UPDATE seguridad.menu
+SET url='paymentsAction.searchInitialization()'
+WHERE id=452;
+
+UPDATE seguridad.menu
+SET url='paymentsAction.addEditPayments(null)'
+WHERE id=453;

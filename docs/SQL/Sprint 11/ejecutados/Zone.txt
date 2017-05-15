@@ -1,0 +1,17 @@
+/** CacaoSoft - Sprint 11
+
+   	Zone
+   	1- Create table zone.
+   	2- Add columns 2.
+   
+	Author: Fabian.Diaz
+	Date:	2017-02-20
+*/
+
+DROP TABLE IF EXISTS diesel.zone;
+
+CREATE TABLE diesel.zone ( 
+	id serial NOT NULL,
+	name character varying(100) NOT NULL,
+	CONSTRAINT pk_type_motors PRIMARY KEY (id)
+);

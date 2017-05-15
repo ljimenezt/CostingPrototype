@@ -1,0 +1,1019 @@
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.general_information_label'
+WHERE id=24;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.general_information_label_description'
+WHERE id=24;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.geographical_location_label'
+WHERE id=25;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.geographical_location_label_description'
+WHERE id=25;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.department_label'
+WHERE id=26;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.department_label_description'
+WHERE id=26;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.department_label_manage'
+WHERE id=27;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.department_label_manage_description'
+WHERE id=27;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.department_label_register'
+WHERE id=27;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.department_label_register_description'
+WHERE id=27;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.municipality_label'
+WHERE id=29;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.municipality_label_description'
+WHERE id=29;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.municipality_label_manage'
+WHERE id=30;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.municipality_label_manage_description'
+WHERE id=30;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.municipality_label_register'
+WHERE id=31;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.municipality_label_register_description'
+WHERE id=31;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.country_label'
+WHERE id=32;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.country_label_description'
+WHERE id=32;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.country_label_manage
+WHERE id=33;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.country_label_manage_description'
+WHERE id=33;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.country_label_register
+WHERE id=34;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.country_label_register_description'
+WHERE id=34;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.marital_status_label'
+WHERE id=393;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.marital_status_label_description'
+WHERE id=393;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.marital_status_label_manage'
+WHERE id=394;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.marital_status_label_manage_description'
+WHERE id=394;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.marital_status_label_register'
+WHERE id=395;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.marital_status_label_register_description'
+WHERE id=395;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.security_label'
+WHERE id=1;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.security_label_description'
+WHERE id=1;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.menu_label_manage'
+WHERE id=10;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.menu_label_manage_description'
+WHERE id=10;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.menu_label_register'
+WHERE id=11;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.menu_label_register_description'
+WHERE id=11;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.role_label'
+WHERE id=3;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.role_label_description'
+WHERE id=3;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.role_label_manage'
+WHERE id=12;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.menu_label_manage_description'
+WHERE id=12;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.role_label_register'
+WHERE id=13;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.role_label_register_description'
+WHERE id=13;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.user_label'
+WHERE id=4;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.user_label_description'
+WHERE id=4;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.user_label_manage'
+WHERE id=14;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.user_label_manage_description'
+WHERE id=14;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.user_label_register'
+WHERE id=15;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.user_label_register_description'
+WHERE id=15;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.user_label_change_password'
+WHERE id=71;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.user_label_change_password_description'
+WHERE id=71;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.method_label'
+WHERE id=9;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.method_label_description'
+WHERE id=9;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.method_label_manage'
+WHERE id=22;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.method_label_manage_description'
+WHERE id=22;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.method_label_register'
+WHERE id=23;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.method_label_register_description'
+WHERE id=23;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.icon_label'
+WHERE id=5;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.icon_label_description'
+WHERE id=5;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.icon_label_manage'
+WHERE id=16;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.icon_label_manage_description'
+WHERE id=16;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.icon_label_register'
+WHERE id=17;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.icon_label_register_description'
+WHERE id=17;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.human_resources_label'
+WHERE id=6;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.human_resources_label_description'
+WHERE id=6;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.human_resources_label'
+WHERE id=340;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.human_resources_label_description'
+WHERE id=340;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.human_resources_label'
+WHERE id=359;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.human_resources_label_description'
+WHERE id=359;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.human_resources_label_manage'
+WHERE id=360;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.human_resources_label_manage_description'
+WHERE id=360;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.human_resources_label_register'
+WHERE id=361;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.human_resources_label_register_description'
+WHERE id=361;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.person_label'
+WHERE id=18;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.person_label_description'
+WHERE id=18;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.person_label_manage'
+WHERE id=54;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.person_label_manage_description'
+WHERE id=54;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.person_label_register'
+WHERE id=55;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.person_label_register_description'
+WHERE id=55;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.human_resource_type_label'
+WHERE id=341;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.human_resource_type_label_description'
+WHERE id=341;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.human_resource_type_label_manage'
+WHERE id=342;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.human_resource_type_label_manage_description'
+WHERE id=342;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.human_resource_type_label_register'
+WHERE id=343;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.human_resource_type_label_register_description'
+WHERE id=343;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.reports_label'
+WHERE id=468;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.reports_label_description'
+WHERE id=468;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.reports_label'
+WHERE id=476;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.reports_label_description'
+WHERE id=476;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.farm_label_manage'
+WHERE id=325;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.farm_label_manage_description'
+WHERE id=325;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.farm_label_register'
+WHERE id=326;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.farm_label_register_description'
+WHERE id=326;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.plot_label_manage'
+WHERE id=440;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.plot_label_manage_description'
+WHERE id=440;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.plot_label_register'
+WHERE id=441;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.plot_label_register_description'
+WHERE id=442;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.costs_label_administration'
+WHERE id=333;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.costs_label_administration_description'
+WHERE id=333;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.plot_label_manage'
+WHERE id=328;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.plot_label_manage_description'
+WHERE id=328;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.plot_label_register'
+WHERE id=329;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.plot_label_register_description'
+WHERE id=329;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.activity_names_label_manage'
+WHERE id=331;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.activity_names_label_manage_description'
+WHERE id=331;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.activity_names_label_register'
+WHERE id=332;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.activity_names_label_register_description'
+WHERE id=332;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.associate_cycles_label_register'
+WHERE id=412;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.associate_cycles_label_register_description'
+WHERE id=412;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.cycle_standard_activities_label_register'
+WHERE id=406;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.cycle_standard_activities_label_register_description'
+WHERE id=406;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.allocation_label_manage'
+WHERE id=420;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.allocation_label_manage_description'
+WHERE id=420;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.allocation_label_register'
+WHERE id=421;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.allocation_label_register_description'
+WHERE id=421;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.allocation_label_manage'
+WHERE id=420;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.allocation_label_manage_description'
+WHERE id=420;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.allocation_label_register'
+WHERE id=421;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.allocation_label_register_description'
+WHERE id=421;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.humans_resources_activities_label'
+WHERE id=437;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.humans_resources_activities_label_description'
+WHERE id=437;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.humans_resources_activities_label_assignement'
+WHERE id=438;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.humans_resources_activities_label_assignement_description'
+WHERE id=438;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.machines_label_administration'
+WHERE id=336;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.machines_label_administration_description'
+WHERE id=336;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.machine_types_label_manage'
+WHERE id=338;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.machine_types_label_manage_description'
+WHERE id=338;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.machine_types_label_register'
+WHERE id=339;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.machine_types_label_register_description'
+WHERE id=339;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.machines_label_manage'
+WHERE id=350;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.machines_label_manage_description'
+WHERE id=350;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.machines_label_register'
+WHERE id=351;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.machines_label_register_description'
+WHERE id=351;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.maintenance_calibration_label_manage'
+WHERE id=353;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.maintenance_calibration_label_manage_description'
+WHERE id=353;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.maintenance_calibration_label_register'
+WHERE id=354;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.maintenance_calibration_label_register_description'
+WHERE id=354;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.maintenance_lines_label_manage'
+WHERE id=366;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.maintenance_lines_label_manage_description'
+WHERE id=366;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.maintenance_lines_label_register'
+WHERE id=367;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.maintenance_lines_label_register_description'
+WHERE id=367;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.certifications_types_label_manage'
+WHERE id=357;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.certifications_types_label_manage_description'
+WHERE id=357;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.certifications_types_label_register'
+WHERE id=358;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.certifications_types_label_register_description'
+WHERE id=358;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.activities_and_machines_label_register'
+WHERE id=427;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.activities_and_machines_label_register_description'
+WHERE id=427;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.fuel_types_label_manage'
+WHERE id=461;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.fuel_types_label_manage_description'
+WHERE id=461;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.fuel_types_label_register'
+WHERE id=462;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.fuel_types_label_register_description'
+WHERE id=462;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.machine_usage_label_manage'
+WHERE id=464;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.machine_usage_label_manage_description'
+WHERE id=464;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.machine_usage_label_register'
+WHERE id=465;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.machine_usage_label_register_description'
+WHERE id=465;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.warehouse_label_administration'
+WHERE id=368;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.warehouse_label_administration_description'
+WHERE id=368;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.suppliers_label_manage'
+WHERE id=370;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.suppliers_label_manage_description'
+WHERE id=370;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.suppliers_label_register'
+WHERE id=371;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.suppliers_label_register_description'
+WHERE id=371;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.type_management_label_manage'
+WHERE id=379;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.type_management_label_manage_description'
+WHERE id=379;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.type_management_label_register'
+WHERE id=380;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.type_management_label_register_description'
+WHERE id=380;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.material_label_manage'
+WHERE id=397;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.material_label_manage_description'
+WHERE id=397;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.material_label_register'
+WHERE id=398;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.material_label_register_description'
+WHERE id=398;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.diseases_label_manage'
+WHERE id=385;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.diseases_label_manage_description'
+WHERE id=385;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.diseases_label_register'
+WHERE id=386;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.diseases_label_register_description'
+WHERE id=386;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.insurance_label_manage'
+WHERE id=376;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.insurance_label_manage_description'
+WHERE id=376;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.insurance_label_register'
+WHERE id=377;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.insurance_label_register_description'
+WHERE id=377;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.materials_type_label_manage'
+WHERE id=382;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.materials_type_label_manage_description'
+WHERE id=382;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.materials_type_label_register'
+WHERE id=383;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.materials_type_label_register_description'
+WHERE id=383;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.measurementUnits_label_manage'
+WHERE id=391;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.measurementUnits_label_manage_description'
+WHERE id=391;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.measurementUnits_label_register'
+WHERE id=392;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.measurementUnits_label_register_description'
+WHERE id=392;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.deposits_label_manage'
+WHERE id=482;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.deposits_label_manage_description'
+WHERE id=482;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.deposits_label_register'
+WHERE id=483;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.deposits_label_register_description'
+WHERE id=483;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.transactionType_label_label_manage'
+WHERE id=489;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.transactionType_label_label_manage_description'
+WHERE id=489;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.transactionType_label_label_register'
+WHERE id=490;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.transactionType_label_label_register_description'
+WHERE id=490;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.sales_label_administration'
+WHERE id=407;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.sales_label_administration_description'
+WHERE id=407;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.customer_label_manage'
+WHERE id=409;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.customer_label_manage_description'
+WHERE id=409;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.customer_label_register'
+WHERE id=410;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.customer_label_register_description'
+WHERE id=410;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.services_label_administration'
+WHERE id=422;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.services_label_administration_description'
+WHERE id=422;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.service_type_label_manage'
+WHERE id=424;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.service_type_label_manage_description'
+WHERE id=424;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.service_type_label_register'
+WHERE id=425;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.service_type_label_register_description'
+WHERE id=425;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.activities_services_label_register'
+WHERE id=429;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.activities_services_label_register_description'
+WHERE id=429;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.final_products_label_administration'
+WHERE id=432;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.final_products_label_administration_description'
+WHERE id=432;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.final_products_label_register'
+WHERE id=434;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.final_products_label_register_description'
+WHERE id=434;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.general_cost_label_administration'
+WHERE id=435;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.general_cost_label_administration_description'
+WHERE id=435;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.activities_certifications_label_register'
+WHERE id=446;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.activities_certifications_label_register_description'
+WHERE id=446;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.activities_certifications_label_manage'
+WHERE id=447;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.activities_certifications_label_manage_description'
+WHERE id=447;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.hr_certifications_label_manage'
+WHERE id=449;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.hr_certifications_label_manage_description'
+WHERE id=449;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.hr_certifications_label_register'
+WHERE id=450;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.hr_certifications_label_register_description'
+WHERE id=450;
+----------------------------------------------------------------------
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.payments_label_administration'
+WHERE id=454;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.payments_label_administration_description'
+WHERE id=454;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.paymentMethods_types_label_manage'
+WHERE id=363;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.paymentMethods_types_label_manage_description'
+WHERE id=363;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.paymentMethods_types_label_register'
+WHERE id=364;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.paymentMethods_types_label_register_description'
+WHERE id=364;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.contract_type_label_manage'
+WHERE id=400;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.contract_type_label_manage_description'
+WHERE id=400;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.contract_type_label_register'
+WHERE id=401;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.contract_type_label_register_description'
+WHERE id=401;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.contract_label_manage'
+WHERE id=443;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.contract_label_manage_description'
+WHERE id=443;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.contract_label_register'
+WHERE id=444;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.contract_label_register_description'
+WHERE id=444;
+----------------------------------------------------------------------
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.payments_label_manage'
+WHERE id=452;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.payments_label_manage_description'
+WHERE id=452;
+
+UPDATE seguridad.menu
+SET nombre='mensajeMenu.payments_label_register'
+WHERE id=453;
+
+UPDATE seguridad.menu
+SET descripcion='mensajeMenu.payments_label_register_description'
+WHERE id=453;
+----------------------------------------------------------------------
+

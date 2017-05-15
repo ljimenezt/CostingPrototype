@@ -1,0 +1,22 @@
+/** CacaoSoft - Sprint 11
+
+   	Consumable Resources
+   	1- Create table consumable_resources.
+   	2- Add columns 4.
+   
+	Author: Fabian.Diaz
+	Date:	2017-02-20
+*/
+
+DROP TABLE IF EXISTS diesel.consumable_resources;
+
+CREATE TABLE diesel.consumable_resources ( 
+	id serial NOT NULL,
+	name character varying(100) NOT NULL,
+	unit_cost real NOT NULL,
+	idmeasurementunits integer NOT NULL,
+	CONSTRAINT pk_consumable_resources PRIMARY KEY (id),
+	CONSTRAINT fk_consumable_resources_measurement FOREIGN KEY (idmeasurementunits)
+		REFERENCES Warehouse.measurement_units (idmeasurementunits) MATCH SIMPLE
+		ON UPDATE NO ACTION ON DELETE NO ACTION
+);

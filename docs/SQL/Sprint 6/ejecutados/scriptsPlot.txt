@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='plotAction.initializeSearchPlot()'
+WHERE id=439;
+
+UPDATE seguridad.menu
+SET url='plotAction.initializeSearchPlot()'
+WHERE id=440;
+
+UPDATE seguridad.menu
+SET url='plotAction.addEditPlot(null)'
+WHERE id=441;

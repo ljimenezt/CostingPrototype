@@ -1,0 +1,1 @@
+ALTER TABLE life_cycle.activity_names ADD COLUMN cycle boolean;

@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='machineTypesAction.searchInitialization()'
+WHERE id=337;
+
+UPDATE seguridad.menu
+SET url='machineTypesAction.searchInitialization()'
+WHERE id=338;
+
+UPDATE seguridad.menu
+SET url='machineTypesAction.addEditMachineTypes(null)'
+WHERE id=339;

@@ -1,0 +1,11 @@
+/** CacaoSoft - Sprint 11
+
+   	Fuel Usage Log
+   	1- Add columns date.
+   
+	Author: Fabian.Diaz
+	Date:	2017-02-24
+*/
+
+ALTER TABLE diesel.fuel_usage_log
+  ADD COLUMN date timestamp without time zone;

@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='cropsAction.searchInitialization()'
+WHERE id=402;
+
+UPDATE seguridad.menu
+SET url='cropsAction.searchInitialization()'
+WHERE id=403;
+
+UPDATE seguridad.menu
+SET url='cropsAction.addEditCrops(null)'
+WHERE id=404;

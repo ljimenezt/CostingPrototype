@@ -1,0 +1,5 @@
+ALTER TABLE seguridad.metodo_menu
+    ALTER COLUMN user_name SET NOT NULL;
+
+ALTER TABLE seguridad.metodo_menu
+    ALTER COLUMN fecha_creacion SET NOT NULL

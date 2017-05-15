@@ -1,0 +1,163 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.5
+-- Dumped by pg_dump version 9.4.4
+-- Started on 2016-03-09 10:20:34
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = kpi, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 237 (class 1259 OID 20020)
+-- Name: bean_index; Type: TABLE; Schema: kpi; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE bean_index (
+    idbeanindex integer DEFAULT nextval(('kpi.bean_index_id_seq'::text)::regclass) NOT NULL,
+    sample_weight real NOT NULL,
+    id_section integer NOT NULL,
+    id_crop integer NOT NULL,
+    cycle_number integer NOT NULL,
+    date_bean_index timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE bean_index OWNER TO postgres;
+
+--
+-- TOC entry 2489 (class 0 OID 20020)
+-- Dependencies: 237
+-- Data for Name: bean_index; Type: TABLE DATA; Schema: kpi; Owner: postgres
+--
+
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (2, 130, 2, 2, 1, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (79, 23, 2, 4, 2, '2016-01-07 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (80, 2, 3, 9, 5, '2016-03-17 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (81, 234, 3, 47, 4, '2016-04-05 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (82, 23, 3, 6, 3, '2016-05-04 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (83, 24, 1, 43, 6, '2016-06-09 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (84, 54, 3, 40, 7, '2016-07-06 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (85, 63, 2, 5, 8, '2016-08-11 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (86, 13, 2, 30, 2, '2016-09-08 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (87, 23, 1, 3, 9, '2016-09-08 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (88, 32, 2, 6, 10, '2016-10-05 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (1, 125, 1, 2, 1, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (3, 150, 3, 3, 1, '2016-02-03 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (77, 120, 1, 4, 1, '2016-02-11 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (5, 117, 2, 2, 2, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (6, 132, 3, 2, 2, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (10, 138, 1, 2, 4, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (12, 116, 3, 2, 4, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (13, 105, 1, 2, 5, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (14, 114, 2, 2, 5, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (15, 125, 3, 2, 5, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (16, 111, 1, 2, 6, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (17, 138, 2, 2, 6, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (18, 141, 3, 2, 6, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (19, 105, 1, 2, 7, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (20, 128, 2, 2, 7, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (21, 134, 3, 2, 7, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (23, 12, 1, 22, 1, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (24, 134, 3, 2, 1, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (25, 121, 1, 2, 2, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (11, 137, 2, 2, 4, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (26, 128.5, 1, 2, 8, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (27, 132, 2, 2, 8, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (28, 134, 3, 2, 8, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (29, 125, 1, 2, 9, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (30, 121, 2, 2, 9, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (31, 127, 3, 2, 9, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (32, 141, 1, 2, 10, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (33, 129, 2, 2, 10, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (34, 132, 3, 2, 10, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (35, 123.5, 1, 2, 11, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (36, 124, 2, 2, 11, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (37, 129.5, 3, 2, 11, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (38, 128.5, 1, 2, 12, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (39, 131, 2, 2, 12, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (40, 134.5, 3, 2, 12, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (41, 137, 1, 2, 13, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (42, 131, 2, 2, 13, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (43, 138.5, 3, 2, 13, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (44, 125, 1, 2, 14, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (45, 143.5, 2, 2, 14, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (46, 126.5, 3, 2, 14, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (47, 129, 1, 2, 15, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (48, 124, 2, 2, 15, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (49, 137.5, 3, 2, 15, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (50, 141, 1, 2, 16, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (51, 135.5, 2, 2, 16, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (52, 138, 3, 2, 16, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (53, 121, 1, 2, 17, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (54, 127, 2, 2, 17, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (55, 126, 3, 2, 17, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (56, 133, 1, 2, 18, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (57, 137.5, 2, 2, 18, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (59, 123.5, 1, 2, 19, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (58, 131, 3, 2, 18, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (60, 139, 2, 2, 19, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (61, 133, 3, 2, 19, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (62, 143.5, 1, 2, 20, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (63, 137, 2, 2, 20, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (64, 143.5, 3, 2, 20, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (65, 136.5, 1, 2, 21, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (66, 127, 2, 2, 21, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (68, 132, 1, 2, 22, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (70, 120, 3, 2, 21, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (67, 142.5, 3, 2, 22, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (69, 146, 2, 2, 22, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (71, 132, 1, 2, 23, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (72, 147, 2, 2, 23, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (73, 139, 3, 2, 23, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (74, 134.5, 1, 2, 24, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (75, 127.5, 2, 2, 24, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (76, 137, 3, 2, 24, '2016-02-02 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (89, 45, 3, 4, 7, '2016-02-03 00:00:00');
+INSERT INTO bean_index (idbeanindex, sample_weight, id_section, id_crop, cycle_number, date_bean_index) VALUES (90, 45, 1, 55, 2, '2016-03-08 00:00:00');
+
+
+--
+-- TOC entry 2377 (class 2606 OID 20520)
+-- Name: pk_bean_index; Type: CONSTRAINT; Schema: kpi; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY bean_index
+    ADD CONSTRAINT pk_bean_index PRIMARY KEY (idbeanindex);
+
+
+--
+-- TOC entry 2378 (class 2606 OID 20869)
+-- Name: fk_bean_index_crop; Type: FK CONSTRAINT; Schema: kpi; Owner: postgres
+--
+
+ALTER TABLE ONLY bean_index
+    ADD CONSTRAINT fk_bean_index_crop FOREIGN KEY (id_crop) REFERENCES life_cycle.crops(idcrop);
+
+
+--
+-- TOC entry 2379 (class 2606 OID 20879)
+-- Name: fk_bean_index_section; Type: FK CONSTRAINT; Schema: kpi; Owner: postgres
+--
+
+ALTER TABLE ONLY bean_index
+    ADD CONSTRAINT fk_bean_index_section FOREIGN KEY (id_section) REFERENCES life_cycle.section(idsection);
+
+
+-- Completed on 2016-03-09 10:20:34
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -1,0 +1,6 @@
+DELETE FROM warehouse.transactions;
+DELETE FROM warehouse.deposits;
+ALTER TABLE warehouse.deposits ADD COLUMN unit_cost double precision NOT NULL;
+
+
+

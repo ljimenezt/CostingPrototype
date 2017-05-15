@@ -1,0 +1,31 @@
+/** CacaoSoft - Sprint 11
+
+   	Fuel Usage Log
+   	1- Create table fuel_usage_log.
+   
+	Author: Luna.Granados
+	Date:	2017-02-20
+*/
+
+DROP TABLE IF EXISTS diesel.fuel_usage_log;
+
+CREATE TABLE diesel.fuel_usage_log ( 
+  id_fuel_usage serial NOT NULL,
+  id_engine_log integer,
+  id_fuel_purchase integer,
+  id_transaction_type integer,
+  consumption double precision,
+  final_level double precision,
+  deposited double precision,
+  note text,
+  CONSTRAINT pk_fuel_usage_log PRIMARY KEY (id_fuel_usage),
+  CONSTRAINT fk_engine_log FOREIGN KEY (id_engine_log)
+      REFERENCES diesel.engine_log (id_engine_log) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_fuel_purchase FOREIGN KEY (id_fuel_purchase)
+      REFERENCES diesel.fuel_purchase (id_fuel_purchase) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_transaction_type FOREIGN KEY (id_transaction_type)
+      REFERENCES warehouse.transaction_type (idtransactiontype) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);

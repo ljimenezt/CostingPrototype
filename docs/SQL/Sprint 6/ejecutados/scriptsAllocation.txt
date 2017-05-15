@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='allocationAction.searchInitialization()'
+WHERE id=419;
+
+UPDATE seguridad.menu
+SET url='allocationAction.searchInitialization()'
+WHERE id=420;
+
+UPDATE seguridad.menu
+SET url='allocationAction.addEditAllocation(null)'
+WHERE id=421;

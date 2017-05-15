@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='menuAction.searchInitialization()'
+WHERE id=2;
+
+UPDATE seguridad.menu
+SET url='menuAction.searchInitialization()'
+WHERE id=10;
+
+UPDATE seguridad.menu
+SET url='menuAction.registerMenu(null)'
+WHERE id=11;

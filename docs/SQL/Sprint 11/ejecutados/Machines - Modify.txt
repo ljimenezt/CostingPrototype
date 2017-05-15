@@ -1,0 +1,13 @@
+/** CacaoSoft - Sprint 11
+
+   	Machines
+   	1- Add columns hydrometer.
+   	2- Add columns hourmeter.
+   
+	Author: Fabian.Diaz
+	Date:	2017-03-09
+*/
+
+ALTER TABLE machines.machines
+  ADD COLUMN hydrometer real,
+  ADD COLUMN hourmeter real;

@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='civilStatusAction.searchInitialization()'
+WHERE id=393;
+
+UPDATE seguridad.menu
+SET url='civilStatusAction.searchInitialization()'
+WHERE id=394;
+
+UPDATE seguridad.menu
+SET url='civilStatusAction.addEditCivilStatus(null)'
+WHERE id=395;

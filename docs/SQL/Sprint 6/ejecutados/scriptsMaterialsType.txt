@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='materialsTypeAction.searchInitialization()'
+WHERE id=381;
+
+UPDATE seguridad.menu
+SET url='materialsTypeAction.searchInitialization()'
+WHERE id=382;
+
+UPDATE seguridad.menu
+SET url='materialsTypeAction.addEditMaterialsType(null)'
+WHERE id=383;

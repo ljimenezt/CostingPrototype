@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='cropNamesAction.searchInitialization()'
+WHERE id=327;
+
+UPDATE seguridad.menu
+SET url='cropNamesAction.searchInitialization()'
+WHERE id=328;
+
+UPDATE seguridad.menu
+SET url='cropNamesAction.addEditCropNames(null)'
+WHERE id=329;

@@ -1,0 +1,3 @@
+ALTER TABLE warehouse.transactions ALTER COLUMN id_hr DROP NOT NULL;	
+ALTER TABLE warehouse.transactions ALTER COLUMN id_activity DROP NOT NULL;
+ALTER TABLE warehouse.transactions ADD COLUMN user_name character varying(50);

@@ -1,0 +1,37 @@
+/** CacaoSoft - Sprint 11
+
+   	Fuel Prurchase
+   	1- Create table Fuel Prurchase.
+   
+	Author: Claudia.Rey
+	Date:	2017-03-02
+*/
+
+DROP TABLE diesel.fuel_purchase;
+
+CREATE TABLE diesel.fuel_purchase
+(
+  id_fuel_purchase serial NOT NULL,
+  id_supplier integer NOT NULL,
+  id_fuel_type integer NOT NULL,
+  id_iva_rate integer,
+  invoice_number character varying(50) NOT NULL,
+  quantity double precision NOT NULL,
+  unit_cost double precision NOT NULL,
+  subtotal double precision NOT NULL,
+  taxes double precision,
+  total double precision NOT NULL,
+  date_time timestamp without time zone NOT NULL,
+  note text,
+  invoice_document_link text,
+  CONSTRAINT pk_fuel_purchase PRIMARY KEY (id_fuel_purchase),
+  CONSTRAINT fk_fuel_purchase_fuel_types FOREIGN KEY (id_fuel_type)
+      REFERENCES machines.fuel_types (idfueltype) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_fuel_purchase_iva_rate FOREIGN KEY (id_iva_rate)
+      REFERENCES general.iva_rate (id_iva) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_fuel_purchase_suppliers FOREIGN KEY (id_supplier)
+      REFERENCES warehouse.suppliers (idsupplier) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+);

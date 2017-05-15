@@ -1,0 +1,2 @@
+ALTER TABLE life_cycle.activity_names ADD COLUMN harvest boolean;
+ALTER TABLE life_cycle.activity_names ADD COLUMN replanted boolean;

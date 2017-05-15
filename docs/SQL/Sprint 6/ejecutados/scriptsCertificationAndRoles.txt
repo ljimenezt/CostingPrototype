@@ -1,0 +1,11 @@
+UPDATE seguridad.menu
+SET url='certificationsAndRolesAction.searchInitialization()'
+WHERE id=356;
+
+UPDATE seguridad.menu
+SET url='certificationsAndRolesAction.searchInitialization()'
+WHERE id=357;
+
+UPDATE seguridad.menu
+SET url='certificationsAndRolesAction.addEditCertificationsAndRoles(null)'
+WHERE id=358;

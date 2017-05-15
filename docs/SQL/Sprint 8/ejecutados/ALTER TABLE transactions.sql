@@ -1,0 +1,1 @@
+ALTER TABLE warehouse.transactions  ALTER COLUMN justification DROP  NOT NULL;

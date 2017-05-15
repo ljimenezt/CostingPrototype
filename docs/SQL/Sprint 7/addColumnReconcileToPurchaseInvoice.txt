@@ -1,0 +1,1 @@
+ALTER TABLE warehouse.purchase_invoices ADD COLUMN reconcile boolean DEFAULT false
