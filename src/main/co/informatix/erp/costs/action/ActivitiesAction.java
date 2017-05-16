@@ -339,26 +339,28 @@ public class ActivitiesAction implements Serializable {
 	 * Initialize the activity search values.
 	 * 
 	 * @author Gerardo.Herrera
-	 * @modify 20/06/2016 Liseth.Jimenez
 	 * @modify 29/11/2016 Claudia.Rey
+	 * @modify 16/05/2017 Liseth.Jimenez
 	 * 
 	 * @param activity
 	 *            : activities object.
 	 * @param idCrop
 	 *            : Crop identifier.
 	 * @param idCycle
-	 *            : Cycle Indetifier.
+	 *            : Cycle Identifier.
 	 * @param pagerTemp
 	 *            : Object to saves the temporary pager
 	 * @param flag
 	 *            : Indicates if the message is show in the view.
 	 * @param fieldName
 	 *            : Name of field to show message.
+	 * @return string: Redirects to record scheduled activities view.
 	 */
-	public void initializeActivities(Activities activity, int idCrop,
+	public String initializeActivities(Activities activity, int idCrop,
 			int idCycle, Paginador pagerTemp, boolean flag, String fieldName) {
 		if (idCycle == 0 && !flag) {
 			ControladorContexto.mensajeRequeridos(fieldName);
+			return "";
 		} else {
 			this.activities = activity;
 			this.idCrop = idCrop;
@@ -375,6 +377,7 @@ public class ActivitiesAction implements Serializable {
 			}
 			searchActivities();
 		}
+		return "recordSheduledActivities";
 	}
 
 	/**
