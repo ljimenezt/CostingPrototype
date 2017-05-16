@@ -477,13 +477,14 @@ public class ScheduledActivitiesAction implements Serializable {
 	 * To load the names of available activities associated with a crop in a
 	 * list.
 	 * 
+	 * @modify 16/05/2017 Liseth.Jimenez
 	 */
 	public void showActivities() {
 		try {
 			this.activities = new Activities();
 			optionsActivityName = new ArrayList<SelectItem>();
 			List<ActivityNames> activityNameTypes = activityNamesDao
-					.queryActivityNamesXCrop(idCrop);
+					.queryActivityNames();
 			if (activityNameTypes != null) {
 				for (ActivityNames activities : activityNameTypes) {
 					optionsActivityName
