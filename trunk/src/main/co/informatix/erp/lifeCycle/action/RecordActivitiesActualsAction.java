@@ -691,12 +691,14 @@ public class RecordActivitiesActualsAction implements Serializable {
 
 	/**
 	 * Load the names of available activities associated with a crop listed.
+	 * 
+	 * @modify 16/05/2017 Liseth.Jimenez
 	 */
 	public void showActivities() {
 		try {
 			listActivityNames = new ArrayList<SelectItem>();
 			List<ActivityNames> activityNameTypes = activityNamesDao
-					.queryActivityNamesXCrop(idCrop);
+					.queryActivityNames();
 			if (activityNameTypes != null) {
 				for (ActivityNames activity : activityNameTypes) {
 					listActivityNames.add(new SelectItem(activity
