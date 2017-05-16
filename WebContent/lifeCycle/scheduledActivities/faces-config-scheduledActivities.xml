@@ -20,4 +20,12 @@
 		</navigation-case>
 	</navigation-rule>
 
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>recordSheduledActivities</from-outcome>
+			<to-view-id>/lifeCycle/scheduledActivities/recordSheduledActivities.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
 </faces-config>
