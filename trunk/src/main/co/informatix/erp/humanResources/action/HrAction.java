@@ -70,7 +70,7 @@ public class HrAction implements Serializable {
 	private Hr hr;
 	private Paginador pagination = new Paginador();
 	private Paginador paginationForm = new Paginador();
-	private String nameSearch;
+	public String nameSearch;
 	private String lastNameSearch;
 	private String filesFolder;
 	private String temporalFilesFolder;

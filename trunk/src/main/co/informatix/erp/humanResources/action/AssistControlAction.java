@@ -59,7 +59,6 @@ public class AssistControlAction implements Serializable {
 	private Date initialDateSearch;
 	private Date finalDateSearch;
 	private Date maxDate;
-	private String nameSearch;
 	private StringBuilder unionSearchMessages;
 	private List<SelectItem> itemsNoveltyType;
 	private List<Hr> hrList;
@@ -158,21 +157,6 @@ public class AssistControlAction implements Serializable {
 	}
 
 	/**
-	 * @return nameSearch : Hr name to search.
-	 */
-	public String getNameSearch() {
-		return nameSearch;
-	}
-
-	/**
-	 * @param nameSearch
-	 *            : Hr name to search.
-	 */
-	public void setNameSearch(String nameSearch) {
-		this.nameSearch = nameSearch;
-	}
-
-	/**
 	 * @return unionSearchMessages: message search in the advance consult
 	 */
 	public StringBuilder getUnionSearchMessages() {
@@ -183,7 +167,6 @@ public class AssistControlAction implements Serializable {
 	 * @param unionSearchMessages
 	 *            :message search in the advance consult
 	 */
-
 	public void setUnionSearchMessages(StringBuilder unionSearchMessages) {
 		this.unionSearchMessages = unionSearchMessages;
 	}
@@ -441,13 +424,18 @@ public class AssistControlAction implements Serializable {
 	/**
 	 * This method allows load the novelties and initialization values.
 	 * 
+	 * @modify 17/05/2017 Luna.Granados
+	 * 
 	 * @return searchHr(): Method that consultation human resources list and
 	 *         load the template with the information found.
 	 */
 	public String loadAttendance() {
 		try {
+			HrAction hrAction = ControladorContexto
+					.getContextBean(HrAction.class);
+			hrAction.nameSearch = "";
 			pagination = new Paginador();
-			this.nameSearch = "";
+
 			if (noveltyMap == null || noveltyMap.size() <= 0) {
 				List<Novelty> noveltyList = noveltyDao
 						.findNoveltyByDate(ControladorFechas.formatDate(
