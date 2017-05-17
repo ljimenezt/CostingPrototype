@@ -53,7 +53,10 @@
 					rowClasses="odd-row, even-row" footerClass="H130P">
 					<rich:column styleClass="colFecha">
 						<f:facet name="header">#{mensaje.label_date}</f:facet>
-						<h:outputText value="#{fuelUsageLog.date}" />
+						<h:outputText value="#{fuelUsageLog.date}">
+							<f:convertDateTime pattern="MMM dd, yyyy"
+								locale="#{idioma.locale}" />
+						</h:outputText>
 					</rich:column>
 					<rich:column styleClass="colTextoCorto">
 						<f:facet name="header">#{mensajeWarehouse.transactionType_label}</f:facet>
