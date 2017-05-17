@@ -220,23 +220,23 @@
 									</a:commandLink>
 								</rich:column>
 								<rich:column styleClass="colTextoMediano">
-									<f:facet name="header">#{messageLifeCycle.crops_label}</f:facet>
-									<h:outputText value="#{activity.crop.cropNames.cropName}" />
+									<f:facet name="header">#{messageLifeCycle.crop_names_label}</f:facet>
+									<h:outputText value="#{activity.activitiesAndCertificationsPK.activities.crop.cropNames.cropName}" />
 								</rich:column>
 								<rich:column styleClass="colTextoLargo">
 									<f:facet name="header">#{messageLifeCycle.activity_names_label}</f:facet>
-									<h:outputText value="#{activity.activityName.activityName}" />
+									<h:outputText value="#{activity.activitiesAndCertificationsPK.activities.activityName.activityName}" />
 								</rich:column>
 								<rich:column styleClass="colFechaExtraLarga">
 									<f:facet name="header">#{mensaje.label_start_date}</f:facet>
-									<h:outputText value="#{activity.initialDtBudget}">
+									<h:outputText value="#{activity.activitiesAndCertificationsPK.activities.initialDtBudget}">
 										<f:convertDateTime pattern="MMM dd, yyyy"
 											locale="#{idioma.locale}" />
 									</h:outputText>
 								</rich:column>
 								<rich:column styleClass="colFechaExtraLarga">
 									<f:facet name="header">#{mensaje.label_end_date}</f:facet>
-									<h:outputText value="#{activity.finalDtBudget}">
+									<h:outputText value="#{activity.activitiesAndCertificationsPK.activities.finalDtBudget}">
 										<f:convertDateTime pattern="MMM dd, yyyy"
 											locale="#{idioma.locale}" />
 									</h:outputText>
