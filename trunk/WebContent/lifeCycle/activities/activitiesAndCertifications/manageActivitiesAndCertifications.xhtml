@@ -81,16 +81,16 @@
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
 							<f:facet name="header">#{messageLifeCycle.activity_names_label}</f:facet>
-							<h:outputText value="#{activitiesCert.activityName.activityName}" />
+							<h:outputText value="#{activitiesCert.activitiesAndCertificationsPK.activities.activityName.activityName}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
 							<f:facet name="header">#{messageLifeCycle.crop_names_label}</f:facet>
-							<h:outputText value="#{activitiesCert.crop.cropNames.cropName}" />
+							<h:outputText value="#{activitiesCert.activitiesAndCertificationsPK.activities.crop.cropNames.cropName}" />
 						</rich:column>
 						<rich:column styleClass="colTextoMediano">
-							<f:facet name="header">#{messageLifeCycle.crop_names_label}</f:facet>
+							<f:facet name="header">#{messageLifeCycle.activities_certifications_label_certification}</f:facet>
 							<h:outputText
-								value="#{activitiesCert.crop.cropNames.description}" />
+								value="#{activitiesCert.activitiesAndCertificationsPK.certificationsAndRoles.name}" />
 						</rich:column>
 						<f:facet name="footer">
 							<rich:columnGroup rendered="#{listaVacia}">

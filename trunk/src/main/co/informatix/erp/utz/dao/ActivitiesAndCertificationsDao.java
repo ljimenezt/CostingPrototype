@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -81,6 +82,86 @@ public class ActivitiesAndCertificationsDao implements Serializable {
 		List<ActivitiesAndCertifications> results = q.getResultList();
 		if (results.size() > 0) {
 			return results.get(0);
+		}
+		return null;
+	}
+
+	/**
+	 * Method that consult the activities by certification
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param query
+	 *            : Consultation records depending on the parameters selected by
+	 *            the user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return Long: quantity of activities found
+	 * @throws Exception
+	 */
+	public Long queryActivitiesByIdCert(StringBuilder query,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder
+				.append("SELECT COUNT(ac) FROM ActivitiesAndCertifications ac ");
+		queryBuilder.append("JOIN ac.activitiesAndCertificationsPK apk ");
+		queryBuilder.append("JOIN apk.activities a ");
+		queryBuilder.append("JOIN apk.certificationsAndRoles cr ");
+		queryBuilder.append("JOIN a.activityName an ");
+		queryBuilder.append("JOIN a.crop c ");
+		queryBuilder.append("JOIN c.cropNames cn ");
+		queryBuilder.append(query);
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		return (Long) queryResult.getSingleResult();
+	}
+
+	/**
+	 * Method that consult the activities by certification
+	 * 
+	 * @author Claudia.Rey
+	 * 
+	 * @param start
+	 *            : records where start the consult.
+	 * @param range
+	 *            : ranges to records.
+	 * @param query
+	 *            : Consultation records depending on the parameters selected by
+	 *            the user.
+	 * @param parameters
+	 *            : Query parameters.
+	 * @return List<ActivitiesAndCertifications>: list of
+	 *         ActivitiesAndCertifications found.
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<ActivitiesAndCertifications> queryActivityNamesByIdCert(
+			int start, int range, StringBuilder query,
+			List<SelectItem> parameters) throws Exception {
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT ac FROM ActivitiesAndCertifications ac ");
+		queryBuilder.append("JOIN FETCH ac.activitiesAndCertificationsPK apk ");
+		queryBuilder.append("JOIN FETCH apk.activities a ");
+		queryBuilder.append("JOIN FETCH apk.certificationsAndRoles cr ");
+		queryBuilder.append("JOIN FETCH a.activityName an ");
+		queryBuilder.append("JOIN FETCH a.crop c ");
+		queryBuilder.append("JOIN FETCH c.cropNames cn ");
+		queryBuilder.append(query);
+		queryBuilder
+				.append("ORDER BY ac.activitiesAndCertificationsPK.activities.activityName.activityName ");
+		Query queryResult = em.createQuery(queryBuilder.toString());
+		for (SelectItem parameter : parameters) {
+			queryResult
+					.setParameter(parameter.getLabel(), parameter.getValue());
+		}
+		queryResult.setFirstResult(start).setMaxResults(range);
+		List<ActivitiesAndCertifications> resultList = queryResult
+				.getResultList();
+		if (resultList.size() > 0) {
+			return resultList;
 		}
 		return null;
 	}
