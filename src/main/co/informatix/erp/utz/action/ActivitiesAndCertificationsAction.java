@@ -38,7 +38,8 @@ import co.informatix.erp.utz.entities.CertificationsAndRoles;
 @RequestScoped
 public class ActivitiesAndCertificationsAction implements Serializable {
 	private List<ActivityNames> listActivitiesNames;
-	private List<ActivitiesAndCertifications> listActivities;
+	private List<Activities> listActivities;
+	private List<ActivitiesAndCertifications> listActivitiesAndCertifications;
 	private List<SelectItem> itemsCertificationsAndRoles;
 	private List<SelectItem> itemsActivities;
 
@@ -79,19 +80,35 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	}
 
 	/**
-	 * @return listActivities: List of activitiesAndCertifications.
+	 * @return listActivities: List of activities.
 	 */
-	public List<ActivitiesAndCertifications> getListActivities() {
+	public List<Activities> getListActivities() {
 		return listActivities;
 	}
 
 	/**
 	 * @param listActivities
+	 *            : List of activities.
+	 */
+	public void setListActivities(List<Activities> listActivities) {
+		this.listActivities = listActivities;
+	}
+
+	/**
+	 * @return listActivitiesAndCertifications : List of
+	 *         activitiesAndCertifications.
+	 */
+	public List<ActivitiesAndCertifications> getListActivitiesAndCertifications() {
+		return listActivitiesAndCertifications;
+	}
+
+	/**
+	 * @param listActivitiesAndCertifications
 	 *            : List of activitiesAndCertifications.
 	 */
-	public void setListActivities(
-			List<ActivitiesAndCertifications> listActivities) {
-		this.listActivities = listActivities;
+	public void setListActivitiesAndCertifications(
+			List<ActivitiesAndCertifications> listActivitiesAndCertifications) {
+		this.listActivitiesAndCertifications = listActivitiesAndCertifications;
 	}
 
 	/**
@@ -371,7 +388,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 			this.activityNames = new ActivityNames();
 			this.activities = new Activities();
 			nameSearch = "";
-
 			this.listActivitiesNames = activityNamesDao.queryActivityNames();
 			this.itemsActivities = new ArrayList<SelectItem>();
 			if (this.listActivitiesNames != null) {
@@ -413,7 +429,8 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 				.getBundle("messageLifeCycle");
 		ValidacionesAction validations = ControladorContexto
 				.getContextBean(ValidacionesAction.class);
-		listActivities = new ArrayList<ActivitiesAndCertifications>();
+		listActivities = new ArrayList<Activities>();
+		listActivitiesAndCertifications = new ArrayList<ActivitiesAndCertifications>();
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder query = new StringBuilder();
 		StringBuilder unionMessagesSearch = new StringBuilder();
@@ -424,48 +441,57 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 		try {
 			advancedSearch(query, parameters, bundle, unionMessagesSearch,
 					fromModal);
-			Long quantity = activitiesAndCertificationsDao
-					.queryActivitiesByIdCert(query, parameters);
 
-			if (quantity != null && quantity > 0) {
-				if (fromModal) {
+			if (fromModal) {
+				Long quantity = activitiesDao.queryActivitiesByIdCert(query,
+						parameters, fromModal);
+				if (quantity != null && quantity > 0) {
 					activitiesPagination.paginarRangoDefinido(quantity, 5);
-					listActivities = activitiesAndCertificationsDao
-							.queryActivityNamesByIdCert(
-									activitiesPagination.getInicio(),
-									activitiesPagination.getRango(), query,
-									parameters);
-				} else {
+					listActivities = activitiesDao.queryActivityNamesByIdCert(
+							activitiesPagination.getInicio(),
+							activitiesPagination.getRango(), query, parameters,
+							fromModal);
+				}
+			} else {
+				Long quantity = activitiesAndCertificationsDao
+						.queryActivitiesByIdCert(query, parameters);
+				if (quantity != null && quantity > 0) {
 					pagination.paginar(quantity);
-					listActivities = activitiesAndCertificationsDao
+					pagination.setOpcion('f');
+					listActivitiesAndCertifications = activitiesAndCertificationsDao
 							.queryActivityNamesByIdCert(pagination.getInicio(),
 									pagination.getRango(), query, parameters);
 				}
 			}
-
-			if ((listActivities == null || listActivities.size() <= 0)
-					&& !"".equals(unionMessagesSearch.toString())) {
-				messageSearch = MessageFormat
-						.format(bundle
-								.getString("message_no_existen_registros_criterio_busqueda"),
-								unionMessagesSearch);
-			} else if (listActivities == null || listActivities.size() <= 0) {
-				ControladorContexto.mensajeInformacion(null,
-						bundle.getString("message_no_existen_registros"));
-			} else if (!"".equals(unionMessagesSearch.toString()) && !fromModal) {
-				messageSearch = MessageFormat
-						.format(bundle
-								.getString("message_existen_registros_criterio_busqueda"),
-								bundleLifeCycle
-										.getString("activities_certifications_label_s"),
-								unionMessagesSearch);
-			} else if (!"".equals(unionMessagesSearch.toString()) && fromModal) {
-				messageSearch = MessageFormat
-						.format(bundle
-								.getString("message_existen_registros_criterio_busqueda"),
-								bundleLifeCycle
-										.getString("activity_names_label_s"),
-								unionMessagesSearch);
+			if (!fromModal) {
+				if ((listActivitiesAndCertifications == null || listActivitiesAndCertifications
+						.size() <= 0)
+						&& !"".equals(unionMessagesSearch.toString())) {
+					messageSearch = MessageFormat
+							.format(bundle
+									.getString("message_no_existen_registros_criterio_busqueda"),
+									unionMessagesSearch);
+				} else if (listActivitiesAndCertifications == null
+						|| listActivitiesAndCertifications.size() <= 0) {
+					ControladorContexto.mensajeInformacion(null,
+							bundle.getString("message_no_existen_registros"));
+				} else if (!"".equals(unionMessagesSearch.toString())
+						&& !fromModal) {
+					messageSearch = MessageFormat
+							.format(bundle
+									.getString("message_existen_registros_criterio_busqueda"),
+									bundleLifeCycle
+											.getString("activities_certifications_label_s"),
+									unionMessagesSearch);
+				} else if (!"".equals(unionMessagesSearch.toString())
+						&& fromModal) {
+					messageSearch = MessageFormat
+							.format(bundle
+									.getString("message_existen_registros_criterio_busqueda"),
+									bundleLifeCycle
+											.getString("activity_names_label_s"),
+									unionMessagesSearch);
+				}
 			}
 
 			if (fromModal) {
@@ -684,16 +710,12 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * Method to set the selected activity in the popup.
 	 * 
 	 * @author Luna.Granados
-	 * @modify 17/05/2017 Claudia.Rey
-	 * 
+	 *  
 	 * @param activity
 	 *            : Activity that is load from popup.
 	 */
-	public void loadActivity(
-			ActivitiesAndCertifications activityAndCertifications) {
-		setActivityNames(activityAndCertifications
-				.getActivitiesAndCertificationsPK().getActivities()
-				.getActivityName());
+	public void loadActivity(Activities activity) {
+		setActivityNames(activity.getActivityName());
 	}
 
 	/**

@@ -17,7 +17,7 @@
 	<ui:define name="body">
 		<t:saveState value="#{activitiesAndCertificationsAction}" />
 		<ui:param name="listaVacia"
-			value="#{activitiesAndCertificationsAction.listActivities eq null or (empty activitiesAndCertificationsAction.listActivities)}" />
+			value="#{activitiesAndCertificationsAction.listActivitiesAndCertifications eq null or (empty activitiesAndCertificationsAction.listActivitiesAndCertifications)}" />
 		<ui:param name="anchoTabla" value="anchoCuatro" />
 		<!-- parametros para botones y ordenamiento del listado -->
 		<ui:param name="actionLista"
@@ -62,7 +62,7 @@
 						<ui:param name="tieneVigencia" value="no" />
 					</ui:include>
 					<rich:dataTable
-						value="#{activitiesAndCertificationsAction.listActivities}"
+						value="#{activitiesAndCertificationsAction.listActivitiesAndCertifications}"
 						id="tablaActiCert" var="activitiesCert"
 						styleClass="#{listaVacia ? 'BCTransparente' : 'dataTable'} #{anchoTabla}"
 						rowClasses="odd-row, even-row" footerClass="H130P">
