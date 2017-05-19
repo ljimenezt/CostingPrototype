@@ -433,7 +433,7 @@ public class AssistControlAction implements Serializable {
 		try {
 			HrAction hrAction = ControladorContexto
 					.getContextBean(HrAction.class);
-			hrAction.nameSearch = "";
+			hrAction.setNameSearch("");
 			pagination = new Paginador();
 
 			if (noveltyMap == null || noveltyMap.size() <= 0) {
