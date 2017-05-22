@@ -331,7 +331,7 @@
 					<h:outputText value="*" styleClass="required" />
 					<p:calendar value="#{engineLogAction.startDateReport}"
 						showOn="button" navigator="true" id="startDate"
-						pattern="MM/dd/yyyy" required="true"
+						pattern="MM/dd/yyyy" required="true" maxdate="today()"
 						label="#{mensaje.label_start_date}">
 						<p:ajax event="dateSelect" update="endDate"
 							listener="#{engineLogAction.calculateMaxDateForReport()}" />
