@@ -1013,14 +1013,14 @@ rect:hover {
 
 /*Styles for assists control*/
 .assistControlOk{
-	background-image: url("../img/assistOk.png");
+	background-image: url("../img/assistOk_16.png");
 	background-size: 16px 16px!important;
 	background-repeat: no-repeat;
 	background-position: center;
 }
 
 .assistControlNot{
-	background-image: url("../img/assistNot.png");
+	background-image: url("../img/assistNot_16.png");
 	background-size: 16px 16px!important;
 	background-repeat: no-repeat;
 	background-position: center;
