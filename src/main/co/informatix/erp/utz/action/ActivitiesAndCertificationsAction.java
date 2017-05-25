@@ -493,7 +493,6 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 									unionMessagesSearch);
 				}
 			}
-
 			if (fromModal) {
 				validations.setMensajeBusquedaPopUp(messageSearch);
 			} else {
@@ -577,16 +576,16 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 
 		if (!fromModal) {
 			if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-				if (this.idCertAndRoles != 0) {
-					consult.append("WHERE cr.idCertificactionsAndRoles = :keyword3 )");
-					item = new SelectItem(this.idCertAndRoles, "keyword3");
-					parameters.add(item);
-				}
 				consult.append("WHERE UPPER(an.activityName) LIKE UPPER(:keyword) ");
 				item = new SelectItem("%" + this.nameSearch + "%", "keyword");
 				parameters.add(item);
 				unionMessagesSearch.append(bundle.getString("label_name")
 						+ ": " + '"' + this.nameSearch + '"');
+				if (this.idCertAndRoles != 0) {
+					consult.append("And cr.idCertificactionsAndRoles = :keyword3 )");
+					item = new SelectItem(this.idCertAndRoles, "keyword3");
+					parameters.add(item);
+				}
 			} else if (this.idCertAndRoles != 0) {
 				consult.append("WHERE cr.idCertificactionsAndRoles = :keyword ");
 				item = new SelectItem(this.idCertAndRoles, "keyword");
@@ -710,7 +709,7 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 	 * Method to set the selected activity in the popup.
 	 * 
 	 * @author Luna.Granados
-	 *  
+	 * 
 	 * @param activity
 	 *            : Activity that is load from popup.
 	 */
