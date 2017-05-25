@@ -30,6 +30,7 @@ public class CropsDao implements Serializable {
 	 * the information sent search values.
 	 * 
 	 * @modify 14/05/2015 Sergio.Ortiz
+	 * @modify 17/05/2017 Claudia.Rey
 	 * 
 	 * @param start
 	 *            :where he started the consultation record.
@@ -50,7 +51,7 @@ public class CropsDao implements Serializable {
 		query.append("SELECT c FROM  Crops c ");
 		query.append("JOIN FETCH c.cropNames ");
 		query.append(consult);
-		query.append("ORDER BY c.idCrop ");
+		query.append("ORDER BY (c.initialDate, c.description) DESC ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
