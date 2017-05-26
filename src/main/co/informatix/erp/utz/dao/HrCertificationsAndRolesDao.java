@@ -18,8 +18,6 @@ import co.informatix.erp.utz.entities.HrCertificationsAndRoles;
  * HrCertificationsAndRoles.
  * 
  * @author Mabell.Boada
- * 
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
