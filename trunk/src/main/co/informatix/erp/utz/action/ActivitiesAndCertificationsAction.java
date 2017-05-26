@@ -454,12 +454,13 @@ public class ActivitiesAndCertificationsAction implements Serializable {
 				}
 			} else {
 				Long quantity = activitiesAndCertificationsDao
-						.queryActivitiesByIdCert(query, parameters);
+						.quantityActivitiesAndCertificationByIdCert(query, parameters);
 				if (quantity != null && quantity > 0) {
 					pagination.paginar(quantity);
 					pagination.setOpcion('f');
 					listActivitiesAndCertifications = activitiesAndCertificationsDao
-							.queryActivityNamesByIdCert(pagination.getInicio(),
+							.queryActivityAndCertificationByIdCert(
+									pagination.getInicio(),
 									pagination.getRango(), query, parameters);
 				}
 			}
