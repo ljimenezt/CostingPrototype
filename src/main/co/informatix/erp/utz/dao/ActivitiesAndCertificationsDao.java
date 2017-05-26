@@ -17,7 +17,6 @@ import co.informatix.erp.utz.entities.ActivitiesAndCertifications;
  * ActivitiesAndCertifications.
  * 
  * @author Johnatan.Naranjo
- * 
  */
 @SuppressWarnings("serial")
 @Stateless
@@ -87,7 +86,8 @@ public class ActivitiesAndCertificationsDao implements Serializable {
 	}
 
 	/**
-	 * Method that consult the activities by certification
+	 * Method that consult the number of activities and certification related by
+	 * id certification.
 	 * 
 	 * @author Claudia.Rey
 	 * 
@@ -99,7 +99,7 @@ public class ActivitiesAndCertificationsDao implements Serializable {
 	 * @return Long: quantity of activities found
 	 * @throws Exception
 	 */
-	public Long queryActivitiesByIdCert(StringBuilder query,
+	public Long quantityActivitiesAndCertificationByIdCert(StringBuilder query,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder
@@ -120,12 +120,13 @@ public class ActivitiesAndCertificationsDao implements Serializable {
 	}
 
 	/**
-	 * Method that consult the activities by certification
+	 * Method that consult the activities and certifications related by id
+	 * certification.
 	 * 
 	 * @author Claudia.Rey
 	 * 
 	 * @param start
-	 *            : records where start the consult.
+	 *            : Registry where consultation begins.
 	 * @param range
 	 *            : ranges to records.
 	 * @param query
@@ -138,7 +139,7 @@ public class ActivitiesAndCertificationsDao implements Serializable {
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ActivitiesAndCertifications> queryActivityNamesByIdCert(
+	public List<ActivitiesAndCertifications> queryActivityAndCertificationByIdCert(
 			int start, int range, StringBuilder query,
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
