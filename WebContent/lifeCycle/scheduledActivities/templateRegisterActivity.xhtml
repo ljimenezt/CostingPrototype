@@ -366,7 +366,7 @@
 				</ui:define>
 				<ui:define name="botones">
 					<a:commandButton value="#{mensaje.button_accept}"
-						render="formScheduledActivities, mensajes"
+						render="formScheduledActivities, mensajes, mensajeBusqueda"
 						actionListener="#{cropActivitiesAction.saveCropActivities()}"
 						action="#{scheduledActivitiesAction.selectedActivity(cropActivitiesAction.activities)}"
 						onclick="#{rich:component('popUpConfirmar')}.hide(); #{rich:component('popupRegActivity')}.hide();  #{rich:component('statPane')}.show();" />
