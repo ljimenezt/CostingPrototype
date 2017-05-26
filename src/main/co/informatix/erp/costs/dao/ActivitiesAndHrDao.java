@@ -74,7 +74,7 @@ public class ActivitiesAndHrDao implements Serializable {
 	 *            : String containing the query why seep
 	 * @param parameters
 	 *            : Query parameters.
-	 * @return Long: number of activity records found
+	 * @return Long: number of activity records found 
 	 * @throws Exception
 	 */
 	public Long amountActivitiesAndHr(StringBuilder query,
@@ -113,7 +113,9 @@ public class ActivitiesAndHrDao implements Serializable {
 			StringBuilder query, List<SelectItem> parameters) throws Exception {
 		StringBuilder queryBuilder = new StringBuilder();
 		queryBuilder.append("SELECT ah FROM ActivitiesAndHr ah ");
+		queryBuilder.append("JOIN ah.activitiesAndHrPK.hr hr ");
 		queryBuilder.append(query);
+		queryBuilder.append(" ORDER BY hr.name");
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parameter : parameters) {
 			queryResult

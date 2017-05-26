@@ -522,16 +522,6 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * It is responsible for initializing the parameters for the search of
-	 * workers.
-	 */
-	public void initializeWorkers() {
-		paginationWorker = new Paginador();
-		nameSearch = "";
-		consultWorkers();
-	}
-
-	/**
 	 * Consult the list of workers required.
 	 */
 	public void consultWorkers() {
@@ -602,6 +592,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	 * selected by the user.
 	 * 
 	 * @modify Cristhian.Pico
+	 * @modify 26/05/2017 Claudia.Rey
 	 * 
 	 * @param consult
 	 *            : query to concatenate
@@ -632,9 +623,10 @@ public class ActivitiesAndHrAction implements Serializable {
 				Constantes.EDAD_MINIMA_ACTIVIDAD_PELIGROSA);
 		boolean selection = false;
 		consult.append("JOIN h.hrTypes ht ");
+		SelectItem itemHrType = new SelectItem();
 		if (this.idWorker != 0) {
 			consult.append("WHERE ht.idHrType = :idWorker ");
-			SelectItem itemHrType = new SelectItem(this.idWorker, "idWorker");
+			itemHrType = new SelectItem(this.idWorker, "idWorker");
 			parameters.add(itemHrType);
 			selection = true;
 		}
@@ -643,10 +635,16 @@ public class ActivitiesAndHrAction implements Serializable {
 		consult.append("(SELECT h FROM ActivitiesAndHr ah ");
 		consult.append("JOIN ah.activitiesAndHrPK ahp ");
 		consult.append("JOIN ahp.hr h ");
-		consult.append("WHERE ah.initialDateTimeBudget BETWEEN :fechaInicial AND :fechaFinal ");
+		consult.append("JOIN ahp.activities a ");
+		consult.append("WHERE a.idActivity =:idActivity OR ");
+		consult.append("(ah.initialDateTimeBudget BETWEEN :fechaInicial AND :fechaFinal ");
 		consult.append("OR ah.initialDateTimeActual BETWEEN :fechaInicial AND :fechaFinal ");
 		consult.append("OR ah.finalDateTimeBudget BETWEEN :fechaInicial AND :fechaFinal ");
-		consult.append("OR ah.finalDateTimeActual BETWEEN :fechaInicial AND :fechaFinal) ");
+		consult.append("OR ah.finalDateTimeActual BETWEEN :fechaInicial AND :fechaFinal)) ");
+		itemHrType = new SelectItem(this.selectedActivity.getIdActivity(),
+				"idActivity");
+		parameters.add(itemHrType);
+
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
 
 			consult.append("AND UPPER(h.name || h.familyName) LIKE UPPER(:keyword) ");
@@ -966,11 +964,15 @@ public class ActivitiesAndHrAction implements Serializable {
 	/**
 	 * Save the relationship between activities and human resources.
 	 * 
+	 * @modify 08/05/2017 Claudia.Rey
+	 * 
 	 * @param flagTeam
 	 *            : It indicate if the message is for the teams.
 	 */
 	public void createListActivitiesAndHr(boolean flagTeam) {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleHr = ControladorContexto
+				.getBundle("messageHumanResources");
 		String messageRegister = "message_registro_modificar";
 		double costHrBudget = 0;
 		try {
@@ -993,12 +995,22 @@ public class ActivitiesAndHrAction implements Serializable {
 				setListActivitiesAndHr(null);
 				consultActivitiesAndHrByActivity();
 				if (flagTeam) {
-					bundle = ControladorContexto
-							.getBundle("messageHumanResources");
 					messageRegister = "team_message_added";
 					ControladorContexto.mensajeInformacion(null, MessageFormat
-							.format(bundle.getString(messageRegister), message,
-									selectedActivity.getActivityName()
+							.format(bundleHr.getString(messageRegister),
+									message, selectedActivity.getActivityName()
+											.getActivityName()));
+				} else {
+					StringBuilder messageAux = new StringBuilder();
+					messageRegister = "human_resource_message_added";
+					for (Hr hr : selectedWorkers) {
+						messageAux.append(hr.getName() + " "
+								+ hr.getFamilyName() + ", ");
+					}
+					ControladorContexto.mensajeInformacion(null, MessageFormat
+							.format(bundleHr.getString(messageRegister),
+									messageAux.toString(), selectedActivity
+											.getActivityName()
 											.getActivityName()));
 				}
 			} else if (!flagTeam) {
@@ -1068,7 +1080,7 @@ public class ActivitiesAndHrAction implements Serializable {
 	}
 
 	/**
-	 * Edit the budget cost for human resorces item into the cycle.
+	 * Edit the budget cost for human resources item into the cycle.
 	 * 
 	 * @param costHrBudget
 	 *            : New budget cost for human resources.
@@ -1315,7 +1327,6 @@ public class ActivitiesAndHrAction implements Serializable {
 
 	/**
 	 * Deletes a relationship of activity and human resource data base.
-	 * 
 	 */
 	public void removeActivitiesAndHr() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
