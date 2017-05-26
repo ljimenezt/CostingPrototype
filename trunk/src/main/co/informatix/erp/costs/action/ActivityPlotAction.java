@@ -566,6 +566,7 @@ public class ActivityPlotAction implements Serializable {
 	 * This method create Report on excel for the plots map.
 	 * 
 	 * @modify 21/09/2016 Andres.Gomez
+	 * @modify 26/05/2017 Claudia.Rey
 	 * 
 	 * @param cycle
 	 *            : Cycle identifier.
@@ -1122,28 +1123,34 @@ public class ActivityPlotAction implements Serializable {
 								.toUpperCase()));
 
 				int contHr = 0;
-				for (ActivitiesAndHr ahr : listActivitiesHr) {
-					fila = cReportPoi.getSheet().getRow(startFile + 8 + contHr);
-					contHr++;
-					celda = fila.createCell(30);
-					celda.setCellStyle(styleWorkers);
-					celda.setCellValue(new HSSFRichTextString("" + contHr));
-					celda = fila.createCell(31);
-					celda.setCellStyle(styleWorkers);
-					celda.setCellType(HSSFCell.CELL_TYPE_STRING);
-					celda.setCellValue(new HSSFRichTextString(ahr
-							.getActivitiesAndHrPK().getHr().getName()
-							+ " "
-							+ ahr.getActivitiesAndHrPK().getHr()
-									.getFamilyName()));
-					celda = fila.createCell(32);
-					celda.setCellStyle(styleWorkers);
-					celda = fila.createCell(33);
-					celda.setCellStyle(styleWorkers);
-					celda = fila.createCell(34);
-					celda.setCellStyle(styleWorkers);
+				if (listActivitiesHr != null) {
+					for (ActivitiesAndHr ahr : listActivitiesHr) {
+						fila = cReportPoi.getSheet().getRow(
+								startFile + 8 + contHr);
+						contHr++;
+						celda = fila.createCell(30);
+						celda.setCellStyle(styleWorkers);
+						celda.setCellValue(new HSSFRichTextString("" + contHr));
+						celda = fila.createCell(31);
+						celda.setCellStyle(styleWorkers);
+						celda.setCellType(HSSFCell.CELL_TYPE_STRING);
+						celda.setCellValue(new HSSFRichTextString(ahr
+								.getActivitiesAndHrPK().getHr().getName()
+								+ " "
+								+ ahr.getActivitiesAndHrPK().getHr()
+										.getFamilyName()));
+						celda = fila.createCell(32);
+						celda.setCellStyle(styleWorkers);
+						celda = fila.createCell(33);
+						celda.setCellStyle(styleWorkers);
+						celda = fila.createCell(34);
+						celda.setCellStyle(styleWorkers);
+					}
+				} else {
+					listActivitiesHr = new ArrayList<ActivitiesAndHr>();
+					ActivitiesAndHr activitiesAndHr = new ActivitiesAndHr();
+					listActivitiesHr.add(activitiesAndHr);
 				}
-
 				fila = cReportPoi.getSheet().getRow(startFile + 8);
 				celda = fila.createCell(32);
 				celda.setCellStyle(listActivitiesHr.size() < 2 ? styleBlackBorder
