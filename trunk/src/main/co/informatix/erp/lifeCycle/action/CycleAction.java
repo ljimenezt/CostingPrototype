@@ -1045,24 +1045,24 @@ public class CycleAction implements Serializable {
 			if (amount != null && amount > 0) {
 				if (fromModal) {
 					paginationForm.paginarRangoDefinido(amount, 5);
+					paginationForm.setOpcion('f');
 					listCycles = cycleDao.consultCycleByCrop(
 							paginationForm.getInicio(),
 							paginationForm.getRango(), consult, parameters,
 							this.idCrops);
 				} else {
 					pagination.paginar(amount);
+					pagination.setOpcion('f');
 					listCycles = cycleDao.consultCycleByCrop(
 							pagination.getInicio(), pagination.getRango(),
 							consult, parameters, this.idCrops);
 				}
 			} else {
-
 				ControladorContexto.mensajeError(null, template
 						+ ":mensajeBusquedaMenu", bundleLifeCycle
 						.getString("scheduled_activities_messages_cycles"));
 
 			}
-
 			if ((listCycles == null || listCycles.size() <= 0)
 					&& !"".equals(unionMessagesSearch.toString())) {
 				messageSearch = MessageFormat
@@ -1079,7 +1079,6 @@ public class CycleAction implements Serializable {
 								bundleLifeCycle.getString("cycle_label_s"),
 								unionMessagesSearch);
 			}
-
 			if (fromModal) {
 				validations.setMensajeBusquedaPopUp(messageSearch);
 			} else {
