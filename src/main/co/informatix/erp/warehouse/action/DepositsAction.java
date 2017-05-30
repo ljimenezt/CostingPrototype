@@ -87,10 +87,12 @@ public class DepositsAction implements Serializable {
 	private IdentityAction identity;
 
 	private Paginador pagination = new Paginador();
+	private Paginador paginationModal = new Paginador();
 
 	private Deposits deposits;
 	private Deposits depositActualSelected;
 	private Deposits depositDetails;
+	private InventoryControlAction inventoryControlAction;
 
 	private PurchaseInvoices purchaseInvoice;
 	private TransactionsAction transactionsAction;
@@ -114,6 +116,7 @@ public class DepositsAction implements Serializable {
 	private int idMaterialType;
 	private int idMaterial;
 	private boolean existsDeposit;
+	private boolean currentView;
 
 	/**
 	 * @return pagination: The paging controller object.
@@ -128,6 +131,14 @@ public class DepositsAction implements Serializable {
 	 */
 	public void setPagination(Paginador pagination) {
 		this.pagination = pagination;
+	}
+
+	public Paginador getPaginationModal() {
+		return paginationModal;
+	}
+
+	public void setPaginationModal(Paginador paginationModal) {
+		this.paginationModal = paginationModal;
 	}
 
 	/**
@@ -165,6 +176,15 @@ public class DepositsAction implements Serializable {
 	 */
 	public Deposits getDepositDetails() {
 		return depositDetails;
+	}
+
+	public InventoryControlAction getInventoryControlAction() {
+		return inventoryControlAction;
+	}
+
+	public void setInventoryControlAction(
+			InventoryControlAction inventoryControlAction) {
+		this.inventoryControlAction = inventoryControlAction;
 	}
 
 	/**
@@ -439,6 +459,14 @@ public class DepositsAction implements Serializable {
 		this.existsDeposit = existsDeposit;
 	}
 
+	public boolean isCurrentView() {
+		return currentView;
+	}
+
+	public void setCurrentView(boolean currentView) {
+		this.currentView = currentView;
+	}
+
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
@@ -453,6 +481,8 @@ public class DepositsAction implements Serializable {
 			this.transactionsAction = ControladorContexto
 					.getContextBean(TransactionsAction.class);
 		}
+		this.pagination = new Paginador();
+		this.currentView = false;
 		this.idMaterial = 0;
 		this.idMaterialType = 0;
 		this.depositActualSelected = null;
@@ -470,11 +500,17 @@ public class DepositsAction implements Serializable {
 		return consultDeposits();
 	}
 
+	public String initializeModal() {
+		this.currentView = true;
+		return consultDeposits();
+	}
+
 	/**
 	 * Consult the list of Deposits
 	 * 
 	 * @modify 07/03/2016 Gerardo.Herrera
 	 * @modify 15/07/2016 Andres.Gomez
+	 * @modify 26/05/2017 Fabian.Diaz
 	 * 
 	 * @return navigationRule: Navigation rule that redirects to manage deposits
 	 */
@@ -489,25 +525,32 @@ public class DepositsAction implements Serializable {
 		StringBuilder consult = new StringBuilder();
 		StringBuilder allMessageSearch = new StringBuilder();
 		String messageSearch = "";
-		String param2 = ControladorContexto.getParam("param2");
-		boolean fromModal = (param2 != null && Constantes.SI.equals(param2)) ? true
-				: false;
-		String navigationRule = fromModal ? "" : "gesDeposits";
+		String navigationRule = this.currentView ? "" : "gesDeposits";
 		try {
 			advanceSearch(consult, parameters, bundle, allMessageSearch,
-					fromModal);
+					this.currentView);
 			Long quantity = depositsDao.amountDeposits(consult, parameters);
 			if (quantity != null) {
-				if (!fromModal) {
+				if (!this.currentView) {
 					pagination.paginar(quantity);
+					pagination.setOpcion('f');
 				} else {
-					pagination.paginarRangoDefinido(quantity, 5);
+					paginationModal.paginarRangoDefinido(quantity, 5);
+					paginationModal.setOpcion('f');
 				}
 			}
 			if (quantity != null && quantity > 0) {
-				listDeposits = depositsDao.consultDeposits(
-						pagination.getInicio(), pagination.getRango(), consult,
-						parameters);
+				if (!this.currentView) {
+					listDeposits = depositsDao.consultDeposits(
+							pagination.getInicio(), pagination.getRango(),
+							consult, parameters);
+				} else {
+					this.paginationModal.setOpcion('f');
+					listDeposits = depositsDao.consultDeposits(
+							paginationModal.getInicio(),
+							paginationModal.getRango(), consult, parameters);
+				}
+
 			}
 			if ((listDeposits == null || listDeposits.size() <= 0)
 					&& !"".equals(allMessageSearch.toString())) {
