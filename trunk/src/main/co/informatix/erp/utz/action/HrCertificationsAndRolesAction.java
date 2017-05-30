@@ -376,6 +376,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 					parameters);
 			if (quantity != null) {
 				pagination.paginar(quantity);
+				pagination.setOpcion('f');
 			}
 			listHrCertificationsAndRoles = hrCertificationsAndRolesDao
 					.consultXIdCertRol(pagination.getInicio(),
