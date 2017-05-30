@@ -319,11 +319,13 @@ public class MaterialsAction implements Serializable {
 			if (amount != null) {
 				if (fromModal) {
 					pagerForm.paginarRangoDefinido(amount, 5);
+					pagerForm.setOpcion('f');
 					materialsList = materialsDao.queryMaterials(
 							pagerForm.getInicio(), pagerForm.getRango(),
 							queryBuilder, parameters);
 				} else {
 					pagination.paginar(amount);
+					pagination.setOpcion('f');
 					materialsList = materialsDao.queryMaterials(
 							pagination.getInicio(), pagination.getRango(),
 							queryBuilder, parameters);
