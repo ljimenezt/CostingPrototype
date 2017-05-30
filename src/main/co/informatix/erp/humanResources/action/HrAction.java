@@ -510,12 +510,14 @@ public class HrAction implements Serializable {
 			if (amount != null) {
 				if (fromModal) {
 					paginationForm.paginarRangoDefinido(amount, 5);
+					paginationForm.setOpcion('f');
 					this.hrList = hrDao
 							.queryHr(paginationForm.getInicio(),
 									paginationForm.getRango(), queryBuilder,
 									parameters);
 				} else {
 					pagination.paginar(amount);
+					pagination.setOpcion('f');
 					this.hrList = hrDao.queryHr(pagination.getInicio(),
 							pagination.getRango(), queryBuilder, parameters);
 					if (this.flagAssist) {
