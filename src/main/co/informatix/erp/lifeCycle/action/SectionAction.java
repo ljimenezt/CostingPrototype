@@ -316,6 +316,7 @@ public class SectionAction implements Serializable {
 			Long amount = sectionDao.amountSection(consult, parameters);
 			if (amount != null) {
 				pagination.paginar(amount);
+				this.pagination.setOpcion('f');
 			}
 			listSection = sectionDao.consultSections(pagination.getInicio(),
 					pagination.getRango(), consult, parameters);
