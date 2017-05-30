@@ -398,8 +398,10 @@ public class MaintenanceAndCalibrationAction implements Serializable {
 			if (quantity != null) {
 				if (!fromModal) {
 					pagination.paginar(quantity);
+					pagination.setOpcion('f');
 				} else {
 					pagination.paginarRangoDefinido(quantity, 5);
+					pagination.setOpcion('f');
 				}
 			}
 			listMaintenanceAndCalibrations = maintenanceAndCalibrationDao
