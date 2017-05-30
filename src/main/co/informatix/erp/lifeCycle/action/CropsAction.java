@@ -375,6 +375,7 @@ public class CropsAction implements Serializable {
 			Long quantity = cropsDao.quantityCrops(query, parameters);
 			if (quantity != null) {
 				pagination.paginar(quantity);
+				this.pagination.setOpcion('f');
 			}
 			listCrops = cropsDao.consultCrops(pagination.getInicio(),
 					pagination.getRango(), query, parameters);
