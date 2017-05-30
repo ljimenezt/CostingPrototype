@@ -217,6 +217,7 @@ public class InventoryControlAction implements Serializable {
 			Long quantity = materialsDao.materialsAmount(query, parameters);
 			if (quantity != null) {
 				pagination.paginar(quantity);
+				pagination.setOpcion('f');
 			}
 			listInventory = materialsDao.queryMaterials(pagination.getInicio(),
 					pagination.getRango(), query, parameters);
