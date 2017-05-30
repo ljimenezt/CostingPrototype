@@ -18,6 +18,7 @@
 		<t:saveState value="#{materialsAction}" />
 		<t:saveState value="#{inventoryControlAction}" />
 		<t:saveState value="#{reportsController}" />
+		<t:saveState value="#{depositsAction}" />
 		<ui:param name="listaVacia"
 			value="#{inventoryControlAction.listInventory eq null or (empty inventoryControlAction.listInventory)}" />
 		<!-- parametros para botones y ordenamiento del listado -->
@@ -102,7 +103,7 @@
 								<rich:column styleClass="colIconoUno">
 									<a:commandLink render="pnlInventory, pnlDeposits"
 										actionListener="#{inventoryControlAction.selectMaterialByInventory(inventory)}"
-										action="#{depositsAction.consultDeposits()}">
+										action="#{depositsAction.initializeModal()}">
 										<h:graphicImage value="/img/seleccionarRadioCheck_16.png"
 											styleClass="verticalAlignMiddle"
 											rendered="#{inventory.selected eq true}" />
@@ -225,9 +226,10 @@
 							<div class="anchoTres center inBlock">
 								<ui:include src="/plantillas/templatePagination.xhtml">
 									<ui:param name="valId" value="2" />
-									<ui:param name="valReder" value="panelDeposits" />
+									<ui:param name="valReder" value="pnlInventory" />
 									<ui:param name="beanActionParam" value="#{depositsAction}" />
-									<ui:param name="metodoActionParam" value="consultDeposits" />
+									<ui:param name="metodoActionParam" value="initializeModal" />
+									<ui:param name="pager" value="paginationModal" />
 								</ui:include>
 							</div>
 						</a:outputPanel>
