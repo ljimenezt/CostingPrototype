@@ -355,6 +355,7 @@ public class HrCertificationsAndRolesAction implements Serializable {
 	 * certifications and roles.
 	 * 
 	 * @modify 16/03/2016 Wilhelm.Boada
+	 * @modify 30/05/2017 Fabian.Diaz
 	 * 
 	 * @return gesHrCertRoles: Redirects to the template to manage human
 	 *         resources and certifications.

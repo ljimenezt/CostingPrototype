@@ -341,6 +341,7 @@ public class MachinesAction implements Serializable {
 	 * @modify 19/08/2015 Andres.Gomez
 	 * @modify 11/11/2015 Gerardo.Herrera
 	 * @modify 15/11/2016 Wilhelm.Boada
+	 * @modify 30/05/2017 Fabian.Diaz
 	 * 
 	 * @return "gesMachines": Redirects to the template to manage machines.
 	 */

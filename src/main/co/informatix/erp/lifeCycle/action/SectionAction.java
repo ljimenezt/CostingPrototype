@@ -298,6 +298,8 @@ public class SectionAction implements Serializable {
 	/**
 	 * Consult the list of the section in the database
 	 * 
+	 * @modify 30/05/2017 Fabian.Diaz
+	 * 
 	 * @return manSection: redirects to the template to manage sections
 	 */
 	public String consultSection() {

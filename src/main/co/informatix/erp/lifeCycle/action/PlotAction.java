@@ -398,6 +398,7 @@ public class PlotAction implements Serializable {
 	 * @modify 15/05/2015 Sergio.Ortiz
 	 * @modify 05/08/2016 Gerardo.Herrera
 	 * @modify 29/08/2016 Wilhelm.Boada
+	 * @modify 30/05/2017 Fabian.Diaz
 	 * 
 	 * @return back: redirects to the template to manage parcels or register
 	 *         popups Crops.
@@ -840,6 +841,7 @@ public class PlotAction implements Serializable {
 	 * This method allows load the drop down and the list.
 	 * 
 	 * @author Wilhelm.Boada
+	 * @modify 30/05/2017 Fabian.Diaz
 	 */
 	public void loadComboAndList() {
 		this.idSection = 0;
