@@ -425,11 +425,10 @@ public class PlotAction implements Serializable {
 			if (quantity != null) {
 				if (fromModal) {
 					pagination.paginarRangoDefinido(quantity, 5);
-					this.pagination.setOpcion('f');
 				} else {
 					pagination.paginar(quantity);
-					this.pagination.setOpcion('f');
 				}
+				pagination.setOpcion('f');
 			}
 			listPlots = plotDao.consultPlots(pagination.getInicio(),
 					pagination.getRango(), consult, parameters);
@@ -845,7 +844,7 @@ public class PlotAction implements Serializable {
 	 */
 	public void loadComboAndList() {
 		this.idSection = 0;
-		this.pagination.setOpcion('f');
+//		this.pagination.setOpcion('f');
 		loadSection();
 		consultPlots();
 	}
