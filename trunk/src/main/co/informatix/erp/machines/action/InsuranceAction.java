@@ -244,7 +244,7 @@ public class InsuranceAction implements Serializable {
 	/**
 	 * Fills the insurancesList with the existing insurances.
 	 * 
-	 * @modify 24/04/2017 Fabian.Diaz
+	 * @modify 30/05/2017 Fabian.Diaz
 	 * 
 	 * @param flagListAll
 	 *            : Indicate that is call for the button list all.
@@ -273,6 +273,7 @@ public class InsuranceAction implements Serializable {
 					parameters);
 			if (amount != null) {
 				pagination.paginar(amount);
+				pagination.setOpcion('f');
 			}
 			insurancesList = insuranceDao.searchInsurances(
 					pagination.getInicio(), pagination.getRango(),
