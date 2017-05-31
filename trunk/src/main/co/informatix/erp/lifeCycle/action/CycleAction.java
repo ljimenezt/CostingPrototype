@@ -1022,6 +1022,7 @@ public class CycleAction implements Serializable {
 	 * @modify 23/06/2016 Liseth.Jimenez
 	 * @modify 07/10/2016 Claudia.Rey
 	 * @modify 25/11/2016 Luna.Granados
+	 * @modify 30/05/2017 Fabian.Diaz
 	 */
 	public void consultCycles() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");

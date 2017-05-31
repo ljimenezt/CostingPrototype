@@ -196,6 +196,8 @@ public class InventoryControlAction implements Serializable {
 	/**
 	 * Consult the list of the inventories control.
 	 * 
+	 * @modify 30/05/2017 Fabian.Diaz
+	 * 
 	 * @return "gesInventory": navigation rule to manage inventories control
 	 */
 	public String consultInventory() {

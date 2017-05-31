@@ -484,6 +484,7 @@ public class HrAction implements Serializable {
 	 * @modify 08/03/2016 Mabell.Boada
 	 * @modify 23/06/2016 Wilhelm.Boada
 	 * @modify 31/03/2017 Claudia.Rey
+	 * @modify 30/05/2017 Fabian.Diaz
 	 * 
 	 * @return returns: Navigation rule that redirects to manage Human Resources
 	 *         According condition.

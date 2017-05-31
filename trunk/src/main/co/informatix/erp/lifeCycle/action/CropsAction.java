@@ -356,6 +356,8 @@ public class CropsAction implements Serializable {
 	/**
 	 * Consult the list of crops.
 	 * 
+	 * @modify 30/05/2017 Fabian.Diaz
+	 * 
 	 * @return "gesCrops": redirects to the template to manage crops.
 	 */
 	public String consultCrops() {

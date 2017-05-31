@@ -296,6 +296,7 @@ public class MaterialsAction implements Serializable {
 	 * 
 	 * @modify 30/03/2016 Liseth.Jimenez
 	 * @modify 01/04/2016 Wilhelm.Boada
+	 * @modify 30/05/2017 Fabian.Diaz
 	 * 
 	 * @return gesMaterials: Navigation rule that redirects to manage materials.
 	 */
