@@ -133,10 +133,17 @@ public class DepositsAction implements Serializable {
 		this.pagination = pagination;
 	}
 
+	/**
+	 * @return paginationModal: Pager for the modals windows.
+	 */
 	public Paginador getPaginationModal() {
 		return paginationModal;
 	}
 
+	/**
+	 * @param paginationModal
+	 *            : Pager for the modals windows.
+	 */
 	public void setPaginationModal(Paginador paginationModal) {
 		this.paginationModal = paginationModal;
 	}
@@ -178,21 +185,30 @@ public class DepositsAction implements Serializable {
 		return depositDetails;
 	}
 
-	public InventoryControlAction getInventoryControlAction() {
-		return inventoryControlAction;
-	}
-
-	public void setInventoryControlAction(
-			InventoryControlAction inventoryControlAction) {
-		this.inventoryControlAction = inventoryControlAction;
-	}
-
 	/**
 	 * @param depositDetails
 	 *            : Object deposit for details
 	 */
 	public void setDepositDetails(Deposits depositDetails) {
 		this.depositDetails = depositDetails;
+	}
+
+	/**
+	 * @return inventoryControlAction: Object invetory control for calculate
+	 *         inventory in deposits
+	 */
+	public InventoryControlAction getInventoryControlAction() {
+		return inventoryControlAction;
+	}
+
+	/**
+	 * @param inventoryControlAction
+	 *            : inventoryControlAction: Object invetory control for
+	 *            calculate inventory in deposits
+	 */
+	public void setInventoryControlAction(
+			InventoryControlAction inventoryControlAction) {
+		this.inventoryControlAction = inventoryControlAction;
 	}
 
 	/**
@@ -459,10 +475,18 @@ public class DepositsAction implements Serializable {
 		this.existsDeposit = existsDeposit;
 	}
 
+	/**
+	 * @return currentView: Flag to indicate whether the view of deposits is
+	 *         loaded.
+	 */
 	public boolean isCurrentView() {
 		return currentView;
 	}
 
+	/**
+	 * @param currentView
+	 *            : Flag to indicate whether the view of deposits is loaded.
+	 */
 	public void setCurrentView(boolean currentView) {
 		this.currentView = currentView;
 	}
@@ -472,6 +496,7 @@ public class DepositsAction implements Serializable {
 	 * 
 	 * @modify 08/03/2016 Gerardo.Herrera
 	 * @modify 14/04/2016 Wilhelm.Boada
+	 * @modify 26/05/2017 Fabian.Diaz
 	 * 
 	 * @return consultDeposits: Deposits consulting method and redirects to the
 	 *         template to manage deposits.
@@ -500,6 +525,14 @@ public class DepositsAction implements Serializable {
 		return consultDeposits();
 	}
 
+	/**
+	 * Method to repair the pager in the view inventory.
+	 * 
+	 * @author Fabian.Diaz
+	 * 
+	 * @return consultDeposits: Method to update the list of deposits for the
+	 *         view inventory.
+	 */
 	public String initializeModal() {
 		this.currentView = true;
 		return consultDeposits();
