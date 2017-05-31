@@ -368,11 +368,10 @@ public class MachinesAction implements Serializable {
 			if (quantity != null) {
 				if (this.state) {
 					pagination.paginarRangoDefinido(quantity, 5);
-					pagination.setOpcion('f');
 				} else {
 					pagination.paginar(quantity);
-					pagination.setOpcion('f');
 				}
+				pagination.setOpcion('f');
 			}
 			this.listMachines = machinesDao.consultMachines(
 					pagination.getInicio(), pagination.getRango(), query,
