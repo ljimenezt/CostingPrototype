@@ -578,7 +578,6 @@ public class DepositsAction implements Serializable {
 							pagination.getInicio(), pagination.getRango(),
 							consult, parameters);
 				} else {
-					this.paginationModal.setOpcion('f');
 					listDeposits = depositsDao.consultDeposits(
 							paginationModal.getInicio(),
 							paginationModal.getRango(), consult, parameters);
