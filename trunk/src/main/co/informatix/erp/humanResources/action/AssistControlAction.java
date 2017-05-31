@@ -22,8 +22,8 @@ import org.richfaces.component.UIColumn;
 import org.richfaces.component.UIDataTable;
 
 import co.informatix.erp.humanResources.dao.AssistControlDao;
-import co.informatix.erp.humanResources.dao.HrDao;
 import co.informatix.erp.humanResources.dao.FoodControlDao;
+import co.informatix.erp.humanResources.dao.HrDao;
 import co.informatix.erp.humanResources.dao.NoveltyDao;
 import co.informatix.erp.humanResources.dao.NoveltyTypeDao;
 import co.informatix.erp.humanResources.entities.AssistControl;
@@ -579,6 +579,8 @@ public class AssistControlAction implements Serializable {
 	 * to construct messages displayed depending on the search criteria selected
 	 * by the user.
 	 * 
+	 * @modify 31/05/2017 Luna.Granados
+	 * 
 	 * @param consult
 	 *            : query to concatenate
 	 * @param parameters
@@ -618,18 +620,23 @@ public class AssistControlAction implements Serializable {
 			Date actualDate = new Date();
 			Date initialDateDefault = ControladorFechas
 					.diaInicialSemana(actualDate);
-			Date fianlDateDefault = ControladorFechas
+			Date finalDateDefault = ControladorFechas
 					.diaFinalSemana(actualDate);
-			consult.append("WHERE a.date >= :initialDateDefault AND a.date <= :fianlDateDefault ");
+			consult.append("WHERE a.date >= :initialDateDefault AND a.date <= :finalDateDefault ");
 			SelectItem item = new SelectItem(initialDateDefault,
 					"initialDateDefault");
 			parameters.add(item);
-			fianlDateDefault = ControladorFechas.finDeDia(fianlDateDefault);
-			SelectItem item2 = new SelectItem(fianlDateDefault,
-					"fianlDateDefault");
+			finalDateDefault = ControladorFechas.finDeDia(finalDateDefault);
+			SelectItem item2 = new SelectItem(finalDateDefault,
+					"finalDateDefault");
 			parameters.add(item2);
-			this.maxDate = fianlDateDefault;
+
+			this.maxDate = finalDateDefault;
 		}
+
+		consult.append(" AND a.hr.idHr in ");
+		consult.append("(SELECT idHr FROM Hr WHERE centralFacilitiesAccessEndDate is null OR "
+				+ "centralFacilitiesAccessEndDate > now()) ");
 	}
 
 	/**
