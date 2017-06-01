@@ -844,7 +844,6 @@ public class PlotAction implements Serializable {
 	 */
 	public void loadComboAndList() {
 		this.idSection = 0;
-//		this.pagination.setOpcion('f');
 		loadSection();
 		consultPlots();
 	}
