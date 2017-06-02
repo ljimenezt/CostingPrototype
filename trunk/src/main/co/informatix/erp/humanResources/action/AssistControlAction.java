@@ -943,6 +943,8 @@ public class AssistControlAction implements Serializable {
 	/**
 	 * This method allow consult the assist control information and generate the
 	 * report
+	 * 
+	 * @modify 01/06/2017 Luna.Granados
 	 */
 	public void generateReportAssitControl() {
 		ReportsController reportsController = ControladorContexto
@@ -960,7 +962,8 @@ public class AssistControlAction implements Serializable {
 				String fullName = ac.getHr().getName() + " "
 						+ ac.getHr().getFamilyName();
 				ac.getHr().setFullName(fullName);
-				dateAux = ac.getDate();
+				dateAux = ControladorFechas.formatearFecha(ac.getDate(),
+						Constantes.DATE_FORMAT_CONSULT);
 				assistControlMap.put(ac.getHr().getIdHr(), ac);
 				if (ac.isAbsent()) {
 					int idHr = ac.getHr().getIdHr();
@@ -971,6 +974,7 @@ public class AssistControlAction implements Serializable {
 					listNotAssist.add(ac);
 				}
 			}
+
 			if (dateAux.compareTo(maxDate) < 0) {
 				while (dateAux.compareTo(maxDate) != 0) {
 					dateAux = ControladorFechas.setDay(1, dateAux, true);
@@ -984,6 +988,11 @@ public class AssistControlAction implements Serializable {
 						listAc.add(ac);
 					}
 					listAssistControl.addAll(listAc);
+
+					dateAux = ControladorFechas.formatearFecha(dateAux,
+							Constantes.DATE_FORMAT_CONSULT);
+					maxDate = ControladorFechas.formatearFecha(maxDate,
+							Constantes.DATE_FORMAT_CONSULT);
 				}
 			}
 			Date maxDate = this.maxDate;
