@@ -53,6 +53,9 @@ public class InventoryControlAction implements Serializable {
 
 	private Date initialDate;
 	private Date finalDate;
+	private Date startDateReport;
+	private Date endDateReport;
+	private Date maxDateReport;
 
 	/**
 	 * @return listInventory: list of the inventory according with the deposit
@@ -174,6 +177,51 @@ public class InventoryControlAction implements Serializable {
 	 */
 	public void setFinalDate(Date finalDate) {
 		this.finalDate = finalDate;
+	}
+
+	/**
+	 * @return startDateReport: start date for generate report.
+	 */
+	public Date getStartDateReport() {
+		return startDateReport;
+	}
+
+	/**
+	 * @param startDateReport
+	 *            : start date for generate report.
+	 */
+	public void setStartDateReport(Date startDateReport) {
+		this.startDateReport = startDateReport;
+	}
+
+	/**
+	 * @return endDateReport: end date for generate report.
+	 */
+	public Date getEndDateReport() {
+		return endDateReport;
+	}
+
+	/**
+	 * @param endDateReport
+	 *            : end date for generate report.
+	 */
+	public void setEndDateReport(Date endDateReport) {
+		this.endDateReport = endDateReport;
+	}
+
+	/**
+	 * @return maxDateReport: max date for generate report.
+	 */
+	public Date getMaxDateReport() {
+		return maxDateReport;
+	}
+
+	/**
+	 * @param maxDateReport
+	 *            : max date for generate report.
+	 */
+	public void setMaxDateReport(Date maxDateReport) {
+		this.maxDateReport = maxDateReport;
 	}
 
 	/**
@@ -393,6 +441,8 @@ public class InventoryControlAction implements Serializable {
 	/**
 	 * This method allow consult the inventories information and generate the
 	 * report
+	 * 
+	 * @modify 02/06/2017 Fabian.Diaz
 	 */
 	public void generateReportInventory() {
 		ReportsController reportsController = ControladorContexto
@@ -402,9 +452,9 @@ public class InventoryControlAction implements Serializable {
 		reportAdvanceSearch(query, parameters);
 		try {
 			List<Date> listMonths = new ArrayList<Date>();
-			if (this.initialDate != null && this.finalDate != null) {
+			if (this.startDateReport != null && this.endDateReport != null) {
 				listMonths = ControladorFechas.getDatesBetweenTwoDates(
-						this.initialDate, this.finalDate);
+						this.startDateReport, this.endDateReport);
 			} else {
 				listMonths = depositsDao.consultMonths(query, parameters);
 			}
@@ -449,15 +499,15 @@ public class InventoryControlAction implements Serializable {
 				month = actualMonth;
 				year = actualYear;
 				count++;
-				if (this.initialDate != null) {
-					if (dateT.compareTo(this.initialDate) < 0) {
+				if (this.startDateReport != null) {
+					if (dateT.compareTo(this.startDateReport) < 0) {
 						totalInitialQuantity = actualQuantity;
 						object[2] = totalInitialQuantity;
 					}
 				}
 			}
 			reportsController.generateReportInventoryControl(listInventory,
-					listMonths, this.initialDate);
+					listMonths, this.startDateReport);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -466,6 +516,8 @@ public class InventoryControlAction implements Serializable {
 	/**
 	 * This method allow build the query to consult the information for the
 	 * report
+	 * 
+	 * @modify 01/06/2017 Fabian.Diaz
 	 * 
 	 * @param consult
 	 *            : query to concatenate.
@@ -485,10 +537,31 @@ public class InventoryControlAction implements Serializable {
 					"keyword2");
 			parameters.add(item);
 		}
-		if (this.finalDate != null) {
-			consult.append("AND t.date_time <= :keyword3 ");
-			SelectItem item = new SelectItem(this.finalDate, "keyword3");
+		if (this.startDateReport != null && this.endDateReport != null) {
+			consult.append("AND t.date_time >= :keyword4 AND t.date_time <= :keyword5 ");
+			SelectItem item = new SelectItem(this.startDateReport, "keyword4");
 			parameters.add(item);
+			SelectItem item2 = new SelectItem(this.endDateReport, "keyword5");
+			parameters.add(item2);
+		}
+	}
+
+	/**
+	 * This method allow calculate the max date for generate the report.
+	 * 
+	 * @author Fabian.Diaz
+	 */
+	public void calculateMaxDateForReport() {
+		try {
+			this.maxDateReport = ControladorFechas.sumarMeses(
+					this.startDateReport, Constantes.NUMBER_MONTHS_REPORT);
+			if (this.endDateReport != null
+					&& (this.endDateReport.before(this.startDateReport) || this.endDateReport
+							.after(this.maxDateReport))) {
+				this.endDateReport = null;
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 
