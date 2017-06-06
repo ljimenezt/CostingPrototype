@@ -57,6 +57,7 @@ public class FoodControlAction implements Serializable {
 	private Date initialDateSearch;
 	private Hr hrOther;
 	private String nameSearch;
+	private StringBuilder unionSearchMessages;
 	private StringBuilder consult;
 	private UIDataTable dataTable;
 	private UIColumnGroup dataHeader;
@@ -146,6 +147,21 @@ public class FoodControlAction implements Serializable {
 	 */
 	public void setNameSearch(String nameSearch) {
 		this.nameSearch = nameSearch;
+	}
+
+	/**
+	 * @return unionSearchMessages: message search in the advance consult
+	 */
+	public StringBuilder getUnionSearchMessages() {
+		return unionSearchMessages;
+	}
+
+	/**
+	 * @param unionSearchMessages
+	 *            :message search in the advance consult
+	 */
+	public void setUnionSearchMessages(StringBuilder unionSearchMessages) {
+		this.unionSearchMessages = unionSearchMessages;
 	}
 
 	/**
@@ -1015,6 +1031,7 @@ public class FoodControlAction implements Serializable {
 	 * report
 	 * 
 	 * @modify 27/03/2017 Claudia.Rey
+	 * @modify 05/06/2017 Fabian.Diaz
 	 */
 	public void generateReportAssitControl() {
 		ReportsController reportsController = ControladorContexto
@@ -1023,9 +1040,18 @@ public class FoodControlAction implements Serializable {
 				.getContextBean(AssistControlAction.class);
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleHr = ControladorContexto
+				.getBundle("messageHumanResources");
+		ValidacionesAction validate = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		unionSearchMessages = new StringBuilder();
+		String searchMessages = "";
 		try {
-			assistControlAction.advanceSearch(consult, parameters, null, null,
-					false);
+			assistControlAction.setInitialDateSearch(null);
+			assistControlAction.setFinalDateSearch(null);
+			assistControlAction.advanceSearch(consult, parameters, bundle,
+					unionSearchMessages, false);
 			List<FoodControl> listFoodControl = foodControlDao
 					.listHrOfFoodControl(0, consult, parameters);
 			if (listFoodControl != null && listFoodControl.size() > 0) {
@@ -1048,16 +1074,27 @@ public class FoodControlAction implements Serializable {
 			}
 			List<Date> listDate = assistControlDao.consultAssistControlDates(
 					consult, parameters, "FoodControl");
-			Long countD = 0L;
-			for (Date d : listDate) {
-				Date initialD = ControladorFechas.finDeDia(d);
-				Date finalD = ControladorFechas.inicioDeDia(d);
-				Long countW = foodControlDao.countDateFoodControl(initialD,
-						finalD);
-				countD += countW;
+			if ((listFoodControl == null || listFoodControl.size() <= 0)
+					|| (listDate == null || listDate.size() <= 0)) {
+				searchMessages = MessageFormat.format(
+						bundle.getString("message_no_existen_registros"),
+						bundleHr.getString("meal_control_label_s"),
+						unionSearchMessages);
+				validate.setMensajeBusqueda(searchMessages);
+			} else {
+				Long countD = 0L;
+				for (Date d : listDate) {
+					Date initialD = ControladorFechas.finDeDia(d);
+					Date finalD = ControladorFechas.inicioDeDia(d);
+					Long countW = foodControlDao.countDateFoodControl(initialD,
+							finalD);
+					countD += countW;
+				}
+				reportsController.generateReportFoodControl(listFoodControl,
+						countD);
 			}
-			reportsController
-					.generateReportFoodControl(listFoodControl, countD);
+			assistControlAction.setStartDateReport(null);
+			assistControlAction.setEndDateReport(null);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}

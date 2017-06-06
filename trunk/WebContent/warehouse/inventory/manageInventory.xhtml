@@ -73,18 +73,14 @@
 								<h:panelGrid id="pnlButtons" columns="2" cellpadding="0"
 									cellspacing="0">
 									<a:outputPanel id="outPanelExport">
-										<a:commandLink execute="@this" render="@form"
-											styleClass="quitarDecoracionLink"
-											actionListener="#{inventoryControlAction.generateReportInventory()}"
-											oncomplete="if (#{facesContext.maximumSeverity==null}) {document.getElementById('hrefDownload1').click();}">
+										<a:commandLink render="formReport:popupReport, mensajes"
+											oncomplete="#{rich:component('popupReport')}.show(); setFocusPopUp();"
+											styleClass="quitarDecoracionLink" execute="@this">
 											<h:panelGrid styleClass="tablaIconoTexto" columns="2">
 												<h:graphicImage value="/img/excel_16.png" />
 												<h:outputText value="#{mensaje.label_generated_report}" />
 											</h:panelGrid>
 										</a:commandLink>
-										<a id="hrefDownload1"
-											href="#{request.contextPath}#{reportsController.fileName}"
-											target="_blank" />
 									</a:outputPanel>
 									<a:outputPanel>
 										<ui:include src="/plantillas/plantillaBotonesListado.xhtml">
@@ -308,6 +304,58 @@
 						render="pnlInventory, mensajes, mensajeBusqueda" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
 						value="#{mensaje.button_cancel}" />
+				</div>
+			</rich:popupPanel>
+		</h:form>
+		<h:form id="formReport">
+			<rich:popupPanel id="popupReport" autosized="true" styleClass="W290P"
+				header="#{mensaje.label_generated_report}"
+				domElementAttachment="form">
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close_14.png"
+							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
+							onmouseout="this.src='#{request.contextPath}/img/close_14.png';"
+							onclick="#{rich:component('popupReport')}.hide()"
+							styleClass="cursor" />
+					</h:panelGroup>
+				</f:facet>
+				<rich:message id="messagePopUp" styleClass="messageBlock" />
+				<h:panelGrid columns="3" cellpadding="0" cellspacing="0">
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensaje.label_start_date}:" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar value="#{inventoryControlAction.startDateReport}"
+						showOn="button" navigator="true" id="startDate"
+						pattern="MM/dd/yyyy" required="true" maxdate="today()"
+						label="#{mensaje.label_start_date}">
+						<p:ajax event="dateSelect" update="endDate"
+							listener="#{inventoryControlAction.calculateMaxDateForReport()}" />
+					</p:calendar>
+
+					<h:outputText styleClass="etiquetaTitulo"
+						value="#{mensaje.label_end_date}:" />
+					<h:outputText value="*" styleClass="required" />
+					<p:calendar value="#{inventoryControlAction.endDateReport}"
+						showOn="button" navigator="true" required="true"
+						mindate="#{inventoryControlAction.startDateReport}" id="endDate"
+						pattern="MM/dd/yyyy"
+						maxdate="#{inventoryControlAction.maxDateReport}"
+						onkeypress="return submitByEnter(event,'formReport:btnReport')"
+						label="#{mensaje.label_end_date}"
+						disabled="#{inventoryControlAction.startDateReport eq null}" />
+				</h:panelGrid>
+				<br />
+				<div class="W100Per center inBlock">
+					<a:commandButton value="#{mensaje.button_accept}" id="btnReport"
+						execute="@form" render="@form"
+						actionListener="#{inventoryControlAction.generateReportInventory()}"
+						oncomplete="if(#{facesContext.maximumSeverity==null}) {document.getElementById('hrefDownload1').click();}" />
+					<a:commandButton onclick="#{rich:component('popupReport')}.hide()"
+						value="#{mensaje.button_cancel}" />
+					<a id="hrefDownload1"
+						href="#{request.contextPath}#{reportsController.fileName}"
+						target="_blank" />
 				</div>
 			</rich:popupPanel>
 		</h:form>

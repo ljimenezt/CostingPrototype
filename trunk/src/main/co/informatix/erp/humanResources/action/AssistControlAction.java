@@ -59,6 +59,9 @@ public class AssistControlAction implements Serializable {
 	private Date initialDateSearch;
 	private Date finalDateSearch;
 	private Date maxDate;
+	private Date startDateReport;
+	private Date endDateReport;
+	private Date maxDateReport;
 	private StringBuilder unionSearchMessages;
 	private List<SelectItem> itemsNoveltyType;
 	private List<Hr> hrList;
@@ -139,6 +142,51 @@ public class AssistControlAction implements Serializable {
 	 */
 	public void setFinalDateSearch(Date finalDateSearch) {
 		this.finalDateSearch = finalDateSearch;
+	}
+
+	/**
+	 * @return startDateReport: start date for generate report.
+	 */
+	public Date getStartDateReport() {
+		return startDateReport;
+	}
+
+	/**
+	 * @param startDateReport
+	 *            : start date for generate report.
+	 */
+	public void setStartDateReport(Date startDateReport) {
+		this.startDateReport = startDateReport;
+	}
+
+	/**
+	 * @return endDateReport: end date for generate report.
+	 */
+	public Date getEndDateReport() {
+		return endDateReport;
+	}
+
+	/**
+	 * @param endDateReport
+	 *            : end date for generate report.
+	 */
+	public void setEndDateReport(Date endDateReport) {
+		this.endDateReport = endDateReport;
+	}
+
+	/**
+	 * @return maxDateReport: max date for generate report.
+	 */
+	public Date getMaxDateReport() {
+		return maxDateReport;
+	}
+
+	/**
+	 * @param maxDateReport
+	 *            : max date for generate report.
+	 */
+	public void setMaxDateReport(Date maxDateReport) {
+		this.maxDateReport = maxDateReport;
 	}
 
 	/**
@@ -616,6 +664,20 @@ public class AssistControlAction implements Serializable {
 						+ format.format(finalDateSearch) + '"';
 				unionMessagesSearch.append(dateTo);
 			}
+		} else if (this.startDateReport != null && this.endDateReport != null) {
+			consult.append("WHERE a.date >= :startDateReport AND a.date <= :endDateReport ");
+			SelectItem item = new SelectItem(startDateReport, "startDateReport");
+			parameters.add(item);
+			SelectItem item2 = new SelectItem(endDateReport, "endDateReport");
+			parameters.add(item2);
+			if (!flag) {
+				String dateFrom = bundle.getString("label_start_date") + ": "
+						+ '"' + format.format(startDateReport) + '"' + " ";
+				unionMessagesSearch.append(dateFrom);
+				String dateTo = bundle.getString("label_end_date") + ": " + '"'
+						+ format.format(endDateReport) + '"';
+				unionMessagesSearch.append(dateTo);
+			}
 		} else {
 			Date actualDate = new Date();
 			Date initialDateDefault = ControladorFechas
@@ -945,64 +1007,104 @@ public class AssistControlAction implements Serializable {
 	 * report
 	 * 
 	 * @modify 01/06/2017 Luna.Granados
+	 * @modify 06/06/2017 Fabian.Diaz
 	 */
 	public void generateReportAssitControl() {
 		ReportsController reportsController = ControladorContexto
 				.getContextBean(ReportsController.class);
 		List<SelectItem> parameters = new ArrayList<SelectItem>();
 		StringBuilder consult = new StringBuilder();
+		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
+		ResourceBundle bundleHr = ControladorContexto
+				.getBundle("messageHumanResources");
+		ValidacionesAction validate = ControladorContexto
+				.getContextBean(ValidacionesAction.class);
+		unionSearchMessages = new StringBuilder();
+		String searchMessages = "";
 		HashMap<Integer, AssistControl> assistControlMap = new HashMap<Integer, AssistControl>();
 		List<AssistControl> listNotAssist = new ArrayList<AssistControl>();
 		Date dateAux = new Date();
 		try {
-			advanceSearch(consult, parameters, null, null, false);
+			setInitialDateSearch(null);
+			setFinalDateSearch(null);
+			advanceSearch(consult, parameters, bundle, unionSearchMessages,
+					false);
 			List<AssistControl> listAssistControl = assistControlDao
 					.listHrOfAssistControl(0, consult, parameters);
-			for (AssistControl ac : listAssistControl) {
-				String fullName = ac.getHr().getName() + " "
-						+ ac.getHr().getFamilyName();
-				ac.getHr().setFullName(fullName);
-				dateAux = ControladorFechas.formatearFecha(ac.getDate(),
-						Constantes.DATE_FORMAT_CONSULT);
-				assistControlMap.put(ac.getHr().getIdHr(), ac);
-				if (ac.isAbsent()) {
-					int idHr = ac.getHr().getIdHr();
-					Date date = ControladorFechas.formatearFecha(ac.getDate(),
+			if (listAssistControl == null || listAssistControl.size() <= 0) {
+				searchMessages = MessageFormat.format(
+						bundle.getString("message_no_existen_registros"),
+						bundleHr.getString("meal_control_label_s"),
+						unionSearchMessages);
+				validate.setMensajeBusqueda(searchMessages);
+			} else {
+				for (AssistControl ac : listAssistControl) {
+					String fullName = ac.getHr().getName() + " "
+							+ ac.getHr().getFamilyName();
+					ac.getHr().setFullName(fullName);
+					dateAux = ControladorFechas.formatearFecha(ac.getDate(),
 							Constantes.DATE_FORMAT_CONSULT);
-					Novelty novelty = noveltyDao.noveltyByHrAndDate(idHr, date);
-					ac.setNovelty(novelty);
-					listNotAssist.add(ac);
-				}
-			}
-
-			if (dateAux.compareTo(maxDate) < 0) {
-				while (dateAux.compareTo(maxDate) != 0) {
-					dateAux = ControladorFechas.setDay(1, dateAux, true);
-					List<AssistControl> listAc = new ArrayList<AssistControl>();
-					for (AssistControl value : assistControlMap.values()) {
-						AssistControl ac = value.clone();
-						ac.setDate(dateAux);
-						if (!ac.isAbsent()) {
-							ac.setId(0);
-						}
-						listAc.add(ac);
+					assistControlMap.put(ac.getHr().getIdHr(), ac);
+					if (ac.isAbsent()) {
+						int idHr = ac.getHr().getIdHr();
+						Date date = ControladorFechas.formatearFecha(
+								ac.getDate(), Constantes.DATE_FORMAT_CONSULT);
+						Novelty novelty = noveltyDao.noveltyByHrAndDate(idHr,
+								date);
+						ac.setNovelty(novelty);
+						listNotAssist.add(ac);
 					}
-					listAssistControl.addAll(listAc);
-
-					dateAux = ControladorFechas.formatearFecha(dateAux,
-							Constantes.DATE_FORMAT_CONSULT);
-					maxDate = ControladorFechas.formatearFecha(maxDate,
-							Constantes.DATE_FORMAT_CONSULT);
 				}
+				this.maxDate = this.endDateReport;
+				if (dateAux.compareTo(maxDate) < 0) {
+					while (dateAux.compareTo(maxDate) != 0) {
+						dateAux = ControladorFechas.setDay(1, dateAux, true);
+						List<AssistControl> listAc = new ArrayList<AssistControl>();
+						for (AssistControl value : assistControlMap.values()) {
+							AssistControl ac = value.clone();
+							ac.setDate(dateAux);
+							if (!ac.isAbsent()) {
+								ac.setId(0);
+							}
+							listAc.add(ac);
+						}
+						listAssistControl.addAll(listAc);
+
+						dateAux = ControladorFechas.formatearFecha(dateAux,
+								Constantes.DATE_FORMAT_CONSULT);
+						maxDate = ControladorFechas.formatearFecha(maxDate,
+								Constantes.DATE_FORMAT_CONSULT);
+					}
+				}
+				Date maxDate = this.maxDate;
+				maxDate = ControladorFechas.formatearFecha(maxDate,
+						Constantes.DATE_FORMAT_CONSULT);
+				reportsController.generateReportAttendance(listAssistControl,
+						listNotAssist, maxDate);
 			}
-			Date maxDate = this.maxDate;
-			maxDate = ControladorFechas.formatearFecha(maxDate,
-					Constantes.DATE_FORMAT_CONSULT);
-			reportsController.generateReportAttendance(listAssistControl,
-					listNotAssist, maxDate);
+			setStartDateReport(null);
+			setEndDateReport(null);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
 	}
 
+	/**
+	 * This method allow calculate the max date for generate the report.
+	 * 
+	 * @author Fabian.Diaz
+	 */
+	public void calculateMaxDateForReport() {
+		try {
+			this.maxDateReport = ControladorFechas.sumarDias(
+					this.startDateReport, 15);
+			if (this.endDateReport != null
+					&& (this.endDateReport.before(this.startDateReport) || this.endDateReport
+							.after(this.maxDateReport))) {
+				this.endDateReport = null;
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
+		}
+	}
 }
