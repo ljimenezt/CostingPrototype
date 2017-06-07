@@ -42,6 +42,7 @@ public class PlotDao implements Serializable {
 	 * filtering the information sent search values.
 	 * 
 	 * @modify 29/08/2016 Wilhelm.Boada
+	 * @modify 07/06/2017 Liseth.Jimenez
 	 * 
 	 * @param start
 	 *            :where he started the consultation record.
@@ -61,7 +62,7 @@ public class PlotDao implements Serializable {
 		query.append("SELECT p FROM  Plot p ");
 		query.append("JOIN FETCH p.cropNames cn ");
 		query.append(consult);
-		query.append("ORDER BY p.name ");
+		query.append("ORDER BY CAST(p.name AS integer) ");
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parameter : parameters) {
 			q.setParameter(parameter.getLabel(), parameter.getValue());
@@ -225,7 +226,7 @@ public class PlotDao implements Serializable {
 	 *            : consult parameters.
 	 * @param guarded
 	 *            : flag that indicate when a plot is selected.
-	 *             
+	 * 
 	 * @return List<Plot>: Plot list that are available for the date range
 	 *         selected by the user
 	 * @throws Exception
