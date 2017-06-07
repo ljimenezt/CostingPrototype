@@ -606,6 +606,7 @@ public class PlotAction implements Serializable {
 	 * 
 	 * @modify 14/03/2016 Jhair.Leal
 	 * @modify 29/08/2016 Wilhelm.Boada
+	 * @modify 07/06/2017 Liseth.Jimenez
 	 * 
 	 * @param context
 	 *            : application context.
@@ -631,8 +632,8 @@ public class PlotAction implements Serializable {
 								.getString(messageExistence), null));
 				((UIInput) toValidate).setValid(false);
 			}
-			if (!EncodeFilter.validarXSS(name, clientId,
-					"locate.regex.letras.numeros")) {
+			if (!EncodeFilter
+					.validarXSS(name, clientId, "locate.regex.numeros")) {
 				((UIInput) toValidate).setValid(false);
 			}
 		} catch (Exception e) {
