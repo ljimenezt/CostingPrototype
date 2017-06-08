@@ -128,8 +128,6 @@ public class ActivityPlotDao implements Serializable {
 	/**
 	 * Consult all the plots associated to activity.
 	 * 
-	 * @modify 087/06/2017 Liseth.Jimenez
-	 * 
 	 * @param idActivity
 	 *            : Identifier Activity.
 	 * @return List<ActivityPlot>: List the relations between activities and
@@ -145,7 +143,6 @@ public class ActivityPlotDao implements Serializable {
 		queryBuilder.append("JOIN FETCH a.activityName an ");
 		queryBuilder.append("JOIN FETCH ap.activityPlotPK.plot p ");
 		queryBuilder.append("WHERE a.idActivity = :idActivity");
-		queryBuilder.append("ORDER BY CAST(p.name AS integer) ASC ");
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		queryResult.setParameter("idActivity", idActivity);
 		List<ActivityPlot> resultList = queryResult.getResultList();
