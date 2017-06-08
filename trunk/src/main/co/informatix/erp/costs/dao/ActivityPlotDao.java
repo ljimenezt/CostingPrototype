@@ -87,6 +87,8 @@ public class ActivityPlotDao implements Serializable {
 	 * a certain range as a parameter and filtering information search for the
 	 * values sent.
 	 * 
+	 * @modify 087/06/2017 Liseth.Jimenez
+	 * 
 	 * @param start
 	 *            : The first record that is retrieved from the result.
 	 * @param range
@@ -109,6 +111,7 @@ public class ActivityPlotDao implements Serializable {
 		queryBuilder.append("JOIN FETCH a.activityName an ");
 		queryBuilder.append("JOIN FETCH ap.activityPlotPK.plot p ");
 		queryBuilder.append(query);
+		queryBuilder.append(" ORDER BY CAST(p.name AS integer) ASC ");
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		for (SelectItem parameter : parameters) {
 			queryResult
@@ -125,6 +128,8 @@ public class ActivityPlotDao implements Serializable {
 	/**
 	 * Consult all the plots associated to activity.
 	 * 
+	 * @modify 087/06/2017 Liseth.Jimenez
+	 * 
 	 * @param idActivity
 	 *            : Identifier Activity.
 	 * @return List<ActivityPlot>: List the relations between activities and
@@ -140,6 +145,7 @@ public class ActivityPlotDao implements Serializable {
 		queryBuilder.append("JOIN FETCH a.activityName an ");
 		queryBuilder.append("JOIN FETCH ap.activityPlotPK.plot p ");
 		queryBuilder.append("WHERE a.idActivity = :idActivity");
+		queryBuilder.append("ORDER BY CAST(p.name AS integer) ASC ");
 		Query queryResult = em.createQuery(queryBuilder.toString());
 		queryResult.setParameter("idActivity", idActivity);
 		List<ActivityPlot> resultList = queryResult.getResultList();
