@@ -680,6 +680,7 @@ public class CropActivitiesAction implements Serializable {
 	 * Consult the list of activities crops
 	 * 
 	 * @modify 09/03/2016 Mabell.Boada
+	 * @modify 09/06/2017 Claudia.Rey
 	 */
 	public void consultActivityNamesXCrops() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
@@ -698,6 +699,7 @@ public class CropActivitiesAction implements Serializable {
 					parameters);
 			if (amount != null) {
 				pagination.paginarRangoDefinido(amount, 5);
+				pagination.setOpcion('f');
 			}
 			listActivityNames = activityNamesDao.queryActivityNamesXIdCrop(
 					pagination.getInicio(), pagination.getRango(), consult,
@@ -745,7 +747,6 @@ public class CropActivitiesAction implements Serializable {
 	 * to display build depending on the search criteria selected by the user.
 	 * 
 	 * @modify 16/05/2017 Liseth.Jimenez
-     * @modify 09/06/2017 Claudia.Rey
 	 * 
 	 * @param consult
 	 *            : query to concatenate.
@@ -760,7 +761,7 @@ public class CropActivitiesAction implements Serializable {
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append(" AND UPPER(an.activityName) LIKE UPPER(:keyword) ");//TODO arreglar esta consulta se pega un where
+			consult.append(" WHERE UPPER(an.activityName) LIKE UPPER(:keyword) ");
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);

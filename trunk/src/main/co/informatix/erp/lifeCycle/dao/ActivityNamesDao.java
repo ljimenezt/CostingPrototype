@@ -237,7 +237,6 @@ public class ActivityNamesDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT an FROM  ActivityNames an ");
-		query.append("WHERE an.cycle IS FALSE ");
 		query.append(consult);
 		query.append("ORDER BY an.activityName ");
 		Query q = em.createQuery(query.toString());
@@ -257,6 +256,7 @@ public class ActivityNamesDao implements Serializable {
 	 * according to filtering search values.
 	 * 
 	 * @author Andres.Gomez
+	 * @modify 09/06/2017 Claudia.Rey
 	 * 
 	 * @param consult
 	 *            : String containing the query with properties that are going
@@ -270,7 +270,6 @@ public class ActivityNamesDao implements Serializable {
 			List<SelectItem> parameters) throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT COUNT(an) FROM  ActivityNames an ");
-		query.append("WHERE an.cycle IS FALSE ");
 		query.append(consult);
 		Query q = em.createQuery(query.toString());
 		for (SelectItem parametro : parameters) {
