@@ -745,6 +745,7 @@ public class CropActivitiesAction implements Serializable {
 	 * to display build depending on the search criteria selected by the user.
 	 * 
 	 * @modify 16/05/2017 Liseth.Jimenez
+     * @modify 09/06/2017 Claudia.Rey
 	 * 
 	 * @param consult
 	 *            : query to concatenate.
@@ -759,7 +760,7 @@ public class CropActivitiesAction implements Serializable {
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 		if (this.nameSearch != null && !"".equals(this.nameSearch)) {
-			consult.append(" WHERE UPPER(an.activityName) LIKE UPPER(:keyword) ");
+			consult.append(" AND UPPER(an.activityName) LIKE UPPER(:keyword) ");//TODO arreglar esta consulta se pega un where
 			SelectItem item = new SelectItem("%" + this.nameSearch + "%",
 					"keyword");
 			parameters.add(item);

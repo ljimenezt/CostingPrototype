@@ -218,6 +218,7 @@ public class ActivityNamesDao implements Serializable {
 	 * 
 	 * @author Andres.Gomez
 	 * @modify 16/05/2017 Liseth.Jimenez
+	 * @modify 09/06/2017 Claudia.Rey
 	 * 
 	 * @param start
 	 *            : The initial record the query retrieves.
@@ -236,6 +237,7 @@ public class ActivityNamesDao implements Serializable {
 			throws Exception {
 		StringBuilder query = new StringBuilder();
 		query.append("SELECT an FROM  ActivityNames an ");
+		query.append("WHERE an.cycle IS FALSE ");
 		query.append(consult);
 		query.append("ORDER BY an.activityName ");
 		Query q = em.createQuery(query.toString());
