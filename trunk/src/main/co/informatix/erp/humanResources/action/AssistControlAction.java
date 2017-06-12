@@ -629,6 +629,7 @@ public class AssistControlAction implements Serializable {
 	 * by the user.
 	 * 
 	 * @modify 31/05/2017 Luna.Granados
+	 * @modify 06/06/2017 Fabian.Diaz
 	 * 
 	 * @param consult
 	 *            : query to concatenate
