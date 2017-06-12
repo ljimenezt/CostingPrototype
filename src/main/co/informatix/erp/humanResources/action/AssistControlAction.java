@@ -345,12 +345,13 @@ public class AssistControlAction implements Serializable {
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
+	 * @modify 07/06/2017 Fabian.Diaz
+	 * 
 	 * @return consultAssistControl: Method that consultation attendance list
 	 *         and load the template with the information found.
 	 */
 	public String initializeAttendance() {
-		this.initialDateSearch = null;
-		this.finalDateSearch = null;
+		cleanDates();
 		this.source = true;
 		pagination = new Paginador();
 		return consultAssistControl();
@@ -1082,8 +1083,7 @@ public class AssistControlAction implements Serializable {
 				reportsController.generateReportAttendance(listAssistControl,
 						listNotAssist, maxDate);
 			}
-			setStartDateReport(null);
-			setEndDateReport(null);
+			cleanDates();
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -1096,15 +1096,40 @@ public class AssistControlAction implements Serializable {
 	 */
 	public void calculateMaxDateForReport() {
 		try {
-			this.maxDateReport = ControladorFechas.sumarDias(
-					this.startDateReport, 15);
-			if (this.endDateReport != null
-					&& (this.endDateReport.before(this.startDateReport) || this.endDateReport
-							.after(this.maxDateReport))) {
-				this.endDateReport = null;
+			this.maxDateReport = null;
+			if (this.startDateReport != null) {
+				this.maxDateReport = ControladorFechas.sumarDias(
+						this.startDateReport, 15);
+				if (this.endDateReport != null
+						&& (this.endDateReport.before(this.startDateReport) || this.endDateReport
+								.after(this.maxDateReport))) {
+					this.endDateReport = null;
+				}
+			}
+			if (this.initialDateSearch != null) {
+				this.maxDateReport = ControladorFechas.sumarDias(
+						this.initialDateSearch, 15);
+				if (this.finalDateSearch != null
+						&& (this.finalDateSearch.before(this.initialDateSearch) || this.finalDateSearch
+								.after(this.maxDateReport))) {
+					this.finalDateSearch = null;
+				}
 			}
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
+	}
+
+	/**
+	 * This method allow clean the dates for generate the report and also for do
+	 * a search.
+	 * 
+	 * @author Fabian.Diaz
+	 */
+	public void cleanDates() {
+		this.initialDateSearch = null;
+		this.finalDateSearch = null;
+		this.startDateReport = null;
+		this.endDateReport = null;
 	}
 }

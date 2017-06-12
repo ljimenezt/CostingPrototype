@@ -150,9 +150,10 @@
 						<h:outputText value="" />
 						<p:calendar value="#{assistControlAction.initialDateSearch}"
 							showOn="button" navigator="true" id="fechaInicio"
-							pattern="MM/dd/yyyy" readonlyInput="true" maxdate="Today();"
+							pattern="MM/dd/yyyy" required="true" maxdate="Today();"
 							label="#{mensaje.label_start_date}">
-							<p:ajax event="dateSelect" update="fechas" />
+							<p:ajax event="dateSelect" update="fechFin"
+								listener="#{assistControlAction.calculateMaxDateForReport()}" />
 						</p:calendar>
 						<rich:message for="fechaInicio" />
 
@@ -164,12 +165,12 @@
 							rendered="#{assistControlAction.initialDateSearch ne null}" />
 						<p:calendar value="#{assistControlAction.finalDateSearch}"
 							showOn="button" navigator="true" required="true"
-							disabled="#{assistControlAction.initialDateSearch eq null}"
 							mindate="#{assistControlAction.initialDateSearch}" id="fechFin"
-							pattern="MM/dd/yyyy" readonlyInput="true" maxdate="Today();"
+							pattern="MM/dd/yyyy" readonlyInput="true"
+							maxdate="#{assistControlAction.maxDateReport}"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
-							label="#{mensaje.label_end_date}">
-						</p:calendar>
+							label="#{mensaje.label_end_date}"
+							disabled="#{assistControlAction.initialDateSearch eq null}" />
 						<rich:message for="fechFin" />
 					</h:panelGrid>
 				</a:outputPanel>
@@ -181,7 +182,9 @@
 						render="formMealControl, mensajes, mensajeBusqueda">
 					</a:commandButton>
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancel}" />
+						value="#{mensaje.button_cancel}">
+						<a:ajax listener="#{assistControlAction.cleanDates()}" />
+					</a:commandButton>
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -189,6 +192,9 @@
 			<rich:popupPanel id="popupReport" autosized="true" styleClass="W290P"
 				header="#{mensaje.label_generated_report}"
 				domElementAttachment="form">
+				<script type="text/javascript">
+					$g = jQuery.noConflict();
+    			</script>
 				<f:facet name="controls">
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
@@ -206,7 +212,7 @@
 					<p:calendar value="#{assistControlAction.startDateReport}"
 						showOn="button" navigator="true" id="startDate"
 						pattern="MM/dd/yyyy" required="true" maxdate="today()"
-						label="#{mensaje.label_start_date}">
+						label="#{mensaje.label_start_date}" readonlyInput="true">
 						<p:ajax event="dateSelect" update="endDate"
 							listener="#{assistControlAction.calculateMaxDateForReport()}" />
 					</p:calendar>
@@ -217,7 +223,7 @@
 					<p:calendar value="#{assistControlAction.endDateReport}"
 						showOn="button" navigator="true" required="true"
 						mindate="#{assistControlAction.startDateReport}" id="endDate"
-						pattern="MM/dd/yyyy"
+						pattern="MM/dd/yyyy" readonlyInput="true"
 						maxdate="#{assistControlAction.maxDateReport}"
 						onkeypress="return submitByEnter(event,'formReport:btnReport')"
 						label="#{mensaje.label_end_date}"
@@ -230,7 +236,9 @@
 						actionListener="#{foodControlAction.generateReportAssitControl()}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {document.getElementById('hrefDownload1').click();}" />
 					<a:commandButton onclick="#{rich:component('popupReport')}.hide()"
-						value="#{mensaje.button_cancel}" />
+						value="#{mensaje.button_cancel}">
+						<a:ajax listener="#{assistControlAction.cleanDates()}" />
+					</a:commandButton>
 					<c:choose>
 						<c:when test="#{reportsController.fileName ne null}">
 							<a id="hrefDownload1"
