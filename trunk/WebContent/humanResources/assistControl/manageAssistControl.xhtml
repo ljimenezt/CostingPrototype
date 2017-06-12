@@ -123,9 +123,10 @@
 						<h:outputText value="" />
 						<p:calendar value="#{assistControlAction.initialDateSearch}"
 							showOn="button" navigator="true" id="fechaInicio"
-							pattern="MM/dd/yyyy" readonlyInput="true" maxdate="Today();"
+							pattern="MM/dd/yyyy" required="true" maxdate="Today()"
 							label="#{mensaje.label_start_date}">
-							<p:ajax event="dateSelect" update="fechas" />
+							<p:ajax event="dateSelect" update="fechFin"
+								listener="#{assistControlAction.calculateMaxDateForReport()}" />
 						</p:calendar>
 						<rich:message for="fechaInicio" />
 
@@ -137,12 +138,12 @@
 							rendered="#{assistControlAction.initialDateSearch ne null}" />
 						<p:calendar value="#{assistControlAction.finalDateSearch}"
 							showOn="button" navigator="true" required="true"
-							disabled="#{assistControlAction.initialDateSearch eq null}"
 							mindate="#{assistControlAction.initialDateSearch}" id="fechFin"
-							pattern="MM/dd/yyyy" readonlyInput="true" maxdate="Today();"
+							pattern="MM/dd/yyyy"
+							maxdate="#{assistControlAction.maxDateReport}"
 							onkeypress="return submitByEnter(event,'formBuscar:btnBuscar')"
-							label="#{mensaje.label_end_date}">
-						</p:calendar>
+							label="#{mensaje.label_end_date}"
+							disabled="#{assistControlAction.initialDateSearch eq null}" />
 						<rich:message for="fechFin" />
 					</h:panelGrid>
 				</a:outputPanel>
@@ -154,7 +155,9 @@
 						action="#{assistControlAction.consultAssistControl()}"
 						oncomplete="if (#{facesContext.maximumSeverity==null}) {#{rich:component('popupBuscar')}.hide();}" />
 					<a:commandButton onclick="#{rich:component('popupBuscar')}.hide()"
-						value="#{mensaje.button_cancel}" />
+						value="#{mensaje.button_cancel}">
+						<a:ajax listener="#{assistControlAction.cleanDates()}" />
+					</a:commandButton>
 				</div>
 			</rich:popupPanel>
 		</h:form>
@@ -163,6 +166,9 @@
 				header="#{mensaje.label_generated_report}"
 				domElementAttachment="form">
 				<f:facet name="controls">
+					<script type="text/javascript">
+						$g = jQuery.noConflict();
+					</script>
 					<h:panelGroup>
 						<h:graphicImage value="/img/close_14.png"
 							onmouseover="this.src='#{request.contextPath}/img/closeHover_14.png';"
@@ -203,7 +209,9 @@
 						actionListener="#{assistControlAction.generateReportAssitControl()}"
 						oncomplete="if(#{facesContext.maximumSeverity==null}) {document.getElementById('hrefDownload1').click();}" />
 					<a:commandButton onclick="#{rich:component('popupReport')}.hide()"
-						value="#{mensaje.button_cancel}" />
+						value="#{mensaje.button_cancel}">
+						<a:ajax listener="#{assistControlAction.cleanDates()}" />
+					</a:commandButton>
 					<c:choose>
 						<c:when test="#{reportsController.fileName ne null}">
 							<a id="hrefDownload1"

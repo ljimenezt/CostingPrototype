@@ -50,6 +50,9 @@ public class PluviometerAction implements Serializable {
 	private Date initialDateSearch;
 	private Date finalDateSearch;
 	private Date maxDate;
+	private Date startDateReport;
+	private Date endDateReport;
+	private Date maxDateReport;
 	private List<PluviometerPojo> pluviometerPojoList;
 	private List<PluviometerPojo> pluviometerPojoSubList;
 	private List<Integer> readingList;
@@ -150,6 +153,51 @@ public class PluviometerAction implements Serializable {
 	}
 
 	/**
+	 * @return startDateReport: start date for generate report.
+	 */
+	public Date getStartDateReport() {
+		return startDateReport;
+	}
+
+	/**
+	 * @param startDateReport
+	 *            : start date for generate report.
+	 */
+	public void setStartDateReport(Date startDateReport) {
+		this.startDateReport = startDateReport;
+	}
+
+	/**
+	 * @return endDateReport: end date for generate report.
+	 */
+	public Date getEndDateReport() {
+		return endDateReport;
+	}
+
+	/**
+	 * @param endDateReport
+	 *            : end date for generate report.
+	 */
+	public void setEndDateReport(Date endDateReport) {
+		this.endDateReport = endDateReport;
+	}
+
+	/**
+	 * @return maxDateReport: max date for generate report.
+	 */
+	public Date getMaxDateReport() {
+		return maxDateReport;
+	}
+
+	/**
+	 * @param maxDateReport
+	 *            : max date for generate report.
+	 */
+	public void setMaxDateReport(Date maxDateReport) {
+		this.maxDateReport = maxDateReport;
+	}
+
+	/**
 	 * @return pluviometerPojoList : pluviometerPojo list containing dates
 	 *         introduced grouped by weeks.
 	 */
@@ -202,6 +250,8 @@ public class PluviometerAction implements Serializable {
 	/**
 	 * Method to initialize the fields in the search.
 	 * 
+	 * @modify 09/06/2017 Fabian.Diaz
+	 * 
 	 * @return consultPluviometer: Method that consultation rain gauge readings
 	 *         and load the template with the information found.
 	 */
@@ -211,7 +261,7 @@ public class PluviometerAction implements Serializable {
 		this.finalDateSearch = null;
 		pagination = new Paginador();
 		pluviometerPojo = null;
-		return consultPluviometer();
+		return viewPluviometer();
 	}
 
 	/**
@@ -232,12 +282,24 @@ public class PluviometerAction implements Serializable {
 	}
 
 	/**
-	 * See the existing rain gauge readings list.
+	 * Method for consult the list of rain gauge and show the view of manage.
+	 * 
+	 * @author Fabian.Diaz
 	 * 
 	 * @return gesPluviometer: Navigation rule that redirects to manage the rain
 	 *         gauge reading.
 	 */
-	public String consultPluviometer() {
+	public String viewPluviometer() {
+		consultPluviometer();
+		return "gesPluviometer";
+	}
+
+	/**
+	 * See the existing rain gauge readings list.
+	 * 
+	 * @modify 09/06/2017 Fabian.Diaz
+	 */
+	private void consultPluviometer() {
 		ResourceBundle bundle = ControladorContexto.getBundle("mensaje");
 		ResourceBundle bundleLifeCycle = ControladorContexto
 				.getBundle("messageLifeCycle");
@@ -313,13 +375,14 @@ public class PluviometerAction implements Serializable {
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
-		return "gesPluviometer";
 	}
 
 	/**
 	 * This method builds a query with advanced search; it also render the
 	 * messages to be displayed depending on the search criteria selected by the
 	 * user.
+	 * 
+	 * @modify 09/06/2017 Fabian.Diaz
 	 * 
 	 * @param consult
 	 *            : Query to concatenate.
@@ -334,42 +397,76 @@ public class PluviometerAction implements Serializable {
 			List<SelectItem> parameters, ResourceBundle bundle,
 			StringBuilder unionMessagesSearch) {
 
-		consult.append("WHERE p.dateRecord BETWEEN :initialDateSearch AND :finalDateSearch ");
-
-		if (this.initialDateSearch != null) {
-			Date date = ControladorFechas.diaInicialSemana(initialDateSearch);
-			SelectItem item = new SelectItem(date, "initialDateSearch");
-			parameters.add(item);
-			String dateFrom = bundle.getString("label_start_date")
-					+ ": "
-					+ '"'
-					+ ControladorFechas.formatDate(date,
-							Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"' + " ";
-			unionMessagesSearch.append(dateFrom);
-		} else {
-			Date date = new Date();
-			if (this.finalDateSearch != null) {
-				date = ControladorFechas.diaInicialSemana(finalDateSearch);
+		if (this.startDateReport != null && this.endDateReport != null) {
+			consult.append("WHERE p.dateRecord BETWEEN :startDateReport AND :endDateReport ");
+			if (this.startDateReport != null) {
+				Date date = ControladorFechas.diaInicialSemana(startDateReport);
+				SelectItem item = new SelectItem(date, "startDateReport");
+				parameters.add(item);
+				String dateFrom = bundle.getString("label_start_date")
+						+ ": "
+						+ '"'
+						+ ControladorFechas.formatDate(date,
+								Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"'
+						+ " ";
+				unionMessagesSearch.append(dateFrom);
 			}
-			date = calculateRangeDate(date, false);
-			SelectItem item = new SelectItem(date, "initialDateSearch");
-			parameters.add(item);
-		}
-		if (this.finalDateSearch != null) {
-			Date date = ControladorFechas.diaFinalSemana(finalDateSearch);
-			year = ControladorFechas.getYear(ControladorFechas
-					.diaInicialSemana(finalDateSearch));
-			SelectItem item2 = new SelectItem(date, "finalDateSearch");
-			parameters.add(item2);
-			String dateTo = bundle.getString("label_end_date")
-					+ ": "
-					+ '"'
-					+ ControladorFechas.formatDate(date,
-							Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"' + " ";
-			unionMessagesSearch.append(dateTo);
+			if (this.endDateReport != null) {
+				Date date = ControladorFechas.diaFinalSemana(endDateReport);
+				year = ControladorFechas.getYear(ControladorFechas
+						.diaInicialSemana(endDateReport));
+				SelectItem item2 = new SelectItem(date, "endDateReport");
+				parameters.add(item2);
+				String dateTo = bundle.getString("label_end_date")
+						+ ": "
+						+ '"'
+						+ ControladorFechas.formatDate(date,
+								Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"'
+						+ " ";
+				unionMessagesSearch.append(dateTo);
+			}
 		} else {
-			SelectItem item2 = new SelectItem(maxDate, "finalDateSearch");
-			parameters.add(item2);
+
+			consult.append("WHERE p.dateRecord BETWEEN :initialDateSearch AND :finalDateSearch ");
+
+			if (this.initialDateSearch != null) {
+				Date date = ControladorFechas
+						.diaInicialSemana(initialDateSearch);
+				SelectItem item = new SelectItem(date, "initialDateSearch");
+				parameters.add(item);
+				String dateFrom = bundle.getString("label_start_date")
+						+ ": "
+						+ '"'
+						+ ControladorFechas.formatDate(date,
+								Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"'
+						+ " ";
+				unionMessagesSearch.append(dateFrom);
+			} else {
+				Date date = new Date();
+				if (this.finalDateSearch != null) {
+					date = ControladorFechas.diaInicialSemana(finalDateSearch);
+				}
+				date = calculateRangeDate(date, false);
+				SelectItem item = new SelectItem(date, "initialDateSearch");
+				parameters.add(item);
+			}
+			if (this.finalDateSearch != null) {
+				Date date = ControladorFechas.diaFinalSemana(finalDateSearch);
+				year = ControladorFechas.getYear(ControladorFechas
+						.diaInicialSemana(finalDateSearch));
+				SelectItem item2 = new SelectItem(date, "finalDateSearch");
+				parameters.add(item2);
+				String dateTo = bundle.getString("label_end_date")
+						+ ": "
+						+ '"'
+						+ ControladorFechas.formatDate(date,
+								Constantes.DATE_FORMAT_MESSAGE_SIMPLE) + '"'
+						+ " ";
+				unionMessagesSearch.append(dateTo);
+			} else {
+				SelectItem item2 = new SelectItem(maxDate, "finalDateSearch");
+				parameters.add(item2);
+			}
 		}
 	}
 
@@ -529,13 +626,18 @@ public class PluviometerAction implements Serializable {
 	/**
 	 * This method allow consult the rain gauge readings information and
 	 * generate the report.
+	 * 
+	 * @modify 09/06/2017 Fabian.Diaz
 	 */
 	public void generateReportPluviometer() {
 		ReportsController reportsController = ControladorContexto
 				.getContextBean(ReportsController.class);
 		try {
+			consultPluviometer();
 			reportsController.generateReportPluviometer(pluviometerPojoList,
 					year);
+			setStartDateReport(null);
+			setEndDateReport(null);
 		} catch (Exception e) {
 			ControladorContexto.mensajeError(e);
 		}
@@ -563,6 +665,25 @@ public class PluviometerAction implements Serializable {
 						"message_campo_requerido", "mensaje");
 			}
 			i++;
+		}
+	}
+
+	/**
+	 * This method allow calculate the max date for generate the report.
+	 * 
+	 * @author Fabian.Diaz
+	 */
+	public void calculateMaxDateForReport() {
+		try {
+			this.maxDateReport = ControladorFechas.sumarMeses(
+					this.startDateReport, Constantes.NUMBER_MONTHS_REPORT);
+			if (this.endDateReport != null
+					&& (this.endDateReport.before(this.startDateReport) || this.endDateReport
+							.after(this.maxDateReport))) {
+				this.endDateReport = null;
+			}
+		} catch (Exception e) {
+			ControladorContexto.mensajeError(e);
 		}
 	}
 }
