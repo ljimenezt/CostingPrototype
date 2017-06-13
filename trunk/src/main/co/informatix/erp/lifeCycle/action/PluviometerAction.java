@@ -252,7 +252,7 @@ public class PluviometerAction implements Serializable {
 	 * 
 	 * @modify 09/06/2017 Fabian.Diaz
 	 * 
-	 * @return consultPluviometer: Method that consultation rain gauge readings
+	 * @return viewPluviometer: Method that consultation rain gauge readings
 	 *         and load the template with the information found.
 	 */
 	public String initializePluviometer() {
