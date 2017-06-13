@@ -791,6 +791,7 @@ public class AssistControlAction implements Serializable {
 	 * See the list of workers to attendance control.
 	 * 
 	 * @modify 31/03/2017 Claudia.Rey
+	 * @modify 13/06/2017 Luna.Granados
 	 * 
 	 * @return regAssistControl: Navigation rule that redirects to register the
 	 *         attendance control.
@@ -807,6 +808,7 @@ public class AssistControlAction implements Serializable {
 		String searchMessage = "";
 		try {
 			hrAction.setFlagAction(true);
+			hrAction.setFlagAssist(true);
 			hrAction.searchHrs();
 			this.hrList = hrAction.getHrList();
 			pagination = hrAction.getPagination();
