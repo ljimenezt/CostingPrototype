@@ -485,6 +485,7 @@ public class HrAction implements Serializable {
 	 * @modify 23/06/2016 Wilhelm.Boada
 	 * @modify 31/03/2017 Claudia.Rey
 	 * @modify 30/05/2017 Fabian.Diaz
+	 * @modify 13/06/2017 Luna.Granados
 	 * 
 	 * @return returns: Navigation rule that redirects to manage Human Resources
 	 *         According condition.
@@ -521,12 +522,6 @@ public class HrAction implements Serializable {
 					pagination.setOpcion('f');
 					this.hrList = hrDao.queryHr(pagination.getInicio(),
 							pagination.getRango(), queryBuilder, parameters);
-					if (this.flagAssist) {
-						AssistControlAction assistControlAction = ControladorContexto
-								.getContextBean(AssistControlAction.class);
-						assistControlAction
-								.setUnionSearchMessages(jointSearchMessages);
-					}
 				}
 			}
 			if ((hrList == null || hrList.size() <= 0)
@@ -571,6 +566,7 @@ public class HrAction implements Serializable {
 	 * 
 	 * @modify 14/07/2015 Gerardo.Herrera
 	 * @modify 31/03/2016 Claudia.Rey
+	 * @modify 13/06/2017 Luna.Granados
 	 * 
 	 * @param query
 	 *            : query to concatenate.
@@ -633,6 +629,13 @@ public class HrAction implements Serializable {
 			paymentType = searchTypeName(paymentMethodsItems, paymentTypeSearch);
 			jointSearchMessages.append(bundleHr.getString("payment_type_label")
 					+ ": " + '"' + paymentType + '"' + " ");
+			addFilter = true;
+		}
+		if (this.flagAssist) {
+			query.append(addFilter ? "AND " : "WHERE ");
+			query.append(" h.idHr in ");
+			query.append("(SELECT idHr FROM Hr WHERE centralFacilitiesAccessEndDate is null OR "
+					+ "centralFacilitiesAccessEndDate > now()) ");
 			addFilter = true;
 		}
 	}
