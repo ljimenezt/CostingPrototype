@@ -530,6 +530,8 @@ public class FoodControlAction implements Serializable {
 	 * messages to be displayed depending on the search criteria selected by the
 	 * user.
 	 * 
+	 * @modify 05/07/2017 Luna.Granados
+	 * 
 	 * @param queryBuilder
 	 *            : Query to concatenate.
 	 * @param parameters
@@ -550,6 +552,10 @@ public class FoodControlAction implements Serializable {
 			jointSearchMessages.append(bundle.getString("label_name") + ": "
 					+ '"' + this.nameSearch + '"');
 		}
+		queryBuilder.append(" AND h.idHr in ");
+		queryBuilder
+				.append("(SELECT idHr FROM Hr WHERE centralFacilitiesAccessEndDate is null OR "
+						+ "centralFacilitiesAccessEndDate > now()) ");
 	}
 
 	/**
