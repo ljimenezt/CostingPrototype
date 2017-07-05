@@ -670,7 +670,9 @@ public class AssistControlAction implements Serializable {
 			consult.append("WHERE a.date >= :startDateReport AND a.date <= :endDateReport ");
 			SelectItem item = new SelectItem(startDateReport, "startDateReport");
 			parameters.add(item);
-			SelectItem item2 = new SelectItem(endDateReport, "endDateReport");
+			Date finalDateSearchAux = ControladorFechas.finDeDia(endDateReport);
+			SelectItem item2 = new SelectItem(finalDateSearchAux,
+					"endDateReport");
 			parameters.add(item2);
 			if (!flag) {
 				String dateFrom = bundle.getString("label_start_date") + ": "
